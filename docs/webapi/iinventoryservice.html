@@ -1,891 +1,839 @@
 <h1>IInventoryService Interface</h1>
 This is the interface used to access the
-<a
-  href="https://partner.steamgames.com/doc/features/inventory"
-  class="bb_doclink"
-  >Steam Inventory Service</a
->.<br /><br /><strong>NOTE:</strong> This is a Service interface, methods in
-this interface should be called with the
-<code class="bb_code bb_code_inline nohighlight">input_json</code>
-parameter.<br /><br />For more info on how to use the Steamworks Web API please
-see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
-  >Web API Overview</a
+<a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
+    >Steam Inventory Service</a
+>.<br /><br /><strong>NOTE:</strong> This is a Service interface, methods in this interface should
+be called with the
+<code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br /><br />For more
+info on how to use the Steamworks Web API please see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
 >.
 <h2 class="bb_section"><a name="AddItem"></a>AddItem</h2>
-<div class="bb_code http">
-  POST https://partner.steam-api.com/IInventoryService/AddItem/v1/
-</div>
+<div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/AddItem/v1/</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>The ID of the application associated with the item.</td>
-  </tr>
-  <tr>
-    <td><strong>itemdefid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>
-      List of the itemdefid's to grant. This should be specified as a series of
-      parameters named 'itemdefid[0]', 'itemdefid[1]', etc.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>itempropsjson</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>SteamID of the player to receive the items.</td>
-  </tr>
-  <tr>
-    <td><strong>notify</strong></td>
-    <td>bool</td>
-    <td>✔</td>
-    <td>
-      Optional, default 0. Set to 1 to indicate the user is not in-game and
-      should see a Steam notification.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>requestid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>
-      Optional, default 0. Clients may provide a unique identifier for a request
-      to perform at most once execution. When a requestid is resubmitted, it
-      will not cause the work to be performed again; the response message will
-      be the current state of items affected by the original successful
-      execution.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>trade_restriction</strong></td>
-    <td>bool</td>
-    <td>✔</td>
-    <td>
-      Optional, default 0. Set to 1 to have Steam apply market and trade
-      cooldowns as if this was a purchased item.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>The ID of the application associated with the item.</td>
+    </tr>
+    <tr>
+        <td><strong>itemdefid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>
+            List of the itemdefid's to grant. This should be specified as a series of parameters
+            named 'itemdefid[0]', 'itemdefid[1]', etc.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>itempropsjson</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>SteamID of the player to receive the items.</td>
+    </tr>
+    <tr>
+        <td><strong>notify</strong></td>
+        <td>bool</td>
+        <td>✔</td>
+        <td>
+            Optional, default 0. Set to 1 to indicate the user is not in-game and should see a Steam
+            notification.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>requestid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>
+            Optional, default 0. Clients may provide a unique identifier for a request to perform at
+            most once execution. When a requestid is resubmitted, it will not cause the work to be
+            performed again; the response message will be the current state of items affected by the
+            original successful execution.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>trade_restriction</strong></td>
+        <td>bool</td>
+        <td>✔</td>
+        <td>
+            Optional, default 0. Set to 1 to have Steam apply market and trade cooldowns as if this
+            was a purchased item.
+        </td>
+    </tr>
 </table>
-<br />AddItem is used to add new items directly in a user's inventory. For each
-itemdef, an instance of that type is created and added to the target account.<br /><br />Items
-of type 'bundle' or 'generator' are unpacked at the time they are added. The
-response message provides information about the item or items that were actually
-inserted in the inventory.<br /><br />This call will fail if the itemdef is not
-defined or cannot be unpacked; or if the target player does not have permission
-for the given appid.<br /><br />Player notification of a new item, if any, is
-best handled by the game client. Calls to AddItem that occur when the player is
-not in-game may optionally set
-<code class="bb_code bb_code_inline nohighlight">notify=1</code> to notify the
-player via Steam. This may engage any of the player-notification mechanisms in
-Steam, including an overlay popup.<br /><br />The optional
-<code class="bb_code bb_code_inline nohighlight">requestid</code> parameter
-allows a client to make an idempotent call. If the client is unsure whether a
-request completed successfully on the server, it can replay the request, reusing
-the original request ID.<br />If the request is replayed, the response will
-include current state for the items that were affected by the original request,
-without making new changes.<br /><br />If the original request fails on the
-server, replaying the same request ID will re-attempt the work rather than
-reporting the prior error result.<br /><br /><strong>NOTE:</strong> This call
-requires a publisher API key to use this method. As such this API
-<strong>MUST</strong> be called from a secure server, and can never be used
-directly by clients!<br /><br /><strong>Response:</strong><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">response</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">success</code> - True
-        if the method was successful. If the asset server is returning false, it
-        should set
-        <code class="bb_code bb_code_inline nohighlight">error</code> to a
-        string that explains why.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">error</code> - a string
-        describing why this call failed. This message will be recorded in the
-        error log, which is available under the Economy tab on the Steamworks
-        site.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">item_json</code> - an
-        array of the item details of the newly created items. This is returned
-        as encoded JSON containing the actual item properties.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">replayed</code> - if
-        true, indicates that the given requestid was processed earlier, and the
-        response is based on the original execution. This will not be included
-        if requestid is not specified.<br />
-      </li>
-    </ul>
-  </li>
+
+<br />AddItem is used to add new items directly in a user's inventory. For each itemdef, an instance
+of that type is created and added to the target account.<br /><br />Items of type 'bundle' or
+'generator' are unpacked at the time they are added. The response message provides information about
+the item or items that were actually inserted in the inventory.<br /><br />This call will fail if
+the itemdef is not defined or cannot be unpacked; or if the target player does not have permission
+for the given appid.<br /><br />Player notification of a new item, if any, is best handled by the
+game client. Calls to AddItem that occur when the player is not in-game may optionally set
+<code class="bb_code bb_code_inline nohighlight">notify=1</code> to notify the player via Steam.
+This may engage any of the player-notification mechanisms in Steam, including an overlay popup.<br /><br />The
+optional <code class="bb_code bb_code_inline nohighlight">requestid</code> parameter allows a client
+to make an idempotent call. If the client is unsure whether a request completed successfully on the
+server, it can replay the request, reusing the original request ID.<br />If the request is replayed,
+the response will include current state for the items that were affected by the original request,
+without making new changes.<br /><br />If the original request fails on the server, replaying the
+same request ID will re-attempt the work rather than reporting the prior error result.<br /><br /><strong
+    >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
+called from a secure server, and can never be used directly by clients!<br /><br /><strong
+    >Response:</strong
+><br />
+<ul class="bb_ul ">
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">response</code><br />
+        <ul class="bb_ul ">
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
+                was successful. If the asset server is returning false, it should set
+                <code class="bb_code bb_code_inline nohighlight">error</code> to a string that
+                explains why.<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">error</code> - a string describing
+                why this call failed. This message will be recorded in the error log, which is
+                available under the Economy tab on the Steamworks site.<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">item_json</code> - an array of the
+                item details of the newly created items. This is returned as encoded JSON containing
+                the actual item properties.<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">replayed</code> - if true,
+                indicates that the given requestid was processed earlier, and the response is based
+                on the original execution. This will not be included if requestid is not
+                specified.<br />
+            </li>
+        </ul>
+    </li>
 </ul>
 <br /><strong>Example Response:</strong><br />
 <div class="bb_code xml">
-  { "response": { "item_json": "[{
-  \"accountid\":\"148618792083651397\",\"itemid\":\"17209346500926339\",\"Timestamp\":\"\",\"originalitemid\":\"17209346500926339\",\"itemdefid\":\"120\",\"appid\":480,\"position\":0,\"quantity\":1,\"transid\":\"\",\"state\":\"\",\"origin\":\"external\",\"price\":\"\",\"acquired\":\"20140912T195537Z\"}]"
-  } }
+    { "response": { "item_json": "[{
+    \"accountid\":\"148618792083651397\",\"itemid\":\"17209346500926339\",\"Timestamp\":\"\",\"originalitemid\":\"17209346500926339\",\"itemdefid\":\"120\",\"appid\":480,\"position\":0,\"quantity\":1,\"transid\":\"\",\"state\":\"\",\"origin\":\"external\",\"price\":\"\",\"acquired\":\"20140912T195537Z\"}]"
+    } }
 </div>
 <br /><strong>Calling Example:</strong><br />
-<div class="bb_code">
-  curl -X POST -H "Content-Type: application/x-www-form-urlencoded" \ -d
-  appid=480 \ -d steamid=292733980074050545 \ -d itemdefid[0]=4111 \ -d
-  itemdefid[1]=4112 \
-  "http://api.steampowered.com/IInventoryService/AddItem/v1?key=xxxxxx"
+<div class="bb_code ">
+    curl -X POST -H "Content-Type: application/x-www-form-urlencoded" \ -d appid=480 \ -d
+    steamid=292733980074050545 \ -d itemdefid[0]=4111 \ -d itemdefid[1]=4112 \
+    "http://api.steampowered.com/IInventoryService/AddItem/v1?key=xxxxxx"
 </div>
 <h2 class="bb_section"><a name="AddPromoItem"></a>AddPromoItem</h2>
 <div class="bb_code http">
-  POST https://partner.steam-api.com/IInventoryService/AddPromoItem/v1/
+    POST https://partner.steam-api.com/IInventoryService/AddPromoItem/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>itemdefid</strong></td>
-    <td>uint64</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>notify</strong></td>
-    <td>bool</td>
-    <td></td>
-    <td>
-      Should notify the user that the item was added to their Steam Inventory.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>requestid</strong></td>
-    <td>uint64</td>
-    <td></td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>itemdefid</strong></td>
+        <td>uint64</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>notify</strong></td>
+        <td>bool</td>
+        <td></td>
+        <td>Should notify the user that the item was added to their Steam Inventory.</td>
+    </tr>
+    <tr>
+        <td><strong>requestid</strong></td>
+        <td>uint64</td>
+        <td></td>
+        <td></td>
+    </tr>
 </table>
-<br />Adds a promo item to a user's inventory. If called without the itemdefid
-parameter, checks for and grants available promo items for the given player.<br /><br /><strong
-  >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API
-<strong>MUST</strong> be called from a secure server, and can never be used
-directly by clients!
+
+<br />Adds a promo item to a user's inventory. If called without the itemdefid parameter, checks for
+and grants available promo items for the given player.<br /><br /><strong>NOTE:</strong> This call
+requires a publisher API key to use this method. As such this API <strong>MUST</strong> be called
+from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="ConsumeItem"></a>ConsumeItem</h2>
-<div class="bb_code http">
-  POST https://partner.steam-api.com/IInventoryService/ConsumeItem/v1/
-</div>
+<div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/ConsumeItem/v1/</div>
 <table>
-  <br />
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>itemid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>Item ID to be consumed</td>
-  </tr>
-  <tr>
-    <td><strong>quantity</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Amount of the given item stack to be consumed</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>requestid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
+    <br />
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>itemid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>Item ID to be consumed</td>
+    </tr>
+    <tr>
+        <td><strong>quantity</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Amount of the given item stack to be consumed</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>requestid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
 </table>
-<br />Marks an item as wholly or partially consumed. This action cannot be
-reversed.<br /><br /><strong>NOTE:</strong> This call requires a publisher API
-key to use this method. As such this API <strong>MUST</strong> be called from a
-secure server, and can never be used directly by clients!<br /><br />A client
-SDK version of this call is also available:
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamInventory#ConsumeItem"
-  class="bb_apilink"
-  >ISteamInventory::ConsumeItem</a
+
+<br />Marks an item as wholly or partially consumed. This action cannot be reversed.<br /><br /><strong
+    >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
+called from a secure server, and can never be used directly by clients!<br /><br />A client SDK
+version of this call is also available:
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ConsumeItem" class="bb_apilink"
+    >ISteamInventory::ConsumeItem</a
 >
 <h2 class="bb_section"><a name="ExchangeItem"></a>ExchangeItem</h2>
 <div class="bb_code http">
-  POST https://partner.steam-api.com/IInventoryService/ExchangeItem/v1/
+    POST https://partner.steam-api.com/IInventoryService/ExchangeItem/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>The ID of the application associated with the item.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>SteamID of the player that owns the items.</td>
-  </tr>
-  <tr>
-    <td><strong>materialsitemid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>
-      The unique ID an item in the player's inventory to be converted to the
-      target item type. This should be provided as
-      <code class="bb_code bb_code_inline nohighlight">materialsitemid[0]</code
-      >,
-      <code class="bb_code bb_code_inline nohighlight">materialsitemid[1]</code
-      >, etc.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>materialsquantity</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>
-      The quantity of the matching item that should be used in this recipe. This
-      array must be the same length as
-      <code class="bb_code bb_code_inline nohighlight">materialsitemid</code>.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>outputitemdefid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The ItemDef of the item to be created.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>The ID of the application associated with the item.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>SteamID of the player that owns the items.</td>
+    </tr>
+    <tr>
+        <td><strong>materialsitemid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>
+            The unique ID an item in the player's inventory to be converted to the target item type.
+            This should be provided as
+            <code class="bb_code bb_code_inline nohighlight">materialsitemid[0]</code>,
+            <code class="bb_code bb_code_inline nohighlight">materialsitemid[1]</code>, etc.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>materialsquantity</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>
+            The quantity of the matching item that should be used in this recipe. This array must be
+            the same length as
+            <code class="bb_code bb_code_inline nohighlight">materialsitemid</code>.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>outputitemdefid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>The ItemDef of the item to be created.</td>
+    </tr>
 </table>
-<br />ExchangeItem is used for crafting - converting items using a predefined
-recipe. A successful exchange destroys the set of items required by the crafting
-recipe, and adds a new instance of the target itemdef to the player's
-inventory.<br /><br />The target item definition must have one or more crafting
-recipes declared in the
-<code class="bb_code bb_code_inline nohighlight">exchange</code> attribute.
-Recipes declare the number and type of items required to create the target item.
-If the set of items provided in the ExchangeItems call does not satisfy any
-recipe, the call fails and no changes are made to the inventory.<br /><br />See
-the Inventory Service
+
+<br />ExchangeItem is used for crafting - converting items using a predefined recipe. A successful
+exchange destroys the set of items required by the crafting recipe, and adds a new instance of the
+target itemdef to the player's inventory.<br /><br />The target item definition must have one or
+more crafting recipes declared in the
+<code class="bb_code bb_code_inline nohighlight">exchange</code> attribute. Recipes declare the
+number and type of items required to create the target item. If the set of items provided in the
+ExchangeItems call does not satisfy any recipe, the call fails and no changes are made to the
+inventory.<br /><br />See the Inventory Service
 <a
-  href="https://partner.steamgames.com/doc/features/inventory/schema#ExchangeFormat"
-  class="bb_doclink"
-  >Schema documentation</a
+    href="https://partner.steamgames.com/doc/features/inventory/schema#ExchangeFormat"
+    class="bb_doclink"
+    >Schema documentation</a
 >
-for more detail on crafting recipes.<br /><br />The crafting operation will take
-trade and market restrictions into account; the created item will have the
-latest trade restriction of any item used to create it.<br /><br />If
-successful, this call returns an encoded JSON blob that lists the items that
-were changed by this call - the consumed items and the newly created one.
+for more detail on crafting recipes.<br /><br />The crafting operation will take trade and market
+restrictions into account; the created item will have the latest trade restriction of any item used
+to create it.<br /><br />If successful, this call returns an encoded JSON blob that lists the items
+that were changed by this call - the consumed items and the newly created one.
 <div class="bb_callout bb_red bb_fixed">
-  <div>
-    <strong>NOTE:</strong> Never distribute your Steam API key with your game.
-    This API must be called from a secure server, and cannot be used directly by
-    clients.
-  </div>
+    <div>
+        <strong>NOTE:</strong> Never distribute your Steam API key with your game. This API must be
+        called from a secure server, and cannot be used directly by clients.
+    </div>
 </div>
 <br />A client SDK version of this call is also available:
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems"
-  class="bb_apilink"
-  >ISteamInventory::ExchangeItems</a
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
+    >ISteamInventory::ExchangeItems</a
 ><br /><br /><br /><strong>Response:</strong><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">response</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">item_json</code> -
-        details of all items affected by the exchange. This is returned as a
-        string which contains encoded JSON of the actual item properties.
-        Returns an empty array for unsuccessful exchanges.<br />
-      </li>
-    </ul>
-  </li>
+<ul class="bb_ul ">
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">response</code><br />
+        <ul class="bb_ul ">
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">item_json</code> - details of all
+                items affected by the exchange. This is returned as a string which contains encoded
+                JSON of the actual item properties. Returns an empty array for unsuccessful
+                exchanges.<br />
+            </li>
+        </ul>
+    </li>
 </ul>
 <br /><strong>Example Response:</strong><br />
 <div class="bb_code xml">
-  { "response": { "item_json": "[{
-  \"accountid\":\"292733980074050545\",\"itemid\":\"1503713096879725\",\"itemdefid\":\"4111\",\"state\":\"removed\"
-  ... } }
+    { "response": { "item_json": "[{
+    \"accountid\":\"292733980074050545\",\"itemid\":\"1503713096879725\",\"itemdefid\":\"4111\",\"state\":\"removed\"
+    ... } }
 </div>
 <br /><strong>Calling Example:</strong><br />
-<div class="bb_code">
-  curl --request POST \ --header 'content-type: multipart/form-data' \ --form
-  appid=30400 \ --form 'materialsitemid[0]=1510699974025744' \ --form
-  'materialsitemid[1]=1510699974025745' \ --form
-  'materialsitemid[2]=1510699974025746' \ --form 'materialsquantity[0]=1' \
-  --form 'materialsquantity[1]=1' \ --form 'materialsquantity[2]=5' \ --form
-  steamid=292733980074050545 \ --form outputitemdefid=4111 \
-  https://api.steampowered.com/IInventoryService/ExchangeItem/v1?key=xxxxxxxxxx'
+<div class="bb_code ">
+    curl --request POST \ --header 'content-type: multipart/form-data' \ --form appid=30400 \ --form
+    'materialsitemid[0]=1510699974025744' \ --form 'materialsitemid[1]=1510699974025745' \ --form
+    'materialsitemid[2]=1510699974025746' \ --form 'materialsquantity[0]=1' \ --form
+    'materialsquantity[1]=1' \ --form 'materialsquantity[2]=5' \ --form steamid=292733980074050545 \
+    --form outputitemdefid=4111 \
+    https://api.steampowered.com/IInventoryService/ExchangeItem/v1?key=xxxxxxxxxx'
 </div>
 <h2 class="bb_section"><a name="GetInventory"></a>GetInventory</h2>
-<div class="bb_code http">
-  GET https://partner.steam-api.com/IInventoryService/GetInventory/v1/
-</div>
+<div class="bb_code http">GET https://partner.steam-api.com/IInventoryService/GetInventory/v1/</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>The ID of the application associated with the item.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>64-bit Steam ID of the user whose inventory you are requesting.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>The ID of the application associated with the item.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>64-bit Steam ID of the user whose inventory you are requesting.</td>
+    </tr>
 </table>
-<br />GetInventory is used to retrieve a user's inventory.<br /><br /><strong
-  >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API
-<strong>MUST</strong> be called from a secure server, and can never be used
-directly by clients!<br /><br /><strong>Response:</strong><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">response</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">success</code> - True
-        if the method was successful. If the asset server is returning false, it
-        should set
-        <code class="bb_code bb_code_inline nohighlight">error</code> to a
-        string that explains why.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">error</code> - a string
-        describing why this call failed. This message will be recorded in the
-        error log, which is available under the Economy tab on the Steamworks
-        site.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">item_json</code> - an
-        array of the item details of the inventory. Each is a string which
-        contains encoded JSON of the actual item properties.<br />
-      </li>
-    </ul>
-  </li>
+
+<br />GetInventory is used to retrieve a user's inventory.<br /><br /><strong>NOTE:</strong> This
+call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
+called from a secure server, and can never be used directly by clients!<br /><br /><strong
+    >Response:</strong
+><br />
+<ul class="bb_ul ">
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">response</code><br />
+        <ul class="bb_ul ">
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
+                was successful. If the asset server is returning false, it should set
+                <code class="bb_code bb_code_inline nohighlight">error</code> to a string that
+                explains why.<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">error</code> - a string describing
+                why this call failed. This message will be recorded in the error log, which is
+                available under the Economy tab on the Steamworks site.<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">item_json</code> - an array of the
+                item details of the inventory. Each is a string which contains encoded JSON of the
+                actual item properties.<br />
+            </li>
+        </ul>
+    </li>
 </ul>
 <br />For detailed description on the output values, refer to the
-<a
-  href="https://partner.steamgames.com/doc/features/inventory/schema"
-  class="bb_doclink"
-  >Core Schema</a
+<a href="https://partner.steamgames.com/doc/features/inventory/schema" class="bb_doclink"
+    >Core Schema</a
 >
 documentation.<br /><br /><strong>Example Response:</strong><br />
 <div class="bb_code xml">
-  { "response": { "item_json": "[{
-  \"accountid\":\"xxxxx\",\"itemid\":\"17212166272724458\",\"Timestamp\":\"2014-10-13T22:41:00.4928464Z\",\"originalitemid\":\"17212166272724458\",\"itemdefid\":\"120\",\"appid\":480,\"position\":0,\"quantity\":1,\"transid\":\"\",\"state\":\"\",\"origin\":\"external\",\"price\":\"\",\"acquired\":\"20141013T224100Z\"},
-  {
-  \"accountid\":\"xxxxx\",\"itemid\":\"17212166272732706\",\"Timestamp\":\"2014-10-13T22:42:50.1328464Z\",\"originalitemid\":\"17212166272732706\",\"itemdefid\":\"121\",\"appid\":480,\"position\":0,\"quantity\":1,\"transid\":\"\",\"state\":\"\",\"origin\":\"external\",\"price\":\"\",\"acquired\":\"20141013T224250Z\"}
-  ]" }}
+    { "response": { "item_json": "[{
+    \"accountid\":\"xxxxx\",\"itemid\":\"17212166272724458\",\"Timestamp\":\"2014-10-13T22:41:00.4928464Z\",\"originalitemid\":\"17212166272724458\",\"itemdefid\":\"120\",\"appid\":480,\"position\":0,\"quantity\":1,\"transid\":\"\",\"state\":\"\",\"origin\":\"external\",\"price\":\"\",\"acquired\":\"20141013T224100Z\"},
+    {
+    \"accountid\":\"xxxxx\",\"itemid\":\"17212166272732706\",\"Timestamp\":\"2014-10-13T22:42:50.1328464Z\",\"originalitemid\":\"17212166272732706\",\"itemdefid\":\"121\",\"appid\":480,\"position\":0,\"quantity\":1,\"transid\":\"\",\"state\":\"\",\"origin\":\"external\",\"price\":\"\",\"acquired\":\"20141013T224250Z\"}
+    ]" }}
 </div>
 <br /><strong>Calling Example:</strong><br />
-<div class="bb_code">
-  $fields = array( 'appid' &gt; '480', 'itemlist[0]' &gt; '120', 'itemorigin'
-  &gt; '', 'steamid' &gt; 'xxxxx', 'key' &gt; 'xxxx' ); var_dump($fields); $ch =
-  curl_init(); curl_setopt( $ch, CURLOPT_URL,
-  $host.'/IInventoryService/GetInventory/v1?appid=480&amp;steamid=xxxxx&amp;key=yyyyyy'
-  ); curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 ); $data = curl_exec( $ch );
-  var_dump($data);
+<div class="bb_code ">
+    $fields = array( 'appid' &gt; '480', 'itemlist[0]' &gt; '120', 'itemorigin' &gt; '', 'steamid'
+    &gt; 'xxxxx', 'key' &gt; 'xxxx' ); var_dump($fields); $ch = curl_init(); curl_setopt( $ch,
+    CURLOPT_URL,
+    $host.'/IInventoryService/GetInventory/v1?appid=480&amp;steamid=xxxxx&amp;key=yyyyyy' );
+    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 ); $data = curl_exec( $ch ); var_dump($data);
 </div>
 <h2 class="bb_section"><a name="GetItemDefs"></a>GetItemDefs</h2>
-<div class="bb_code http">
-  GET https://partner.steam-api.com/IInventoryService/GetItemDefs/v1/
-</div>
+<div class="bb_code http">GET https://partner.steam-api.com/IInventoryService/GetItemDefs/v1/</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>The ID of the application associated with the item.</td>
-  </tr>
-  <tr>
-    <td><strong>modifiedsince</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      Use to retrieve just updates to the itemdefs since a given time. Format is
-      yyyymmddThhmmssZ (E.g. 20140808T010203Z).
-    </td>
-  </tr>
-  <tr>
-    <td><strong>itemdefids</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>Use to retrieve just specific itemdefs by itemdefid</td>
-  </tr>
-  <tr>
-    <td><strong>workshopids</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>Use to retrieve just specific itemdefs by workshopid</td>
-  </tr>
-  <tr>
-    <td><strong>cache_max_age_seconds</strong></td>
-    <td>uint32</td>
-    <td></td>
-    <td>
-      Allow stale data to be returned for the specified number of seconds.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>The ID of the application associated with the item.</td>
+    </tr>
+    <tr>
+        <td><strong>modifiedsince</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>
+            Use to retrieve just updates to the itemdefs since a given time. Format is
+            yyyymmddThhmmssZ (E.g. 20140808T010203Z).
+        </td>
+    </tr>
+    <tr>
+        <td><strong>itemdefids</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>Use to retrieve just specific itemdefs by itemdefid</td>
+    </tr>
+    <tr>
+        <td><strong>workshopids</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>Use to retrieve just specific itemdefs by workshopid</td>
+    </tr>
+    <tr>
+        <td><strong>cache_max_age_seconds</strong></td>
+        <td>uint32</td>
+        <td></td>
+        <td>Allow stale data to be returned for the specified number of seconds.</td>
+    </tr>
 </table>
+
 <br />GetItemDefs is used to retrieve the itemdefs for a given application.<br /><br /><strong
-  >NOTE:</strong
+    >NOTE:</strong
 >
-This call requires a publisher API key to use this method. As such this API
-<strong>MUST</strong> be called from a secure server, and can never be used
-directly by clients!<br /><br /><strong>Response:</strong><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">response</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">success</code> - True
-        if the method was successful. If the asset server is returning false, it
-        should set
-        <code class="bb_code bb_code_inline nohighlight">error</code> to a
-        string that explains why.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">error</code> - a string
-        describing why this call failed. This message will be recorded in the
-        error log, which is available under the Economy tab on the Steamworks
-        site.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">itemdef_json</code> -
-        an array of the item details of the newly created item. Each is a string
-        which contains encoded JSON of the actual item properties.<br />
-      </li>
-    </ul>
-  </li>
+This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
+called from a secure server, and can never be used directly by clients!<br /><br /><strong
+    >Response:</strong
+><br />
+<ul class="bb_ul ">
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">response</code><br />
+        <ul class="bb_ul ">
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
+                was successful. If the asset server is returning false, it should set
+                <code class="bb_code bb_code_inline nohighlight">error</code> to a string that
+                explains why.<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">error</code> - a string describing
+                why this call failed. This message will be recorded in the error log, which is
+                available under the Economy tab on the Steamworks site.<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">itemdef_json</code> - an array of
+                the item details of the newly created item. Each is a string which contains encoded
+                JSON of the actual item properties.<br />
+            </li>
+        </ul>
+    </li>
 </ul>
 <br /><strong>Example Response:</strong><br />
 <div class="bb_code xml">
-  { "response": { "itemdef_json":"[ {
-  \"appid\":\"480\",\"itemdefid\":\"10\",\"Timestamp\":\"2014-09-12T01:29:10.4628321Z\",\"modified\":\"20140808T010203Z\",\"type\":\"generator\",\"name\":\"Drop
-  Generator/",/"bundle/":/"100x100;101x50;102x25;103x2;110x20;111x20;120x5;121x3/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Drop
-  Generator\",\"market_hash_name\":\"Drop
-  Generator\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"generator\",\"itemslot\":\"generator\"},
-  {
-  \"appid\":\"480\",\"itemdefid\":\"100\",\"Timestamp\":\"2014-09-12T01:28:44.4816369Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Plus
-  ship
-  decoration/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Plus
-  ship decoration\",\"market_hash_name\":\"Plus ship
-  decoration\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"decoration\",\"itemslot\":\"decoration\"},
-  {
-  \"appid\":\"480\",\"itemdefid\":\"101\",\"Timestamp\":\"2014-09-12T01:29:25.5198429Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Star
-  ship
-  decoration/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Star
-  ship decoration\",\"market_hash_name\":\"Star ship
-  decoration\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"decoration\",\"itemslot\":\"decoration\"},
-  {
-  \"appid\":\"480\",\"itemdefid\":\"102\",\"Timestamp\":\"2014-09-12T01:29:33.6544695Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Stripe
-  ship
-  decoration/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Stripe
-  ship decoration\",\"market_hash_name\":\"Stripe ship
-  decoration\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"decoration\",\"itemslot\":\"decoration\"},
-  {
-  \"appid\":\"480\",\"itemdefid\":\"103\",\"Timestamp\":\"2014-09-12T01:29:39.5676519Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Hat
-  ship
-  decoration/",/"bundle/":/"/",/"price/":/"1;USD99/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Hat
-  ship decoration\",\"market_hash_name\":\"Hat ship
-  decoration\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"decoration\",\"itemslot\":\"decoration\"},
-  {
-  \"appid\":\"480\",\"itemdefid\":\"110\",\"Timestamp\":\"2014-09-12T01:29:44.0715525Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Doublefire
-  gun/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Doublefire
-  gun\",\"market_hash_name\":\"Doublefire
-  gun\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"weapon\",\"itemslot\":\"weapon\"},
-  {
-  \"appid\":\"480\",\"itemdefid\":\"111\",\"Timestamp\":\"2014-09-12T01:29:48.9635307Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Fastfire
-  gun/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Fastfire
-  gun\",\"market_hash_name\":\"Fastfire
-  gun\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"weapon\",\"itemslot\":\"weapon\"},
-  {
-  \"appid\":\"480\",\"itemdefid\":\"120\",\"Timestamp\":\"2014-09-12T01:29:52.9633305Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Cloaking
-  field/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Cloaking
-  field\",\"market_hash_name\":\"Cloaking
-  field\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"power\",\"itemslot\":\"power\"},
-  {
-  \"appid\":\"480\",\"itemdefid\":\"121\",\"Timestamp\":\"2014-09-12T01:30:00.0237423Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Shield
-  generator/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Shield
-  generator\",\"market_hash_name\":\"Shield
-  generator\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"power\",\"itemslot\":\"power\"}
-  ]" } }
+    { "response": { "itemdef_json":"[ {
+    \"appid\":\"480\",\"itemdefid\":\"10\",\"Timestamp\":\"2014-09-12T01:29:10.4628321Z\",\"modified\":\"20140808T010203Z\",\"type\":\"generator\",\"name\":\"Drop
+    Generator/",/"bundle/":/"100x100;101x50;102x25;103x2;110x20;111x20;120x5;121x3/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Drop
+    Generator\",\"market_hash_name\":\"Drop
+    Generator\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"generator\",\"itemslot\":\"generator\"},
+    {
+    \"appid\":\"480\",\"itemdefid\":\"100\",\"Timestamp\":\"2014-09-12T01:28:44.4816369Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Plus
+    ship
+    decoration/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Plus
+    ship decoration\",\"market_hash_name\":\"Plus ship
+    decoration\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"decoration\",\"itemslot\":\"decoration\"},
+    {
+    \"appid\":\"480\",\"itemdefid\":\"101\",\"Timestamp\":\"2014-09-12T01:29:25.5198429Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Star
+    ship
+    decoration/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Star
+    ship decoration\",\"market_hash_name\":\"Star ship
+    decoration\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"decoration\",\"itemslot\":\"decoration\"},
+    {
+    \"appid\":\"480\",\"itemdefid\":\"102\",\"Timestamp\":\"2014-09-12T01:29:33.6544695Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Stripe
+    ship
+    decoration/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Stripe
+    ship decoration\",\"market_hash_name\":\"Stripe ship
+    decoration\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"decoration\",\"itemslot\":\"decoration\"},
+    {
+    \"appid\":\"480\",\"itemdefid\":\"103\",\"Timestamp\":\"2014-09-12T01:29:39.5676519Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Hat
+    ship
+    decoration/",/"bundle/":/"/",/"price/":/"1;USD99/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Hat
+    ship decoration\",\"market_hash_name\":\"Hat ship
+    decoration\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"decoration\",\"itemslot\":\"decoration\"},
+    {
+    \"appid\":\"480\",\"itemdefid\":\"110\",\"Timestamp\":\"2014-09-12T01:29:44.0715525Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Doublefire
+    gun/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Doublefire
+    gun\",\"market_hash_name\":\"Doublefire
+    gun\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"weapon\",\"itemslot\":\"weapon\"},
+    {
+    \"appid\":\"480\",\"itemdefid\":\"111\",\"Timestamp\":\"2014-09-12T01:29:48.9635307Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Fastfire
+    gun/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Fastfire
+    gun\",\"market_hash_name\":\"Fastfire
+    gun\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"weapon\",\"itemslot\":\"weapon\"},
+    {
+    \"appid\":\"480\",\"itemdefid\":\"120\",\"Timestamp\":\"2014-09-12T01:29:52.9633305Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Cloaking
+    field/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Cloaking
+    field\",\"market_hash_name\":\"Cloaking
+    field\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"power\",\"itemslot\":\"power\"},
+    {
+    \"appid\":\"480\",\"itemdefid\":\"121\",\"Timestamp\":\"2014-09-12T01:30:00.0237423Z\",\"modified\":\"20140808T010203Z\",\"type\":\"item\",\"name\":\"Shield
+    generator/",/"bundle/":/"/",/"price/":/"/",/"quantity/":0,/"description/":/"/",/"background_color/":/"3C352E/",/"icon_url/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"icon_url_large/":/"http://cdn.beta.steampowered.com/apps/440/icons/c_fireaxe_pyro_xmas_large.fa878752e1aa09a721a03042a234063b6c929278.png/",/"market_name/":/"Shield
+    generator\",\"market_hash_name\":\"Shield
+    generator\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"power\",\"itemslot\":\"power\"}
+    ]" } }
 </div>
 <br /><strong>Calling Example:</strong><br />
-<div class="bb_code">
-  $ch = curl_init(); curl_setopt( $ch, CURLOPT_URL,
-  'https://api.steampowered.com/IInventoryService/GetItemDefs/v1?appid=480&amp;modifiedsince=&amp;itemdefids=&amp;workshopids=&amp;steamid=xxxx&amp;key=xxxxx'
-  ); curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 ); $data = curl_exec( $ch );
-  echo $data . '&lt;br&gt;'; $output = json_decode( $data ); $itemdef =
-  json_decode( $output-&gt;response-&gt;itemdef_json ); var_dump( $itemdef );
+<div class="bb_code ">
+    $ch = curl_init(); curl_setopt( $ch, CURLOPT_URL,
+    'https://api.steampowered.com/IInventoryService/GetItemDefs/v1?appid=480&amp;modifiedsince=&amp;itemdefids=&amp;workshopids=&amp;steamid=xxxx&amp;key=xxxxx'
+    ); curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 ); $data = curl_exec( $ch ); echo $data .
+    '&lt;br&gt;'; $output = json_decode( $data ); $itemdef = json_decode(
+    $output-&gt;response-&gt;itemdef_json ); var_dump( $itemdef );
 </div>
 <h2 class="bb_section"><a name="GetPriceSheet"></a>GetPriceSheet</h2>
-<div class="bb_code http">
-  GET https://api.steampowered.com/IInventoryService/GetPriceSheet/v1/
-</div>
+<div class="bb_code http">GET https://api.steampowered.com/IInventoryService/GetPriceSheet/v1/</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>ecurrency</strong></td>
-    <td>int32</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>ecurrency</strong></td>
+        <td>int32</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
 </table>
+
 <br />Get the Inventory Service price sheet
 <h2 class="bb_section"><a name="Consolidate"></a>Consolidate</h2>
-<div class="bb_code http">
-  POST https://partner.steam-api.com/IInventoryService/Consolidate/v1/
-</div>
+<div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/Consolidate/v1/</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>itemdefid</strong></td>
-    <td>uint64 array</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>force</strong></td>
-    <td>bool</td>
-    <td></td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>itemdefid</strong></td>
+        <td>uint64 array</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>force</strong></td>
+        <td>bool</td>
+        <td></td>
+        <td></td>
+    </tr>
 </table>
-<br />Consolidate items of the given type within an user's inventory.<br /><br />Whenever
-items are combined into a stack, the resulting stack takes the market and trade
-restriction values of the most-restricted item. The Consolidate action ignores
-any item with an active market or trade restriction, unless 'force' is set to
-true.<br /><br /><strong>NOTE:</strong> This call requires a publisher API key
-to use this method. As such this API <strong>MUST</strong> be called from a
-secure server, and can never be used directly by clients!
+
+<br />Consolidate items of the given type within an user's inventory.<br /><br />Whenever items are
+combined into a stack, the resulting stack takes the market and trade restriction values of the
+most-restricted item. The Consolidate action ignores any item with an active market or trade
+restriction, unless 'force' is set to true.<br /><br /><strong>NOTE:</strong> This call requires a
+publisher API key to use this method. As such this API <strong>MUST</strong> be called from a secure
+server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="GetQuantity"></a>GetQuantity</h2>
-<div class="bb_code http">
-  GET https://partner.steam-api.com/IInventoryService/GetQuantity/v1/
-</div>
+<div class="bb_code http">GET https://partner.steam-api.com/IInventoryService/GetQuantity/v1/</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>itemdefid</strong></td>
-    <td>uint64[]</td>
-    <td>✔</td>
-    <td>
-      List of the itemdefid's to query. This should be specified as a series of
-      parameters named 'itemdefid[0]', 'itemdefid[1]', etc.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>force</strong></td>
-    <td>bool</td>
-    <td></td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>itemdefid</strong></td>
+        <td>uint64[]</td>
+        <td>✔</td>
+        <td>
+            List of the itemdefid's to query. This should be specified as a series of parameters
+            named 'itemdefid[0]', 'itemdefid[1]', etc.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>force</strong></td>
+        <td>bool</td>
+        <td></td>
+        <td></td>
+    </tr>
 </table>
-<br />Get the total number of available items of the given type<br /><br /><strong
-  >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API
-<strong>MUST</strong> be called from a secure server, and can never be used
-directly by clients!
+
+<br />Get the total number of available items of the given type<br /><br /><strong>NOTE:</strong>
+This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
+called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="ModifyItems"></a>ModifyItems</h2>
-<div class="bb_code http">
-  POST https://partner.steam-api.com/IInventoryService/ModifyItems/v1/
-</div>
+<div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/ModifyItems/v1/</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>input_json</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>
-      The steamid of the user who owns the items. Must be specified in the
-      <code class="bb_code bb_code_inline nohighlight">input_json</code>
-      parameter.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>timestamp</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>
-      Unix timestamp of the request. An error will be returned if the items have
-      been modified since this request time. Must be specified in the
-      <code class="bb_code bb_code_inline nohighlight">input_json</code>
-      parameter.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>updates</strong></td>
-    <td>message</td>
-    <td>✔</td>
-    <td>
-      The list of items and properties being modified. Must be specified in the
-      <code class="bb_code bb_code_inline nohighlight">input_json</code>
-      parameter.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>input_json</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>
+            The steamid of the user who owns the items. Must be specified in the
+            <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>timestamp</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>
+            Unix timestamp of the request. An error will be returned if the items have been modified
+            since this request time. Must be specified in the
+            <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>updates</strong></td>
+        <td>message</td>
+        <td>✔</td>
+        <td>
+            The list of items and properties being modified. Must be specified in the
+            <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.
+        </td>
+    </tr>
 </table>
+
 <br />Structure of the
 <code class="bb_code bb_code_inline nohighlight">updates</code> property:<br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>itemid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The id of the item being modified.</td>
-  </tr>
-  <tr>
-    <td><strong>property_name</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>The name of the dynamic property being added/updated/removed.</td>
-  </tr>
-  <tr>
-    <td><strong>property_value_string</strong></td>
-    <td>string</td>
-    <td></td>
-    <td>The string value of the property to set.</td>
-  </tr>
-  <tr>
-    <td><strong>property_value_bool</strong></td>
-    <td>bool</td>
-    <td></td>
-    <td>The boolean value of the property to set.</td>
-  </tr>
-  <tr>
-    <td><strong>property_value_int</strong></td>
-    <td>int64</td>
-    <td></td>
-    <td>The 64 bit integer value of the property to set.</td>
-  </tr>
-  <tr>
-    <td><strong>property_value_float</strong></td>
-    <td>string</td>
-    <td></td>
-    <td>The 32 bit float value of the property to set.</td>
-  </tr>
-  <tr>
-    <td><strong>remove_property</strong></td>
-    <td>bool</td>
-    <td></td>
-    <td>Set to true if the property should be removed.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>itemid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>The id of the item being modified.</td>
+    </tr>
+    <tr>
+        <td><strong>property_name</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>The name of the dynamic property being added/updated/removed.</td>
+    </tr>
+    <tr>
+        <td><strong>property_value_string</strong></td>
+        <td>string</td>
+        <td></td>
+        <td>The string value of the property to set.</td>
+    </tr>
+    <tr>
+        <td><strong>property_value_bool</strong></td>
+        <td>bool</td>
+        <td></td>
+        <td>The boolean value of the property to set.</td>
+    </tr>
+    <tr>
+        <td><strong>property_value_int</strong></td>
+        <td>int64</td>
+        <td></td>
+        <td>The 64 bit integer value of the property to set.</td>
+    </tr>
+    <tr>
+        <td><strong>property_value_float</strong></td>
+        <td>string</td>
+        <td></td>
+        <td>The 32 bit float value of the property to set.</td>
+    </tr>
+    <tr>
+        <td><strong>remove_property</strong></td>
+        <td>bool</td>
+        <td></td>
+        <td>Set to true if the property should be removed.</td>
+    </tr>
 </table>
+
 <br />Modify the
-<a
-  href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties"
-  class="bb_doclink"
-  >dynamic properties</a
+<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
+    >dynamic properties</a
 >
-on items for the given user. This call is rate-limited per user and currently
-only 100 items can be modified in one call.<br /><br /><strong
-  >Example
-  <code class="bb_code bb_code_inline nohighlight">input_json</code></strong
+on items for the given user. This call is rate-limited per user and currently only 100 items can be
+modified in one call.<br /><br /><strong
+    >Example <code class="bb_code bb_code_inline nohighlight">input_json</code></strong
 >:<br /><br />
-<div class="bb_code">
-  { "steamid": "76561197970323416", "timestamp": 1513274037, "updates": [ {
-  "itemid": "1", "property_name": "fx", "property_value_string": "blue_flames"
-  }, { "itemid": "1", "property_name": "quality", "property_value_string":
-  "high" }, { "itemid": "1", "property_name": "color", "remove_property": true }
-  ] }
+<div class="bb_code ">
+    { "steamid": "76561197970323416", "timestamp": 1513274037, "updates": [ { "itemid": "1",
+    "property_name": "fx", "property_value_string": "blue_flames" }, { "itemid": "1",
+    "property_name": "quality", "property_value_string": "high" }, { "itemid": "1", "property_name":
+    "color", "remove_property": true } ] }
 </div>
 <br /><strong>Calling Example:</strong><br />
-<div class="bb_code">
-  curl --request POST \ --header 'content-type: multipart/form-data' \ --form
-  appid=30400 \ --form 'input_json={ "steamid" : "76561197970323416",
-  "timestamp" : 1513274037, "updates" : [ { "itemid" : "1", "property_name" :
-  "fx", "property_value_string" : "blue_flames" }, { "itemid" : "1",
-  "property_name" : "quality", "property_value_string" : "high" }, { "itemid" :
-  "1", "property_name" : "color", "remove_property" : true } ] }' \
-  https://api.steampowered.com/IInventoryService/ModifyItems/v1?key=xxxxxxxxxx'
+<div class="bb_code ">
+    curl --request POST \ --header 'content-type: multipart/form-data' \ --form appid=30400 \ --form
+    'input_json={ "steamid" : "76561197970323416", "timestamp" : 1513274037, "updates" : [ {
+    "itemid" : "1", "property_name" : "fx", "property_value_string" : "blue_flames" }, { "itemid" :
+    "1", "property_name" : "quality", "property_value_string" : "high" }, { "itemid" : "1",
+    "property_name" : "color", "remove_property" : true } ] }' \
+    https://api.steampowered.com/IInventoryService/ModifyItems/v1?key=xxxxxxxxxx'
 </div>
-<br /><strong>NOTE:</strong> This call requires a publisher API key to use this
-method. As such this API <strong>MUST</strong> be called from a secure server,
-and can never be used directly by clients!
+<br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
+API <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!

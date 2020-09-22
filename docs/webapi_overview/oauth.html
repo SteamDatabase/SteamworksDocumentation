@@ -1,141 +1,108 @@
 <h1>OAuth</h1>
-OAuth allows partner sites and applications on embedded platforms to perform
-certain operations on behalf of authenticated Steam users in a secure manner.<br /><br />To
-use OAuth, first you will need to obtain a <strong>Client ID</strong> from
-Valve. See <strong>Getting Started</strong> for more detail.<br /><br />
+OAuth allows partner sites and applications on embedded platforms to perform certain operations on
+behalf of authenticated Steam users in a secure manner.<br /><br />To use OAuth, first you will need
+to obtain a <strong>Client ID</strong> from Valve. See <strong>Getting Started</strong> for more
+detail.<br /><br />
 Some OAuth APIs also require a
-<a
-  href="https://partner.steamgames.com/doc/webapi_overview/auth"
-  class="bb_doclink"
-  >WebAPI publisher key</a
+<a href="https://partner.steamgames.com/doc/webapi_overview/auth" class="bb_doclink"
+    >WebAPI publisher key</a
 >
-to validate your identity as a Steam partner. These APIs can only be called from
-your servers, as the key cannot be shared with clients. Such APIs will be
-indicated by the presence of a
-<code class="bb_code bb_code_inline nohighlight">key</code>
-parameter.<br /><br />WebAPI services with OAuth-enabled methods include:
-<a
-  href="https://partner.steamgames.com/doc/webapi/ICloudService"
-  class="bb_apilink"
-  >ICloudService</a
+to validate your identity as a Steam partner. These APIs can only be called from your servers, as
+the key cannot be shared with clients. Such APIs will be indicated by the presence of a
+<code class="bb_code bb_code_inline nohighlight">key</code> parameter.<br /><br />WebAPI services
+with OAuth-enabled methods include:
+<a href="https://partner.steamgames.com/doc/webapi/ICloudService" class="bb_apilink"
+    >ICloudService</a
 >,
-<a
-  href="https://partner.steamgames.com/doc/webapi/IBroadcastService"
-  class="bb_apilink"
-  >IBroadcastService</a
+<a href="https://partner.steamgames.com/doc/webapi/IBroadcastService" class="bb_apilink"
+    >IBroadcastService</a
 >,
-<a
-  href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService"
-  class="bb_apilink"
-  >IGameNotificationsService</a
+<a href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService" class="bb_apilink"
+    >IGameNotificationsService</a
 >,
-<a
-  href="https://partner.steamgames.com/doc/webapi/IPlayerService"
-  class="bb_apilink"
-  >IPlayerService</a
+<a href="https://partner.steamgames.com/doc/webapi/IPlayerService" class="bb_apilink"
+    >IPlayerService</a
 >, and
-<a
-  href="https://partner.steamgames.com/doc/webapi/IPublishedFileService"
-  class="bb_apilink"
-  >IPublishedFileService</a
+<a href="https://partner.steamgames.com/doc/webapi/IPublishedFileService" class="bb_apilink"
+    >IPublishedFileService</a
 >.<br /><br />
 For the sake of illustration,
-<code class="bb_code bb_code_inline nohighlight">http://redirect/uri/here</code>
-will be used to represent the redirect URI.
+<code class="bb_code bb_code_inline nohighlight">http://redirect/uri/here</code> will be used to
+represent the redirect URI.
 <h2 class="bb_section"><a name="Getting+Started"></a>Getting Started</h2>
 <br />
 Steam's implementation is based upon
-<a href="http://oauth.net/2/" target="_blank" rel="noreferrer">OAuth 2.0</a
->.<br />
-During your initial setup you will need to contact Valve with the following
-information:<br />
-<ul class="bb_ul">
-  <li>
-    What permissions you need the user to obtain. The required permissions are
-    listed below with each API call.<br />
-  </li>
-  <li>The token lifetime.<br /></li>
-  <li>
-    The redirect URI to send the user back to after completing
-    authentication/authorization.
-  </li>
+<a href="http://oauth.net/2/" target="_blank" rel="noreferrer">OAuth 2.0</a>.<br />
+During your initial setup you will need to contact Valve with the following information:<br />
+<ul class="bb_ul ">
+    <li>
+        What permissions you need the user to obtain. The required permissions are listed below with
+        each API call.<br />
+    </li>
+    <li>The token lifetime.<br /></li>
+    <li>
+        The redirect URI to send the user back to after completing authentication/authorization.
+    </li>
 </ul>
-In return, Valve will assign a <strong>Client ID</strong> for your
-implementation.<br /><br />
+In return, Valve will assign a <strong>Client ID</strong> for your implementation.<br /><br />
 To authenticate a user, redirect the user to<br /><br />
-<div class="bb_code">
-  https://steamcommunity.com/oauth/login?response_type=token&amp;client_id=client_id_here&amp;state=whatever_you_want
+<div class="bb_code ">
+    https://steamcommunity.com/oauth/login?response_type=token&amp;client_id=client_id_here&amp;state=whatever_you_want
 </div>
 <br />
-Adding
-<code class="bb_code bb_code_inline nohighlight">&amp;mobileminimal=1</code> to
-the above request is recommended for embedded browsers, as it removes some of
-the Steam site navigation UI that will not be relevant when the OAuth page is
-presented directly to a user within your game.<br /><br />
-If you include the state parameter, it will be passed back to the redirect URI
-after the user has confirmed or denied access.<br /><br />
+Adding <code class="bb_code bb_code_inline nohighlight">&amp;mobileminimal=1</code> to the above
+request is recommended for embedded browsers, as it removes some of the Steam site navigation UI
+that will not be relevant when the OAuth page is presented directly to a user within your game.<br /><br />
+If you include the state parameter, it will be passed back to the redirect URI after the user has
+confirmed or denied access.<br /><br />
 If the user grants access, they will be redirected back to you at <br /><br />
-<div class="bb_code">
-  http://redirect/uri/here#access_token=token_here&amp;token_type=steam&amp;state=whatever_you_want
+<div class="bb_code ">
+    http://redirect/uri/here#access_token=token_here&amp;token_type=steam&amp;state=whatever_you_want
 </div>
 <br />
-The token should be treated as an opaque string. Tokens are currently
-32-character hexadecimal strings, but that is subject to change. This API also
-includes a deprecated steamid parameter, which must be ignored. Please check
+The token should be treated as an opaque string. Tokens are currently 32-character hexadecimal
+strings, but that is subject to change. This API also includes a deprecated steamid parameter, which
+must be ignored. Please check
 <a
-  href="https://partner.steamgames.com/doc/webapi_overview/oauth#RetrieveSteamID"
-  class="bb_doclink"
-  >Retrieving the User's SteamID</a
+    href="https://partner.steamgames.com/doc/webapi_overview/oauth#RetrieveSteamID"
+    class="bb_doclink"
+    >Retrieving the User's SteamID</a
 >
 below for how to retrieve the user's SteamID securely.<br /><br />
 If the user denies access, they will be redirected back to you at <br /><br />
-<div class="bb_code">
-  http://redirect/uri/here#error=access_denied&amp;state=whatever_you_want
-</div>
+<div class="bb_code ">http://redirect/uri/here#error=access_denied&amp;state=whatever_you_want</div>
 <br />
-Note that the response (including the token) is provided in the URI fragment, so
-it will need to be accessed client-side and passed back to your server if you
-need to do server-side requests.<br /><br />
-Once you have the user's token, you can begin API requests as documented
-below.<br />
-Unless others noted below, requests should be HTTP POST requests presented as
-form data and should set this header:<br /><br />
-<div class="bb_code">Content-Type: application/x-www-form-urlencoded</div>
-<h2 class="bb_section">
-  <a name="RetrieveSteamID"></a>Retrieving the User's SteamID
-</h2>
-Once you have an OAuth token for a user, you can make a server to server call to
-securely get the SteamID for the user associated with that token by calling:<br /><br />
-<div class="bb_code">
-  https://api.steampowered.com/ISteamUserOAuth/GetTokenDetails/v1/?access_token=token
+Note that the response (including the token) is provided in the URI fragment, so it will need to be
+accessed client-side and passed back to your server if you need to do server-side requests.<br /><br />
+Once you have the user's token, you can begin API requests as documented below.<br />
+Unless others noted below, requests should be HTTP POST requests presented as form data and should
+set this header:<br /><br />
+<div class="bb_code ">Content-Type: application/x-www-form-urlencoded</div>
+<h2 class="bb_section"><a name="RetrieveSteamID"></a>Retrieving the User's SteamID</h2>
+Once you have an OAuth token for a user, you can make a server to server call to securely get the
+SteamID for the user associated with that token by calling:<br /><br />
+<div class="bb_code ">
+    https://api.steampowered.com/ISteamUserOAuth/GetTokenDetails/v1/?access_token=token
 </div>
 <h2 class="bb_section"><a name="Cloud"></a>Accessing Steam Cloud</h2>
 <br />
 To access Steam Cloud on behalf of a user, your OAuth client will need the
 <code class="bb_code bb_code_inline nohighlight">read_cloud</code> and/or
-<code class="bb_code bb_code_inline nohighlight">write_cloud</code>
-permission(s).<br />
-These permissions are scoped by AppId, so make sure to specify all AppIds which
-should be include when creating your Client ID.<br /><br />Once you have the
-OAuth token, use the
-<a
-  href="https://partner.steamgames.com/doc/webapi/ICloudService"
-  class="bb_doclink"
-  >ICloudService</a
+<code class="bb_code bb_code_inline nohighlight">write_cloud</code> permission(s).<br />
+These permissions are scoped by AppId, so make sure to specify all AppIds which should be include
+when creating your Client ID.<br /><br />Once you have the OAuth token, use the
+<a href="https://partner.steamgames.com/doc/webapi/ICloudService" class="bb_doclink"
+    >ICloudService</a
 >
 Steam WebAPI.
 <h2 class="bb_section"><a name="Workshop"></a>Accessing Steam Workshop</h2>
 <br />
 To access Steam Workshop on behalf of a user, your OAuth client will need the
 <code class="bb_code bb_code_inline nohighlight">read_cloud</code> and/or
-<code class="bb_code bb_code_inline nohighlight">write_cloud</code>
-permission(s).<br />
-These permissions are scoped by AppId, so make sure to specify all AppIds which
-should be include when creating your Client ID.<br /><br />Once you have the
-OAuth token, use the
-<a
-  href="https://partner.steamgames.com/doc/webapi/IPublishedFileService"
-  class="bb_doclink"
-  >IPublishedFileService</a
+<code class="bb_code bb_code_inline nohighlight">write_cloud</code> permission(s).<br />
+These permissions are scoped by AppId, so make sure to specify all AppIds which should be include
+when creating your Client ID.<br /><br />Once you have the OAuth token, use the
+<a href="https://partner.steamgames.com/doc/webapi/IPublishedFileService" class="bb_doclink"
+    >IPublishedFileService</a
 >
 Steam WebAPI.<br /><br /><br /><br />

@@ -1,156 +1,23 @@
 <h1>GetHistoryCommandDetails/v0001</h1>
-This returns all of the audit records for a user within the specified time
-period. The time period to return is any event after
-<code class="bb_code bb_code_inline nohighlight">starttime</code> but before or
-at
-<code class="bb_code bb_code_inline nohighlight">endtime</code
->.<br /><br /><strong>Called by:</strong> Support Tool<br /><br /><strong
-  >HTTP Method:</strong
->
-GET<br />This returns a list of detailed actions that the asset server is going
-to perform if this command is confirmed. For complex actions the support agent
-can optionally enable or disable pieces of the transaction command. If the
-support agent confirms the details,
-<a
-  href="https://partner.steamgames.com/doc/features/inventory/economy/HistoryExecuteCommands"
-  class="bb_doclink"
-  >HistoryExecuteCommand/v0001</a
->
-is called.
-<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      This is the "Asset Server Key" that you provided in your app's Steam
-      Economy Settings on the partner site.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>32bit App ID of the application associated with the assets.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The 64-bit Steam ID of the user to return assets for.</td>
-  </tr>
-  <tr>
-    <td><strong>contextid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The 64-bit ID of the context the assets can be found in.</td>
-  </tr>
-  <tr>
-    <td><strong>command</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>The name of the history command.</td>
-  </tr>
-  <tr>
-    <td><strong>arguments</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>
-      The arguments string that was returned from
-      <code class="bb_code bb_code_inline nohighlight">GetUserHistory</code> for
-      this command.
-    </td>
-  </tr>
-</table>
-<h2 class="bb_section"><a name="2"></a>Returns</h2>
-The output from this method should be encoded in the JSON format.<br /><br /><strong
-  >Response:</strong
-><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">result</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">success</code> - True
-        if the method was successful. If the asset server is returning false, it
-        should set
-        <code class="bb_code bb_code_inline nohighlight">error</code> to a
-        string that explains why.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">error</code> - a string
-        describing why this call failed. This message will be recorded in the
-        error log, which is available under the Economy tab on the Steamworks
-        site.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">actions</code> - An
-        array of actions the asset server will perform if the agent confirms the
-        command.<br />
-        <ul class="bb_ul">
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">id</code> - ID of
-            the asset that will be affected by this action.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">icon_url</code
-            >(optional) - The icon to use for this asset. This image should be
-            in the JPEG, GIF, or PNG formats and at least 96x96 pixels in size.
-            PNG or GIF are preferred because they support transparency.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">name</code> - Name
-            of the asset to be affected.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">command</code> -
-            The sub-command to perform on this asset. This value is passed back
-            at confirmation.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">note</code
-            >(optional) - Additional information to show below the name in the
-            confirmation dialog.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">argument</code
-            >(optional) - The argument string to pass back if this action is
-            still selected at confirmation.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">steamid</code
-            >(optional) - The 64-bit Steam ID of the user that currently owns
-            this asset. The user's name is shown next to the asset name<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">optional</code
-            >(optional) - If this is true the support agent is able to uncheck
-            this action and skip it in the command. Defaults to true.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">default</code
-            >(optional) - The default state of the checkbox in the confirmation
-            dialog. Defaults to true.<br />
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-<h2 class="bb_section"><a name="3"></a>Example Output</h2>
-<div class="bb_code json">
-  { "result":1, "actions": [ { "id":"2111437",
-  "icon_url":"http://media.steampowered.com/apps/440/icons/berliners_bucket_helm.2c1288625a8ab4c16e3c804a6649254b1a9325ca.png",
-  "name":"Berliner's Bucket Helm", "command":"Restore", "note":"Purchased" }, {
-  "id":"2121062",
-  "icon_url":"http://media.steampowered.com/apps/440/icons/gift_fashion.37487e85b245787048aacefe67105bbe44a20e0c.png",
-  "name":"Manniversary Package", "command":"Delete", "note":"Timed Drop" }, ],
-  "displaytext":"" }
+This returns all of the audit records for a user within the specified time period. The time period to return is any event after <code class="bb_code bb_code_inline nohighlight">starttime</code> but before or at <code class="bb_code bb_code_inline nohighlight">endtime</code>.<br><br><strong>Called by:</strong> Support Tool<br><br><strong>HTTP Method:</strong> GET<br>This returns a list of detailed actions that the asset server is going to perform if this command is confirmed. For complex actions the support agent can optionally enable or disable pieces of the transaction command. If the support agent confirms the details, <a href="https://partner.steamgames.com/doc/features/inventory/economy/HistoryExecuteCommands" class="bb_doclink">HistoryExecuteCommand/v0001</a> is called.<h2 class="bb_section"><a name="1"></a>Parameters:</h2><table>  <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>  <tr><td><strong>key</strong></td><td>string</td><td>✔</td><td>This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on the partner site.</td></tr>  <tr><td><strong>appid</strong></td><td>uint32</td><td>✔</td><td>32bit App ID of the application associated with the assets.</td></tr>  <tr><td><strong>steamid</strong></td><td>uint64</td><td>✔</td><td>The 64-bit Steam ID of the user to return assets for.</td></tr>  <tr><td><strong>contextid</strong></td><td>uint64</td><td>✔</td><td>The 64-bit ID of the context the assets can be found in.</td></tr>  <tr><td><strong>command</strong></td><td>string</td><td>✔</td><td>The name of the history command.</td></tr>  <tr><td><strong>arguments</strong></td><td>uint32</td><td>✔</td><td>The arguments string that was returned from <code class="bb_code bb_code_inline nohighlight">GetUserHistory</code> for this command.</td></tr></table><h2 class="bb_section"><a name="2"></a>Returns</h2>The output from this method should be encoded in the JSON format.<br><br><strong>Response:</strong><br><ul class="bb_ul ">	<li> <code class="bb_code bb_code_inline nohighlight">result</code><br>		<ul class="bb_ul ">			<li> <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method was successful. If the asset server is returning false, it should set <code class="bb_code bb_code_inline nohighlight">error</code> to a string that explains why.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">error</code> - a string describing why this call failed. This message will be recorded in the error log, which is available under the Economy tab on the Steamworks site.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">actions</code> - An array of actions the asset server will perform if the agent confirms the command.<br>				<ul class="bb_ul ">					<li> <code class="bb_code bb_code_inline nohighlight">id</code> - ID of the asset that will be affected by this action.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">icon_url</code>(optional) - The icon to use for this asset. This image should be in the JPEG, GIF, or PNG formats and at least 96x96 pixels in size. PNG or GIF are preferred because they support transparency.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">name</code> - Name of the asset to be affected.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">command</code> - The sub-command to perform on this asset. This value is passed back at confirmation.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">note</code>(optional) - Additional information to show below the name in the confirmation dialog.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">argument</code>(optional) - The argument string to pass back if this action is still selected at confirmation.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">steamid</code>(optional) - The 64-bit Steam ID of the user that currently owns this asset. The user's name is shown next to the asset name<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">optional</code>(optional) - If this is true the support agent is able to uncheck this action and skip it in the command. Defaults to true.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">default</code>(optional) - The default state of the checkbox in the confirmation dialog. Defaults to true.<br>				</li></ul>		</li></ul></li></ul><h2 class="bb_section"><a name="3"></a>Example Output</h2><div class="bb_code json">{
+  "result":1,
+  "actions":
+  [
+    {
+      "id":"2111437",
+      "icon_url":"http://media.steampowered.com/apps/440/icons/berliners_bucket_helm.2c1288625a8ab4c16e3c804a6649254b1a9325ca.png",
+      "name":"Berliner's Bucket Helm",
+      "command":"Restore",
+      "note":"Purchased"
+    },
+    {
+      "id":"2121062",
+      "icon_url":"http://media.steampowered.com/apps/440/icons/gift_fashion.37487e85b245787048aacefe67105bbe44a20e0c.png",
+      "name":"Manniversary Package",
+      "command":"Delete",
+      "note":"Timed Drop"
+    },
+  ],
+  "displaytext":""
+}
 </div>

@@ -1,1770 +1,1600 @@
 <h1>ISteamNetworking Interface</h1>
-Networking functions for making connections and sending data between clients,
-traversing NATs when possible.<br /><br /><strong>NOTE</strong>: This API is
-deprecated and may be removed in a future Steamworks SDK release. Please use
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets"
-  class="bb_apilink"
-  >ISteamNetworkingSockets</a
+Networking functions for making connections and sending data between clients, traversing NATs when
+possible.<br /><br /><strong>NOTE</strong>: This API is deprecated and may be removed in a future
+Steamworks SDK release. Please use
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
+    >ISteamNetworkingSockets</a
 >
 or
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages"
-  class="bb_apilink"
-  >ISteamNetworkingMessages</a
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages" class="bb_apilink"
+    >ISteamNetworkingMessages</a
 >
 instead. See the
-<a
-  href="https://partner.steamgames.com/doc/features/multiplayer/networking"
-  class="bb_doclink"
-  >Steam Networking</a
+<a href="https://partner.steamgames.com/doc/features/multiplayer/networking" class="bb_doclink"
+    >Steam Networking</a
 >
 overview for more information.
 <h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
-Member functions for
-<code class="bb_code bb_code_inline nohighlight">ISteamNetworking</code> are
+Member functions for <code class="bb_code bb_code_inline nohighlight">ISteamNetworking</code> are
 called through the global accessor function
 <code class="bb_code bb_code_inline nohighlight">SteamNetworking()</code>.
-<h2 class="bb_subsection">
-  <a name="AcceptP2PSessionWithUser"></a>AcceptP2PSessionWithUser
-</h2>
-<div class="bb_code cpp">
-  bool AcceptP2PSessionWithUser( CSteamID steamIDRemote );
-</div>
+<h2 class="bb_subsection"><a name="AcceptP2PSessionWithUser"></a>AcceptP2PSessionWithUser</h2>
+<div class="bb_code cpp">bool AcceptP2PSessionWithUser( CSteamID steamIDRemote );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>steamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-    </td>
-    <td>The Steam ID of the user that sent the initial packet to us.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The Steam ID of the user that sent the initial packet to us.</td>
+    </tr>
 </table>
-<br />This allows the game to specify accept an incoming packet. This needs to
-be called before a real connection is established to a remote host, the game
-will get a chance to say whether or not the remote user is allowed to talk to
-them.<br /><br />When a remote user that you haven't sent a packet to recently,
-tries to first send you a packet, your game will receive a callback
+
+<br />This allows the game to specify accept an incoming packet. This needs to be called before a
+real connection is established to a remote host, the game will get a chance to say whether or not
+the remote user is allowed to talk to them.<br /><br />When a remote user that you haven't sent a
+packet to recently, tries to first send you a packet, your game will receive a callback
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
-  class="bb_apilink"
-  >P2PSessionRequest_t</a
->. This callback contains the Steam ID of the user who wants to send you a
-packet. In response to this callback, you'll want to see if it's someone you
-want to talk to (for example, if they're in a lobby with you), and if so, accept
-the connection; otherwise if you don't want to talk to the user, just ignore the
-request. If the user continues to send you packets, another
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
+    class="bb_apilink"
+    >P2PSessionRequest_t</a
+>. This callback contains the Steam ID of the user who wants to send you a packet. In response to
+this callback, you'll want to see if it's someone you want to talk to (for example, if they're in a
+lobby with you), and if so, accept the connection; otherwise if you don't want to talk to the user,
+just ignore the request. If the user continues to send you packets, another
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
-  class="bb_apilink"
-  >P2PSessionRequest_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
+    class="bb_apilink"
+    >P2PSessionRequest_t</a
 >
 will be posted periodically. If you've called
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket"
-  class="bb_apilink"
-  >ISteamNetworking::SendP2PPacket</a
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket" class="bb_apilink"
+    >ISteamNetworking::SendP2PPacket</a
 >
-on the other user, this implicitly accepts the session request.<br /><br />Note
-that this call should only be made in response to a
+on the other user, this implicitly accepts the session request.<br /><br />Note that this call
+should only be made in response to a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
-  class="bb_apilink"
-  >P2PSessionRequest_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
+    class="bb_apilink"
+    >P2PSessionRequest_t</a
 >
-callback!<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
-upon success; <strong>false</strong> only if
-<code class="bb_code bb_code_inline nohighlight">steamIDRemote</code> is
-invalid.
-<h2 class="bb_subsection">
-  <a name="AllowP2PPacketRelay"></a>AllowP2PPacketRelay
-</h2>
+callback!<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success;
+<strong>false</strong> only if
+<code class="bb_code bb_code_inline nohighlight">steamIDRemote</code> is invalid.
+<h2 class="bb_subsection"><a name="AllowP2PPacketRelay"></a>AllowP2PPacketRelay</h2>
 <div class="bb_code cpp">bool AllowP2PPacketRelay( bool bAllow );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>bAllow</strong></td>
-    <td>bool</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>bAllow</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
 </table>
-<br />Allow or disallow P2P connections to fall back to being relayed through
-the Steam servers if a direct connection or NAT-traversal cannot be
-established.<br /><br />This only applies to connections created after setting
-this value, or to existing connections that need to automatically reconnect
-after this value is set.<br /><br />P2P packet relay is allowed by default.<br /><br /><strong
-  >Returns:</strong
+
+<br />Allow or disallow P2P connections to fall back to being relayed through the Steam servers if a
+direct connection or NAT-traversal cannot be established.<br /><br />This only applies to
+connections created after setting this value, or to existing connections that need to automatically
+reconnect after this value is set.<br /><br />P2P packet relay is allowed by default.<br /><br /><strong
+    >Returns:</strong
 >
 bool<br />This function always returns <strong>true</strong>.
-<h2 class="bb_subsection">
-  <a name="CloseP2PChannelWithUser"></a>CloseP2PChannelWithUser
-</h2>
-<div class="bb_code cpp">
-  bool CloseP2PChannelWithUser( CSteamID steamIDRemote, int nChannel );
-</div>
+<h2 class="bb_subsection"><a name="CloseP2PChannelWithUser"></a>CloseP2PChannelWithUser</h2>
+<div class="bb_code cpp">bool CloseP2PChannelWithUser( CSteamID steamIDRemote, int nChannel );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>steamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-    </td>
-    <td>The Steam ID of the user to close the connection with.</td>
-  </tr>
-  <tr>
-    <td><strong>nChannel</strong></td>
-    <td>int</td>
-    <td>The channel to close.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The Steam ID of the user to close the connection with.</td>
+    </tr>
+    <tr>
+        <td><strong>nChannel</strong></td>
+        <td>int</td>
+        <td>The channel to close.</td>
+    </tr>
 </table>
-<br />Closes a P2P channel when you're done talking to a user on the specific
-channel.<br /><br />Once all channels to a user have been closed, the open
-session to the user will be closed and new data from this user will trigger a
-new
+
+<br />Closes a P2P channel when you're done talking to a user on the specific channel.<br /><br />Once
+all channels to a user have been closed, the open session to the user will be closed and new data
+from this user will trigger a new
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
-  class="bb_apilink"
-  >P2PSessionRequest_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
+    class="bb_apilink"
+    >P2PSessionRequest_t</a
 >
-callback.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
-if the channel was successfully closed; otherwise, <strong>false</strong> if
-there was no active session or channel with the user.
-<h2 class="bb_subsection">
-  <a name="CloseP2PSessionWithUser"></a>CloseP2PSessionWithUser
-</h2>
-<div class="bb_code cpp">
-  bool CloseP2PSessionWithUser( CSteamID steamIDRemote );
-</div>
+callback.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the channel was
+successfully closed; otherwise, <strong>false</strong> if there was no active session or channel
+with the user.
+<h2 class="bb_subsection"><a name="CloseP2PSessionWithUser"></a>CloseP2PSessionWithUser</h2>
+<div class="bb_code cpp">bool CloseP2PSessionWithUser( CSteamID steamIDRemote );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>steamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-    </td>
-    <td>The Steam ID of the user to close the connection with.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The Steam ID of the user to close the connection with.</td>
+    </tr>
 </table>
-<br />This should be called when you're done communicating with a user, as this
-will free up all of the resources allocated for the connection
-under-the-hood.<br /><br />If the remote user tries to send data to you again, a
-new
+
+<br />This should be called when you're done communicating with a user, as this will free up all of
+the resources allocated for the connection under-the-hood.<br /><br />If the remote user tries to
+send data to you again, a new
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
-  class="bb_apilink"
-  >P2PSessionRequest_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
+    class="bb_apilink"
+    >P2PSessionRequest_t</a
 >
-callback will be posted.<br /><br /><strong>Returns:</strong> bool<br /><strong
-  >true</strong
->
-if the session was successfully closed; otherwise, <strong>false</strong> if no
-connection was open with
+callback will be posted.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the
+session was successfully closed; otherwise, <strong>false</strong> if no connection was open with
 <code class="bb_code bb_code_inline nohighlight">steamIDRemote</code>.
-<h2 class="bb_subsection">
-  <a name="CreateConnectionSocket"></a>CreateConnectionSocket
-</h2>
+<h2 class="bb_subsection"><a name="CreateConnectionSocket"></a>CreateConnectionSocket</h2>
 <div class="bb_code cpp">
-  SNetSocket_t CreateConnectionSocket( uint32 nIP, uint16 nPort, int nTimeoutSec
-  );
+    SNetSocket_t CreateConnectionSocket( uint32 nIP, uint16 nPort, int nTimeoutSec );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>nIP</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>nPort</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint16"
-        class="bb_apilink"
-        >uint16</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>nTimeoutSec</strong></td>
-    <td>int</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>nIP</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>nPort</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
+                >uint16</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>nTimeoutSec</strong></td>
+        <td>int</td>
+        <td></td>
+    </tr>
 </table>
-<br />Creates a socket and begin connection to a remote destination.<br /><br />This
-is part of an older set of functions designed around the Berkeley TCP sockets
-model. It's preferential that you use the P2P functions, they're more robust and
-these older functions will be removed eventually.<br /><br /><strong
-  >Returns:</strong
+
+<br />Creates a socket and begin connection to a remote destination.<br /><br />This is part of an
+older set of functions designed around the Berkeley TCP sockets model. It's preferential that you
+use the P2P functions, they're more robust and these older functions will be removed eventually.<br /><br /><strong
+    >Returns:</strong
 >
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-  class="bb_apilink"
-  >SNetSocket_t</a
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t" class="bb_apilink"
+    >SNetSocket_t</a
 >
-<h2 class="bb_subsection">
-  <a name="CreateListenSocket"></a>CreateListenSocket
-</h2>
+<h2 class="bb_subsection"><a name="CreateListenSocket"></a>CreateListenSocket</h2>
 <div class="bb_code cpp">
-  SNetListenSocket_t CreateListenSocket( int nVirtualP2PPort, uint32 nIP, uint16
-  nPort, bool bAllowUseOfPacketRelay );
+    SNetListenSocket_t CreateListenSocket( int nVirtualP2PPort, uint32 nIP, uint16 nPort, bool
+    bAllowUseOfPacketRelay );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>nVirtualP2PPort</strong></td>
-    <td>int</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>nIP</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>nPort</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint16"
-        class="bb_apilink"
-        >uint16</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>bAllowUseOfPacketRelay</strong></td>
-    <td>bool</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>nVirtualP2PPort</strong></td>
+        <td>int</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>nIP</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>nPort</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
+                >uint16</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>bAllowUseOfPacketRelay</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
 </table>
+
 <br />Creates a socket and listens others to connect.<br /><br />Will trigger a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SocketStatusCallback_t"
-  class="bb_apilink"
-  >SocketStatusCallback_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#SocketStatusCallback_t"
+    class="bb_apilink"
+    >SocketStatusCallback_t</a
 >
-callback on another client connecting.<br /><br />nVirtualP2PPort is the unique
-ID that the client will connect to, in case you have multiple ports<br />this
-can usually just be 0 unless you want multiple sets of connections<br />unIP is
-the local IP address to bind to<br />pass in 0 if you just want the default
-local IP<br />unPort is the port to use<br />pass in 0 if you don't want users
-to be able to connect via IP/Port, but expect to be always peer-to-peer
-connections only<br /><br />This is part of an older set of functions designed
-around the Berkeley TCP sockets model. It's preferential that you use the P2P
-functions, they're more robust and these older functions will be removed
-eventually.<br /><br /><strong>Returns:</strong>
+callback on another client connecting.<br /><br />nVirtualP2PPort is the unique ID that the client
+will connect to, in case you have multiple ports<br />this can usually just be 0 unless you want
+multiple sets of connections<br />unIP is the local IP address to bind to<br />pass in 0 if you just
+want the default local IP<br />unPort is the port to use<br />pass in 0 if you don't want users to
+be able to connect via IP/Port, but expect to be always peer-to-peer connections only<br /><br />This
+is part of an older set of functions designed around the Berkeley TCP sockets model. It's
+preferential that you use the P2P functions, they're more robust and these older functions will be
+removed eventually.<br /><br /><strong>Returns:</strong>
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
-  class="bb_apilink"
-  >SNetListenSocket_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
+    class="bb_apilink"
+    >SNetListenSocket_t</a
 >
-<h2 class="bb_subsection">
-  <a name="CreateP2PConnectionSocket"></a>CreateP2PConnectionSocket
-</h2>
+<h2 class="bb_subsection"><a name="CreateP2PConnectionSocket"></a>CreateP2PConnectionSocket</h2>
 <div class="bb_code cpp">
-  SNetSocket_t CreateP2PConnectionSocket( CSteamID steamIDTarget, int
-  nVirtualPort, int nTimeoutSec, bool bAllowUseOfPacketRelay );
+    SNetSocket_t CreateP2PConnectionSocket( CSteamID steamIDTarget, int nVirtualPort, int
+    nTimeoutSec, bool bAllowUseOfPacketRelay );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>steamIDTarget</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>nVirtualPort</strong></td>
-    <td>int</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>nTimeoutSec</strong></td>
-    <td>int</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>bAllowUseOfPacketRelay</strong></td>
-    <td>bool</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamIDTarget</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>nVirtualPort</strong></td>
+        <td>int</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>nTimeoutSec</strong></td>
+        <td>int</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>bAllowUseOfPacketRelay</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
 </table>
-<br />Creates a socket and begin connection to a remote destination.<br /><br />can
-connect via a known Steam ID (client or game server), or directly to an IP<br />on
-success will trigger a SocketStatusCallback_t callback<br />on failure or
-timeout will trigger a SocketStatusCallback_t callback with a failure code in
-m_eSNetSocketState<br /><br />This is part of an older set of functions designed
-around the Berkeley TCP sockets model it's preferential that you use the P2P
-functions, they're more robust and these older functions will be removed
-eventually.<br /><br /><strong>Returns:</strong>
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-  class="bb_apilink"
-  >SNetSocket_t</a
+
+<br />Creates a socket and begin connection to a remote destination.<br /><br />can connect via a
+known Steam ID (client or game server), or directly to an IP<br />on success will trigger a
+SocketStatusCallback_t callback<br />on failure or timeout will trigger a SocketStatusCallback_t
+callback with a failure code in m_eSNetSocketState<br /><br />This is part of an older set of
+functions designed around the Berkeley TCP sockets model it's preferential that you use the P2P
+functions, they're more robust and these older functions will be removed eventually.<br /><br /><strong
+    >Returns:</strong
 >
-<h2 class="bb_subsection">
-  <a name="DestroyListenSocket"></a>DestroyListenSocket
-</h2>
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t" class="bb_apilink"
+    >SNetSocket_t</a
+>
+<h2 class="bb_subsection"><a name="DestroyListenSocket"></a>DestroyListenSocket</h2>
 <div class="bb_code cpp">
-  bool DestroyListenSocket( SNetListenSocket_t hSocket, bool bNotifyRemoteEnd );
+    bool DestroyListenSocket( SNetListenSocket_t hSocket, bool bNotifyRemoteEnd );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
-        class="bb_apilink"
-        >SNetListenSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>bNotifyRemoteEnd</strong></td>
-    <td>bool</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
+                class="bb_apilink"
+                >SNetListenSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>bNotifyRemoteEnd</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
 </table>
-<br />Destroying a listen socket will automatically kill all the regular sockets
-generated from it.<br /><br />This is part of an older set of functions designed
-around the Berkeley TCP sockets model. It's preferential that you use the P2P
-functions, they're more robust and these older functions will be removed
-eventually.<br /><br /><strong>Returns:</strong> bool
+
+<br />Destroying a listen socket will automatically kill all the regular sockets generated from
+it.<br /><br />This is part of an older set of functions designed around the Berkeley TCP sockets
+model. It's preferential that you use the P2P functions, they're more robust and these older
+functions will be removed eventually.<br /><br /><strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="DestroySocket"></a>DestroySocket</h2>
+<div class="bb_code cpp">bool DestroySocket( SNetSocket_t hSocket, bool bNotifyRemoteEnd );</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>bNotifyRemoteEnd</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
+</table>
+
+<br />Disconnects the connection to the socket, if any, and invalidates the handle.<br /><br />any
+unread data on the socket will be thrown away<br />if bNotifyRemoteEnd is set, socket will not be
+completely destroyed until the remote end acknowledges the disconnect<br /><br />This is part of an
+older set of functions designed around the Berkeley TCP sockets model it's preferential that you use
+the P2P functions, they're more robust and these older functions will be removed eventually.<br /><br /><strong
+    >Returns:</strong
+>
+bool
+<h2 class="bb_subsection"><a name="GetListenSocketInfo"></a>GetListenSocketInfo</h2>
 <div class="bb_code cpp">
-  bool DestroySocket( SNetSocket_t hSocket, bool bNotifyRemoteEnd );
+    bool GetListenSocketInfo( SNetListenSocket_t hListenSocket, uint32 *pnIP, uint16 *pnPort );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>bNotifyRemoteEnd</strong></td>
-    <td>bool</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hListenSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
+                class="bb_apilink"
+                >SNetListenSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pnIP</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pnPort</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
+                >uint16</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Disconnects the connection to the socket, if any, and invalidates the
-handle.<br /><br />any unread data on the socket will be thrown away<br />if
-bNotifyRemoteEnd is set, socket will not be completely destroyed until the
-remote end acknowledges the disconnect<br /><br />This is part of an older set
-of functions designed around the Berkeley TCP sockets model it's preferential
-that you use the P2P functions, they're more robust and these older functions
-will be removed eventually.<br /><br /><strong>Returns:</strong> bool
-<h2 class="bb_subsection">
-  <a name="GetListenSocketInfo"></a>GetListenSocketInfo
-</h2>
-<div class="bb_code cpp">
-  bool GetListenSocketInfo( SNetListenSocket_t hListenSocket, uint32 *pnIP,
-  uint16 *pnPort );
-</div>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hListenSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
-        class="bb_apilink"
-        >SNetListenSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pnIP</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pnPort</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint16"
-        class="bb_apilink"
-        >uint16</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
-</table>
-<br />Returns which local port the listen socket is bound to.<br /><br />*pnIP
-and *pnPort will be 0 if the socket is set to listen for P2P connections only<br /><br />This
-is part of an older set of functions designed around the Berkeley TCP sockets
-model. It's preferential that you use the P2P functions, they're more robust and
-these older functions will be removed eventually.<br /><br /><strong
-  >Returns:</strong
+
+<br />Returns which local port the listen socket is bound to.<br /><br />*pnIP and *pnPort will be 0
+if the socket is set to listen for P2P connections only<br /><br />This is part of an older set of
+functions designed around the Berkeley TCP sockets model. It's preferential that you use the P2P
+functions, they're more robust and these older functions will be removed eventually.<br /><br /><strong
+    >Returns:</strong
 >
 bool
 <h2 class="bb_subsection"><a name="GetMaxPacketSize"></a>GetMaxPacketSize</h2>
 <div class="bb_code cpp">int GetMaxPacketSize( SNetSocket_t hSocket );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Gets the max packet size, in bytes.<br /><br />This is part of an older
-set of functions designed around the Berkeley TCP sockets model it's
-preferential that you use the P2P functions, they're more robust and these older
-functions will be removed eventually.<br /><br /><strong>Returns:</strong> int
-<h2 class="bb_subsection">
-  <a name="GetP2PSessionState"></a>GetP2PSessionState
-</h2>
+
+<br />Gets the max packet size, in bytes.<br /><br />This is part of an older set of functions
+designed around the Berkeley TCP sockets model it's preferential that you use the P2P functions,
+they're more robust and these older functions will be removed eventually.<br /><br /><strong
+    >Returns:</strong
+>
+int
+<h2 class="bb_subsection"><a name="GetP2PSessionState"></a>GetP2PSessionState</h2>
 <div class="bb_code cpp">
-  bool GetP2PSessionState( CSteamID steamIDRemote, P2PSessionState_t
-  *pConnectionState );
+    bool GetP2PSessionState( CSteamID steamIDRemote, P2PSessionState_t *pConnectionState );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>steamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-    </td>
-    <td>The user to get the active session state information of.</td>
-  </tr>
-  <tr>
-    <td><strong>pConnectionState</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionState_t"
-        class="bb_apilink"
-        >P2PSessionState_t</a
-      >
-      *
-    </td>
-    <td>Returns the state.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The user to get the active session state information of.</td>
+    </tr>
+    <tr>
+        <td><strong>pConnectionState</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionState_t"
+                class="bb_apilink"
+                >P2PSessionState_t</a
+            >
+            *
+        </td>
+        <td>Returns the state.</td>
+    </tr>
 </table>
+
 <br />Fills out a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionState_t"
-  class="bb_apilink"
-  >P2PSessionState_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionState_t"
+    class="bb_apilink"
+    >P2PSessionState_t</a
 >
-structure with details about the connection like whether or not there is an
-active connection; number of bytes queued on the connection; the last error
-code, if any; whether or not a relay server is being used; and the IP and Port
-of the remote user, if known<br /><br />This should only needed for debugging
-purposes.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
-if <code class="bb_code bb_code_inline nohighlight">pConnectionState</code> was
-filled out; otherwise, <strong>false</strong> if there was no open session with
-the specified user.<br /><br /><strong>Example:</strong><br />
+structure with details about the connection like whether or not there is an active connection;
+number of bytes queued on the connection; the last error code, if any; whether or not a relay server
+is being used; and the IP and Port of the remote user, if known<br /><br />This should only needed
+for debugging purposes.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if
+<code class="bb_code bb_code_inline nohighlight">pConnectionState</code> was filled out; otherwise,
+<strong>false</strong> if there was no open session with the specified user.<br /><br /><strong
+    >Example:</strong
+><br />
 <div class="bb_code cpp">
-  P2PSessionState_t p2pSessionState; SteamNetworking()-&gt;GetP2PSessionState(
-  steamIDremote, &amp;p2pSessionState );
+    P2PSessionState_t p2pSessionState; SteamNetworking()-&gt;GetP2PSessionState( steamIDremote,
+    &amp;p2pSessionState );
 </div>
-<h2 class="bb_subsection">
-  <a name="GetSocketConnectionType"></a>GetSocketConnectionType
-</h2>
+<h2 class="bb_subsection"><a name="GetSocketConnectionType"></a>GetSocketConnectionType</h2>
 <div class="bb_code cpp">
-  ESNetSocketConnectionType GetSocketConnectionType( SNetSocket_t hSocket );
+    ESNetSocketConnectionType GetSocketConnectionType( SNetSocket_t hSocket );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Returns true to describe how the socket ended up connecting.<br /><br />This
-is part of an older set of functions designed around the Berkeley TCP sockets
-model. It's preferential that you use the P2P functions, they're more robust and
-these older functions will be removed eventually.<br /><br /><strong
-  >Returns:</strong
+
+<br />Returns true to describe how the socket ended up connecting.<br /><br />This is part of an
+older set of functions designed around the Berkeley TCP sockets model. It's preferential that you
+use the P2P functions, they're more robust and these older functions will be removed eventually.<br /><br /><strong
+    >Returns:</strong
 >
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#ESNetSocketConnectionType"
-  class="bb_apilink"
-  >ESNetSocketConnectionType</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#ESNetSocketConnectionType"
+    class="bb_apilink"
+    >ESNetSocketConnectionType</a
 >
 <h2 class="bb_subsection"><a name="GetSocketInfo"></a>GetSocketInfo</h2>
 <div class="bb_code cpp">
-  bool GetSocketInfo( SNetSocket_t hSocket, CSteamID *pSteamIDRemote, int
-  *peSocketStatus, uint32 *punIPRemote, uint16 *punPortRemote );
+    bool GetSocketInfo( SNetSocket_t hSocket, CSteamID *pSteamIDRemote, int *peSocketStatus, uint32
+    *punIPRemote, uint16 *punPortRemote );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pSteamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>peSocketStatus</strong></td>
-    <td>int *</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>punIPRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>punPortRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint16"
-        class="bb_apilink"
-        >uint16</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pSteamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>peSocketStatus</strong></td>
+        <td>int *</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>punIPRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>punPortRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
+                >uint16</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Returns information about the specified socket, filling out the contents
-of the pointers.<br /><br />This is part of an older set of functions designed
-around the Berkeley TCP sockets model it's preferential that you use the P2P
-functions, they're more robust and these older functions will be removed
-eventually.<br /><br /><strong>Returns:</strong> bool
+
+<br />Returns information about the specified socket, filling out the contents of the pointers.<br /><br />This
+is part of an older set of functions designed around the Berkeley TCP sockets model it's
+preferential that you use the P2P functions, they're more robust and these older functions will be
+removed eventually.<br /><br /><strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="IsDataAvailable"></a>IsDataAvailable</h2>
 <div class="bb_code cpp">
-  bool IsDataAvailable( SNetListenSocket_t hListenSocket, uint32 *pcubMsgSize,
-  SNetSocket_t *phSocket );
+    bool IsDataAvailable( SNetListenSocket_t hListenSocket, uint32 *pcubMsgSize, SNetSocket_t
+    *phSocket );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hListenSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
-        class="bb_apilink"
-        >SNetListenSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pcubMsgSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>phSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hListenSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
+                class="bb_apilink"
+                >SNetListenSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pcubMsgSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>phSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Checks for data from any socket that has been connected off this listen
-socket.<br /><br />returns false if there is no data remaining<br />fills out
-*pcubMsgSize with the size of the next message, in bytes<br />fills out
-*phSocket with the socket that data is available on<br /><br />This is part of
-an older set of functions designed around the Berkeley TCP sockets model. It's
-preferential that you use the P2P functions, they're more robust and these older
-functions will be removed eventually.<br /><br /><strong>Returns:</strong> bool
-<h2 class="bb_subsection">
-  <a name="IsDataAvailableOnSocket"></a>IsDataAvailableOnSocket
-</h2>
+
+<br />Checks for data from any socket that has been connected off this listen socket.<br /><br />returns
+false if there is no data remaining<br />fills out *pcubMsgSize with the size of the next message,
+in bytes<br />fills out *phSocket with the socket that data is available on<br /><br />This is part
+of an older set of functions designed around the Berkeley TCP sockets model. It's preferential that
+you use the P2P functions, they're more robust and these older functions will be removed
+eventually.<br /><br /><strong>Returns:</strong> bool
+<h2 class="bb_subsection"><a name="IsDataAvailableOnSocket"></a>IsDataAvailableOnSocket</h2>
 <div class="bb_code cpp">
-  bool IsDataAvailableOnSocket( SNetSocket_t hSocket, uint32 *pcubMsgSize );
+    bool IsDataAvailableOnSocket( SNetSocket_t hSocket, uint32 *pcubMsgSize );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pcubMsgSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pcubMsgSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Returns false if there is no data remaining.<br /><br />fills out
-*pcubMsgSize with the size of the next message, in bytes<br /><br />This is part
-of an older set of functions designed around the Berkeley TCP sockets model it's
-preferential that you use the P2P functions, they're more robust and these older
-functions will be removed eventually.<br /><br /><strong>Returns:</strong> bool
-<h2 class="bb_subsection">
-  <a name="IsP2PPacketAvailable"></a>IsP2PPacketAvailable
-</h2>
-<div class="bb_code cpp">
-  bool IsP2PPacketAvailable( uint32 *pcubMsgSize, int nChannel = 0 );
-</div>
+
+<br />Returns false if there is no data remaining.<br /><br />fills out *pcubMsgSize with the size
+of the next message, in bytes<br /><br />This is part of an older set of functions designed around
+the Berkeley TCP sockets model it's preferential that you use the P2P functions, they're more robust
+and these older functions will be removed eventually.<br /><br /><strong>Returns:</strong> bool
+<h2 class="bb_subsection"><a name="IsP2PPacketAvailable"></a>IsP2PPacketAvailable</h2>
+<div class="bb_code cpp">bool IsP2PPacketAvailable( uint32 *pcubMsgSize, int nChannel = 0 );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>pcubMsgSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td>Returns the size of the packet.</td>
-  </tr>
-  <tr>
-    <td><strong>nChannel</strong></td>
-    <td>int</td>
-    <td>The channel to check if a packet is available in.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pcubMsgSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td>Returns the size of the packet.</td>
+    </tr>
+    <tr>
+        <td><strong>nChannel</strong></td>
+        <td>int</td>
+        <td>The channel to check if a packet is available in.</td>
+    </tr>
 </table>
-<br />Checks if a P2P packet is available to read, and gets the size of the
-message if there is one.<br /><br />This should be called in a loop for each
-channel that you use. If there is a packet available you should call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#ReadP2PPacket"
-  class="bb_apilink"
-  >ISteamNetworking::ReadP2PPacket</a
+
+<br />Checks if a P2P packet is available to read, and gets the size of the message if there is
+one.<br /><br />This should be called in a loop for each channel that you use. If there is a packet
+available you should call
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#ReadP2PPacket" class="bb_apilink"
+    >ISteamNetworking::ReadP2PPacket</a
 >
-to get the packet data.<br /><br /><strong>Returns:</strong> bool<br /><strong
-  >true</strong
->
-if there is a packet available; otherwise, <strong>false</strong>.
+to get the packet data.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if
+there is a packet available; otherwise, <strong>false</strong>.
 <h2 class="bb_subsection"><a name="ReadP2PPacket"></a>ReadP2PPacket</h2>
 <div class="bb_code cpp">
-  bool ReadP2PPacket( void *pubDest, uint32 cubDest, uint32 *pcubMsgSize,
-  CSteamID *psteamIDRemote, int nChannel = 0 );
+    bool ReadP2PPacket( void *pubDest, uint32 cubDest, uint32 *pcubMsgSize, CSteamID
+    *psteamIDRemote, int nChannel = 0 );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>pubDest</strong></td>
-    <td>void *</td>
-    <td>Returns the packet data by copying it into this buffer.</td>
-  </tr>
-  <tr>
-    <td><strong>cubDest</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The size allocated for
-      <code class="bb_code bb_code_inline nohighlight">pubDest</code>. This
-      should be either the same size returned by
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#IsP2PPacketAvailable"
-        class="bb_apilink"
-        >ISteamNetworking::IsP2PPacketAvailable</a
-      >, or the size of your largest packet.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>pcubMsgSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td>Returns the size of the packet.</td>
-  </tr>
-  <tr>
-    <td><strong>psteamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-      *
-    </td>
-    <td>Returns the Steam ID of the user that sent this packet.</td>
-  </tr>
-  <tr>
-    <td><strong>nChannel</strong></td>
-    <td>int</td>
-    <td>The channel the packet was sent over.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pubDest</strong></td>
+        <td>void *</td>
+        <td>Returns the packet data by copying it into this buffer.</td>
+    </tr>
+    <tr>
+        <td><strong>cubDest</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The size allocated for <code class="bb_code bb_code_inline nohighlight">pubDest</code>.
+            This should be either the same size returned by
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#IsP2PPacketAvailable"
+                class="bb_apilink"
+                >ISteamNetworking::IsP2PPacketAvailable</a
+            >, or the size of your largest packet.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pcubMsgSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td>Returns the size of the packet.</td>
+    </tr>
+    <tr>
+        <td><strong>psteamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+            *
+        </td>
+        <td>Returns the Steam ID of the user that sent this packet.</td>
+    </tr>
+    <tr>
+        <td><strong>nChannel</strong></td>
+        <td>int</td>
+        <td>The channel the packet was sent over.</td>
+    </tr>
 </table>
+
 <br />Reads in a packet that has been sent from another user via
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket" class="bb_apilink"
+    >ISteamNetworking::SendP2PPacket</a
+>.<br /><br /><br />If the <code class="bb_code bb_code_inline nohighlight">cubDest</code> buffer is
+too small for the packet, then the message will be truncated.<br /><br />This call is not blocking,
+and will return false if no data is available.<br /><br />Before calling this you should have called
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket"
-  class="bb_apilink"
-  >ISteamNetworking::SendP2PPacket</a
->.<br /><br /><br />If the
-<code class="bb_code bb_code_inline nohighlight">cubDest</code> buffer is too
-small for the packet, then the message will be truncated.<br /><br />This call
-is not blocking, and will return false if no data is available.<br /><br />Before
-calling this you should have called
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#IsP2PPacketAvailable"
-  class="bb_apilink"
-  >ISteamNetworking::IsP2PPacketAvailable</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if a
-packet was successfully read; otherwise, <strong>false</strong> if no packet was
-available.<br /><br /><strong>Example:</strong><br />
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#IsP2PPacketAvailable"
+    class="bb_apilink"
+    >ISteamNetworking::IsP2PPacketAvailable</a
+>.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if a packet was successfully
+read; otherwise, <strong>false</strong> if no packet was available.<br /><br /><strong
+    >Example:</strong
+><br />
 <div class="bb_code cpp">
-  uint32 msgSize = 0; while ( SteamNetworking()-&gt;IsP2PPacketAvailable(
-  &amp;msgSize ) ) { void *packet = malloc( msgSize ); CSteamID steamIDRemote;
-  uint32 bytesRead = 0; if ( SteamNetworking()-&gt;ReadP2PPacket( packet,
-  msgSize, &amp;bytesRead, &amp;steamIDRemote ) ) { // message dispatch code
-  goes here } free( packet ); }
+    uint32 msgSize = 0; while ( SteamNetworking()-&gt;IsP2PPacketAvailable( &amp;msgSize ) ) { void
+    *packet = malloc( msgSize ); CSteamID steamIDRemote; uint32 bytesRead = 0; if (
+    SteamNetworking()-&gt;ReadP2PPacket( packet, msgSize, &amp;bytesRead, &amp;steamIDRemote ) ) {
+    // message dispatch code goes here } free( packet ); }
 </div>
 <h2 class="bb_subsection"><a name="RetrieveData"></a>RetrieveData</h2>
 <div class="bb_code cpp">
-  bool RetrieveData( SNetListenSocket_t hListenSocket, void *pubDest, uint32
-  cubDest, uint32 *pcubMsgSize, SNetSocket_t *phSocket );
+    bool RetrieveData( SNetListenSocket_t hListenSocket, void *pubDest, uint32 cubDest, uint32
+    *pcubMsgSize, SNetSocket_t *phSocket );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hListenSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
-        class="bb_apilink"
-        >SNetListenSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pubDest</strong></td>
-    <td>void *</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>cubDest</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pcubMsgSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>phSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hListenSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
+                class="bb_apilink"
+                >SNetListenSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pubDest</strong></td>
+        <td>void *</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>cubDest</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pcubMsgSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>phSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Retrieves data from any socket that has been connected off this listen
-socket.<br /><br />fills in pubDest with the contents of the message<br />messages
-are always complete, of the same size as was sent (i.e. packetized, not
-streaming)<br />if *pcubMsgSize &lt; cubDest, only partial data is written<br />returns
-false if no data is available<br />fills out *phSocket with the socket that data
-is available on<br /><br />This is part of an older set of functions designed
-around the Berkeley TCP sockets model. It's preferential that you use the P2P
-functions, they're more robust and these older functions will be removed
-eventually.<br /><br /><strong>Returns:</strong> bool
-<h2 class="bb_subsection">
-  <a name="RetrieveDataFromSocket"></a>RetrieveDataFromSocket
-</h2>
+
+<br />Retrieves data from any socket that has been connected off this listen socket.<br /><br />fills
+in pubDest with the contents of the message<br />messages are always complete, of the same size as
+was sent (i.e. packetized, not streaming)<br />if *pcubMsgSize &lt; cubDest, only partial data is
+written<br />returns false if no data is available<br />fills out *phSocket with the socket that
+data is available on<br /><br />This is part of an older set of functions designed around the
+Berkeley TCP sockets model. It's preferential that you use the P2P functions, they're more robust
+and these older functions will be removed eventually.<br /><br /><strong>Returns:</strong> bool
+<h2 class="bb_subsection"><a name="RetrieveDataFromSocket"></a>RetrieveDataFromSocket</h2>
 <div class="bb_code cpp">
-  bool RetrieveDataFromSocket( SNetSocket_t hSocket, void *pubDest, uint32
-  cubDest, uint32 *pcubMsgSize );
+    bool RetrieveDataFromSocket( SNetSocket_t hSocket, void *pubDest, uint32 cubDest, uint32
+    *pcubMsgSize );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pubDest</strong></td>
-    <td>void *</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>cubDest</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pcubMsgSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pubDest</strong></td>
+        <td>void *</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>cubDest</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pcubMsgSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Fills in pubDest with the contents of the message.<br /><br />messages are
-always complete, of the same size as was sent (i.e. packetized, not
-streaming)<br />if *pcubMsgSize &lt; cubDest, only partial data is written<br />returns
-false if no data is available<br /><br />This is part of an older set of
-functions designed around the Berkeley TCP sockets model it's preferential that
-you use the P2P functions, they're more robust and these older functions will be
-removed eventually.<br /><br /><strong>Returns:</strong> bool
+
+<br />Fills in pubDest with the contents of the message.<br /><br />messages are always complete, of
+the same size as was sent (i.e. packetized, not streaming)<br />if *pcubMsgSize &lt; cubDest, only
+partial data is written<br />returns false if no data is available<br /><br />This is part of an
+older set of functions designed around the Berkeley TCP sockets model it's preferential that you use
+the P2P functions, they're more robust and these older functions will be removed eventually.<br /><br /><strong
+    >Returns:</strong
+>
+bool
 <h2 class="bb_subsection"><a name="SendDataOnSocket"></a>SendDataOnSocket</h2>
 <div class="bb_code cpp">
-  bool SendDataOnSocket( SNetSocket_t hSocket, void *pubData, uint32 cubData,
-  bool bReliable );
+    bool SendDataOnSocket( SNetSocket_t hSocket, void *pubData, uint32 cubData, bool bReliable );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>hSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pubData</strong></td>
-    <td>void *</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>cubData</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>bReliable</strong></td>
-    <td>bool</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>hSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pubData</strong></td>
+        <td>void *</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>cubData</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>bReliable</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
 </table>
-<br />sending data<br />must be a handle to a connected socket<br />data is all
-sent via UDP, and thus send sizes are limited to 1200 bytes; after this, many
-routers will start dropping packets<br />use the reliable flag with caution;
-although the resend rate is pretty aggressive,<br />it can still cause stalls in
-receiving data (like TCP)<br /><br /><strong>Returns:</strong> bool
+
+<br />sending data<br />must be a handle to a connected socket<br />data is all sent via UDP, and
+thus send sizes are limited to 1200 bytes; after this, many routers will start dropping packets<br />use
+the reliable flag with caution; although the resend rate is pretty aggressive,<br />it can still
+cause stalls in receiving data (like TCP)<br /><br /><strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="SendP2PPacket"></a>SendP2PPacket</h2>
 <div class="bb_code cpp">
-  bool SendP2PPacket( CSteamID steamIDRemote, const void *pubData, uint32
-  cubData, EP2PSend eP2PSendType, int nChannel = 0 );
+    bool SendP2PPacket( CSteamID steamIDRemote, const void *pubData, uint32 cubData, EP2PSend
+    eP2PSendType, int nChannel = 0 );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>steamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-    </td>
-    <td>The target user to send the packet to.</td>
-  </tr>
-  <tr>
-    <td><strong>pubData</strong></td>
-    <td>const void *</td>
-    <td>
-      The raw byte array for the packet data to send. The maximum size of this
-      packet is defined by
-      <code class="bb_code bb_code_inline nohighlight">eP2PSendType</code>.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>cubData</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The size in bytes of
-      <code class="bb_code bb_code_inline nohighlight">pubData</code>.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>eP2PSendType</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#EP2PSend"
-        class="bb_apilink"
-        >EP2PSend</a
-      >
-    </td>
-    <td>
-      Specifies how you want the data to be transmitted, such as reliably,
-      unreliable, buffered, etc.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>nChannel</strong></td>
-    <td>int</td>
-    <td>
-      The channel which acts as a virtual port to send this packet on and allows
-      you help route message to different systems.<br />You'll have to call
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#ReadP2PPacket"
-        class="bb_apilink"
-        >ISteamNetworking::ReadP2PPacket</a
-      >
-      on the other end with the same channel number in order to retrieve the
-      data on the other end. Using different channels to talk to the same user
-      will still use the same underlying P2P connection, saving on resources.<br />Use
-      <strong>0</strong> for the primary channel, or if you do not use this
-      feature.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The target user to send the packet to.</td>
+    </tr>
+    <tr>
+        <td><strong>pubData</strong></td>
+        <td>const void *</td>
+        <td>
+            The raw byte array for the packet data to send. The maximum size of this packet is
+            defined by
+            <code class="bb_code bb_code_inline nohighlight">eP2PSendType</code>.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>cubData</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The size in bytes of <code class="bb_code bb_code_inline nohighlight">pubData</code>.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>eP2PSendType</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#EP2PSend"
+                class="bb_apilink"
+                >EP2PSend</a
+            >
+        </td>
+        <td>
+            Specifies how you want the data to be transmitted, such as reliably, unreliable,
+            buffered, etc.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>nChannel</strong></td>
+        <td>int</td>
+        <td>
+            The channel which acts as a virtual port to send this packet on and allows you help
+            route message to different systems.<br />You'll have to call
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#ReadP2PPacket"
+                class="bb_apilink"
+                >ISteamNetworking::ReadP2PPacket</a
+            >
+            on the other end with the same channel number in order to retrieve the data on the other
+            end. Using different channels to talk to the same user will still use the same
+            underlying P2P connection, saving on resources.<br />Use <strong>0</strong> for the
+            primary channel, or if you do not use this feature.
+        </td>
+    </tr>
 </table>
-<br />Sends a P2P packet to the specified user.<br /><br />This is a
-session-less API which automatically establishes NAT-traversing or Steam relay
-server connections.<br /><br /><strong>NOTE:</strong> The first packet send may
-be delayed as the NAT-traversal code runs.<br /><br />See
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#EP2PSend"
-  class="bb_apilink"
-  >EP2PSend</a
+
+<br />Sends a P2P packet to the specified user.<br /><br />This is a session-less API which
+automatically establishes NAT-traversing or Steam relay server connections.<br /><br /><strong
+    >NOTE:</strong
 >
-for descriptions of the different ways of sending packets.<br /><br />The type
-of data you send is arbitrary, you can use an off the shelf system like
-<a
-  href="https://developers.google.com/protocol-buffers/"
-  target="_blank"
-  rel="noreferrer"
-  >Protocol Buffers</a
+The first packet send may be delayed as the NAT-traversal code runs.<br /><br />See
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#EP2PSend" class="bb_apilink"
+    >EP2PSend</a
 >
-or
-<a href="https://capnproto.org" target="_blank" rel="noreferrer">Cap'n Proto</a>
-to encode your packets in an efficient way, or you can create your own messaging
-system.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
-  class="bb_apilink"
-  >P2PSessionRequest_t</a
+for descriptions of the different ways of sending packets.<br /><br />The type of data you send is
+arbitrary, you can use an off the shelf system like
+<a href="https://developers.google.com/protocol-buffers/" target="_blank" rel="noreferrer"
+    >Protocol Buffers</a
 >
-callback.<br /><strong>true</strong> if the packet was successfully sent.<br />Note
-that this does not mean successfully received, if we can't get through to the
-user after a timeout of 20 seconds, then an error will be posted via the
+or <a href="https://capnproto.org" target="_blank" rel="noreferrer">Cap'n Proto</a> to encode your
+packets in an efficient way, or you can create your own messaging system.<br /><br /><strong
+    >Returns:</strong
+>
+bool<br />Triggers a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionConnectFail_t"
-  class="bb_apilink"
-  >P2PSessionConnectFail_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionRequest_t"
+    class="bb_apilink"
+    >P2PSessionRequest_t</a
+>
+callback.<br /><strong>true</strong> if the packet was successfully sent.<br />Note that this does
+not mean successfully received, if we can't get through to the user after a timeout of 20 seconds,
+then an error will be posted via the
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionConnectFail_t"
+    class="bb_apilink"
+    >P2PSessionConnectFail_t</a
 >
 callback.<br /><br /><strong>false</strong> upon the following conditions:<br />
-<ul class="bb_ul">
-  <li>The packet is too large for the send type.<br /></li>
-  <li>The target Steam ID is not valid.<br /></li>
-  <li>There are too many bytes queued up to be sent.</li>
+<ul class="bb_ul ">
+    <li>The packet is too large for the send type.<br /></li>
+    <li>The target Steam ID is not valid.<br /></li>
+    <li>There are too many bytes queued up to be sent.</li>
 </ul>
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
-  class="bb_apilink"
-  >SteamAPI_RunCallbacks</a
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
+    >SteamAPI_RunCallbacks</a
 >. Many of these will be fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamNetworking</code>.
-<h2 class="bb_subsection">
-  <a name="P2PSessionConnectFail_t"></a>P2PSessionConnectFail_t
-</h2>
-Called when packets can't get through to the specified user.<br />All queued
-packets unsent at this point will be dropped, further attempts to send will
-retry making the connection (but will be dropped if we fail again).<br /><br />
+<h2 class="bb_subsection"><a name="P2PSessionConnectFail_t"></a>P2PSessionConnectFail_t</h2>
+Called when packets can't get through to the specified user.<br />All queued packets unsent at this
+point will be dropped, further attempts to send will retry making the connection (but will be
+dropped if we fail again).<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>m_steamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-    </td>
-    <td>User we were trying to send the packets to.</td>
-  </tr>
-  <tr>
-    <td><strong>m_eP2PSessionError</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
-        class="bb_apilink"
-        >uint8</a
-      >
-    </td>
-    <td>
-      Indicates the reason why we're having trouble. Actually a
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#EP2PSessionError"
-        class="bb_apilink"
-        >EP2PSessionError</a
-      >.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_steamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>User we were trying to send the packets to.</td>
+    </tr>
+    <tr>
+        <td><strong>m_eP2PSessionError</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint8" class="bb_apilink"
+                >uint8</a
+            >
+        </td>
+        <td>
+            Indicates the reason why we're having trouble. Actually a
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#EP2PSessionError"
+                class="bb_apilink"
+                >EP2PSessionError</a
+            >.
+        </td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="P2PSessionRequest_t"></a>P2PSessionRequest_t
-</h2>
+
+<h2 class="bb_subsection"><a name="P2PSessionRequest_t"></a>P2PSessionRequest_t</h2>
 A user wants to communicate with us over the P2P channel via the
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket"
-  class="bb_apilink"
-  >ISteamNetworking::SendP2PPacket</a
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket" class="bb_apilink"
+    >ISteamNetworking::SendP2PPacket</a
 >. In response, a call to
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#AcceptP2PSessionWithUser"
-  class="bb_apilink"
-  >ISteamNetworking::AcceptP2PSessionWithUser</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#AcceptP2PSessionWithUser"
+    class="bb_apilink"
+    >ISteamNetworking::AcceptP2PSessionWithUser</a
 >
 needs to be made, if you want to open the network channel with them.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>m_steamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-    </td>
-    <td>The user who wants to start a P2P session with us.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_steamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The user who wants to start a P2P session with us.</td>
+    </tr>
 </table>
+
 <br /><strong>Associated Functions:</strong>
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket"
-  class="bb_apilink"
-  >ISteamNetworking::SendP2PPacket</a
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket" class="bb_apilink"
+    >ISteamNetworking::SendP2PPacket</a
 >
-<h2 class="bb_subsection">
-  <a name="SocketStatusCallback_t"></a>SocketStatusCallback_t
-</h2>
+<h2 class="bb_subsection"><a name="SocketStatusCallback_t"></a>SocketStatusCallback_t</h2>
 Called when the status of a socket has changed, used as part of the
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#CreateListenSocket"
-  class="bb_apilink"
-  >ISteamNetworking::CreateListenSocket</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#CreateListenSocket"
+    class="bb_apilink"
+    >ISteamNetworking::CreateListenSocket</a
 >
 and
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#CreateP2PConnectionSocket"
-  class="bb_apilink"
-  >ISteamNetworking::CreateP2PConnectionSocket</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#CreateP2PConnectionSocket"
+    class="bb_apilink"
+    >ISteamNetworking::CreateP2PConnectionSocket</a
 >
-calls.<br /><br />This is part of an older set of functions designed around the
-Berkeley TCP sockets model. It's preferential that you use the P2P functions,
-they're more robust and these older functions will be removed eventually.<br /><br />
+calls.<br /><br />This is part of an older set of functions designed around the Berkeley TCP sockets
+model. It's preferential that you use the P2P functions, they're more robust and these older
+functions will be removed eventually.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>m_hSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
-        class="bb_apilink"
-        >SNetSocket_t</a
-      >
-    </td>
-    <td>the socket used to send/receive data to the remote host</td>
-  </tr>
-  <tr>
-    <td><strong>m_hListenSocket</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
-        class="bb_apilink"
-        >SNetListenSocket_t</a
-      >
-    </td>
-    <td>
-      this is the server socket that we were listening on; NULL if this was an
-      outgoing connection
-    </td>
-  </tr>
-  <tr>
-    <td><strong>m_steamIDRemote</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-        class="bb_apilink"
-        >CSteamID</a
-      >
-    </td>
-    <td>remote Steam ID we have connected to, if it has one</td>
-  </tr>
-  <tr>
-    <td><strong>m_eSNetSocketState</strong></td>
-    <td>int</td>
-    <td>socket state, ESNetSocketState</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_hSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetSocket_t"
+                class="bb_apilink"
+                >SNetSocket_t</a
+            >
+        </td>
+        <td>the socket used to send/receive data to the remote host</td>
+    </tr>
+    <tr>
+        <td><strong>m_hListenSocket</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#SNetListenSocket_t"
+                class="bb_apilink"
+                >SNetListenSocket_t</a
+            >
+        </td>
+        <td>
+            this is the server socket that we were listening on; NULL if this was an outgoing
+            connection
+        </td>
+    </tr>
+    <tr>
+        <td><strong>m_steamIDRemote</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>remote Steam ID we have connected to, if it has one</td>
+    </tr>
+    <tr>
+        <td><strong>m_eSNetSocketState</strong></td>
+        <td>int</td>
+        <td>socket state, ESNetSocketState</td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="structs"></a>Structs</h2>
-These are structs which functions in ISteamNetworking may return and/or interact
-with.
+These are structs which functions in ISteamNetworking may return and/or interact with.
 <h2 class="bb_subsection"><a name="P2PSessionState_t"></a>P2PSessionState_t</h2>
 Connection state to a specified user, returned by
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#GetP2PSessionState"
-  class="bb_apilink"
-  >ISteamNetworking::GetP2PSessionState</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#GetP2PSessionState"
+    class="bb_apilink"
+    >ISteamNetworking::GetP2PSessionState</a
 >. This is the under-the-hood info about what's going on with a previous call to
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket"
-  class="bb_apilink"
-  >ISteamNetworking::SendP2PPacket</a
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket" class="bb_apilink"
+    >ISteamNetworking::SendP2PPacket</a
 >. This typically shouldn't be needed except for debugging purposes.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>m_bConnectionActive</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
-        class="bb_apilink"
-        >uint8</a
-      >
-    </td>
-    <td>
-      Do we have an active open connection with the user (<strong>true</strong>)
-      or not (<strong>false</strong>)?
-    </td>
-  </tr>
-  <tr>
-    <td><strong>m_bConnecting</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
-        class="bb_apilink"
-        >uint8</a
-      >
-    </td>
-    <td>
-      Are we currently trying to establish a connection with the user
-      (<strong>true</strong>) or not (<strong>false</strong>)?
-    </td>
-  </tr>
-  <tr>
-    <td><strong>m_eP2PSessionError</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
-        class="bb_apilink"
-        >uint8</a
-      >
-    </td>
-    <td>
-      Last error recorded on the socket. This returns a
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#EP2PSessionError"
-        class="bb_apilink"
-        >EP2PSessionError</a
-      >.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>m_bUsingRelay</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
-        class="bb_apilink"
-        >uint8</a
-      >
-    </td>
-    <td>
-      Is this connection going through a Steam relay server
-      (<strong>true</strong>) or not (<strong>false</strong>)?
-    </td>
-  </tr>
-  <tr>
-    <td><strong>m_nBytesQueuedForSend</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#int32"
-        class="bb_apilink"
-        >int32</a
-      >
-    </td>
-    <td>The number of bytes queued up to be sent to the user.</td>
-  </tr>
-  <tr>
-    <td><strong>m_nPacketsQueuedForSend</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#int32"
-        class="bb_apilink"
-        >int32</a
-      >
-    </td>
-    <td>The number of packets queued up to be sent to the user.</td>
-  </tr>
-  <tr>
-    <td><strong>m_nRemoteIP</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The IP of remote host if set. Could be a Steam relay server. This only
-      exists for compatibility with older authentication api's.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>m_nRemotePort</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint16"
-        class="bb_apilink"
-        >uint16</a
-      >
-    </td>
-    <td>
-      The Port of remote host if set. Could be a Steam relay server. This only
-      exists for compatibility with older authentication api's.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_bConnectionActive</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint8" class="bb_apilink"
+                >uint8</a
+            >
+        </td>
+        <td>
+            Do we have an active open connection with the user (<strong>true</strong>) or not
+            (<strong>false</strong>)?
+        </td>
+    </tr>
+    <tr>
+        <td><strong>m_bConnecting</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint8" class="bb_apilink"
+                >uint8</a
+            >
+        </td>
+        <td>
+            Are we currently trying to establish a connection with the user (<strong>true</strong>)
+            or not (<strong>false</strong>)?
+        </td>
+    </tr>
+    <tr>
+        <td><strong>m_eP2PSessionError</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint8" class="bb_apilink"
+                >uint8</a
+            >
+        </td>
+        <td>
+            Last error recorded on the socket. This returns a
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#EP2PSessionError"
+                class="bb_apilink"
+                >EP2PSessionError</a
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>m_bUsingRelay</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint8" class="bb_apilink"
+                >uint8</a
+            >
+        </td>
+        <td>
+            Is this connection going through a Steam relay server (<strong>true</strong>) or not
+            (<strong>false</strong>)?
+        </td>
+    </tr>
+    <tr>
+        <td><strong>m_nBytesQueuedForSend</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink"
+                >int32</a
+            >
+        </td>
+        <td>The number of bytes queued up to be sent to the user.</td>
+    </tr>
+    <tr>
+        <td><strong>m_nPacketsQueuedForSend</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink"
+                >int32</a
+            >
+        </td>
+        <td>The number of packets queued up to be sent to the user.</td>
+    </tr>
+    <tr>
+        <td><strong>m_nRemoteIP</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The IP of remote host if set. Could be a Steam relay server. This only exists for
+            compatibility with older authentication api's.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>m_nRemotePort</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
+                >uint16</a
+            >
+        </td>
+        <td>
+            The Port of remote host if set. Could be a Steam relay server. This only exists for
+            compatibility with older authentication api's.
+        </td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamNetworking.
 <h2 class="bb_subsection"><a name="EP2PSend"></a>EP2PSend</h2>
 Specifies the send type of
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket"
-  class="bb_apilink"
-  >ISteamNetworking::SendP2PPacket</a
->.<br />Typically
-<code class="bb_code bb_code_inline nohighlight">k_EP2PSendUnreliable</code> is
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket" class="bb_apilink"
+    >ISteamNetworking::SendP2PPacket</a
+>.<br />Typically <code class="bb_code bb_code_inline nohighlight">k_EP2PSendUnreliable</code> is
 what you want for UDP-like packets,
-<code class="bb_code bb_code_inline nohighlight">k_EP2PSendReliable</code> for
-TCP-like packets<br /><br />
+<code class="bb_code bb_code_inline nohighlight">k_EP2PSendReliable</code> for TCP-like packets<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="k_EP2PSendUnreliable">
-    <td><strong>k_EP2PSendUnreliable</strong></td>
-    <td>0</td>
-    <td>
-      Basic UDP send. Packets can't be bigger than 1200 bytes (your typical MTU
-      size). Can be lost, or arrive out of order (rare).<br />The sending API
-      does have some knowledge of the underlying connection, so if there is no
-      NAT-traversal accomplished or there is a recognized adjustment happening
-      on the connection, the packet will be batched until the connection is open
-      again.
-    </td>
-  </tr>
-  <tr id="k_EP2PSendUnreliableNoDelay">
-    <td><strong>k_EP2PSendUnreliableNoDelay</strong></td>
-    <td>1</td>
-    <td>
-      As above, but if the underlying P2P connection isn't yet established the
-      packet will just be thrown away. Using this on the first packet sent to a
-      remote host almost guarantees the packet will be dropped.<br />This is
-      only really useful for kinds of data that should never buffer up, i.e.
-      voice payload packets
-    </td>
-  </tr>
-  <tr id="k_EP2PSendReliable">
-    <td><strong>k_EP2PSendReliable</strong></td>
-    <td>2</td>
-    <td>
-      Reliable message send. Can send up to 1MB of data in a single message.<br />Does
-      fragmentation/re-assembly of messages under the hood, as well as a sliding
-      window for efficient sends of large chunks of data.
-    </td>
-  </tr>
-  <tr id="k_EP2PSendReliableWithBuffering">
-    <td><strong>k_EP2PSendReliableWithBuffering</strong></td>
-    <td>3</td>
-    <td>
-      As above, but applies the Nagle algorithm to the send - sends will
-      accumulate until the current MTU size (typically ~1200 bytes, but can
-      change) or ~200ms has passed (Nagle algorithm).<br />This is useful if you
-      want to send a set of smaller messages but have the coalesced into a
-      single packet.<br />Since the reliable stream is all ordered, you can do
-      several small message sends with
-      <code class="bb_code bb_code_inline nohighlight"
-        >k_EP2PSendReliableWithBuffering</code
-      >
-      and then do a normal k_EP2PSendReliable to force all the buffered data to
-      be sent.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_EP2PSendUnreliable">
+        <td><strong>k_EP2PSendUnreliable</strong></td>
+        <td>0</td>
+        <td>
+            Basic UDP send. Packets can't be bigger than 1200 bytes (your typical MTU size). Can be
+            lost, or arrive out of order (rare).<br />The sending API does have some knowledge of
+            the underlying connection, so if there is no NAT-traversal accomplished or there is a
+            recognized adjustment happening on the connection, the packet will be batched until the
+            connection is open again.
+        </td>
+    </tr>
+    <tr id="k_EP2PSendUnreliableNoDelay">
+        <td><strong>k_EP2PSendUnreliableNoDelay</strong></td>
+        <td>1</td>
+        <td>
+            As above, but if the underlying P2P connection isn't yet established the packet will
+            just be thrown away. Using this on the first packet sent to a remote host almost
+            guarantees the packet will be dropped.<br />This is only really useful for kinds of data
+            that should never buffer up, i.e. voice payload packets
+        </td>
+    </tr>
+    <tr id="k_EP2PSendReliable">
+        <td><strong>k_EP2PSendReliable</strong></td>
+        <td>2</td>
+        <td>
+            Reliable message send. Can send up to 1MB of data in a single message.<br />Does
+            fragmentation/re-assembly of messages under the hood, as well as a sliding window for
+            efficient sends of large chunks of data.
+        </td>
+    </tr>
+    <tr id="k_EP2PSendReliableWithBuffering">
+        <td><strong>k_EP2PSendReliableWithBuffering</strong></td>
+        <td>3</td>
+        <td>
+            As above, but applies the Nagle algorithm to the send - sends will accumulate until the
+            current MTU size (typically ~1200 bytes, but can change) or ~200ms has passed (Nagle
+            algorithm).<br />This is useful if you want to send a set of smaller messages but have
+            the coalesced into a single packet.<br />Since the reliable stream is all ordered, you
+            can do several small message sends with
+            <code class="bb_code bb_code_inline nohighlight">k_EP2PSendReliableWithBuffering</code>
+            and then do a normal k_EP2PSendReliable to force all the buffered data to be sent.
+        </td>
+    </tr>
 </table>
+
 <h2 class="bb_subsection"><a name="EP2PSessionError"></a>EP2PSessionError</h2>
 List of possible errors returned by
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket"
-  class="bb_apilink"
-  >ISteamNetworking::SendP2PPacket</a
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworking#SendP2PPacket" class="bb_apilink"
+    >ISteamNetworking::SendP2PPacket</a
 >, these will be sent in the
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionConnectFail_t"
-  class="bb_apilink"
-  >P2PSessionConnectFail_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#P2PSessionConnectFail_t"
+    class="bb_apilink"
+    >P2PSessionConnectFail_t</a
 >
 callback.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="k_EP2PSessionErrorNone">
-    <td><strong>k_EP2PSessionErrorNone</strong></td>
-    <td>0</td>
-    <td>There was no error.</td>
-  </tr>
-  <tr id="k_EP2PSessionErrorNotRunningApp">
-    <td><strong>k_EP2PSessionErrorNotRunningApp</strong></td>
-    <td>1</td>
-    <td>The target user is not running the same game.</td>
-  </tr>
-  <tr id="k_EP2PSessionErrorNoRightsToApp">
-    <td><strong>k_EP2PSessionErrorNoRightsToApp</strong></td>
-    <td>2</td>
-    <td>The local user doesn't own the app that is running.</td>
-  </tr>
-  <tr id="k_EP2PSessionErrorDestinationNotLoggedIn">
-    <td><strong>k_EP2PSessionErrorDestinationNotLoggedIn</strong></td>
-    <td>3</td>
-    <td>Target user isn't connected to Steam.</td>
-  </tr>
-  <tr id="k_EP2PSessionErrorTimeout">
-    <td><strong>k_EP2PSessionErrorTimeout</strong></td>
-    <td>4</td>
-    <td>
-      The connection timed out because the target user didn't respond, perhaps
-      they aren't calling
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworking#AcceptP2PSessionWithUser"
-        class="bb_apilink"
-        >ISteamNetworking::AcceptP2PSessionWithUser</a
-      >.<br />Corporate firewalls can also block this (NAT traversal is not
-      firewall traversal), make sure that UDP ports 3478, 4379, and 4380 are
-      open in an outbound direction.
-    </td>
-  </tr>
-  <tr id="k_EP2PSessionErrorMax">
-    <td><strong>k_EP2PSessionErrorMax</strong></td>
-    <td>5</td>
-    <td>Unused.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_EP2PSessionErrorNone">
+        <td><strong>k_EP2PSessionErrorNone</strong></td>
+        <td>0</td>
+        <td>There was no error.</td>
+    </tr>
+    <tr id="k_EP2PSessionErrorNotRunningApp">
+        <td><strong>k_EP2PSessionErrorNotRunningApp</strong></td>
+        <td>1</td>
+        <td>The target user is not running the same game.</td>
+    </tr>
+    <tr id="k_EP2PSessionErrorNoRightsToApp">
+        <td><strong>k_EP2PSessionErrorNoRightsToApp</strong></td>
+        <td>2</td>
+        <td>The local user doesn't own the app that is running.</td>
+    </tr>
+    <tr id="k_EP2PSessionErrorDestinationNotLoggedIn">
+        <td><strong>k_EP2PSessionErrorDestinationNotLoggedIn</strong></td>
+        <td>3</td>
+        <td>Target user isn't connected to Steam.</td>
+    </tr>
+    <tr id="k_EP2PSessionErrorTimeout">
+        <td><strong>k_EP2PSessionErrorTimeout</strong></td>
+        <td>4</td>
+        <td>
+            The connection timed out because the target user didn't respond, perhaps they aren't
+            calling
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamNetworking#AcceptP2PSessionWithUser"
+                class="bb_apilink"
+                >ISteamNetworking::AcceptP2PSessionWithUser</a
+            >.<br />Corporate firewalls can also block this (NAT traversal is not firewall
+            traversal), make sure that UDP ports 3478, 4379, and 4380 are open in an outbound
+            direction.
+        </td>
+    </tr>
+    <tr id="k_EP2PSessionErrorMax">
+        <td><strong>k_EP2PSessionErrorMax</strong></td>
+        <td>5</td>
+        <td>Unused.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="ESNetSocketConnectionType"></a>ESNetSocketConnectionType
-</h2>
-Describes how the socket is currently connected. Only used by the old networking
-API.<br /><br />
+
+<h2 class="bb_subsection"><a name="ESNetSocketConnectionType"></a>ESNetSocketConnectionType</h2>
+Describes how the socket is currently connected. Only used by the old networking API.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="k_ESNetSocketConnectionTypeNotConnected">
-    <td><strong>k_ESNetSocketConnectionTypeNotConnected</strong></td>
-    <td>0</td>
-    <td></td>
-  </tr>
-  <tr id="k_ESNetSocketConnectionTypeUDP">
-    <td><strong>k_ESNetSocketConnectionTypeUDP</strong></td>
-    <td>1</td>
-    <td></td>
-  </tr>
-  <tr id="k_ESNetSocketConnectionTypeUDPRelay">
-    <td><strong>k_ESNetSocketConnectionTypeUDPRelay</strong></td>
-    <td>2</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_ESNetSocketConnectionTypeNotConnected">
+        <td><strong>k_ESNetSocketConnectionTypeNotConnected</strong></td>
+        <td>0</td>
+        <td></td>
+    </tr>
+    <tr id="k_ESNetSocketConnectionTypeUDP">
+        <td><strong>k_ESNetSocketConnectionTypeUDP</strong></td>
+        <td>1</td>
+        <td></td>
+    </tr>
+    <tr id="k_ESNetSocketConnectionTypeUDPRelay">
+        <td><strong>k_ESNetSocketConnectionTypeUDPRelay</strong></td>
+        <td>2</td>
+        <td></td>
+    </tr>
 </table>
+
 <h2 class="bb_subsection"><a name="ESNetSocketState"></a>ESNetSocketState</h2>
 Connection progress indicators, used by
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamNetworking#CreateP2PConnectionSocket"
-  class="bb_apilink"
-  >ISteamNetworking::CreateP2PConnectionSocket</a
+    href="https://partner.steamgames.com/doc/api/ISteamNetworking#CreateP2PConnectionSocket"
+    class="bb_apilink"
+    >ISteamNetworking::CreateP2PConnectionSocket</a
 >.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="k_ESNetSocketStateInvalid">
-    <td><strong>k_ESNetSocketStateInvalid</strong></td>
-    <td>0</td>
-    <td></td>
-  </tr>
-  <tr id="k_ESNetSocketStateConnected">
-    <td><strong>k_ESNetSocketStateConnected</strong></td>
-    <td>1</td>
-    <td>communication is valid</td>
-  </tr>
-  <tr id="k_ESNetSocketStateInitiated">
-    <td><strong>k_ESNetSocketStateInitiated</strong></td>
-    <td>10</td>
-    <td>
-      states while establishing a connection<br />the connection state machine
-      has started
-    </td>
-  </tr>
-  <tr id="k_ESNetSocketStateLocalCandidatesFound">
-    <td><strong>k_ESNetSocketStateLocalCandidatesFound</strong></td>
-    <td>11</td>
-    <td>p2p connections<br />we've found our local IP info</td>
-  </tr>
-  <tr id="k_ESNetSocketStateReceivedRemoteCandidates">
-    <td><strong>k_ESNetSocketStateReceivedRemoteCandidates</strong></td>
-    <td>12</td>
-    <td>
-      we've received information from the remote machine, via the Steam
-      back-end, about their IP info
-    </td>
-  </tr>
-  <tr id="k_ESNetSocketStateChallengeHandshake">
-    <td><strong>k_ESNetSocketStateChallengeHandshake</strong></td>
-    <td>15</td>
-    <td>
-      direct connections<br />we've received a challenge packet from the server
-    </td>
-  </tr>
-  <tr id="k_ESNetSocketStateDisconnecting">
-    <td><strong>k_ESNetSocketStateDisconnecting</strong></td>
-    <td>21</td>
-    <td>
-      failure states<br />the API shut it down, and we're in the process of
-      telling the other end
-    </td>
-  </tr>
-  <tr id="k_ESNetSocketStateLocalDisconnect">
-    <td><strong>k_ESNetSocketStateLocalDisconnect</strong></td>
-    <td>22</td>
-    <td>the API shut it down, and we've completed shutdown</td>
-  </tr>
-  <tr id="k_ESNetSocketStateTimeoutDuringConnect">
-    <td><strong>k_ESNetSocketStateTimeoutDuringConnect</strong></td>
-    <td>23</td>
-    <td>we timed out while trying to creating the connection</td>
-  </tr>
-  <tr id="k_ESNetSocketStateRemoteEndDisconnected">
-    <td><strong>k_ESNetSocketStateRemoteEndDisconnected</strong></td>
-    <td>24</td>
-    <td>the remote end has disconnected from us</td>
-  </tr>
-  <tr id="k_ESNetSocketStateConnectionBroken">
-    <td><strong>k_ESNetSocketStateConnectionBroken</strong></td>
-    <td>25</td>
-    <td>
-      connection has been broken; either the other end has disappeared or our
-      local network connection has broke
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_ESNetSocketStateInvalid">
+        <td><strong>k_ESNetSocketStateInvalid</strong></td>
+        <td>0</td>
+        <td></td>
+    </tr>
+    <tr id="k_ESNetSocketStateConnected">
+        <td><strong>k_ESNetSocketStateConnected</strong></td>
+        <td>1</td>
+        <td>communication is valid</td>
+    </tr>
+    <tr id="k_ESNetSocketStateInitiated">
+        <td><strong>k_ESNetSocketStateInitiated</strong></td>
+        <td>10</td>
+        <td>
+            states while establishing a connection<br />the connection state machine has started
+        </td>
+    </tr>
+    <tr id="k_ESNetSocketStateLocalCandidatesFound">
+        <td><strong>k_ESNetSocketStateLocalCandidatesFound</strong></td>
+        <td>11</td>
+        <td>p2p connections<br />we've found our local IP info</td>
+    </tr>
+    <tr id="k_ESNetSocketStateReceivedRemoteCandidates">
+        <td><strong>k_ESNetSocketStateReceivedRemoteCandidates</strong></td>
+        <td>12</td>
+        <td>
+            we've received information from the remote machine, via the Steam back-end, about their
+            IP info
+        </td>
+    </tr>
+    <tr id="k_ESNetSocketStateChallengeHandshake">
+        <td><strong>k_ESNetSocketStateChallengeHandshake</strong></td>
+        <td>15</td>
+        <td>direct connections<br />we've received a challenge packet from the server</td>
+    </tr>
+    <tr id="k_ESNetSocketStateDisconnecting">
+        <td><strong>k_ESNetSocketStateDisconnecting</strong></td>
+        <td>21</td>
+        <td>
+            failure states<br />the API shut it down, and we're in the process of telling the other
+            end
+        </td>
+    </tr>
+    <tr id="k_ESNetSocketStateLocalDisconnect">
+        <td><strong>k_ESNetSocketStateLocalDisconnect</strong></td>
+        <td>22</td>
+        <td>the API shut it down, and we've completed shutdown</td>
+    </tr>
+    <tr id="k_ESNetSocketStateTimeoutDuringConnect">
+        <td><strong>k_ESNetSocketStateTimeoutDuringConnect</strong></td>
+        <td>23</td>
+        <td>we timed out while trying to creating the connection</td>
+    </tr>
+    <tr id="k_ESNetSocketStateRemoteEndDisconnected">
+        <td><strong>k_ESNetSocketStateRemoteEndDisconnected</strong></td>
+        <td>24</td>
+        <td>the remote end has disconnected from us</td>
+    </tr>
+    <tr id="k_ESNetSocketStateConnectionBroken">
+        <td><strong>k_ESNetSocketStateConnectionBroken</strong></td>
+        <td>25</td>
+        <td>
+            connection has been broken; either the other end has disappeared or our local network
+            connection has broke
+        </td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
 These are typedefs which are defined for use with ISteamNetworking.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Base type</th>
-    <th>Description</th>
-  </tr>
-  <tr id="SNetListenSocket_t">
-    <td><strong>SNetListenSocket_t</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>CreateListenSocket()</td>
-  </tr>
-  <tr id="SNetSocket_t">
-    <td><strong>SNetSocket_t</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>handle to a socket<br />CreateP2PConnectionSocket()</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Base type</th>
+        <th>Description</th>
+    </tr>
+    <tr id="SNetListenSocket_t">
+        <td><strong>SNetListenSocket_t</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>CreateListenSocket()</td>
+    </tr>
+    <tr id="SNetSocket_t">
+        <td><strong>SNetSocket_t</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>handle to a socket<br />CreateP2PConnectionSocket()</td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamNetworking.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="STEAMNETWORKING_INTERFACE_VERSION">
-    <td><strong>STEAMNETWORKING_INTERFACE_VERSION</strong></td>
-    <td>const char *</td>
-    <td>"SteamNetworking005"</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="STEAMNETWORKING_INTERFACE_VERSION">
+        <td><strong>STEAMNETWORKING_INTERFACE_VERSION</strong></td>
+        <td>const char *</td>
+        <td>"SteamNetworking005"</td>
+        <td></td>
+    </tr>
 </table>

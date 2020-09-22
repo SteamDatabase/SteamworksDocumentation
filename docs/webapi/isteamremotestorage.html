@@ -1,332 +1,307 @@
 <h1>ISteamRemoteStorage Interface</h1>
 Primary interface for interacting with the
-<a
-  href="https://partner.steamgames.com/doc/features/workshop"
-  class="bb_doclink"
-  >Steam Workshop</a
->
+<a href="https://partner.steamgames.com/doc/features/workshop" class="bb_doclink">Steam Workshop</a>
 and User Generated Content (UGC).<br /><br />See
-<a
-  href="https://partner.steamgames.com/doc/webapi/IPublishedFileService"
-  class="bb_apilink"
-  >IPublishedFileService</a
+<a href="https://partner.steamgames.com/doc/webapi/IPublishedFileService" class="bb_apilink"
+    >IPublishedFileService</a
 >,
-<a
-  href="https://partner.steamgames.com/doc/webapi/IWorkshopService"
-  class="bb_apilink"
-  >IWorkshopService</a
+<a href="https://partner.steamgames.com/doc/webapi/IWorkshopService" class="bb_apilink"
+    >IWorkshopService</a
 >,
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamPublishedItemSearch"
-  class="bb_apilink"
-  >ISteamPublishedItemSearch</a
+<a href="https://partner.steamgames.com/doc/webapi/ISteamPublishedItemSearch" class="bb_apilink"
+    >ISteamPublishedItemSearch</a
 >, and
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamPublishedItemVoting"
-  class="bb_apilink"
-  >ISteamPublishedItemVoting</a
+<a href="https://partner.steamgames.com/doc/webapi/ISteamPublishedItemVoting" class="bb_apilink"
+    >ISteamPublishedItemVoting</a
 >
-for additional Workshop and UGC related methods.<br /><br />For more info on how
-to use the Steamworks Web API please see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
-  >Web API Overview</a
+for additional Workshop and UGC related methods.<br /><br />For more info on how to use the
+Steamworks Web API please see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
 >.
-<h2 class="bb_section">
-  <a name="EnumerateUserPublishedFiles"></a>EnumerateUserPublishedFiles
-</h2>
+<h2 class="bb_section"><a name="EnumerateUserPublishedFiles"></a>EnumerateUserPublishedFiles</h2>
 <div class="bb_code http">
-  POST
-  https://partner.steam-api.com/ISteamRemoteStorage/EnumerateUserPublishedFiles/v1/
+    POST https://partner.steam-api.com/ISteamRemoteStorage/EnumerateUserPublishedFiles/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>SteamID of user</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>appID of product</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>SteamID of user</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>appID of product</td>
+    </tr>
 </table>
-<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
-to use this method. As such this API <strong>MUST</strong> be called from a
-secure server, and can never be used directly by clients!
-<h2 class="bb_section">
-  <a name="EnumerateUserSubscribedFiles"></a>EnumerateUserSubscribedFiles
-</h2>
+
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this method.
+As such this API <strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section"><a name="EnumerateUserSubscribedFiles"></a>EnumerateUserSubscribedFiles</h2>
 <div class="bb_code http">
-  POST
-  https://partner.steam-api.com/ISteamRemoteStorage/EnumerateUserSubscribedFiles/v1/
+    POST https://partner.steam-api.com/ISteamRemoteStorage/EnumerateUserSubscribedFiles/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>SteamID of user</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>appID of product</td>
-  </tr>
-  <tr>
-    <td><strong>listtype</strong></td>
-    <td>uint32</td>
-    <td></td>
-    <td>EUCMListType</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>SteamID of user</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>appID of product</td>
+    </tr>
+    <tr>
+        <td><strong>listtype</strong></td>
+        <td>uint32</td>
+        <td></td>
+        <td>EUCMListType</td>
+    </tr>
 </table>
-<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
-to use this method. As such this API <strong>MUST</strong> be called from a
-secure server, and can never be used directly by clients!
-<h2 class="bb_section">
-  <a name="GetCollectionDetails"></a>GetCollectionDetails
-</h2>
+
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this method.
+As such this API <strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section"><a name="GetCollectionDetails"></a>GetCollectionDetails</h2>
 <div class="bb_code http">
-  POST https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/
+    POST https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>collectioncount</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>Number of collections being requested</td>
-  </tr>
-  <tr>
-    <td><strong>publishedfileids[0]</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>collection ids to get the details for</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>collectioncount</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>Number of collections being requested</td>
+    </tr>
+    <tr>
+        <td><strong>publishedfileids[0]</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>collection ids to get the details for</td>
+    </tr>
 </table>
-<h2 class="bb_section">
-  <a name="GetPublishedFileDetails"></a>GetPublishedFileDetails
-</h2>
+
+<h2 class="bb_section"><a name="GetPublishedFileDetails"></a>GetPublishedFileDetails</h2>
 <div class="bb_code http">
-  POST
-  https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/
+    POST https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>itemcount</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>Number of items being requested</td>
-  </tr>
-  <tr>
-    <td><strong>publishedfileids[0]</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>published file id to look up</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>itemcount</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>Number of items being requested</td>
+    </tr>
+    <tr>
+        <td><strong>publishedfileids[0]</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>published file id to look up</td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="GetUGCFileDetails"></a>GetUGCFileDetails</h2>
 <div class="bb_code http">
-  GET https://api.steampowered.com/ISteamRemoteStorage/GetUGCFileDetails/v1/
+    GET https://api.steampowered.com/ISteamRemoteStorage/GetUGCFileDetails/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td></td>
-    <td>
-      If specified, only returns details if the file is owned by the SteamID
-      specified
-    </td>
-  </tr>
-  <tr>
-    <td><strong>ugcid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>ID of UGC file to get info for</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>appID of product</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td></td>
+        <td>If specified, only returns details if the file is owned by the SteamID specified</td>
+    </tr>
+    <tr>
+        <td><strong>ugcid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>ID of UGC file to get info for</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>appID of product</td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="SetUGCUsedByGC"></a>SetUGCUsedByGC</h2>
 <div class="bb_code http">
-  POST https://partner.steam-api.com/ISteamRemoteStorage/SetUGCUsedByGC/v1/
+    POST https://partner.steam-api.com/ISteamRemoteStorage/SetUGCUsedByGC/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>SteamID of user</td>
-  </tr>
-  <tr>
-    <td><strong>ugcid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>ID of UGC file whose bits are being fiddled with</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>appID of product to change updating state for</td>
-  </tr>
-  <tr>
-    <td><strong>used</strong></td>
-    <td>bool</td>
-    <td>✔</td>
-    <td>New state of flag</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>SteamID of user</td>
+    </tr>
+    <tr>
+        <td><strong>ugcid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>ID of UGC file whose bits are being fiddled with</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>appID of product to change updating state for</td>
+    </tr>
+    <tr>
+        <td><strong>used</strong></td>
+        <td>bool</td>
+        <td>✔</td>
+        <td>New state of flag</td>
+    </tr>
 </table>
-<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
-to use this method. As such this API <strong>MUST</strong> be called from a
-secure server, and can never be used directly by clients!
-<h2 class="bb_section">
-  <a name="SubscribePublishedFile"></a>SubscribePublishedFile
-</h2>
+
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this method.
+As such this API <strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section"><a name="SubscribePublishedFile"></a>SubscribePublishedFile</h2>
 <div class="bb_code http">
-  POST
-  https://partner.steam-api.com/ISteamRemoteStorage/SubscribePublishedFile/v1/
+    POST https://partner.steam-api.com/ISteamRemoteStorage/SubscribePublishedFile/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>SteamID of user</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>appID of product</td>
-  </tr>
-  <tr>
-    <td><strong>publishedfileid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>published file id to subscribe to</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>SteamID of user</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>appID of product</td>
+    </tr>
+    <tr>
+        <td><strong>publishedfileid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>published file id to subscribe to</td>
+    </tr>
 </table>
-<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
-to use this method. As such this API <strong>MUST</strong> be called from a
-secure server, and can never be used directly by clients!
-<h2 class="bb_section">
-  <a name="UnsubscribePublishedFile"></a>UnsubscribePublishedFile
-</h2>
+
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this method.
+As such this API <strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section"><a name="UnsubscribePublishedFile"></a>UnsubscribePublishedFile</h2>
 <div class="bb_code http">
-  POST
-  https://partner.steam-api.com/ISteamRemoteStorage/UnsubscribePublishedFile/v1/
+    POST https://partner.steam-api.com/ISteamRemoteStorage/UnsubscribePublishedFile/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>SteamID of user</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>appID of product</td>
-  </tr>
-  <tr>
-    <td><strong>publishedfileid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>published file id to unsubscribe from</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>SteamID of user</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>appID of product</td>
+    </tr>
+    <tr>
+        <td><strong>publishedfileid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>published file id to unsubscribe from</td>
+    </tr>
 </table>
-<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
-to use this method. As such this API <strong>MUST</strong> be called from a
-secure server, and can never be used directly by clients!
+
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this method.
+As such this API <strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!

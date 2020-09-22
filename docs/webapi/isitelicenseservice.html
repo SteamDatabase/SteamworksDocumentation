@@ -1,303 +1,300 @@
 <h1>ISiteLicenseService Interface</h1>
-Provides access to services related to operating sites which are part of the
-Steam PC Cafe program.
-<h2 class="bb_section">
-  <a name="GetCurrentClientConnections"></a>GetCurrentClientConnections
-</h2>
+Provides access to services related to operating sites which are part of the Steam PC Cafe program.
+<h2 class="bb_section"><a name="GetCurrentClientConnections"></a>GetCurrentClientConnections</h2>
 <div class="bb_code http">
-  GET
-  https://api.steampowered.com/ISiteLicenseService/GetCurrentClientConnections/v1/
+    GET https://api.steampowered.com/ISiteLicenseService/GetCurrentClientConnections/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key</td>
-  </tr>
-  <tr>
-    <td><strong>siteid</strong></td>
-    <td>uint64</td>
-    <td></td>
-    <td>Site ID to see; zero for all sites</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key</td>
+    </tr>
+    <tr>
+        <td><strong>siteid</strong></td>
+        <td>uint64</td>
+        <td></td>
+        <td>Site ID to see; zero for all sites</td>
+    </tr>
 </table>
-<br />See current activity at one or more sites. <br /><br />The response has
-the following structure:<br /><br />
+
+<br />See current activity at one or more sites. <br /><br />The response has the following
+structure:<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>sites</strong></td>
-    <td>see below</td>
-    <td>A list of site details</td>
-  </tr>
-  <tr>
-    <td><strong>game_names</strong></td>
-    <td>see below</td>
-    <td>Mapped list of game names.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>sites</strong></td>
+        <td>see below</td>
+        <td>A list of site details</td>
+    </tr>
+    <tr>
+        <td><strong>game_names</strong></td>
+        <td>see below</td>
+        <td>Mapped list of game names.</td>
+    </tr>
 </table>
-<br /><code class="bb_code bb_code_inline nohighlight">game_names</code> has the
-following structure:<br /><br />
+
+<br /><code class="bb_code bb_code_inline nohighlight">game_names</code> has the following
+structure:<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>id</strong></td>
-    <td>uint32</td>
-    <td>ID number of entry; referenced in site info below</td>
-  </tr>
-  <tr>
-    <td><strong>name</strong></td>
-    <td>string</td>
-    <td>Game name</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>id</strong></td>
+        <td>uint32</td>
+        <td>ID number of entry; referenced in site info below</td>
+    </tr>
+    <tr>
+        <td><strong>name</strong></td>
+        <td>string</td>
+        <td>Game name</td>
+    </tr>
 </table>
-<br /><code class="bb_code bb_code_inline nohighlight">sites</code> has the
-following structure:<br /><br />
+
+<br /><code class="bb_code bb_code_inline nohighlight">sites</code> has the following structure:<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>siteid</strong></td>
-    <td>uint64</td>
-    <td>64-bit SiteID of the site</td>
-  </tr>
-  <tr>
-    <td><strong>site_name</strong></td>
-    <td>string</td>
-    <td>Site name you have assigned to the site</td>
-  </tr>
-  <tr>
-    <td><strong>clients</strong></td>
-    <td>see below</td>
-    <td>list of active clients at the site</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>siteid</strong></td>
+        <td>uint64</td>
+        <td>64-bit SiteID of the site</td>
+    </tr>
+    <tr>
+        <td><strong>site_name</strong></td>
+        <td>string</td>
+        <td>Site name you have assigned to the site</td>
+    </tr>
+    <tr>
+        <td><strong>clients</strong></td>
+        <td>see below</td>
+        <td>list of active clients at the site</td>
+    </tr>
 </table>
-<br /><code class="bb_code bb_code_inline nohighlight">clients</code> has the
-following structure:<br /><br />
+
+<br /><code class="bb_code bb_code_inline nohighlight">clients</code> has the following
+structure:<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>ip_address</strong></td>
-    <td>string</td>
-    <td>IP address of client computer</td>
-  </tr>
-  <tr>
-    <td><strong>hostname</strong></td>
-    <td>string</td>
-    <td>machine name of client computer</td>
-  </tr>
-  <tr>
-    <td><strong>games</strong></td>
-    <td>see below</td>
-    <td>list of active game sessions on the client computer</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>ip_address</strong></td>
+        <td>string</td>
+        <td>IP address of client computer</td>
+    </tr>
+    <tr>
+        <td><strong>hostname</strong></td>
+        <td>string</td>
+        <td>machine name of client computer</td>
+    </tr>
+    <tr>
+        <td><strong>games</strong></td>
+        <td>see below</td>
+        <td>list of active game sessions on the client computer</td>
+    </tr>
 </table>
-<br /><code class="bb_code bb_code_inline nohighlight">games</code> has the
-following structure:<br /><br />
+
+<br /><code class="bb_code bb_code_inline nohighlight">games</code> has the following structure:<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>id</strong></td>
-    <td>uint32</td>
-    <td>
-      ID of game in the
-      <code class="bb_code bb_code_inline nohighlight">game_names</code> section
-      of the response
-    </td>
-  </tr>
-  <tr>
-    <td><strong>start_time</strong></td>
-    <td>string</td>
-    <td>time this game session started (RFC 3339 UTC format)</td>
-  </tr>
-  <tr>
-    <td><strong>license_type</strong></td>
-    <td>string</td>
-    <td>see below</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>id</strong></td>
+        <td>uint32</td>
+        <td>
+            ID of game in the
+            <code class="bb_code bb_code_inline nohighlight">game_names</code> section of the
+            response
+        </td>
+    </tr>
+    <tr>
+        <td><strong>start_time</strong></td>
+        <td>string</td>
+        <td>time this game session started (RFC 3339 UTC format)</td>
+    </tr>
+    <tr>
+        <td><strong>license_type</strong></td>
+        <td>string</td>
+        <td>see below</td>
+    </tr>
 </table>
-<br /><code class="bb_code bb_code_inline nohighlight">license_type</code> may
-have one of the following values:<br /><br />
+
+<br /><code class="bb_code bb_code_inline nohighlight">license_type</code> may have one of the
+following values:<br /><br />
 <table>
-  <tr>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>user</strong></td>
-    <td>The user owns a license for the game</td>
-  </tr>
-  <tr>
-    <td><strong>commercial</strong></td>
-    <td>
-      The user is playing via a paid commercial license applied to the site
-    </td>
-  </tr>
-  <tr>
-    <td><strong>free</strong></td>
-    <td>
-      The user is playing via a free commercial license applied to the site
-    </td>
-  </tr>
+    <tr>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>user</strong></td>
+        <td>The user owns a license for the game</td>
+    </tr>
+    <tr>
+        <td><strong>commercial</strong></td>
+        <td>The user is playing via a paid commercial license applied to the site</td>
+    </tr>
+    <tr>
+        <td><strong>free</strong></td>
+        <td>The user is playing via a free commercial license applied to the site</td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="GetTotalPlaytime"></a>GetTotalPlaytime</h2>
 <div class="bb_code http">
-  GET https://api.steampowered.com/ISiteLicenseService/GetTotalPlaytime/v1/
+    GET https://api.steampowered.com/ISiteLicenseService/GetTotalPlaytime/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key</td>
-  </tr>
-  <tr>
-    <td><strong>start_time</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      Report activity starting on or after this time. RFC 3339 UTC format.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>end_time</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Report activity starting before this time. RFC 3339 UTC format.</td>
-  </tr>
-  <tr>
-    <td><strong>siteid</strong></td>
-    <td>uint64</td>
-    <td></td>
-    <td>Site ID to see; zero for all sites</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key</td>
+    </tr>
+    <tr>
+        <td><strong>start_time</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Report activity starting on or after this time. RFC 3339 UTC format.</td>
+    </tr>
+    <tr>
+        <td><strong>end_time</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Report activity starting before this time. RFC 3339 UTC format.</td>
+    </tr>
+    <tr>
+        <td><strong>siteid</strong></td>
+        <td>uint64</td>
+        <td></td>
+        <td>Site ID to see; zero for all sites</td>
+    </tr>
 </table>
-<br />Get total playtime amounts for all games over a period of time; for one or
-all sites.<br /><br />The response has the following structure:<br /><br />
+
+<br />Get total playtime amounts for all games over a period of time; for one or all sites.<br /><br />The
+response has the following structure:<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>sites</strong></td>
-    <td>see below</td>
-    <td>A list of site details</td>
-  </tr>
-  <tr>
-    <td><strong>game_names</strong></td>
-    <td>see below</td>
-    <td>Mapped list of game names.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>sites</strong></td>
+        <td>see below</td>
+        <td>A list of site details</td>
+    </tr>
+    <tr>
+        <td><strong>game_names</strong></td>
+        <td>see below</td>
+        <td>Mapped list of game names.</td>
+    </tr>
 </table>
-<br /><code class="bb_code bb_code_inline nohighlight">game_names</code> has the
-following structure:<br /><br />
+
+<br /><code class="bb_code bb_code_inline nohighlight">game_names</code> has the following
+structure:<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>id</strong></td>
-    <td>uint32</td>
-    <td>ID number of entry; referenced in site info below</td>
-  </tr>
-  <tr>
-    <td><strong>name</strong></td>
-    <td>string</td>
-    <td>Game name</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>id</strong></td>
+        <td>uint32</td>
+        <td>ID number of entry; referenced in site info below</td>
+    </tr>
+    <tr>
+        <td><strong>name</strong></td>
+        <td>string</td>
+        <td>Game name</td>
+    </tr>
 </table>
-<br /><code class="bb_code bb_code_inline nohighlight">sites</code> has the
-following structure:<br /><br />
+
+<br /><code class="bb_code bb_code_inline nohighlight">sites</code> has the following structure:<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>siteid</strong></td>
-    <td>uint64</td>
-    <td>64-bit SiteID of the site</td>
-  </tr>
-  <tr>
-    <td><strong>site_name</strong></td>
-    <td>string</td>
-    <td>Site name you have assigned to the site</td>
-  </tr>
-  <tr>
-    <td><strong>games</strong></td>
-    <td>see below</td>
-    <td>list of all game titles played</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>siteid</strong></td>
+        <td>uint64</td>
+        <td>64-bit SiteID of the site</td>
+    </tr>
+    <tr>
+        <td><strong>site_name</strong></td>
+        <td>string</td>
+        <td>Site name you have assigned to the site</td>
+    </tr>
+    <tr>
+        <td><strong>games</strong></td>
+        <td>see below</td>
+        <td>list of all game titles played</td>
+    </tr>
 </table>
-<br /><code class="bb_code bb_code_inline nohighlight">games</code> has the
-following structure:<br /><br />
+
+<br /><code class="bb_code bb_code_inline nohighlight">games</code> has the following structure:<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>id</strong></td>
-    <td>uint32</td>
-    <td>
-      ID of game in the
-      <code class="bb_code bb_code_inline nohighlight">game_names</code> section
-      of the response
-    </td>
-  </tr>
-  <tr>
-    <td><strong>license_type</strong></td>
-    <td>string</td>
-    <td>
-      Playtime is divided up for each game by the type of license used. See the
-      GetCurrentClientConnections section above for the list.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>playtime_seconds</strong></td>
-    <td>uint32</td>
-    <td>
-      total playtime for this game and license type, in seconds, for the
-      requested period.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>id</strong></td>
+        <td>uint32</td>
+        <td>
+            ID of game in the
+            <code class="bb_code bb_code_inline nohighlight">game_names</code> section of the
+            response
+        </td>
+    </tr>
+    <tr>
+        <td><strong>license_type</strong></td>
+        <td>string</td>
+        <td>
+            Playtime is divided up for each game by the type of license used. See the
+            GetCurrentClientConnections section above for the list.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>playtime_seconds</strong></td>
+        <td>uint32</td>
+        <td>
+            total playtime for this game and license type, in seconds, for the requested period.
+        </td>
+    </tr>
 </table>
+
 <br />

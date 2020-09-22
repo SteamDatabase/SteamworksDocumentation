@@ -1,150 +1,145 @@
 <h1>Steam Input</h1>
 <h2 class="bb_section"><a name="Overview"></a>Overview</h2>
-This is an in-depth handbook, reference manual, and general guide for using and
-configuring input devices via the Steam Input software. This includes the Steam
-controller and all third party devices supported by the system.<br /><br />This
-is <i>not</i> a detailed listing of methods used for interacting with the
-software from within your game. For that please see the
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamController"
-  class="bb_doclink"
-  >Steam Input API</a
+This is an in-depth handbook, reference manual, and general guide for using and configuring input
+devices via the Steam Input software. This includes the Steam controller and all third party devices
+supported by the system.<br /><br />This is <i>not</i> a detailed listing of methods used for
+interacting with the software from within your game. For that please see the
+<a href="https://partner.steamgames.com/doc/api/ISteamController" class="bb_doclink"
+    >Steam Input API</a
 >.
 <h2 class="bb_subsection"><a name="Background"></a>Background</h2>
-To set the stage, you might start by watching or reading this Steam Dev Days
-2016 presentation:<br /><br /><a
-  href="https://www.youtube.com/watch?v=7I4SiAiKqqk"
-  target="_blank"
-  rel="noreferrer"
-  id="dynamiclink_0"
-  >https://www.youtube.com/watch?v=7I4SiAiKqqk</a
+To set the stage, you might start by watching or reading this Steam Dev Days 2016 presentation:<br /><br /><a
+    href="https://www.youtube.com/watch?v=7I4SiAiKqqk"
+    target="_blank"
+    rel="noreferrer"
+    id="dynamiclink_0"
+    >https://www.youtube.com/watch?v=7I4SiAiKqqk</a
 ><br /><a
-  href="http://cdn.akamai.steamstatic.com/apps/steamdevdays/slides2016/SteamController.pdf"
-  target="_blank"
-  rel="noreferrer"
-  >Slides - PDF</a
+    href="http://cdn.akamai.steamstatic.com/apps/steamdevdays/slides2016/SteamController.pdf"
+    target="_blank"
+    rel="noreferrer"
+    >Slides - PDF</a
 ><br /><a
-  href="http://www.gamasutra.com/blogs/LarsDoucet/20161012/283057/Steam_Dev_Days_Steam_Controller.php"
-  target="_blank"
-  rel="noreferrer"
-  >Slides - HTML</a
-><br /><br />And for a specific applied example and case study, you should read
-this article:<br /><br /><a
-  href="http://www.gamasutra.com/blogs/LarsDoucet/20170125/289904/The_Steam_Controller_Configurators_Untapped_Power.php"
-  target="_blank"
-  rel="noreferrer"
-  >The Steam Controller Configurator's Untapped Power</a
-><br /><br />With those two things under your belt, you're ready to dig into the
-nitty-gritty details of this document!
+    href="http://www.gamasutra.com/blogs/LarsDoucet/20161012/283057/Steam_Dev_Days_Steam_Controller.php"
+    target="_blank"
+    rel="noreferrer"
+    >Slides - HTML</a
+><br /><br />And for a specific applied example and case study, you should read this article:<br /><br /><a
+    href="http://www.gamasutra.com/blogs/LarsDoucet/20170125/289904/The_Steam_Controller_Configurators_Untapped_Power.php"
+    target="_blank"
+    rel="noreferrer"
+    >The Steam Controller Configurator's Untapped Power</a
+><br /><br />With those two things under your belt, you're ready to dig into the nitty-gritty
+details of this document!
 <h2 class="bb_section"><a name="TableOfContents"></a>Table of Contents</h2>
 <br /><strong>Hold my hand a little:</strong><br />
-<ol class="bb_ol">
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_players"
-      class="bb_doclink"
-      >Getting Started as a <strong>Player</strong></a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs"
-      class="bb_doclink"
-      >Getting Started as a <strong>Developer</strong></a
-    >
-  </li>
+<ol class="bb_ol ">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_players"
+            class="bb_doclink"
+            >Getting Started as a <strong>Player</strong></a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs"
+            class="bb_doclink"
+            >Getting Started as a <strong>Developer</strong></a
+        >
+    </li>
 </ol>
 <br /><strong>Give me all the nerdy details:</strong><br />
-<ol class="bb_ol">
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/concepts"
-      class="bb_doclink"
-      >General Concepts</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/device"
-      class="bb_doclink"
-      >Steam Input Devices</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/iga_file"
-      class="bb_doclink"
-      >In-Game Actions File</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/input_source"
-      class="bb_doclink"
-      >Input Sources</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/input_source_modes"
-      class="bb_doclink"
-      >Input Source Modes</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/mode_shifting"
-      class="bb_doclink"
-      >Mode Shifting</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/browse_configs"
-      class="bb_doclink"
-      >Browsing Configurations</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/activators"
-      class="bb_doclink"
-      >Activators</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/mouse_regions"
-      class="bb_doclink"
-      >Mouse Regions</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/radial_menus"
-      class="bb_doclink"
-      >Radial Menus</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/touch_menus"
-      class="bb_doclink"
-      >Touch Menus</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
-      class="bb_doclink"
-      >Action Set Layers</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/legacy_mode"
-      class="bb_doclink"
-      >Legacy Mode Bindings</a
-    ><br />
-  </li>
+<ol class="bb_ol ">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/concepts"
+            class="bb_doclink"
+            >General Concepts</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/device"
+            class="bb_doclink"
+            >Steam Input Devices</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/iga_file"
+            class="bb_doclink"
+            >In-Game Actions File</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/input_source"
+            class="bb_doclink"
+            >Input Sources</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/input_source_modes"
+            class="bb_doclink"
+            >Input Source Modes</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/mode_shifting"
+            class="bb_doclink"
+            >Mode Shifting</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/browse_configs"
+            class="bb_doclink"
+            >Browsing Configurations</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/activators"
+            class="bb_doclink"
+            >Activators</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/mouse_regions"
+            class="bb_doclink"
+            >Mouse Regions</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/radial_menus"
+            class="bb_doclink"
+            >Radial Menus</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/touch_menus"
+            class="bb_doclink"
+            >Touch Menus</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
+            class="bb_doclink"
+            >Action Set Layers</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/legacy_mode"
+            class="bb_doclink"
+            >Legacy Mode Bindings</a
+        ><br />
+    </li>
 </ol>

@@ -1,255 +1,105 @@
 <h1>GetUserHistory/v0001</h1>
-This returns all of the audit records for a user within the specified time
-period. The time period to return is any event after
-<code class="bb_code bb_code_inline nohighlight">starttime</code> but before or
-at
-<code class="bb_code bb_code_inline nohighlight">endtime</code
->.<br /><br /><strong>Called by:</strong> Support Tool<br /><br /><strong
-  >HTTP Method:</strong
->
-GET
-<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      This is the "Asset Server Key" that you provided in your app's Steam
-      Economy Settings on the partner site.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>32bit App ID of the application associated with the assets.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The 64-bit Steam ID of the user to return assets for.</td>
-  </tr>
-  <tr>
-    <td><strong>contextid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The 64-bit ID of the context container to retrieve the assets for.</td>
-  </tr>
-  <tr>
-    <td><strong>starttime</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>
-      The start time of the range to return history for. This time is expressed
-      as seconds since 1/1/1970.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>endtime</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>
-      The end time of the range to return history for. This time is expressed as
-      seconds since 1/1/1970.
-    </td>
-  </tr>
-</table>
-<h2 class="bb_section"><a name="2"></a>Returns</h2>
-The output from this method should be encoded in the JSON format.<br /><br /><strong
-  >Response:</strong
-><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">result</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">success</code> - True
-        if the method was successful. If the asset server is returning false, it
-        should set
-        <code class="bb_code bb_code_inline nohighlight">error</code> to a
-        string that explains why.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">error</code> - a string
-        describing why this call failed. This message will be recorded in the
-        error log, which is available under the Economy tab on the Steamworks
-        site.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">transactions</code> -
-        An array of transactions that occurred on the user's account in this
-        context over the specified time range.<br />
-        <ul class="bb_ul">
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">timestamp</code> -
-            the time when this event occurred. This is expressed as seconds
-            since 1/1/1970.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">action</code> - A
-            short description of this transaction.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight"
-              >actor_steamid</code
-            >
-            (optional) - 64-bit steam ID of the initiator of this transaction<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight"
-              >action_steamid</code
-            >
-            (optional) - 64-bit steam ID of the other user involved in this
-            transaction<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">records</code> - An
-            array of detail records within a transaction. These records could
-            represent assets or any other unit of change to the context.<br />
-            <ul class="bb_ul">
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">action</code> -
-                The name of the action taken in this transaction.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">id</code>
-                (optional) - Asset ID of the asset.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">name</code> -
-                The name of the asset affected by the record.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">url</code> - A
-                URL with related information for this record.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">icon_url</code>
-                (optional) - The icon to use for this asset. This image should
-                be in the JPEG, GIF, or PNG formats and at least 96x96 pixels in
-                size. PNG or GIF are preferred because they support
-                transparency. Steam will provide CDN distribution for all images
-                when they are displayed to users so the number of hits to this
-                URL will be relatively low.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight"
-                  >context_action</code
-                >
-                (optional) - Describes what happened to this asset in the
-                context that it was in as a result of the action. Acceptable
-                values are either
-                <code class="bb_code bb_code_inline nohighlight">add</code>,
-                <code class="bb_code bb_code_inline nohighlight">remove</code>,
-                or
-                <code class="bb_code bb_code_inline nohighlight">modify</code
-                >.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">prefix</code>
-                (optional) - prefix string to show before the asset name on this
-                record.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">color</code>
-                (optional) - a hex RGB color string to use for the prefix.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight"
-                  >has_details</code
-                >
-                - true if
-                <a
-                  href="https://partner.steamgames.com/doc/webapi/IGameInventory#SupportGetAssetHistory"
-                  class="bb_apilink"
-                  >IGameInventory/SupportGetAssetHistory</a
-                >
-                will return valid data for this asset.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight"
-                  >detail_appid</code
-                >
-                (optional) - The app ID to look up details in. This is only
-                really useful if two games are coordinating some sort of
-                cross-game system. The default is to use the same appid the
-                history is coming from.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight"
-                  >detail_context</code
-                >
-                (optional) - The 64-bit context ID of the context to look up
-                details from. This defaults to being the same as the context
-                history is coming from.<br />
-              </li>
-            </ul>
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">commands</code> - A
-            list of commands to show on this transaction in the support tool<br />
-            <ul class="bb_ul">
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">name</code> -
-                The name of the command.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight"
-                  >arguments</code
-                >
-                - The argument string to pass back to the asset server when
-                calling GetHistoryCommandDetails. The Steam Economy server does
-                not interpret this data in any way. It can be whatever
-                information the game needs to identify the transaction to
-                perform this command on.<br />
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-<h2 class="bb_section"><a name="3"></a>Example Output</h2>
-<div class="bb_code json">
-  { "result": { "transactions": [ { "records": [ { "action": "Timed Drop", "id":
-  559964086, "name": "Bushwacka", "icon_url":
-  "http://media.steampowered.com/apps/440/icons/c_croc_knife.ae304e977e7127b3ea5ddc862614b627604489a9.png",
-  "prefix": "Add", "color": "55FF55" } ] , "commands": [ { "name": "Undo",
-  "arguments":
-  "AGFyZ3VtZW50cwACdGltZXN0YW1wAHhHs04AYWN0aW9ucwAAMQACYWN0aW9uAAcAAAAHaWQA\ntl9gIQAAAAAICAgIAA=="
-  }, { "name": "Rollback", "arguments":
-  "AGFyZ3VtZW50cwACdGltZXN0YW1wAHhHs04ICAA=" } ] , "timestamp": 1320372088,
-  "action": "Timed Drop: Points: 14114" }, { "records": [ { "action":
-  "Achievement Award", "id": 556669733, "name": "Bombinomicon", "icon_url":
-  "http://media.steampowered.com/apps/440/icons/bombonomicon.6dc3119f20faa08d10161fa876c57265ae46c282.png",
-  "prefix": "Add", "color": "55FF55" } ] , "commands": [ { "name": "Undo",
-  "arguments":
-  "AGFyZ3VtZW50cwACdGltZXN0YW1wAPqqsE4AYWN0aW9ucwAAMQACYWN0aW9uAAMAAAAHaWQA\nJRsuIQAAAAAICAgIAA=="
-  }, { "name": "Rollback", "arguments":
-  "AGFyZ3VtZW50cwACdGltZXN0YW1wAPqqsE4ICAA=" } ] , "timestamp": 1320200954,
-  "action": "Achievement Award: TF_HALLOWEEN_LOOT_ISLAND" }, { "records": [ {
-  "action": "Trade", "id": 506851037, "name": "Bushwacka", "icon_url":
-  "http://media.steampowered.com/apps/440/icons/c_croc_knife.ae304e977e7127b3ea5ddc862614b627604489a9.png",
-  "prefix": "Add", "color": "55FF55" }, { "action": "Trade", "id": 352354754,
-  "name": "Mann Co. Supply Crate", "icon_url":
-  "http://media.steampowered.com/apps/440/icons/crate.7299648976c7a022df68b7d35bf4a7cd05800855.png",
-  "prefix": "Remove", "color": "FF5555" }, { "action": "Trade", "id": 352354753,
-  "name": "Mann Co. Supply Crate", "icon_url":
-  "http://media.steampowered.com/apps/440/icons/crate.7299648976c7a022df68b7d35bf4a7cd05800855.png",
-  "prefix": "Remove", "color": "FF5555" } ] , "commands": [ { "name": "Undo",
-  "arguments":
-  "AGFyZ3VtZW50cwACdGltZXN0YW1wANkejU4AYWN0aW9ucwAAMQACYWN0aW9uABgAAAAHaWQA\n3e41HgAAAAAIADIAAmFjdGlvbgAiAAAAB2lkAMKBABUAAAAACAAzAAJhY3Rpb24AIgAAAAdp\nZADBgQAVAAAAAAgANAACYWN0aW9uACIAAAAHaWQAFwwBHgAAAAAIADUAAmFjdGlvbgAiAAAA\nB2lkALVwYxkAAAAACAA2AAJhY3Rpb24AIgAAAAdpZADd\/5kWAAAAAAgANwACYWN0aW9uACIA\nAAAHaWQAr8WaFgAAAAAIADgAAmFjdGlvbgAiAAAAB2lkAAe9LhcAAAAACAA5AAJhY3Rpb24A\nIgAAAAdpZABcC\/wdAAAAAAgICAgA"
-  }, { "name": "Rollback", "arguments":
-  "AGFyZ3VtZW50cwACdGltZXN0YW1wANkejU4ICAA=" } ] , "timestamp": 1317871321,
-  "action": "Trade", "action_steamid": 76561198007577949 }, ] , "success": true
-  } }
+This returns all of the audit records for a user within the specified time period. The time period to return is any event after <code class="bb_code bb_code_inline nohighlight">starttime</code> but before or at <code class="bb_code bb_code_inline nohighlight">endtime</code>.<br><br><strong>Called by:</strong> Support Tool<br><br><strong>HTTP Method:</strong> GET<h2 class="bb_section"><a name="1"></a>Parameters:</h2><table>  <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>  <tr><td><strong>key</strong></td><td>string</td><td>✔</td><td>This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on the partner site.</td></tr>  <tr><td><strong>appid</strong></td><td>uint32</td><td>✔</td><td>32bit App ID of the application associated with the assets.</td></tr>  <tr><td><strong>steamid</strong></td><td>uint64</td><td>✔</td><td>The 64-bit Steam ID of the user to return assets for.</td></tr>  <tr><td><strong>contextid</strong></td><td>uint64</td><td>✔</td><td>The 64-bit ID of the context container to retrieve the assets for.</td></tr>  <tr><td><strong>starttime</strong></td><td>uint32</td><td>✔</td><td>The start time of the range to return history for. This time is expressed as seconds since 1/1/1970.</td></tr>  <tr><td><strong>endtime</strong></td><td>uint32</td><td>✔</td><td>The end time of the range to return history for. This time is expressed as seconds since 1/1/1970.</td></tr></table><h2 class="bb_section"><a name="2"></a>Returns</h2>The output from this method should be encoded in the JSON format.<br><br><strong>Response:</strong><br><ul class="bb_ul ">	<li> <code class="bb_code bb_code_inline nohighlight">result</code><br>		<ul class="bb_ul ">			<li> <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method was successful. If the asset server is returning false, it should set <code class="bb_code bb_code_inline nohighlight">error</code> to a string that explains why.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">error</code> - a string describing why this call failed. This message will be recorded in the error log, which is available under the Economy tab on the Steamworks site.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">transactions</code> - An array of transactions that occurred on the user's account in this context over the specified time range.<br>				<ul class="bb_ul ">					<li> <code class="bb_code bb_code_inline nohighlight">timestamp</code> - the time when this event occurred. This is expressed as seconds since 1/1/1970.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">action</code> - A short description of this transaction.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">actor_steamid</code> (optional) - 64-bit steam ID of the initiator of this transaction<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">action_steamid</code> (optional) - 64-bit steam ID of the other user involved in this transaction<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">records</code> - An array of detail records within a transaction. These records could represent assets or any other unit of change to the context.<br>						<ul class="bb_ul ">							<li> <code class="bb_code bb_code_inline nohighlight">action</code> - The name of the action taken in this transaction.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">id</code> (optional) - Asset ID of the asset.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">name</code> - The name of the asset affected by the record.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">url</code> - A URL with related information for this record.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">icon_url</code> (optional) - The icon to use for this asset. This image should be in the JPEG, GIF, or PNG formats and at least 96x96 pixels in size. PNG or GIF are preferred because they support transparency. Steam will provide CDN distribution for all images when they are displayed to users so the number of hits to this URL will be relatively low.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">context_action</code> (optional) - Describes what happened to this asset in the context that it was in as a result of the action. Acceptable values are either <code class="bb_code bb_code_inline nohighlight">add</code>, <code class="bb_code bb_code_inline nohighlight">remove</code>, or <code class="bb_code bb_code_inline nohighlight">modify</code>.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">prefix</code> (optional) - prefix string to show before the asset name on this record.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">color</code> (optional) - a hex RGB color string to use for the prefix.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">has_details</code> - true if <a href="https://partner.steamgames.com/doc/webapi/IGameInventory#SupportGetAssetHistory" class="bb_apilink">IGameInventory/SupportGetAssetHistory</a> will return valid data for this asset.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">detail_appid</code> (optional) - The app ID to look up details in. This is only really useful if two games are coordinating some sort of cross-game system. The default is to use the same appid the history is coming from.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">detail_context</code> (optional) - The 64-bit context ID of the context to look up details from. This defaults to being the same as the context history is coming from.<br>						</li></ul>					</li><li> <code class="bb_code bb_code_inline nohighlight">commands</code> - A list of commands to show on this transaction in the support tool<br>						<ul class="bb_ul ">							<li> <code class="bb_code bb_code_inline nohighlight">name</code> - The name of the command.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">arguments</code> - The argument string to pass back to the asset server when calling GetHistoryCommandDetails. The Steam Economy server does not interpret this data in any way. It can be whatever information the game needs to identify the transaction to perform this command on.<br>						</li></ul>				</li></ul>		</li></ul></li></ul><h2 class="bb_section"><a name="3"></a>Example Output</h2><div class="bb_code json">{
+  "result": {
+    "transactions": [
+      {
+        "records": [
+          {
+            "action": "Timed Drop",
+            "id": 559964086,
+            "name": "Bushwacka",
+            "icon_url": "http://media.steampowered.com/apps/440/icons/c_croc_knife.ae304e977e7127b3ea5ddc862614b627604489a9.png",
+            "prefix": "Add",
+            "color": "55FF55"
+          }
+        ]
+        ,
+        "commands": [
+          {
+            "name": "Undo",
+            "arguments": "AGFyZ3VtZW50cwACdGltZXN0YW1wAHhHs04AYWN0aW9ucwAAMQACYWN0aW9uAAcAAAAHaWQA\ntl9gIQAAAAAICAgIAA=="
+          },
+          {
+            "name": "Rollback",
+            "arguments": "AGFyZ3VtZW50cwACdGltZXN0YW1wAHhHs04ICAA="
+          }
+        ]
+        ,
+        "timestamp": 1320372088,
+        "action": "Timed Drop: Points: 14114"
+      },
+      {
+        "records": [
+          {
+            "action": "Achievement Award",
+            "id": 556669733,
+            "name": "Bombinomicon",
+            "icon_url": "http://media.steampowered.com/apps/440/icons/bombonomicon.6dc3119f20faa08d10161fa876c57265ae46c282.png",
+            "prefix": "Add",
+            "color": "55FF55"
+          }
+        ]
+        ,
+        "commands": [
+          {
+            "name": "Undo",
+            "arguments": "AGFyZ3VtZW50cwACdGltZXN0YW1wAPqqsE4AYWN0aW9ucwAAMQACYWN0aW9uAAMAAAAHaWQA\nJRsuIQAAAAAICAgIAA=="
+          },
+          {
+            "name": "Rollback",
+            "arguments": "AGFyZ3VtZW50cwACdGltZXN0YW1wAPqqsE4ICAA="
+          }
+        ]
+        ,
+        "timestamp": 1320200954,
+        "action": "Achievement Award: TF_HALLOWEEN_LOOT_ISLAND"
+      },
+      {
+        "records": [
+          {
+            "action": "Trade",
+            "id": 506851037,
+            "name": "Bushwacka",
+            "icon_url": "http://media.steampowered.com/apps/440/icons/c_croc_knife.ae304e977e7127b3ea5ddc862614b627604489a9.png",
+            "prefix": "Add",
+            "color": "55FF55"
+          },
+          {
+            "action": "Trade",
+            "id": 352354754,
+            "name": "Mann Co. Supply Crate",
+            "icon_url": "http://media.steampowered.com/apps/440/icons/crate.7299648976c7a022df68b7d35bf4a7cd05800855.png",
+            "prefix": "Remove",
+            "color": "FF5555"
+          },
+          {
+            "action": "Trade",
+            "id": 352354753,
+            "name": "Mann Co. Supply Crate",
+            "icon_url": "http://media.steampowered.com/apps/440/icons/crate.7299648976c7a022df68b7d35bf4a7cd05800855.png",
+            "prefix": "Remove",
+            "color": "FF5555"
+          }
+        ]
+        ,
+        "commands": [
+          {
+            "name": "Undo",
+            "arguments": "AGFyZ3VtZW50cwACdGltZXN0YW1wANkejU4AYWN0aW9ucwAAMQACYWN0aW9uABgAAAAHaWQA\n3e41HgAAAAAIADIAAmFjdGlvbgAiAAAAB2lkAMKBABUAAAAACAAzAAJhY3Rpb24AIgAAAAdp\nZADBgQAVAAAAAAgANAACYWN0aW9uACIAAAAHaWQAFwwBHgAAAAAIADUAAmFjdGlvbgAiAAAA\nB2lkALVwYxkAAAAACAA2AAJhY3Rpb24AIgAAAAdpZADd\/5kWAAAAAAgANwACYWN0aW9uACIA\nAAAHaWQAr8WaFgAAAAAIADgAAmFjdGlvbgAiAAAAB2lkAAe9LhcAAAAACAA5AAJhY3Rpb24A\nIgAAAAdpZABcC\/wdAAAAAAgICAgA"
+          },
+          {
+            "name": "Rollback",
+            "arguments": "AGFyZ3VtZW50cwACdGltZXN0YW1wANkejU4ICAA="
+          }
+        ]
+        ,
+        "timestamp": 1317871321,
+        "action": "Trade",
+        "action_steamid": 76561198007577949
+      },
+    ]
+    ,
+    "success": true
+  }
+}
 </div>

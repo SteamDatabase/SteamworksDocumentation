@@ -1,2844 +1,2671 @@
 <h1>ISteamHTMLSurface Interface</h1>
-Interface for rendering and interacting with HTML pages.<br /><br />You can use
-this interface to render and display HTML pages directly inside your game or
-application. You must call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Init"
-  class="bb_apilink"
-  >ISteamHTMLSurface::Init</a
+Interface for rendering and interacting with HTML pages.<br /><br />You can use this interface to
+render and display HTML pages directly inside your game or application. You must call
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Init" class="bb_apilink"
+    >ISteamHTMLSurface::Init</a
 >
 prior to using this interface, and
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Shutdown"
-  class="bb_apilink"
-  >ISteamHTMLSurface::Shutdown</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Shutdown" class="bb_apilink"
+    >ISteamHTMLSurface::Shutdown</a
 >
-when you're done using it.<br /><br />It is built upon the Chromium Embedded
-Framework and supports HTML5 markup.<br /><br />See
-<a
-  href="https://partner.steamgames.com/doc/features/html_surface"
-  class="bb_doclink"
-  >Steam HTML Surface</a
+when you're done using it.<br /><br />It is built upon the Chromium Embedded Framework and supports
+HTML5 markup.<br /><br />See
+<a href="https://partner.steamgames.com/doc/features/html_surface" class="bb_doclink"
+    >Steam HTML Surface</a
 >
 for more information.
 <h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
-Member functions for
-<code class="bb_code bb_code_inline nohighlight">ISteamHTMLSurface</code> are
+Member functions for <code class="bb_code bb_code_inline nohighlight">ISteamHTMLSurface</code> are
 called through the global accessor function
 <code class="bb_code bb_code_inline nohighlight">SteamHTMLSurface()</code>.
 <h2 class="bb_subsection"><a name="AddHeader"></a>AddHeader</h2>
 <div class="bb_code cpp">
-  void AddHeader( HHTMLBrowser unBrowserHandle, const char *pchKey, const char
-  *pchValue );
+    void AddHeader( HHTMLBrowser unBrowserHandle, const char *pchKey, const char *pchValue );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to add the header to.</td>
-  </tr>
-  <tr>
-    <td><strong>pchKey</strong></td>
-    <td>const char *</td>
-    <td>The header name to add.</td>
-  </tr>
-  <tr>
-    <td><strong>pchValue</strong></td>
-    <td>const char *</td>
-    <td>The header value to associate with the key.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to add the header to.</td>
+    </tr>
+    <tr>
+        <td><strong>pchKey</strong></td>
+        <td>const char *</td>
+        <td>The header name to add.</td>
+    </tr>
+    <tr>
+        <td><strong>pchValue</strong></td>
+        <td>const char *</td>
+        <td>The header value to associate with the key.</td>
+    </tr>
 </table>
-<br />Add a header to any HTTP requests from this browser.<br /><br />A full
-list of standard request fields are available here on
-<a
-  href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"
-  target="_blank"
-  rel="noreferrer"
-  >wikipedia</a
+
+<br />Add a header to any HTTP requests from this browser.<br /><br />A full list of standard
+request fields are available here on
+<a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields" target="_blank" rel="noreferrer"
+    >wikipedia</a
 >.
 <h2 class="bb_subsection"><a name="AllowStartRequest"></a>AllowStartRequest</h2>
 <div class="bb_code cpp">
-  void AllowStartRequest( HHTMLBrowser unBrowserHandle, bool bAllowed );
+    void AllowStartRequest( HHTMLBrowser unBrowserHandle, bool bAllowed );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that is navigating.</td>
-  </tr>
-  <tr>
-    <td><strong>bAllowed</strong></td>
-    <td>bool</td>
-    <td>Allow or deny the navigation to the current start request.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that is navigating.</td>
+    </tr>
+    <tr>
+        <td><strong>bAllowed</strong></td>
+        <td>bool</td>
+        <td>Allow or deny the navigation to the current start request.</td>
+    </tr>
 </table>
+
 <br />Sets whether a pending load is allowed or if it should be canceled.
 <div class="bb_callout bb_red bb_fixed">
-  <div>
-    <strong>NOTE:</strong>You MUST call this in response to a
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
-      class="bb_apilink"
-      >HTML_StartRequest_t</a
-    >
-    callback.
-  </div>
+    <div>
+        <strong>NOTE:</strong>You MUST call this in response to a
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
+            class="bb_apilink"
+            >HTML_StartRequest_t</a
+        >
+        callback.
+    </div>
 </div>
-<br />You can use this feature to limit the valid pages allowed in your HTML
-surface.
+<br />You can use this feature to limit the valid pages allowed in your HTML surface.
 <h2 class="bb_subsection"><a name="CopyToClipboard"></a>CopyToClipboard</h2>
-<div class="bb_code cpp">
-  void CopyToClipboard( HHTMLBrowser unBrowserHandle );
-</div>
+<div class="bb_code cpp">void CopyToClipboard( HHTMLBrowser unBrowserHandle );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to copy the text from.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to copy the text from.</td>
+    </tr>
 </table>
-<br />Copy the currently selected text from the current page in an HTML surface
-into the local clipboard.
+
+<br />Copy the currently selected text from the current page in an HTML surface into the local
+clipboard.
 <h2 class="bb_subsection"><a name="CreateBrowser"></a>CreateBrowser</h2>
 <div class="bb_code cpp">
-  SteamAPICall_t CreateBrowser( const char *pchUserAgent, const char *pchUserCSS
-  );
+    SteamAPICall_t CreateBrowser( const char *pchUserAgent, const char *pchUserCSS );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>pchUserAgent</strong></td>
-    <td>const char *</td>
-    <td>
-      Appends the string to the general user agent string of the browser,
-      allowing you to detect your client on webservers. Use
-      <strong>NULL</strong> if you do not require this functionality.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>pchUserCSS</strong></td>
-    <td>const char *</td>
-    <td>
-      This allows you to set a CSS style to every page displayed by this
-      browser. Use <strong>NULL</strong> if you do not require this
-      functionality.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchUserAgent</strong></td>
+        <td>const char *</td>
+        <td>
+            Appends the string to the general user agent string of the browser, allowing you to
+            detect your client on webservers. Use <strong>NULL</strong> if you do not require this
+            functionality.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchUserCSS</strong></td>
+        <td>const char *</td>
+        <td>
+            This allows you to set a CSS style to every page displayed by this browser. Use
+            <strong>NULL</strong> if you do not require this functionality.
+        </td>
+    </tr>
 </table>
+
 <br />Create a browser object for displaying of an HTML page.
 <div class="bb_callout bb_red bb_fixed">
-  <div>
-    <strong>NOTE:</strong> You must have implemented callback handlers for
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_BrowserReady_t"
-      class="bb_apilink"
-      >HTML_BrowserReady_t</a
-    >,
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
-      class="bb_apilink"
-      >HTML_StartRequest_t</a
-    >,
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_JSAlert_t"
-      class="bb_apilink"
-      >HTML_JSAlert_t</a
-    >,
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_JSConfirm_t"
-      class="bb_apilink"
-      >HTML_JSConfirm_t</a
-    >, and
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_FileOpenDialog_t"
-      class="bb_apilink"
-      >HTML_FileOpenDialog_t</a
-    >!<br />If you do not implement these callback handlers, the browser may
-    appear to hang instead of navigating to new pages or triggering javascript
-    popups!<br /><br /><strong>NOTE:</strong> You MUST call
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#RemoveBrowser"
-      class="bb_apilink"
-      >ISteamHTMLSurface::RemoveBrowser</a
-    >
-    when you are done using this browser to free up the resources associated
-    with it. Failing to do so will result in a memory leak.
-  </div>
+    <div>
+        <strong>NOTE:</strong> You must have implemented callback handlers for
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_BrowserReady_t"
+            class="bb_apilink"
+            >HTML_BrowserReady_t</a
+        >,
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
+            class="bb_apilink"
+            >HTML_StartRequest_t</a
+        >,
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_JSAlert_t"
+            class="bb_apilink"
+            >HTML_JSAlert_t</a
+        >,
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_JSConfirm_t"
+            class="bb_apilink"
+            >HTML_JSConfirm_t</a
+        >, and
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_FileOpenDialog_t"
+            class="bb_apilink"
+            >HTML_FileOpenDialog_t</a
+        >!<br />If you do not implement these callback handlers, the browser may appear to hang
+        instead of navigating to new pages or triggering javascript popups!<br /><br /><strong
+            >NOTE:</strong
+        >
+        You MUST call
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#RemoveBrowser"
+            class="bb_apilink"
+            >ISteamHTMLSurface::RemoveBrowser</a
+        >
+        when you are done using this browser to free up the resources associated with it. Failing to
+        do so will result in a memory leak.
+    </div>
 </div>
 <br />You will want to call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetSize"
-  class="bb_apilink"
-  >ISteamHTMLSurface::SetSize</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetSize" class="bb_apilink"
+    >ISteamHTMLSurface::SetSize</a
 >
 and
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#LoadURL"
-  class="bb_apilink"
-  >ISteamHTMLSurface::LoadURL</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#LoadURL" class="bb_apilink"
+    >ISteamHTMLSurface::LoadURL</a
 >
 to start using your display surface.<br /><br /><strong>Returns:</strong>
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
-  class="bb_apilink"
-  >SteamAPICall_t</a
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
+    >SteamAPICall_t</a
 >
 to be used with a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_BrowserReady_t"
-  class="bb_apilink"
-  >HTML_BrowserReady_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_BrowserReady_t"
+    class="bb_apilink"
+    >HTML_BrowserReady_t</a
 >
 call result.
 <h2 class="bb_subsection"><a name="ExecuteJavascript"></a>ExecuteJavascript</h2>
 <div class="bb_code cpp">
-  void ExecuteJavascript( HHTMLBrowser unBrowserHandle, const char *pchScript );
+    void ExecuteJavascript( HHTMLBrowser unBrowserHandle, const char *pchScript );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that is navigating.</td>
-  </tr>
-  <tr>
-    <td><strong>pchScript</strong></td>
-    <td>const char *</td>
-    <td>The javascript script to run.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that is navigating.</td>
+    </tr>
+    <tr>
+        <td><strong>pchScript</strong></td>
+        <td>const char *</td>
+        <td>The javascript script to run.</td>
+    </tr>
 </table>
+
 <br />Run a javascript script in the currently loaded page.
-<h2 class="bb_subsection">
-  <a name="FileLoadDialogResponse"></a>FileLoadDialogResponse
-</h2>
+<h2 class="bb_subsection"><a name="FileLoadDialogResponse"></a>FileLoadDialogResponse</h2>
 <div class="bb_code cpp">
-  void FileLoadDialogResponse( HHTMLBrowser unBrowserHandle, const char
-  **pchSelectedFiles );
+    void FileLoadDialogResponse( HHTMLBrowser unBrowserHandle, const char **pchSelectedFiles );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that wants to spawn a file open dialog.</td>
-  </tr>
-  <tr>
-    <td><strong>pchSelectedFiles</strong></td>
-    <td>const char **</td>
-    <td>
-      This should be an array of absolute file paths to the files that the user
-      has selected. <strong>NULL</strong> if the user did not select any files.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that wants to spawn a file open dialog.</td>
+    </tr>
+    <tr>
+        <td><strong>pchSelectedFiles</strong></td>
+        <td>const char **</td>
+        <td>
+            This should be an array of absolute file paths to the files that the user has selected.
+            <strong>NULL</strong> if the user did not select any files.
+        </td>
+    </tr>
 </table>
+
 <br />Allows you to react to a page wanting to open a file load dialog.
 <div class="bb_callout bb_red bb_fixed">
-  <div>
-    <strong>NOTE:</strong>You MUST call this in response to a
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_FileOpenDialog_t"
-      class="bb_apilink"
-      >HTML_FileOpenDialog_t</a
-    >
-    callback.
-  </div>
+    <div>
+        <strong>NOTE:</strong>You MUST call this in response to a
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_FileOpenDialog_t"
+            class="bb_apilink"
+            >HTML_FileOpenDialog_t</a
+        >
+        callback.
+    </div>
 </div>
 <h2 class="bb_subsection"><a name="Find"></a>Find</h2>
 <div class="bb_code cpp">
-  void Find( HHTMLBrowser unBrowserHandle, const char *pchSearchStr, bool
-  bCurrentlyInFind, bool bReverse );
+    void Find( HHTMLBrowser unBrowserHandle, const char *pchSearchStr, bool bCurrentlyInFind, bool
+    bReverse );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to find the string in.</td>
-  </tr>
-  <tr>
-    <td><strong>pchSearchStr</strong></td>
-    <td>const char *</td>
-    <td>The string to search for.</td>
-  </tr>
-  <tr>
-    <td><strong>bCurrentlyInFind</strong></td>
-    <td>bool</td>
-    <td>
-      Set this to <strong>true</strong> on subsequent calls to cycle through to
-      the next matching string.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>bReverse</strong></td>
-    <td>bool</td>
-    <td>Search from the bottom up?</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to find the string in.</td>
+    </tr>
+    <tr>
+        <td><strong>pchSearchStr</strong></td>
+        <td>const char *</td>
+        <td>The string to search for.</td>
+    </tr>
+    <tr>
+        <td><strong>bCurrentlyInFind</strong></td>
+        <td>bool</td>
+        <td>
+            Set this to <strong>true</strong> on subsequent calls to cycle through to the next
+            matching string.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>bReverse</strong></td>
+        <td>bool</td>
+        <td>Search from the bottom up?</td>
+    </tr>
 </table>
-<br />Find a string in the current page of an HTML surface.<br /><br />This is
-the equivalent of "ctrl+f" in your browser of choice. It will highlight all of
-the matching strings.<br /><br />You should call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#StopFind"
-  class="bb_apilink"
-  >ISteamHTMLSurface::StopFind</a
+
+<br />Find a string in the current page of an HTML surface.<br /><br />This is the equivalent of
+"ctrl+f" in your browser of choice. It will highlight all of the matching strings.<br /><br />You
+should call
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#StopFind" class="bb_apilink"
+    >ISteamHTMLSurface::StopFind</a
 >
 when the input string has changed or you want to stop searching.<br /><br /><strong
-  >Returns:</strong
+    >Returns:</strong
 >
 void<br />Triggers a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_SearchResults_t"
-  class="bb_apilink"
-  >HTML_SearchResults_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_SearchResults_t"
+    class="bb_apilink"
+    >HTML_SearchResults_t</a
 >
 callback.
 <h2 class="bb_subsection"><a name="GetLinkAtPosition"></a>GetLinkAtPosition</h2>
-<div class="bb_code cpp">
-  void GetLinkAtPosition( HHTMLBrowser unBrowserHandle, int x, int y );
-</div>
+<div class="bb_code cpp">void GetLinkAtPosition( HHTMLBrowser unBrowserHandle, int x, int y );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to get a link from.</td>
-  </tr>
-  <tr>
-    <td><strong>x</strong></td>
-    <td>int</td>
-    <td>
-      The X (width) position in pixels within the surface. (0, 0) is the top
-      left corner.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>y</strong></td>
-    <td>int</td>
-    <td>
-      The Y (height) position in pixels within the surface. (0, 0) is the top
-      left corner.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to get a link from.</td>
+    </tr>
+    <tr>
+        <td><strong>x</strong></td>
+        <td>int</td>
+        <td>The X (width) position in pixels within the surface. (0, 0) is the top left corner.</td>
+    </tr>
+    <tr>
+        <td><strong>y</strong></td>
+        <td>int</td>
+        <td>
+            The Y (height) position in pixels within the surface. (0, 0) is the top left corner.
+        </td>
+    </tr>
 </table>
-<br />Retrieves details about a link at a specific position on the current page
-in an HTML surface.<br /><br /><strong>Returns:</strong> void<br />Triggers a
+
+<br />Retrieves details about a link at a specific position on the current page in an HTML
+surface.<br /><br /><strong>Returns:</strong> void<br />Triggers a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_LinkAtPosition_t"
-  class="bb_apilink"
-  >HTML_LinkAtPosition_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_LinkAtPosition_t"
+    class="bb_apilink"
+    >HTML_LinkAtPosition_t</a
 >
 callback.
 <h2 class="bb_subsection"><a name="GoBack"></a>GoBack</h2>
 <div class="bb_code cpp">void GoBack( HHTMLBrowser unBrowserHandle );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to navigate back on.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to navigate back on.</td>
+    </tr>
 </table>
+
 <br />Navigate back in the page history.
 <h2 class="bb_subsection"><a name="GoForward"></a>GoForward</h2>
 <div class="bb_code cpp">void GoForward( HHTMLBrowser unBrowserHandle );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to navigate forward on.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to navigate forward on.</td>
+    </tr>
 </table>
+
 <br />Navigate forward in the page history
 <h2 class="bb_subsection"><a name="Init"></a>Init</h2>
 <div class="bb_code cpp">bool Init();</div>
-Initializes the HTML Surface API.<br /><br />This must be called prior to using
-any other functions in this interface.<br /><br />You MUST call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Shutdown"
-  class="bb_apilink"
-  >ISteamHTMLSurface::Shutdown</a
+Initializes the HTML Surface API.<br /><br />This must be called prior to using any other functions
+in this interface.<br /><br />You MUST call
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Shutdown" class="bb_apilink"
+    >ISteamHTMLSurface::Shutdown</a
 >
-when you are done using the interface to free up the resources associated with
-it. Failing to do so will result in a memory leak!<br /><br /><strong
-  >Returns:</strong
->
-bool<br /><strong>true</strong> if the API was successfully initialized;
-otherwise, <strong>false</strong>.
+when you are done using the interface to free up the resources associated with it. Failing to do so
+will result in a memory leak!<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
+if the API was successfully initialized; otherwise, <strong>false</strong>.
 <h2 class="bb_subsection"><a name="JSDialogResponse"></a>JSDialogResponse</h2>
-<div class="bb_code cpp">
-  void JSDialogResponse( HHTMLBrowser unBrowserHandle, bool bResult );
-</div>
+<div class="bb_code cpp">void JSDialogResponse( HHTMLBrowser unBrowserHandle, bool bResult );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that is spawning a dialog.</td>
-  </tr>
-  <tr>
-    <td><strong>bResult</strong></td>
-    <td>bool</td>
-    <td>
-      Set this to <strong>true</strong> to simulate pressing the "OK" button,
-      otherwise <strong>false</strong> for "Cancel".
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that is spawning a dialog.</td>
+    </tr>
+    <tr>
+        <td><strong>bResult</strong></td>
+        <td>bool</td>
+        <td>
+            Set this to <strong>true</strong> to simulate pressing the "OK" button, otherwise
+            <strong>false</strong> for "Cancel".
+        </td>
+    </tr>
 </table>
-<br />Allows you to react to a page wanting to open a javascript modal dialog
-notification.
+
+<br />Allows you to react to a page wanting to open a javascript modal dialog notification.
 <div class="bb_callout bb_red bb_fixed">
-  <div>
-    <strong>NOTE:</strong>You MUST call this in response to
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_JSAlert_t"
-      class="bb_apilink"
-      >HTML_JSAlert_t</a
-    >
-    and
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_JSConfirm_t"
-      class="bb_apilink"
-      >HTML_JSConfirm_t</a
-    >
-    callbacks.
-  </div>
+    <div>
+        <strong>NOTE:</strong>You MUST call this in response to
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_JSAlert_t"
+            class="bb_apilink"
+            >HTML_JSAlert_t</a
+        >
+        and
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_JSConfirm_t"
+            class="bb_apilink"
+            >HTML_JSConfirm_t</a
+        >
+        callbacks.
+    </div>
 </div>
 <h2 class="bb_subsection"><a name="KeyChar"></a>KeyChar</h2>
 <div class="bb_code cpp">
-  void KeyChar( HHTMLBrowser unBrowserHandle, uint32 cUnicodeChar,
-  EHTMLKeyModifiers eHTMLKeyModifiers );
+    void KeyChar( HHTMLBrowser unBrowserHandle, uint32 cUnicodeChar, EHTMLKeyModifiers
+    eHTMLKeyModifiers );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to send the interaction to.</td>
-  </tr>
-  <tr>
-    <td><strong>cUnicodeChar</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The unicode character point for this keypress; and potentially multiple
-      characters per press.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>eHTMLKeyModifiers</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLKeyModifiers"
-        class="bb_apilink"
-        >EHTMLKeyModifiers</a
-      >
-    </td>
-    <td>
-      This should be set to a bitmask of the modifier keys that the user is
-      currently pressing.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to send the interaction to.</td>
+    </tr>
+    <tr>
+        <td><strong>cUnicodeChar</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The unicode character point for this keypress; and potentially multiple characters per
+            press.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>eHTMLKeyModifiers</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLKeyModifiers"
+                class="bb_apilink"
+                >EHTMLKeyModifiers</a
+            >
+        </td>
+        <td>
+            This should be set to a bitmask of the modifier keys that the user is currently
+            pressing.
+        </td>
+    </tr>
 </table>
-<br />cUnicodeChar is the unicode character point for this keypress (and
-potentially multiple chars per press)
+
+<br />cUnicodeChar is the unicode character point for this keypress (and potentially multiple chars
+per press)
 <h2 class="bb_subsection"><a name="KeyDown"></a>KeyDown</h2>
 <div class="bb_code cpp">
-  void KeyDown( HHTMLBrowser unBrowserHandle, uint32 nNativeKeyCode,
-  EHTMLKeyModifiers eHTMLKeyModifiers );
+    void KeyDown( HHTMLBrowser unBrowserHandle, uint32 nNativeKeyCode, EHTMLKeyModifiers
+    eHTMLKeyModifiers );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to send the interaction to.</td>
-  </tr>
-  <tr>
-    <td><strong>nNativeKeyCode</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>This is the virtual keycode value from the OS.</td>
-  </tr>
-  <tr>
-    <td><strong>eHTMLKeyModifiers</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLKeyModifiers"
-        class="bb_apilink"
-        >EHTMLKeyModifiers</a
-      >
-    </td>
-    <td>
-      This should be set to a bitmask of the modifier keys that the user is
-      currently pressing.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to send the interaction to.</td>
+    </tr>
+    <tr>
+        <td><strong>nNativeKeyCode</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>This is the virtual keycode value from the OS.</td>
+    </tr>
+    <tr>
+        <td><strong>eHTMLKeyModifiers</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLKeyModifiers"
+                class="bb_apilink"
+                >EHTMLKeyModifiers</a
+            >
+        </td>
+        <td>
+            This should be set to a bitmask of the modifier keys that the user is currently
+            pressing.
+        </td>
+    </tr>
 </table>
-<br />keyboard interactions, native keycode is the virtual key code value from
-your OS
+
+<br />keyboard interactions, native keycode is the virtual key code value from your OS
 <h2 class="bb_subsection"><a name="KeyUp"></a>KeyUp</h2>
 <div class="bb_code cpp">
-  void KeyUp( HHTMLBrowser unBrowserHandle, uint32 nNativeKeyCode,
-  EHTMLKeyModifiers eHTMLKeyModifiers );
+    void KeyUp( HHTMLBrowser unBrowserHandle, uint32 nNativeKeyCode, EHTMLKeyModifiers
+    eHTMLKeyModifiers );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to send the interaction to.</td>
-  </tr>
-  <tr>
-    <td><strong>nNativeKeyCode</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>This is the virtual keycode value from the OS.</td>
-  </tr>
-  <tr>
-    <td><strong>eHTMLKeyModifiers</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLKeyModifiers"
-        class="bb_apilink"
-        >EHTMLKeyModifiers</a
-      >
-    </td>
-    <td>
-      This should be set to a bitmask of the modifier keys that the user is
-      currently pressing.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to send the interaction to.</td>
+    </tr>
+    <tr>
+        <td><strong>nNativeKeyCode</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>This is the virtual keycode value from the OS.</td>
+    </tr>
+    <tr>
+        <td><strong>eHTMLKeyModifiers</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLKeyModifiers"
+                class="bb_apilink"
+                >EHTMLKeyModifiers</a
+            >
+        </td>
+        <td>
+            This should be set to a bitmask of the modifier keys that the user is currently
+            pressing.
+        </td>
+    </tr>
 </table>
+
 <h2 class="bb_subsection"><a name="LoadURL"></a>LoadURL</h2>
 <div class="bb_code cpp">
-  void LoadURL( HHTMLBrowser unBrowserHandle, const char *pchURL, const char
-  *pchPostData );
+    void LoadURL( HHTMLBrowser unBrowserHandle, const char *pchURL, const char *pchPostData );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to load this URL in.</td>
-  </tr>
-  <tr>
-    <td><strong>pchURL</strong></td>
-    <td>const char *</td>
-    <td>The URL to load.</td>
-  </tr>
-  <tr>
-    <td><strong>pchPostData</strong></td>
-    <td>const char *</td>
-    <td>
-      Optionally send a POST request with this data, set this to NULL to not
-      send any data.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to load this URL in.</td>
+    </tr>
+    <tr>
+        <td><strong>pchURL</strong></td>
+        <td>const char *</td>
+        <td>The URL to load.</td>
+    </tr>
+    <tr>
+        <td><strong>pchPostData</strong></td>
+        <td>const char *</td>
+        <td>
+            Optionally send a POST request with this data, set this to NULL to not send any data.
+        </td>
+    </tr>
 </table>
+
 <br />Navigate to a specified URL.<br /><br />If you send POST data with
-<code class="bb_code bb_code_inline nohighlight">pchPostData</code> then the
-data should be formatted as:
-<code class="bb_code bb_code_inline nohighlight"
-  >name1=value1&amp;name2=value2</code
->.<br /><br />You can load any URI scheme supported by Chromium Embedded
-Framework including but not limited to:
-<code class="bb_code bb_code_inline nohighlight">http://</code>,
+<code class="bb_code bb_code_inline nohighlight">pchPostData</code> then the data should be
+formatted as:
+<code class="bb_code bb_code_inline nohighlight">name1=value1&amp;name2=value2</code
+>.<br /><br />You can load any URI scheme supported by Chromium Embedded Framework including but not
+limited to: <code class="bb_code bb_code_inline nohighlight">http://</code>,
 <code class="bb_code bb_code_inline nohighlight">https://</code>,
 <code class="bb_code bb_code_inline nohighlight">ftp://</code>, and
-<code class="bb_code bb_code_inline nohighlight">file:///</code>. If no scheme
-is specified then
+<code class="bb_code bb_code_inline nohighlight">file:///</code>. If no scheme is specified then
 <code class="bb_code bb_code_inline nohighlight">http://</code> is used.<br /><br /><strong
-  >Returns:</strong
+    >Returns:</strong
 >
 void<br />Triggers a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
-  class="bb_apilink"
-  >HTML_StartRequest_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
+    class="bb_apilink"
+    >HTML_StartRequest_t</a
 >
 callback.
 <h2 class="bb_subsection"><a name="MouseDoubleClick"></a>MouseDoubleClick</h2>
 <div class="bb_code cpp">
-  void MouseDoubleClick( HHTMLBrowser unBrowserHandle, EHTMLMouseButton
-  eMouseButton );
+    void MouseDoubleClick( HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to send the interaction to.</td>
-  </tr>
-  <tr>
-    <td><strong>eMouseButton</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLMouseButton"
-        class="bb_apilink"
-        >EHTMLMouseButton</a
-      >
-    </td>
-    <td>The mouse button which was double clicked.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to send the interaction to.</td>
+    </tr>
+    <tr>
+        <td><strong>eMouseButton</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLMouseButton"
+                class="bb_apilink"
+                >EHTMLMouseButton</a
+            >
+        </td>
+        <td>The mouse button which was double clicked.</td>
+    </tr>
 </table>
-<br />Tells an HTML surface that a mouse button has been double clicked.<br /><br />The
-click will occur where the surface thinks the mouse is based on the last call to
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseMove"
-  class="bb_apilink"
-  >ISteamHTMLSurface::MouseMove</a
+
+<br />Tells an HTML surface that a mouse button has been double clicked.<br /><br />The click will
+occur where the surface thinks the mouse is based on the last call to
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseMove" class="bb_apilink"
+    >ISteamHTMLSurface::MouseMove</a
 >.
 <h2 class="bb_subsection"><a name="MouseDown"></a>MouseDown</h2>
 <div class="bb_code cpp">
-  void MouseDown( HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton );
+    void MouseDown( HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to send the interaction to.</td>
-  </tr>
-  <tr>
-    <td><strong>eMouseButton</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLMouseButton"
-        class="bb_apilink"
-        >EHTMLMouseButton</a
-      >
-    </td>
-    <td>The mouse button which was pressed.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to send the interaction to.</td>
+    </tr>
+    <tr>
+        <td><strong>eMouseButton</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLMouseButton"
+                class="bb_apilink"
+                >EHTMLMouseButton</a
+            >
+        </td>
+        <td>The mouse button which was pressed.</td>
+    </tr>
 </table>
-<br />Tells an HTML surface that a mouse button has been pressed.<br /><br />The
-click will occur where the surface thinks the mouse is based on the last call to
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseMove"
-  class="bb_apilink"
-  >ISteamHTMLSurface::MouseMove</a
+
+<br />Tells an HTML surface that a mouse button has been pressed.<br /><br />The click will occur
+where the surface thinks the mouse is based on the last call to
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseMove" class="bb_apilink"
+    >ISteamHTMLSurface::MouseMove</a
 >.
 <h2 class="bb_subsection"><a name="MouseMove"></a>MouseMove</h2>
-<div class="bb_code cpp">
-  void MouseMove( HHTMLBrowser unBrowserHandle, int x, int y );
-</div>
+<div class="bb_code cpp">void MouseMove( HHTMLBrowser unBrowserHandle, int x, int y );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to send the interaction to.</td>
-  </tr>
-  <tr>
-    <td><strong>x</strong></td>
-    <td>int</td>
-    <td>
-      X (width) coordinate in pixels relative to the position of the HTML
-      surface. (0, 0) is the top left.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>y</strong></td>
-    <td>int</td>
-    <td>
-      Y (height) coordinate in pixels relative to the position of the HTML
-      surface. (0, 0) is the top left.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to send the interaction to.</td>
+    </tr>
+    <tr>
+        <td><strong>x</strong></td>
+        <td>int</td>
+        <td>
+            X (width) coordinate in pixels relative to the position of the HTML surface. (0, 0) is
+            the top left.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>y</strong></td>
+        <td>int</td>
+        <td>
+            Y (height) coordinate in pixels relative to the position of the HTML surface. (0, 0) is
+            the top left.
+        </td>
+    </tr>
 </table>
+
 <br />Tells an HTML surface where the mouse is.
 <h2 class="bb_subsection"><a name="MouseUp"></a>MouseUp</h2>
 <div class="bb_code cpp">
-  void MouseUp( HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton );
+    void MouseUp( HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to send the interaction to.</td>
-  </tr>
-  <tr>
-    <td><strong>eMouseButton</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLMouseButton"
-        class="bb_apilink"
-        >EHTMLMouseButton</a
-      >
-    </td>
-    <td>The mouse button which was released.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to send the interaction to.</td>
+    </tr>
+    <tr>
+        <td><strong>eMouseButton</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EHTMLMouseButton"
+                class="bb_apilink"
+                >EHTMLMouseButton</a
+            >
+        </td>
+        <td>The mouse button which was released.</td>
+    </tr>
 </table>
-<br />Tells an HTML surface that a mouse button has been released.<br /><br />The
-click will occur where the surface thinks the mouse is based on the last call to
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseMove"
-  class="bb_apilink"
-  >ISteamHTMLSurface::MouseMove</a
+
+<br />Tells an HTML surface that a mouse button has been released.<br /><br />The click will occur
+where the surface thinks the mouse is based on the last call to
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseMove" class="bb_apilink"
+    >ISteamHTMLSurface::MouseMove</a
 >.
 <h2 class="bb_subsection"><a name="MouseWheel"></a>MouseWheel</h2>
-<div class="bb_code cpp">
-  void MouseWheel( HHTMLBrowser unBrowserHandle, int32 nDelta );
-</div>
+<div class="bb_code cpp">void MouseWheel( HHTMLBrowser unBrowserHandle, int32 nDelta );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to send the interaction to.</td>
-  </tr>
-  <tr>
-    <td><strong>nDelta</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#int32"
-        class="bb_apilink"
-        >int32</a
-      >
-    </td>
-    <td>The number of pixels to scroll.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to send the interaction to.</td>
+    </tr>
+    <tr>
+        <td><strong>nDelta</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink"
+                >int32</a
+            >
+        </td>
+        <td>The number of pixels to scroll.</td>
+    </tr>
 </table>
+
 <br />Tells an HTML surface that the mouse wheel has moved.
-<h2 class="bb_subsection">
-  <a name="PasteFromClipboard"></a>PasteFromClipboard
-</h2>
-<div class="bb_code cpp">
-  void PasteFromClipboard( HHTMLBrowser unBrowserHandle );
-</div>
+<h2 class="bb_subsection"><a name="PasteFromClipboard"></a>PasteFromClipboard</h2>
+<div class="bb_code cpp">void PasteFromClipboard( HHTMLBrowser unBrowserHandle );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to paste into.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to paste into.</td>
+    </tr>
 </table>
+
 <br />Paste from the local clipboard to the current page in an HTML surface.
 <h2 class="bb_subsection"><a name="Reload"></a>Reload</h2>
 <div class="bb_code cpp">void Reload( HHTMLBrowser unBrowserHandle );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to reload.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to reload.</td>
+    </tr>
 </table>
-<br />Refreshes the current page.<br /><br />The reload will most likely hit the
-local cache instead of going over the network. This is equivalent to F5 or
-Ctrl+R in your browser of choice.
+
+<br />Refreshes the current page.<br /><br />The reload will most likely hit the local cache instead
+of going over the network. This is equivalent to F5 or Ctrl+R in your browser of choice.
 <h2 class="bb_subsection"><a name="RemoveBrowser"></a>RemoveBrowser</h2>
-<div class="bb_code cpp">
-  void RemoveBrowser( HHTMLBrowser unBrowserHandle );
-</div>
+<div class="bb_code cpp">void RemoveBrowser( HHTMLBrowser unBrowserHandle );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The browser handle to release.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The browser handle to release.</td>
+    </tr>
 </table>
-<br />You MUST call this when you are done with an HTML surface, freeing the
-resources associated with it.<br /><br />Failing to call this will result in a
-memory leak!
+
+<br />You MUST call this when you are done with an HTML surface, freeing the resources associated
+with it.<br /><br />Failing to call this will result in a memory leak!
 <h2 class="bb_subsection"><a name="SetBackgroundMode"></a>SetBackgroundMode</h2>
 <div class="bb_code cpp">
-  void SetBackgroundMode( HHTMLBrowser unBrowserHandle, bool bBackgroundMode );
+    void SetBackgroundMode( HHTMLBrowser unBrowserHandle, bool bBackgroundMode );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface set background mode on.</td>
-  </tr>
-  <tr>
-    <td><strong>bBackgroundMode</strong></td>
-    <td>bool</td>
-    <td>Toggle background mode on or off.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface set background mode on.</td>
+    </tr>
+    <tr>
+        <td><strong>bBackgroundMode</strong></td>
+        <td>bool</td>
+        <td>Toggle background mode on or off.</td>
+    </tr>
 </table>
-<br />Enable/disable low-resource background mode, where javascript and repaint
-timers are throttled, resources are more aggressively purged from memory, and
-audio/video elements are paused.<br /><br />When background mode is enabled, all
-HTML5 video and audio objects will execute ".pause()" and gain the property
-"._steam_background_paused = 1".<br />When background mode is disabled, any
-video or audio objects with that property will resume with ".play()".
+
+<br />Enable/disable low-resource background mode, where javascript and repaint timers are
+throttled, resources are more aggressively purged from memory, and audio/video elements are
+paused.<br /><br />When background mode is enabled, all HTML5 video and audio objects will execute
+".pause()" and gain the property "._steam_background_paused = 1".<br />When background mode is
+disabled, any video or audio objects with that property will resume with ".play()".
 <h2 class="bb_subsection"><a name="SetCookie"></a>SetCookie</h2>
 <div class="bb_code cpp">
-  void SetCookie( const char *pchHostname, const char *pchKey, const char
-  *pchValue, const char *pchPath = "/", RTime32 nExpires = 0, bool bSecure =
-  false, bool bHTTPOnly = false );
+    void SetCookie( const char *pchHostname, const char *pchKey, const char *pchValue, const char
+    *pchPath = "/", RTime32 nExpires = 0, bool bSecure = false, bool bHTTPOnly = false );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>pchHostname</strong></td>
-    <td>const char *</td>
-    <td>
-      The hostname of the server to set the cookie for. ('Host' attribute)
-    </td>
-  </tr>
-  <tr>
-    <td><strong>pchKey</strong></td>
-    <td>const char *</td>
-    <td>The cookie name to set.</td>
-  </tr>
-  <tr>
-    <td><strong>pchValue</strong></td>
-    <td>const char *</td>
-    <td>The cookie value to set.</td>
-  </tr>
-  <tr>
-    <td><strong>pchPath</strong></td>
-    <td>const char *</td>
-    <td>
-      Sets the 'Path' attribute on the cookie. You can use this to restrict the
-      cookie to a specific path on the domain. e.g. "/accounts"
-    </td>
-  </tr>
-  <tr>
-    <td><strong>nExpires</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#RTime32"
-        class="bb_apilink"
-        >RTime32</a
-      >
-    </td>
-    <td>
-      Sets the 'Expires' attribute on the cookie to the specified timestamp in
-      Unix epoch format (seconds since Jan 1st 1970).
-    </td>
-  </tr>
-  <tr>
-    <td><strong>bSecure</strong></td>
-    <td>bool</td>
-    <td>Sets the 'Secure' attribute.</td>
-  </tr>
-  <tr>
-    <td><strong>bHTTPOnly</strong></td>
-    <td>bool</td>
-    <td>Sets the 'HttpOnly' attribute.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchHostname</strong></td>
+        <td>const char *</td>
+        <td>The hostname of the server to set the cookie for. ('Host' attribute)</td>
+    </tr>
+    <tr>
+        <td><strong>pchKey</strong></td>
+        <td>const char *</td>
+        <td>The cookie name to set.</td>
+    </tr>
+    <tr>
+        <td><strong>pchValue</strong></td>
+        <td>const char *</td>
+        <td>The cookie value to set.</td>
+    </tr>
+    <tr>
+        <td><strong>pchPath</strong></td>
+        <td>const char *</td>
+        <td>
+            Sets the 'Path' attribute on the cookie. You can use this to restrict the cookie to a
+            specific path on the domain. e.g. "/accounts"
+        </td>
+    </tr>
+    <tr>
+        <td><strong>nExpires</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#RTime32" class="bb_apilink"
+                >RTime32</a
+            >
+        </td>
+        <td>
+            Sets the 'Expires' attribute on the cookie to the specified timestamp in Unix epoch
+            format (seconds since Jan 1st 1970).
+        </td>
+    </tr>
+    <tr>
+        <td><strong>bSecure</strong></td>
+        <td>bool</td>
+        <td>Sets the 'Secure' attribute.</td>
+    </tr>
+    <tr>
+        <td><strong>bHTTPOnly</strong></td>
+        <td>bool</td>
+        <td>Sets the 'HttpOnly' attribute.</td>
+    </tr>
 </table>
-<br />Set a webcookie for a specific hostname.<br /><br />You can read more
-about the specifics of setting cookies here on
-<a
-  href="https://en.wikipedia.org/wiki/HTTP_cookie#Implementation"
-  target="_blank"
-  rel="noreferrer"
-  >wikipedia</a
+
+<br />Set a webcookie for a specific hostname.<br /><br />You can read more about the specifics of
+setting cookies here on
+<a href="https://en.wikipedia.org/wiki/HTTP_cookie#Implementation" target="_blank" rel="noreferrer"
+    >wikipedia</a
 >.
-<h2 class="bb_subsection">
-  <a name="SetHorizontalScroll"></a>SetHorizontalScroll
-</h2>
+<h2 class="bb_subsection"><a name="SetHorizontalScroll"></a>SetHorizontalScroll</h2>
 <div class="bb_code cpp">
-  void SetHorizontalScroll( HHTMLBrowser unBrowserHandle, uint32
-  nAbsolutePixelScroll );
+    void SetHorizontalScroll( HHTMLBrowser unBrowserHandle, uint32 nAbsolutePixelScroll );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to set the horizontal scroll position.</td>
-  </tr>
-  <tr>
-    <td><strong>nAbsolutePixelScroll</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The absolute pixel position to scroll to. 0 is the left and
-      <code class="bb_code bb_code_inline nohighlight"
-        >HTML_HorizontalScroll_t.unScrollMax</code
-      >
-      is the right side.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to set the horizontal scroll position.</td>
+    </tr>
+    <tr>
+        <td><strong>nAbsolutePixelScroll</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The absolute pixel position to scroll to. 0 is the left and
+            <code class="bb_code bb_code_inline nohighlight"
+                >HTML_HorizontalScroll_t.unScrollMax</code
+            >
+            is the right side.
+        </td>
+    </tr>
 </table>
-<br />Scroll the current page horizontally.<br /><br /><strong>Returns:</strong>
-void<br />Triggers a
+
+<br />Scroll the current page horizontally.<br /><br /><strong>Returns:</strong> void<br />Triggers
+a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_HorizontalScroll_t"
-  class="bb_apilink"
-  >HTML_HorizontalScroll_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_HorizontalScroll_t"
+    class="bb_apilink"
+    >HTML_HorizontalScroll_t</a
 >
 callback.<br /><br /><br /><strong>See Also:</strong>
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_HorizontalScroll_t"
-  class="bb_apilink"
-  >HTML_HorizontalScroll_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_HorizontalScroll_t"
+    class="bb_apilink"
+    >HTML_HorizontalScroll_t</a
 >,
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetVerticalScroll"
-  class="bb_apilink"
-  >ISteamHTMLSurface::SetVerticalScroll</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetVerticalScroll"
+    class="bb_apilink"
+    >ISteamHTMLSurface::SetVerticalScroll</a
 >,
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_VerticalScroll_t"
-  class="bb_apilink"
-  >HTML_VerticalScroll_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_VerticalScroll_t"
+    class="bb_apilink"
+    >HTML_VerticalScroll_t</a
 >
 <h2 class="bb_subsection"><a name="SetKeyFocus"></a>SetKeyFocus</h2>
+<div class="bb_code cpp">void SetKeyFocus( HHTMLBrowser unBrowserHandle, bool bHasKeyFocus );</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to set key focus on.</td>
+    </tr>
+    <tr>
+        <td><strong>bHasKeyFocus</strong></td>
+        <td>bool</td>
+        <td>Turn key focus on or off?</td>
+    </tr>
+</table>
+
+<br />Tell a HTML surface if it has key focus currently, controls showing the I-beam cursor in text
+controls amongst other things.
+<h2 class="bb_subsection"><a name="SetPageScaleFactor"></a>SetPageScaleFactor</h2>
 <div class="bb_code cpp">
-  void SetKeyFocus( HHTMLBrowser unBrowserHandle, bool bHasKeyFocus );
+    void SetPageScaleFactor( HHTMLBrowser unBrowserHandle, float flZoom, int nPointX, int nPointY );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to set key focus on.</td>
-  </tr>
-  <tr>
-    <td><strong>bHasKeyFocus</strong></td>
-    <td>bool</td>
-    <td>Turn key focus on or off?</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to scale.</td>
+    </tr>
+    <tr>
+        <td><strong>flZoom</strong></td>
+        <td>float</td>
+        <td>
+            The amount to zoom, this can range from <strong>1</strong> (100% and the default) to
+            <strong>2</strong> (200%).
+        </td>
+    </tr>
+    <tr>
+        <td><strong>nPointX</strong></td>
+        <td>int</td>
+        <td>The X point in pixels to zoom around. Use 0 if you don't care.</td>
+    </tr>
+    <tr>
+        <td><strong>nPointY</strong></td>
+        <td>int</td>
+        <td>The Y point in pixels to zoom around. Use 0 if you don't care.</td>
+    </tr>
 </table>
-<br />Tell a HTML surface if it has key focus currently, controls showing the
-I-beam cursor in text controls amongst other things.
-<h2 class="bb_subsection">
-  <a name="SetPageScaleFactor"></a>SetPageScaleFactor
-</h2>
-<div class="bb_code cpp">
-  void SetPageScaleFactor( HHTMLBrowser unBrowserHandle, float flZoom, int
-  nPointX, int nPointY );
-</div>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to scale.</td>
-  </tr>
-  <tr>
-    <td><strong>flZoom</strong></td>
-    <td>float</td>
-    <td>
-      The amount to zoom, this can range from <strong>1</strong> (100% and the
-      default) to <strong>2</strong> (200%).
-    </td>
-  </tr>
-  <tr>
-    <td><strong>nPointX</strong></td>
-    <td>int</td>
-    <td>The X point in pixels to zoom around. Use 0 if you don't care.</td>
-  </tr>
-  <tr>
-    <td><strong>nPointY</strong></td>
-    <td>int</td>
-    <td>The Y point in pixels to zoom around. Use 0 if you don't care.</td>
-  </tr>
-</table>
-<br />Zoom the current page in an HTML surface.<br /><br />The current scale
-factor is available from
-<code class="bb_code bb_code_inline nohighlight"
-  >HTML_NeedsPaint_t.flPageScale</code
->,
-<code class="bb_code bb_code_inline nohighlight"
-  >HTML_HorizontalScroll_t.flPageScale</code
->, and
-<code class="bb_code bb_code_inline nohighlight"
-  >HTML_VerticalScroll_t.flPageScale</code
->.
+
+<br />Zoom the current page in an HTML surface.<br /><br />The current scale factor is available
+from <code class="bb_code bb_code_inline nohighlight">HTML_NeedsPaint_t.flPageScale</code>,
+<code class="bb_code bb_code_inline nohighlight">HTML_HorizontalScroll_t.flPageScale</code>, and
+<code class="bb_code bb_code_inline nohighlight">HTML_VerticalScroll_t.flPageScale</code>.
 <h2 class="bb_subsection"><a name="SetSize"></a>SetSize</h2>
 <div class="bb_code cpp">
-  void SetSize( HHTMLBrowser unBrowserHandle, uint32 unWidth, uint32 unHeight );
+    void SetSize( HHTMLBrowser unBrowserHandle, uint32 unWidth, uint32 unHeight );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to set the size of.</td>
-  </tr>
-  <tr>
-    <td><strong>unWidth</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The width of the surface in pixels.</td>
-  </tr>
-  <tr>
-    <td><strong>unHeight</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The height of the surface in pixels.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to set the size of.</td>
+    </tr>
+    <tr>
+        <td><strong>unWidth</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The width of the surface in pixels.</td>
+    </tr>
+    <tr>
+        <td><strong>unHeight</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The height of the surface in pixels.</td>
+    </tr>
 </table>
+
 <br />Sets the display size of a surface in pixels.
 <h2 class="bb_subsection"><a name="SetVerticalScroll"></a>SetVerticalScroll</h2>
 <div class="bb_code cpp">
-  void SetVerticalScroll( HHTMLBrowser unBrowserHandle, uint32
-  nAbsolutePixelScroll );
+    void SetVerticalScroll( HHTMLBrowser unBrowserHandle, uint32 nAbsolutePixelScroll );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to set the vertical scroll position.</td>
-  </tr>
-  <tr>
-    <td><strong>nAbsolutePixelScroll</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The absolute pixel position to scroll to. 0 is the top and
-      <code class="bb_code bb_code_inline nohighlight"
-        >HTML_VerticalScroll_t.unScrollMax</code
-      >
-      is the bottom.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to set the vertical scroll position.</td>
+    </tr>
+    <tr>
+        <td><strong>nAbsolutePixelScroll</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The absolute pixel position to scroll to. 0 is the top and
+            <code class="bb_code bb_code_inline nohighlight"
+                >HTML_VerticalScroll_t.unScrollMax</code
+            >
+            is the bottom.
+        </td>
+    </tr>
 </table>
-<br />Scroll the current page vertically.<br /><br /><strong>Returns:</strong>
-void<br />Triggers a
+
+<br />Scroll the current page vertically.<br /><br /><strong>Returns:</strong> void<br />Triggers a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_VerticalScroll_t"
-  class="bb_apilink"
-  >HTML_VerticalScroll_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_VerticalScroll_t"
+    class="bb_apilink"
+    >HTML_VerticalScroll_t</a
 >
 callback.<br /><br /><br /><strong>See Also:</strong>
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_VerticalScroll_t"
-  class="bb_apilink"
-  >HTML_VerticalScroll_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_VerticalScroll_t"
+    class="bb_apilink"
+    >HTML_VerticalScroll_t</a
 >,
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetHorizontalScroll"
-  class="bb_apilink"
-  >ISteamHTMLSurface::SetHorizontalScroll</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetHorizontalScroll"
+    class="bb_apilink"
+    >ISteamHTMLSurface::SetHorizontalScroll</a
 >,
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_HorizontalScroll_t"
-  class="bb_apilink"
-  >HTML_HorizontalScroll_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_HorizontalScroll_t"
+    class="bb_apilink"
+    >HTML_HorizontalScroll_t</a
 >
 <h2 class="bb_subsection"><a name="Shutdown"></a>Shutdown</h2>
 <div class="bb_code cpp">bool Shutdown();</div>
-Shutdown the ISteamHTMLSurface interface, releasing the memory and handles.<br /><br />You
-MUST call this when you are done using this interface to prevent memory and
-handle leaks. After calling this then all of the functions provided in this
-interface will fail until you call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Init"
-  class="bb_apilink"
-  >ISteamHTMLSurface::Init</a
+Shutdown the ISteamHTMLSurface interface, releasing the memory and handles.<br /><br />You MUST call
+this when you are done using this interface to prevent memory and handle leaks. After calling this
+then all of the functions provided in this interface will fail until you call
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Init" class="bb_apilink"
+    >ISteamHTMLSurface::Init</a
 >
-to reinitialize again.<br /><br /><strong>Returns:</strong> bool<br />This
-function currently always returns <strong>true</strong>.
+to reinitialize again.<br /><br /><strong>Returns:</strong> bool<br />This function currently always
+returns <strong>true</strong>.
 <h2 class="bb_subsection"><a name="StopFind"></a>StopFind</h2>
 <div class="bb_code cpp">void StopFind( HHTMLBrowser unBrowserHandle );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to stop the find results.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to stop the find results.</td>
+    </tr>
 </table>
+
 <br />Cancel a currently running find.<br /><br /><strong>See Also:</strong>
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Find"
-  class="bb_apilink"
-  >ISteamHTMLSurface::Find</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Find" class="bb_apilink"
+    >ISteamHTMLSurface::Find</a
 >
 <h2 class="bb_subsection"><a name="StopLoad"></a>StopLoad</h2>
 <div class="bb_code cpp">void StopLoad( HHTMLBrowser unBrowserHandle );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to stop loading.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to stop loading.</td>
+    </tr>
 </table>
+
 <br />Stop the load of the current HTML page.
 <h2 class="bb_subsection"><a name="ViewSource"></a>ViewSource</h2>
 <div class="bb_code cpp">void ViewSource( HHTMLBrowser unBrowserHandle );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface to view its current pages source.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface to view its current pages source.</td>
+    </tr>
 </table>
-<br />Open the current pages HTML source code in default local text editor, used
-for debugging.
+
+<br />Open the current pages HTML source code in default local text editor, used for debugging.
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
-  class="bb_apilink"
-  >SteamAPI_RunCallbacks</a
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
+    >SteamAPI_RunCallbacks</a
 >. Many of these will be fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamHTMLSurface</code>.
-<h2 class="bb_subsection">
-  <a name="HTML_BrowserReady_t"></a>HTML_BrowserReady_t
-</h2>
+<h2 class="bb_subsection"><a name="HTML_BrowserReady_t"></a>HTML_BrowserReady_t</h2>
 A new browser was created and is ready for use.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>
-      This is the handle to the browser that was just created, which you can use
-      with future calls to
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface"
-        class="bb_apilink"
-        >ISteamHTMLSurface</a
-      >.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>
+            This is the handle to the browser that was just created, which you can use with future
+            calls to
+            <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface" class="bb_apilink"
+                >ISteamHTMLSurface</a
+            >.
+        </td>
+    </tr>
 </table>
+
 <br /><strong>Associated Functions:</strong>
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#CreateBrowser"
-  class="bb_apilink"
-  >ISteamHTMLSurface::CreateBrowser</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#CreateBrowser" class="bb_apilink"
+    >ISteamHTMLSurface::CreateBrowser</a
 >
-<h2 class="bb_subsection">
-  <a name="HTML_CanGoBackAndForward_t"></a>HTML_CanGoBackAndForward_t
-</h2>
-Called when page history status has changed the ability to go backwards and
-forward.<br /><br />
+<h2 class="bb_subsection"><a name="HTML_CanGoBackAndForward_t"></a>HTML_CanGoBackAndForward_t</h2>
+Called when page history status has changed the ability to go backwards and forward.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>bCanGoBack</strong></td>
-    <td>bool</td>
-    <td>Returns whether you can navigate backwards.</td>
-  </tr>
-  <tr>
-    <td><strong>bCanGoForward</strong></td>
-    <td>bool</td>
-    <td>Returns whether you can navigate forward.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>bCanGoBack</strong></td>
+        <td>bool</td>
+        <td>Returns whether you can navigate backwards.</td>
+    </tr>
+    <tr>
+        <td><strong>bCanGoForward</strong></td>
+        <td>bool</td>
+        <td>Returns whether you can navigate forward.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_ChangedTitle_t"></a>HTML_ChangedTitle_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_ChangedTitle_t"></a>HTML_ChangedTitle_t</h2>
 Called when the current page in a browser gets a new title.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchTitle</strong></td>
-    <td>const char *</td>
-    <td>The new title of the page.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchTitle</strong></td>
+        <td>const char *</td>
+        <td>The new title of the page.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_CloseBrowser_t"></a>HTML_CloseBrowser_t
-</h2>
-Called when the browser has been requested to close due to user interaction;
-usually because of a javascript
-<code class="bb_code bb_code_inline nohighlight">window.close()</code>
-call.<br /><br />
+
+<h2 class="bb_subsection"><a name="HTML_CloseBrowser_t"></a>HTML_CloseBrowser_t</h2>
+Called when the browser has been requested to close due to user interaction; usually because of a
+javascript
+<code class="bb_code bb_code_inline nohighlight">window.close()</code> call.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_FileOpenDialog_t"></a>HTML_FileOpenDialog_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_FileOpenDialog_t"></a>HTML_FileOpenDialog_t</h2>
 Called when a browser surface has received a file open dialog from a
-<code class="bb_code bb_code_inline nohighlight"
-  >&lt;input type="file"&gt;</code
->
-click or similar, you must call
+<code class="bb_code bb_code_inline nohighlight">&lt;input type="file"&gt;</code> click or similar,
+you must call
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#FileLoadDialogResponse"
-  class="bb_apilink"
-  >ISteamHTMLSurface::FileLoadDialogResponse</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#FileLoadDialogResponse"
+    class="bb_apilink"
+    >ISteamHTMLSurface::FileLoadDialogResponse</a
 >
 with the file(s) the user selected.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that is navigating.</td>
-  </tr>
-  <tr>
-    <td><strong>pchTitle</strong></td>
-    <td>const char *</td>
-    <td>The name of the dialog. (eg. "Upload Images")</td>
-  </tr>
-  <tr>
-    <td><strong>pchInitialFile</strong></td>
-    <td>const char *</td>
-    <td>
-      The filename that the page wants you to set by default. It may be
-      expecting a file with that name or that was the file the user previously
-      uploaded.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that is navigating.</td>
+    </tr>
+    <tr>
+        <td><strong>pchTitle</strong></td>
+        <td>const char *</td>
+        <td>The name of the dialog. (eg. "Upload Images")</td>
+    </tr>
+    <tr>
+        <td><strong>pchInitialFile</strong></td>
+        <td>const char *</td>
+        <td>
+            The filename that the page wants you to set by default. It may be expecting a file with
+            that name or that was the file the user previously uploaded.
+        </td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_FinishedRequest_t"></a>HTML_FinishedRequest_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_FinishedRequest_t"></a>HTML_FinishedRequest_t</h2>
 Called when a browser has finished loading a page.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this call was for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchURL</strong></td>
-    <td>const char *</td>
-    <td>The URL that was loaded.</td>
-  </tr>
-  <tr>
-    <td><strong>pchPageTitle</strong></td>
-    <td>const char *</td>
-    <td>The title of the page that got loaded.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this call was for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchURL</strong></td>
+        <td>const char *</td>
+        <td>The URL that was loaded.</td>
+    </tr>
+    <tr>
+        <td><strong>pchPageTitle</strong></td>
+        <td>const char *</td>
+        <td>The title of the page that got loaded.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_HideToolTip_t"></a>HTML_HideToolTip_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_HideToolTip_t"></a>HTML_HideToolTip_t</h2>
 Called when a a browser wants to hide a tooltip.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_HorizontalScroll_t"></a>HTML_HorizontalScroll_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_HorizontalScroll_t"></a>HTML_HorizontalScroll_t</h2>
 Provides details on the visibility and size of the horizontal scrollbar.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>unScrollMax</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The maximum amount you can scroll horizontally.</td>
-  </tr>
-  <tr>
-    <td><strong>unScrollCurrent</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The current horizontal scroll position.</td>
-  </tr>
-  <tr>
-    <td><strong>flPageScale</strong></td>
-    <td>float</td>
-    <td>The current page scale.</td>
-  </tr>
-  <tr>
-    <td><strong>bVisible</strong></td>
-    <td>bool</td>
-    <td>Whether the horizontal scrollbar is visible.</td>
-  </tr>
-  <tr>
-    <td><strong>unPageSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The total width of the page in pixels.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>unScrollMax</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The maximum amount you can scroll horizontally.</td>
+    </tr>
+    <tr>
+        <td><strong>unScrollCurrent</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The current horizontal scroll position.</td>
+    </tr>
+    <tr>
+        <td><strong>flPageScale</strong></td>
+        <td>float</td>
+        <td>The current page scale.</td>
+    </tr>
+    <tr>
+        <td><strong>bVisible</strong></td>
+        <td>bool</td>
+        <td>Whether the horizontal scrollbar is visible.</td>
+    </tr>
+    <tr>
+        <td><strong>unPageSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The total width of the page in pixels.</td>
+    </tr>
 </table>
+
 <br /><strong>Associated Functions:</strong>
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetHorizontalScroll"
-  class="bb_apilink"
-  >ISteamHTMLSurface::SetHorizontalScroll</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetHorizontalScroll"
+    class="bb_apilink"
+    >ISteamHTMLSurface::SetHorizontalScroll</a
 >
 <h2 class="bb_subsection"><a name="HTML_JSAlert_t"></a>HTML_JSAlert_t</h2>
 Called when the browser wants to display a Javascript alert dialog, call
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#JSDialogResponse"
-  class="bb_apilink"
-  >ISteamHTMLSurface::JSDialogResponse</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#JSDialogResponse"
+    class="bb_apilink"
+    >ISteamHTMLSurface::JSDialogResponse</a
 >
 when the user dismisses this dialog; or right away to ignore it.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this call was for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchMessage</strong></td>
-    <td>const char *</td>
-    <td>The message associated with the dialog.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this call was for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchMessage</strong></td>
+        <td>const char *</td>
+        <td>The message associated with the dialog.</td>
+    </tr>
 </table>
+
 <h2 class="bb_subsection"><a name="HTML_JSConfirm_t"></a>HTML_JSConfirm_t</h2>
 Called when the browser wants to display a Javascript confirmation dialog, call
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#JSDialogResponse"
-  class="bb_apilink"
-  >ISteamHTMLSurface::JSDialogResponse</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#JSDialogResponse"
+    class="bb_apilink"
+    >ISteamHTMLSurface::JSDialogResponse</a
 >
 when the user dismisses this dialog; or right away to ignore it.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this call was for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchMessage</strong></td>
-    <td>const char *</td>
-    <td>The message associated with the dialog.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this call was for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchMessage</strong></td>
+        <td>const char *</td>
+        <td>The message associated with the dialog.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_LinkAtPosition_t"></a>HTML_LinkAtPosition_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_LinkAtPosition_t"></a>HTML_LinkAtPosition_t</h2>
 Result of a call to
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#GetLinkAtPosition"
-  class="bb_apilink"
-  >ISteamHTMLSurface::GetLinkAtPosition</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#GetLinkAtPosition"
+    class="bb_apilink"
+    >ISteamHTMLSurface::GetLinkAtPosition</a
 ><br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this call was for.</td>
-  </tr>
-  <tr>
-    <td><strong>x</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>Unused.</td>
-  </tr>
-  <tr>
-    <td><strong>y</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>Unused.</td>
-  </tr>
-  <tr>
-    <td><strong>pchURL</strong></td>
-    <td>const char *</td>
-    <td>
-      The URL found at this position. <strong>NULL</strong> if no link was
-      found.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>bInput</strong></td>
-    <td>bool</td>
-    <td>Was the position an input field?</td>
-  </tr>
-  <tr>
-    <td><strong>bLiveLink</strong></td>
-    <td>bool</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this call was for.</td>
+    </tr>
+    <tr>
+        <td><strong>x</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>Unused.</td>
+    </tr>
+    <tr>
+        <td><strong>y</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>Unused.</td>
+    </tr>
+    <tr>
+        <td><strong>pchURL</strong></td>
+        <td>const char *</td>
+        <td>The URL found at this position. <strong>NULL</strong> if no link was found.</td>
+    </tr>
+    <tr>
+        <td><strong>bInput</strong></td>
+        <td>bool</td>
+        <td>Was the position an input field?</td>
+    </tr>
+    <tr>
+        <td><strong>bLiveLink</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
 </table>
+
 <br /><strong>Associated Functions:</strong>
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#GetLinkAtPosition"
-  class="bb_apilink"
-  >ISteamHTMLSurface::GetLinkAtPosition</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#GetLinkAtPosition"
+    class="bb_apilink"
+    >ISteamHTMLSurface::GetLinkAtPosition</a
 >
 <h2 class="bb_subsection"><a name="HTML_NeedsPaint_t"></a>HTML_NeedsPaint_t</h2>
-Called when a browser surface has a pending paint. This is where you get the
-actual image data to render to the screen.<br /><br />
+Called when a browser surface has a pending paint. This is where you get the actual image data to
+render to the screen.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>pBGRA</strong></td>
-    <td>const char *</td>
-    <td>
-      A pointer to the B8G8R8A8 image data for this surface, valid until
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
-        class="bb_apilink"
-        >SteamAPI_RunCallbacks</a
-      >
-      is next called.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>unWide</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The total width of the
-      <code class="bb_code bb_code_inline nohighlight">pBGRA</code> texture.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>unTall</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The total height of the
-      <code class="bb_code bb_code_inline nohighlight">pBGRA</code> texture.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>unUpdateX</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The offset in X for the damage rect for this update.</td>
-  </tr>
-  <tr>
-    <td><strong>unUpdateY</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The offset in Y for the damage rect for this update.</td>
-  </tr>
-  <tr>
-    <td><strong>unUpdateWide</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The width of the damage rect for this update.</td>
-  </tr>
-  <tr>
-    <td><strong>unUpdateTall</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The height of the damage rect for this update.</td>
-  </tr>
-  <tr>
-    <td><strong>unScrollX</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The horizontal scroll position the browser was at when this texture was
-      rendered.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>unScrollY</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The veritcal scroll position the browser was at when this texture was
-      rendered.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>flPageScale</strong></td>
-    <td>float</td>
-    <td>The scale factor the browser was at when this texture was rendered.</td>
-  </tr>
-  <tr>
-    <td><strong>unPageSerial</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      Incremented on each new page load, you can use this to reject draws while
-      navigating to new pages.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>pBGRA</strong></td>
+        <td>const char *</td>
+        <td>
+            A pointer to the B8G8R8A8 image data for this surface, valid until
+            <a
+                href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
+                class="bb_apilink"
+                >SteamAPI_RunCallbacks</a
+            >
+            is next called.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>unWide</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The total width of the
+            <code class="bb_code bb_code_inline nohighlight">pBGRA</code> texture.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>unTall</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The total height of the
+            <code class="bb_code bb_code_inline nohighlight">pBGRA</code> texture.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>unUpdateX</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The offset in X for the damage rect for this update.</td>
+    </tr>
+    <tr>
+        <td><strong>unUpdateY</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The offset in Y for the damage rect for this update.</td>
+    </tr>
+    <tr>
+        <td><strong>unUpdateWide</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The width of the damage rect for this update.</td>
+    </tr>
+    <tr>
+        <td><strong>unUpdateTall</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The height of the damage rect for this update.</td>
+    </tr>
+    <tr>
+        <td><strong>unScrollX</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The horizontal scroll position the browser was at when this texture was rendered.</td>
+    </tr>
+    <tr>
+        <td><strong>unScrollY</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The veritcal scroll position the browser was at when this texture was rendered.</td>
+    </tr>
+    <tr>
+        <td><strong>flPageScale</strong></td>
+        <td>float</td>
+        <td>The scale factor the browser was at when this texture was rendered.</td>
+    </tr>
+    <tr>
+        <td><strong>unPageSerial</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            Incremented on each new page load, you can use this to reject draws while navigating to
+            new pages.
+        </td>
+    </tr>
 </table>
+
 <h2 class="bb_subsection"><a name="HTML_NewWindow_t"></a>HTML_NewWindow_t</h2>
 A browser has created a new HTML window.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchURL</strong></td>
-    <td>const char *</td>
-    <td>The URL to load in the new window.</td>
-  </tr>
-  <tr>
-    <td><strong>unX</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The x pos into the page to display the popup.</td>
-  </tr>
-  <tr>
-    <td><strong>unY</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The y pos into the page to display the popup.</td>
-  </tr>
-  <tr>
-    <td><strong>unWide</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The total width of the pBGRA texture.</td>
-  </tr>
-  <tr>
-    <td><strong>unTall</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The total height of the pBGRA texture.</td>
-  </tr>
-  <tr>
-    <td><strong>unNewWindow_BrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the new window surface.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchURL</strong></td>
+        <td>const char *</td>
+        <td>The URL to load in the new window.</td>
+    </tr>
+    <tr>
+        <td><strong>unX</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The x pos into the page to display the popup.</td>
+    </tr>
+    <tr>
+        <td><strong>unY</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The y pos into the page to display the popup.</td>
+    </tr>
+    <tr>
+        <td><strong>unWide</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The total width of the pBGRA texture.</td>
+    </tr>
+    <tr>
+        <td><strong>unTall</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The total height of the pBGRA texture.</td>
+    </tr>
+    <tr>
+        <td><strong>unNewWindow_BrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the new window surface.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_OpenLinkInNewTab_t"></a>HTML_OpenLinkInNewTab_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_OpenLinkInNewTab_t"></a>HTML_OpenLinkInNewTab_t</h2>
 The browser has requested to load a url in a new tab.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchURL</strong></td>
-    <td>const char *</td>
-    <td>The URL that the browser wants to load.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchURL</strong></td>
+        <td>const char *</td>
+        <td>The URL that the browser wants to load.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_SearchResults_t"></a>HTML_SearchResults_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_SearchResults_t"></a>HTML_SearchResults_t</h2>
 Results from a search.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>unResults</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The number of matching results found.</td>
-  </tr>
-  <tr>
-    <td><strong>unCurrentMatch</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The ordinal of the current match relative to
-      <code class="bb_code bb_code_inline nohighlight">unResults</code>.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>unResults</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The number of matching results found.</td>
+    </tr>
+    <tr>
+        <td><strong>unCurrentMatch</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The ordinal of the current match relative to
+            <code class="bb_code bb_code_inline nohighlight">unResults</code>.
+        </td>
+    </tr>
 </table>
+
 <br /><strong>Associated Functions:</strong>
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Find"
-  class="bb_apilink"
-  >ISteamHTMLSurface::Find</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Find" class="bb_apilink"
+    >ISteamHTMLSurface::Find</a
 >
 <h2 class="bb_subsection"><a name="HTML_SetCursor_t"></a>HTML_SetCursor_t</h2>
 Called when a browser wants to change the mouse cursor.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>eMouseCursor</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      The
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EMouseCursor"
-        class="bb_apilink"
-        >EMouseCursor</a
-      >
-      to display.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>eMouseCursor</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#EMouseCursor"
+                class="bb_apilink"
+                >EMouseCursor</a
+            >
+            to display.
+        </td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_ShowToolTip_t"></a>HTML_ShowToolTip_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_ShowToolTip_t"></a>HTML_ShowToolTip_t</h2>
 Called when a browser wants to display a tooltip.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchMsg</strong></td>
-    <td>const char *</td>
-    <td>The text of the tooltip that wants to be displayed.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchMsg</strong></td>
+        <td>const char *</td>
+        <td>The text of the tooltip that wants to be displayed.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_StartRequest_t"></a>HTML_StartRequest_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_StartRequest_t"></a>HTML_StartRequest_t</h2>
 Called when a browser wants to navigate to a new page.
 <div class="bb_callout bb_red bb_fixed">
-  <div>
-    <strong>NOTE:</strong> You MUST call
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#AllowStartRequest"
-      class="bb_apilink"
-      >ISteamHTMLSurface::AllowStartRequest</a
-    >
-    in response to this callback!
-  </div>
+    <div>
+        <strong>NOTE:</strong> You MUST call
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#AllowStartRequest"
+            class="bb_apilink"
+            >ISteamHTMLSurface::AllowStartRequest</a
+        >
+        in response to this callback!
+    </div>
 </div>
 <br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that is navigating.</td>
-  </tr>
-  <tr>
-    <td><strong>pchURL</strong></td>
-    <td>const char *</td>
-    <td>The url it wants to navigate to.</td>
-  </tr>
-  <tr>
-    <td><strong>pchTarget</strong></td>
-    <td>const char *</td>
-    <td>The html link target type (i.e _blank, _self, _parent, _top ).</td>
-  </tr>
-  <tr>
-    <td><strong>pchPostData</strong></td>
-    <td>const char *</td>
-    <td>Any posted data for the request.</td>
-  </tr>
-  <tr>
-    <td><strong>bIsRedirect</strong></td>
-    <td>bool</td>
-    <td>True if this was a http/html redirect from the last load request.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that is navigating.</td>
+    </tr>
+    <tr>
+        <td><strong>pchURL</strong></td>
+        <td>const char *</td>
+        <td>The url it wants to navigate to.</td>
+    </tr>
+    <tr>
+        <td><strong>pchTarget</strong></td>
+        <td>const char *</td>
+        <td>The html link target type (i.e _blank, _self, _parent, _top ).</td>
+    </tr>
+    <tr>
+        <td><strong>pchPostData</strong></td>
+        <td>const char *</td>
+        <td>Any posted data for the request.</td>
+    </tr>
+    <tr>
+        <td><strong>bIsRedirect</strong></td>
+        <td>bool</td>
+        <td>True if this was a http/html redirect from the last load request.</td>
+    </tr>
 </table>
+
 <br /><strong>Associated Functions:</strong>
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#LoadURL"
-  class="bb_apilink"
-  >ISteamHTMLSurface::LoadURL</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#LoadURL" class="bb_apilink"
+    >ISteamHTMLSurface::LoadURL</a
 >
 <h2 class="bb_subsection"><a name="HTML_StatusText_t"></a>HTML_StatusText_t</h2>
-Called when a browser wants you to display an informational message. This is
-most commonly used when you hover over links.<br /><br />
+Called when a browser wants you to display an informational message. This is most commonly used when
+you hover over links.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchMsg</strong></td>
-    <td>const char *</td>
-    <td>The text of the status message to display.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchMsg</strong></td>
+        <td>const char *</td>
+        <td>The text of the status message to display.</td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_UpdateToolTip_t"></a>HTML_UpdateToolTip_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_UpdateToolTip_t"></a>HTML_UpdateToolTip_t</h2>
 Called when the text of an existing tooltip has been updated.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchMsg</strong></td>
-    <td>const char *</td>
-    <td>The new text of the tooltip.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchMsg</strong></td>
+        <td>const char *</td>
+        <td>The new text of the tooltip.</td>
+    </tr>
 </table>
+
 <h2 class="bb_subsection"><a name="HTML_URLChanged_t"></a>HTML_URLChanged_t</h2>
 Called when the browser is navigating to a new url<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>pchURL</strong></td>
-    <td>const char *</td>
-    <td>The url that the browser is navigating to.</td>
-  </tr>
-  <tr>
-    <td><strong>pchPostData</strong></td>
-    <td>const char *</td>
-    <td>Any posted data for the request, NULL if there was none.</td>
-  </tr>
-  <tr>
-    <td><strong>bIsRedirect</strong></td>
-    <td>bool</td>
-    <td>
-      <strong>true</strong> if this was a http/html redirect from the last load
-      request, otherwise <strong>false</strong>.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>pchPageTitle</strong></td>
-    <td>const char *</td>
-    <td>The title of the page.</td>
-  </tr>
-  <tr>
-    <td><strong>bNewNavigation</strong></td>
-    <td>bool</td>
-    <td>
-      This is <strong>true</strong> if the page has changed rather than just a
-      call to the browser history API.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>pchURL</strong></td>
+        <td>const char *</td>
+        <td>The url that the browser is navigating to.</td>
+    </tr>
+    <tr>
+        <td><strong>pchPostData</strong></td>
+        <td>const char *</td>
+        <td>Any posted data for the request, NULL if there was none.</td>
+    </tr>
+    <tr>
+        <td><strong>bIsRedirect</strong></td>
+        <td>bool</td>
+        <td>
+            <strong>true</strong> if this was a http/html redirect from the last load request,
+            otherwise <strong>false</strong>.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchPageTitle</strong></td>
+        <td>const char *</td>
+        <td>The title of the page.</td>
+    </tr>
+    <tr>
+        <td><strong>bNewNavigation</strong></td>
+        <td>bool</td>
+        <td>
+            This is <strong>true</strong> if the page has changed rather than just a call to the
+            browser history API.
+        </td>
+    </tr>
 </table>
-<h2 class="bb_subsection">
-  <a name="HTML_VerticalScroll_t"></a>HTML_VerticalScroll_t
-</h2>
+
+<h2 class="bb_subsection"><a name="HTML_VerticalScroll_t"></a>HTML_VerticalScroll_t</h2>
 Provides details on the visibility and size of the vertical scrollbar.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unBrowserHandle</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-    </td>
-    <td>The handle of the surface that this callback is for.</td>
-  </tr>
-  <tr>
-    <td><strong>unScrollMax</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The maximum amount you can scroll vertically.</td>
-  </tr>
-  <tr>
-    <td><strong>unScrollCurrent</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The current vertical scroll position.</td>
-  </tr>
-  <tr>
-    <td><strong>flPageScale</strong></td>
-    <td>float</td>
-    <td>The current page scale.</td>
-  </tr>
-  <tr>
-    <td><strong>bVisible</strong></td>
-    <td>bool</td>
-    <td>Whether the vertical scrollbar is visible.</td>
-  </tr>
-  <tr>
-    <td><strong>unPageSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The total height of the page in pixels.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unBrowserHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+        </td>
+        <td>The handle of the surface that this callback is for.</td>
+    </tr>
+    <tr>
+        <td><strong>unScrollMax</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The maximum amount you can scroll vertically.</td>
+    </tr>
+    <tr>
+        <td><strong>unScrollCurrent</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The current vertical scroll position.</td>
+    </tr>
+    <tr>
+        <td><strong>flPageScale</strong></td>
+        <td>float</td>
+        <td>The current page scale.</td>
+    </tr>
+    <tr>
+        <td><strong>bVisible</strong></td>
+        <td>bool</td>
+        <td>Whether the vertical scrollbar is visible.</td>
+    </tr>
+    <tr>
+        <td><strong>unPageSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The total height of the page in pixels.</td>
+    </tr>
 </table>
+
 <br /><strong>Associated Functions:</strong>
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetVerticalScroll"
-  class="bb_apilink"
-  >ISteamHTMLSurface::SetVerticalScroll</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetVerticalScroll"
+    class="bb_apilink"
+    >ISteamHTMLSurface::SetVerticalScroll</a
 >
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamHTMLSurface.
 <h2 class="bb_subsection"><a name="EHTMLKeyModifiers"></a>EHTMLKeyModifiers</h2>
 Used to let the browser know what keys are pressed with:
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#KeyChar"
-  class="bb_apilink"
-  >ISteamHTMLSurface::KeyChar</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#KeyChar" class="bb_apilink"
+    >ISteamHTMLSurface::KeyChar</a
 >,
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#KeyUp"
-  class="bb_apilink"
-  >ISteamHTMLSurface::KeyUp</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#KeyUp" class="bb_apilink"
+    >ISteamHTMLSurface::KeyUp</a
 >
 and
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#KeyDown"
-  class="bb_apilink"
-  >ISteamHTMLSurface::KeyDown</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#KeyDown" class="bb_apilink"
+    >ISteamHTMLSurface::KeyDown</a
 >. These flags can be added together using bitwise OR.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="k_eHTMLKeyModifier_None">
-    <td><strong>k_eHTMLKeyModifier_None</strong></td>
-    <td>0</td>
-    <td>No modifiers are pressed.</td>
-  </tr>
-  <tr id="k_eHTMLKeyModifier_AltDown">
-    <td><strong>k_eHTMLKeyModifier_AltDown</strong></td>
-    <td>1 &lt;&lt; 0</td>
-    <td>One of the alt keys are pressed.</td>
-  </tr>
-  <tr id="k_eHTMLKeyModifier_CtrlDown">
-    <td><strong>k_eHTMLKeyModifier_CtrlDown</strong></td>
-    <td>1 &lt;&lt; 1</td>
-    <td>One of the ctrl keys are pressed.</td>
-  </tr>
-  <tr id="k_eHTMLKeyModifier_ShiftDown">
-    <td><strong>k_eHTMLKeyModifier_ShiftDown</strong></td>
-    <td>1 &lt;&lt; 2</td>
-    <td>One of the shift keys are pressed.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_eHTMLKeyModifier_None">
+        <td><strong>k_eHTMLKeyModifier_None</strong></td>
+        <td>0</td>
+        <td>No modifiers are pressed.</td>
+    </tr>
+    <tr id="k_eHTMLKeyModifier_AltDown">
+        <td><strong>k_eHTMLKeyModifier_AltDown</strong></td>
+        <td>1 &lt;&lt; 0</td>
+        <td>One of the alt keys are pressed.</td>
+    </tr>
+    <tr id="k_eHTMLKeyModifier_CtrlDown">
+        <td><strong>k_eHTMLKeyModifier_CtrlDown</strong></td>
+        <td>1 &lt;&lt; 1</td>
+        <td>One of the ctrl keys are pressed.</td>
+    </tr>
+    <tr id="k_eHTMLKeyModifier_ShiftDown">
+        <td><strong>k_eHTMLKeyModifier_ShiftDown</strong></td>
+        <td>1 &lt;&lt; 2</td>
+        <td>One of the shift keys are pressed.</td>
+    </tr>
 </table>
+
 <h2 class="bb_subsection"><a name="EHTMLMouseButton"></a>EHTMLMouseButton</h2>
 Used to let the browser know when a mouse button is pressed with:
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseUp"
-  class="bb_apilink"
-  >ISteamHTMLSurface::MouseUp</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseUp" class="bb_apilink"
+    >ISteamHTMLSurface::MouseUp</a
 >,
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseDown"
-  class="bb_apilink"
-  >ISteamHTMLSurface::MouseDown</a
+<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseDown" class="bb_apilink"
+    >ISteamHTMLSurface::MouseDown</a
 >
 and
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseDoubleClick"
-  class="bb_apilink"
-  >ISteamHTMLSurface::MouseDoubleClick</a
+    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseDoubleClick"
+    class="bb_apilink"
+    >ISteamHTMLSurface::MouseDoubleClick</a
 >.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="eHTMLMouseButton_Left">
-    <td><strong>eHTMLMouseButton_Left</strong></td>
-    <td>0</td>
-    <td>The left button is pressed.</td>
-  </tr>
-  <tr id="eHTMLMouseButton_Right">
-    <td><strong>eHTMLMouseButton_Right</strong></td>
-    <td>1</td>
-    <td>The right button is pressed.</td>
-  </tr>
-  <tr id="eHTMLMouseButton_Middle">
-    <td><strong>eHTMLMouseButton_Middle</strong></td>
-    <td>2</td>
-    <td>The middle button is pressed.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="eHTMLMouseButton_Left">
+        <td><strong>eHTMLMouseButton_Left</strong></td>
+        <td>0</td>
+        <td>The left button is pressed.</td>
+    </tr>
+    <tr id="eHTMLMouseButton_Right">
+        <td><strong>eHTMLMouseButton_Right</strong></td>
+        <td>1</td>
+        <td>The right button is pressed.</td>
+    </tr>
+    <tr id="eHTMLMouseButton_Middle">
+        <td><strong>eHTMLMouseButton_Middle</strong></td>
+        <td>2</td>
+        <td>The middle button is pressed.</td>
+    </tr>
 </table>
+
 <h2 class="bb_subsection"><a name="EMouseCursor"></a>EMouseCursor</h2>
 This lists the mouse cursors that the HTML surface will tell you to render.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="dc_user">
-    <td><strong>dc_user</strong></td>
-    <td>0</td>
-    <td></td>
-  </tr>
-  <tr id="dc_none">
-    <td><strong>dc_none</strong></td>
-    <td>1</td>
-    <td></td>
-  </tr>
-  <tr id="dc_arrow">
-    <td><strong>dc_arrow</strong></td>
-    <td>2</td>
-    <td></td>
-  </tr>
-  <tr id="dc_ibeam">
-    <td><strong>dc_ibeam</strong></td>
-    <td>3</td>
-    <td></td>
-  </tr>
-  <tr id="dc_hourglass">
-    <td><strong>dc_hourglass</strong></td>
-    <td>4</td>
-    <td></td>
-  </tr>
-  <tr id="dc_waitarrow">
-    <td><strong>dc_waitarrow</strong></td>
-    <td>5</td>
-    <td></td>
-  </tr>
-  <tr id="dc_crosshair">
-    <td><strong>dc_crosshair</strong></td>
-    <td>6</td>
-    <td></td>
-  </tr>
-  <tr id="dc_up">
-    <td><strong>dc_up</strong></td>
-    <td>7</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizenw">
-    <td><strong>dc_sizenw</strong></td>
-    <td>8</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizese">
-    <td><strong>dc_sizese</strong></td>
-    <td>9</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizene">
-    <td><strong>dc_sizene</strong></td>
-    <td>10</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizesw">
-    <td><strong>dc_sizesw</strong></td>
-    <td>11</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizew">
-    <td><strong>dc_sizew</strong></td>
-    <td>12</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizee">
-    <td><strong>dc_sizee</strong></td>
-    <td>13</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizen">
-    <td><strong>dc_sizen</strong></td>
-    <td>14</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizes">
-    <td><strong>dc_sizes</strong></td>
-    <td>15</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizewe">
-    <td><strong>dc_sizewe</strong></td>
-    <td>16</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizens">
-    <td><strong>dc_sizens</strong></td>
-    <td>17</td>
-    <td></td>
-  </tr>
-  <tr id="dc_sizeall">
-    <td><strong>dc_sizeall</strong></td>
-    <td>18</td>
-    <td></td>
-  </tr>
-  <tr id="dc_no">
-    <td><strong>dc_no</strong></td>
-    <td>19</td>
-    <td></td>
-  </tr>
-  <tr id="dc_hand">
-    <td><strong>dc_hand</strong></td>
-    <td>20</td>
-    <td></td>
-  </tr>
-  <tr id="dc_blank">
-    <td><strong>dc_blank</strong></td>
-    <td>21</td>
-    <td>Don't show any custom cursor, just use your default.</td>
-  </tr>
-  <tr id="dc_middle_pan">
-    <td><strong>dc_middle_pan</strong></td>
-    <td>22</td>
-    <td></td>
-  </tr>
-  <tr id="dc_north_pan">
-    <td><strong>dc_north_pan</strong></td>
-    <td>23</td>
-    <td></td>
-  </tr>
-  <tr id="dc_north_east_pan">
-    <td><strong>dc_north_east_pan</strong></td>
-    <td>24</td>
-    <td></td>
-  </tr>
-  <tr id="dc_east_pan">
-    <td><strong>dc_east_pan</strong></td>
-    <td>25</td>
-    <td></td>
-  </tr>
-  <tr id="dc_south_east_pan">
-    <td><strong>dc_south_east_pan</strong></td>
-    <td>26</td>
-    <td></td>
-  </tr>
-  <tr id="dc_south_pan">
-    <td><strong>dc_south_pan</strong></td>
-    <td>27</td>
-    <td></td>
-  </tr>
-  <tr id="dc_south_west_pan">
-    <td><strong>dc_south_west_pan</strong></td>
-    <td>28</td>
-    <td></td>
-  </tr>
-  <tr id="dc_west_pan">
-    <td><strong>dc_west_pan</strong></td>
-    <td>29</td>
-    <td></td>
-  </tr>
-  <tr id="dc_north_west_pan">
-    <td><strong>dc_north_west_pan</strong></td>
-    <td>30</td>
-    <td></td>
-  </tr>
-  <tr id="dc_alias">
-    <td><strong>dc_alias</strong></td>
-    <td>31</td>
-    <td></td>
-  </tr>
-  <tr id="dc_cell">
-    <td><strong>dc_cell</strong></td>
-    <td>32</td>
-    <td></td>
-  </tr>
-  <tr id="dc_colresize">
-    <td><strong>dc_colresize</strong></td>
-    <td>33</td>
-    <td></td>
-  </tr>
-  <tr id="dc_copycur">
-    <td><strong>dc_copycur</strong></td>
-    <td>34</td>
-    <td></td>
-  </tr>
-  <tr id="dc_verticaltext">
-    <td><strong>dc_verticaltext</strong></td>
-    <td>35</td>
-    <td></td>
-  </tr>
-  <tr id="dc_rowresize">
-    <td><strong>dc_rowresize</strong></td>
-    <td>36</td>
-    <td></td>
-  </tr>
-  <tr id="dc_zoomin">
-    <td><strong>dc_zoomin</strong></td>
-    <td>37</td>
-    <td></td>
-  </tr>
-  <tr id="dc_zoomout">
-    <td><strong>dc_zoomout</strong></td>
-    <td>38</td>
-    <td></td>
-  </tr>
-  <tr id="dc_help">
-    <td><strong>dc_help</strong></td>
-    <td>39</td>
-    <td></td>
-  </tr>
-  <tr id="dc_custom">
-    <td><strong>dc_custom</strong></td>
-    <td>40</td>
-    <td></td>
-  </tr>
-  <tr id="dc_last">
-    <td><strong>dc_last</strong></td>
-    <td>41</td>
-    <td>
-      Only used to iterate over all cursors. Custom cursors start from this
-      value and up.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="dc_user">
+        <td><strong>dc_user</strong></td>
+        <td>0</td>
+        <td></td>
+    </tr>
+    <tr id="dc_none">
+        <td><strong>dc_none</strong></td>
+        <td>1</td>
+        <td></td>
+    </tr>
+    <tr id="dc_arrow">
+        <td><strong>dc_arrow</strong></td>
+        <td>2</td>
+        <td></td>
+    </tr>
+    <tr id="dc_ibeam">
+        <td><strong>dc_ibeam</strong></td>
+        <td>3</td>
+        <td></td>
+    </tr>
+    <tr id="dc_hourglass">
+        <td><strong>dc_hourglass</strong></td>
+        <td>4</td>
+        <td></td>
+    </tr>
+    <tr id="dc_waitarrow">
+        <td><strong>dc_waitarrow</strong></td>
+        <td>5</td>
+        <td></td>
+    </tr>
+    <tr id="dc_crosshair">
+        <td><strong>dc_crosshair</strong></td>
+        <td>6</td>
+        <td></td>
+    </tr>
+    <tr id="dc_up">
+        <td><strong>dc_up</strong></td>
+        <td>7</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizenw">
+        <td><strong>dc_sizenw</strong></td>
+        <td>8</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizese">
+        <td><strong>dc_sizese</strong></td>
+        <td>9</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizene">
+        <td><strong>dc_sizene</strong></td>
+        <td>10</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizesw">
+        <td><strong>dc_sizesw</strong></td>
+        <td>11</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizew">
+        <td><strong>dc_sizew</strong></td>
+        <td>12</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizee">
+        <td><strong>dc_sizee</strong></td>
+        <td>13</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizen">
+        <td><strong>dc_sizen</strong></td>
+        <td>14</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizes">
+        <td><strong>dc_sizes</strong></td>
+        <td>15</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizewe">
+        <td><strong>dc_sizewe</strong></td>
+        <td>16</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizens">
+        <td><strong>dc_sizens</strong></td>
+        <td>17</td>
+        <td></td>
+    </tr>
+    <tr id="dc_sizeall">
+        <td><strong>dc_sizeall</strong></td>
+        <td>18</td>
+        <td></td>
+    </tr>
+    <tr id="dc_no">
+        <td><strong>dc_no</strong></td>
+        <td>19</td>
+        <td></td>
+    </tr>
+    <tr id="dc_hand">
+        <td><strong>dc_hand</strong></td>
+        <td>20</td>
+        <td></td>
+    </tr>
+    <tr id="dc_blank">
+        <td><strong>dc_blank</strong></td>
+        <td>21</td>
+        <td>Don't show any custom cursor, just use your default.</td>
+    </tr>
+    <tr id="dc_middle_pan">
+        <td><strong>dc_middle_pan</strong></td>
+        <td>22</td>
+        <td></td>
+    </tr>
+    <tr id="dc_north_pan">
+        <td><strong>dc_north_pan</strong></td>
+        <td>23</td>
+        <td></td>
+    </tr>
+    <tr id="dc_north_east_pan">
+        <td><strong>dc_north_east_pan</strong></td>
+        <td>24</td>
+        <td></td>
+    </tr>
+    <tr id="dc_east_pan">
+        <td><strong>dc_east_pan</strong></td>
+        <td>25</td>
+        <td></td>
+    </tr>
+    <tr id="dc_south_east_pan">
+        <td><strong>dc_south_east_pan</strong></td>
+        <td>26</td>
+        <td></td>
+    </tr>
+    <tr id="dc_south_pan">
+        <td><strong>dc_south_pan</strong></td>
+        <td>27</td>
+        <td></td>
+    </tr>
+    <tr id="dc_south_west_pan">
+        <td><strong>dc_south_west_pan</strong></td>
+        <td>28</td>
+        <td></td>
+    </tr>
+    <tr id="dc_west_pan">
+        <td><strong>dc_west_pan</strong></td>
+        <td>29</td>
+        <td></td>
+    </tr>
+    <tr id="dc_north_west_pan">
+        <td><strong>dc_north_west_pan</strong></td>
+        <td>30</td>
+        <td></td>
+    </tr>
+    <tr id="dc_alias">
+        <td><strong>dc_alias</strong></td>
+        <td>31</td>
+        <td></td>
+    </tr>
+    <tr id="dc_cell">
+        <td><strong>dc_cell</strong></td>
+        <td>32</td>
+        <td></td>
+    </tr>
+    <tr id="dc_colresize">
+        <td><strong>dc_colresize</strong></td>
+        <td>33</td>
+        <td></td>
+    </tr>
+    <tr id="dc_copycur">
+        <td><strong>dc_copycur</strong></td>
+        <td>34</td>
+        <td></td>
+    </tr>
+    <tr id="dc_verticaltext">
+        <td><strong>dc_verticaltext</strong></td>
+        <td>35</td>
+        <td></td>
+    </tr>
+    <tr id="dc_rowresize">
+        <td><strong>dc_rowresize</strong></td>
+        <td>36</td>
+        <td></td>
+    </tr>
+    <tr id="dc_zoomin">
+        <td><strong>dc_zoomin</strong></td>
+        <td>37</td>
+        <td></td>
+    </tr>
+    <tr id="dc_zoomout">
+        <td><strong>dc_zoomout</strong></td>
+        <td>38</td>
+        <td></td>
+    </tr>
+    <tr id="dc_help">
+        <td><strong>dc_help</strong></td>
+        <td>39</td>
+        <td></td>
+    </tr>
+    <tr id="dc_custom">
+        <td><strong>dc_custom</strong></td>
+        <td>40</td>
+        <td></td>
+    </tr>
+    <tr id="dc_last">
+        <td><strong>dc_last</strong></td>
+        <td>41</td>
+        <td>Only used to iterate over all cursors. Custom cursors start from this value and up.</td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
 These are typedefs which are defined for use with ISteamHTMLSurface.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Base type</th>
-    <th>Description</th>
-  </tr>
-  <tr id="HHTMLBrowser">
-    <td><strong>HHTMLBrowser</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>Represents a unique handle to an HTML surface.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Base type</th>
+        <th>Description</th>
+    </tr>
+    <tr id="HHTMLBrowser">
+        <td><strong>HHTMLBrowser</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>Represents a unique handle to an HTML surface.</td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamHTMLSurface.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="INVALID_HTMLBROWSER">
-    <td><strong>INVALID_HTMLBROWSER</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>0</td>
-    <td>
-      Indicates that a browser handle is invalid. You should initialize your own
-      <a
-        href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
-        class="bb_apilink"
-        >HHTMLBrowser</a
-      >
-      handles to this value and then set it back to this when the page closes.
-    </td>
-  </tr>
-  <tr id="STEAMHTMLSURFACE_INTERFACE_VERSION">
-    <td><strong>STEAMHTMLSURFACE_INTERFACE_VERSION</strong></td>
-    <td>const char *</td>
-    <td>"STEAMHTMLSURFACE_INTERFACE_VERSION_003"</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="INVALID_HTMLBROWSER">
+        <td><strong>INVALID_HTMLBROWSER</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>0</td>
+        <td>
+            Indicates that a browser handle is invalid. You should initialize your own
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HHTMLBrowser"
+                class="bb_apilink"
+                >HHTMLBrowser</a
+            >
+            handles to this value and then set it back to this when the page closes.
+        </td>
+    </tr>
+    <tr id="STEAMHTMLSURFACE_INTERFACE_VERSION">
+        <td><strong>STEAMHTMLSURFACE_INTERFACE_VERSION</strong></td>
+        <td>const char *</td>
+        <td>"STEAMHTMLSURFACE_INTERFACE_VERSION_003"</td>
+        <td></td>
+    </tr>
 </table>

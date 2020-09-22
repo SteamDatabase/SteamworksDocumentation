@@ -1,292 +1,288 @@
 <h1>IGameServersService Interface</h1>
-Methods to improve the administration of Steam Game Servers.<br /><br /><strong
-  >NOTE:</strong
->
-This is a Service interface, methods in this interface should be called with the
-<code class="bb_code bb_code_inline nohighlight">input_json</code>
-parameter.<br /><br />For more info on how to use the Steamworks Web API please
-see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
-  >Web API Overview</a
+Methods to improve the administration of Steam Game Servers.<br /><br /><strong>NOTE:</strong> This
+is a Service interface, methods in this interface should be called with the
+<code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br /><br />For more
+info on how to use the Steamworks Web API please see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
 >.
 <h2 class="bb_section"><a name="GetAccountList"></a>GetAccountList</h2>
 <div class="bb_code http">
-  GET https://api.steampowered.com/IGameServersService/GetAccountList/v1/
+    GET https://api.steampowered.com/IGameServersService/GetAccountList/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
 </table>
+
 <br />Gets a list of game server accounts with their logon tokens
 <h2 class="bb_section"><a name="CreateAccount"></a>CreateAccount</h2>
 <div class="bb_code http">
-  POST https://api.steampowered.com/IGameServersService/CreateAccount/v1/
+    POST https://api.steampowered.com/IGameServersService/CreateAccount/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>The app to use the account for</td>
-  </tr>
-  <tr>
-    <td><strong>memo</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>The memo to set on the new account</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>The app to use the account for</td>
+    </tr>
+    <tr>
+        <td><strong>memo</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>The memo to set on the new account</td>
+    </tr>
 </table>
+
 <br />Creates a persistent game server account
 <h2 class="bb_section"><a name="SetMemo"></a>SetMemo</h2>
-<div class="bb_code http">
-  POST https://api.steampowered.com/IGameServersService/SetMemo/v1/
-</div>
+<div class="bb_code http">POST https://api.steampowered.com/IGameServersService/SetMemo/v1/</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The SteamID of the game server to set the memo on</td>
-  </tr>
-  <tr>
-    <td><strong>memo</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>The memo to set on the new account</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>The SteamID of the game server to set the memo on</td>
+    </tr>
+    <tr>
+        <td><strong>memo</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>The memo to set on the new account</td>
+    </tr>
 </table>
-<br />This method changes the memo associated with the game server account.
-Memos do not affect the account in any way. The memo shows up in the
-GetAccountList response and serves only as a reminder of what the account is
-used for.
+
+<br />This method changes the memo associated with the game server account. Memos do not affect the
+account in any way. The memo shows up in the GetAccountList response and serves only as a reminder
+of what the account is used for.
 <h2 class="bb_section"><a name="ResetLoginToken"></a>ResetLoginToken</h2>
 <div class="bb_code http">
-  POST https://api.steampowered.com/IGameServersService/ResetLoginToken/v1/
+    POST https://api.steampowered.com/IGameServersService/ResetLoginToken/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The SteamID of the game server to reset the login token of</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>The SteamID of the game server to reset the login token of</td>
+    </tr>
 </table>
+
 <br />Generates a new login token for the specified game server
 <h2 class="bb_section"><a name="DeleteAccount"></a>DeleteAccount</h2>
 <div class="bb_code http">
-  POST https://api.steampowered.com/IGameServersService/DeleteAccount/v1/
+    POST https://api.steampowered.com/IGameServersService/DeleteAccount/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The SteamID of the game server account to delete</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>The SteamID of the game server account to delete</td>
+    </tr>
 </table>
+
 <br />Deletes a persistent game server account
-<h2 class="bb_section">
-  <a name="GetAccountPublicInfo"></a>GetAccountPublicInfo
-</h2>
+<h2 class="bb_section"><a name="GetAccountPublicInfo"></a>GetAccountPublicInfo</h2>
 <div class="bb_code http">
-  GET https://api.steampowered.com/IGameServersService/GetAccountPublicInfo/v1/
+    GET https://api.steampowered.com/IGameServersService/GetAccountPublicInfo/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The SteamID of the game server to get info on</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>The SteamID of the game server to get info on</td>
+    </tr>
 </table>
+
 <br />Gets public information about a given game server account
 <h2 class="bb_section"><a name="QueryLoginToken"></a>QueryLoginToken</h2>
 <div class="bb_code http">
-  GET https://api.steampowered.com/IGameServersService/QueryLoginToken/v1/
+    GET https://api.steampowered.com/IGameServersService/QueryLoginToken/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>login_token</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Login token to query</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>login_token</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Login token to query</td>
+    </tr>
 </table>
+
 <br />Queries the status of the specified token, which must be owned by you
 <h2 class="bb_section"><a name="SetBanStatus"></a>SetBanStatus</h2>
 <div class="bb_code http">
-  POST https://partner.steam-api.com/IGameServersService/SetBanStatus/v1/
+    POST https://partner.steam-api.com/IGameServersService/SetBanStatus/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API publisher authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>banned</strong></td>
-    <td>bool</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>ban_seconds</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>banned</strong></td>
+        <td>bool</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>ban_seconds</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
 </table>
-<br />performs a GSLT ban/unban of GSLT associated with a GS. If banning, also
-bans associated users' GSLTs.<br /><br /><strong>NOTE:</strong> This call
-requires a publisher API key to use this method. As such this API
-<strong>MUST</strong> be called from a secure server, and can never be used
+
+<br />performs a GSLT ban/unban of GSLT associated with a GS. If banning, also bans associated
+users' GSLTs.<br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this
+method. As such this API <strong>MUST</strong> be called from a secure server, and can never be used
 directly by clients!
-<h2 class="bb_section">
-  <a name="GetServerSteamIDsByIP"></a>GetServerSteamIDsByIP
-</h2>
+<h2 class="bb_section"><a name="GetServerSteamIDsByIP"></a>GetServerSteamIDsByIP</h2>
 <div class="bb_code http">
-  GET https://api.steampowered.com/IGameServersService/GetServerSteamIDsByIP/v1/
+    GET https://api.steampowered.com/IGameServersService/GetServerSteamIDsByIP/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>server_ips</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>server_ips</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
 </table>
+
 <br />Gets a list of server SteamIDs given a list of IPs
-<h2 class="bb_section">
-  <a name="GetServerIPsBySteamID"></a>GetServerIPsBySteamID
-</h2>
+<h2 class="bb_section"><a name="GetServerIPsBySteamID"></a>GetServerIPsBySteamID</h2>
 <div class="bb_code http">
-  GET https://api.steampowered.com/IGameServersService/GetServerIPsBySteamID/v1/
+    GET https://api.steampowered.com/IGameServersService/GetServerIPsBySteamID/v1/
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>Steamworks Web API user authentication key.</td>
-  </tr>
-  <tr>
-    <td><strong>server_steamids</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>server_steamids</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
 </table>
+
 <br />Gets a list of server IP addresses given a list of SteamIDs

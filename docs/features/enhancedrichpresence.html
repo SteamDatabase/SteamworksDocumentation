@@ -1,184 +1,160 @@
 <h1>Enhanced Rich Presence</h1>
 <h2 class="bb_section"><a name="1"></a>Overview</h2>
-With the recent release of the new Steam Friends and Chat client we've enhanced
-the capabilities of our rich presence system to show more about the games being
-played. We see a player's rich presence as a way to engage the player's friends
-in their activity. For example, friends who own the game engage by knowing the
-right time to join the game or by talking about it with the player, and those
-who don't own the game may have their interest piqued by coming across a variety
-of rich presence strings that tell them more about a game that they don't know
-much about.<br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/rp_group_images.jpg"
-  alt="Rich Presence is shown in multiple contexts"
-  title="Rich Presence is shown in multiple contexts"
-/><br /><br />In this documentation, we’re going to cover two settings you can
-define to control how your game appears in players’ friends list: <br />
-<ul class="bb_ul">
-  <li>
-    Rich Presence String – used for displaying information about player state in
-    your game that their friends may want to know<br />
-  </li>
-  <li>
-    Friend Grouping – used for grouping friends together that are playing
-    together in the game
-  </li>
+With the recent release of the new Steam Friends and Chat client we've enhanced the capabilities of
+our rich presence system to show more about the games being played. We see a player's rich presence
+as a way to engage the player's friends in their activity. For example, friends who own the game
+engage by knowing the right time to join the game or by talking about it with the player, and those
+who don't own the game may have their interest piqued by coming across a variety of rich presence
+strings that tell them more about a game that they don't know much about.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/rp_group_images.jpg"
+    alt="Rich Presence is shown in multiple contexts"
+    title="Rich Presence is shown in multiple contexts"
+/><br /><br />In this documentation, we’re going to cover two settings you can define to control how
+your game appears in players’ friends list: <br />
+<ul class="bb_ul ">
+    <li>
+        Rich Presence String – used for displaying information about player state in your game that
+        their friends may want to know<br />
+    </li>
+    <li>
+        Friend Grouping – used for grouping friends together that are playing together in the game
+    </li>
 </ul>
 <h2 class="bb_section"><a name="2"></a>Game controlled Rich Presence string</h2>
 <br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/rp3_1.jpg"
-  alt="Friends can see more information about games at a glance"
-  title="Friends can see more information about games at a glance"
-/><br />The system in place is customizable so that your team can determine
-which information is the most interesting to a player's friends. <br />Your game
-will have its own specific data that will be the right information to show with
-enhanced rich presence. To start you off, though, here are some thoughts to
-consider:
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/rp3_1.jpg"
+    alt="Friends can see more information about games at a glance"
+    title="Friends can see more information about games at a glance"
+/><br />The system in place is customizable so that your team can determine which information is the
+most interesting to a player's friends. <br />Your game will have its own specific data that will be
+the right information to show with enhanced rich presence. To start you off, though, here are some
+thoughts to consider:
 <h2 class="bb_subsection"><a name="multiplayer"></a>Multiplayer Games</h2>
-Depending on the multiplayer game type, information that helps a player's
-friends know when to jump in can vary. Some games are played in rounds that are
-determined by time, or by players remaining, and so that information is most
-useful to display. Other multiplayer games are finished once an objective is met
-and showing progression towards that goal can be useful. Knowing which game mode
-or map your player is on can also be useful in helping the player's friends make
-a decision on how to engage with the player.
+Depending on the multiplayer game type, information that helps a player's friends know when to jump
+in can vary. Some games are played in rounds that are determined by time, or by players remaining,
+and so that information is most useful to display. Other multiplayer games are finished once an
+objective is met and showing progression towards that goal can be useful. Knowing which game mode or
+map your player is on can also be useful in helping the player's friends make a decision on how to
+engage with the player.
 <h2 class="bb_subsection"><a name="singleplayer"></a>Single-player Games</h2>
-While single-player games are not joined by a player's friends, friend
-engagement can still occur if the information shown causes the friend to watch
-the player play, talk to them about strategies, or talk about highlights of
-playing. Information showing the zone, chapter, or level the player is in, or
-what the player is currently doing in the game can help achieve these goals.<br /><br /><strong
-  ><code class="bb_code bb_code_inline nohighlight">*</code></strong
+While single-player games are not joined by a player's friends, friend engagement can still occur if
+the information shown causes the friend to watch the player play, talk to them about strategies, or
+talk about highlights of playing. Information showing the zone, chapter, or level the player is in,
+or what the player is currently doing in the game can help achieve these goals.<br /><br /><strong
+    ><code class="bb_code bb_code_inline nohighlight">*</code></strong
 >
 To define the string to display in Steam friends list and chat, set the
-<code class="bb_code bb_code_inline nohighlight">steam_display</code> key/value
-in
+<code class="bb_code bb_code_inline nohighlight">steam_display</code> key/value in
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
-  target="_blank"
-  rel="noreferrer"
-  >SetRichPresence</a
->. More information and examples about the API calls at the end of this
-document.<br /><br /><strong>Examples of data to show if applicable</strong
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
+    target="_blank"
+    rel="noreferrer"
+    >SetRichPresence</a
+>. More information and examples about the API calls at the end of this document.<br /><br /><strong
+    >Examples of data to show if applicable</strong
 ><br />
-<ul class="bb_ul">
-  <li>Time remaining<br /></li>
-  <li>Time passed<br /></li>
-  <li>Players still alive<br /></li>
-  <li>Map or Zone name<br /></li>
-  <li>Player level<br /></li>
-  <li>Player Class<br /></li>
-  <li>Game score<br /></li>
-  <li>Difficulty<br /></li>
-  <li>Game mode type<br /></li>
-  <li>Spots open on the server<br /></li>
-  <li>
-    Action being taken (deck building, roster changing, on main menu etc.)
-  </li>
+<ul class="bb_ul ">
+    <li>Time remaining<br /></li>
+    <li>Time passed<br /></li>
+    <li>Players still alive<br /></li>
+    <li>Map or Zone name<br /></li>
+    <li>Player level<br /></li>
+    <li>Player Class<br /></li>
+    <li>Game score<br /></li>
+    <li>Difficulty<br /></li>
+    <li>Game mode type<br /></li>
+    <li>Spots open on the server<br /></li>
+    <li>Action being taken (deck building, roster changing, on main menu etc.)</li>
 </ul>
-<div class="bb_callout">
-  <div>
-    <strong>NOTE:</strong> Keep in mind that this rich presence string will need
-    to fit on one line, and is shown under a players name in the friends list.
-    If it is too long, the end of the line will be truncated or ellipsized.
-  </div>
+<div class="bb_callout ">
+    <div>
+        <strong>NOTE:</strong> Keep in mind that this rich presence string will need to fit on one
+        line, and is shown under a players name in the friends list. If it is too long, the end of
+        the line will be truncated or ellipsized.
+    </div>
 </div>
 <h2 class="bb_section"><a name="3"></a>Friend Grouping</h2>
-<br />Along with the additional line of information, the new Friends List is
-able to display groups of friends who are playing together. Those friends who
-are in a party, server, or match together will be grouped under the game
-category with a line connecting them together. The way the grouping is
-determined will depend on your game and what makes the most sense to show. For
-example, in Dota 2 there are parties of up to 5 people, so we will show the
-party that is being played with, not the full team of 5 that is match-made by
-the game. In Counter-Strike, though, 2 friends may be playing on a server
-together, but rather than showing the whole server as part of the party, only
-the mutual friends who are playing together are placed in the same Steam Player
-Group.<br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/party_rp.jpg"
-  alt="When friends playing together are grouped, others know if there is room for them to join"
-  title="When friends playing together are grouped, others know if there is room for them to join"
-/><br /><br /><strong
-  ><code class="bb_code bb_code_inline nohighlight">*</code></strong
->
-To define the grouping of players in the Steam friends list and chat, set the
+<br />Along with the additional line of information, the new Friends List is able to display groups
+of friends who are playing together. Those friends who are in a party, server, or match together
+will be grouped under the game category with a line connecting them together. The way the grouping
+is determined will depend on your game and what makes the most sense to show. For example, in Dota 2
+there are parties of up to 5 people, so we will show the party that is being played with, not the
+full team of 5 that is match-made by the game. In Counter-Strike, though, 2 friends may be playing
+on a server together, but rather than showing the whole server as part of the party, only the mutual
+friends who are playing together are placed in the same Steam Player Group.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/party_rp.jpg"
+    alt="When friends playing together are grouped, others know if there is room for them to join"
+    title="When friends playing together are grouped, others know if there is room for them to join"
+/><br /><br /><strong><code class="bb_code bb_code_inline nohighlight">*</code></strong> To define
+the grouping of players in the Steam friends list and chat, set the
 <code class="bb_code bb_code_inline nohighlight">steam_player_group</code> and
-<code class="bb_code bb_code_inline nohighlight">steam_player_group_size</code>
-key/values in
+<code class="bb_code bb_code_inline nohighlight">steam_player_group_size</code> key/values in
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
-  target="_blank"
-  rel="noreferrer"
-  >SetRichPresence</a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
+    target="_blank"
+    rel="noreferrer"
+    >SetRichPresence</a
 >.
 <h2 class="bb_section"><a name="4"></a>Steam API &amp; Localization</h2>
-<ul class="bb_ul">
-  <li>
-    Information about the Steam API calls to set your new rich presence strings,
-    documentation can be found here:
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
-      target="_blank"
-      rel="noreferrer"
-      >https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence</a
-    >
-    <br /><br />
-  </li>
-  <li>
-    As enhanced rich presence can now show strings relating to each game,
-    localization is necessary so that players running in all supported languages
-    can view the information. More information on how that is setup can be found
-    here: <br /><a
-      href="https://partner.steamgames.com/doc/api/ISteamFriends#richpresencelocalization"
-      target="_blank"
-      rel="noreferrer"
-      >https://partner.steamgames.com/doc/api/ISteamFriends#richpresencelocalization</a
-    ><br /><br />
-  </li>
-  <li>
-    <strong
-      >Once you have hooked up the data appropriately, run the game and make
-      sure you are logged into the Steam on the web and then you can test to see
-      if it's working and what will be displayed here: <br /><a
-        href="https://steamcommunity.com/dev/testrichpresence"
-        target="_blank"
-        rel="noreferrer"
-        >https://steamcommunity.com/dev/testrichpresence</a
-      ></strong
-    >
-  </li>
+<ul class="bb_ul ">
+    <li>
+        Information about the Steam API calls to set your new rich presence strings, documentation
+        can be found here:
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
+            target="_blank"
+            rel="noreferrer"
+            >https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence</a
+        >
+        <br /><br />
+    </li>
+    <li>
+        As enhanced rich presence can now show strings relating to each game, localization is
+        necessary so that players running in all supported languages can view the information. More
+        information on how that is setup can be found here: <br /><a
+            href="https://partner.steamgames.com/doc/api/ISteamFriends#richpresencelocalization"
+            target="_blank"
+            rel="noreferrer"
+            >https://partner.steamgames.com/doc/api/ISteamFriends#richpresencelocalization</a
+        ><br /><br />
+    </li>
+    <li>
+        <strong
+            >Once you have hooked up the data appropriately, run the game and make sure you are
+            logged into the Steam on the web and then you can test to see if it's working and what
+            will be displayed here: <br /><a
+                href="https://steamcommunity.com/dev/testrichpresence"
+                target="_blank"
+                rel="noreferrer"
+                >https://steamcommunity.com/dev/testrichpresence</a
+            ></strong
+        >
+    </li>
 </ul>
 <br /><br />Below is a code sample to show how simple it is to set this up.<br /><br /><strong
-  ><i>Code Snippet</i></strong
+    ><i>Code Snippet</i></strong
 ><br />
-<div class="bb_code">
-  /*--------------------------- SAMPLE -------------------*/ const char
-  *pchStatus; if ( bWinning &amp;&amp; cWinners &gt; 1 ) { pchStatus = "Tied"; }
-  else if ( bWinning ) { pchStatus = "Winning"; } else { pchStatus = "Losing"; }
-  SteamFriends()-&gt;SetRichPresence( "gamestatus", pchStatus ); bool
-  bDisplayScoreInRichPresence = true; if ( bDisplayScoreInRichPresence ) { char
-  rgchBuffer[32]; sprintf_safe( rgchBuffer, "%2u", uMyScore );
-  SteamFriends()-&gt;SetRichPresence( "score", rgchBuffer ); }
-  SteamFriends()-&gt;SetRichPresence( "steam_display",
-  bDisplayScoreInRichPresence ? "#StatusWithScore" : "#StatusWithoutScore" ); //
-  Sample of grouping friends together when they play together if (
-  nPartyMemberCount &gt; 1 &amp;&amp; strPartyID ) { // If we're in a party of
-  more than one user, and we have a valid PartyID then // inform Steam's Rich
-  Presence system. steamapicontext-&gt;SteamFriends()-&gt;SetRichPresence(
-  "steam_player_group", strPartyID );
-  steamapicontext-&gt;SteamFriends()-&gt;SetRichPresence(
-  "steam_player_group_size", CNumStr( nPartyMemberCount ) ); } else { //
-  Otherwise, clear out whatever information we had there before; we're not in a
-  party. steamapicontext-&gt;SteamFriends()-&gt;SetRichPresence(
-  "steam_player_group", nullptr );
-  steamapicontext-&gt;SteamFriends()-&gt;SetRichPresence(
-  "steam_player_group_size", nullptr ); }
+<div class="bb_code ">
+    /*--------------------------- SAMPLE -------------------*/ const char *pchStatus; if ( bWinning
+    &amp;&amp; cWinners &gt; 1 ) { pchStatus = "Tied"; } else if ( bWinning ) { pchStatus =
+    "Winning"; } else { pchStatus = "Losing"; } SteamFriends()-&gt;SetRichPresence( "gamestatus",
+    pchStatus ); bool bDisplayScoreInRichPresence = true; if ( bDisplayScoreInRichPresence ) { char
+    rgchBuffer[32]; sprintf_safe( rgchBuffer, "%2u", uMyScore ); SteamFriends()-&gt;SetRichPresence(
+    "score", rgchBuffer ); } SteamFriends()-&gt;SetRichPresence( "steam_display",
+    bDisplayScoreInRichPresence ? "#StatusWithScore" : "#StatusWithoutScore" ); // Sample of
+    grouping friends together when they play together if ( nPartyMemberCount &gt; 1 &amp;&amp;
+    strPartyID ) { // If we're in a party of more than one user, and we have a valid PartyID then //
+    inform Steam's Rich Presence system. steamapicontext-&gt;SteamFriends()-&gt;SetRichPresence(
+    "steam_player_group", strPartyID ); steamapicontext-&gt;SteamFriends()-&gt;SetRichPresence(
+    "steam_player_group_size", CNumStr( nPartyMemberCount ) ); } else { // Otherwise, clear out
+    whatever information we had there before; we're not in a party.
+    steamapicontext-&gt;SteamFriends()-&gt;SetRichPresence( "steam_player_group", nullptr );
+    steamapicontext-&gt;SteamFriends()-&gt;SetRichPresence( "steam_player_group_size", nullptr ); }
 </div>
-<br />The above code uses localization that includes English tokens like the
-following:<br /><br />
-<div class="bb_code">
-  "lang" { "language" "english" "tokens" { "#StatusWithoutScore"
-  "{#Status_%gamestatus%}" "#StatusWithScore" "{#Status_%gamestatus%}: %SCORE%"
-  "#Status_AtMainMenu" "At the main menu" "#Status_WaitingForMatch" "Waiting for
-  match" "#Status_Winning" "Winning" "#Status_Losing" "Losing" "#Status_Tied"
-  "Tied" } }
+<br />The above code uses localization that includes English tokens like the following:<br /><br />
+<div class="bb_code ">
+    "lang" { "language" "english" "tokens" { "#StatusWithoutScore" "{#Status_%gamestatus%}"
+    "#StatusWithScore" "{#Status_%gamestatus%}: %SCORE%" "#Status_AtMainMenu" "At the main menu"
+    "#Status_WaitingForMatch" "Waiting for match" "#Status_Winning" "Winning" "#Status_Losing"
+    "Losing" "#Status_Tied" "Tied" } }
 </div>

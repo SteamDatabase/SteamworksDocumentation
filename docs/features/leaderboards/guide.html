@@ -1,276 +1,120 @@
 <h1>Step by Step: Leaderboards</h1>
-<h2 class="bb_section"><a name="1"></a>Introduction</h2>
-The following is a quick step by step guide to integrating very basic Steam
-Leaderboards into your application in under 10 minutes. The
-<a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink"
-  >Steamworks SDK</a
->
-comes with a great example application called
-<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
-  >Spacewar</a
->
-that shows off the full breadth of Steam features and should be your first stop
-to see all Steam features in action. This tutorial distills that information
-found in Spacewar and the leaderboards API found within
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamUserStats"
-  class="bb_apilink"
-  >ISteamUserStats</a
->
-down to just the necessary information required for Steam Leaderboards to keep
-things as straightforward as possible.
-<h2 class="bb_section">
-  <a name="2"></a>Step 1 - Defining your game's Leaderboards
-</h2>
-Leaderboards are application specific and are setup on the
-<a
-  href="https://partner.steamgames.com/apps/leaderboards/"
-  target="_blank"
-  rel="noreferrer"
-  >Leaderboard Configuration</a
->
-page in the Steamworks Partner Site.<br /><br />The following fields must be
-completed to define a leaderboard:<br />
-<ul class="bb_ul">
-  <li>
-    <strong>Name</strong> - Set this to be a name that makes sense as part of
-    internal development.<br />
-  </li>
-  <li>
-    <strong>Community Name</strong> - If the leaderboard is to be shown on the
-    Community Hub, set the public facing name here. If there is no name entered,
-    the leaderboard will not appear.<br />
-  </li>
-  <li>
-    <strong>Sort Method</strong> - Set the order for the leaderboard sorting.
-    For positional based leaderboards, use Ascending. For high-score, use
-    Descending.<br />
-  </li>
-  <li>
-    <strong>Display Type</strong> - Determines the types of data to be displayed
-    with the leaderboard. Select from Numeric, Seconds or Milliseconds.<br />
-  </li>
-  <li>
-    <strong>Writes</strong> - If this is set to Trusted, the leaderboard scores
-    cannot be set by clients, and can only be set by via SetLeaderboardScore
-    WebAPI. Defaults to false.<br />
-  </li>
-  <li>
-    <strong>Reads</strong> - If this is set to Friends, the game can only read
-    leaderboard scores for friends of the user, all scores can always be read by
-    WebAPI. Defaults to false.
-  </li>
-</ul>
-<br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/spacewar_leaderboards"
-  alt="spacewar_leaderboards"
-  title="spacewar_leaderboards"
-/>
-<h2 class="bb_section">
-  <a name="3"></a>Step 2 - Encapsulating Leaderboard work
-</h2>
-The following code is game independent and can be added to your game as you see
-fit. The class is fully functional as is but can be easily extended to meet any
-further needs. All of this code was taken directly from the Spacewar example
-files
-<code class="bb_code bb_code_inline nohighlight">Leaderboards.cpp/h</code>.
-<h2 class="bb_subsection"><a name="4"></a>Header File</h2>
-We define a helper class that will wrap all of the Steam Leaderboard API calls
-as well as creating all of the Steam call result handlers.<br />
-<div class="bb_code cpp">
-  class CSteamLeaderboards { private: SteamLeaderboard_t m_CurrentLeaderboard;
-  // Handle to leaderboard public: int m_nLeaderboardEntries; // How many
-  entries do we have? LeaderboardEntry_t m_leaderboardEntries[10]; // The
-  entries CSteamLeaderboards(); ~CSteamLeaderboards(){}; void FindLeaderboard(
-  const char *pchLeaderboardName ); bool UploadScore( int score ); bool
-  DownloadScores(); void OnFindLeaderboard( LeaderboardFindResult_t *pResult,
-  bool bIOFailure); CCallResult m_callResultFindLeaderboard; void OnUploadScore(
-  LeaderboardScoreUploaded_t *pResult, bool bIOFailure); CCallResult
-  m_callResultUploadScore; void OnDownloadScore( LeaderboardScoresDownloaded_t
-  *pResult, bool bIOFailure); CCallResult m_callResultDownloadScore; };
-</div>
-<h2 class="bb_subsection"><a name="5"></a>Code File</h2>
-<h4>Constructor</h4>
-<strong>Parameters</strong> - None<br /><strong>Returns</strong> - N/A<br /><strong
-  >What it does</strong
->
-- This constructor just initializes the member variables.<br />
-<div class="bb_code cpp">
-  CSteamLeaderboards::CSteamLeaderboards() : m_CurrentLeaderboard( NULL ),
-  m_nLeaderboardEntries( 0 ) { }
-</div>
-<h4>FindLeaderboard()</h4>
-<strong>Parameters</strong> - The string identifier of the leaderboard that you
-want to find (ie. "Feet Traveled")<br /><strong>Returns</strong> - Nothing<br /><strong
-  >What it does</strong
->
-- This method wraps a call to
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
-  class="bb_apilink"
-  >ISteamUserStats::FindLeaderboard</a
->
-which is an asynchronous call to steam requesting a handle to the given
-leaderboard. This call needs to be made before you can retrieve or set
-leaderboard entries. This method also sets up the call return method to use.<br />
-<div class="bb_code">
-  void CSteamLeaderboards::FindLeaderboard( const char *pchLeaderboardName ) {
-  m_CurrentLeaderboard = NULL; SteamAPICall_t hSteamAPICall =
-  SteamUserStats()-&gt;FindLeaderboard(pchLeaderboardName);
-  m_callResultFindLeaderboard.Set(hSteamAPICall, this,
-  &amp;CSteamLeaderboards::OnFindLeaderboard); }
-</div>
-<h4>OnFindLeaderboard()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-  >What it does</strong
->
-- This method is a callback that is called anytime we attempt to find a
-leaderboard on Steam. If the requested leaderboard was found then we set that
-leaderboard handle as our current leaderboard.<br />
-<div class="bb_code cpp">
-  void CSteamLeaderboards::OnFindLeaderboard( LeaderboardFindResult_t
-  *pCallback, bool bIOFailure ) { // see if we encountered an error during the
-  call if ( !pCallback-&gt;m_bLeaderboardFound || bIOFailure ) {
-  OutputDebugString( "Leaderboard could not be found\n" ); return; }
-  m_CurrentLeaderboard = pCallback-&gt;m_hSteamLeaderboard; }
-</div>
-<h4>UploadScore()</h4>
-<strong>Parameters</strong> - an int32 representing the value to store in the
-current leaderboard.<br /><strong>Returns</strong> - false if a leaderboard has
-not been selected yet, otherwise it returns true.<br /><strong
-  >What it does</strong
->
-- This method wraps a call to
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
-  class="bb_apilink"
-  >ISteamUserStats::UploadLeaderboardScore</a
->
-which is an asynchronous call to steam that uploads the score of the current
-user to the currently selected leaderboard. This method also sets up the call
-return method to use. This call needs to be made after you have selected a
-leaderboard using
-<code class="bb_code bb_code_inline nohighlight">FindLeaderboard()</code>.<br />
-<div class="bb_code cpp">
-  bool CSteamLeaderboards::UploadScore( int score ) { if (!m_CurrentLeaderboard)
-  return false; SteamAPICall_t hSteamAPICall =
-  SteamUserStats()-&gt;UploadLeaderboardScore( m_CurrentLeaderboard,
-  k_ELeaderboardUploadScoreMethodKeepBest, score, NULL, 0 );
-  m_callResultUploadScore.Set(hSteamAPICall, this,
-  &amp;CSteamLeaderboards::OnUploadScore); return true; }
-</div>
-<h4>OnUploadScore()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-  >What it does</strong
->
-- This method is a callback that is called anytime we attempt to upload a score
-to a leaderboard on Steam.<br />
-<div class="bb_code cpp">
-  void CSteamLeaderboards::OnUploadScore(LeaderboardScoreUploaded_t *pCallback,
-  bool bIOFailure) { if ( !pCallback-&gt;m_bSuccess || bIOFailure ) {
-  OutputDebugString( "Score could not be uploaded to Steam\n" ); } }
-</div>
-<h4>DownloadScores()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - false if a
-leaderboard has not been selected yet, otherwise it returns true.<br /><strong
-  >What it does</strong
->
-- This method wraps a call to
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
-  class="bb_apilink"
-  >ISteamUserStats::DownloadLeaderboardEntries</a
->
-that is an asynchronous call to steam downloading a set of entries from the
-currently selected leaderboard. In this case we are downloading ten entries;
-four before the current user, the current user and five after the current user.
-This call can be altered to return any number of entries from any place in the
-leaderboard. This method also sets up the call return method to use. This call
-needs to be made after you have selected a leaderboard using
-<code class="bb_code bb_code_inline nohighlight">FindLeaderboard()</code>.<br />
-<div class="bb_code cpp">
-  bool CSteamLeaderboards::DownloadScores() { if (!m_CurrentLeaderboard) return
-  false; // load the specified leaderboard data around the current user
-  SteamAPICall_t hSteamAPICall =
-  SteamUserStats()-&gt;DownloadLeaderboardEntries( m_CurrentLeaderboard,
-  k_ELeaderboardDataRequestGlobalAroundUser, -4, 5);
-  m_callResultDownloadScore.Set(hSteamAPICall, this,
-  &amp;CSteamLeaderboards::OnDownloadScore); return true; }
-</div>
-<h4>OnDownloadScore()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-  >What it does</strong
->
-- This method is a callback that is called anytime we attempt to download
-entries from a leaderboard on Steam. If the data was successfully downloaded
-then we copy the data into our array of entries. The number of entries
-downloaded is stored in
-<code class="bb_code bb_code_inline nohighlight">m_nLeaderboardEntries</code
->.<br />
-<div class="bb_code cpp">
-  void CSteamLeaderboards::OnDownloadScore(LeaderboardScoresDownloaded_t
-  *pCallback, bool bIOFailure) { if (!bIOFailure) { m_nLeaderboardEntries =
-  min(pCallback-&gt;m_cEntryCount, 10); for (int index = 0; index &lt;
-  m_nLeaderboardEntries; index++) {
-  SteamUserStats()-&gt;GetDownloadedLeaderboardEntry(
-  pCallback-&gt;m_hSteamLeaderboardEntries,index,&amp;m_leaderboardEntries[index],NULL,0);
-  } } }
-</div>
-<h2 class="bb_section"><a name="6"></a>Step 3 - Integrating into your game</h2>
-The following is a complete listing of code snippets that you would need to
-integrate into your game in the appropriate locations.
-<h2 class="bb_subsection"><a name="7"></a>Defines and Globals</h2>
-The following is the list of includes that are needed to build with Leaderboards
-and a global pointer to our helper object.<br />
-<div class="bb_code cpp">
-  ... #include "steam_api.h" #include "SteamLeaderboards.h" // Global access to
-  Leaderboards Object CSteamLeaderboards* g_SteamLeaderboards = NULL; ...
-</div>
-<h2 class="bb_subsection"><a name="8"></a>Initialization</h2>
-The call to
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init"
-  class="bb_apilink"
-  >SteamAPI_Init</a
->
-initializes all of Steam and must be called before anything else. If that call
-succeeds then we create the helper object.<br />
-<div class="bb_code cpp">
-  ... // Initialize Steam bool bRet = SteamAPI_Init(); // Create the
-  SteamLeaderboards object if Steam was successfully initialized if (bRet) {
-  g_SteamLeaderboards = new CSteamLeaderboards(); } ...
-</div>
-<h2 class="bb_subsection"><a name="9"></a>Processing Callbacks</h2>
-To ensure that we process all Steam callbacks we need to regularly pump for new
-messages. This is achieved by adding this call to the game loop.<br />
-<div class="bb_code cpp">... SteamAPI_RunCallbacks(); ...</div>
-<h2 class="bb_subsection"><a name="10"></a>Shutdown</h2>
-The call to
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown"
-  class="bb_apilink"
-  >SteamAPI_Shutdown</a
->
-is probably something you already have in your code. It shuts down steam and
-must be called before you application exits. Finally we delete the helper object
-we created.<br />
-<div class="bb_code cpp">
-  ... // Shutdown Steam SteamAPI_Shutdown(); // Delete the SteamLeaderboards
-  object if (g_SteamLeaderboards) delete g_SteamLeaderboards; ...
-</div>
-<h2 class="bb_section">
-  <a name="11"></a>Step 4 - Testing and Troubleshooting
-</h2>
-This sample code outputs debug information to the debug console that can help
-you understand what calls are succeeding or failing. The following are some
-typical failure messages and fixes:<br /><br /><strong
-  >This application has failed to start because steam_api.dll was not found.
-  Re-installing the application may fix this problem.</strong
-><br />Make sure steam_api.dll is in the same directory as the executable.<br /><br /><strong
-  >[S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of
-  Steam, or a local steamclient.dll</strong
-><br />You most likely don't have a Steam client running. Start Steam and log
-in.<br /><br /><strong
-  >[S_API FAIL] SteamAPI_Init() failed; no appID found.</strong
-><br />You most likely don't have the steam_appid.txt file in place. Place it in
-your source folder and ensure that it has your appID number in it.
+<h2 class="bb_section"><a name="1"></a>Introduction</h2>The following is a quick step by step guide to integrating very basic Steam Leaderboards into your application in under 10 minutes. The <a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a> comes with a great example application called <a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink">Spacewar</a> that shows off the full breadth of Steam features and should be your first stop to see all Steam features in action. This tutorial distills that information found in Spacewar and the leaderboards API found within <a href="https://partner.steamgames.com/doc/api/ISteamUserStats" class="bb_apilink">ISteamUserStats</a> down to just the necessary information required for Steam Leaderboards to keep things as straightforward as possible.<h2 class="bb_section"><a name="2"></a>Step 1 - Defining your game's Leaderboards</h2>Leaderboards are application specific and are setup on the <a href="https://partner.steamgames.com/apps/leaderboards/" target="_blank" rel="noreferrer">Leaderboard Configuration</a> page in the Steamworks Partner Site.<br><br>The following fields must be completed to define a leaderboard:<br><ul class="bb_ul ">	<li> <strong>Name</strong> - Set this to be a name that makes sense as part of internal development.<br>	</li><li> <strong>Community Name</strong> - If the leaderboard is to be shown on the Community Hub, set the public facing name here. If there is no name entered, the leaderboard will not appear.<br>	</li><li> <strong>Sort Method</strong> - Set the order for the leaderboard sorting. For positional based leaderboards, use Ascending. For high-score, use Descending.<br>	</li><li> <strong>Display Type</strong> - Determines the types of data to be displayed with the leaderboard. Select from Numeric, Seconds or Milliseconds.<br>	</li><li> <strong>Writes</strong> - If this is set to Trusted, the leaderboard scores cannot be set by clients, and can only be set by via SetLeaderboardScore WebAPI. Defaults to false.<br>	</li><li> <strong>Reads</strong> - If this is set to Friends, the game can only read leaderboard scores for friends of the user, all scores can always be read by WebAPI. Defaults to false.</li></ul><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/spacewar_leaderboards" alt="spacewar_leaderboards" title="spacewar_leaderboards"><h2 class="bb_section"><a name="3"></a>Step 2 - Encapsulating Leaderboard work</h2>The following code is game independent and can be added to your game as you see fit. The class is fully functional as is but can be easily extended to meet any further needs. All of this code was taken directly from the Spacewar example files <code class="bb_code bb_code_inline nohighlight">Leaderboards.cpp/h</code>.<h2 class="bb_subsection"><a name="4"></a>Header File</h2>We define a helper class that will wrap all of the Steam Leaderboard API calls as well as creating all of the Steam call result handlers.<br><div class="bb_code cpp">class CSteamLeaderboards
+{
+private:
+	SteamLeaderboard_t m_CurrentLeaderboard; // Handle to leaderboard
+
+public:
+	int m_nLeaderboardEntries; // How many entries do we have?
+	LeaderboardEntry_t m_leaderboardEntries[10]; // The entries
+
+	CSteamLeaderboards();
+	~CSteamLeaderboards(){};
+
+	void FindLeaderboard( const char *pchLeaderboardName );
+	bool UploadScore( int score );
+	bool DownloadScores();
+
+	void OnFindLeaderboard( LeaderboardFindResult_t *pResult, bool bIOFailure);
+	CCallResult m_callResultFindLeaderboard;
+	void OnUploadScore( LeaderboardScoreUploaded_t *pResult, bool bIOFailure);
+	CCallResult m_callResultUploadScore;
+	void OnDownloadScore( LeaderboardScoresDownloaded_t *pResult, bool bIOFailure);
+	CCallResult m_callResultDownloadScore;
+};
+</div><h2 class="bb_subsection"><a name="5"></a>Code File</h2><h4>Constructor</h4><strong>Parameters</strong> - None<br><strong>Returns</strong> - N/A<br><strong>What it does</strong> - This constructor just initializes the member variables.<br><div class="bb_code cpp">CSteamLeaderboards::CSteamLeaderboards() :
+ m_CurrentLeaderboard( NULL ),
+ m_nLeaderboardEntries( 0 )
+{
+}
+</div><h4>FindLeaderboard()</h4><strong>Parameters</strong> - The string identifier of the leaderboard that you want to find (ie. "Feet Traveled")<br><strong>Returns</strong> - Nothing<br><strong>What it does</strong> - This method wraps a call to <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard" class="bb_apilink">ISteamUserStats::FindLeaderboard</a> which is an asynchronous call to steam requesting a handle to the given leaderboard. This call needs to be made before you can retrieve or set leaderboard entries. This method also sets up the call return method to use.<br><div class="bb_code ">void CSteamLeaderboards::FindLeaderboard( const char *pchLeaderboardName )
+{
+	m_CurrentLeaderboard = NULL;
+
+	SteamAPICall_t hSteamAPICall = SteamUserStats()-&gt;FindLeaderboard(pchLeaderboardName);
+	m_callResultFindLeaderboard.Set(hSteamAPICall, this,
+		&amp;CSteamLeaderboards::OnFindLeaderboard);
+}
+</div><h4>OnFindLeaderboard()</h4><strong>Parameters</strong> - N/A<br><strong>Returns</strong> - Nothing<br><strong>What it does</strong> - This method is a callback that is called anytime we attempt to find a leaderboard on Steam. If the requested leaderboard was found then we set that leaderboard handle as our current leaderboard.<br><div class="bb_code cpp">void CSteamLeaderboards::OnFindLeaderboard( LeaderboardFindResult_t *pCallback,	bool bIOFailure )
+{
+	// see if we encountered an error during the call
+	if ( !pCallback-&gt;m_bLeaderboardFound || bIOFailure )
+	{
+		OutputDebugString( "Leaderboard could not be found\n" );
+		return;
+	}
+
+	m_CurrentLeaderboard = pCallback-&gt;m_hSteamLeaderboard;
+}
+</div><h4>UploadScore()</h4><strong>Parameters</strong> - an int32 representing the value to store in the current leaderboard.<br><strong>Returns</strong> - false if a leaderboard has not been selected yet, otherwise it returns true.<br><strong>What it does</strong> - This method wraps a call to <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore" class="bb_apilink">ISteamUserStats::UploadLeaderboardScore</a> which is an asynchronous call to steam that uploads the score of the current user to the currently selected leaderboard. This method also sets up the call return method to use. This call needs to be made after you have selected a leaderboard using <code class="bb_code bb_code_inline nohighlight">FindLeaderboard()</code>.<br><div class="bb_code cpp">bool CSteamLeaderboards::UploadScore( int score )
+{
+	if (!m_CurrentLeaderboard)
+		return false;
+
+	SteamAPICall_t hSteamAPICall =
+	SteamUserStats()-&gt;UploadLeaderboardScore( m_CurrentLeaderboard, k_ELeaderboardUploadScoreMethodKeepBest, score, NULL, 0 );
+
+	m_callResultUploadScore.Set(hSteamAPICall, this, &amp;CSteamLeaderboards::OnUploadScore);
+
+	return true;
+}
+</div><h4>OnUploadScore()</h4><strong>Parameters</strong> - N/A<br><strong>Returns</strong> - Nothing<br><strong>What it does</strong> - This method is a callback that is called anytime we attempt to upload a score to a leaderboard on Steam.<br><div class="bb_code cpp">void CSteamLeaderboards::OnUploadScore(LeaderboardScoreUploaded_t *pCallback, bool bIOFailure)
+{
+	if ( !pCallback-&gt;m_bSuccess || bIOFailure )
+	{
+		OutputDebugString( "Score could not be uploaded to Steam\n" );
+	}
+}
+</div><h4>DownloadScores()</h4><strong>Parameters</strong> - N/A<br><strong>Returns</strong> - false if a leaderboard has not been selected yet, otherwise it returns true.<br><strong>What it does</strong> - This method wraps a call to <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries" class="bb_apilink">ISteamUserStats::DownloadLeaderboardEntries</a> that is an asynchronous call to steam downloading a set of entries from the currently selected leaderboard. In this case we are downloading ten entries; four before the current user, the current user and five after the current user. This call can be altered to return any number of entries from any place in the leaderboard. This method also sets up the call return method to use. This call needs to be made after you have selected a leaderboard using <code class="bb_code bb_code_inline nohighlight">FindLeaderboard()</code>.<br><div class="bb_code cpp">bool CSteamLeaderboards::DownloadScores()
+{
+	if (!m_CurrentLeaderboard)
+		return false;
+
+	// load the specified leaderboard data around the current user
+	SteamAPICall_t hSteamAPICall = SteamUserStats()-&gt;DownloadLeaderboardEntries(
+		m_CurrentLeaderboard, k_ELeaderboardDataRequestGlobalAroundUser, -4, 5);
+	m_callResultDownloadScore.Set(hSteamAPICall, this,
+		&amp;CSteamLeaderboards::OnDownloadScore);
+
+	return true;
+}
+</div><h4>OnDownloadScore()</h4><strong>Parameters</strong> - N/A<br><strong>Returns</strong> - Nothing<br><strong>What it does</strong> - This method is a callback that is called anytime we attempt to download entries from a leaderboard on Steam. If the data was successfully downloaded then we copy the data into our array of entries. The number of entries downloaded is stored in <code class="bb_code bb_code_inline nohighlight">m_nLeaderboardEntries</code>.<br><div class="bb_code cpp">void CSteamLeaderboards::OnDownloadScore(LeaderboardScoresDownloaded_t *pCallback, bool bIOFailure)
+{
+	if (!bIOFailure)
+	{
+		m_nLeaderboardEntries = min(pCallback-&gt;m_cEntryCount, 10);
+
+		for (int index = 0; index &lt; m_nLeaderboardEntries; index++)
+		{
+			SteamUserStats()-&gt;GetDownloadedLeaderboardEntry(
+				pCallback-&gt;m_hSteamLeaderboardEntries,index,&amp;m_leaderboardEntries[index],NULL,0);
+		}
+	}
+}
+</div><h2 class="bb_section"><a name="6"></a>Step 3 - Integrating into your game</h2>The following is a complete listing of code snippets that you would need to integrate into your game in the appropriate locations.<h2 class="bb_subsection"><a name="7"></a>Defines and Globals</h2> The following is the list of includes that are needed to build with Leaderboards and a global pointer to our helper object.<br><div class="bb_code cpp">...
+#include "steam_api.h"
+#include "SteamLeaderboards.h"
+
+// Global access to Leaderboards Object
+CSteamLeaderboards* g_SteamLeaderboards = NULL;
+...
+</div><h2 class="bb_subsection"><a name="8"></a>Initialization</h2>The call to <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink">SteamAPI_Init</a> initializes all of Steam and must be called before anything else. If that call succeeds then we create the helper object.<br><div class="bb_code cpp">...
+// Initialize Steam
+bool bRet = SteamAPI_Init();
+// Create the SteamLeaderboards object if Steam was successfully initialized
+if (bRet)
+{
+	g_SteamLeaderboards = new CSteamLeaderboards();
+}
+...
+</div><h2 class="bb_subsection"><a name="9"></a>Processing Callbacks</h2>To ensure that we process all Steam callbacks we need to regularly pump for new messages. This is achieved by adding this call to the game loop.<br><div class="bb_code cpp">...
+SteamAPI_RunCallbacks();
+...
+</div><h2 class="bb_subsection"><a name="10"></a>Shutdown</h2>The call to <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink">SteamAPI_Shutdown</a> is probably something you already have in your code. It shuts down steam and must be called before you application exits. Finally we delete the helper object we created.<br><div class="bb_code cpp">...
+// Shutdown Steam
+SteamAPI_Shutdown();
+// Delete the SteamLeaderboards object
+if (g_SteamLeaderboards)
+	delete g_SteamLeaderboards;
+...
+</div><h2 class="bb_section"><a name="11"></a>Step 4 - Testing and Troubleshooting</h2>This sample code outputs debug information to the debug console that can help you understand what calls are succeeding or failing. The following are some typical failure messages and fixes:<br><br><strong>This application has failed to start because steam_api.dll was not found. Re-installing the application may fix this problem.</strong><br>Make sure steam_api.dll is in the same directory as the executable.<br><br><strong>[S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.dll</strong><br>You most likely don't have a Steam client running. Start Steam and log in.<br><br><strong>[S_API FAIL] SteamAPI_Init() failed; no appID found.</strong><br>You most likely don't have the steam_appid.txt file in place. Place it in your source folder and ensure that it has your appID number in it.

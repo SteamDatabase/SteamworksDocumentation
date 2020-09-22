@@ -1,110 +1,92 @@
 <h1>Steam DRM</h1>
 <h2 class="bb_section"><a name="1"></a>Overview</h2>
-The Steam DRM wrapper is an important part of Steam platform because it verifies
-game ownership and ensures that Steamworks features work properly by launching
-Steam before launching the game.<br /><br />The Steam DRM wrapper by itself is
-not is not a anti-piracy solution. The Steam DRM wrapper protects against
-extremely casual piracy (i.e. copying all game files to another computer) and
-has some obfuscation, but it is easily removed by a motivated attacker.<br /><br />We
-suggest enhancing the value of legitimate copies of your game by using
-Steamworks features which won't work on non-legitimate copies (e.g. online
-multiplayer, achievements, leaderboards, trading cards, etc.).<br /><br />See
-<a href="#other_drm" class="bb_doclink"
-  >Using the Steam Wrapper with Other DRM</a
->
-for more information on combining the Steam DRM wrapper with other DRM or
-anti-tampering solutions.
+The Steam DRM wrapper is an important part of Steam platform because it verifies game ownership and
+ensures that Steamworks features work properly by launching Steam before launching the game.<br /><br />The
+Steam DRM wrapper by itself is not is not a anti-piracy solution. The Steam DRM wrapper protects
+against extremely casual piracy (i.e. copying all game files to another computer) and has some
+obfuscation, but it is easily removed by a motivated attacker.<br /><br />We suggest enhancing the
+value of legitimate copies of your game by using Steamworks features which won't work on
+non-legitimate copies (e.g. online multiplayer, achievements, leaderboards, trading cards, etc.).<br /><br />See
+<a href="#other_drm" class="bb_doclink">Using the Steam Wrapper with Other DRM</a> for more
+information on combining the Steam DRM wrapper with other DRM or anti-tampering solutions.
 <h2 class="bb_section"><a name="2"></a>Automated Steam DRM Wrapper</h2>
-The Steam wrapper can be applied from within your SteamPipe upload script. This
-performs an initialization request to the Steam servers via the logged in
-client, then posts your plaintext executable to the Steam back end via HTTP. The
-wrap is performed server side, and then steamcmd downloads the wrapped
-executable.<br /><br />To perform a DRM wrap with SteamPipe, have your script
+The Steam wrapper can be applied from within your SteamPipe upload script. This performs an
+initialization request to the Steam servers via the logged in client, then posts your plaintext
+executable to the Steam back end via HTTP. The wrap is performed server side, and then steamcmd
+downloads the wrapped executable.<br /><br />To perform a DRM wrap with SteamPipe, have your script
 login and then run the drm_wrap Steam command:<br />
-<div class="bb_code">
-  drm_wrap [appid] [input filename] [output filename] [toolname] [flags]
-</div>
+<div class="bb_code ">drm_wrap [appid] [input filename] [output filename] [toolname] [flags]</div>
 <br />Parameters:<br />
-<ul class="bb_ul">
-  <li><strong>appid</strong> - Your numeric application ID<br /></li>
-  <li>
-    <strong>input filename</strong> - Relative or absolute path to input
-    plaintext executable. Remember to quote paths that may contain spaces!<br />
-  </li>
-  <li>
-    <strong>output filename</strong> - Relative or absolute path where the tool
-    will write the output wrapped executable.<br />
-  </li>
-  <li>
-    <strong>toolname</strong> - "drmtoolp" for the new portable tool. "drmtool"
-    for old legacy win32 tool.<br />
-  </li>
-  <li>
-    <strong>flags</strong> - Bitmask of the following numeric flags specifying
-    tool behavior.<br />
-  </li>
-  <li><strong>0</strong> - Normal wrap (most protection)<br /></li>
-  <li><strong>6</strong> - Compatibility mode (disables obfuscation)<br /></li>
-  <li><strong>32</strong> - Skip debugger check<br /></li>
-  <li>
-    <strong>38</strong> - compatibility mode and also skip debugger check (least
-    protection)
-  </li>
+<ul class="bb_ul ">
+    <li><strong>appid</strong> - Your numeric application ID<br /></li>
+    <li>
+        <strong>input filename</strong> - Relative or absolute path to input plaintext executable.
+        Remember to quote paths that may contain spaces!<br />
+    </li>
+    <li>
+        <strong>output filename</strong> - Relative or absolute path where the tool will write the
+        output wrapped executable.<br />
+    </li>
+    <li>
+        <strong>toolname</strong> - "drmtoolp" for the new portable tool. "drmtool" for old legacy
+        win32 tool.<br />
+    </li>
+    <li>
+        <strong>flags</strong> - Bitmask of the following numeric flags specifying tool behavior.<br />
+    </li>
+    <li><strong>0</strong> - Normal wrap (most protection)<br /></li>
+    <li><strong>6</strong> - Compatibility mode (disables obfuscation)<br /></li>
+    <li><strong>32</strong> - Skip debugger check<br /></li>
+    <li>
+        <strong>38</strong> - compatibility mode and also skip debugger check (least protection)
+    </li>
 </ul>
-<br />Example run_build.bat script to login, apply DRM, build and upload the
-build to Steam (where App ID is 480):<br />
-<div class="bb_code">
-  builder\steamcmd.exe +login mysteamaccount mysteampassword +drm_wrap 480
-  "D:\src\steamworkssdk\steamworksexample\release\steamworksexample.exe"
-  "D:\src\steamworkssdk\tools\ContentBuilder\content\windows_content\SteamworksExample.exe"
-  drmtoolp 0 +run_app_build ..\scripts\app_build_480.vdf +quit
+<br />Example run_build.bat script to login, apply DRM, build and upload the build to Steam (where
+App ID is 480):<br />
+<div class="bb_code ">
+    builder\steamcmd.exe +login mysteamaccount mysteampassword +drm_wrap 480
+    "D:\src\steamworkssdk\steamworksexample\release\steamworksexample.exe"
+    "D:\src\steamworkssdk\tools\ContentBuilder\content\windows_content\SteamworksExample.exe"
+    drmtoolp 0 +run_app_build ..\scripts\app_build_480.vdf +quit
 </div>
 <h2 class="bb_section"><a name="manual"></a>Manual Steam DRM Wrapper</h2>
-To quickly wrap an exe with the Steam wrapper use the Steamworks App Data Admin
-page to wrap the primary game exe.<br /><br />
-<ol class="bb_ol">
-  <li>Select the game you want to add DRM to on your App Admin page<br /></li>
-  <li>
-    Select Edit Steamworks Settings in the Technical Tools Section of the App
-    Admin page<br />
-  </li>
-  <li>From the Security Tab, select DRM.<br /></li>
-  <li>
-    Upload the primary game exe - See the automated wrapper section above for
-    more information on the tool execution options.<br />
-  </li>
-  <li>Download the exe back to your local machine<br /></li>
-  <li>Rename the exe back to the original name<br /></li>
-  <li>Copy it to the source location for your Content Tool depots<br /></li>
-  <li>Build a new version of your depot<br /></li>
-  <li>Test that depot on your local content server</li>
+To quickly wrap an exe with the Steam wrapper use the Steamworks App Data Admin page to wrap the
+primary game exe.<br /><br />
+<ol class="bb_ol ">
+    <li>Select the game you want to add DRM to on your App Admin page<br /></li>
+    <li>
+        Select Edit Steamworks Settings in the Technical Tools Section of the App Admin page<br />
+    </li>
+    <li>From the Security Tab, select DRM.<br /></li>
+    <li>
+        Upload the primary game exe - See the automated wrapper section above for more information
+        on the tool execution options.<br />
+    </li>
+    <li>Download the exe back to your local machine<br /></li>
+    <li>Rename the exe back to the original name<br /></li>
+    <li>Copy it to the source location for your Content Tool depots<br /></li>
+    <li>Build a new version of your depot<br /></li>
+    <li>Test that depot on your local content server</li>
 </ol>
-<h2 class="bb_section">
-  <a name="other_drm"></a>Using the Steam Wrapper with Other DRM
-</h2>
-The Steam wrapper can and should be used in combination with other DRM
-solutions. To do so, apply the Steam wrapper in compatibility mode first before
-applying any other DRM. Apply it first so that it does not interfere with the
-DRM solution. Compatibility mode will disable DRM capabilities of the
-wrapper.<br /><br />Submit the exe in compatibility mode by either selecting it
-in the drop down on the Steamworks page or using the appropriate flags in the
-automated drmtool.
+<h2 class="bb_section"><a name="other_drm"></a>Using the Steam Wrapper with Other DRM</h2>
+The Steam wrapper can and should be used in combination with other DRM solutions. To do so, apply
+the Steam wrapper in compatibility mode first before applying any other DRM. Apply it first so that
+it does not interfere with the DRM solution. Compatibility mode will disable DRM capabilities of the
+wrapper.<br /><br />Submit the exe in compatibility mode by either selecting it in the drop down on
+the Steamworks page or using the appropriate flags in the automated drmtool.
 <h2 class="bb_section"><a name="FAQ"></a>Frequently Asked Questions</h2>
-<strong
-  >Q. My C# / .Net game doesn't run after applying the Steam wrapper</strong
-><br /><strong>A.</strong> The Steam wrapper doesn't support .Net applications.
-Instead of using the DRM wrapper, use
+<strong>Q. My C# / .Net game doesn't run after applying the Steam wrapper</strong><br /><strong
+    >A.</strong
+>
+The Steam wrapper doesn't support .Net applications. Instead of using the DRM wrapper, use
 <a
-  href="https://partner.steamgames.com/doc/sdk/api#SteamAPI_RestartAppIfNecessary"
-  class="bb_doclink"
-  >SteamAPI_RestartAppIfNecessary</a
->.<br /><br /><strong
-  >Q. My game doesn't run after applying the Steam DRM wrapper</strong
+    href="https://partner.steamgames.com/doc/sdk/api#SteamAPI_RestartAppIfNecessary"
+    class="bb_doclink"
+    >SteamAPI_RestartAppIfNecessary</a
+>.<br /><br /><strong>Q. My game doesn't run after applying the Steam DRM wrapper</strong
 ><br /><strong>A.</strong> The Steam wrapper can break other DRM tools. See
-<a href="#other_drm" class="bb_doclink"
-  >Using the Steam Wrapper with Other DRM</a
->, as there may be a conflict.<br /><br /><strong
-  >Q. Do I need to apply DRM to my exe every time I make a new build?</strong
-><br /><strong>A.</strong> Yes, each build you intend to publish needs to be
-wrapped with the Steam wrapper. Try automating it using the Automated Steam
-Wrapper process documented above.
+<a href="#other_drm" class="bb_doclink">Using the Steam Wrapper with Other DRM</a>, as there may be
+a conflict.<br /><br /><strong
+    >Q. Do I need to apply DRM to my exe every time I make a new build?</strong
+><br /><strong>A.</strong> Yes, each build you intend to publish needs to be wrapped with the Steam
+wrapper. Try automating it using the Automated Steam Wrapper process documented above.

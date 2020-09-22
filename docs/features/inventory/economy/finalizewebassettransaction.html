@@ -1,136 +1,14 @@
 <h1>FinalizeWebAssetTransaction/v0001</h1>
-This is called after the user pays for the items in the transaction.<br />Implementations
-should call
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn"
-  class="bb_apilink"
-  >ISteamMicroTxn/FinalizeTxn</a
->
-before attempting to give the user items.<br /><br /><strong>Called by:</strong>
-Web Purchasing<br /><br /><strong>HTTP Method:</strong> POST
-<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      This is the "Asset Server Key" that you provided in your app's Steam
-      Economy Settings on the partner site.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>32bit App ID of the application associated with the asset.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>64bit Steam ID of the user who is making the purchase.</td>
-  </tr>
-  <tr>
-    <td><strong>language</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the
-      language to return strings in. Some examples include en_US, de_DE, zh_CN,
-      and ko_KR. Default: en_US
-    </td>
-  </tr>
-  <tr>
-    <td><strong>txnid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>
-      The transaction ID that was returned by
-      <a
-        href="https://partner.steamgames.com/doc/features/inventory/economy/StartWebAssetTransaction"
-        class="bb_doclink"
-        >StartWebAssetTransaction/v0001</a
-      >
-    </td>
-  </tr>
-  <tr>
-    <td><strong>sandbox</strong></td>
-    <td>uint32</td>
-    <td></td>
-    <td>
-      Non-zero if this transaction will use the microtransaction "sandbox" which
-      will not deduct funds from the user's wallet. In this case you should call
-      <a
-        href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxnSandbox#FinalizeTxn"
-        class="bb_apilink"
-        >ISteamMicroTxnSandbox/FinalizeTxn</a
-      >, instead of
-      <a
-        href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn"
-        class="bb_apilink"
-        >ISteamMicroTxn/FinalizeTxn</a
-      >. See
-      <a
-        href="https://partner.steamgames.com/doc/features/microtransactions/implementation"
-        class="bb_doclink"
-        >Microtransactions Implementation Guide</a
-      >
-      for more details.
-    </td>
-  </tr>
-</table>
-<h2 class="bb_section"><a name="2"></a>Returns</h2>
-The output from this method should be encoded in the JSON format.<br /><br /><strong
-  >Response:</strong
-><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">result</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">success</code> - True
-        if the method was successful. If the asset server is returning false, it
-        should set
-        <code class="bb_code bb_code_inline nohighlight">error</code> to a
-        string that explains why.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">error</code> - A string
-        describing why this call failed. This message will be recorded in the
-        error log, which is available by clicking "Steamworks Settings" from the
-        Steamworks App Landing Page, then Community-&gt;Economy.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">displaytext</code> - An
-        optional localized error message to display to the user.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">assets</code> - An
-        array of the assets that were generated for the purchase.<br />
-        <ul class="bb_ul">
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">assetid</code> -
-            The 64-bit ID of the asset.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">contextid</code> -
-            The 64-bit ID of the context the asset belongs to.<br />
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-<h2 class="bb_section"><a name="3"></a>Example Output</h2>
-<div class="bb_code json">
-  { "result": { "success": true, "displaytext": "Your purchase is complete!
-  Purchased items are now in your inventory.", "assets": [ { "assetid": 103,
-  "contextid": 2 } ] } }
+This is called after the user pays for the items in the transaction.<br>Implementations should call	<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn" class="bb_apilink">ISteamMicroTxn/FinalizeTxn</a> before attempting to give the user items.<br><br><strong>Called by:</strong> Web Purchasing<br><br><strong>HTTP Method:</strong> POST<h2 class="bb_section"><a name="1"></a>Parameters:</h2><table>  <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>  <tr><td><strong>key</strong></td><td>string</td><td>✔</td><td>This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on the partner site.</td></tr>  <tr><td><strong>appid</strong></td><td>uint32</td><td>✔</td><td>32bit App ID of the application associated with the asset.</td></tr>  <tr><td><strong>steamid</strong></td><td>uint64</td><td>✔</td><td>64bit Steam ID of the user who is making the purchase.</td></tr>  <tr><td><strong>language</strong></td><td>string</td><td>✔</td><td>ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the language to return strings in. Some examples include en_US, de_DE, zh_CN, and ko_KR. Default: en_US</td></tr>  <tr><td><strong>txnid</strong></td><td>uint64</td><td>✔</td><td>The transaction ID that was returned by <a href="https://partner.steamgames.com/doc/features/inventory/economy/StartWebAssetTransaction" class="bb_doclink">StartWebAssetTransaction/v0001</a></td></tr> <tr><td><strong>sandbox</strong></td><td>uint32</td><td></td><td>Non-zero if this transaction will use the microtransaction "sandbox" which will not deduct funds from the user's wallet.  In this case you should call <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxnSandbox#FinalizeTxn" class="bb_apilink">ISteamMicroTxnSandbox/FinalizeTxn</a>, instead of <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn" class="bb_apilink">ISteamMicroTxn/FinalizeTxn</a>.  See <a href="https://partner.steamgames.com/doc/features/microtransactions/implementation" class="bb_doclink">Microtransactions Implementation Guide</a> for more details.</td></tr></table><h2 class="bb_section"><a name="2"></a>Returns</h2>The output from this method should be encoded in the JSON format.<br><br><strong>Response:</strong><br><ul class="bb_ul ">	<li> <code class="bb_code bb_code_inline nohighlight">result</code><br>		<ul class="bb_ul ">			<li> <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method was successful. If the asset server is returning false, it should set <code class="bb_code bb_code_inline nohighlight">error</code> to a string that explains why.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">error</code> - A string describing why this call failed. This message will be recorded in the error log, which is available by clicking "Steamworks Settings" from the Steamworks App Landing Page, then Community-&gt;Economy.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">displaytext</code> - An optional localized error message to display to the user.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">assets</code> - An array of the assets that were generated for the purchase.<br>				<ul class="bb_ul ">					<li> <code class="bb_code bb_code_inline nohighlight">assetid</code> - The 64-bit ID of the asset.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">contextid</code> - The 64-bit ID of the context the asset belongs to.<br>				</li></ul>		</li></ul></li></ul><h2 class="bb_section"><a name="3"></a>Example Output</h2><div class="bb_code json">{
+  "result": {
+    "success": true,
+    "displaytext": "Your purchase is complete!  Purchased items are now in your inventory.",
+    "assets": [
+      {
+        "assetid": 103,
+        "contextid": 2
+      }
+    ]
+  }
+}
 </div>

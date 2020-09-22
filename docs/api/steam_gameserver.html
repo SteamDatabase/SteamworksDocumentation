@@ -1,190 +1,155 @@
 <h1>steam_gameserver.h</h1>
-Provides the core foundation to initialize and access the Steamworks GameServer
-API.
+Provides the core foundation to initialize and access the Steamworks GameServer API.
 <h2 class="bb_section"><a name="Functions"></a>Functions</h2>
-<br />These are global functions which do not require an interface to set up.
-You can read more about these functions in
-<a
-  href="https://partner.steamgames.com/doc/sdk/api#steam_game_servers"
-  class="bb_doclink"
-  >Steamworks API Overview - Steam Game Servers</a
+<br />These are global functions which do not require an interface to set up. You can read more
+about these functions in
+<a href="https://partner.steamgames.com/doc/sdk/api#steam_game_servers" class="bb_doclink"
+    >Steamworks API Overview - Steam Game Servers</a
 >.
-<h2 class="bb_subsection">
-  <a name="SteamGameServer_Init"></a>SteamGameServer_Init
-</h2>
+<h2 class="bb_subsection"><a name="SteamGameServer_Init"></a>SteamGameServer_Init</h2>
 <div class="bb_code cpp">
-  inline bool SteamGameServer_Init( uint32 unIP, uint16 usSteamPort, uint16
-  usGamePort, uint16 usQueryPort, EServerMode eServerMode, const char
-  *pchVersionString );
+    inline bool SteamGameServer_Init( uint32 unIP, uint16 usSteamPort, uint16 usGamePort, uint16
+    usQueryPort, EServerMode eServerMode, const char *pchVersionString );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unIP</strong></td>
-    <td>uint32</td>
-    <td>
-      The IP address you are going to bind to. (This should be in host order,
-      i.e 127.0.0.1 == 0x7f000001). You can use INADDR_ANY to bind to all local
-      IPv4 addresses.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>usSteamPort</strong></td>
-    <td>uint16</td>
-    <td>The local port used to communicate with the steam servers.</td>
-  </tr>
-  <tr>
-    <td><strong>usGamePort</strong></td>
-    <td>uint16</td>
-    <td>The port that clients will connect to for gameplay.</td>
-  </tr>
-  <tr>
-    <td><strong>usQueryPort</strong></td>
-    <td>uint16</td>
-    <td>
-      The port that will manage server browser related duties and info pings
-      from clients.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>eServerMode</strong></td>
-    <td>EServerMode</td>
-    <td>Sets the authentication method of the server.</td>
-  </tr>
-  <tr>
-    <td><strong>pchVersionString</strong></td>
-    <td>const char *</td>
-    <td>
-      The version string is usually in the form x.x.x.x, and is used by the
-      master server to detect when the server is out of date. (Only servers with
-      the latest version will be listed.)
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unIP</strong></td>
+        <td>uint32</td>
+        <td>
+            The IP address you are going to bind to. (This should be in host order, i.e 127.0.0.1 ==
+            0x7f000001). You can use INADDR_ANY to bind to all local IPv4 addresses.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>usSteamPort</strong></td>
+        <td>uint16</td>
+        <td>The local port used to communicate with the steam servers.</td>
+    </tr>
+    <tr>
+        <td><strong>usGamePort</strong></td>
+        <td>uint16</td>
+        <td>The port that clients will connect to for gameplay.</td>
+    </tr>
+    <tr>
+        <td><strong>usQueryPort</strong></td>
+        <td>uint16</td>
+        <td>
+            The port that will manage server browser related duties and info pings from clients.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>eServerMode</strong></td>
+        <td>EServerMode</td>
+        <td>Sets the authentication method of the server.</td>
+    </tr>
+    <tr>
+        <td><strong>pchVersionString</strong></td>
+        <td>const char *</td>
+        <td>
+            The version string is usually in the form x.x.x.x, and is used by the master server to
+            detect when the server is out of date. (Only servers with the latest version will be
+            listed.)
+        </td>
+    </tr>
 </table>
-<br />Initializes the ISteamGameServer interface object, and set server
-properties which may not be changed.<br /><br />After calling this function, you
-should set any additional server parameters, and then call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamGameServer#LogOnAnonymous"
-  class="bb_apilink"
-  >ISteamGameServer::LogOnAnonymous</a
+
+<br />Initializes the ISteamGameServer interface object, and set server properties which may not be
+changed.<br /><br />After calling this function, you should set any additional server parameters,
+and then call
+<a href="https://partner.steamgames.com/doc/api/ISteamGameServer#LogOnAnonymous" class="bb_apilink"
+    >ISteamGameServer::LogOnAnonymous</a
 >
 or
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamGameServer#LogOn"
-  class="bb_apilink"
-  >ISteamGameServer::LogOn</a
+<a href="https://partner.steamgames.com/doc/api/ISteamGameServer#LogOn" class="bb_apilink"
+    >ISteamGameServer::LogOn</a
 >.<br /><br />If you pass in
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamGameServer#MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE"
-  class="bb_apilink"
-  >MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE</a
+    href="https://partner.steamgames.com/doc/api/ISteamGameServer#MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE"
+    class="bb_apilink"
+    >MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE</a
 >
-into <code class="bb_code bb_code_inline nohighlight">usQueryPort</code>, then
-the game server will use GameSocketShare mode, which means that the game is
-responsible for sending and receiving UDP packets for the master server
-updater.<br /><br /><strong>Returns:</strong> bool<br /><br /><br /><strong
-  >See Also:</strong
->
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init"
-  class="bb_apilink"
-  >SteamAPI_Init</a
+into <code class="bb_code bb_code_inline nohighlight">usQueryPort</code>, then the game server will
+use GameSocketShare mode, which means that the game is responsible for sending and receiving UDP
+packets for the master server updater.<br /><br /><strong>Returns:</strong>
+bool<br /><br /><br /><strong>See Also:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
+    >SteamAPI_Init</a
 >
 <h2 class="bb_subsection">
-  <a name="SteamGameServer_ReleaseCurrentThreadMemory"></a
-  >SteamGameServer_ReleaseCurrentThreadMemory
+    <a name="SteamGameServer_ReleaseCurrentThreadMemory"></a
+    >SteamGameServer_ReleaseCurrentThreadMemory
 </h2>
-<div class="bb_code cpp">
-  inline void SteamGameServer_ReleaseCurrentThreadMemory();
-</div>
+<div class="bb_code cpp">inline void SteamGameServer_ReleaseCurrentThreadMemory();</div>
 Frees the internal Steamworks API memory associated with the calling thread.<br /><br />Most
-Steamworks API functions allocate a small amount of thread-local memory for
-parameter storage, calling this will manually free such memory. This function is
-called automatically by
-<a href="#SteamGameServer_RunCallbacks" class="bb_apilink"
-  >SteamGameServer_RunCallbacks</a
->, so a program that only ever accesses the Steamworks API from a single thread
-never needs to explicitly call this function.<br /><br /><strong
-  >See Also:</strong
->
+Steamworks API functions allocate a small amount of thread-local memory for parameter storage,
+calling this will manually free such memory. This function is called automatically by
+<a href="#SteamGameServer_RunCallbacks" class="bb_apilink">SteamGameServer_RunCallbacks</a>, so a
+program that only ever accesses the Steamworks API from a single thread never needs to explicitly
+call this function.<br /><br /><strong>See Also:</strong>
 <a
-  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_ReleaseCurrentThreadMemory"
-  class="bb_apilink"
-  >SteamAPI_ReleaseCurrentThreadMemory</a
+    href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_ReleaseCurrentThreadMemory"
+    class="bb_apilink"
+    >SteamAPI_ReleaseCurrentThreadMemory</a
 >
 <h2 class="bb_subsection">
-  <a name="SteamGameServer_RunCallbacks"></a>SteamGameServer_RunCallbacks
+    <a name="SteamGameServer_RunCallbacks"></a>SteamGameServer_RunCallbacks
 </h2>
 <div class="bb_code cpp">S_API void SteamGameServer_RunCallbacks();</div>
-Dispatches callbacks created with STEAM_GAMESERVER_CALLBACK and call results to
-all of the registered listeners.<br /><br />It's best to call this at &gt;10Hz,
-the more time between calls, the more potential latency between receiving events
-or results from the Steamworks API.<br />Most games call this once per
-render-frame. All registered listener functions will be invoked during this
-call, in the callers thread context.<br /><br />SteamGameServer_RunCallbacks is
-safe to call from multiple threads simultaneously, but if you choose to do this,
-callback code could be executed on any thread. One alternative is to call
-SteamGameServer_RunCallbacks from the main thread only, and call
+Dispatches callbacks created with STEAM_GAMESERVER_CALLBACK and call results to all of the
+registered listeners.<br /><br />It's best to call this at &gt;10Hz, the more time between calls,
+the more potential latency between receiving events or results from the Steamworks API.<br />Most
+games call this once per render-frame. All registered listener functions will be invoked during this
+call, in the callers thread context.<br /><br />SteamGameServer_RunCallbacks is safe to call from
+multiple threads simultaneously, but if you choose to do this, callback code could be executed on
+any thread. One alternative is to call SteamGameServer_RunCallbacks from the main thread only, and
+call
 <a href="#SteamGameServer_ReleaseCurrentThreadMemory" class="bb_apilink"
-  >SteamGameServer_ReleaseCurrentThreadMemory</a
+    >SteamGameServer_ReleaseCurrentThreadMemory</a
 >
 regularly on other threads.<br /><br /><strong>See Also:</strong>
-<a href="#SteamGameServer_RunCallbacks" class="bb_apilink"
-  >SteamGameServer_RunCallbacks</a
->
-<h2 class="bb_subsection">
-  <a name="SteamGameServer_Shutdown"></a>SteamGameServer_Shutdown
-</h2>
+<a href="#SteamGameServer_RunCallbacks" class="bb_apilink">SteamGameServer_RunCallbacks</a>
+<h2 class="bb_subsection"><a name="SteamGameServer_Shutdown"></a>SteamGameServer_Shutdown</h2>
 <div class="bb_code cpp">S_API void SteamGameServer_Shutdown();</div>
 Shuts down the Steamworks GameServer API, releases pointers and frees memory.<br /><br /><strong
-  >See Also:</strong
+    >See Also:</strong
 >
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown"
-  class="bb_apilink"
-  >SteamAPI_Shutdown</a
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink"
+    >SteamAPI_Shutdown</a
 >
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with steam_gameserver.
 <h2 class="bb_subsection"><a name="EServerMode"></a>EServerMode</h2>
-Used to set the authentication and VAC status of a game server when initializing
-with
-<a href="#SteamGameServer_Init" class="bb_apilink">SteamGameServer_Init</a
->.<br /><br />
+Used to set the authentication and VAC status of a game server when initializing with
+<a href="#SteamGameServer_Init" class="bb_apilink">SteamGameServer_Init</a>.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="eServerModeInvalid">
-    <td><strong>eServerModeInvalid</strong></td>
-    <td>0</td>
-    <td>DEPRECATED - DO NOT USE!</td>
-  </tr>
-  <tr id="eServerModeNoAuthentication">
-    <td><strong>eServerModeNoAuthentication</strong></td>
-    <td>1</td>
-    <td>Don't authenticate user logins and don't list on the server list.</td>
-  </tr>
-  <tr id="eServerModeAuthentication">
-    <td><strong>eServerModeAuthentication</strong></td>
-    <td>2</td>
-    <td>
-      Authenticate users, list on the server list, don't run VAC on clients that
-      connect.
-    </td>
-  </tr>
-  <tr id="eServerModeAuthenticationAndSecure">
-    <td><strong>eServerModeAuthenticationAndSecure</strong></td>
-    <td>3</td>
-    <td>
-      Authenticate users, list on the server list and VAC protect clients.
-    </td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="eServerModeInvalid">
+        <td><strong>eServerModeInvalid</strong></td>
+        <td>0</td>
+        <td>DEPRECATED - DO NOT USE!</td>
+    </tr>
+    <tr id="eServerModeNoAuthentication">
+        <td><strong>eServerModeNoAuthentication</strong></td>
+        <td>1</td>
+        <td>Don't authenticate user logins and don't list on the server list.</td>
+    </tr>
+    <tr id="eServerModeAuthentication">
+        <td><strong>eServerModeAuthentication</strong></td>
+        <td>2</td>
+        <td>Authenticate users, list on the server list, don't run VAC on clients that connect.</td>
+    </tr>
+    <tr id="eServerModeAuthenticationAndSecure">
+        <td><strong>eServerModeAuthenticationAndSecure</strong></td>
+        <td>3</td>
+        <td>Authenticate users, list on the server list and VAC protect clients.</td>
+    </tr>
 </table>

@@ -1,766 +1,660 @@
 <h1>User Authentication and Ownership</h1>
 <h2 class="bb_section"><a name="Overview"></a>Overview</h2>
-Steamworks exposes multiple methods for authenticating a Steam user's identity
-and verifying ownership of an application. The following document describes each
-of these authentication methods used in the following scenarios:<br />
-<ul class="bb_ul">
-  <li>
-    Between a game client and other clients (P2P) or game servers using
-    <a href="#client_to_client" class="bb_doclink">Session Tickets</a><br />
-  </li>
-  <li>
-    Between a game client and a backend server using:<br />
-    <ul class="bb_ul">
-      <li>
-        <a href="#client_to_backend_webapi" class="bb_doclink"
-          >Session Tickets and the Steamworks Web API</a
-        ><br />
-      </li>
-      <li>
-        <a href="#encryptedapptickets" class="bb_doclink"
-          >Encrypted Application Ticket Library</a
-        ><br />
-      </li>
-    </ul>
-  </li>
-  <li>
-    When a user is in a web browser using
-    <a href="#website" class="bb_doclink">OpenID and Steamworks Web API</a>
-  </li>
+Steamworks exposes multiple methods for authenticating a Steam user's identity and verifying
+ownership of an application. The following document describes each of these authentication methods
+used in the following scenarios:<br />
+<ul class="bb_ul ">
+    <li>
+        Between a game client and other clients (P2P) or game servers using
+        <a href="#client_to_client" class="bb_doclink">Session Tickets</a><br />
+    </li>
+    <li>
+        Between a game client and a backend server using:<br />
+        <ul class="bb_ul ">
+            <li>
+                <a href="#client_to_backend_webapi" class="bb_doclink"
+                    >Session Tickets and the Steamworks Web API</a
+                ><br />
+            </li>
+            <li>
+                <a href="#encryptedapptickets" class="bb_doclink"
+                    >Encrypted Application Ticket Library</a
+                ><br />
+            </li>
+        </ul>
+    </li>
+    <li>
+        When a user is in a web browser using
+        <a href="#website" class="bb_doclink">OpenID and Steamworks Web API</a>
+    </li>
 </ul>
 <h2 class="bb_subsection"><a name="1"></a>Identifying a user within Steam</h2>
-Every Steam user can be uniquely identified by a 64-bit numeric ID, known as the
-user's <code class="bb_code bb_code_inline nohighlight">Steam ID</code>. In the
-Steamworks C++ APIs, a user's SteamID is contained within a
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
-  class="bb_apilink"
-  >CSteamID</a
->
+Every Steam user can be uniquely identified by a 64-bit numeric ID, known as the user's
+<code class="bb_code bb_code_inline nohighlight">Steam ID</code>. In the Steamworks C++ APIs, a
+user's SteamID is contained within a
+<a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink">CSteamID</a>
 object. You can retrieve the current user's SteamID by calling
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamUser#GetSteamID"
-  class="bb_apilink"
-  >ISteamUser::GetSteamID</a
+<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetSteamID" class="bb_apilink"
+    >ISteamUser::GetSteamID</a
 >
 and then retrieve the 64-bit ID by calling
-<code class="bb_code bb_code_inline nohighlight"
-  >CSteamID.ConvertToUint64()</code
->
-on the returned value.<br /><br />The following authentication methods can be
-used to securely verify a user's Steam ID.
+<code class="bb_code bb_code_inline nohighlight">CSteamID.ConvertToUint64()</code> on the returned
+value.<br /><br />The following authentication methods can be used to securely verify a user's Steam
+ID.
 <h2 class="bb_subsection"><a name="2"></a>APIs covered in this document</h2>
 <h4>Session Tickets</h4>
-Session Tickets are signed tickets that can be used to verify a user's identity
-between the user's game client and any number of other game clients (such as in
-a peer-to-peer multiplayer session) or to a listen/dedicated game server (using
-the
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamGameServer"
-  class="bb_apilink"
-  >ISteamGameServer</a
+Session Tickets are signed tickets that can be used to verify a user's identity between the user's
+game client and any number of other game clients (such as in a peer-to-peer multiplayer session) or
+to a listen/dedicated game server (using the
+<a href="https://partner.steamgames.com/doc/api/ISteamGameServer" class="bb_apilink"
+    >ISteamGameServer</a
 >
-API). These tickets can also be used to verify ownership of the current game and
-related downloadable content, and determine if the user has been VAC-banned (See
-<a
-  href="https://partner.steamgames.com/doc/features/anticheat"
-  class="bb_doclink"
-  >Valve Anti-Cheat (VAC) and Game Bans</a
->).<br />Session Tickets can also be used to verify a user's identity between a
-game client and a secure, backend server using the
+API). These tickets can also be used to verify ownership of the current game and related
+downloadable content, and determine if the user has been VAC-banned (See
+<a href="https://partner.steamgames.com/doc/features/anticheat" class="bb_doclink"
+    >Valve Anti-Cheat (VAC) and Game Bans</a
+>).<br />Session Tickets can also be used to verify a user's identity between a game client and a
+secure, backend server using the
 <a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
-  >Steamworks Web API</a
+    >Steamworks Web API</a
 >. Requires that the secure server can make HTTPS requests to
 <code class="bb_code bb_code_inline nohighlight">partner.steam-api.com</code>.
 <h4>Encrypted Application Tickets</h4>
-Encrypted Application Tickets can be used to verify a user's identity between a
-game client and a secure, backend server. Unlike Session Tickets, verifying
-Encrypted Application Tickets does <i>not</i> require that the secure server can
-make HTTPS requests. Instead, a C++ library and a private, symmetric key are
-used by the secure server to verify the ticket. The Steamworks SDK includes
-32-bit and 64-bit versions of this library for Windows and Linux under the
+Encrypted Application Tickets can be used to verify a user's identity between a game client and a
+secure, backend server. Unlike Session Tickets, verifying Encrypted Application Tickets does
+<i>not</i> require that the secure server can make HTTPS requests. Instead, a C++ library and a
+private, symmetric key are used by the secure server to verify the ticket. The Steamworks SDK
+includes 32-bit and 64-bit versions of this library for Windows and Linux under the
 <code class="bb_code bb_code_inline nohighlight">public/steam/lib</code>
-directory.<br /><br />Before using Encrypted Application Tickets, you must
-generate a private key for each title. You can do this by navigating to Edit
-Steamworks Settings for your application and selecting 'SDK Auth' from the
-'Security' drop-down. This key will be associated with your title's AppID and
-any downloadable content for that title. In order to access this section of
-Steamworks, a user must have the "Manage Signing" permission for the relevant
-Application.
-<div class="bb_callout">
-  <div>
-    NOTE: These keys must be stored securely, and must not be distributed within
-    your application in any way!
-  </div>
+directory.<br /><br />Before using Encrypted Application Tickets, you must generate a private key
+for each title. You can do this by navigating to Edit Steamworks Settings for your application and
+selecting 'SDK Auth' from the 'Security' drop-down. This key will be associated with your title's
+AppID and any downloadable content for that title. In order to access this section of Steamworks, a
+user must have the "Manage Signing" permission for the relevant Application.
+<div class="bb_callout ">
+    <div>
+        NOTE: These keys must be stored securely, and must not be distributed within your
+        application in any way!
+    </div>
 </div>
 <h4>Steamworks Web API</h4>
-Steam exposes an HTTP based Web API which can be used to access many Steamworks
-features. The API contains public methods that can be accessed from any
-application capable of making an HTTP request, such as game client or server.
-The API also contains protected methods that require authentication and are
-intended to be accessed from trusted back-end applications. More details on the
-Web API can be found
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
-  >here</a
->.
+Steam exposes an HTTP based Web API which can be used to access many Steamworks features. The API
+contains public methods that can be accessed from any application capable of making an HTTP request,
+such as game client or server. The API also contains protected methods that require authentication
+and are intended to be accessed from trusted back-end applications. More details on the Web API can
+be found
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">here</a>.
 <h2 class="bb_section"><a name="client_to_client"></a>P2P or Game Servers</h2>
 <h2 class="bb_subsection"><a name="3"></a>Session Tickets</h2>
 <h4>User Authentication</h4>
-The following steps detail how to use Session Tickets to verify a user's
-identity between the user's game client (client A) and another client or game
-server (client B):<br />
-<ul class="bb_ul">
-  <li>
-    Client A must retrieve a session ticket by calling
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
-      class="bb_apilink"
-      >ISteamUser::GetAuthSessionTicket</a
-    >.<br />
-  </li>
-  <li>Client A must send its session ticket to client B.<br /></li>
-  <li>
-    Client B must pass client A's ticket to
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
-      class="bb_apilink"
-      >ISteamUser::BeginAuthSession</a
-    >, which will perform a quick validity check. If the ticket is valid, then
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
-      class="bb_apilink"
-      >ISteamUser::BeginAuthSession</a
-    >
-    will forward the ticket to then the Steam backend to verify that the ticket
-    has not been reused and was issued by the account owner of client A. The
-    result of this verification will be returned in a
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
-      class="bb_apilink"
-      >ISteamUser::ValidateAuthTicketResponse_t</a
-    >
-    callback.<br />
-  </li>
-  <li>
-    When the multiplayer session terminates:<br />
-    <ul class="bb_ul">
-      <li>
-        Client A must pass the handle initially returned from
+The following steps detail how to use Session Tickets to verify a user's identity between the user's
+game client (client A) and another client or game server (client B):<br />
+<ul class="bb_ul ">
+    <li>
+        Client A must retrieve a session ticket by calling
         <a
-          href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
-          class="bb_apilink"
-          >ISteamUser::GetAuthSessionTicket</a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
+            class="bb_apilink"
+            >ISteamUser::GetAuthSessionTicket</a
+        >.<br />
+    </li>
+    <li>Client A must send its session ticket to client B.<br /></li>
+    <li>
+        Client B must pass client A's ticket to
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
+            class="bb_apilink"
+            >ISteamUser::BeginAuthSession</a
+        >, which will perform a quick validity check. If the ticket is valid, then
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
+            class="bb_apilink"
+            >ISteamUser::BeginAuthSession</a
         >
-        to
+        will forward the ticket to then the Steam backend to verify that the ticket has not been
+        reused and was issued by the account owner of client A. The result of this verification will
+        be returned in a
         <a
-          href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket"
-          class="bb_apilink"
-          >ISteamUser::CancelAuthTicket</a
-        >.<br />
-      </li>
-      <li>
-        Client B must pass the SteamID of client A to
-        <a
-          href="https://partner.steamgames.com/doc/api/ISteamUser#EndAuthSession"
-          class="bb_apilink"
-          >ISteamUser::EndAuthSession</a
-        >.<br />
-      </li>
-    </ul>
-  </li>
+            href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
+            class="bb_apilink"
+            >ISteamUser::ValidateAuthTicketResponse_t</a
+        >
+        callback.<br />
+    </li>
+    <li>
+        When the multiplayer session terminates:<br />
+        <ul class="bb_ul ">
+            <li>
+                Client A must pass the handle initially returned from
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
+                    class="bb_apilink"
+                    >ISteamUser::GetAuthSessionTicket</a
+                >
+                to
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket"
+                    class="bb_apilink"
+                    >ISteamUser::CancelAuthTicket</a
+                >.<br />
+            </li>
+            <li>
+                Client B must pass the SteamID of client A to
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUser#EndAuthSession"
+                    class="bb_apilink"
+                    >ISteamUser::EndAuthSession</a
+                >.<br />
+            </li>
+        </ul>
+    </li>
 </ul>
 <br />A few important notes about Session Tickets:<br />
-<ul class="bb_ul">
-  <li>
-    Session Tickets must only be used once.
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
-      class="bb_apilink"
-      >ISteamUser::GetAuthSessionTicket</a
-    >
-    must be called for every client in the mulitplayer session who requests a
-    ticket.<br />
-  </li>
-  <li>
-    When used to authenticate players within a peer-to-peer multiplayer session,
-    each game client should verify the identity of every other game client in
-    the multiplayer session.<br />
-  </li>
-  <li>
-    When finished with a Session Ticket,
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket"
-      class="bb_apilink"
-      >ISteamUser::CancelAuthTicket</a
-    >
-    must be called for every handle returned by
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
-      class="bb_apilink"
-      >ISteamUser::GetAuthSessionTicket</a
-    >.<br />
-  </li>
-  <li>
-    When client A calls
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket"
-      class="bb_apilink"
-      >ISteamUser::CancelAuthTicket</a
-    >, client B will receive a
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
-      class="bb_apilink"
-      >ISteamUser::ValidateAuthTicketResponse_t</a
-    >
-    callback stating that client A's ticket is no longer valid.<br />
-  </li>
-  <li>
-    When client A leaves a game with client B, if client A's call of
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket"
-      class="bb_apilink"
-      >ISteamUser::CancelAuthTicket</a
-    >
-    is processed before client B call's of
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#EndAuthSession"
-      class="bb_apilink"
-      >ISteamUser::EndAuthSession</a
-    >, then client B may receive a
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
-      class="bb_apilink"
-      >ISteamUser::ValidateAuthTicketResponse_t</a
-    >
-    callback stating that the ticket was cancelled. Because there is mutual
-    agreement that client A is leaving, this callback can be ignored.<br />
-  </li>
-  <li>
-    Network conditions may prevent the Steam backend from providing a callback
-    to the caller of
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
-      class="bb_apilink"
-      >ISteamUser::BeginAuthSession</a
-    >
-    for an indefinite period of time. The caller of
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
-      class="bb_apilink"
-      >ISteamUser::BeginAuthSession</a
-    >
-    ( client B ) should not assume that he knows the true identity of client A
-    until this callback has been received, but should allow the multiplayer
-    session to continue.<br />
-  </li>
-  <li>
-    If the caller of
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
-      class="bb_apilink"
-      >ISteamUser::BeginAuthSession</a
-    >
-    receives a
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
-      class="bb_apilink"
-      >ISteamUser::ValidateAuthTicketResponse_t</a
-    >
-    callback stating that the ticket for client A is invalid, the caller must
-    refuse to continue the multiplayer session with client A. If the other peers
-    in the game do not also refuse to play with client A, the caller should
-    leave the multiplayer session.<br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamGameServer"
-      class="bb_apilink"
-      >ISteamGameServer</a
-    >
-    exposes the same Session Ticket methods to perform authentication between a
-    game client and game server.
-  </li>
+<ul class="bb_ul ">
+    <li>
+        Session Tickets must only be used once.
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
+            class="bb_apilink"
+            >ISteamUser::GetAuthSessionTicket</a
+        >
+        must be called for every client in the mulitplayer session who requests a ticket.<br />
+    </li>
+    <li>
+        When used to authenticate players within a peer-to-peer multiplayer session, each game
+        client should verify the identity of every other game client in the multiplayer session.<br />
+    </li>
+    <li>
+        When finished with a Session Ticket,
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket"
+            class="bb_apilink"
+            >ISteamUser::CancelAuthTicket</a
+        >
+        must be called for every handle returned by
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
+            class="bb_apilink"
+            >ISteamUser::GetAuthSessionTicket</a
+        >.<br />
+    </li>
+    <li>
+        When client A calls
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket"
+            class="bb_apilink"
+            >ISteamUser::CancelAuthTicket</a
+        >, client B will receive a
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
+            class="bb_apilink"
+            >ISteamUser::ValidateAuthTicketResponse_t</a
+        >
+        callback stating that client A's ticket is no longer valid.<br />
+    </li>
+    <li>
+        When client A leaves a game with client B, if client A's call of
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket"
+            class="bb_apilink"
+            >ISteamUser::CancelAuthTicket</a
+        >
+        is processed before client B call's of
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#EndAuthSession"
+            class="bb_apilink"
+            >ISteamUser::EndAuthSession</a
+        >, then client B may receive a
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
+            class="bb_apilink"
+            >ISteamUser::ValidateAuthTicketResponse_t</a
+        >
+        callback stating that the ticket was cancelled. Because there is mutual agreement that
+        client A is leaving, this callback can be ignored.<br />
+    </li>
+    <li>
+        Network conditions may prevent the Steam backend from providing a callback to the caller of
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
+            class="bb_apilink"
+            >ISteamUser::BeginAuthSession</a
+        >
+        for an indefinite period of time. The caller of
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
+            class="bb_apilink"
+            >ISteamUser::BeginAuthSession</a
+        >
+        ( client B ) should not assume that he knows the true identity of client A until this
+        callback has been received, but should allow the multiplayer session to continue.<br />
+    </li>
+    <li>
+        If the caller of
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
+            class="bb_apilink"
+            >ISteamUser::BeginAuthSession</a
+        >
+        receives a
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
+            class="bb_apilink"
+            >ISteamUser::ValidateAuthTicketResponse_t</a
+        >
+        callback stating that the ticket for client A is invalid, the caller must refuse to continue
+        the multiplayer session with client A. If the other peers in the game do not also refuse to
+        play with client A, the caller should leave the multiplayer session.<br />
+    </li>
+    <li>
+        <a href="https://partner.steamgames.com/doc/api/ISteamGameServer" class="bb_apilink"
+            >ISteamGameServer</a
+        >
+        exposes the same Session Ticket methods to perform authentication between a game client and
+        game server.
+    </li>
 </ul>
 <h4>Ownership Verification</h4>
-When using Session Tickets, Steam will automatically verify ownership of the
-current AppID. If the user does not own the current AppID, then
-<code class="bb_code bb_code_inline nohighlight">m_eAuthSessionResponse</code>
-field of the
+When using Session Tickets, Steam will automatically verify ownership of the current AppID. If the
+user does not own the current AppID, then
+<code class="bb_code bb_code_inline nohighlight">m_eAuthSessionResponse</code> field of the
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
-  class="bb_apilink"
-  >ISteamUser::ValidateAuthTicketResponse_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
+    class="bb_apilink"
+    >ISteamUser::ValidateAuthTicketResponse_t</a
 >
 will be set to
 <a
-  href="https://partner.steamgames.com/doc/api/steam_api#k_EAuthSessionResponseNoLicenseOrExpired"
-  class="bb_apilink"
-  >k_EAuthSessionResponseNoLicenseOrExpired</a
+    href="https://partner.steamgames.com/doc/api/steam_api#k_EAuthSessionResponseNoLicenseOrExpired"
+    class="bb_apilink"
+    >k_EAuthSessionResponseNoLicenseOrExpired</a
 >. After receiving a user's Session Ticket and passing it to
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
-  class="bb_apilink"
-  >ISteamUser::BeginAuthSession</a
+<a href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession" class="bb_apilink"
+    >ISteamUser::BeginAuthSession</a
 >
 then,
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamUser#UserHasLicenseForApp"
-  class="bb_apilink"
-  >ISteamUser::UserHasLicenseForApp</a
+<a href="https://partner.steamgames.com/doc/api/ISteamUser#UserHasLicenseForApp" class="bb_apilink"
+    >ISteamUser::UserHasLicenseForApp</a
 >
-can be used to determine if the user owns a specific piece of downloadable
-content.
-<h2 class="bb_section">
-  <a name="client_to_backend_webapi"></a>Backend Server
-</h2>
-<h2 class="bb_subsection">
-  <a name="4"></a>Session Tickets and the Steamworks Web API
-</h2>
+can be used to determine if the user owns a specific piece of downloadable content.
+<h2 class="bb_section"><a name="client_to_backend_webapi"></a>Backend Server</h2>
+<h2 class="bb_subsection"><a name="4"></a>Session Tickets and the Steamworks Web API</h2>
 <h4>User Authentication</h4>
-The following steps detail how to use Session Tickets to verify a user's
-identity between the user's game client and a secure server:<br />
-<ul class="bb_ul">
-  <li>
-    The client must retrieve a session ticket by calling
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
-      class="bb_apilink"
-      >ISteamUser::GetAuthSessionTicket</a
-    >.<br />
-  </li>
-  <li>
-    To guarantee a valid ticket, the client must wait for the
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicketResponse_t"
-      class="bb_apilink"
-      >ISteamUser::GetAuthSessionTicketResponse_t</a
-    >
-    callback.<br />
-  </li>
-  <li>The client must send its session ticket to the secure server.<br /></li>
-  <li>
-    The secure server must make an HTTPS request to
-    <code class="bb_code bb_code_inline nohighlight"
-      >partner.steam-api.com</code
-    >
-    and call the
-    <a
-      href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
-      class="bb_apilink"
-      >ISteamUserAuth/AuthenticateUserTicket</a
-    >
-    web method, passing the user's session ticket as a hex encoded UTF-8 string.
-    Please note that this method allows either a
-    <a href="https://steamcommunity.com/dev" target="_blank" rel="noreferrer"
-      >Steam Web API Key</a
-    >
-    or a
-    <a
-      href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys"
-      class="bb_doclink"
-      >Web API Publisher Key</a
-    >
-    that is associated with the AppID for the provided ticket to be passed in. A
-    future update to this API may return more information to the caller when a
-    Web API Publisher key is supplied.<br />
-  </li>
-  <li>
-    If the user's ticket is valid, then
-    <a
-      href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
-      class="bb_apilink"
-      >ISteamUserAuth/AuthenticateUserTicket</a
-    >
-    will return the user's 64-bit SteamID.
-  </li>
+The following steps detail how to use Session Tickets to verify a user's identity between the user's
+game client and a secure server:<br />
+<ul class="bb_ul ">
+    <li>
+        The client must retrieve a session ticket by calling
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
+            class="bb_apilink"
+            >ISteamUser::GetAuthSessionTicket</a
+        >.<br />
+    </li>
+    <li>
+        To guarantee a valid ticket, the client must wait for the
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicketResponse_t"
+            class="bb_apilink"
+            >ISteamUser::GetAuthSessionTicketResponse_t</a
+        >
+        callback.<br />
+    </li>
+    <li>The client must send its session ticket to the secure server.<br /></li>
+    <li>
+        The secure server must make an HTTPS request to
+        <code class="bb_code bb_code_inline nohighlight">partner.steam-api.com</code> and call the
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
+            class="bb_apilink"
+            >ISteamUserAuth/AuthenticateUserTicket</a
+        >
+        web method, passing the user's session ticket as a hex encoded UTF-8 string. Please note
+        that this method allows either a
+        <a href="https://steamcommunity.com/dev" target="_blank" rel="noreferrer"
+            >Steam Web API Key</a
+        >
+        or a
+        <a
+            href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys"
+            class="bb_doclink"
+            >Web API Publisher Key</a
+        >
+        that is associated with the AppID for the provided ticket to be passed in. A future update
+        to this API may return more information to the caller when a Web API Publisher key is
+        supplied.<br />
+    </li>
+    <li>
+        If the user's ticket is valid, then
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
+            class="bb_apilink"
+            >ISteamUserAuth/AuthenticateUserTicket</a
+        >
+        will return the user's 64-bit SteamID.
+    </li>
 </ul>
 <h4>Ownership Verification</h4>
 Once a user's identity has been verified, a secure server can use the
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/CheckAppOwnership</a
+<a href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership" class="bb_apilink"
+    >ISteamUser/CheckAppOwnership</a
 >
 Web API method to check if the user owns a particular AppID, or call
 <a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#GetPublisherAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/GetPublisherAppOwnership</a
+    href="https://partner.steamgames.com/doc/webapi/ISteamUser#GetPublisherAppOwnership"
+    class="bb_apilink"
+    >ISteamUser/GetPublisherAppOwnership</a
 >
-to retrieve a list of all user owned AppIDs that are associated with the
-provided
-<a
-  href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys"
-  class="bb_doclink"
-  >Publisher Key</a
+to retrieve a list of all user owned AppIDs that are associated with the provided
+<a href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys" class="bb_doclink"
+    >Publisher Key</a
 >.
-<h2 class="bb_subsection">
-  <a name="encryptedapptickets"></a>Encrypted Application Tickets
-</h2>
+<h2 class="bb_subsection"><a name="encryptedapptickets"></a>Encrypted Application Tickets</h2>
 <h4>User Authentication</h4>
-The following steps detail how to use Encrypted Application Tickets to verify a
-user's identity between the user's game client and a secure server:<br />
-<ul class="bb_ul">
-  <li>
-    The client must call
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#RequestEncryptedAppTicket"
-      class="bb_apilink"
-      >ISteamUser::RequestEncryptedAppTicket</a
-    >
-    and wait for the
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#EncryptedAppTicketResponse_t"
-      class="bb_apilink"
-      >ISteamUser::EncryptedAppTicketResponse_t</a
-    >
-    call result.<br />
-  </li>
-  <li>
-    The client must then call
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#GetEncryptedAppTicket"
-      class="bb_apilink"
-      >ISteamUser::GetEncryptedAppTicket</a
-    >
-    to retrieve the user's encrypted ticket and send that ticket to the secured
-    server.<br />
-  </li>
-  <li>
-    Using the Encrypted Application Ticket library, the secure server must
-    then:<br />
-    <ul class="bb_ul">
-      <li>
-        Call
+The following steps detail how to use Encrypted Application Tickets to verify a user's identity
+between the user's game client and a secure server:<br />
+<ul class="bb_ul ">
+    <li>
+        The client must call
         <a
-          href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BDecryptTicket"
-          class="bb_apilink"
-          >SteamEncryptedAppTicket::BDecryptTicket</a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#RequestEncryptedAppTicket"
+            class="bb_apilink"
+            >ISteamUser::RequestEncryptedAppTicket</a
         >
-        to decrypt the user's ticket<br />
-      </li>
-      <li>
-        Call
+        and wait for the
         <a
-          href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BIsTicketForApp"
-          class="bb_apilink"
-          >SteamEncryptedAppTicket::BIsTicketForApp</a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#EncryptedAppTicketResponse_t"
+            class="bb_apilink"
+            >ISteamUser::EncryptedAppTicketResponse_t</a
         >
-        to verify that the ticket is for the expected application<br />
-      </li>
-      <li>
-        Call
+        call result.<br />
+    </li>
+    <li>
+        The client must then call
         <a
-          href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketIssueTime"
-          class="bb_apilink"
-          >SteamEncryptedAppTicket::GetTicketIssueTime</a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#GetEncryptedAppTicket"
+            class="bb_apilink"
+            >ISteamUser::GetEncryptedAppTicket</a
         >
-        to verify that the ticket has not expired (expiration time defined by
-        the application)<br />
-      </li>
-      <li>
-        Call
-        <a
-          href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketSteamID"
-          class="bb_apilink"
-          >SteamEncryptedAppTicket::GetTicketSteamID</a
-        >
-        to retrieve the user's SteamID<br />
-      </li>
-    </ul>
-  </li>
+        to retrieve the user's encrypted ticket and send that ticket to the secured server.<br />
+    </li>
+    <li>
+        Using the Encrypted Application Ticket library, the secure server must then:<br />
+        <ul class="bb_ul ">
+            <li>
+                Call
+                <a
+                    href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BDecryptTicket"
+                    class="bb_apilink"
+                    >SteamEncryptedAppTicket::BDecryptTicket</a
+                >
+                to decrypt the user's ticket<br />
+            </li>
+            <li>
+                Call
+                <a
+                    href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BIsTicketForApp"
+                    class="bb_apilink"
+                    >SteamEncryptedAppTicket::BIsTicketForApp</a
+                >
+                to verify that the ticket is for the expected application<br />
+            </li>
+            <li>
+                Call
+                <a
+                    href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketIssueTime"
+                    class="bb_apilink"
+                    >SteamEncryptedAppTicket::GetTicketIssueTime</a
+                >
+                to verify that the ticket has not expired (expiration time defined by the
+                application)<br />
+            </li>
+            <li>
+                Call
+                <a
+                    href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketSteamID"
+                    class="bb_apilink"
+                    >SteamEncryptedAppTicket::GetTicketSteamID</a
+                >
+                to retrieve the user's SteamID<br />
+            </li>
+        </ul>
+    </li>
 </ul>
 <br />An example implementation can be found in the
 <a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
-  >Steamworks API Example Application (SpaceWar)</a
+    >Steamworks API Example Application (SpaceWar)</a
 >
 project in the SDK. Specifically
-<code class="bb_code bb_code_inline nohighlight"
-  >CSpaceWarClient::RetrieveEncryptedAppTicket</code
->
+<code class="bb_code bb_code_inline nohighlight">CSpaceWarClient::RetrieveEncryptedAppTicket</code>
 and
-<code class="bb_code bb_code_inline nohighlight"
-  >CSpaceWarClient::OnRequestEncryptedAppTicket</code
+<code class="bb_code bb_code_inline nohighlight">CSpaceWarClient::OnRequestEncryptedAppTicket</code
 >.
 <h4>Ownership Verification</h4>
-Steam will only create Encrypted Application Tickets for users who own the AppID
-for which the ticket was created. After decrypting an Encrypted Application
-Ticket, the secure server can use
+Steam will only create Encrypted Application Tickets for users who own the AppID for which the
+ticket was created. After decrypting an Encrypted Application Ticket, the secure server can use
 <a
-  href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BIsTicketForApp"
-  class="bb_apilink"
-  >SteamEncryptedAppTicket::BIsTicketForApp</a
+    href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BIsTicketForApp"
+    class="bb_apilink"
+    >SteamEncryptedAppTicket::BIsTicketForApp</a
 >
-to verify the AppID of the ticket matches the title's AppID. The server can also
-use
+to verify the AppID of the ticket matches the title's AppID. The server can also use
 <a
-  href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BUserOwnsAppInTicket"
-  class="bb_apilink"
-  >SteamEncryptedAppTicket::BUserOwnsAppInTicket</a
+    href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BUserOwnsAppInTicket"
+    class="bb_apilink"
+    >SteamEncryptedAppTicket::BUserOwnsAppInTicket</a
 >
 to determine if the user owns a specific piece of
-<a
-  href="https://partner.steamgames.com/doc/store/application/dlc"
-  class="bb_doclink"
-  >Downloadable Content (DLC)</a
+<a href="https://partner.steamgames.com/doc/store/application/dlc" class="bb_doclink"
+    >Downloadable Content (DLC)</a
 >.
-<h2 class="bb_section">
-  <a name="website"></a>Web Browser based authentication with OpenID
-</h2>
-Steam is an
-<a href="http://openid.net/" target="_blank" rel="noreferrer">OpenID</a>
-Provider, as described in the OpenID 2.0 specification. Inside a web browser, a
-third-party website can use OpenID to obtain a user's SteamID which can be used
-as the login credentials for the 3rd party website, or linked to an existing
-account on that website.<br /><br />When using OpenID, the user begins in a web
-browser at the third-party website. When the user wishes to login/link their
-account to that website, using OpenID, the site directs the user to a login form
-on the Steam Community website. Once the user has entered their Steam login
-credentials, the user's web browser is automatically redirected back to the 3rd
-party website with some additional OpenID specific data appended to the return
-URL. The site's OpenID library can then use this data to verify and obtain the
-user's SteamID.<br /><br />Steam provides the following images which may be used
-by 3rd party sites when linking to the Steam sign in page:<br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png"
-  alt="sits_large_border.png"
-  title="sits_large_border.png"
+<h2 class="bb_section"><a name="website"></a>Web Browser based authentication with OpenID</h2>
+Steam is an <a href="http://openid.net/" target="_blank" rel="noreferrer">OpenID</a> Provider, as
+described in the OpenID 2.0 specification. Inside a web browser, a third-party website can use
+OpenID to obtain a user's SteamID which can be used as the login credentials for the 3rd party
+website, or linked to an existing account on that website.<br /><br />When using OpenID, the user
+begins in a web browser at the third-party website. When the user wishes to login/link their account
+to that website, using OpenID, the site directs the user to a login form on the Steam Community
+website. Once the user has entered their Steam login credentials, the user's web browser is
+automatically redirected back to the 3rd party website with some additional OpenID specific data
+appended to the return URL. The site's OpenID library can then use this data to verify and obtain
+the user's SteamID.<br /><br />Steam provides the following images which may be used by 3rd party
+sites when linking to the Steam sign in page:<br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png"
+    alt="sits_large_border.png"
+    title="sits_large_border.png"
 /><br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_noborder.png"
-  alt="sits_large_noborder.png"
-  title="sits_large_noborder.png"
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_noborder.png"
+    alt="sits_large_noborder.png"
+    title="sits_large_noborder.png"
 /><br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_small.png"
-  alt="sits_small.png"
-  title="sits_small.png"
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_small.png"
+    alt="sits_small.png"
+    title="sits_small.png"
 />
 <h4>User Authentication</h4>
-Steam's OpenID 2.0 implementation can be used to link a users Steam account to
-their account on the third-party website.<br />A list of open source OpenID
-libraries can be found at the
-<a
-  href="http://openid.net/developers/libraries/"
-  target="_blank"
-  rel="noreferrer"
-  >OpenID website</a
+Steam's OpenID 2.0 implementation can be used to link a users Steam account to their account on the
+third-party website.<br />A list of open source OpenID libraries can be found at the
+<a href="http://openid.net/developers/libraries/" target="_blank" rel="noreferrer">OpenID website</a
 >. To use OpenID to verify a user's identity:<br />
-<ul class="bb_ul">
-  <li>
-    Configure your OpenID library to use the following URL as Steam's OP
-    Endpoint URL:
-    <code class="bb_code bb_code_inline nohighlight"
-      >https://steamcommunity.com/openid/</code
-    ><br />
-  </li>
-  <li>
-    After a user has been authenticated, the user's Claimed ID will contain the
-    user's SteamID. The Steam Claimed ID format is:
-    <code class="bb_code bb_code_inline nohighlight"
-      >http://steamcommunity.com/openid/id/&lt;steamid&gt;</code
-    >.
-  </li>
+<ul class="bb_ul ">
+    <li>
+        Configure your OpenID library to use the following URL as Steam's OP Endpoint URL:
+        <code class="bb_code bb_code_inline nohighlight">https://steamcommunity.com/openid/</code
+        ><br />
+    </li>
+    <li>
+        After a user has been authenticated, the user's Claimed ID will contain the user's SteamID.
+        The Steam Claimed ID format is:
+        <code class="bb_code bb_code_inline nohighlight"
+            >http://steamcommunity.com/openid/id/&lt;steamid&gt;</code
+        >.
+    </li>
 </ul>
 <h4>Ownership Verification</h4>
 Once a user's identity has been verified, a secure server can use the
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/CheckAppOwnership</a
+<a href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership" class="bb_apilink"
+    >ISteamUser/CheckAppOwnership</a
 >
 Web API method to check if the user owns a particular AppID, or call
 <a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#GetPublisherAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/GetPublisherAppOwnership</a
+    href="https://partner.steamgames.com/doc/webapi/ISteamUser#GetPublisherAppOwnership"
+    class="bb_apilink"
+    >ISteamUser/GetPublisherAppOwnership</a
 >
-to retrieve a list of all user owned AppIDs that are associated with the
-provided
-<a
-  href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys"
-  class="bb_doclink"
-  >Web API Publisher Key</a
+to retrieve a list of all user owned AppIDs that are associated with the provided
+<a href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys" class="bb_doclink"
+    >Web API Publisher Key</a
 >.
 <h2 class="bb_section"><a name="examples"></a>Examples</h2>
 <h2 class="bb_subsection">
-  <a name="account_linking"></a>Linking third-party accounts to Steam accounts
+    <a name="account_linking"></a>Linking third-party accounts to Steam accounts
 </h2>
-Third-party accounts can be linked to Steam accounts by associating a user's
-SteamID with the 3rd party account.<br /><br />A user's SteamID can be securely
-retrieved either in-game or through a web browser and once the initial
-association has occurred, you can safely allow access to the 3rd party account
-by merely verifying a user's SteamID. This eliminates the need for Steam users
-to do any sort of secondary login to 3rd party account systems. Additionally, if
-new 3rd party accounts can be automatically created and linked when a new
-SteamID is encountered, the Steam user will never have to be aware that a
-secondary authentication is taking place at all. Instead, their single Steam
-account can grant access to all of their games, streamlining the user experience
-and removing potential barriers to installing and trying new games.
+Third-party accounts can be linked to Steam accounts by associating a user's SteamID with the 3rd
+party account.<br /><br />A user's SteamID can be securely retrieved either in-game or through a web
+browser and once the initial association has occurred, you can safely allow access to the 3rd party
+account by merely verifying a user's SteamID. This eliminates the need for Steam users to do any
+sort of secondary login to 3rd party account systems. Additionally, if new 3rd party accounts can be
+automatically created and linked when a new SteamID is encountered, the Steam user will never have
+to be aware that a secondary authentication is taking place at all. Instead, their single Steam
+account can grant access to all of their games, streamlining the user experience and removing
+potential barriers to installing and trying new games.
 <h2 class="bb_subsection"><a name="5"></a>Linking From In-game</h2>
-Session Tickets can be used to verify a user's identity between a game client
-and a secure, backend server using the Steamworks Web API:<br />
-<ul class="bb_ul">
-  <li>
-    The client must retrieve a session ticket by calling
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
-      class="bb_apilink"
-      >ISteamUser::GetAuthSessionTicket</a
-    >.<br />
-  </li>
-  <li>
-    To guarantee a valid ticket, the client must wait for the
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicketResponse_t"
-      class="bb_apilink"
-      >ISteamUser::GetAuthSessionTicketResponse_t</a
-    >
-    callback.<br />
-  </li>
-  <li>The client must send its session ticket to the secure server.<br /></li>
-  <li>
-    The secure server must make an HTTPS request to
-    <code class="bb_code bb_code_inline nohighlight">api.steampowered.com</code>
-    and call the
-    <a
-      href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
-      class="bb_apilink"
-      >ISteamUserAuth/AuthenticateUserTicket</a
-    >
-    web method, passing the user's session ticket as a hex encoded UTF-8 string.
-    Please note that this method requires a
-    <a
-      href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys"
-      class="bb_doclink"
-      >Web API Publisher Key</a
-    >
-    that is associated with the AppID for the provided ticket.<br />
-  </li>
-  <li>
-    If the user's ticket is valid,
-    <a
-      href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
-      class="bb_apilink"
-      >ISteamUserAuth/AuthenticateUserTicket</a
-    >
-    will return the user's 64-bit SteamID.
-  </li>
+Session Tickets can be used to verify a user's identity between a game client and a secure, backend
+server using the Steamworks Web API:<br />
+<ul class="bb_ul ">
+    <li>
+        The client must retrieve a session ticket by calling
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
+            class="bb_apilink"
+            >ISteamUser::GetAuthSessionTicket</a
+        >.<br />
+    </li>
+    <li>
+        To guarantee a valid ticket, the client must wait for the
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicketResponse_t"
+            class="bb_apilink"
+            >ISteamUser::GetAuthSessionTicketResponse_t</a
+        >
+        callback.<br />
+    </li>
+    <li>The client must send its session ticket to the secure server.<br /></li>
+    <li>
+        The secure server must make an HTTPS request to
+        <code class="bb_code bb_code_inline nohighlight">api.steampowered.com</code> and call the
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
+            class="bb_apilink"
+            >ISteamUserAuth/AuthenticateUserTicket</a
+        >
+        web method, passing the user's session ticket as a hex encoded UTF-8 string. Please note
+        that this method requires a
+        <a
+            href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys"
+            class="bb_doclink"
+            >Web API Publisher Key</a
+        >
+        that is associated with the AppID for the provided ticket.<br />
+    </li>
+    <li>
+        If the user's ticket is valid,
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
+            class="bb_apilink"
+            >ISteamUserAuth/AuthenticateUserTicket</a
+        >
+        will return the user's 64-bit SteamID.
+    </li>
 </ul>
 <h2 class="bb_subsection"><a name="6"></a>Linking From a Web Browser</h2>
-Steam supports the OpenID 2.0 specification so that you can allow users to
-securly log into their Steam accounts from your website and retrieve their
-SteamID. For details on how to use OpenID with Steam go to
-<a href="#website" class="bb_doclink">Using OpenID</a>
+Steam supports the OpenID 2.0 specification so that you can allow users to securly log into their
+Steam accounts from your website and retrieve their SteamID. For details on how to use OpenID with
+Steam go to <a href="#website" class="bb_doclink">Using OpenID</a>
 <h2 class="bb_subsection"><a name="7"></a>Ownership Verification</h2>
 Once a user's identity has been verified, a secure server can use the
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/CheckAppOwnership</a
+<a href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership" class="bb_apilink"
+    >ISteamUser/CheckAppOwnership</a
 >
 Web API method to check if the user owns a particular AppID, or call
 <a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#GetPublisherAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/GetPublisherAppOwnership</a
+    href="https://partner.steamgames.com/doc/webapi/ISteamUser#GetPublisherAppOwnership"
+    class="bb_apilink"
+    >ISteamUser/GetPublisherAppOwnership</a
 >
-to retrieve a list of all user owned AppIDs that are associated with the
-provided
-<a
-  href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys"
-  class="bb_doclink"
-  >Web API Publisher Key</a
+to retrieve a list of all user owned AppIDs that are associated with the provided
+<a href="https://partner.steamgames.com/doc/webapi_overview/auth#publisher-keys" class="bb_doclink"
+    >Web API Publisher Key</a
 >.
 <h2 class="bb_section">
-  <a name="migration"></a>Migrating from Third-Party CD Keys to native Steam
-  Ownership Checks
+    <a name="migration"></a>Migrating from Third-Party CD Keys to native Steam Ownership Checks
 </h2>
-Steam itself has a number of ways a title can authenticate a user with, removing
-the need for a third-party CD key. We've compiled a list of common use cases for
-CD Keys and how you might implement each case natively with Steam:
+Steam itself has a number of ways a title can authenticate a user with, removing the need for a
+third-party CD key. We've compiled a list of common use cases for CD Keys and how you might
+implement each case natively with Steam:
 <h4>Private Forum Access</h4>
-You'll want to have users login directly with their Steam account using OpenID.
-OpenID will return the user's 64bit SteamID which can then be used with
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/CheckAppOwnership</a
+You'll want to have users login directly with their Steam account using OpenID. OpenID will return
+the user's 64bit SteamID which can then be used with
+<a href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership" class="bb_apilink"
+    >ISteamUser/CheckAppOwnership</a
 >
 to verify the user owns your appid. More details can be found above at
-<a href="#account_linking" class="bb_doclink"
-  >Linking 3rd party accounts to Steam accounts</a
->.
+<a href="#account_linking" class="bb_doclink">Linking 3rd party accounts to Steam accounts</a>.
 <h4>Unlocking a non-Steam, DRM-free build of a game</h4>
 Use OpenID and
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/CheckAppOwnership</a
+<a href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership" class="bb_apilink"
+    >ISteamUser/CheckAppOwnership</a
 >
-(<a href="#account_linking" class="bb_doclink">documented above</a>) to unlock
-the content on your own site. Alternatively, you could upload the DRM-free build
-as optional, free DLC.
+(<a href="#account_linking" class="bb_doclink">documented above</a>) to unlock the content on your
+own site. Alternatively, you could upload the DRM-free build as optional, free DLC.
 <h4>The software is sold on my own web site and unlocks with a key</h4>
-You'll want to have users login directly with their Steam account using OpenID.
-OpenID will return the user's 64bit SteamID which can then be used with
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/CheckAppOwnership</a
+You'll want to have users login directly with their Steam account using OpenID. OpenID will return
+the user's 64bit SteamID which can then be used with
+<a href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership" class="bb_apilink"
+    >ISteamUser/CheckAppOwnership</a
 >
 to verify the user owns your appid. More details can be found in
-<a href="#account_linking" class="bb_doclink"
-  >Linking third-party accounts to Steam accounts</a
->
+<a href="#account_linking" class="bb_doclink">Linking third-party accounts to Steam accounts</a>
 above.
 <h4>Dropping in-game items for registering your third-party key</h4>
 If you are using the
-<a
-  href="https://partner.steamgames.com/doc/features/inventory"
-  class="bb_doclink"
-  >Steam Inventory Service</a
+<a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
+    >Steam Inventory Service</a
 >, make sure the item's itemdef is configured correctly as a promo item and call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem"
-  class="bb_apilink"
-  >ISteamInventory::AddPromoItem</a
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem" class="bb_apilink"
+    >ISteamInventory::AddPromoItem</a
 >
 from the client.<br />If you have your own item backend, you can call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
-  class="bb_apilink"
-  >ISteamUser::GetAuthSessionTicket</a
+<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket" class="bb_apilink"
+    >ISteamUser::GetAuthSessionTicket</a
 >
 from the game client and then use
 <a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
-  class="bb_apilink"
-  >ISteamUserAuth/AuthenticateUserTicket</a
+    href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
+    class="bb_apilink"
+    >ISteamUserAuth/AuthenticateUserTicket</a
 >
 with
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/CheckAppOwnership</a
+<a href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership" class="bb_apilink"
+    >ISteamUser/CheckAppOwnership</a
 >
 to verify ownership.
 <a href="#client_to_backend_webapi" class="bb_doclink">More Information...</a>
 <h4>The key controls which version of the software is unlocked</h4>
 Each version of your game should have its own AppID. From the game client, call
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
-  class="bb_apilink"
-  >ISteamUser::GetAuthSessionTicket</a
+<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket" class="bb_apilink"
+    >ISteamUser::GetAuthSessionTicket</a
 >
 and then use
 <a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
-  class="bb_apilink"
-  >ISteamUserAuth/AuthenticateUserTicket</a
+    href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
+    class="bb_apilink"
+    >ISteamUserAuth/AuthenticateUserTicket</a
 >
 with
-<a
-  href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership"
-  class="bb_apilink"
-  >ISteamUser/CheckAppOwnership</a
+<a href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership" class="bb_apilink"
+    >ISteamUser/CheckAppOwnership</a
 >
 to verify ownership.
 <a href="#client_to_backend_webapi" class="bb_doclink">More Information...</a>

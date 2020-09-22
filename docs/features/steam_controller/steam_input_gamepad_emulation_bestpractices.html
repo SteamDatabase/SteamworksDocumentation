@@ -1,242 +1,36 @@
 <h1>Steam Input Gamepad Emulation - Best Practices</h1>
-<h2 class="bb_section"><a name="1"></a>Overview</h2>
-Steam Input Gamepad Emulation is a lightweight way for developers who already
-have controllers support to extend it. Over 800 games on Steam are using this
-for at least one controller type, including notable games such as Monster
-Hunter: World, Ace Combat 7, Dragon Quest XI, Into the Breach, and Middle Earth:
-Shadow of War though not all of them are following the full list of best
-practices. Here we'll highlight Into the Breach because they are do a great job
-of following each of these best practices.
-<h2 class="bb_section"><a name="2"></a>Showing device specific art</h2>
-We support two ways to get device specific glyphs with Steam Input Gamepad
-Emulation – one for games that can load images at run-time that is
-future-proofed (meaning that when Steam updates Steam Input it will work without
-any game updates) and one for games which need to bake the images into their
-assets or want to use the same stylized art from the console ports of their
-game. Into the Breach uses their own art for Xbox/Steam Controllers:<br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/intothebreach_xbox.PNG"
-  alt="intothebreach_xbox.PNG"
-  title="intothebreach_xbox.PNG"
-/><br /><br />Playstation:<br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/intothebreach_ps4.PNG"
-  alt="intothebreach_ps4.PNG"
-  title="intothebreach_ps4.PNG"
-/><br /><br />
-and Nintendo Switch controllers:<br />
-<br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/intothebreach_switchpro.PNG"
-  alt="intothebreach_switchpro.PNG"
-  title="intothebreach_switchpro.PNG"
-/>
-<div class="bb_callout bb_green">
-  <div>
-    Note: Even when using your own art we suggest you fallback to Steam's art
-    when you don't recognize a controller or call our helper function to find
-    the closest option that existed when your game was released so when future
-    devices are added they have reasonable glyphs.
-  </div>
-</div>
-<h2 class="bb_subsection">
-  <a name="3"></a>Showing Steam's Future-Proofed Glyphs
-</h2>
-You'll need to make use of the following functions:<br />
-<ul class="bb_ul">
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamController#GetControllerForGamepadIndex"
-      target="_blank"
-      rel="noreferrer"
-      >ISteamController::GetControllerForGamepadIndex</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamController#GetActionOriginFromXboxOrigin"
-      target="_blank"
-      rel="noreferrer"
-      >ISteamController::GetAnalogActionOriginFromXboxOrigin</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamController#GetActionOriginFromXboxOrigin"
-      target="_blank"
-      rel="noreferrer"
-      >ISteamController::GetGlyphForActionOrigin</a
-    >
-  </li>
-</ul>
-<br />The example for
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamController#GetActionOriginFromXboxOrigin"
-  target="_blank"
-  rel="noreferrer"
-  >ISteamController::GetAnalogActionOriginFromXboxOrigin</a
->
-contains the relevant example code you'll need.
-<h2 class="bb_subsection"><a name="4"></a>Showing Your Own Art</h2>
-If you're using your own look up tables with your own index system you can pick
-which one to use by getting the controller type and keying off that:<br />
-<ul class="bb_ul">
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamController#GetControllerForGamepadIndex"
-      target="_blank"
-      rel="noreferrer"
-      >ISteamController::GetControllerForGamepadIndex</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamController#GetInputTypeForHandle"
-      target="_blank"
-      rel="noreferrer"
-      >ISteamController::GetInputTypeForHandle</a
-    >
-  </li>
-</ul>
-<br />or if you're using origins for your look up table you can get the origins
-from Steam:<br />
-<ul class="bb_ul">
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamController#GetControllerForGamepadIndex"
-      target="_blank"
-      rel="noreferrer"
-      >ISteamController::GetControllerForGamepadIndex</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamController#GetActionOriginFromXboxOrigin"
-      target="_blank"
-      rel="noreferrer"
-      >ISteamController::GetAnalogActionOriginFromXboxOrigin</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamController#TranslateActionOrigin"
-      target="_blank"
-      rel="noreferrer"
-      >ISteamController::TranslateActionOrigin</a
-    >
-  </li>
-</ul>
-<h2 class="bb_section"><a name="5"></a>Setting your configuration</h2>
-You can choose to create your own configuration or pick from one of our premade
-templates. It is not necessary to create your own configuration unless you plan
-tweaking the configurations away from our defaults or labeling individual
-bindings with what they do in-game.
-<h2 class="bb_subsection"><a name="6"></a>Picking a template</h2>
-Console controllers do not differentiate between the various gamepad template
-variants, but these settings are important for the Steam Controller. Here's an
-explanation of the templates and which type of games they are intended for:<br />
-<ul class="bb_ul">
-  <li>
-    Gamepad - This emulates an Xbox controller with the right trackpad being
-    turned into a raw emulated joystick. Perfect for twin-stick, platformer, or
-    sports games.<br />
-  </li>
-  <li>
-    Gamepad With High Precision Camera/Aim - This configuration is the ideal
-    configuration for an FPS or any game using camera controls. Be careful to
-    test that your game supports simultaneous gamepad/mouse before selecting
-    this, including any ancillary screens such as inventory or map screens.<br />
-  </li>
-  <li>
-    Gamepad with Camera Controls - This configuration takes mouse-style input
-    from the trackpad and translates it into flicks of an emulated joystick. If
-    your game can be configured to have very high joystick sensitivity, no
-    deadzone, and a linear acceleration curve this configuration can work well,
-    otherwise please consider using a mouse/keyboard config instead.
-  </li>
-</ul>
-<br />Steps for setting the template live for your game in Steamworks can be
-found
-<a
-  href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#22"
-  target="_blank"
-  rel="noreferrer"
-  >here</a
->
-<h2 class="bb_subsection"><a name="7"></a>Creating a custom configuration</h2>
-Configurations can be auto-converted between most controller types, but you'll
-at a minimum want want to make a Steam Controller and Xbox controller
-configuration.
-<div class="bb_callout bb_green">
-  <div>
-    Note: if you plan on taking advantage of device specific features like
-    motion controls you'll want to also have one for Playstation 4 or Nintendo
-    Switch controllers.
-  </div>
-</div>
-<br /><strong>Localizing your configuration</strong><br />Making a localized
-configuration is a little bit more complicated when not using Steam Input API
-but it is still achievable.<br />
-<ul class="bb_ul">
-  <li>
-    To start make sure you have not edited your configuration since the last
-    time it was exported. Open the configurator and make an edit (it is ok to
-    make, then revert a change).<br />
-  </li>
-  <li>
-    Go to your Steam\Logs\controller_ui.txt log and look for a string like
-    this:<br />
-    <div class="bb_code">
-      Steam Controller Saving Controller Configuration Autosave for [CONTROLLER
-      SERIAL NUMBER]- AppID: [YOUR APPID]. Loaded Config for Local Selection
-      Path for App ID [YOUR APPID], Controller 0:
-      F:\ProgramFiles\Steam\client\userdata\[STEAMID]\config\controller_configs\apps\[YOUR
-      APPID]\[CONTROLLER SERIAL]\guest\controller_configuration.vdf
-    </div>
-  </li>
-  <li>
-    Insert localization tokens for the bindings you want to localize<br />
-    <ul class="bb_ul">
-      <li>
-        Title/Description:
-        <div class="bb_code">
-          "controller_mappings" { "version" "3" "revision" "5" "title" "#title"
-          "description" "#description" ...
-        </div>
-      </li>
-      <li>
-        Button bindings:
-        <div class="bb_code">
-          "button_a" { "activators" { "Full_Press" { "bindings" { "binding"
-          "xinput_button A, #abutton" } } } } ...
-        </div>
-      </li>
-    </ul>
-  </li>
-  <li>
-    And then make corresponding values for each language in the localization
-    block:<br />
-    <div class="bb_code">
-      "localization" { "english" { "title" "This is a localized title"
-      "description" "This is a localized description. The button diamond binding
-      also have localized names." "abutton" "Your name here 1" "bbutton" "Your
-      name here 2" "xbutton" "Your name here 3" "ybutton" "Your name here 4" }
-      ...
-    </div>
-  </li>
-  <li>
-    You can now export the configuration and set it in the partner site with
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#21"
-      target="_blank"
-      rel="noreferrer"
-      >these instructions</a
-    >
-  </li>
-</ul>
-<br />The example configuration can be previewed in the steam client by entering
-this URL in your browser: steam://controllerconfig/681280/1744110334 or you can
-find the VDF file
-<a
-  class="bb_docfile"
-  href="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/ExampleLocalizedConfiguration.vdf"
-  target="_blank"
-  >here</a
-><br /><br />
+<h2 class="bb_section"><a name="1"></a>Overview</h2>Steam Input Gamepad Emulation is a lightweight way for developers who already have controllers support to extend it. Over 800 games on Steam are using this for at least one controller type, including notable games such as Monster Hunter: World,  Ace Combat 7, Dragon Quest XI, Into the Breach, and Middle Earth: Shadow of War though not all of them are following the full list of best practices. Here we'll highlight Into the Breach because they are do a great job of following each of these best practices.<h2 class="bb_section"><a name="2"></a>Showing device specific art</h2>We support two ways to get device specific glyphs with Steam Input Gamepad Emulation – one for games that can load images at run-time that is future-proofed (meaning that when Steam updates Steam Input it will work without any game updates) and one for games which need to bake the images into their assets or want to use the same stylized art from the console ports of their game. Into the Breach uses their own art for Xbox/Steam Controllers:<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/intothebreach_xbox.PNG" alt="intothebreach_xbox.PNG" title="intothebreach_xbox.PNG"><br><br>Playstation:<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/intothebreach_ps4.PNG" alt="intothebreach_ps4.PNG" title="intothebreach_ps4.PNG"><br><br> and Nintendo Switch controllers:<br> <br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/intothebreach_switchpro.PNG" alt="intothebreach_switchpro.PNG" title="intothebreach_switchpro.PNG"><div class="bb_callout bb_green"><div>Note: Even when using your own art we suggest you fallback to Steam's art when you don't recognize a controller or call our helper function to find the closest option that existed when your game was released so when future devices are added they have reasonable glyphs.</div></div> <h2 class="bb_subsection"><a name="3"></a>Showing Steam's Future-Proofed Glyphs</h2>You'll need to make use of the following functions:<br><ul class="bb_ul "><li> <a href="https://partner.steamgames.com/doc/api/ISteamController#GetControllerForGamepadIndex" target="_blank" rel="noreferrer">ISteamController::GetControllerForGamepadIndex</a><br></li><li> <a href="https://partner.steamgames.com/doc/api/ISteamController#GetActionOriginFromXboxOrigin" target="_blank" rel="noreferrer">ISteamController::GetAnalogActionOriginFromXboxOrigin</a><br></li><li> <a href="https://partner.steamgames.com/doc/api/ISteamController#GetActionOriginFromXboxOrigin" target="_blank" rel="noreferrer">ISteamController::GetGlyphForActionOrigin</a></li></ul><br>The example for <a href="https://partner.steamgames.com/doc/api/ISteamController#GetActionOriginFromXboxOrigin" target="_blank" rel="noreferrer">ISteamController::GetAnalogActionOriginFromXboxOrigin</a> contains the relevant example code you'll need.<h2 class="bb_subsection"><a name="4"></a>Showing Your Own Art</h2>If you're using your own look up tables with your own index system you can pick which one to use by getting the controller type and keying off that:<br><ul class="bb_ul "><li> <a href="https://partner.steamgames.com/doc/api/ISteamController#GetControllerForGamepadIndex" target="_blank" rel="noreferrer">ISteamController::GetControllerForGamepadIndex</a><br></li><li> <a href="https://partner.steamgames.com/doc/api/ISteamController#GetInputTypeForHandle" target="_blank" rel="noreferrer">ISteamController::GetInputTypeForHandle</a></li></ul><br>or if you're using origins for your look up table you can get the origins from Steam:<br><ul class="bb_ul "><li> <a href="https://partner.steamgames.com/doc/api/ISteamController#GetControllerForGamepadIndex" target="_blank" rel="noreferrer">ISteamController::GetControllerForGamepadIndex</a><br></li><li> <a href="https://partner.steamgames.com/doc/api/ISteamController#GetActionOriginFromXboxOrigin" target="_blank" rel="noreferrer">ISteamController::GetAnalogActionOriginFromXboxOrigin</a><br></li><li><a href="https://partner.steamgames.com/doc/api/ISteamController#TranslateActionOrigin" target="_blank" rel="noreferrer">ISteamController::TranslateActionOrigin</a></li></ul><h2 class="bb_section"><a name="5"></a>Setting your configuration</h2>You can choose to create your own configuration or pick from one of our premade templates. It is not necessary to create your own configuration unless you plan tweaking the configurations away from our defaults or labeling individual bindings with what they do in-game.<h2 class="bb_subsection"><a name="6"></a>Picking a template</h2>Console controllers do not differentiate between the various gamepad template variants, but these settings are important for the Steam Controller. Here's an explanation of the templates and which type of games they are intended for:<br><ul class="bb_ul "><li> Gamepad - This emulates an Xbox controller with the right trackpad being turned into a raw emulated joystick. Perfect for twin-stick, platformer, or sports games.<br></li><li> Gamepad With High Precision Camera/Aim - This configuration is the ideal configuration for an FPS or any game using camera controls. Be careful to test that your game supports simultaneous gamepad/mouse before selecting this, including any ancillary screens such as inventory or map screens.<br></li><li> Gamepad with Camera Controls - This configuration takes mouse-style input from the trackpad and translates it into flicks of an emulated joystick. If your game can be configured to have very high joystick sensitivity, no deadzone, and a linear acceleration curve this configuration can work well, otherwise please consider using a mouse/keyboard config instead.</li></ul><br>Steps for setting the template live for your game in Steamworks can be found <a href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#22" target="_blank" rel="noreferrer">here</a><h2 class="bb_subsection"><a name="7"></a>Creating a custom configuration</h2>Configurations can be auto-converted between most controller types, but you'll at a minimum want want to make a Steam Controller and Xbox controller configuration. <div class="bb_callout bb_green"><div>Note: if you plan on taking advantage of device specific features like motion controls you'll want to also have one for Playstation 4 or Nintendo Switch controllers.</div></div><br><strong>Localizing your configuration</strong><br>Making a localized configuration is a little bit more complicated when not using Steam Input API but it is still achievable.<br><ul class="bb_ul "><li> To start make sure you have not edited your configuration since the last time it was exported. Open the configurator and make an edit (it is ok to make, then revert a change).<br></li><li> Go to your Steam\Logs\controller_ui.txt log and look for a string like this:<br><div class="bb_code ">Steam Controller Saving Controller Configuration Autosave for [CONTROLLER SERIAL NUMBER]- AppID: [YOUR APPID].
+Loaded Config for Local Selection Path for App ID [YOUR APPID], Controller 0: F:\ProgramFiles\Steam\client\userdata\[STEAMID]\config\controller_configs\apps\[YOUR APPID]\[CONTROLLER SERIAL]\guest\controller_configuration.vdf</div></li><li> Insert localization tokens for the bindings you want to localize<br><ul class="bb_ul "><li>Title/Description: <div class="bb_code ">"controller_mappings"
+{
+	"version"		"3"
+	"revision"		"5"
+	"title"		"#title"
+	"description"		"#description"
+...
+</div></li><li> Button bindings:<div class="bb_code ">"button_a"
+{
+	"activators"
+	{
+		"Full_Press"
+		{
+			"bindings"
+			{
+				"binding"		"xinput_button A, #abutton"
+			}
+		}
+	}
+
+}
+...</div></li></ul></li><li> And then make corresponding values for each language in the localization block:<br><div class="bb_code ">"localization"
+{
+	"english"
+	{
+		"title"		"This is a localized title"
+		"description"		"This is a localized description. The button diamond binding also have localized names."
+		"abutton"		"Your name here 1"
+		"bbutton"		"Your name here 2"
+		"xbutton"		"Your name here 3"
+		"ybutton"		"Your name here 4"
+	}
+...
+</div></li><li> You can now export the configuration and set it in the partner site with <a href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#21" target="_blank" rel="noreferrer">these instructions</a></li></ul><br>The example configuration can be previewed in the steam client by entering this URL in your browser: steam://controllerconfig/681280/1744110334 or you can find the VDF file <a class="bb_docfile" href="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/ExampleLocalizedConfiguration.vdf" target="_blank">here</a><br><br>

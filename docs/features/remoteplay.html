@@ -1,237 +1,194 @@
 <h1>Steam Remote Play</h1>
 <h2 class="bb_section"><a name="1"></a>Overview</h2>
 Extend your Steam gaming experience to your
-<a
-  href="https://store.steampowered.com/remoteplay_phone/"
-  target="_blank"
-  rel="noreferrer"
-  >phone</a
+<a href="https://store.steampowered.com/remoteplay_phone/" target="_blank" rel="noreferrer">phone</a
 >,
-<a
-  href="https://store.steampowered.com/remoteplay_tablet/"
-  target="_blank"
-  rel="noreferrer"
-  >tablet</a
+<a href="https://store.steampowered.com/remoteplay_tablet/" target="_blank" rel="noreferrer"
+    >tablet</a
 >
 or
-<a
-  href="https://store.steampowered.com/remoteplay_tv/"
-  target="_blank"
-  rel="noreferrer"
-  >TV</a
->
+<a href="https://store.steampowered.com/remoteplay_tv/" target="_blank" rel="noreferrer">TV</a>
 using the Steam Remote Play feature with the
+<a href="https://store.steampowered.com/steamlink/about/" target="_blank" rel="noreferrer"
+    >Steam Link app</a
+>. Steam Remote Play is also used to play your own game remotely when logged into Steam on another
+computer, and when inviting friends to play using
 <a
-  href="https://store.steampowered.com/steamlink/about/"
-  target="_blank"
-  rel="noreferrer"
-  >Steam Link app</a
->. Steam Remote Play is also used to play your own game remotely when logged
-into Steam on another computer, and when inviting friends to play using
-<a
-  href="https://steamcommunity.com/games/593110/announcements/detail/3032537193879549687"
-  target="_blank"
-  rel="noreferrer"
-  >Remote Play Together</a
->.<br /><br />Each computer or device connected via Remote Play has its own
-session. You can find out more about connected devices using the
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamRemotePlay"
-  class="bb_doclink"
-  >ISteamRemotePlay Interface</a
-><br /><br />If you have optimized your game for remote play on various types of
-devices, or your game works well with Remote Play Together, you can check the
-appropriate feature checkboxes in the Basic Info section of the Store Page admin
-on the partner site, and your game will show up when customers search for games
-that work well for those use cases.<br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/RemotePlayFeatures_1.png"
-  alt="RemotePlayFeatures_1.png"
-  title="RemotePlayFeatures_1.png"
+    href="https://steamcommunity.com/games/593110/announcements/detail/3032537193879549687"
+    target="_blank"
+    rel="noreferrer"
+    >Remote Play Together</a
+>.<br /><br />Each computer or device connected via Remote Play has its own session. You can find
+out more about connected devices using the
+<a href="https://partner.steamgames.com/doc/api/ISteamRemotePlay" class="bb_doclink"
+    >ISteamRemotePlay Interface</a
+><br /><br />If you have optimized your game for remote play on various types of devices, or your
+game works well with Remote Play Together, you can check the appropriate feature checkboxes in the
+Basic Info section of the Store Page admin on the partner site, and your game will show up when
+customers search for games that work well for those use cases.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/RemotePlayFeatures_1.png"
+    alt="RemotePlayFeatures_1.png"
+    title="RemotePlayFeatures_1.png"
 />
 <h2 class="bb_section"><a name="2"></a>Remote Play Together</h2>
-<br />Checking this feature allows users to invite their Steam Friends to join
-the game as though they were sitting at the same computer playing together. Only
-the host needs to own and install the game, while additional players connect
-through Steam Remote Play streaming technology.<br /><br />This feature is
-enabled automatically for games that are listed with Local Multiplayer, Local
-Co-op, or Shared/Split Screen capability, but you can enable or disable it
-yourself to match whether this feature is appropriate for your game.<br /><br />Users
-can invite friends from their friends list in the Steam overlay, and if you
-want, you can create UI to invite friends directly from your game using the
+<br />Checking this feature allows users to invite their Steam Friends to join the game as though
+they were sitting at the same computer playing together. Only the host needs to own and install the
+game, while additional players connect through Steam Remote Play streaming technology.<br /><br />This
+feature is enabled automatically for games that are listed with Local Multiplayer, Local Co-op, or
+Shared/Split Screen capability, but you can enable or disable it yourself to match whether this
+feature is appropriate for your game.<br /><br />Users can invite friends from their friends list in
+the Steam overlay, and if you want, you can create UI to invite friends directly from your game
+using the
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamRemotePlay#BSendRemotePlayTogetherInvite"
-  class="bb_apilink"
-  >ISteamRemotePlay::BSendRemotePlayTogetherInvite</a
+    href="https://partner.steamgames.com/doc/api/ISteamRemotePlay#BSendRemotePlayTogetherInvite"
+    class="bb_apilink"
+    >ISteamRemotePlay::BSendRemotePlayTogetherInvite</a
 >() function.
 <h2 class="bb_section"><a name="3"></a>Remote Play Testing</h2>
-<br />It's possible to use Remote Play Together and set up your game to allow
-the public to test it with developers without ever getting the files downloaded
-to their computers. This could be used for focus testing of new content, press
-walkthroughs, virtual trade shows, etc.<br /><br /><a
-  href="https://www.youtube.com/watch?v=XpeDNV1qUBk&amp;feature=youtu.be"
-  target="_blank"
-  rel="noreferrer"
-  id="dynamiclink_0"
-  >https://www.youtube.com/watch?v=XpeDNV1qUBk&amp;feature=youtu.be</a
+<br />It's possible to use Remote Play Together and set up your game to allow the public to test it
+with developers without ever getting the files downloaded to their computers. This could be used for
+focus testing of new content, press walkthroughs, virtual trade shows, etc.<br /><br /><a
+    href="https://www.youtube.com/watch?v=XpeDNV1qUBk&amp;feature=youtu.be"
+    target="_blank"
+    rel="noreferrer"
+    id="dynamiclink_0"
+    >https://www.youtube.com/watch?v=XpeDNV1qUBk&amp;feature=youtu.be</a
 ><br /><br />
-<ol class="bb_ol">
-  <li>
-    Make sure the default branch has content that you're comfortable with the
-    public downloading and seeing. For an unreleased game, this should probably
-    be an empty depot.<br />
-  </li>
-  <li>
-    Create or set a password protected branch with content that you'd like to
-    invite people to test remotely.<br />
-  </li>
-  <li>
-    Go to the partner site, edit your game's Steamworks settings, select the
-    Application tab, and choose Steam Remote Play. Select the branch that you
-    want to use for testing, then save and publish your changes.<br /><br /><img
-      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/RemotePlayTogetherPartnerConfiguration_1.png"
-      alt="RemotePlayTogetherPartnerConfiguration_1.png"
-      title="RemotePlayTogetherPartnerConfiguration_1.png"
-    /><br /><br />
-  </li>
-  <li>
-    If your game is unreleased, send a CD-key to the users you would like to
-    invite for testing. This grants them access to the default depot, so you may
-    want to create special purpose accounts for this.<br />
-  </li>
-  <li>
-    Set up your test system to use the password protected branch. Launch the
-    game on the test system and right click people in your friends list to
-    invite them to join the session and play! Each session requires a fresh
-    invitation from the developer.
-  </li>
+<ol class="bb_ol ">
+    <li>
+        Make sure the default branch has content that you're comfortable with the public downloading
+        and seeing. For an unreleased game, this should probably be an empty depot.<br />
+    </li>
+    <li>
+        Create or set a password protected branch with content that you'd like to invite people to
+        test remotely.<br />
+    </li>
+    <li>
+        Go to the partner site, edit your game's Steamworks settings, select the Application tab,
+        and choose Steam Remote Play. Select the branch that you want to use for testing, then save
+        and publish your changes.<br /><br /><img
+            src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/RemotePlayTogetherPartnerConfiguration_1.png"
+            alt="RemotePlayTogetherPartnerConfiguration_1.png"
+            title="RemotePlayTogetherPartnerConfiguration_1.png"
+        /><br /><br />
+    </li>
+    <li>
+        If your game is unreleased, send a CD-key to the users you would like to invite for testing.
+        This grants them access to the default depot, so you may want to create special purpose
+        accounts for this.<br />
+    </li>
+    <li>
+        Set up your test system to use the password protected branch. Launch the game on the test
+        system and right click people in your friends list to invite them to join the session and
+        play! Each session requires a fresh invitation from the developer.
+    </li>
 </ol>
-<br />This walkthrough assumes that you are showcasing content, but you can also
-use this to enable Remote Play Together on a branch and try it out privately
-before enabling it on your game in the Store Page settings.<br /><br />(NOTE:
-this feature requires that the test system be running a Steam client dated May
-23, 2020 or newer)
+<br />This walkthrough assumes that you are showcasing content, but you can also use this to enable
+Remote Play Together on a branch and try it out privately before enabling it on your game in the
+Store Page settings.<br /><br />(NOTE: this feature requires that the test system be running a Steam
+client dated May 23, 2020 or newer)
 <h2 class="bb_section"><a name="4"></a>Remote Play on Phone</h2>
 <br />If you have checked this feature, it means you have
-<a
-  href="https://partner.steamgames.com/doc/features/remoteplay#5"
-  class="bb_doclink"
-  >created a recommended Steam Input touch controller config</a
+<a href="https://partner.steamgames.com/doc/features/remoteplay#5" class="bb_doclink"
+    >created a recommended Steam Input touch controller config</a
 >
-for your game, and have verified that the UI elements and font sizes work well
-for small handheld devices.
+for your game, and have verified that the UI elements and font sizes work well for small handheld
+devices.
 <h2 class="bb_section"><a name="5"></a>Remote Play on Tablet</h2>
 <br />If you have checked this feature, it means you have
-<a
-  href="https://partner.steamgames.com/doc/features/remoteplay#5"
-  class="bb_doclink"
-  >created a recommended Steam Input touch controller config</a
+<a href="https://partner.steamgames.com/doc/features/remoteplay#5" class="bb_doclink"
+    >created a recommended Steam Input touch controller config</a
 >
-for your game, and you adapt to the various 4x3 and 16x9 aspect ratios used by
-tablet devices.<br /><br />You can use the
+for your game, and you adapt to the various 4x3 and 16x9 aspect ratios used by tablet devices.<br /><br />You
+can use the
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamRemotePlay#BGetSessionClientResolution"
-  class="bb_apilink"
-  >ISteamRemotePlay::BGetSessionClientResolution</a
->() function to get information about the remote device aspect ratio and
-resolution.
+    href="https://partner.steamgames.com/doc/api/ISteamRemotePlay#BGetSessionClientResolution"
+    class="bb_apilink"
+    >ISteamRemotePlay::BGetSessionClientResolution</a
+>() function to get information about the remote device aspect ratio and resolution.
 <h2 class="bb_section"><a name="6"></a>Remote Play on TV</h2>
-<br />If you have checked this feature, that means you have full controller
-support for your game, and have verified that the UI elements and font sizes
-work well for viewing at a distance on a TV.
+<br />If you have checked this feature, that means you have full controller support for your game,
+and have verified that the UI elements and font sizes work well for viewing at a distance on a TV.
 <h2 class="bb_section"><a name="7"></a>HOWTO: Add Touch Controller Config</h2>
 <br />Take a look at the
 <a
-  href="https://steamcommunity.com/games/593110/announcements/detail/1599264607941629464"
-  target="_blank"
-  rel="noreferrer"
-  >Optimizing For Remote Play</a
+    href="https://steamcommunity.com/games/593110/announcements/detail/1599264607941629464"
+    target="_blank"
+    rel="noreferrer"
+    >Optimizing For Remote Play</a
 >
 blog post for some examples and best practices.<br /><br />
-<ol class="bb_ol">
-  <li>
-    Begin streaming the game to your mobile device. On the desktop machine, go
-    to Steam Big Picture Controller Configuration for your game. Remove any
-    unnecessary bindings not used by your game, and add any custom bindings used
-    by your game. For more information see
-    <a
-      href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_players"
-      target="_blank"
-      rel="noreferrer"
-      >https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_players</a
-    ><br /><br /><img
-      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/TouchBindings.PNG"
-      alt="TouchBindings.PNG"
-      title="TouchBindings.PNG"
-    /><br /><br />
-  </li>
-  <li>
-    On your mobile device, click the [...] button and drag any newly bound
-    controls onto the screen. Adjust the layout and size of each button as
-    desired. For more information see the
-    <a
-      href="https://support.steampowered.com/kb_article.php?ref=4022-PFJX-8276"
-      target="_blank"
-      rel="noreferrer"
-      >introduction support article</a
-    >
-    and the more detailed
-    <a
-      href="https://steamcommunity.com/sharedfiles/filedetails/?id=1888830141"
-      target="_blank"
-      rel="noreferrer"
-      >visual guide</a
-    >.<br />
-  </li>
-  <li>
-    Once you are happy with your configuration and are ready to publish it, go
-    to Big Picture Controller Configuration on the desktop (while streaming to
-    your mobile device), and click Export Config. Save it as a new Personal
-    binding and give it an appropriate name such as 'Official Touch Controller
-    Configuration for GAME' and a useful description.<br />
-  </li>
-  <li>
-    Go to Browse Configs, select your new config, and click Share
-    Configuration.<br />
-  </li>
-  <li>
-    Go to the partner site and edit Steamworks Settings → Application → Steam
-    Input. Under Steam Input Default Touch Configuration select Custom
-    Configuration. Click the "Add Custom Configuration" button and paste the URL
-    for your new config, and click Save.<br /><br /><img
-      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/TouchPartnerConfiguration.png"
-      alt="TouchPartnerConfiguration.png"
-      title="TouchPartnerConfiguration.png"
-    /><br /><br />
-  </li>
-  <li>
-    Publish your updated Steamworks settings for your game, as you would
-    normally.
-  </li>
+<ol class="bb_ol ">
+    <li>
+        Begin streaming the game to your mobile device. On the desktop machine, go to Steam Big
+        Picture Controller Configuration for your game. Remove any unnecessary bindings not used by
+        your game, and add any custom bindings used by your game. For more information see
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_players"
+            target="_blank"
+            rel="noreferrer"
+            >https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_players</a
+        ><br /><br /><img
+            src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/TouchBindings.PNG"
+            alt="TouchBindings.PNG"
+            title="TouchBindings.PNG"
+        /><br /><br />
+    </li>
+    <li>
+        On your mobile device, click the [...] button and drag any newly bound controls onto the
+        screen. Adjust the layout and size of each button as desired. For more information see the
+        <a
+            href="https://support.steampowered.com/kb_article.php?ref=4022-PFJX-8276"
+            target="_blank"
+            rel="noreferrer"
+            >introduction support article</a
+        >
+        and the more detailed
+        <a
+            href="https://steamcommunity.com/sharedfiles/filedetails/?id=1888830141"
+            target="_blank"
+            rel="noreferrer"
+            >visual guide</a
+        >.<br />
+    </li>
+    <li>
+        Once you are happy with your configuration and are ready to publish it, go to Big Picture
+        Controller Configuration on the desktop (while streaming to your mobile device), and click
+        Export Config. Save it as a new Personal binding and give it an appropriate name such as
+        'Official Touch Controller Configuration for GAME' and a useful description.<br />
+    </li>
+    <li>Go to Browse Configs, select your new config, and click Share Configuration.<br /></li>
+    <li>
+        Go to the partner site and edit Steamworks Settings → Application → Steam Input. Under Steam
+        Input Default Touch Configuration select Custom Configuration. Click the "Add Custom
+        Configuration" button and paste the URL for your new config, and click Save.<br /><br /><img
+            src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/TouchPartnerConfiguration.png"
+            alt="TouchPartnerConfiguration.png"
+            title="TouchPartnerConfiguration.png"
+        /><br /><br />
+    </li>
+    <li>Publish your updated Steamworks settings for your game, as you would normally.</li>
 </ol>
-<br />If you want to change your official configuration, you have to publish a
-new config, as you would with the Steam Controller.
-<h2 class="bb_section">
-  <a name="8"></a>HOWTO: Advanced Touch Controller Config
-</h2>
-<br />If your game has multiple game modes, you can set up an actionset with
-unique layout for each game mode.<br /><br />Simply add an actionset to the
-touch controller configuration for your game, cycle through the actionsets on
-your mobile device and setup the layout for them, and then call the SteamInput
-APIs to change to the appropriate actionset at runtime.<br /><br />For example,
-if you wanted to add a menu actionset, you could do it like this:<br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/TouchBindings_1.PNG"
-  alt="TouchBindings_1.PNG"
-  title="TouchBindings_1.PNG"
+<br />If you want to change your official configuration, you have to publish a new config, as you
+would with the Steam Controller.
+<h2 class="bb_section"><a name="8"></a>HOWTO: Advanced Touch Controller Config</h2>
+<br />If your game has multiple game modes, you can set up an actionset with unique layout for each
+game mode.<br /><br />Simply add an actionset to the touch controller configuration for your game,
+cycle through the actionsets on your mobile device and setup the layout for them, and then call the
+SteamInput APIs to change to the appropriate actionset at runtime.<br /><br />For example, if you
+wanted to add a menu actionset, you could do it like this:<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/TouchBindings_1.PNG"
+    alt="TouchBindings_1.PNG"
+    title="TouchBindings_1.PNG"
 /><br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/TouchLayoutMenu.png"
-  alt="TouchLayoutMenu.png"
-  title="TouchLayoutMenu.png"
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/TouchLayoutMenu.png"
+    alt="TouchLayoutMenu.png"
+    title="TouchLayoutMenu.png"
 /><br /><br />
 <div class="bb_code cpp">
-  #include "steam/isteaminput.h" void GameInit() { SteamInput()-&gt;Init(); }
-  void GameQuit() { SteamInput()-&gt;Shutdown(); } void GameLoop() { GameInit();
-  while ( bRunning ) { const InputActionSetHandle_t k_ActionSetGame = 1; const
-  InputActionSetHandle_t k_ActionSetMenu = 2;
-  SteamInput()-&gt;ActivateActionSet( STEAM_INPUT_HANDLE_ALL_CONTROLLERS,
-  BInMenu() ? k_ActionSetMenu : k_ActionSetGame ); ... } GameQuit(); }
+    #include "steam/isteaminput.h" void GameInit() { SteamInput()-&gt;Init(); } void GameQuit() {
+    SteamInput()-&gt;Shutdown(); } void GameLoop() { GameInit(); while ( bRunning ) { const
+    InputActionSetHandle_t k_ActionSetGame = 1; const InputActionSetHandle_t k_ActionSetMenu = 2;
+    SteamInput()-&gt;ActivateActionSet( STEAM_INPUT_HANDLE_ALL_CONTROLLERS, BInMenu() ?
+    k_ActionSetMenu : k_ActionSetGame ); ... } GameQuit(); }
 </div>

@@ -1,195 +1,76 @@
 <h1>QueryRefundAllowed/v0001</h1>
-TITLE: QueryRefundAllowed/v0001<br /><br />This is called by Steam when a user
-is visiting the support site and trying to get more information about an in-game
-purchase. The response includes the current state of the items involved in a
-purchase and whether or not each item is currently refundable.<br /><br /><strong
-  >Called by:</strong
->
-Steam Refunds<br /><br /><strong>HTTP Method:</strong> GET
-<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      This is the "Asset Server Key" that you provided in your app's Steam
-      Economy Settings on the partner site.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>
-      32bit App ID of the application associated with the purchase. This will be
-      your game's App ID.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>64bit Steam ID of the user who made the purchase.</td>
-  </tr>
-  <tr>
-    <td><strong>language</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the
-      language to return strings in.<br />
-      Some examples include: en_US, de_DE, zh_CN, and ko_KR. Default: en_US
-    </td>
-  </tr>
-  <tr>
-    <td><strong>orderid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>
-      Unique 64-bit ID for order. This is the same order ID that was given to us
-      in the
-      <a
-        href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn"
-        class="bb_apilink"
-        >ISteamMicroTxn/InitTxn</a
-      >
-      call.
-    </td>
-  </tr>
-</table>
-<h2 class="bb_section"><a name="2"></a>Returns</h2>
-The output from this method should be encoded in the JSON format.<br /><br /><strong
-  >Response:</strong
-><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">result</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">success</code> - True
-        if the method was successful. If the asset server is returning false, it
-        should set
-        <code class="bb_code bb_code_inline nohighlight">error</code> to a
-        string that explains why.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">error</code> - A string
-        describing why this call failed. This message will be recorded in the
-        error log, which is available under the Economy tab on the Steamworks
-        site.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">assets</code> - An
-        array of the lineitems purchased.<br />
-        <ul class="bb_ul">
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">itemtypeid</code> -
-            Game ID number of item. This is the
-            <code class="bb_code bb_code_inline nohighlight">itemid</code> value
-            that was given to us in the
-            <a
-              href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn"
-              class="bb_apilink"
-              >ISteamMicroTxn/InitTxn</a
-            >
-            call.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">allow_refund</code>
-            - This must be true unless the purchased item has been consumed,
-            modified, or transferred.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">in_inventory</code>
-            - True if the purchasing user still owns the item.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">bundle</code> - If
-            the item the user purchased is actually a bundle containing more
-            items, set this to true and then also include the items that came
-            out of the bundle as the next entries in the
-            <code class="bb_code bb_code_inline nohighlight">assets</code>
-            array.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight"
-              >current_state</code
-            >
-            - A human-readable string of the current state of the item. This
-            string is shown to the user and should be localized if possible. The
-            more specific the better, especially when
-            <code class="bb_code bb_code_inline nohighlight">allow_refund</code>
-            is false. Could be something like "Used to craft another item on
-            March 25th, 2015" or "In your inventory."<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">item_name</code> -
-            The name of the item. This string is shown to the user and should be
-            localized if possible.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">amount</code> - The
-            quantity of this item that was purchased. All items must have the
-            same <code class="bb_code bb_code_inline nohighlight">id</code> (not
-            applicable if your game does not support our Steam Economy APIs). If
-            multiple items were purchased, but have different
-            <code class="bb_code bb_code_inline nohighlight">id</code> values,
-            then include multiple entries in the
-            <code class="bb_code bb_code_inline nohighlight">assets</code> array
-            instead of using this amount field.<br /><br />
-            <strong>NOTE:</strong> The following fields only apply if your game
-            supports our Steam Economy APIs<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">id</code> - The
-            assetid or the currencyid of the item that was given to the user.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">contextid</code> -
-            The contextid that the item was placed in.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">currency</code> -
-            True if
-            <code class="bb_code bb_code_inline nohighlight">id</code> refers to
-            a currencyid.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">class</code> - An
-            array of game-defined asset class identifiers. This should be the
-            same class that
-            <a
-              href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClass"
-              class="bb_doclink"
-              >GetAssetClass/v0001</a
-            >
-            would return.<br />
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-<h2 class="bb_section"><a name="3"></a>Example Output</h2>
-<div class="bb_code json">
-  { "result": { "assets": [ { "itemtypeid": 594, "contextid": 2, "currency":
-  false, "amount": 1, "id": 3837860447, "class": [ { "name": "def_index",
-  "value": "594" }, { "name": "flags", "value": "16" }, { "name": "origin",
-  "value": "2", "instance": true }, { "name": "@tradable after date", "value":
-  "1434493482", "instance": true } ] , "allow_refund": true, "in_inventory":
-  true, "bundle": false, "current_state": "In your inventory", "item_name": "The
-  Phlogistinator" }, { "itemtypeid": 214, "contextid": 2, "currency": false,
-  "amount": 1, "id": 3837860448, "class": [ { "name": "def_index", "value":
-  "214" }, { "name": "flags", "value": "16" }, { "name": "origin", "value": "2",
-  "instance": true }, { "name": "@tradable after date", "value": "1434493482",
-  "instance": true } ] , "allow_refund": true, "in_inventory": true, "bundle":
-  false, "current_state": "In your inventory", "item_name": "The Powerjack" } ]
-  , "success": true } }
+TITLE: QueryRefundAllowed/v0001<br><br>This is called by Steam when a user is visiting the support site and trying to get more information about an in-game purchase. The response includes the current state of the items involved in a purchase and whether or not each item is currently refundable.<br><br><strong>Called by:</strong> Steam Refunds<br><br><strong>HTTP Method:</strong> GET<h2 class="bb_section"><a name="1"></a>Parameters:</h2><table>  <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>  <tr><td><strong>key</strong></td><td>string</td><td>✔</td><td>This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on the partner site.</td></tr>  <tr><td><strong>appid</strong></td><td>uint32</td><td>✔</td><td>32bit App ID of the application associated with the purchase. This will be your game's App ID.</td></tr>  <tr><td><strong>steamid</strong></td><td>uint64</td><td>✔</td><td>64bit Steam ID of the user who made the purchase.</td></tr>  <tr><td><strong>language</strong></td><td>string</td><td>✔</td><td>ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the language to return strings in.<br>  Some examples include: en_US, de_DE, zh_CN, and ko_KR. Default: en_US</td></tr>  <tr><td><strong>orderid</strong></td><td>uint64</td><td>✔</td><td>Unique 64-bit ID for order. This is the same order ID that was given to us in the <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink">ISteamMicroTxn/InitTxn</a> call.</td></tr></table><h2 class="bb_section"><a name="2"></a>Returns</h2>The output from this method should be encoded in the JSON format.<br><br><strong>Response:</strong><br><ul class="bb_ul ">	<li> <code class="bb_code bb_code_inline nohighlight">result</code><br>		<ul class="bb_ul ">			<li> <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method was successful. If the asset server is returning false, it should set <code class="bb_code bb_code_inline nohighlight">error</code> to a string that explains why.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">error</code> - A string describing why this call failed. This message will be recorded in the error log, which is available under the Economy tab on the Steamworks site.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">assets</code> - An array of the lineitems purchased.<br>				<ul class="bb_ul ">					<li> <code class="bb_code bb_code_inline nohighlight">itemtypeid</code> - Game ID number of item. This is the <code class="bb_code bb_code_inline nohighlight">itemid</code> value that was given to us in the <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink">ISteamMicroTxn/InitTxn</a> call.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">allow_refund</code> - This must be true unless the purchased item has been consumed, modified, or transferred.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">in_inventory</code> - True if the purchasing user still owns the item.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">bundle</code> - If the item the user purchased is actually a bundle containing more items, set this to true and then also include the items that came out of the bundle as the next entries in the <code class="bb_code bb_code_inline nohighlight">assets</code> array.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">current_state</code> - A human-readable string of the current state of the item. This string is shown to the user and should be localized if possible. The more specific the better, especially when <code class="bb_code bb_code_inline nohighlight">allow_refund</code> is false. Could be something like "Used to craft another item on March 25th, 2015" or "In your inventory."<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">item_name</code> - The name of the item. This string is shown to the user and should be localized if possible.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">amount</code> - The quantity of this item that was purchased. All items must have the same <code class="bb_code bb_code_inline nohighlight">id</code> (not applicable if your game does not support our Steam Economy APIs). If multiple items were purchased, but have different <code class="bb_code bb_code_inline nohighlight">id</code> values, then include multiple entries in the <code class="bb_code bb_code_inline nohighlight">assets</code> array instead of using this amount field.<br><br>					<strong>NOTE:</strong> The following fields only apply if your game supports our Steam Economy APIs<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">id</code> - The assetid or the currencyid of the item that was given to the user.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">contextid</code> - The contextid that the item was placed in.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">currency</code> - True if <code class="bb_code bb_code_inline nohighlight">id</code> refers to a currencyid.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">class</code> - An array of game-defined asset class identifiers. This should be the same class that <a href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClass" class="bb_doclink">GetAssetClass/v0001</a> would return.<br>				</li></ul>		</li></ul></li></ul><h2 class="bb_section"><a name="3"></a>Example Output</h2><div class="bb_code json">{
+  "result": {
+    "assets": [
+      {
+        "itemtypeid": 594,
+        "contextid": 2,
+        "currency": false,
+        "amount": 1,
+        "id": 3837860447,
+        "class": [
+          {
+            "name": "def_index",
+            "value": "594"
+          },
+          {
+            "name": "flags",
+            "value": "16"
+          },
+          {
+            "name": "origin",
+            "value": "2",
+            "instance": true
+          },
+          {
+            "name": "@tradable after date",
+            "value": "1434493482",
+            "instance": true
+          }
+        ]
+        ,
+        "allow_refund": true,
+        "in_inventory": true,
+        "bundle": false,
+        "current_state": "In your inventory",
+        "item_name": "The Phlogistinator"
+      },
+      {
+        "itemtypeid": 214,
+        "contextid": 2,
+        "currency": false,
+        "amount": 1,
+        "id": 3837860448,
+        "class": [
+          {
+            "name": "def_index",
+            "value": "214"
+          },
+          {
+            "name": "flags",
+            "value": "16"
+          },
+          {
+            "name": "origin",
+            "value": "2",
+            "instance": true
+          },
+          {
+            "name": "@tradable after date",
+            "value": "1434493482",
+            "instance": true
+          }
+        ]
+        ,
+        "allow_refund": true,
+        "in_inventory": true,
+        "bundle": false,
+        "current_state": "In your inventory",
+        "item_name": "The Powerjack"
+      }
+    ]
+    ,
+    "success": true
+  }
+}
 </div>

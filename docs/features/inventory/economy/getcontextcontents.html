@@ -1,173 +1,57 @@
 <h1>GetContextContents/v0001</h1>
-This returns the all of the assets and currency in a particular context for a
-user.<br /><br /><strong>Called by:</strong> Trading UI, Inventory UI<br /><br /><strong
-  >HTTP Method:</strong
->
-GET
-<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      This is the "Asset Server Key" that you provided in your app's Steam
-      Economy Settings on the partner site.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>32bit App ID of the application associated with the assets.</td>
-  </tr>
-  <tr>
-    <td><strong>steamid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>64-bit Steam ID of the user to return assets for.</td>
-  </tr>
-  <tr>
-    <td><strong>contextid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The 64-bit ID of the context to return assets for.</td>
-  </tr>
-</table>
-<h2 class="bb_section"><a name="2"></a>Returns</h2>
-The output from this method should be encoded in the JSON format.<br /><br /><strong
-  >Response:</strong
-><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">result</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">success</code> - True
-        if the method was successful. If the asset server is returning false, it
-        should set
-        <code class="bb_code bb_code_inline nohighlight">error</code> to a
-        string that explains why.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">error</code> - A string
-        describing why this call failed. This message will be recorded in the
-        error log, which is available under the Economy tab on the Steamworks
-        site.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">assets</code> - An
-        array of the assets that are children of the specified context.<br />
-        <ul class="bb_ul">
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">id</code> - The
-            64-bit ID of the asset.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">class</code> - An
-            array of game-defined asset class identifiers. It is up to the game
-            to define what<br />
-            those identifiers are. They just need to provide enough information
-            to reproduce the asset info<br />
-            (i.e. describe what kind of item it is) when the class identifiers
-            are passed back into
-            <a
-              href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo"
-              class="bb_doclink"
-              >GetAssetClassInfo/v0001</a
-            >. Each identifier should contain the following fields:<br />
-            <ul class="bb_ul">
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">name</code> -
-                The name of this part of the class identifier.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">value</code> -
-                The value of this part of the class identifier as a string.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">instance</code>
-                - If this is true the class identifier is considered "instance
-                data", which means that it<br />
-                generally doesn't transfer with the item on a trade, and so it
-                doesn't factor into the trade value of the item.<br />
-                (Default: false)<br />
-                <strong>NOTE:</strong> An asset class property that ultimately
-                has an effect on the
-                <code class="bb_code bb_code_inline nohighlight"
-                  >market_hash_name</code
-                >
-                of an item in the
-                <a
-                  href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo"
-                  class="bb_doclink"
-                  >GetAssetClassInfo/v0001</a
-                >
-                response should never be considered instance data. The Community
-                Market depends on instance properties not having any effect on
-                the
-                <code class="bb_code bb_code_inline nohighlight"
-                  >market_hash_name</code
-                >.<br />
-              </li>
-            </ul>
-            To maximize the amount of description information that Steam can
-            cache, the class identifiers should be as generic and reusable as
-            possible. For example, avoid a class where you just have one
-            property with a name like "itemid" and a value that's the 64-bit ID
-            of the asset. Instead, describe what kind of item it is in a way
-            that gives you enough information to build the description. For
-            example, an asset class of "type" = "sword" and "rarity" = "common"
-            gives you enough information to build the item's description without
-            having to know exactly which instance of the item it is.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">amount</code>
-            (optional) - The stack count for this asset. The user will be able
-            to trade up to this number of units out of this stack. (Default:
-            1)<br />
-          </li>
-        </ul>
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">currency</code>
-        (optional) - An array of the currency types this context contains. If a
-        user has none of a particular kind of currency it should only be
-        included here if it would be visible on in-game UI. The display of
-        currency is very similar to that of an asset, so the fields listed above
-        for assets also apply to currency, with the exception of the
-        <code class="bb_code bb_code_inline nohighlight">class</code> and
-        <code class="bb_code bb_code_inline nohighlight">id</code> fields. In
-        addition to the other asset fields, the following two fields are used
-        for currency:<br />
-        <ul class="bb_ul">
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">id</code> - The
-            unsigned 32-bit ID assigned to this kind of currency. This ID must
-            be globally unique within the game.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">amount</code> -
-            64-bit integer representing the amount of this kind of currency that
-            is owned by the user.<br />
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-<h2 class="bb_section"><a name="3"></a>Example Output</h2>
-<div class="bb_code json">
-  { "result": { "assets": [ { "id": 131363189, "class": [ { "name": "def_index",
-  "value": "128" }, { "name": "quality", "value": "3" } ] }, { "id": 131412933,
-  "class": [ { "name": "def_index", "value": "155" }, { "name": "quality",
-  "value": "3" } ] }, { "id": 556669733, "class": [ { "name": "def_index",
-  "value": "583" }, { "name": "flags", "value": "1" }, { "name": "origin",
-  "value": "1", "instance": true } ] }, ] , "success": true } }
+This returns the all of the assets and currency in a particular context for a user.<br><br><strong>Called by:</strong> Trading UI, Inventory UI<br><br><strong>HTTP Method:</strong> GET<h2 class="bb_section"><a name="1"></a>Parameters:</h2><table>  <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>  <tr><td><strong>key</strong></td><td>string</td><td>✔</td><td>This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on the partner site.</td></tr>  <tr><td><strong>appid</strong></td><td>uint32</td><td>✔</td><td>32bit App ID of the application associated with the assets.</td></tr>  <tr><td><strong>steamid</strong></td><td>uint64</td><td>✔</td><td>64-bit Steam ID of the user to return assets for.</td></tr>  <tr><td><strong>contextid</strong></td><td>uint64</td><td>✔</td><td>The 64-bit ID of the context to return assets for.</td></tr></table><h2 class="bb_section"><a name="2"></a>Returns</h2>The output from this method should be encoded in the JSON format.<br><br><strong>Response:</strong><br><ul class="bb_ul ">	<li> <code class="bb_code bb_code_inline nohighlight">result</code><br>		<ul class="bb_ul ">			<li> <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method was successful. If the asset server is returning false, it should set <code class="bb_code bb_code_inline nohighlight">error</code> to a string that explains why.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">error</code> - A string describing why this call failed. This message will be recorded in the error log, which is available under the Economy tab on the Steamworks site.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">assets</code> - An array of the assets that are children of the specified context.<br>				<ul class="bb_ul ">					<li> <code class="bb_code bb_code_inline nohighlight">id</code> - The 64-bit ID of the asset.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">class</code> - An array of game-defined asset class identifiers. It is up to the game to define what<br>						those identifiers are. They just need to provide enough information to reproduce the asset info<br>						(i.e. describe what kind of item it is) when the class identifiers are passed back into <a href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo" class="bb_doclink">GetAssetClassInfo/v0001</a>. Each identifier should contain the following fields:<br>						<ul class="bb_ul ">							<li> <code class="bb_code bb_code_inline nohighlight">name</code> - The name of this part of the class identifier.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">value</code> - The value of this part of the class identifier as a string.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">instance</code> - If this is true the class identifier is considered "instance data", which means that it<br>								generally doesn't transfer with the item on a trade, and so it doesn't factor into the trade value of the item.<br>								(Default: false)<br>								<strong>NOTE:</strong> An asset class property that ultimately has an effect on the <code class="bb_code bb_code_inline nohighlight">market_hash_name</code> of an item in the <a href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo" class="bb_doclink">GetAssetClassInfo/v0001</a> response should never be considered instance data. The Community Market depends on instance properties not having any effect on the <code class="bb_code bb_code_inline nohighlight">market_hash_name</code>.<br>						</li></ul>						To maximize the amount of description information that Steam can cache, the class identifiers should be as generic and reusable as possible. For example, avoid a class where you just have one property with a name like "itemid" and a value that's the 64-bit ID of the asset. Instead, describe what kind of item it is in a way that gives you enough information to build the description. For example, an asset class of "type" = "sword" and "rarity" = "common" gives you enough information to build the item's description without having to know exactly which instance of the item it is.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">amount</code> (optional) - The stack count for this asset. The user will be able to trade up to this number of units out of this stack. (Default: 1)<br>				</li></ul>			</li><li> <code class="bb_code bb_code_inline nohighlight">currency</code> (optional) - An array of the currency types this context contains. If a user has none of a particular kind of currency it should only be included here if it would be visible on in-game UI.  The display of currency is very similar to that of an asset, so the fields listed above for assets also apply to currency, with the exception of the <code class="bb_code bb_code_inline nohighlight">class</code> and <code class="bb_code bb_code_inline nohighlight">id</code> fields.  In addition to the other asset fields, the following two fields are used for currency:<br>				<ul class="bb_ul ">					<li> <code class="bb_code bb_code_inline nohighlight">id</code> - The unsigned 32-bit ID assigned to this kind of currency. This ID must be globally unique within the game.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">amount</code> - 64-bit integer representing the amount of this kind of currency that is owned by the user.<br>				</li></ul>		</li></ul></li></ul><h2 class="bb_section"><a name="3"></a>Example Output</h2><div class="bb_code json">{
+  "result": {
+    "assets": [
+      {
+        "id": 131363189,
+        "class": [
+          {
+            "name": "def_index",
+            "value": "128"
+          },
+          {
+            "name": "quality",
+            "value": "3"
+          }
+        ]
+        
+      },
+      {
+        "id": 131412933,
+        "class": [
+          {
+            "name": "def_index",
+            "value": "155"
+          },
+          {
+            "name": "quality",
+            "value": "3"
+          }
+        ]
+        
+      },
+      {
+        "id": 556669733,
+        "class": [
+          {
+            "name": "def_index",
+            "value": "583"
+          },
+          {
+            "name": "flags",
+            "value": "1"
+          },
+          {
+            "name": "origin",
+            "value": "1",
+            "instance": true
+          }
+        ]
+        
+      },
+    ]
+    ,
+    "success": true
+  }
+}  
 </div>

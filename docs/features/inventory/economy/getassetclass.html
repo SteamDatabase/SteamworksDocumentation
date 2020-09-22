@@ -1,162 +1,24 @@
 <h1>GetAssetClass/v0001</h1>
-This returns the asset class for a list of arbitrary asset IDs in a context.<br /><br /><strong
-  >Called by:</strong
->
-Inventory UI<br /><br /><strong>HTTP Method:</strong> GET
-<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>key</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      This is the "Asset Server Key" that you provided in your app's Steam
-      Economy Settings on the partner site.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>appid</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>32bit App ID of the application associated with the assets.</td>
-  </tr>
-  <tr>
-    <td><strong>contextid</strong></td>
-    <td>uint64</td>
-    <td>✔</td>
-    <td>The 64-bit ID of the context these assets can be found in.</td>
-  </tr>
-  <tr>
-    <td><strong>asset_count</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>The number of assets being requested.</td>
-  </tr>
-  <tr>
-    <td><strong>asset#</strong></td>
-    <td>uint32</td>
-    <td>✔</td>
-    <td>
-      The 64-bit asset ID being requested. There will be one of these parameters
-      for each number between 0 and asset_count-1. (e.g. asset0, asset1, asset2)
-    </td>
-  </tr>
-</table>
-<h2 class="bb_section"><a name="2"></a>Returns</h2>
-The output from this method should be encoded in the JSON format.<br /><br /><strong
-  >Response:</strong
-><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">result</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">success</code> - True
-        if the method was successful. If the asset server is returning false, it
-        should set
-        <code class="bb_code bb_code_inline nohighlight">error</code> to a
-        string that explains why.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">error</code> - a string
-        describing why this call failed. This message will be recorded in the
-        error log, which is available under the Economy tab on the Steamworks
-        site.<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">assets</code> - an
-        array of the asset class details for the specified context and asset
-        IDs. This is largely the same data returned by
-        <a
-          href="https://partner.steamgames.com/doc/features/inventory/economy/GetContextContents"
-          class="bb_doclink"
-          >GetContextContents/v0001</a
-        >
-        with the addition of the owner field.<br />
-        <ul class="bb_ul">
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">id</code> - The
-            64-bit ID of the asset.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">owner</code> - The
-            steamid of the owner of the asset.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">class</code> - An
-            array of game-defined asset class identifiers. It is up to the game
-            to define what those identifiers are. They just need to provide
-            enough information to reproduce the asset info (i.e. describe what
-            kind of item it is) when the class identifiers are passed back into
-            <a
-              href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo"
-              class="bb_doclink"
-              >GetAssetClassInfo/v0001</a
-            >. Each identifier should contain the following fields:<br />
-            <ul class="bb_ul">
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">name</code> -
-                The name of this part of the class identifier.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">value</code> -
-                The value of this part of the class identifier as a string.<br />
-              </li>
-              <li>
-                <code class="bb_code bb_code_inline nohighlight">instance</code>
-                - If this is true the class identifier is considered "instance
-                data", which means that it generally doesn't transfer with the
-                item on a trade, and so it doesn't factor into the trade value
-                of the item. (Default: false)<br />
-                <strong>NOTE:</strong> An asset class property that ultimately
-                has an effect on the
-                <code class="bb_code bb_code_inline nohighlight"
-                  >market_hash_name</code
-                >
-                of an item in the
-                <a
-                  href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo"
-                  class="bb_doclink"
-                  >GetAssetClassInfo/v0001</a
-                >
-                response should never be considered instance data. The Community
-                Market depends on instance properties not having any effect on
-                the
-                <code class="bb_code bb_code_inline nohighlight"
-                  >market_hash_name.</code
-                ><br />
-              </li>
-            </ul>
-            To maximize the amount of description information that Steam can
-            cache, the class identifiers should be as generic and reusable as
-            possible. For example, avoid a class where you just have one
-            property with a name like "itemid" and a value that's the 64-bit ID
-            of the asset. Instead, describe what kind of item it is in a way
-            that gives you enough information to build the description. For
-            example, an asset class of "type" = "sword" and "rarity" = "common"
-            gives you enough information to build the item's description without
-            having to know exactly which instance of the item it is.<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">amount</code>
-            (optional) - The stack count for this asset. The user will be able
-            to trade up to this number of units out of this stack. (Default:
-            1)<br />
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-<h2 class="bb_section"><a name="3"></a>Example Output</h2>
-<div class="bb_code json">
-  { "result": { "assets": [ { "id": 131363189, "owner": 76561198029978818,
-  "class": [ { "name": "def_index", "value": "128" }, { "name": "quality",
-  "value": "3" } ] } ] , "success": true } }
+This returns the asset class for a list of arbitrary asset IDs in a context.<br><br><strong>Called by:</strong> Inventory UI<br><br><strong>HTTP Method:</strong> GET<h2 class="bb_section"><a name="1"></a>Parameters:</h2><table>  <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>  <tr><td><strong>key</strong></td><td>string</td><td>✔</td><td>This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on the partner site.</td></tr>  <tr><td><strong>appid</strong></td><td>uint32</td><td>✔</td><td>32bit App ID of the application associated with the assets.</td></tr>  <tr><td><strong>contextid</strong></td><td>uint64</td><td>✔</td><td>The 64-bit ID of the context these assets can be found in.</td></tr>  <tr><td><strong>asset_count</strong></td><td>uint32</td><td>✔</td><td>The number of assets being requested.</td></tr>  <tr><td><strong>asset#</strong></td><td>uint32</td><td>✔</td><td>The 64-bit asset ID being requested. There will be one of these parameters for each number between 0 and asset_count-1. (e.g. asset0, asset1, asset2)</td></tr></table><h2 class="bb_section"><a name="2"></a>Returns</h2>The output from this method should be encoded in the JSON format.<br><br><strong>Response:</strong><br><ul class="bb_ul ">	<li> <code class="bb_code bb_code_inline nohighlight">result</code><br>		<ul class="bb_ul ">			<li> <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method was successful. If the asset server is returning false, it should set <code class="bb_code bb_code_inline nohighlight">error</code> to a string that explains why.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">error</code> - a string describing why this call failed. This message will be recorded in the error log, which is available under the Economy tab on the Steamworks site.<br>			</li><li> <code class="bb_code bb_code_inline nohighlight">assets</code> - an array of the asset class details for the specified context and asset IDs. This is largely the same data returned by <a href="https://partner.steamgames.com/doc/features/inventory/economy/GetContextContents" class="bb_doclink">GetContextContents/v0001</a> with the addition of the owner field.<br>				<ul class="bb_ul ">					<li> <code class="bb_code bb_code_inline nohighlight">id</code> - The 64-bit ID of the asset.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">owner</code> - The steamid of the owner of the asset.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">class</code> - An array of game-defined asset class identifiers. It is up to the game to define what those identifiers are. They just need to provide enough information to reproduce the asset info (i.e. describe what kind of item it is) when the class identifiers are passed back into <a href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo" class="bb_doclink">GetAssetClassInfo/v0001</a>. Each identifier should contain the following fields:<br>						<ul class="bb_ul ">							<li> <code class="bb_code bb_code_inline nohighlight">name</code> - The name of this part of the class identifier.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">value</code> - The value of this part of the class identifier as a string.<br>							</li><li> <code class="bb_code bb_code_inline nohighlight">instance</code> - If this is true the class identifier is considered "instance data", which means that it generally doesn't transfer with the item on a trade, and so it doesn't factor into the trade value of the item. (Default: false)<br>								<strong>NOTE:</strong> An asset class property that ultimately has an effect on the <code class="bb_code bb_code_inline nohighlight">market_hash_name</code> of an item in the <a href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo" class="bb_doclink">GetAssetClassInfo/v0001</a> response should never be considered instance data. The Community Market depends on instance properties not having any effect on the <code class="bb_code bb_code_inline nohighlight">market_hash_name.</code><br>						</li></ul>						To maximize the amount of description information that Steam can cache, the class identifiers should be as generic and reusable as possible. For example, avoid a class where you just have one property with a name like "itemid" and a value that's the 64-bit ID of the asset. Instead, describe what kind of item it is in a way that gives you enough information to build the description. For example, an asset class of "type" = "sword" and "rarity" = "common" gives you enough information to build the item's description without having to know exactly which instance of the item it is.<br>					</li><li> <code class="bb_code bb_code_inline nohighlight">amount</code> (optional) - The stack count for this asset. The user will be able to trade up to this number of units out of this stack. (Default: 1)<br>				</li></ul>		</li></ul></li></ul><h2 class="bb_section"><a name="3"></a>Example Output</h2><div class="bb_code json">{
+  "result": {
+    "assets": [
+      {
+        "id": 131363189,
+        "owner": 76561198029978818,
+        "class": [
+          {
+            "name": "def_index",
+            "value": "128"
+          },
+          {
+            "name": "quality",
+            "value": "3"
+          }
+        ]
+      }
+    ]
+    ,
+    "success": true
+  }
+}
 </div>

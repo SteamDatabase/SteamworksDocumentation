@@ -1,151 +1,129 @@
 <h1>ISteamAppTicket Interface</h1>
-Interface to get app ownership data. This is used by the Steam DRM wrapper to
-let it ask about ownership with greater confidence.<br /><br />This should never
-be needed in most cases.
+Interface to get app ownership data. This is used by the Steam DRM wrapper to let it ask about
+ownership with greater confidence.<br /><br />This should never be needed in most cases.
 <h2 class="bb_section"><a name="Functions"></a>Functions</h2>
 <br /><strong>NOTE:</strong>
-<code class="bb_code bb_code_inline nohighlight">ISteamAppTicket</code> does not
-expose a global accessor function. You must access it through
+<code class="bb_code bb_code_inline nohighlight">ISteamAppTicket</code> does not expose a global
+accessor function. You must access it through
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamClient#GetISteamGenericInterface"
-  class="bb_apilink"
-  >ISteamClient::GetISteamGenericInterface</a
+    href="https://partner.steamgames.com/doc/api/ISteamClient#GetISteamGenericInterface"
+    class="bb_apilink"
+    >ISteamClient::GetISteamGenericInterface</a
 >.
-<h2 class="bb_subsection">
-  <a name="GetAppOwnershipTicketData"></a>GetAppOwnershipTicketData
-</h2>
+<h2 class="bb_subsection"><a name="GetAppOwnershipTicketData"></a>GetAppOwnershipTicketData</h2>
 <div class="bb_code cpp">
-  uint32 GetAppOwnershipTicketData( uint32 nAppID, void *pvBuffer, uint32
-  cbBufferLength, uint32 *piAppId, uint32 *piSteamId, uint32 *piSignature,
-  uint32 *pcbSignature );
+    uint32 GetAppOwnershipTicketData( uint32 nAppID, void *pvBuffer, uint32 cbBufferLength, uint32
+    *piAppId, uint32 *piSteamId, uint32 *piSignature, uint32 *pcbSignature );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>nAppID</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>The app ID to get the ticket data for.</td>
-  </tr>
-  <tr>
-    <td><strong>pvBuffer</strong></td>
-    <td>void *</td>
-    <td>The raw buffer where the ownership ticket data will be copied into.</td>
-  </tr>
-  <tr>
-    <td><strong>cbBufferLength</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td>
-      This should be the length of
-      <code class="bb_code bb_code_inline nohighlight">pvBuffer</code>.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>piAppId</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td>Returns an offset to get the app ID out of the buffer.</td>
-  </tr>
-  <tr>
-    <td><strong>piSteamId</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td>Returns an offset to get the Steam ID out of the buffer.</td>
-  </tr>
-  <tr>
-    <td><strong>piSignature</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td>Returns an offset to get the signature out of the buffer.</td>
-  </tr>
-  <tr>
-    <td><strong>pcbSignature</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td>Returns the length of the signature.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>nAppID</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The app ID to get the ticket data for.</td>
+    </tr>
+    <tr>
+        <td><strong>pvBuffer</strong></td>
+        <td>void *</td>
+        <td>The raw buffer where the ownership ticket data will be copied into.</td>
+    </tr>
+    <tr>
+        <td><strong>cbBufferLength</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            This should be the length of
+            <code class="bb_code bb_code_inline nohighlight">pvBuffer</code>.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>piAppId</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td>Returns an offset to get the app ID out of the buffer.</td>
+    </tr>
+    <tr>
+        <td><strong>piSteamId</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td>Returns an offset to get the Steam ID out of the buffer.</td>
+    </tr>
+    <tr>
+        <td><strong>piSignature</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td>Returns an offset to get the signature out of the buffer.</td>
+    </tr>
+    <tr>
+        <td><strong>pcbSignature</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td>Returns the length of the signature.</td>
+    </tr>
 </table>
-<br />Hand out a reasonable "future proof" view of an app ownership ticket for a
-given app ID.<br /><br /><strong>Returns:</strong>
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-  class="bb_apilink"
-  >uint32</a
+
+<br />Hand out a reasonable "future proof" view of an app ownership ticket for a given app ID.<br /><br /><strong
+    >Returns:</strong
+>
+<a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
 ><br />The amount of bytes copied into
-<code class="bb_code bb_code_inline nohighlight">pvBuffer</code> or
-<strong>0</strong> if the buffer was too small.<br /><br /><strong
-  >Example:</strong
-><br />
+<code class="bb_code bb_code_inline nohighlight">pvBuffer</code> or <strong>0</strong> if the buffer
+was too small.<br /><br /><strong>Example:</strong><br />
 <div class="bb_code cpp">
-  void GetAppOwnershipTicketDataExample() { ISteamAppTicket* SteamAppTicket =
-  (ISteamAppTicket*)SteamClient()-&gt;GetISteamGenericInterface(
-  SteamAPI_GetHSteamUser(), SteamAPI_GetHSteamPipe(),
-  STEAMAPPTICKET_INTERFACE_VERSION ); const int k_bufferLength = 256; const int
-  k_signatureLength = 128; char buffer[k_bufferLength]; uint32 iAppID; uint32
-  iSteamID; uint32 iSignature; uint32 cbSignature; uint32 ret =
-  SteamAppTicket-&gt;GetAppOwnershipTicketData( 480, buffer, k_bufferLength,
-  &amp;iAppID, &amp;iSteamID, &amp;iSignature, &amp;cbSignature ); printf( "ret:
-  %d\n", ret ); if( ret &gt; 0 ) { printf( "iAppID offset: %d\n", iAppID );
-  printf( "iSteamID offset: %d\n", iSteamID ); printf( "iSignature offset:
-  %d\n", iSignature ); printf( "cbSignature length: %d\n\n", cbSignature );
-  AppId_t appID; memcpy( &amp;appID, &amp;buffer[iAppID], sizeof(AppId_t) );
-  printf( "App ID: %d\n", appID); CSteamID steamID; memcpy( &amp;steamID,
-  &amp;buffer[iSteamID], sizeof(CSteamID) ); printf( "Steam ID: %lld\n",
-  steamID.ConvertToUint64() ); char signature[k_signatureLength]; memcpy_s(
-  signature, k_signatureLength, &amp;buffer[iSignature], cbSignature ); } }
+    void GetAppOwnershipTicketDataExample() { ISteamAppTicket* SteamAppTicket =
+    (ISteamAppTicket*)SteamClient()-&gt;GetISteamGenericInterface( SteamAPI_GetHSteamUser(),
+    SteamAPI_GetHSteamPipe(), STEAMAPPTICKET_INTERFACE_VERSION ); const int k_bufferLength = 256;
+    const int k_signatureLength = 128; char buffer[k_bufferLength]; uint32 iAppID; uint32 iSteamID;
+    uint32 iSignature; uint32 cbSignature; uint32 ret =
+    SteamAppTicket-&gt;GetAppOwnershipTicketData( 480, buffer, k_bufferLength, &amp;iAppID,
+    &amp;iSteamID, &amp;iSignature, &amp;cbSignature ); printf( "ret: %d\n", ret ); if( ret &gt; 0 )
+    { printf( "iAppID offset: %d\n", iAppID ); printf( "iSteamID offset: %d\n", iSteamID ); printf(
+    "iSignature offset: %d\n", iSignature ); printf( "cbSignature length: %d\n\n", cbSignature );
+    AppId_t appID; memcpy( &amp;appID, &amp;buffer[iAppID], sizeof(AppId_t) ); printf( "App ID:
+    %d\n", appID); CSteamID steamID; memcpy( &amp;steamID, &amp;buffer[iSteamID], sizeof(CSteamID)
+    ); printf( "Steam ID: %lld\n", steamID.ConvertToUint64() ); char signature[k_signatureLength];
+    memcpy_s( signature, k_signatureLength, &amp;buffer[iSignature], cbSignature ); } }
 </div>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamAppTicket.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="STEAMAPPTICKET_INTERFACE_VERSION">
-    <td><strong>STEAMAPPTICKET_INTERFACE_VERSION</strong></td>
-    <td>const char *</td>
-    <td>"STEAMAPPTICKET_INTERFACE_VERSION001"</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="STEAMAPPTICKET_INTERFACE_VERSION">
+        <td><strong>STEAMAPPTICKET_INTERFACE_VERSION</strong></td>
+        <td>const char *</td>
+        <td>"STEAMAPPTICKET_INTERFACE_VERSION001"</td>
+        <td></td>
+    </tr>
 </table>

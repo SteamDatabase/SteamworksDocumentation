@@ -1,82 +1,10 @@
 <h1>SteamPipe Local Content Server</h1>
-<h2 class="bb_section"><a name="1"></a>Overview</h2>
-A local content server (LCS) is basically a local HTTP server, like Apache or
-nginx. Using a LCS improves depot iteration time since they are not uploaded and
-distributed through the public Steam network. Instead, all the depot content is
-stored on your LCS in chunk files and served to Steam clients that have access
-to your LCS.<br /><br />When building content for your LCS, the depot builder
-needs to talk to the Steam Master Depot Server (MDS) but does not upload any
-content. Only metadata about your local depots is uploaded to Steam, since local
-content is managed through the Steamworks site, just like public content.<br /><br />The
-LCS only serves depot content and doesn't override any other game configuration.
-Depot content is always encrypted on your LCS (as it is for public content
-servers). Even if somebody managed to download depot chunks from your LCS, they
-wouldn't be able to decrypt the data, since they don't have the depot decryption
-keys.
-<h2 class="bb_section"><a name="2"></a>Setting Up Local Content Server</h2>
-First choose a simple, but high performance web server that only needs to serve
-static files. We are using the open source web server
-<a href="https://github.com/cesanta/mongoose" target="_blank" rel="noreferrer"
-  >mongoose</a
->, since Apache download performance on Windows was too low (3MB/sec) and
-configuration is complicated.<br /><br />In your Steamworks SDK there is a
-directory called '/tools/ContentServer/'. This directory contains a prebuilt
-version of mongoose-3.1.exe. Run this application from the ContentServer
-directory.<br /><br />Create a new app_build vdf script. The format we typically
-follow is
-<code class="bb_code bb_code_inline nohighlight"
-  >app_build_[AppID]_Local.vdf</code
->.<br /><br />This vdf should be similar to your regular SteamPipe upload
-scripts but must have a "local" key.<br />
-<div class="bb_code vdf">
-  "appbuild" { "appid" "[AppID]" "local"
-  "[PathToYourSteamworksSDK]\tools\ContentServer\htdocs" // ... }
-</div>
-<br />Run your new app_build vdf script with steamcmd.<br /><br />Once you've
-successfully built a local version of your game, go to the
-<a
-  href="https://partner.steamgames.com/apps/builds/"
-  target="_blank"
-  rel="noreferrer"
-  >SteamPipe Builds</a
->
-page for your game.<br /><br />Find your local build in the list of current
-builds and select Local from the dropdown next to the desired local build, then
-click 'Preview Change'.<br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/setLCSLive.png"
-  alt="setLCSLive.png"
-  title="setLCSLive.png"
-/>
-<h2 class="bb_section">
-  <a name="3"></a>Configuring Steam Client To Use Your Local Content Server
-</h2>
-For the Steam client to know where to look for your game, you'll need to create
-a file, <code class="bb_code bb_code_inline nohighlight">steam_dev.cfg</code> in
-the same directory that contains steam.exe.<br />This file should contain the
-following text:<br />
-<div class="bb_code">@LocalContentServer YourWebServerIPorName</div>
-<br />Example:<br />
-<div class="bb_code">@LocalContentServer 127.0.0.1</div>
-<ul class="bb_ul">
-  <li>Either the Server IP or Server Name can be used.<br /></li>
-  <li>The Web Server must be listening on Port 80.<br /></li>
-  <li>
-    Do not use quotes, nor "<a
-      href="http://%22"
-      target="_blank"
-      rel="noreferrer"
-      >http://"</a
-    >
-  </li>
-</ul>
-<br />Note: The default location of the Steam executable is:<br />
-<ul class="bb_ul">
-  <li><strong>For Windows</strong>: C:\Program Files (x86)\Steam\<br /></li>
-  <li>
-    <strong>For macOS</strong>:
-    <a href="http://Steam.app/contents/MacOS/" target="_blank" rel="noreferrer"
-      >Steam.app/contents/MacOS/</a
-    ><br />
-  </li>
-  <li><strong>For Linux</strong>: ~/.local/share/Steam/</li>
-</ul>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>A local content server (LCS) is basically a local HTTP server, like Apache or nginx. Using a LCS improves depot iteration time since they are not uploaded and distributed through the public Steam network. Instead, all the depot content is stored on your LCS in chunk files and served to Steam clients that have access to your LCS.<br><br>When building content for your LCS, the depot builder needs to talk to the Steam Master Depot Server (MDS) but does not upload any content. Only metadata about your local depots is uploaded to Steam, since local content is managed through the Steamworks site, just like public content.<br><br>The LCS only serves depot content and doesn't override any other game configuration. Depot content is always encrypted on your LCS (as it is for public content servers). Even if somebody managed to download depot chunks from your LCS, they wouldn't be able to decrypt the data, since they don't have the depot decryption keys.<h2 class="bb_section"><a name="2"></a>Setting Up Local Content Server</h2>First choose a simple, but high performance web server that only needs to serve static files. We are using the open source web server <a href="https://github.com/cesanta/mongoose" target="_blank" rel="noreferrer">mongoose</a>, since Apache download performance on Windows was too low (3MB/sec) and configuration is complicated.<br><br>In your Steamworks SDK there is a directory called '/tools/ContentServer/'. This directory contains a prebuilt version of mongoose-3.1.exe. Run this application from the ContentServer directory.<br><br>Create a new app_build vdf script. The format we typically follow is <code class="bb_code bb_code_inline nohighlight">app_build_[AppID]_Local.vdf</code>.<br><br>This vdf should be similar to your regular SteamPipe upload scripts but must have a "local" key.<br><div class="bb_code vdf">"appbuild"
+{
+	"appid" "[AppID]"
+	"local" "[PathToYourSteamworksSDK]\tools\ContentServer\htdocs"
+	// ...
+}
+</div><br>Run your new app_build vdf script with steamcmd.<br><br>Once you've successfully built a local version of your game, go to the <a href="https://partner.steamgames.com/apps/builds/" target="_blank" rel="noreferrer">SteamPipe Builds</a> page for your game.<br><br>Find your local build in the list of current builds and select Local from the dropdown next to the desired local build, then click 'Preview Change'.<br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/setLCSLive.png" alt="setLCSLive.png" title="setLCSLive.png"><h2 class="bb_section"><a name="3"></a>Configuring Steam Client To Use Your Local Content Server</h2>For the Steam client to know where to look for your game, you'll need to create a file, <code class="bb_code bb_code_inline nohighlight">steam_dev.cfg</code> in the same directory that contains steam.exe.<br>This file should contain the following text:<br><div class="bb_code ">@LocalContentServer YourWebServerIPorName
+</div><br>Example:<br><div class="bb_code ">@LocalContentServer 127.0.0.1
+</div><ul class="bb_ul ">	<li> Either the Server IP or Server Name can be used.<br>	</li><li> The Web Server must be listening on Port 80.<br>	</li><li> Do not use quotes, nor "<a href="http://%22" target="_blank" rel="noreferrer">http://"</a></li></ul><br>Note: The default location of the Steam executable is:<br><ul class="bb_ul ">	<li> <strong>For Windows</strong>: C:\Program Files (x86)\Steam\<br>	</li><li> <strong>For macOS</strong>: <a href="http://Steam.app/contents/MacOS/" target="_blank" rel="noreferrer">Steam.app/contents/MacOS/</a><br>	</li><li> <strong>For Linux</strong>: ~/.local/share/Steam/</li></ul>

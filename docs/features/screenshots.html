@@ -1,129 +1,118 @@
 <h1>Steam Screenshots</h1>
 <h2 class="bb_section"><a name="1"></a>Overview</h2>
 Screenshot support is provided automatically through the
-<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
-  >Steam Overlay</a
->
-to every game through Steam and Steamworks provides a set of APIs designed to
-interact with this system. The Steamworks Screenshots API allows you to take
-screenshots and add them to a users local screenshot library with additional
-metadata such as the name of a location in your game or tagging users that
-appear in the screenshot.
-<div class="bb_callout">
-  <div>
-    <strong>NOTE</strong>: The
-    <a
-      href="https://partner.steamgames.com/doc/features/overlay"
-      class="bb_doclink"
-      >Steam Overlay</a
-    >
-    must be active in your game for the Screenshots system to be available.
-  </div>
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">Steam Overlay</a>
+to every game through Steam and Steamworks provides a set of APIs designed to interact with this
+system. The Steamworks Screenshots API allows you to take screenshots and add them to a users local
+screenshot library with additional metadata such as the name of a location in your game or tagging
+users that appear in the screenshot.
+<div class="bb_callout ">
+    <div>
+        <strong>NOTE</strong>: The
+        <a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+            >Steam Overlay</a
+        >
+        must be active in your game for the Screenshots system to be available.
+    </div>
 </div>
-<br />Users can press a hotkey controlled by Steam (F12 by default), to trigger
-a screenshot.<br /><br />The user can change the hotkey and other screenshot
-settings that will take effect in any game they play in Steam by going to
-Settings -&gt; In-Game.<br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/screenshot_hotkey.png"
-  alt="screenshot_hotkey.png"
-  title="screenshot_hotkey.png"
+<br />Users can press a hotkey controlled by Steam (F12 by default), to trigger a screenshot.<br /><br />The
+user can change the hotkey and other screenshot settings that will take effect in any game they play
+in Steam by going to Settings -&gt; In-Game.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/screenshot_hotkey.png"
+    alt="screenshot_hotkey.png"
+    title="screenshot_hotkey.png"
 />
 <h2 class="bb_subsection"><a name="2"></a>Screenshot Uploader</h2>
-Upon quitting a game the Screenshot Uploader will automatically open with all of
-the screenshots that were taken during the previous session. Users can disable
-this behavior by going to Settings -&gt; Cloud and unchecking "Open the
-screenshot uploader after closing game if screenshots were taken".<br /><br /><img
-  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/screenshot_uploader.png"
-  alt="screenshot_uploader.png"
-  title="screenshot_uploader.png"
-/><br /><br />The Screenshot Uploader can also be accessed at any time through
-Steam by going to View -&gt; Screenshots or by clicking on "Screenshots" in the
-Steam Overlay.<br /><br />If the user uploads any screenshots they will be
-visible on their community profile, and your games community hub.
+Upon quitting a game the Screenshot Uploader will automatically open with all of the screenshots
+that were taken during the previous session. Users can disable this behavior by going to Settings
+-&gt; Cloud and unchecking "Open the screenshot uploader after closing game if screenshots were
+taken".<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/screenshot_uploader.png"
+    alt="screenshot_uploader.png"
+    title="screenshot_uploader.png"
+/><br /><br />The Screenshot Uploader can also be accessed at any time through Steam by going to
+View -&gt; Screenshots or by clicking on "Screenshots" in the Steam Overlay.<br /><br />If the user
+uploads any screenshots they will be visible on their community profile, and your games community
+hub.
 <h2 class="bb_section"><a name="3"></a>Steam Screenshots API</h2>
 The Steamworks SDK provides access to
+<a href="https://partner.steamgames.com/doc/api/ISteamScreenshots" class="bb_apilink"
+    >ISteamScreenshots</a
+>, and enables you to use advanced features and integrate the Steam Screenshots system right into
+your game for the best experience for your customers.<br /><br />By default Steam will handle taking
+screenshots, but you can take over control by hooking the screenshots using
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots"
-  class="bb_apilink"
-  >ISteamScreenshots</a
->, and enables you to use advanced features and integrate the Steam Screenshots
-system right into your game for the best experience for your customers.<br /><br />By
-default Steam will handle taking screenshots, but you can take over control by
-hooking the screenshots using
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#HookScreenshots"
-  class="bb_apilink"
-  >ISteamScreenshots::HookScreenshots</a
+    href="https://partner.steamgames.com/doc/api/ISteamScreenshots#HookScreenshots"
+    class="bb_apilink"
+    >ISteamScreenshots::HookScreenshots</a
 >. If you're hooking the screenshots you'll be getting a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotRequested_t"
-  class="bb_apilink"
-  >ScreenshotRequested_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotRequested_t"
+    class="bb_apilink"
+    >ScreenshotRequested_t</a
 >
-callback when the user presses the screenshot hotkey. You can check if you're
-currently hooking screenshots with
+callback when the user presses the screenshot hotkey. You can check if you're currently hooking
+screenshots with
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#IsScreenshotsHooked"
-  class="bb_apilink"
-  >ISteamScreenshots::IsScreenshotsHooked</a
+    href="https://partner.steamgames.com/doc/api/ISteamScreenshots#IsScreenshotsHooked"
+    class="bb_apilink"
+    >ISteamScreenshots::IsScreenshotsHooked</a
 >.<br /><br />Regardless of whether you're hooking or not, you will be getting a
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
-  class="bb_apilink"
-  >ScreenshotReady_t</a
+    href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+    class="bb_apilink"
+    >ScreenshotReady_t</a
 >
-callback when the screenshot has been successfully saved to disk. After
-receiving this callback you should then check the result, and if it was
-successful, you can then use the
+callback when the screenshot has been successfully saved to disk. After receiving this callback you
+should then check the result, and if it was successful, you can then use the
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotHandle"
-  class="bb_apilink"
-  >ScreenshotHandle</a
+    href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotHandle"
+    class="bb_apilink"
+    >ScreenshotHandle</a
 >
 provided to set tags with:<br />
-<ul class="bb_ul">
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamScreenshots#SetLocation"
-      class="bb_apilink"
-      >ISteamScreenshots::SetLocation</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TagUser"
-      class="bb_apilink"
-      >ISteamScreenshots::TagUser</a
-    ><br />
-  </li>
-  <li>
-    <a
-      href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TagPublishedFile"
-      class="bb_apilink"
-      >ISteamScreenshots::TagPublishedFile</a
-    >
-  </li>
+<ul class="bb_ul ">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamScreenshots#SetLocation"
+            class="bb_apilink"
+            >ISteamScreenshots::SetLocation</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TagUser"
+            class="bb_apilink"
+            >ISteamScreenshots::TagUser</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TagPublishedFile"
+            class="bb_apilink"
+            >ISteamScreenshots::TagPublishedFile</a
+        >
+    </li>
 </ul>
-<br />If you want to take a screenshot either with your own button, or
-automatically at some point, such as the end of a round, you can do that
-programmatically with
+<br />If you want to take a screenshot either with your own button, or automatically at some point,
+such as the end of a round, you can do that programmatically with
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TriggerScreenshot"
-  class="bb_apilink"
-  >ISteamScreenshots::TriggerScreenshot</a
+    href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TriggerScreenshot"
+    class="bb_apilink"
+    >ISteamScreenshots::TriggerScreenshot</a
 >
 or by writing the RGB bytes out with
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#WriteScreenshot"
-  class="bb_apilink"
-  >ISteamScreenshots::WriteScreenshot</a
+    href="https://partner.steamgames.com/doc/api/ISteamScreenshots#WriteScreenshot"
+    class="bb_apilink"
+    >ISteamScreenshots::WriteScreenshot</a
 >, or by adding a file from the disk with
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddScreenshotToLibrary"
-  class="bb_apilink"
-  >ISteamScreenshots::AddScreenshotToLibrary</a
+    href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddScreenshotToLibrary"
+    class="bb_apilink"
+    >ISteamScreenshots::AddScreenshotToLibrary</a
 >/<a
-  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddVRScreenshotToLibrary"
-  class="bb_apilink"
-  >ISteamScreenshots::AddVRScreenshotToLibrary</a
+    href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddVRScreenshotToLibrary"
+    class="bb_apilink"
+    >ISteamScreenshots::AddVRScreenshotToLibrary</a
 >.

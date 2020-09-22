@@ -1,238 +1,213 @@
 <h1>ISteamGameCoordinator Interface</h1>
-Functions for sending and receiving messages from the Game Coordinator.<br /><br />This
-is largely deprecated, and only continues to exist for the couple games that
-still use this.
+Functions for sending and receiving messages from the Game Coordinator.<br /><br />This is largely
+deprecated, and only continues to exist for the couple games that still use this.
 <h2 class="bb_section"><a name="Functions"></a>Functions</h2>
 <br /><strong>NOTE:</strong>
-<code class="bb_code bb_code_inline nohighlight">ISteamGameCoordinator</code>
-does not expose a global accessor function. You must access it through
+<code class="bb_code bb_code_inline nohighlight">ISteamGameCoordinator</code> does not expose a
+global accessor function. You must access it through
 <a
-  href="https://partner.steamgames.com/doc/api/ISteamClient#GetISteamGenericInterface"
-  class="bb_apilink"
-  >ISteamClient::GetISteamGenericInterface</a
+    href="https://partner.steamgames.com/doc/api/ISteamClient#GetISteamGenericInterface"
+    class="bb_apilink"
+    >ISteamClient::GetISteamGenericInterface</a
 >.
-<h2 class="bb_subsection">
-  <a name="IsMessageAvailable"></a>IsMessageAvailable
-</h2>
+<h2 class="bb_subsection"><a name="IsMessageAvailable"></a>IsMessageAvailable</h2>
 <div class="bb_code cpp">bool IsMessageAvailable( uint32 *pcubMsgSize );</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>pcubMsgSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td>Returns the size of the message in bytes.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pcubMsgSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td>Returns the size of the message in bytes.</td>
+    </tr>
 </table>
+
 <br />Checks if there is a message waiting from the game coordinator.<br /><br /><strong
-  >Returns:</strong
+    >Returns:</strong
 >
-bool<br /><strong>true</strong> if a message is available; otherwise,
-<strong>false</strong>.
+bool<br /><strong>true</strong> if a message is available; otherwise, <strong>false</strong>.
 <h2 class="bb_subsection"><a name="RetrieveMessage"></a>RetrieveMessage</h2>
 <div class="bb_code cpp">
-  EGCResults RetrieveMessage( uint32 *punMsgType, void *pubDest, uint32 cubDest,
-  uint32 *pcubMsgSize );
+    EGCResults RetrieveMessage( uint32 *punMsgType, void *pubDest, uint32 cubDest, uint32
+    *pcubMsgSize );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>punMsgType</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pubDest</strong></td>
-    <td>void *</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>cubDest</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pcubMsgSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-      *
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>punMsgType</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pubDest</strong></td>
+        <td>void *</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>cubDest</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pcubMsgSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Fills the provided buffer with the first message in the queue and returns
-k_EGCResultOK or returns k_EGCResultNoMessage if there is no message waiting.
-pcubMsgSize is filled with the message size.<br /><br />If the provided buffer
-is not large enough to fit the entire message, k_EGCResultBufferTooSmall is
-returned and the message remains at the head of the queue.<br /><br /><strong
-  >Returns:</strong
+
+<br />Fills the provided buffer with the first message in the queue and returns k_EGCResultOK or
+returns k_EGCResultNoMessage if there is no message waiting. pcubMsgSize is filled with the message
+size.<br /><br />If the provided buffer is not large enough to fit the entire message,
+k_EGCResultBufferTooSmall is returned and the message remains at the head of the queue.<br /><br /><strong
+    >Returns:</strong
 >
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamGameCoordinator#EGCResults"
-  class="bb_apilink"
-  >EGCResults</a
+<a href="https://partner.steamgames.com/doc/api/ISteamGameCoordinator#EGCResults" class="bb_apilink"
+    >EGCResults</a
 >
 <h2 class="bb_subsection"><a name="SendMessage"></a>SendMessage</h2>
 <div class="bb_code cpp">
-  EGCResults SendMessage( uint32 unMsgType, const void *pubData, uint32 cubData
-  );
+    EGCResults SendMessage( uint32 unMsgType, const void *pubData, uint32 cubData );
 </div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>unMsgType</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>pubData</strong></td>
-    <td>const void *</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><strong>cubData</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>unMsgType</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pubData</strong></td>
+        <td>const void *</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>cubData</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td></td>
+    </tr>
 </table>
-<br />Sends a message to the Game Coordinator.<br /><br /><strong
-  >Returns:</strong
->
-<a
-  href="https://partner.steamgames.com/doc/api/ISteamGameCoordinator#EGCResults"
-  class="bb_apilink"
-  >EGCResults</a
+
+<br />Sends a message to the Game Coordinator.<br /><br /><strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/ISteamGameCoordinator#EGCResults" class="bb_apilink"
+    >EGCResults</a
 >
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
-<a
-  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
-  class="bb_apilink"
-  >SteamAPI_RunCallbacks</a
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
+    >SteamAPI_RunCallbacks</a
 >. Many of these will be fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamGameCoordinator</code>.
-<h2 class="bb_subsection">
-  <a name="GCMessageAvailable_t"></a>GCMessageAvailable_t
-</h2>
-callbacks<br />callback notification - A new message is available for reading
-from the message queue<br /><br />
+<h2 class="bb_subsection"><a name="GCMessageAvailable_t"></a>GCMessageAvailable_t</h2>
+callbacks<br />callback notification - A new message is available for reading from the message
+queue<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>m_nMessageSize</strong></td>
-    <td>
-      <a
-        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
-        class="bb_apilink"
-        >uint32</a
-      >
-    </td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_nMessageSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td></td>
+    </tr>
 </table>
+
 <h2 class="bb_subsection"><a name="GCMessageFailed_t"></a>GCMessageFailed_t</h2>
-callback notification - A message failed to make it to the GC. It may be down
-temporarily<br /><br />This callback has no fields.
+callback notification - A message failed to make it to the GC. It may be down temporarily<br /><br />This
+callback has no fields.
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamGameCoordinator.
 <h2 class="bb_subsection"><a name="EGCResults"></a>EGCResults</h2>
 List of possible return values from the ISteamGameCoordinator API.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="k_EGCResultOK">
-    <td><strong>k_EGCResultOK</strong></td>
-    <td>0</td>
-    <td>Success.</td>
-  </tr>
-  <tr id="k_EGCResultNoMessage">
-    <td><strong>k_EGCResultNoMessage</strong></td>
-    <td>1</td>
-    <td>There is no message in the queue.</td>
-  </tr>
-  <tr id="k_EGCResultBufferTooSmall">
-    <td><strong>k_EGCResultBufferTooSmall</strong></td>
-    <td>2</td>
-    <td>The buffer is too small for the requested message.</td>
-  </tr>
-  <tr id="k_EGCResultNotLoggedOn">
-    <td><strong>k_EGCResultNotLoggedOn</strong></td>
-    <td>3</td>
-    <td>The client is not logged onto Steam.</td>
-  </tr>
-  <tr id="k_EGCResultInvalidMessage">
-    <td><strong>k_EGCResultInvalidMessage</strong></td>
-    <td>4</td>
-    <td>Something was wrong with the message being sent with SendMessage.</td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_EGCResultOK">
+        <td><strong>k_EGCResultOK</strong></td>
+        <td>0</td>
+        <td>Success.</td>
+    </tr>
+    <tr id="k_EGCResultNoMessage">
+        <td><strong>k_EGCResultNoMessage</strong></td>
+        <td>1</td>
+        <td>There is no message in the queue.</td>
+    </tr>
+    <tr id="k_EGCResultBufferTooSmall">
+        <td><strong>k_EGCResultBufferTooSmall</strong></td>
+        <td>2</td>
+        <td>The buffer is too small for the requested message.</td>
+    </tr>
+    <tr id="k_EGCResultNotLoggedOn">
+        <td><strong>k_EGCResultNotLoggedOn</strong></td>
+        <td>3</td>
+        <td>The client is not logged onto Steam.</td>
+    </tr>
+    <tr id="k_EGCResultInvalidMessage">
+        <td><strong>k_EGCResultInvalidMessage</strong></td>
+        <td>4</td>
+        <td>Something was wrong with the message being sent with SendMessage.</td>
+    </tr>
 </table>
+
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamGameCoordinator.<br /><br />
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Value</th>
-    <th>Description</th>
-  </tr>
-  <tr id="STEAMGAMECOORDINATOR_INTERFACE_VERSION">
-    <td><strong>STEAMGAMECOORDINATOR_INTERFACE_VERSION</strong></td>
-    <td>const char *</td>
-    <td>"SteamGameCoordinator001"</td>
-    <td></td>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="STEAMGAMECOORDINATOR_INTERFACE_VERSION">
+        <td><strong>STEAMGAMECOORDINATOR_INTERFACE_VERSION</strong></td>
+        <td>const char *</td>
+        <td>"SteamGameCoordinator001"</td>
+        <td></td>
+    </tr>
 </table>

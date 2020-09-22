@@ -1,264 +1,235 @@
 <h1>User Reviews - Get List</h1>
-If you wish to get a dump of reviews on an application in Steam, you can use the
-following method with the parameters below.
+If you wish to get a dump of reviews on an application in Steam, you can use the following method
+with the parameters below.
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
-<div class="bb_code">
-  GET store.steampowered.com/appreviews/&lt;appid&gt;?json=1
-</div>
+<div class="bb_code ">GET store.steampowered.com/appreviews/&lt;appid&gt;?json=1</div>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>filter</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      recent – sorted by creation time<br />updated – sorted by last updated
-      time<br />all – (default) sorted by helpfulness, with sliding windows
-      based on day_range parameter, will always find results to return.
-      <br /><br />If paging through the reviews with
-      <code class="bb_code bb_code_inline nohighlight">cursor</code> then choose
-      either the recent option or the updated option to eventually receive an
-      empty response list.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>language </strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      see
-      <a
-        href="https://partner.steamgames.com/documentation/languages"
-        target="_blank"
-        rel="noreferrer"
-        >https://partner.steamgames.com/documentation/languages</a
-      >
-      (and use the API language code list) or pass “all” for all reviews
-    </td>
-  </tr>
-  <tr>
-    <td><strong>day_range </strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      range from now to n days ago to look for helpful reviews. Only applicable
-      for the “all” filter.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>cursor</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      reviews are returned in batches of 20, so pass "*" for the first set, then
-      the value of "cursor" that was returned in the response for the next set,
-      etc. Note that cursor values may contain characters that need to be
-      URLEncoded for use in the querystring.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>review_type</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      all – all reviews (default)<br />positive – only positive reviews<br />negative
-      – only negative reviews
-    </td>
-  </tr>
-  <tr>
-    <td><strong>purchase_type</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      all – all reviews<br />non_steam_purchase – reviews written by users who
-      did not pay for the product on Steam<br />steam – reviews written by users
-      who paid for the product on Steam (default)
-    </td>
-  </tr>
-  <tr>
-    <td><strong>num_per_page</strong></td>
-    <td>string</td>
-    <td>✔</td>
-    <td>
-      by default, up to 20 reviews will be returned. More reviews can be
-      returned based on this parameter (with a maximum of 100 reviews)
-    </td>
-  </tr>
-</table>
-<h2 class="bb_section"><a name="2"></a>Returns</h2>
-a JSON formatted list of reviews matching the parameters, with info fields.
-Strings in JSON may contain escape sequences and data in the response may need
-to be unescaped before use.<br /><br /><strong>Response:</strong><br />
-<ul class="bb_ul">
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">success</code> - 1 if the
-    query was successful<br />
-  </li>
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">query_summary</code> -
-    Returned in the first request<br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">num_reviews</code> -
-        The number of reviews returned in this response<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">review_score</code> -
-        The review score<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight"
-          >review_score_desc</code
-        >
-        - The description of the review score<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">total_positive</code> -
-        Total number of positive reviews<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">total_negative</code> -
-        Total number of negative reviews<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">total_reviews</code> -
-        Total number of reviews matching the query parameters<br />
-      </li>
-    </ul>
-  </li>
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">cursor</code> - The value
-    to pass into the next request as the
-    <code class="bb_code bb_code_inline nohighlight">cursor</code> to retrieve
-    the next batch of reviews<br />
-  </li>
-  <li>
-    <code class="bb_code bb_code_inline nohighlight">reviews</code><br />
-    <ul class="bb_ul">
-      <li>
-        <code class="bb_code bb_code_inline nohighlight"
-          >recommendationid
-        </code>
-        - The unique id of the recommendation<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">author</code><br />
-        <ul class="bb_ul">
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">steamid </code> -
-            the user’s SteamID<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight"
-              >num_games_owned
-            </code>
-            - number of games owned by the user<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">num_reviews </code>
-            - number of reviews written by the user<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight"
-              >playtime_forever
-            </code>
-            - lifetime playtime tracked in this app<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight"
-              >playtime_last_two_weeks
-            </code>
-            - playtime tracked in the past two weeks for this app<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight"
-              >playtime_at_review</code
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>filter</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>
+            recent – sorted by creation time<br />updated – sorted by last updated time<br />all –
+            (default) sorted by helpfulness, with sliding windows based on day_range parameter, will
+            always find results to return. <br /><br />If paging through the reviews with
+            <code class="bb_code bb_code_inline nohighlight">cursor</code> then choose either the
+            recent option or the updated option to eventually receive an empty response list.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>language </strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>
+            see
+            <a
+                href="https://partner.steamgames.com/documentation/languages"
+                target="_blank"
+                rel="noreferrer"
+                >https://partner.steamgames.com/documentation/languages</a
             >
-            - playtime when the review was written<br />
-          </li>
-          <li>
-            <code class="bb_code bb_code_inline nohighlight">last_played </code>
-            - time for when the user last played<br />
-          </li>
+            (and use the API language code list) or pass “all” for all reviews
+        </td>
+    </tr>
+    <tr>
+        <td><strong>day_range </strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>
+            range from now to n days ago to look for helpful reviews. Only applicable for the “all”
+            filter.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>cursor</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>
+            reviews are returned in batches of 20, so pass "*" for the first set, then the value of
+            "cursor" that was returned in the response for the next set, etc. Note that cursor
+            values may contain characters that need to be URLEncoded for use in the querystring.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>review_type</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>
+            all – all reviews (default)<br />positive – only positive reviews<br />negative – only
+            negative reviews
+        </td>
+    </tr>
+    <tr>
+        <td><strong>purchase_type</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>
+            all – all reviews<br />non_steam_purchase – reviews written by users who did not pay for
+            the product on Steam<br />steam – reviews written by users who paid for the product on
+            Steam (default)
+        </td>
+    </tr>
+    <tr>
+        <td><strong>num_per_page</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>
+            by default, up to 20 reviews will be returned. More reviews can be returned based on
+            this parameter (with a maximum of 100 reviews)
+        </td>
+    </tr>
+</table>
+
+<h2 class="bb_section"><a name="2"></a>Returns</h2>
+a JSON formatted list of reviews matching the parameters, with info fields. Strings in JSON may
+contain escape sequences and data in the response may need to be unescaped before use.<br /><br /><strong
+    >Response:</strong
+><br />
+<ul class="bb_ul ">
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">success</code> - 1 if the query was
+        successful<br />
+    </li>
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">query_summary</code> - Returned in the
+        first request<br />
+        <ul class="bb_ul ">
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">num_reviews</code> - The number of
+                reviews returned in this response<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">review_score</code> - The review
+                score<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">review_score_desc</code> - The
+                description of the review score<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">total_positive</code> - Total
+                number of positive reviews<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">total_negative</code> - Total
+                number of negative reviews<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">total_reviews</code> - Total number
+                of reviews matching the query parameters<br />
+            </li>
         </ul>
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">language </code> -
-        language the user indicated when authoring the review<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">review </code> - text
-        of written review<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight"
-          >timestamp_created
-        </code>
-        - date the review was created (unix timestamp)<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight"
-          >timestamp_updated
-        </code>
-        - date the review was last updated (unix timestamp)<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">voted_up </code> -
-        <strong>true</strong> means it was a positive recommendation<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">votes_up </code> - the
-        number of users that found this review helpful<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">votes_funny </code> -
-        the number of users that found this review funny<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight"
-          >weighted_vote_score
-        </code>
-        - helpfulness score<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">comment_count </code> -
-        number of comments posted on this review<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight">steam_purchase </code>
-        - <strong>true</strong> if the user purchased the game on Steam<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight"
-          >received_for_free
-        </code>
-        - <strong>true</strong> if the user checked a box saying they got the
-        app for free<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight"
-          >written_during_early_access
-        </code>
-        - <strong>true</strong> if the user posted this review while the game
-        was in Early Access<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight"
-          >developer_response</code
-        >
-        - text of the developer response, if any<br />
-      </li>
-      <li>
-        <code class="bb_code bb_code_inline nohighlight"
-          >timestamp_dev_responded</code
-        >
-        - Unix timestamp of when the developer responded, if applicable<br />
-      </li>
-    </ul>
-  </li>
+    </li>
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">cursor</code> - The value to pass into the
+        next request as the <code class="bb_code bb_code_inline nohighlight">cursor</code> to
+        retrieve the next batch of reviews<br />
+    </li>
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">reviews</code><br />
+        <ul class="bb_ul ">
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">recommendationid </code> - The
+                unique id of the recommendation<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">author</code><br />
+                <ul class="bb_ul ">
+                    <li>
+                        <code class="bb_code bb_code_inline nohighlight">steamid </code> - the
+                        user’s SteamID<br />
+                    </li>
+                    <li>
+                        <code class="bb_code bb_code_inline nohighlight">num_games_owned </code> -
+                        number of games owned by the user<br />
+                    </li>
+                    <li>
+                        <code class="bb_code bb_code_inline nohighlight">num_reviews </code> -
+                        number of reviews written by the user<br />
+                    </li>
+                    <li>
+                        <code class="bb_code bb_code_inline nohighlight">playtime_forever </code> -
+                        lifetime playtime tracked in this app<br />
+                    </li>
+                    <li>
+                        <code class="bb_code bb_code_inline nohighlight"
+                            >playtime_last_two_weeks
+                        </code>
+                        - playtime tracked in the past two weeks for this app<br />
+                    </li>
+                    <li>
+                        <code class="bb_code bb_code_inline nohighlight">playtime_at_review</code> -
+                        playtime when the review was written<br />
+                    </li>
+                    <li>
+                        <code class="bb_code bb_code_inline nohighlight">last_played </code> - time
+                        for when the user last played<br />
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">language </code> - language the
+                user indicated when authoring the review<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">review </code> - text of written
+                review<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">timestamp_created </code> - date
+                the review was created (unix timestamp)<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">timestamp_updated </code> - date
+                the review was last updated (unix timestamp)<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">voted_up </code> -
+                <strong>true</strong> means it was a positive recommendation<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">votes_up </code> - the number of
+                users that found this review helpful<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">votes_funny </code> - the number of
+                users that found this review funny<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">weighted_vote_score </code> -
+                helpfulness score<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">comment_count </code> - number of
+                comments posted on this review<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">steam_purchase </code> -
+                <strong>true</strong> if the user purchased the game on Steam<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">received_for_free </code> -
+                <strong>true</strong> if the user checked a box saying they got the app for free<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">written_during_early_access </code>
+                - <strong>true</strong> if the user posted this review while the game was in Early
+                Access<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">developer_response</code> - text of
+                the developer response, if any<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">timestamp_dev_responded</code> -
+                Unix timestamp of when the developer responded, if applicable<br />
+            </li>
+        </ul>
+    </li>
 </ul>
