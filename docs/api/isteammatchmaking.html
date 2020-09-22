@@ -82,10 +82,8 @@ called through the global accessor function
         <td>This should be the current time in Unix epoch format (seconds since Jan 1st, 1970).</td>
     </tr>
 </table>
-
 <br />Adds the game server to the local favorites list or updates the time played of the server if
-it already exists in the list.<br /><br /><strong>Returns:</strong>
-int
+it already exists in the list.<br /><br /><strong>Returns:</strong> int
 <h2 class="bb_subsection">
     <a name="AddRequestLobbyListCompatibleMembersFilter"></a
     >AddRequestLobbyListCompatibleMembersFilter
@@ -109,7 +107,6 @@ int
         <td></td>
     </tr>
 </table>
-
 <br />Unused - Checks the player compatibility based on the frenemy system.
 <h2 class="bb_subsection">
     <a name="AddRequestLobbyListDistanceFilter"></a>AddRequestLobbyListDistanceFilter
@@ -135,7 +132,6 @@ int
         <td>Specifies the maximum distance.</td>
     </tr>
 </table>
-
 <br />Sets the physical distance for which we should search for lobbies, this is based on the users
 IP address and a IP location map on the Steam backed.
 <h2 class="bb_subsection">
@@ -154,7 +150,6 @@ IP address and a IP location map on the Steam backed.
         <td>The number of open slots that must be open.</td>
     </tr>
 </table>
-
 <br />Filters to only return lobbies with the specified number of open slots available.
 <h2 class="bb_subsection">
     <a name="AddRequestLobbyListNearValueFilter"></a>AddRequestLobbyListNearValueFilter
@@ -186,7 +181,6 @@ IP address and a IP location map on the Steam backed.
         <td>The value that lobbies will be sorted on.</td>
     </tr>
 </table>
-
 <br />Sorts the results closest to the specified value.<br /><br />Near filters don't actually
 filter out values, they just influence how the results are sorted. You can specify multiple near
 filters, with the first near filter influencing the most, and the last near filter influencing the
@@ -233,7 +227,6 @@ least.
         <td>The type of comparison to make.</td>
     </tr>
 </table>
-
 <br />Adds a numerical comparison filter to the next
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
@@ -257,7 +250,6 @@ call.
         <td>The maximum number of lobbies to return.</td>
     </tr>
 </table>
-
 <br />Sets the maximum number of lobbies to return. The lower the count the faster it is to download
 the lobby results &amp; details to the client.
 <h2 class="bb_subsection">
@@ -302,7 +294,6 @@ the lobby results &amp; details to the client.
         <td>The type of comparison to make.</td>
     </tr>
 </table>
-
 <br />Adds a string comparison filter to the next
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
@@ -324,7 +315,6 @@ call.
         <td></td>
     </tr>
 </table>
-
 <br />Deprecated - PS3 only.
 <h2 class="bb_subsection"><a name="CreateLobby"></a>CreateLobby</h2>
 <div class="bb_code cpp">SteamAPICall_t CreateLobby( ELobbyType eLobbyType, int cMaxMembers );</div>
@@ -358,7 +348,6 @@ call.
         <td>The maximum number of players that can join this lobby. This can not be above 250.</td>
     </tr>
 </table>
-
 <br />Create a new matchmaking lobby.<br /><br /><strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
@@ -409,7 +398,6 @@ callback is also received since the local user has joined their own lobby.
         <td>The key to delete the data for.</td>
     </tr>
 </table>
-
 <br />Removes a metadata key from the lobby.<br /><br />This can only be done by the owner of the
 lobby.<br /><br />This will only send the data if the key existed. There is a slight delay before
 sending the data so you can call this repeatedly to set all the data you need to and it will
@@ -514,7 +502,6 @@ bool<br /><strong>true</strong> if the key/value was successfully deleted; other
         </td>
     </tr>
 </table>
-
 <br />Gets the details of the favorite game server by index.<br /><br /><strong>NOTE:</strong> You
 must call
 <a
@@ -574,7 +561,6 @@ int<br /><br /><br /><strong>See Also:</strong>
         </td>
     </tr>
 </table>
-
 <br />Gets the Steam ID of the lobby at the specified index after receiving the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
@@ -687,7 +673,6 @@ if the provided index is invalid or there are no lobbies found.
         </td>
     </tr>
 </table>
-
 <br />Gets the data from a lobby chat message after receiving a
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyChatMsg_t" class="bb_apilink"
     >LobbyChatMsg_t</a
@@ -726,7 +711,6 @@ callback.<br /><br /><strong>Returns:</strong> int<br />The number of bytes copi
         <td>The key to get the value of.</td>
     </tr>
 </table>
-
 <br />Gets the metadata associated with the specified key from the specified lobby.<br /><br /><strong
     >NOTE:</strong
 >
@@ -825,7 +809,6 @@ string ("") if no value is set for this key, or if
         </td>
     </tr>
 </table>
-
 <br />Gets a lobby metadata key/value pair by index.<br /><br /><strong>NOTE:</strong> You must call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyDataCount"
@@ -854,7 +837,6 @@ success; otherwise, <strong>false</strong> if the
         <td>The Steam ID of the lobby to get the data count from.</td>
     </tr>
 </table>
-
 <br />Gets the number of metadata keys set on the specified lobby.<br /><br /><strong>NOTE:</strong>
 This can only get metadata from lobbies that the client knows about, either after receiving a list
 of lobbies from
@@ -941,7 +923,6 @@ int<br />Returns <strong>0</strong> if
         <td>Returns the Steam ID of the game server, if it's set.</td>
     </tr>
 </table>
-
 <br />Gets the details of a game server set in a lobby.<br /><br />Either the IP/Port or the Steam
 ID of the game server has to be valid, depending on how you want the clients to be able to
 connect.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the lobby is valid
@@ -990,7 +971,6 @@ and has a valid game server set; otherwise, <strong>false</strong>.<br /><br /><
         </td>
     </tr>
 </table>
-
 <br />Gets the Steam ID of the lobby member at the given index.<br /><br /><strong>NOTE:</strong>
 You must call
 <a
@@ -1040,7 +1020,6 @@ retrieve the Steam IDs of other users in that lobby.<br /><br /><strong>Returns:
         <td>The key to get the value of.</td>
     </tr>
 </table>
-
 <br />Gets per-user metadata from another player in the specified lobby.<br /><br />This can only be
 queried from members in lobbies that you are currently in.<br /><br /><strong>Returns:</strong>
 const char *<br />Returns <strong>NULL</strong> if
@@ -1071,7 +1050,6 @@ for the player.<br /><br /><strong>See Also:</strong>
         <td>The Steam ID of the lobby to get the member limit of.</td>
     </tr>
 </table>
-
 <br />The current limit on the # of users who can join the lobby.<br />Returns <strong>0</strong> if
 no limit is defined.<br /><br /><strong>Returns:</strong> int<br />Returns <strong>0</strong> if no
 metadata is available for the specified lobby.
@@ -1093,7 +1071,6 @@ metadata is available for the specified lobby.
         <td>The Steam ID of the lobby to get the owner of.</td>
     </tr>
 </table>
-
 <br />Returns the current lobby owner.<br /><br /><strong>NOTE:</strong> You must be a member of the
 lobby to access this.<br /><br />There always one lobby owner - if the current owner leaves, another
 user in the lobby will become the owner automatically. It is possible (but rare) to join a lobby
@@ -1127,7 +1104,6 @@ if you're not in the lobby.<br /><br /><strong>See Also:</strong>
         <td>The Steam ID of the lobby to get the number of members of.</td>
     </tr>
 </table>
-
 <br />Gets the number of users in a lobby.<br /><br /><strong>NOTE:</strong> The current user must
 be in the lobby to retrieve the Steam IDs of other users in that lobby.<br /><br />This is used for
 iteration, after calling this then
@@ -1170,7 +1146,6 @@ interface.<br /><br /><strong>Returns:</strong> int<br />The number of members i
         <td>The Steam ID of the person who will be invited.</td>
     </tr>
 </table>
-
 <br />Invite another user to the lobby.<br /><br />If the specified user clicks the join link, a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamFriends#GameLobbyJoinRequested_t"
@@ -1204,7 +1179,6 @@ This call doesn't check if the other user was successfully invited.
         <td>The Steam ID of the lobby to join.</td>
     </tr>
 </table>
-
 <br />Joins an existing lobby.<br /><br />The lobby Steam ID can be obtained either from a search
 with
 <a
@@ -1244,7 +1218,6 @@ callback.
         <td>The lobby to leave.</td>
     </tr>
 </table>
-
 <br />Leave a lobby that the user is currently in; this will take effect immediately on the client
 side, other users in the lobby will be notified by a
 <a
@@ -1318,7 +1291,6 @@ callback.
         </td>
     </tr>
 </table>
-
 <br />Removes the game server from the local favorites list.<br /><br /><strong>Returns:</strong>
 bool<br /><strong>true</strong> if the server was removed; otherwise, <strong>false</strong> if the
 specified server was not on the users local favorites list.
@@ -1340,7 +1312,6 @@ specified server was not on the users local favorites list.
         <td>The Steam ID of the lobby to refresh the metadata of.</td>
     </tr>
 </table>
-
 <br />Refreshes all of the metadata for a lobby that you're not in right now.<br /><br />You will
 never do this for lobbies you're a member of, that data will always be up to date. You can use this
 to refresh lobbies that you have obtained from
@@ -1493,7 +1464,6 @@ older applications, but you should use the call result if possible.<br /><br /><
         </td>
     </tr>
 </table>
-
 <br />Broadcasts a chat (text or binary data) message to the all of the users in the lobby.<br /><br />All
 users in the lobby (including the local user) will receive a
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyChatMsg_t" class="bb_apilink"
@@ -1550,7 +1520,6 @@ the message is too small or too large, or no connection to Steam could be made.
         <td>The Steam ID that will be linked to the primary lobby.</td>
     </tr>
 </table>
-
 <br />Unused - Link two lobbies for the purposes of checking player compatibility using the frenemy
 system.<br /><br />You must be the lobby owner of both lobbies.<br /><br /><strong>Returns:</strong>
 bool<br /><strong>true</strong> if the request was successfully sent to the Steam server.<br /><strong
@@ -1601,7 +1570,6 @@ if the local user isn't the owner of both lobbies, or no connection to Steam cou
         </td>
     </tr>
 </table>
-
 <br />Sets a key/value pair in the lobby metadata. This can be used to set the the lobby name,
 current map, game mode, etc.<br /><br />This can only be set by the owner of the lobby. Lobby
 members should use
@@ -1680,7 +1648,6 @@ are too long.
         </td>
     </tr>
 </table>
-
 <br />Sets the game server associated with the lobby.<br /><br />This can only be set by the owner
 of the lobby.<br /><br />Either the IP/Port or the Steam ID of the game server must be valid,
 depending on how you want the clients to be able to connect.<br /><br />A
@@ -1728,7 +1695,6 @@ callback.<br /><br /><br /><strong>See Also:</strong>
         </td>
     </tr>
 </table>
-
 <br />Sets whether or not a lobby is joinable by other players. This always defaults to enabled for
 a new lobby.<br /><br />If joining is disabled, then no players can join, even if they are a friend
 or have been invited.<br /><br />Lobbies with joining disabled will not be returned from a lobby
@@ -1778,7 +1744,6 @@ otherwise, <strong>false</strong> if you're not the owner of the lobby.
         </td>
     </tr>
 </table>
-
 <br />Sets per-user metadata for the local user.<br /><br />Each user in the lobby will be receive
 notification of the lobby data change via a
 <a
@@ -1826,14 +1791,13 @@ callback.<br /><br /><br /><strong>See Also:</strong>
         <td>The maximum number of players allowed in this lobby. This can not be above 250.</td>
     </tr>
 </table>
-
 <br />Set the maximum number of players that can join the lobby.<br /><br />This is also set when
 you create the lobby with
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
 >.<br />This can only be set by the owner of the lobby.<br /><br /><strong>Returns:</strong>
-bool<br /><strong>true</strong> if the limit was successfully set.<br /><strong>false</strong>
-if you are not the owner of the specified lobby.
+bool<br /><strong>true</strong> if the limit was successfully set.<br /><strong>false</strong> if
+you are not the owner of the specified lobby.
 <h2 class="bb_subsection"><a name="SetLobbyOwner"></a>SetLobbyOwner</h2>
 <div class="bb_code cpp">
     bool SetLobbyOwner( CSteamID steamIDLobby, CSteamID steamIDNewOwner );
@@ -1866,7 +1830,6 @@ if you are not the owner of the specified lobby.
         </td>
     </tr>
 </table>
-
 <br />Changes who the lobby owner is.<br /><br />This can only be set by the owner of the lobby.
 This will trigger a
 <a
@@ -1922,7 +1885,6 @@ lobby, or if no connection to Steam could be made.<br /><br /><strong>See Also:<
         <td>The new lobby type to that will be set.</td>
     </tr>
 </table>
-
 <br />Updates what type of lobby this is.<br /><br />This is also set when you create the lobby with
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
@@ -1955,7 +1917,6 @@ These are callbacks which can be fired by calling
         <td></td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="FavoritesListChanged_t"></a>FavoritesListChanged_t</h2>
 A server was added/removed from the favorites list, you should refresh now.<br /><br />
 <table>
@@ -2051,7 +2012,6 @@ A server was added/removed from the favorites list, you should refresh now.<br /
         <td></td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="LobbyChatMsg_t"></a>LobbyChatMsg_t</h2>
 A chat (text or binary) message for this lobby has been received. After getting this you must use
 <a
@@ -2119,7 +2079,6 @@ to retrieve the contents of this message.<br /><br />
         </td>
     </tr>
 </table>
-
 <br /><strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SendLobbyChatMsg"
@@ -2185,7 +2144,6 @@ lobby.<br /><br />
         </td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="LobbyCreated_t"></a>LobbyCreated_t</h2>
 Result of our request to create a Lobby. At this point, the lobby has been joined and is ready for
 use, a
@@ -2271,7 +2229,6 @@ callback will also be received (since the local user is joining their own lobby)
         <td>The Steam ID of the lobby that was created, 0 if failed.</td>
     </tr>
 </table>
-
 <br /><strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
@@ -2329,7 +2286,6 @@ to access the lobby metadata.<br /><br />
         </td>
     </tr>
 </table>
-
 <br /><strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
@@ -2411,7 +2367,6 @@ receiving this.<br /><br />
         </td>
     </tr>
 </table>
-
 <br /><strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
@@ -2475,7 +2430,6 @@ the lobby may stay open throughout the session if desired.<br /><br />
         <td>The connection port of the game server, in host order, if it's set.</td>
     </tr>
 </table>
-
 <br /><strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyGameServer"
@@ -2529,7 +2483,6 @@ if they're already in-game.<br /><br />
         <td>Game ID of the lobby we're invited to.</td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="LobbyKicked_t"></a>LobbyKicked_t</h2>
 Currently unused! If you want to implement kicking at this time then do it with a special packet
 sent with
@@ -2575,7 +2528,6 @@ sent with
         <td></td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="LobbyMatchList_t"></a>LobbyMatchList_t</h2>
 Result when requesting the lobby list. You should iterate over the returned lobbies with
 <a
@@ -2600,7 +2552,6 @@ Result when requesting the lobby list. You should iterate over the returned lobb
         <td>Number of lobbies that matched search criteria and we have Steam IDs for.</td>
     </tr>
 </table>
-
 <br /><strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
@@ -2630,7 +2581,6 @@ Deprecated - PS3 only.<br /><br />
         <td></td>
     </tr>
 </table>
-
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamMatchmaking.
 <h2 class="bb_subsection"><a name="EChatMemberStateChange"></a>EChatMemberStateChange</h2>
@@ -2672,7 +2622,6 @@ Flags describing how a users lobby state has changed. This is provided from
         <td>The user has been kicked and banned.</td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="ELobbyComparison"></a>ELobbyComparison</h2>
 Lobby search filter options. These can be set with
 <a
@@ -2723,7 +2672,6 @@ and
         <td>The lobbies value must not match this this.</td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="ELobbyDistanceFilter"></a>ELobbyDistanceFilter</h2>
 Lobby search distance filters when requesting the lobby list. Lobby results are sorted from closest
 to farthest. This can be set with
@@ -2765,7 +2713,6 @@ to farthest. This can be set with
         </td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="ELobbyType"></a>ELobbyType</h2>
 Specifies the lobby type, this is set from
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
@@ -2806,7 +2753,6 @@ and
         </td>
     </tr>
 </table>
-
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
 These are typedefs which are defined for use with ISteamMatchmaking.<br /><br />
 <table>
@@ -2826,7 +2772,6 @@ These are typedefs which are defined for use with ISteamMatchmaking.<br /><br />
         <td>Handle that you will receive when querying details on an individual server.</td>
     </tr>
 </table>
-
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamMatchmaking.<br /><br />
 <table>

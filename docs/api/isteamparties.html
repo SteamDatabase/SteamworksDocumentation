@@ -67,7 +67,6 @@ header file <code class="bb_code bb_code_inline nohighlight">steam/ISteamMatchma
         <td>Address of variable to receive the response number.</td>
     </tr>
 </table>
-
 <br />Get the number of locations in which you are able to post a party beacon.<br /><br />Use this
 to size your result list for a call to
 <a
@@ -108,7 +107,6 @@ to size your result list for a call to
         </td>
     </tr>
 </table>
-
 <br />Get the list of locations in which you can post a party beacon.<br /><br /><strong
     >See Also:</strong
 >
@@ -177,7 +175,6 @@ to size your result list for a call to
         </td>
     </tr>
 </table>
-
 <br />Create a beacon. You can only create one beacon at a time. Steam will display the beacon in
 the specified location, and let up to unOpenSlots users "follow" the beacon to your party.
 <br /><br />If users join your party through other matchmaking, adjust the number of remaining open
@@ -228,7 +225,6 @@ if the process already has an active beacon, or if the location information is i
         <td>SteamID of the user joining your party.</td>
     </tr>
 </table>
-
 <br />When a user follows your beacon, Steam will reserve one of the open party slots for them, and
 send your game a
 <a
@@ -269,7 +265,6 @@ Steam that the user has joined successfully.
         <td>The new number of open slots in your party.</td>
     </tr>
 </table>
-
 <br />If a user joins your party through other matchmaking (perhaps a direct Steam friend, or your
 own matchmaking system), your game should reduce the number of open slots that Steam is managing
 through the party beacon. For example, if you created a beacon with five slots, and Steam sent you
@@ -316,7 +311,6 @@ if the beacon ID is invalid.
         <td>Beacon ID to be destroyed.</td>
     </tr>
 </table>
-
 <br />Call this method to destroy the Steam party beacon. This will immediately cause Steam to stop
 showing the beacon in the target location. Note that any users currently in-flight may still arrive
 at your party expecting to join.<br /><br />Your game should call this method when either the party
@@ -347,7 +341,6 @@ uint32
         <td>Index of Beacon.</td>
     </tr>
 </table>
-
 <br />Use with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamParties#GetNumActiveBeacons"
@@ -427,7 +420,6 @@ to get information about the beacons suitable for display to the user. <br /><br
         <td>Size of the above buffer.</td>
     </tr>
 </table>
-
 <br />Get details about the specified beacon. You can use the
 <a href="https://partner.steamgames.com/doc/api/ISteamFriends" class="bb_apilink">ISteamFriends</a>
 API to get further details about <strong>pSteamIDBeaconOwner</strong>, and
@@ -459,7 +451,6 @@ created the beacon.<br /><br /><strong>Returns:</strong> bool
         <td>Beacon ID for the party you wish to join.</td>
     </tr>
 </table>
-
 <br />When the user indicates they wish to join the party advertised by a given beacon, call this
 method. On success, Steam will reserve a slot for this user in the party and return the necessary
 "join game" string to use to complete the connection.<br /><br /><strong>Returns:</strong>
@@ -517,7 +508,6 @@ if the beacon ID is invalid.
         <td>Size of buffer pointed to by pchDataStringOut.</td>
     </tr>
 </table>
-
 <br />Query general metadata for the given beacon location. For instance the Name, or the URL for an
 icon if the location type supports icons (for example, the icon for a Steam Chat Room Group).<br /><br /><strong
     >Returns:</strong
@@ -579,7 +569,6 @@ This callback is used as a call response for
         </td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="CreateBeaconCallback_t"></a>CreateBeaconCallback_t</h2>
 This callback is used as a call response for
 <a href="https://partner.steamgames.com/doc/api/ISteamParties#CreateBeacon" class="bb_apilink"
@@ -618,7 +607,6 @@ callbacks for users following the beacon. <br /><br />
         <td>Beacon ID of the newly created beacon.</td>
     </tr>
 </table>
-
 <h2 class="bb_subsection">
     <a name="ReservationNotificationCallback_t"></a>ReservationNotificationCallback_t
 </h2>
@@ -657,7 +645,6 @@ to let Steam know.<br /><br />
         <td>SteamID of the user following your beacon.</td>
     </tr>
 </table>
-
 <h2 class="bb_subsection">
     <a name="ChangeNumOpenSlotsCallback_t"></a>ChangeNumOpenSlotsCallback_t
 </h2>
@@ -681,7 +668,6 @@ Call result for
         <td>The result of the attempt to change the number of open slots.</td>
     </tr>
 </table>
-
 <h2 class="bb_subsection">
     <a name="AvailableBeaconLocationsUpdated_t"></a>AvailableBeaconLocationsUpdated_t
 </h2>
@@ -721,7 +707,6 @@ These are structs which functions in ISteamParties may return and/or interact wi
         <td>Opaque identifier of this location.</td>
     </tr>
 </table>
-
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamParties.
 <h2 class="bb_subsection">
@@ -750,7 +735,6 @@ Types of locations where beacons can be posted.<br /><br />
         <td>Value is always one greater than the largest valid location type value.</td>
     </tr>
 </table>
-
 <h2 class="bb_subsection">
     <a name="ESteamPartyBeaconLocationData"></a>ESteamPartyBeaconLocationData
 </h2>
@@ -794,7 +778,6 @@ Types of extended metadata for beacon locations.<br /><br />
         </td>
     </tr>
 </table>
-
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
 These are typedefs which are defined for use with ISteamParties.<br /><br />
 <table>
@@ -813,5 +796,4 @@ These are typedefs which are defined for use with ISteamParties.<br /><br />
         <td>A handle to a Steam Party Beacon.</td>
     </tr>
 </table>
-
 <br />

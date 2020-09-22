@@ -20,7 +20,6 @@ through the global accessor function
         <td>Set whether the server can set cookies in this container.</td>
     </tr>
 </table>
-
 <br />Creates a cookie container to store cookies during the lifetime of the process.<br /><br />This
 API is just for during process lifetime, after steam restarts no cookies are persisted and you have
 no way to access the cookie container across repeat executions of your process.<br /><br />If
@@ -87,7 +86,6 @@ forget to free the container when you're done with it to prevent leaking memory 
         </td>
     </tr>
 </table>
-
 <br />Initializes a new HTTP request.<br /><br />Requires the method such as GET or POST and the
 absolute URL for the request. Both http and https are supported, so this string must start with "<a
     href="http://%22"
@@ -95,8 +93,7 @@ absolute URL for the request. Both http and https are supported, so this string 
     rel="noreferrer"
     >http://"</a
 >
-or "<a href="https://%22" target="_blank" rel="noreferrer">https://"</a>
-and should look like
+or "<a href="https://%22" target="_blank" rel="noreferrer">https://"</a> and should look like
 <a href="http://%22http://store.steampowered.com/app/10/%22" target="_blank" rel="noreferrer"
     >"http://store.steampowered.com/app/10/"</a
 >
@@ -147,7 +144,6 @@ if <code class="bb_code bb_code_inline nohighlight">pchAbsoluteURL</code> is
         <td>The request handle to defer.</td>
     </tr>
 </table>
-
 <br />Defers a request which has already been sent by moving it at the back of the queue.<br /><br /><strong
     >Returns:</strong
 >
@@ -191,7 +187,6 @@ invalid handle, or if the request has not been sent yet.<br /><br /><strong>See 
         <td>Returns the download percentage if the call was successful.</td>
     </tr>
 </table>
-
 <br />Gets progress on downloading the body for the request.<br /><br />This will be zero unless a
 response header has already been received which included a content-length field. For responses that
 contain no content-length it will report zero for the duration of the request as the size is unknown
@@ -226,7 +221,6 @@ until the connection closes.<br /><br /><strong>Returns:</strong> bool<br />Retu
         <td>Returns whether the request was timed out or not.</td>
     </tr>
 </table>
-
 <br />Check if the reason the request failed was because we timed it out (rather than some harder
 failure).<br /><br />You'll want to call this within the context of
 <a
@@ -287,7 +281,6 @@ if <code class="bb_code bb_code_inline nohighlight">m_bRequestSuccessful</code> 
         </td>
     </tr>
 </table>
-
 <br />Gets the body data from an HTTP response.<br /><br />This must be called after the HTTP
 request has completed and returned the HTTP response via the
 <a
@@ -379,7 +372,6 @@ conditions:<br />
         <td>Returns the size of the response body.</td>
     </tr>
 </table>
-
 <br />Gets the size of the body data from an HTTP response.<br /><br />This must be called after the
 HTTP request has completed and returned the HTTP response via the
 <a
@@ -457,7 +449,6 @@ with the size.<br />Otherwise, returns <strong>false</strong> under the followin
         <td>Returns the size of the response header, if it is present in the response.</td>
     </tr>
 </table>
-
 <br />Checks if a header is present in an HTTP response and returns its size.<br /><br />This must
 be called after the HTTP request has completed and returned the HTTP response via the
 <a
@@ -548,7 +539,6 @@ the size of the header value.<br />Otherwise, returns <strong>false</strong> and
         </td>
     </tr>
 </table>
-
 <br />Gets a header value from an HTTP response.<br /><br />This must be called after the HTTP
 request has completed and returned the HTTP response via the
 <a
@@ -660,7 +650,6 @@ conditions:<br />
         </td>
     </tr>
 </table>
-
 <br />Gets the body data from a streaming HTTP response.<br /><br />This must be called after data
 is received from a streaming HTTP request via the
 <a
@@ -743,7 +732,6 @@ conditions:<br />
         <td>The request handle to prioritize.</td>
     </tr>
 </table>
-
 <br />Prioritizes a request which has already been sent by moving it at the front of the queue.<br /><br /><strong
     >Returns:</strong
 >
@@ -782,7 +770,6 @@ invalid handle, or if the request has not been sent yet.<br /><br /><strong>See 
         <td>The cookie container handle to release.</td>
     </tr>
 </table>
-
 <br />Releases a cookie container, freeing the memory allocated within Steam.<br /><br />You MUST
 call this when you are done using each HTTPCookieContainerHandle that you obtained via
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#CreateCookieContainer" class="bb_apilink"
@@ -811,7 +798,6 @@ been freed; otherwise, <strong>false</strong> if the handle was invalid.
         <td>The request handle to release.</td>
     </tr>
 </table>
-
 <br />Releases an HTTP request handle, freeing the memory allocated within Steam.<br /><br />You
 MUST call this when you are done using each HTTPRequestHandle that you obtained via
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#CreateHTTPRequest" class="bb_apilink"
@@ -853,7 +839,6 @@ was released successfully, <strong>false</strong> only if the handle is invalid.
         <td>Returns a call result handle to receive the response.</td>
     </tr>
 </table>
-
 <br />Sends an HTTP request.<br /><br />This call is asynchronous and provides a call result handle
 which you must use to track the call to its completion. If you have multiple requests in flight at
 the same time you can use
@@ -929,7 +914,6 @@ callback.<br />Returns <strong>true</strong> upon successfully setting the param
         <td>Returns a call result handle to receive the response.</td>
     </tr>
 </table>
-
 <br />Sends an HTTP request and streams the response back in chunks.<br /><br />This call is
 asynchronous and provides a call result handle which you must use to track the call to its
 completion. Typically you'll want to allocate a buffer associated with the request handle using the
@@ -1023,7 +1007,6 @@ callback.<br />Returns <strong>true</strong> upon successfully setting the param
         <td>The cookie to set.</td>
     </tr>
 </table>
-
 <br />Adds a cookie to the specified cookie container that will be used with future requests.<br /><br /><strong
     >Returns:</strong
 >
@@ -1063,7 +1046,6 @@ the cookie.
         <td>The length of the timeout period in milliseconds.</td>
     </tr>
 </table>
-
 <br />Set an absolute timeout in milliseconds for the HTTP request.<br /><br />This is the total
 time timeout which is different than the network activity timeout which is set with
 <a
@@ -1111,7 +1093,6 @@ which can bump everytime we get more data.<br /><br /><strong>Returns:</strong> 
         <td>The context value to set.</td>
     </tr>
 </table>
-
 <br />Set a context value for the request, which will be returned in the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestCompleted_t"
@@ -1164,7 +1145,6 @@ bool<br />Returns <strong>true</strong> upon successfully setting the context va
         <td>The cookie container handle to associate with the request handle.</td>
     </tr>
 </table>
-
 <br />Associates a cookie container to use for an HTTP request.<br /><br /><strong>Returns:</strong>
 bool<br />Returns <strong>true</strong> upon successfully setting the cookie container.<br />Returns
 <strong>false</strong> under the following conditions:<br />
@@ -1207,7 +1187,6 @@ bool<br />Returns <strong>true</strong> upon successfully setting the cookie con
         <td>Value to associate with the name field.</td>
     </tr>
 </table>
-
 <br />Set a GET or POST parameter value on the HTTP request.<br /><br />Must be called prior to
 sending the request.<br /><br /><strong>Returns:</strong> bool<br />Returns
 <strong>true</strong> upon successfully setting the parameter.<br />Returns
@@ -1296,7 +1275,6 @@ sending the request.<br /><br /><strong>Returns:</strong> bool<br />Returns
         <td>Value to associate with the header name field.</td>
     </tr>
 </table>
-
 <br />Set a request header value for the HTTP request.<br /><br />Must be called before sending the
 request.<br /><br />A full list of standard request fields are available here on
 <a
@@ -1356,7 +1334,6 @@ bool<br />Returns <strong>true</strong> upon successfully setting the header val
         <td>The length of the timeout period in seconds.</td>
     </tr>
 </table>
-
 <br />Set the timeout in seconds for the HTTP request.<br /><br />The default timeout is 60 seconds
 if you don't call this. This can get bumped everytime we get more data. Use
 <a
@@ -1423,7 +1400,6 @@ if you need a strict maximum timeout.<br /><br /><strong>Returns:</strong> bool<
         </td>
     </tr>
 </table>
-
 <br />Sets the body for an HTTP Post request.<br /><br />Will fail and return false on a GET
 request, and will fail if POST params have already been set for the request. Setting this raw body
 makes it the only contents for the post, the
@@ -1504,7 +1480,6 @@ conditions:<br />
         <td>Turn on verified certificate?</td>
     </tr>
 </table>
-
 <br />Sets that the HTTPS request should require verified SSL certificate via machines certificate
 trust store.<br /><br />This currently only works Windows and macOS.<br /><br /><strong
     >Returns:</strong
@@ -1538,7 +1513,6 @@ request handle is invalid.
         <td>The string to append to the end of the user agent.</td>
     </tr>
 </table>
-
 <br />Set additional user agent info for a request.<br /><br />This doesn't clobber the normal user
 agent, it just adds the extra info on the end. Sending <strong>NULL</strong> or an empty string
 resets the user agent info to the default value.<br /><br /><strong>Returns:</strong>
@@ -1666,7 +1640,6 @@ or
         </td>
     </tr>
 </table>
-
 <br /><strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequest" class="bb_apilink"
     >ISteam</a
@@ -1748,7 +1721,6 @@ Triggered when a chunk of data is received from a streaming HTTP request.<br /><
         </td>
     </tr>
 </table>
-
 <br /><strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequestAndStreamResponse"
@@ -1791,7 +1763,6 @@ Triggered when HTTP headers are received from a streaming HTTP request.<br /><br
         </td>
     </tr>
 </table>
-
 <br /><strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequestAndStreamResponse"
@@ -1859,7 +1830,6 @@ methods on the
         <td>The HTTP Method is set to PATCH.</td>
     </tr>
 </table>
-
 <h2 class="bb_subsection"><a name="EHTTPStatusCode"></a>EHTTPStatusCode</h2>
 HTTP response status codes that the server can send in response to a request.<br /><br />See the
 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status" target="_blank" rel="noreferrer"
@@ -2098,7 +2068,6 @@ or RFC2616 section 10.3 for detailed descriptions for each of these.<br /><br />
         <td></td>
     </tr>
 </table>
-
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
 These are typedefs which are defined for use with ISteamHTTP.<br /><br />
 <table>
@@ -2126,7 +2095,6 @@ These are typedefs which are defined for use with ISteamHTTP.<br /><br />
         <td>Handle to a HTTP Request handle</td>
     </tr>
 </table>
-
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamHTTP.<br /><br />
 <table>

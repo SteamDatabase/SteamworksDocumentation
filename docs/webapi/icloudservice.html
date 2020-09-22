@@ -51,7 +51,6 @@ Requires <code class="bb_code bb_code_inline nohighlight">read_cloud</code> OAut
         <td>Beginning file index to enumerate (default 0)</td>
     </tr>
 </table>
-
 <br />Enumerate the user's Steam Cloud files for your game. Begin with a "start_index" of zero, and
 iterate if necessary if the user has more than "count" files.<br /><br />The response has two
 fields:<br />
@@ -72,7 +71,6 @@ fields:<br />
         <td>The total number of files the user has in Steam Cloud for your app.</td>
     </tr>
 </table>
-
 <br />The files list contains this data:<br />
 <table>
     <tr>
@@ -134,7 +132,6 @@ fields:<br />
         <td>Hex string (40 digits) representing the SHA1 digest of the file.</td>
     </tr>
 </table>
-
 <h2 class="bb_section"><a name="DownloadFiles"></a>Downloading Files</h2>
 <br />To download a file, simple make a GET request to the URL returned by EnumerateUserFiles above.
 <h2 class="bb_section"><a name="UploadFile"></a>Uploading Files</h2>
@@ -189,7 +186,6 @@ file, then when that is complete, call CommitHTTPUpload.<br /><br />
         </td>
     </tr>
 </table>
-
 <br />Call this API to initiate uploading a new file (or new version of an existing file) to Steam
 Cloud for the user. New versions of existing files will overwrite the existing version.<br /><br />Note
 that for list parameters, such as "platforms_to_sync", the syntax is as follows:
@@ -237,7 +233,6 @@ that for list parameters, such as "platforms_to_sync", the syntax is as follows:
         <td>list of HTTP headers you must set on the subsequent PUT request</td>
     </tr>
 </table>
-
 <br />The "request_headers" list contains this data:<br />
 <table>
     <tr>
@@ -256,7 +251,6 @@ that for list parameters, such as "platforms_to_sync", the syntax is as follows:
         <td>the header value</td>
     </tr>
 </table>
-
 <br />To upload the file, make a PUT request to
 <a href="https://&lt;url_host&gt;&lt;url_path&gt;" target="_blank" rel="noreferrer"
     >https://&lt;url_host&gt;&lt;url_path&gt;</a
@@ -302,7 +296,6 @@ receive a 200 OK, 201 Created, or 204 No Content response, depending on the stor
         <td>Hex string (40 digits) representing the SHA1 digest of the file.</td>
     </tr>
 </table>
-
 <br />The response to this API currently has a single field, "file_committed", which will be true if
 Steam was able to fully commit the change. If false, then the upload has failed -- a new file was
 not recorded, and if it was an update to an existing file, the existing file still exists and will
@@ -336,7 +329,6 @@ Requires <code class="bb_code bb_code_inline nohighlight">write_cloud</code> OAu
         <td>filename of the file to delete</td>
     </tr>
 </table>
-
 <br />This API will delete the specified file from the user's Steam Cloud. Deleting files is
 permanent; no prior versions of the file are retained. There's no body data in the response from
 this API.<br /><br /><br /><br /><br />
