@@ -1,0 +1,185 @@
+<h1>GetAssetPrices/v0001</h1>
+This returns prices and categories for items that users are able to purchase. If
+any class filters are specified, results should be filtered where any of the
+items returned contain at least one of the specified key/value pairs. For
+example, if two filters
+<code class="bb_code bb_code_inline nohighlight">def_index/40</code> and
+<code class="bb_code bb_code_inline nohighlight">def_index/50</code> are
+specified, only results for items that have the def_index class property set to
+40 or 50 should be returned.<br /><br /><strong>Called by:</strong> Web
+Purchasing<br /><br /><strong>HTTP Method:</strong> GET
+<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      This is the "Asset Server Key" that you provided in your app's Steam
+      Economy Settings on the partner site.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>32bit App ID of the application associated with the assets.</td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the
+      language to return results in. Some examples include en_US, de_DE, zh_CN,
+      and ko_KR. Default: none
+    </td>
+  </tr>
+  <tr>
+    <td><strong>currency</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      An optional ISO 4217 currency code. If specified, only prices for this
+      currency need to be returned.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>class_count</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The number of class identifiers specified for filtering.</td>
+  </tr>
+  <tr>
+    <td><strong>class_name#</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      The name of the identifier to filter on. There will be one of these
+      parameters for for each number between 0 and class_count-1. (e.g.
+      class_name0, class_name1, class_name2)
+    </td>
+  </tr>
+  <tr>
+    <td><strong>class_value#</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      The value of the identifier to filter on. There will be one of these
+      parameters for for each number between 0 and class_count-1. (e.g.
+      class_value0, class_value1, class_value2)
+    </td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="2"></a>Returns</h2>
+The output from this method should be encoded in the JSON format.<br /><br /><strong
+  >Response:</strong
+><br />
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">result</code><br />
+    <ul class="bb_ul">
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">success</code> - True
+        if the method was successful. If the asset server is returning false, it
+        should set
+        <code class="bb_code bb_code_inline nohighlight">error</code> to a
+        string that explains why.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">error</code> - a string
+        describing why this call failed. This message will be recorded in the
+        error log, which is available under the Economy tab on the Steamworks
+        site.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">assets</code> - an
+        array of assets that can be purchased.<br />
+        <ul class="bb_ul">
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">name</code> - The
+            name of the asset. This is the name that will be passed into
+            <a
+              href="https://partner.steamgames.com/doc/features/inventory/economy/StartWebAssetTransaction"
+              class="bb_doclink"
+              >StartWebAssetTransaction/v0001</a
+            >.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">prices</code> -
+            Contains a child element for each of the supported currencies unless
+            a currency filter was specified, in which case a price for only that
+            currency should be included. Each child key should be the ISO 4217
+            currency code and the value should be reported as an unsigned
+            integer. See
+            <a
+              href="https://partner.steamgames.com/doc/store/pricing/currencies"
+              class="bb_doclink"
+              >Supported Currencies</a
+            >
+            for more information on how to report this value.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight"
+              >original_prices</code
+            >
+            - If this item is on sale, this contains the non-sale prices for the
+            item in the same fashion as
+            <code class="bb_code bb_code_inline nohighlight">prices</code>. This
+            should be omitted if the item is not on sale.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">class</code> - An
+            array of game-defined asset class identifiers. See
+            <a
+              href="https://partner.steamgames.com/doc/features/inventory/economy/GetContextContents"
+              class="bb_doclink"
+              >GetContextContents/v0001</a
+            >
+            for details on the format these class identifiers should take.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">tags</code> - An
+            array of tags or categories that apply to the item. See the example
+            output for more information. The
+            <code class="bb_code bb_code_inline nohighlight">tags</code> array
+            underneath
+            <code class="bb_code bb_code_inline nohighlight">result</code>
+            contains the localized display name for each tag.<br />
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">tags</code> - Contains
+        a child element for each of the supported tags, regardless of any
+        specified filters. The values should be localized text if the language
+        parameter was specified or a localization token or other identifier if
+        no language was specified.<br />
+      </li>
+    </ul>
+  </li>
+</ul>
+<h2 class="bb_section"><a name="3"></a>Example Output</h2>
+The output below is an example for a request with parameters:<br /><code
+  class="bb_code bb_code_inline nohighlight"
+  >language=english&amp;class_count=3&amp;class_name0=def_index&amp;class_value0=5021&amp;class_name1=def_index&amp;class_value1=58&amp;class_name2=def_index&amp;class_value2=647</code
+><br />
+<div class="bb_code json">
+  { "result": { "success": true "assets": [ { "name": "5021", "prices": { "USD":
+  249, "GBP": 199, "EUR": 199, "RUB": 7400 }, "class": [ { "name": "def_index",
+  "value": "5021" } ] , "tags": [ "Tools" ] }, { "name": "58", "prices": {
+  "USD": 74, "GBP": 44, "EUR": 55, "RUB": 2250 }, "original_prices": { "USD":
+  99, "GBP": 59, "EUR": 74, "RUB": 3000 }, "class": [ { "name": "def_index",
+  "value": "58" } ] , "tags": [ "Weapons" ] }, { "name": "647", "prices": {
+  "USD": 749, "GBP": 499, "EUR": 549, "RUB": 22400 }, "class": [ { "name":
+  "def_index", "value": "647" } ] , "tags": [ "New", "Misc" ] } ] , "tags": {
+  "Headgear": "Hats", "Misc": "Misc", "Weapons": "Weapons", "Tools": "Tools",
+  "Collections": "Collections", "Bundles": "Bundles", "Maps": "Maps", "New":
+  "New Releases" }, } }
+</div>

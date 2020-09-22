@@ -1,0 +1,379 @@
+<h1>ISteamEconomy Interface</h1>
+A secondary interface to interact with the
+<a
+  href="https://partner.steamgames.com/doc/features/inventory/economy"
+  class="bb_doclink"
+  >Steam Economy</a
+>.<br />See also:
+<a
+  href="https://partner.steamgames.com/doc/webapi/IGameInventory"
+  class="bb_apilink"
+  >IGameInventory</a
+>.<br /><br />For more info on how to use the Steamworks Web API please see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section"><a name="CanTrade"></a>CanTrade</h2>
+<div class="bb_code http">
+  GET https://partner.steam-api.com/ISteamEconomy/CanTrade/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>That the key is associated with. Must be a steam economy app.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user attempting to initiate a trade</td>
+  </tr>
+  <tr>
+    <td><strong>targetid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user that is the target of the trade invitation</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section">
+  <a name="FinalizeAssetTransaction"></a>FinalizeAssetTransaction
+</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/ISteamEconomy/FinalizeAssetTransaction/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The app ID the user is buying assets for</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of the user making a purchase</td>
+  </tr>
+  <tr>
+    <td><strong>txnid</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>The transaction ID</td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>The local language for the user</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="GetAssetClassInfo"></a>GetAssetClassInfo</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/ISteamEconomy/GetAssetClassInfo/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Must be a steam economy app.</td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>The user's local language</td>
+  </tr>
+  <tr>
+    <td><strong>class_count</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number of classes requested. Must be at least one.</td>
+  </tr>
+  <tr>
+    <td><strong>classid0</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>Class ID of the nth class.</td>
+  </tr>
+  <tr>
+    <td><strong>instanceid0</strong></td>
+    <td>uint64</td>
+    <td></td>
+    <td>Instance ID of the nth class.</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="GetAssetPrices"></a>GetAssetPrices</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/ISteamEconomy/GetAssetPrices/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Must be a steam economy app.</td>
+  </tr>
+  <tr>
+    <td><strong>currency</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>The currency to filter for</td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>The user's local language</td>
+  </tr>
+</table>
+<br />Returns prices and categories for items that users are able to purchase.
+<h2 class="bb_section">
+  <a name="GetExportedAssetsForUser"></a>GetExportedAssetsForUser
+</h2>
+<div class="bb_code http">
+  GET https://partner.steam-api.com/ISteamEconomy/GetExportedAssetsForUser/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The app to get exported items from.</td>
+  </tr>
+  <tr>
+    <td><strong>contextid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The context in the app to get exported items from.</td>
+  </tr>
+</table>
+<br />Retrieves the list of assets from another game to import.<br /><br /><strong
+  >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section"><a name="GetMarketPrices"></a>GetMarketPrices</h2>
+<div class="bb_code http">
+  GET https://partner.steam-api.com/ISteamEconomy/GetMarketPrices/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Must be a steam economy app.</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section">
+  <a name="StartAssetTransaction"></a>StartAssetTransaction
+</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/ISteamEconomy/StartAssetTransaction/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The app ID the user is buying assets for</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user making a purchase</td>
+  </tr>
+  <tr>
+    <td><strong>assetid0</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      The ID of the first asset the user is buying - there must be at least one
+    </td>
+  </tr>
+  <tr>
+    <td><strong>assetquantity0</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The quantity of assetid0's the the user is buying</td>
+  </tr>
+  <tr>
+    <td><strong>currency</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>The local currency for the user</td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>The local language for the user</td>
+  </tr>
+  <tr>
+    <td><strong>ipaddress</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>The user's IP address</td>
+  </tr>
+  <tr>
+    <td><strong>referrer</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>The referring URL</td>
+  </tr>
+  <tr>
+    <td><strong>clientauth</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>
+      If true (default is false), the authorization will appear in the user's
+      steam client overlay, rather than as a web page - useful for stores that
+      are embedded in products.
+    </td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="StartTrade"></a>StartTrade</h2>
+<div class="bb_code http">
+  GET https://partner.steam-api.com/ISteamEconomy/StartTrade/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>That the key is associated with. Must be a steam economy app.</td>
+  </tr>
+  <tr>
+    <td><strong>partya</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of first user in the trade</td>
+  </tr>
+  <tr>
+    <td><strong>partyb</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of second user in the trade</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!

@@ -1,0 +1,363 @@
+<h1>ISteamPublishedItemSearch Interface</h1>
+Allows partners to globally search the content of their
+<a
+  href="https://partner.steamgames.com/doc/features/workshop"
+  class="bb_doclink"
+  >Steam Workshop</a
+>.<br /><br />See the primary Steam Workshop interface
+<a
+  href="https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage"
+  class="bb_apilink"
+  >ISteamRemoteStorage</a
+>
+for more.<br /><br />For more info on how to use the Steamworks Web API please
+see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section">
+  <a name="RankedByPublicationOrder"></a>RankedByPublicationOrder
+</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/ISteamPublishedItemSearch/RankedByPublicationOrder/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appID of product</td>
+  </tr>
+  <tr>
+    <td><strong>startidx</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Starting index in the result set (0 based)</td>
+  </tr>
+  <tr>
+    <td><strong>count</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number Requested</td>
+  </tr>
+  <tr>
+    <td><strong>tagcount</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number of Tags Specified</td>
+  </tr>
+  <tr>
+    <td><strong>usertagcount</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number of User specific tags requested</td>
+  </tr>
+  <tr>
+    <td><strong>hasappadminaccess</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>
+      Whether the user making the request is an admin for the app and can see
+      private files
+    </td>
+  </tr>
+  <tr>
+    <td><strong>fileType</strong></td>
+    <td>uint32</td>
+    <td></td>
+    <td>
+      EPublishedFileInfoMatchingFileType, defaults to
+      k_PFI_MatchingFileType_Items
+    </td>
+  </tr>
+  <tr>
+    <td><strong>tag[0]</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>Tag to filter result set</td>
+  </tr>
+  <tr>
+    <td><strong>usertag[0]</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>A user specific tag</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="RankedByTrend"></a>RankedByTrend</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/ISteamPublishedItemSearch/RankedByTrend/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appID of product</td>
+  </tr>
+  <tr>
+    <td><strong>startidx</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Starting index in the result set (0 based)</td>
+  </tr>
+  <tr>
+    <td><strong>count</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number Requested</td>
+  </tr>
+  <tr>
+    <td><strong>tagcount</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number of Tags Specified</td>
+  </tr>
+  <tr>
+    <td><strong>usertagcount</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number of User specific tags requested</td>
+  </tr>
+  <tr>
+    <td><strong>hasappadminaccess</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>
+      Whether the user making the request is an admin for the app and can see
+      private files
+    </td>
+  </tr>
+  <tr>
+    <td><strong>fileType</strong></td>
+    <td>uint32</td>
+    <td></td>
+    <td>
+      EPublishedFileInfoMatchingFileType, defaults to
+      k_PFI_MatchingFileType_Items
+    </td>
+  </tr>
+  <tr>
+    <td><strong>days</strong></td>
+    <td>uint32</td>
+    <td></td>
+    <td>[1,7] number of days for the trend period, including today</td>
+  </tr>
+  <tr>
+    <td><strong>tag[0]</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>Tag to filter result set</td>
+  </tr>
+  <tr>
+    <td><strong>usertag[0]</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>A user specific tag</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="RankedByVote"></a>RankedByVote</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/ISteamPublishedItemSearch/RankedByVote/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appID of product</td>
+  </tr>
+  <tr>
+    <td><strong>startidx</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Starting index in the result set (0 based)</td>
+  </tr>
+  <tr>
+    <td><strong>count</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number Requested</td>
+  </tr>
+  <tr>
+    <td><strong>tagcount</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number of Tags Specified</td>
+  </tr>
+  <tr>
+    <td><strong>usertagcount</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number of User specific tags requested</td>
+  </tr>
+  <tr>
+    <td><strong>hasappadminaccess</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>
+      Whether the user making the request is an admin for the app and can see
+      private files
+    </td>
+  </tr>
+  <tr>
+    <td><strong>fileType</strong></td>
+    <td>uint32</td>
+    <td></td>
+    <td>
+      EPublishedFileInfoMatchingFileType, defaults to
+      k_PFI_MatchingFileType_Items
+    </td>
+  </tr>
+  <tr>
+    <td><strong>tag[0]</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>Tag to filter result set</td>
+  </tr>
+  <tr>
+    <td><strong>usertag[0]</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>A user specific tag</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="ResultSetSummary"></a>ResultSetSummary</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/ISteamPublishedItemSearch/ResultSetSummary/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>appID relevant to all subsequent tags</td>
+  </tr>
+  <tr>
+    <td><strong>tagcount</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number of Tags Specified</td>
+  </tr>
+  <tr>
+    <td><strong>usertagcount</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Number of User specific tags requested</td>
+  </tr>
+  <tr>
+    <td><strong>hasappadminaccess</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>
+      Whether the user making the request is an admin for the app and can see
+      private files
+    </td>
+  </tr>
+  <tr>
+    <td><strong>fileType</strong></td>
+    <td>uint32</td>
+    <td></td>
+    <td>
+      EPublishedFileInfoMatchingFileType, defaults to
+      k_PFI_MatchingFileType_Items
+    </td>
+  </tr>
+  <tr>
+    <td><strong>tag[0]</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>Tag to filter result set</td>
+  </tr>
+  <tr>
+    <td><strong>usertag[0]</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>A user specific tag</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!

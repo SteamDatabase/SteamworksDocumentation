@@ -1,0 +1,209 @@
+<h1>IWorkshopService Interface</h1>
+Additional
+<a
+  href="https://partner.steamgames.com/doc/features/workshop"
+  class="bb_doclink"
+  >Steam Workshop</a
+>
+service methods for publishers. See
+<a
+  href="https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage"
+  class="bb_apilink"
+  >ISteamRemoteStorage</a
+>
+to interact with Steam Workshop items directly.<br /><br /><strong
+  >NOTE:</strong
+>
+This is a Service interface, methods in this interface should be called with the
+<code class="bb_code bb_code_inline nohighlight">input_json</code>
+parameter.<br /><br />For more info on how to use the Steamworks Web API please
+see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section">
+  <a name="SetItemPaymentRules"></a>SetItemPaymentRules
+</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/IWorkshopService/SetItemPaymentRules/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The App ID that the item belongs to.</td>
+  </tr>
+  <tr>
+    <td><strong>gameitemid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>associated_workshop_files</strong></td>
+    <td>{message}</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>partner_accounts</strong></td>
+    <td>{message}</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>validate_only</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>Only validates the rules and does not persist them.</td>
+  </tr>
+  <tr>
+    <td><strong>make_workshop_files_subscribable</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>Allow users to subscribe to the workshop items?</td>
+  </tr>
+</table>
+<br />Sets the payment rules for a specific item.<br /><br /><strong
+  >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section">
+  <a name="GetFinalizedContributors"></a>GetFinalizedContributors
+</h2>
+<div class="bb_code http">
+  GET
+  https://partner.steam-api.com/IWorkshopService/GetFinalizedContributors/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The App ID that the item belongs to.</td>
+  </tr>
+  <tr>
+    <td><strong>gameitemid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+</table>
+<br />Get a list of contributors for a specific app/workshop item
+combination.<br /><br /><strong>NOTE:</strong> This call requires a publisher
+API key to use this method. As such this API <strong>MUST</strong> be called
+from a secure server, and can never be used directly by clients!
+<h2 class="bb_section">
+  <a name="GetItemDailyRevenue"></a>GetItemDailyRevenue
+</h2>
+<div class="bb_code http">
+  GET https://partner.steam-api.com/IWorkshopService/GetItemDailyRevenue/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The App ID that the item belongs to.</td>
+  </tr>
+  <tr>
+    <td><strong>item_id</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The Workshop item ID to get the revenue of.</td>
+  </tr>
+  <tr>
+    <td><strong>date_start</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>date_end</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+</table>
+<br />Get item revenue for a specific app/item definition for a date range.<br /><br /><strong
+  >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section">
+  <a name="PopulateItemDescriptions"></a>PopulateItemDescriptions
+</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/IWorkshopService/PopulateItemDescriptions/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>languages</strong></td>
+    <td>{message}</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+</table>
+<br />Populate block of item descriptions.<br /><br /><strong>NOTE:</strong>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!

@@ -1,0 +1,105 @@
+<h1>Steam Voice</h1>
+The Steam Voice API is a set of functions that allow you record audio from the
+user's microphone. This can be used to implement voice chat or a voice command
+system.
+<h2 class="bb_section"><a name="1"></a>Voice Chat Integration</h2>
+Voice chat in your game can be implemented using the following steps:<br /><br />
+<ul class="bb_ul">
+  <li>
+    <strong>Recording</strong><br />
+    First call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUser#StartVoiceRecording"
+      class="bb_apilink"
+      >ISteamUser::StartVoiceRecording</a
+    >
+    to begin recording the users microphone, this could be called whenever the
+    user is pressing a push-to-talk hotkey or at the start of the gameplay
+    session if the microphone should always be recording. Depending on your game
+    either may be preferable, but giving players the option for both always-on,
+    and push-to-talk is ideal. It's rarely a good idea to default to always-on
+    though, and if your game supports more than 4 players then always-on is
+    never recommended. Then when the player releases their push-to-talk hotkey,
+    or the gameplay session ends you should call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUser#StopVoiceRecording"
+      class="bb_apilink"
+      >ISteamUser::StopVoiceRecording</a
+    >
+    to stop recording.<br /><br />
+    If the user is using push-to-talk voice chat, you can call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#SetInGameVoiceSpeaking"
+      class="bb_apilink"
+      >ISteamFriends::SetInGameVoiceSpeaking</a
+    >
+    when you start and stop recording to mute any voice chat the user may be
+    doing through the Steam friends UI. Ideally you would give players the
+    option to enable/disable this functionality.<br /><br />
+    After you start recording you should call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUser#GetAvailableVoice"
+      class="bb_apilink"
+      >ISteamUser::GetAvailableVoice</a
+    >
+    each frame to check if there's any compressed voice data available. If voice
+    data is available, then you need to use
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoice"
+      class="bb_apilink"
+      >ISteamUser::GetVoice</a
+    >
+    to get the latest audio data from the microphone.<br />
+  </li>
+  <li>
+    <strong>Sending</strong><br />
+    Once you have the voice data, you'll likely want to send it to the other
+    players. The Steam Voice API does not provide the means of doing so directly
+    but, this can be done with any networking library of your choice. The
+    <a
+      href="https://partner.steamgames.com/doc/features/multiplayer/matchmaking"
+      class="bb_doclink"
+      >Steam peer-to-peer networking</a
+    >
+    APIs are a great option for this.<br />
+  </li>
+  <li>
+    <strong>Receiving</strong><br />
+    When the target users receive the voice data, they call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUser#DecompressVoice"
+      class="bb_apilink"
+      >ISteamUser::DecompressVoice</a
+    >
+    to turn the compressed data back into audio.<br />
+    Optionally you may want to use
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoiceOptimalSampleRate"
+      class="bb_apilink"
+      >ISteamUser::GetVoiceOptimalSampleRate</a
+    >
+    to get the sample rate of the Steam Voice decompressor before calling
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUser#DecompressVoice"
+      class="bb_apilink"
+      >ISteamUser::DecompressVoice</a
+    >, this will result in lower CPU usage, but may sound worse.
+  </li>
+</ul>
+<h2 class="bb_section"><a name="2"></a>Example</h2>
+The
+<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
+  >Steamworks API Example Application (SpaceWar)</a
+>
+has a high quality implementation of the Steam Voice API. You can find the
+relevant pieces in the
+<code class="bb_code bb_code_inline nohighlight">voicechat.cpp/h</code> files.
+<h2 class="bb_section"><a name="3"></a>Need help?</h2>
+Visit the
+<a
+  href="http://steamcommunity.com/groups/steamworks/discussions"
+  target="_blank"
+  rel="noreferrer"
+  >Steamworks Developer Discussions</a
+>
+to search for questions others have asked, and ask questions of your own.

@@ -1,0 +1,79 @@
+<h1>ISteamUserAuth Interface</h1>
+Used to access information about users.<br /><br />For more info on how to use
+the Steamworks Web API please see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section"><a name="AuthenticateUser"></a>AuthenticateUser</h2>
+<div class="bb_code http">
+  POST https://api.steampowered.com/ISteamUserAuth/AuthenticateUser/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>Should be the users steamid, unencrypted.</td>
+  </tr>
+  <tr>
+    <td><strong>sessionkey</strong></td>
+    <td>rawbinary</td>
+    <td>✔</td>
+    <td>
+      Should be a 32 byte random blob of data, which is then encrypted with RSA
+      using the Steam system's public key. Randomness is important here for
+      security.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>encrypted_loginkey</strong></td>
+    <td>rawbinary</td>
+    <td>✔</td>
+    <td>
+      Should be the users hashed loginkey, AES encrypted with the sessionkey.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_section">
+  <a name="AuthenticateUserTicket"></a>AuthenticateUserTicket
+</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appid of game</td>
+  </tr>
+  <tr>
+    <td><strong>ticket</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      Convert the ticket from GetAuthSessionTicket from binary to hex into an
+      appropriately sized byte character array and pass the result in as this
+      ticket parameter.
+    </td>
+  </tr>
+</table>
+<br />

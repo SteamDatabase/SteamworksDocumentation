@@ -1,0 +1,175 @@
+<h1>VAC Integration</h1>
+<h2 class="bb_section"><a name="1"></a>Goals and methodology</h2>
+The goal of VAC is to strongly discourage users from using cheat software by
+both having strong penalties if a user is caught cheating, and by making it hard
+for the cheating community to know if a cheat is actively being detected. VAC is
+a component of Steamworks and the Steam client, and works by scanning the users
+system for cheats while your game is running. It works a lot like a virus
+scanner, and has a database of known cheats to detect. Once a cheat has been
+detected, the user's account is marked for a delayed ban. A ban doesn't take
+effect immediately and instead is enforced a few days after the cheats are
+detected. Once a user ban is in effect, the user will no longer be able to
+connect to multi-player game servers that are marked as secure. Bans are tied to
+a user's account, so the only way for the user get un-banned is by creating a
+new Steam account, and buying another copy of the game.<br /><br />When a user
+is VAC Banned, the following happens:<br />
+<ul class="bb_ul">
+  <li>
+    The account cannot join secure servers for the AppIDs they are banned<br />
+  </li>
+  <li>The ban is publicly displayed on their Steam Community profile<br /></li>
+  <li>The account can no longer share VAC enabled games<br /></li>
+  <li>
+    If the user is borrowing the game via
+    <a
+      href="https://support.steampowered.com/kb_article.php?ref=3784-QLBM-5731"
+      target="_blank"
+      rel="noreferrer"
+      >Family Library Sharing</a
+    >, the ban is also applied to the actual owner of the game
+  </li>
+</ul>
+More details can be found in our customer facing FAQs:
+<a
+  href="https://support.steampowered.com/kb_article.php?ref=7849-RADZ-6869"
+  target="_blank"
+  rel="noreferrer"
+  >Valve Anti-Cheat System (VAC)</a
+>
+and
+<a
+  href="https://support.steampowered.com/kb_article.php?ref=4044-QDHJ-5691"
+  target="_blank"
+  rel="noreferrer"
+  >I've been VAC banned</a
+>.
+<h2 class="bb_section"><a name="2"></a>Requirements</h2>
+<strong>Multi-player</strong><br />VAC depends on the game server to exclude VAC
+banned users from games. Thus it only works for multi-player games and does
+nothing for single player games.<br /><br /><strong
+  >VAC requires the Steamworks authentication APIs</strong
+><br />Authentication must be enforced in the game client and server via the
+<a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
+  >Steam Authentication APIs</a
+>.<br /><br /><strong>An active developer looking for cheats</strong><br />VAC
+only attempts to detect cheats reported by the developer. Valve does not
+actively seek out cheats either automatically or through manual digging. Please
+report cheats by using the
+<a
+  href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#ReportCheatData"
+  class="bb_apilink"
+  >ICheatReportingService/ReportCheatData</a
+>
+Web API and with a notification to
+<a href="mailto:valveanticheat@valvesoftware.com"
+  >valveanticheat@valvesoftware.com</a
+>
+so that we can characterize them and include them in our cheat detection.<br /><br /><strong
+  >Opting into VAC</strong
+><br />This can be done from the
+<a
+  href="https://partner.steamgames.com/apps/vac/"
+  target="_blank"
+  rel="noreferrer"
+  >Anti-Cheat Configuration</a
+>
+page in the App Admin panel.
+<h2 class="bb_section"><a name="3"></a>Secure game servers</h2>
+A "secure" game is one that doesn't allow convicted cheaters to play on it.
+Individual instances of your game can choose at run-time whether or not they are
+secure or insecure. It's up to your game to choose the policy on this, but
+typically games default to being secure with an option to let the user start the
+game as insecure. This separates the cheaters from the rest of your community
+while still letting them play the game. Only users connected to a secure server
+will be scanned for cheats.
+<h2 class="bb_section"><a name="4"></a>Integration</h2>
+VAC cheat detection is independent of your game client; that work is done by
+Steam. The game should use best practices and protect its assets and internal
+state. The game needs to use the
+<a href="https://partner.steamgames.com/doc/api" class="bb_doclink"
+  >Steamworks API</a
+>
+to find out whether or not a user is VAC banned. There are 3 results returned in
+the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
+  class="bb_apilink"
+  >ISteamUser::ValidateAuthTicketResponse_t</a
+>
+callback from
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
+  class="bb_apilink"
+  >ISteamUser::BeginAuthSession</a
+>
+that are specific to VAC. The VAC specific authentication results are:<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/steam_api#k_EAuthSessionResponseVACBanned"
+      class="bb_apilink"
+      >k_EAuthSessionResponseVACBanned</a
+    >
+    - Returned when the player is VAC banned for cheating.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/steam_api#k_EAuthSessionResponseVACCheckTimedOut"
+      class="bb_apilink"
+      >k_EAuthSessionResponseVACCheckTimedOut</a
+    >
+    - Returned when the players system is not allowing VAC to scan for cheats,
+    and the player should be kicked from the game when this happens.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/steam_api#k_EAuthSessionResponsePublisherIssuedBan"
+      class="bb_apilink"
+      >k_EAuthSessionResponsePublisherIssuedBan</a
+    >
+    - Returned when the user is banned via the RequestPlayerGameBan webapi.
+  </li>
+</ul>
+<h2 class="bb_section"><a name="5"></a>Related Web APIs</h2>
+See the
+<a href="https://partner.steamgames.com/doc/webapi" class="bb_doclink"
+  >Web API</a
+>
+documentation for more information on how to use the following Web APIs.<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#ReportCheatData"
+      class="bb_apilink"
+      >ICheatReportingService/ReportCheatData</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#ReportPlayerCheating"
+      class="bb_apilink"
+      >ICheatReportingService/ReportPlayerCheating</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#GetCheatingReports"
+      class="bb_apilink"
+      >ICheatReportingService/GetCheatingReports</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#RequestPlayerGameBan"
+      class="bb_apilink"
+      >ICheatReportingService/RequestPlayerGameBan</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#RemovePlayerGameBan"
+      class="bb_apilink"
+      >ICheatReportingService/RemovePlayerGameBan</a
+    >
+  </li>
+</ul>

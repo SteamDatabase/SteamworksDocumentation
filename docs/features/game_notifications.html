@@ -1,0 +1,243 @@
+<h1>Game Notifications</h1>
+<h2 class="bb_section"><a name="Overview"></a>Overview</h2>
+Steam Game Notifications is a system for delivering offline notifications to
+users for games that provide asynchronous multiplayer gaming, such as Chess.<br /><br />The
+purpose of this API is to notify users that there is action required for a game
+session to progress. In the Chess example, game session state is updated after
+each player's move. Steam will then send notifications to users based on the
+state of the game session to alert them when the game is waiting on their turn.
+<h2 class="bb_subsection"><a name="1"></a>Responsibilities of the Game</h2>
+A typical offline game would manage a game session, updating the status of each
+user with states that will, in turn, send a notification to the user so that
+they will know that they need to launch the game and perform an action. Upon
+launching and performing game actions, the game is expected to update the game
+session again with the up-to-date states for all users in the session.
+<h2 class="bb_subsection"><a name="2"></a>What Steam will manage</h2>
+Steam will manage notifying users in a game session based on the states provided
+by the game and the specific settings that the user has selected for the game.
+An alert will be displayed in the Steam client and the web browser for the user
+when action is required for a game.
+<h2 class="bb_section"><a name="Requirements"></a>Requirements</h2>
+The Game Notifications API is provided through Web API methods and requires a
+valid publisher key. The Web API method calls must originate from a hosted
+server that is separated from the game client – the publisher key must not be
+shipped with any game client code.
+<h2 class="bb_section">
+  <a name="Authentication"></a>Authentication and 3rd Party Accounts
+</h2>
+In order to call the Game Notifications APIs, you must first establish the
+identity of the Steam user logged into your game. You can do this one of two
+ways: a client game can generate an authentication session ticket and pass it
+back to your server, or a web based game can verify the user by using OpenID.
+Instructions to do so are available in
+<a
+  href="https://partner.steamgames.com/doc/features/auth#account_linking"
+  class="bb_doclink"
+  >Linking third-party accounts to Steam accounts</a
+>. It is important that you do not trust user identity in messages sent directly
+from the game client to your game server, as these messages can be tampered
+with.<br />For games that use 3rd party accounts, use the instructions provided
+above but cache the user’s Steam ID in your system.
+<h2 class="bb_section"><a name="API"></a>Game Notifications API</h2>
+<h2 class="bb_subsection"><a name="TechOverview"></a>Technical Overview</h2>
+The Game Notifications API is written and exposed through Web APIs and require 4
+parameters passed in each method:<br />
+<ul class="bb_ul">
+  <li>appid (the application id for your game)<br /></li>
+  <li>
+    format (the format of the result. We recommend json as the return value)<br />
+  </li>
+  <li>
+    input_json ( json encoding of all the parameters required for a method)<br />
+  </li>
+  <li>key (your publisher key to be passed with every call)</li>
+</ul>
+The API will return a HTTP status code of 200 on success, with details in the
+message body (if applicable).
+<h2 class="bb_subsection"><a name="ConstantValues"></a>Constant Values</h2>
+<h4>UserState</h4>
+A string value defined as one of below:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>waiting</strong> - The user is waiting for other players and not
+    blocking any action. No notification will be sent to the user because he is
+    waiting for something to happen.<br />
+  </li>
+  <li>
+    <strong>ready</strong> - The user is ready -- the game session is waiting on
+    a response from the user. A notification will be sent to the user until this
+    state has been cleared.<br />
+  </li>
+  <li>
+    <strong>done</strong> - The game is completed for this user. The user will
+    be notified that the game is over, but no action is required.
+  </li>
+</ul>
+<h2 class="bb_subsection">
+  <a name="DataStructures"></a>Data Structures (JSON)
+</h2>
+All data structures are represented in JSON format.
+<h4>Variable</h4>
+<div class="bb_code">
+  { "key": "key_name", // string "value": "value_of_key" // string }
+</div>
+<h4>LocalizedText</h4>
+<div class="bb_code">
+  { "token": "value", // string that maps to a localization token "variables": [
+  // Array of "Variable" (above) ] }
+</div>
+<h4>UserStatus</h4>
+<div class="bb_code">
+  { "steamid": "76561197960265729", // uint64 "state": // One of the "UserState"
+  constants (described above), "title": // A "LocalizedText" object (described
+  above), "message": // A "LocalizedText" object (described above) }
+</div>
+<h4>Session</h4>
+<div class="bb_code">
+  { "sessionid": "1", // uint64 "title": // A "LocalizedText" object (above),
+  "time_created": "100000", // Unix epoch time (time since Jan 1st, 1970).
+  "time_updated": "200000", // Unix epoch time (time since Jan 1st, 1970). //
+  64-bit value provided by the developer when the session is created which will
+  be passed to the game when the game is launched. // This allows you to easily
+  tie the session object to your own backend object, it is not used internally
+  by Steam. "context": "31415926", "user_status": [ // Array of "UserStatus"
+  objects (described above) ] }
+</div>
+<h4>RequestedSession</h4>
+<div class="bb_code">
+  { "sessionid": "1", // uint64 "include_all_user_messages": "0" // bool }
+</div>
+<h2 class="bb_section"><a name="APIs"></a>Common APIs available.</h2>
+See
+<a
+  href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService"
+  class="bb_apilink"
+  >IGameNotificationsService</a
+>
+for the full list.<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#RequestNotifications"
+      class="bb_apilink"
+      >IGameNotificationsService/RequestNotifications</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#CreateSession"
+      class="bb_apilink"
+      >IGameNotificationsService/CreateSession</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#DeleteSession"
+      class="bb_apilink"
+      >IGameNotificationsService/DeleteSession</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#UpdateSession"
+      class="bb_apilink"
+      >IGameNotificationsService/UpdateSession</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#EnumerateSessionsForApp"
+      class="bb_apilink"
+      >IGameNotificationsService/EnumerateSessionsForApp</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#GetSessionDetailsForApp"
+      class="bb_apilink"
+      >IGameNotificationsService/GetSessionDetailsForApp</a
+    >
+  </li>
+</ul>
+<h2 class="bb_section">
+  <a name="LaunchingGameSessions"></a>Launching specific game sessions
+</h2>
+Users will be able to view all their active game sessions on their community
+profile page in Steam. Along with game status, there is a button to instruct
+steam to launch the game with specific launch parameters to define the game
+session. When a game is launched this way, a launch parameter of "_sessionid"
+will be provided to the game, you can receive this parameter using
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetLaunchQueryParam"
+  class="bb_apilink"
+  >ISteamApps::GetLaunchQueryParam</a
+>.<br />Like so:<br />
+<div class="bb_code">
+  const char *pchSessionID = ISteamApps()-&gt;GetLaunchQueryParam("_sessionid");
+</div>
+A game that supports launching directly into a game in this way should call this
+interface on game launch, determine if the session id string is present and
+valid for the signed in user, and load the game directly.
+<h2 class="bb_section"><a name="Localization"></a>Localization</h2>
+Localization is provided by the game developer through a localization tool that
+is part of the application configuration. You are responsible for setting each
+language translation for every string entered into the localization tool. Any
+strings that are not translated to a player’s language will be rendered in
+English.<br />Game notification supports localization for the following
+properties:<br />
+<ul class="bb_ul">
+  <li>
+    <a href="#DataStructures" class="bb_doclink">Session</a><br />
+    <ul class="bb_ul">
+      <li>Title</li>
+    </ul>
+  </li>
+  <li>
+    <a href="#DataStructures" class="bb_doclink">UserStatus</a><br />
+    <ul class="bb_ul">
+      <li>Title<br /></li>
+      <li>Message</li>
+    </ul>
+  </li>
+</ul>
+<br />Each <a href="#DataStructures" class="bb_doclink">localized text</a> is
+comprised of two components:<br />
+<ul class="bb_ul">
+  <li>Token<br /></li>
+  <li>List of <a href="#DataStructures" class="bb_doclink">Variables</a></li>
+</ul>
+<br />A token is a key that begins with the "#" symbol, and represents a string
+that is localized in different languages through the localization tool in your
+application configuration. A single token can contain multiple variable
+instances that can be replaced at runtime based on the context of the game when
+the text is to be generated. An example would be:<br /><code
+  class="bb_code bb_code_inline nohighlight"
+  >#InvitationText = "{{user}} has invited you to play a game of Chess."</code
+><br /><br />In the above example, the English translation for #InvitationText
+contains a single variable called user. When you want to render this text
+message to a user when "SteamUserName" invites him to a game, you will update
+LocalizationText object with the following properties:<br />
+<div class="bb_code">
+  "message": { "token": "#InvitationText", "variables": [ { "key": "user",
+  "value": "Michael" } ] }
+</div>
+<br />When the player views his status, he will then see this message (in his
+local language): "Michael has invited you to play a game of Chess."<br />Localization
+tokens can be uploaded in the Async Localization section of the Community tab on
+the Steamworks Settings page for your app.<br />Each language can be uploaded
+individually in VDF files that look like this:<br />
+<div class="bb_code">
+  "lang" { "Language" "english" "Tokens" { "TheNameOfTheToken" "The localized
+  text associated with the token" "TheNameOfAnotherToken" "The localized text
+  associated with the second token" } }
+</div>
+<br />Alternatively, the tokens for all languages can be uploaded in a single
+file that looks like this:<br />
+<div class="bb_code">
+  "lang" { "english" { "Tokens" { "TheNameOfTheToken" "The localized text
+  associated with the token" "TheNameOfAnotherToken" "The localized text
+  associated with the second token" } } "spanish" { "Tokens" {
+  "TheNameOfTheToken" "El texto localizado asociado con el token"
+  "TheNameOfAnotherToken" "El texto localizado asociado con el segundo token" }
+  } }
+</div>

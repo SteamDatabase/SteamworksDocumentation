@@ -1,0 +1,1057 @@
+<h1>ISteamApps Interface</h1>
+Exposes a wide range of information and actions for applications and
+<a
+  href="https://partner.steamgames.com/doc/store/application/dlc"
+  class="bb_doclink"
+  >Downloadable Content (DLC)</a
+>.
+<h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
+Member functions for
+<code class="bb_code bb_code_inline nohighlight">ISteamApps</code> are called
+through the global accessor function
+<code class="bb_code bb_code_inline nohighlight">SteamApps()</code>.
+<h2 class="bb_subsection">
+  <a name="BGetDLCDataByIndex"></a>BGetDLCDataByIndex
+</h2>
+<div class="bb_code cpp">
+  bool BGetDLCDataByIndex( int iDLC, AppId_t *pAppID, bool *pbAvailable, char
+  *pchName, int cchNameBufferSize );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iDLC</strong></td>
+    <td>int</td>
+    <td>
+      Index of the DLC to get between 0 and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamApps#GetDLCCount"
+        class="bb_apilink"
+        >ISteamApps::GetDLCCount</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+      *
+    </td>
+    <td>Returns the App ID of the DLC.</td>
+  </tr>
+  <tr>
+    <td><strong>pbAvailable</strong></td>
+    <td>bool *</td>
+    <td>Returns whether the DLC is currently available.</td>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>char *</td>
+    <td>Returns the name of the DLC by copying it into this buffer.</td>
+  </tr>
+  <tr>
+    <td><strong>cchNameBufferSize</strong></td>
+    <td>int</td>
+    <td>
+      The length of the
+      <code class="bb_code bb_code_inline nohighlight">pchName</code> buffer.
+    </td>
+  </tr>
+</table>
+<br />Returns metadata for a DLC by index.<br /><br /><strong>Returns:</strong>
+bool<br /><strong>true</strong> if the current App ID has DLC's accociated with
+it and <code class="bb_code bb_code_inline nohighlight">iDLC</code> falls
+between the range of 0 to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetDLCCount"
+  class="bb_apilink"
+  >ISteamApps::GetDLCCount</a
+>, otherwise <strong>false</strong>.<br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  int32 DLCCount = SteamApps()-&gt;GetDLCCount(); for ( int i = 0; i &lt;
+  DLCCount; ++i ) { AppId_t appId; bool available; char name[128]; bool success
+  = SteamApps()-&gt;BGetDLCDataByIndex( i, &amp;appId, &amp;available, name, 128
+  ); if ( success ) { // Do something with the DLC Data } }
+</div>
+<h2 class="bb_subsection"><a name="BIsAppInstalled"></a>BIsAppInstalled</h2>
+<div class="bb_code cpp">bool BIsAppInstalled( AppId_t appID );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>appID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The App ID of the application to check.</td>
+  </tr>
+</table>
+<br />Checks if a specific app is installed.<br /><br />The app may not actually
+be owned by the current user, they may have it left over from a free weekend,
+etc.<br /><br />This only works for base applications, not
+<a
+  href="https://partner.steamgames.com/doc/store/application/dlc"
+  class="bb_doclink"
+  >Downloadable Content (DLC)</a
+>. Use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#BIsDlcInstalled"
+  class="bb_apilink"
+  >ISteamApps::BIsDlcInstalled</a
+>
+for DLC instead.<br /><br /><strong>Returns:</strong> bool<br /><strong
+  >true</strong
+>
+if the specified App ID is installed; otherwise, <strong>false</strong>.
+<h2 class="bb_subsection"><a name="BIsCybercafe"></a>BIsCybercafe</h2>
+<div class="bb_code cpp">bool BIsCybercafe();</div>
+Checks whether the current App ID is for Cyber Cafes.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the license if for cyber cafe's; otherwise,
+<strong>false</strong>.<br />Deprecated - No longer used.
+<h2 class="bb_subsection"><a name="BIsDlcInstalled"></a>BIsDlcInstalled</h2>
+<div class="bb_code cpp">bool BIsDlcInstalled( AppId_t appID );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>appID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The App ID of the DLC to check.</td>
+  </tr>
+</table>
+<br />Checks if the user owns a specific DLC and if the DLC is installed<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the user owns the DLC and it's currently
+installed, otherwise <strong>false</strong>.<br /><br /><strong>Note:</strong>
+Should only be used for simple client side checks - not intended for granting
+in-game items.
+<h2 class="bb_subsection"><a name="BIsLowViolence"></a>BIsLowViolence</h2>
+<div class="bb_code cpp">bool BIsLowViolence();</div>
+Checks if the license owned by the user provides low violence depots.<br /><br />Low
+violence depots are useful for copies sold in countries that have content
+restrictions.<br /><br /><strong>Returns:</strong> bool<br /><strong
+  >true</strong
+>
+if the license owned by the user provides low violence depots; otherwise,
+<strong>false</strong>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/store/application/depots#depot_mounting_rules"
+  class="bb_doclink"
+  >Depot Mounting Rules</a
+>
+<h2 class="bb_subsection"><a name="BIsSubscribed"></a>BIsSubscribed</h2>
+<div class="bb_code cpp">bool BIsSubscribed();</div>
+Checks if the active user is subscribed to the current App ID.<br /><br /><strong
+  >NOTE:</strong
+>
+This will always return <strong>true</strong> if you're using Steam DRM or
+calling
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RestartAppIfNecessary"
+  class="bb_apilink"
+  >SteamAPI_RestartAppIfNecessary</a
+>.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the
+active user owns the current AppId, otherwise <strong>false</strong>.
+<h2 class="bb_subsection"><a name="BIsSubscribedApp"></a>BIsSubscribedApp</h2>
+<div class="bb_code cpp">bool BIsSubscribedApp( AppId_t appID );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>appID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The App ID to check.</td>
+  </tr>
+</table>
+<br />Checks if the active user is subscribed to a specified AppId.<br /><br />Only
+use this if you need to check ownership of another game related to yours, a demo
+for example.<br /><br /><strong>Returns:</strong> bool<br /><strong
+  >true</strong
+>
+if the active user is subscribed to the specified App ID, otherwise
+<strong>false</strong>.
+<h2 class="bb_subsection">
+  <a name="BIsSubscribedFromFamilySharing"></a>BIsSubscribedFromFamilySharing
+</h2>
+<div class="bb_code cpp">bool BIsSubscribedFromFamilySharing ();</div>
+<br />Checks if the active user is accessing the current appID via a temporary
+Family Shared license owned by another user. <br /><br />If you need to
+determine the steamID of the permanent owner of the license, use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetAppOwner"
+  class="bb_doclink"
+  >GetAppOwner</a
+>.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the
+active user is accessing the current appID via family sharing, otherwise
+<strong>false</strong>.
+<h2 class="bb_subsection">
+  <a name="BIsSubscribedFromFreeWeekend"></a>BIsSubscribedFromFreeWeekend
+</h2>
+<div class="bb_code cpp">bool BIsSubscribedFromFreeWeekend();</div>
+Checks if the user is subscribed to the current App ID through a free
+weekend.<br /><br />Before using this please contact a Valve technical account
+manager via the
+<a
+  href="http://steamcommunity.com/groups/steamworks/discussions"
+  target="_blank"
+  rel="noreferrer"
+  >Steamworks Discussion Board</a
+>
+to properly package and secure your free weekend.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the active user is subscribed to the current
+App Id via a free weekend otherwise <strong>false</strong> any other type of
+license.
+<h2 class="bb_subsection"><a name="BIsVACBanned"></a>BIsVACBanned</h2>
+<div class="bb_code cpp">bool BIsVACBanned();</div>
+Checks if the user has a VAC ban on their account<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the user has a VAC ban on their account;
+otherwise, <strong>false</strong>.
+<h2 class="bb_subsection"><a name="GetAppBuildId"></a>GetAppBuildId</h2>
+<div class="bb_code cpp">int GetAppBuildId();</div>
+Gets the buildid of this app, may change at any time based on backend updates to
+the game.<br /><br /><strong>Returns:</strong> int<br />The current Build Id of
+this App. Defaults to 0 if you're not running a build downloaded from steam.
+<h2 class="bb_subsection"><a name="GetAppInstallDir"></a>GetAppInstallDir</h2>
+<div class="bb_code cpp">
+  uint32 GetAppInstallDir( AppId_t appID, char *pchFolder, uint32
+  cchFolderBufferSize );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>appID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The App ID to get the install dir for.</td>
+  </tr>
+  <tr>
+    <td><strong>pchFolder</strong></td>
+    <td>char *</td>
+    <td>The string buffer that the folder path will be copied into.</td>
+  </tr>
+  <tr>
+    <td><strong>cchFolderBufferSize</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>
+      The size in bytes of the
+      <code class="bb_code bb_code_inline nohighlight">pchFolder</code> buffer.
+    </td>
+  </tr>
+</table>
+<br />Gets the install folder for a specific AppID.<br /><br />This works even
+if the application is not installed, based on where the game would be installed
+with the default Steam library location.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+><br />Returns the install directory path as a string into the buffer provided
+in pchFolder and returns the number of bytes that were copied into that buffer.
+<h2 class="bb_subsection"><a name="GetAppOwner"></a>GetAppOwner</h2>
+<div class="bb_code cpp">CSteamID GetAppOwner();</div>
+Gets the Steam ID of the original owner of the current app. If it's different
+from the current user then it is borrowed.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+  class="bb_apilink"
+  >CSteamID</a
+><br />The original owner of the current app.
+<h2 class="bb_subsection">
+  <a name="GetAvailableGameLanguages"></a>GetAvailableGameLanguages
+</h2>
+<div class="bb_code cpp">const char * GetAvailableGameLanguages();</div>
+Gets a comma separated list of the languages the current app supports.<br /><br />For
+the full list of languages that may be returned see
+<a
+  href="https://partner.steamgames.com/doc/store/localization"
+  class="bb_doclink"
+  >Localization and Languages</a
+>.<br /><br /><strong>Returns:</strong> const char *<br />Returns a comma
+separated list of languages.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetCurrentGameLanguage"
+  class="bb_apilink"
+  >ISteamApps::GetCurrentGameLanguage</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetSteamUILanguage"
+  class="bb_apilink"
+  >ISteamUtils::GetSteamUILanguage</a
+>
+<h2 class="bb_subsection">
+  <a name="GetCurrentBetaName"></a>GetCurrentBetaName
+</h2>
+<div class="bb_code cpp">
+  bool GetCurrentBetaName( char *pchName, int cchNameBufferSize );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>char *</td>
+    <td>The buffer where the beta name will be copied in to.</td>
+  </tr>
+  <tr>
+    <td><strong>cchNameBufferSize</strong></td>
+    <td>int</td>
+    <td>The total size of the pchName buffer.</td>
+  </tr>
+</table>
+<br />Checks if the user is running from a beta branch, and gets the name of the
+branch if they are.<br /><br /><strong>Returns:</strong> bool<br /><strong
+  >true</strong
+>
+if the user is on a beta branch; otherwise, <strong>false</strong>.
+<h2 class="bb_subsection">
+  <a name="GetCurrentGameLanguage"></a>GetCurrentGameLanguage
+</h2>
+<div class="bb_code cpp">const char * GetCurrentGameLanguage();</div>
+Gets the current language that the user has set.<br /><br />This falls back to
+the Steam UI language if the user hasn't explicitly picked a language for the
+title.<br /><br />For the full list of languages see
+<a
+  href="https://partner.steamgames.com/doc/store/localization#supported_languages"
+  class="bb_doclink"
+  >Supported Languages</a
+>.<br /><br /><strong>Returns:</strong> const char *<br /><br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetAvailableGameLanguages"
+  class="bb_apilink"
+  >ISteamApps::GetAvailableGameLanguages</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetSteamUILanguage"
+  class="bb_apilink"
+  >ISteamUtils::GetSteamUILanguage</a
+>
+<h2 class="bb_subsection"><a name="GetDLCCount"></a>GetDLCCount</h2>
+<div class="bb_code cpp">int GetDLCCount();</div>
+Gets the number of DLC pieces for the current app.<br /><br />This is typically
+used to loop through each piece of DLC and get the info about each one with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#BGetDLCDataByIndex"
+  class="bb_apilink"
+  >ISteamApps::BGetDLCDataByIndex</a
+>.<br /><br /><strong>Returns:</strong> int<br />The number of DLC pieces for
+the current app. Note that this value may max out at 64, depending on how much
+unowned DLC the user has. If your app has a large number of DLC, you should set
+your own internal list of known DLC to check against.<br /><br /><strong
+  >Example:</strong
+><br />
+<div class="bb_code cpp">
+  int32 DLCCount = SteamApps()-&gt;GetDLCCount(); for ( int i = 0; i &lt;
+  DLCCount; ++i ) { AppId_t appId; bool available; char name[128]; bool success
+  = SteamApps()-&gt;BGetDLCDataByIndex( i, &amp;appId, &amp;available, name, 128
+  ); if ( success ) { // Do something with the DLC Data } }
+</div>
+<h2 class="bb_subsection">
+  <a name="GetDlcDownloadProgress"></a>GetDlcDownloadProgress
+</h2>
+<div class="bb_code cpp">
+  bool GetDlcDownloadProgress( AppId_t nAppID, uint64 *punBytesDownloaded,
+  uint64 *punBytesTotal );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>nAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The App ID of the DLC to monitor</td>
+  </tr>
+  <tr>
+    <td><strong>punBytesDownloaded</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+      *
+    </td>
+    <td>Returns the number of bytes downloaded.</td>
+  </tr>
+  <tr>
+    <td><strong>punBytesTotal</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+      *
+    </td>
+    <td>Returns the total size of the download in bytes.</td>
+  </tr>
+</table>
+<br />Gets the download progress for optional DLC.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the specified DLC exists and is currently
+downloading; otherwise, <strong>false</strong>.
+<h2 class="bb_subsection">
+  <a name="GetEarliestPurchaseUnixTime"></a>GetEarliestPurchaseUnixTime
+</h2>
+<div class="bb_code cpp">
+  uint32 GetEarliestPurchaseUnixTime( AppId_t nAppID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>nAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The App ID to get the purchase time for.</td>
+  </tr>
+</table>
+<br />Gets the time of purchase of the specified app in Unix epoch format (time
+since Jan 1st, 1970).<br /><br />This is useful for rewarding users based on
+their initial purchase date.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+><br />The earliest purchase time in Unix epoch format (seconds since Jan 1st,
+1970).
+<h2 class="bb_subsection"><a name="GetFileDetails"></a>GetFileDetails</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t GetFileDetails( const char*pszFileName );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pszFileName</strong></td>
+    <td>const char*</td>
+    <td>The absolute path and name to the file.</td>
+  </tr>
+</table>
+<br />Asynchronously retrieves metadata details about a specific file in the
+depot manifest.<br /><br />Currently provides:<br />The file size in bytes.<br />The
+file's SHA1 hash.<br />The file's flags.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#FileDetailsResult_t"
+  class="bb_apilink"
+  >FileDetailsResult_t</a
+>
+call result.
+<h2 class="bb_subsection">
+  <a name="GetInstalledDepots"></a>GetInstalledDepots
+</h2>
+<div class="bb_code cpp">
+  uint32 GetInstalledDepots( AppId_t appID, DepotId_t *pvecDepots, uint32
+  cMaxDepots );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>appID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The App to list the depots for.</td>
+  </tr>
+  <tr>
+    <td><strong>pvecDepots</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#DepotId_t"
+        class="bb_apilink"
+        >DepotId_t</a
+      >
+      *
+    </td>
+    <td>A preallocated array that will be filled with the list of depots.</td>
+  </tr>
+  <tr>
+    <td><strong>cMaxDepots</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>
+      The maximum number of depots to obtain, typically the size of pvecDepots.
+    </td>
+  </tr>
+</table>
+<br />Gets a list of all installed depots for a given App ID in mount order.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+><br />The number of depots returned.
+<h2 class="bb_subsection">
+  <a name="GetLaunchCommandLine"></a>GetLaunchCommandLine
+</h2>
+<div class="bb_code cpp">
+  int GetLaunchCommandLine( char *pszCommandLine, int cubCommandLine );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pszCommandLine</strong></td>
+    <td>char *</td>
+    <td>The string buffer that the command line will be copied into.</td>
+  </tr>
+  <tr>
+    <td><strong>cubCommandLine </strong></td>
+    <td>int</td>
+    <td>
+      The size in bytes of the
+      <code class="bb_code bb_code_inline nohighlight">pszCommandLine</code>
+      buffer.
+    </td>
+  </tr>
+</table>
+<br />Gets the command line if the game was launched via Steam URL, e.g.
+steam://run/&lt;appid&gt;//&lt;command line&gt;/. This method is preferable to
+launching with a command line via the operating system, which can be a security
+risk. In order for rich presence joins to go through this and not be placed on
+the OS command line, you must enable "Use launch command line" from the
+Installation &gt; General page on your app.<br /><br /><strong>Returns:</strong>
+int<br />Returns the command line as a string into the buffer provided in
+pszCommandLine and returns the number of bytes that were copied into that
+buffer.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#NewUrlLaunchParameters_t"
+  class="bb_apilink"
+  >ISteamApps::NewUrlLaunchParameters_t</a
+>
+<h2 class="bb_subsection">
+  <a name="GetLaunchQueryParam"></a>GetLaunchQueryParam
+</h2>
+<div class="bb_code cpp">
+  const char * GetLaunchQueryParam( const char *pchKey );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchKey</strong></td>
+    <td>const char *</td>
+    <td>The launch key to test for. Ex: param1</td>
+  </tr>
+</table>
+<br />Gets the associated launch parameter if the game is run via
+steam://run/&lt;appid&gt;/?param1=value1;param2=value2;param3=value3 etc.<br /><br />Parameter
+names starting with the character '@' are reserved for internal use and will
+always return an empty string.<br />Parameter names starting with an underscore
+'_' are reserved for steam features -- they can be queried by the game, but it
+is advised that you not param names beginning with an underscore for your own
+features.<br /><br /><strong>Returns:</strong> const char *<br />The value
+associated with the key provided. Returns an empty string ("") if the specified
+key does not exist.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#NewLaunchQueryParameters_t"
+  class="bb_apilink"
+  >ISteamApps::NewLaunchQueryParameters_t</a
+>
+<h2 class="bb_subsection"><a name="InstallDLC"></a>InstallDLC</h2>
+<div class="bb_code cpp">void InstallDLC( AppId_t nAppID );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>nAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The DLC you want to install.</td>
+  </tr>
+</table>
+<br />Allows you to install an optional DLC.<br /><br /><strong
+  >Returns:</strong
+>
+void<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#DlcInstalled_t"
+  class="bb_apilink"
+  >DlcInstalled_t</a
+>
+callback.
+<h2 class="bb_subsection">
+  <a name="MarkContentCorrupt"></a>MarkContentCorrupt
+</h2>
+<div class="bb_code cpp">
+  bool MarkContentCorrupt( bool bMissingFilesOnly );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>bMissingFilesOnly</strong></td>
+    <td>bool</td>
+    <td>
+      Only scan for missing files, don't verify the checksum of each file.
+    </td>
+  </tr>
+</table>
+<br />Allows you to force verify game content on next launch.<br /><br />If you
+detect the game is out-of-date (for example, by having the client detect a
+version mismatch with a server),<br />you can call use MarkContentCorrupt to
+force a verify, show a message to the user, and then quit.<br /><br /><strong
+  >Returns:</strong
+>
+bool
+<h2 class="bb_subsection">
+  <a name="RequestAllProofOfPurchaseKeys"></a>RequestAllProofOfPurchaseKeys
+</h2>
+<div class="bb_code cpp">void RequestAllProofOfPurchaseKeys();</div>
+Deprecated.
+<h2 class="bb_subsection">
+  <a name="RequestAppProofOfPurchaseKey"></a>RequestAppProofOfPurchaseKey
+</h2>
+<div class="bb_code cpp">
+  void RequestAppProofOfPurchaseKey( AppId_t nAppID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>nAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td></td>
+  </tr>
+</table>
+<br />Deprecated.
+<h2 class="bb_subsection"><a name="UninstallDLC"></a>UninstallDLC</h2>
+<div class="bb_code cpp">void UninstallDLC( AppId_t nAppID );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>nAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The DLC you want to uninstall.</td>
+  </tr>
+</table>
+<br />Allows you to uninstall an optional DLC.
+<h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
+These are callbacks which can be fired by calling
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
+  class="bb_apilink"
+  >SteamAPI_RunCallbacks</a
+>. Many of these will be fired directly in response to the member functions of
+<code class="bb_code bb_code_inline nohighlight">ISteamApps</code>.
+<h2 class="bb_subsection">
+  <a name="AppProofOfPurchaseKeyResponse_t"></a>AppProofOfPurchaseKeyResponse_t
+</h2>
+Only used internally in Steam.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>m_nAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>m_cchKeyLength</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>m_rgchKey</strong></td>
+    <td>
+      char［<a
+        href="https://partner.steamgames.com/doc/api/ISteamApps#k_cubAppProofOfPurchaseKeyMax"
+        class="bb_apilink"
+        >k_cubAppProofOfPurchaseKeyMax</a
+      >］
+    </td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="DlcInstalled_t"></a>DlcInstalled_t</h2>
+Triggered after the current user gains ownership of DLC and that DLC is
+installed.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_nAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>App ID of the DLC that was installed.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#InstallDLC"
+  class="bb_apilink"
+  >ISteamApps::InstallDLC</a
+>
+<h2 class="bb_subsection">
+  <a name="FileDetailsResult_t"></a>FileDetailsResult_t
+</h2>
+Called after requesting the details of a specific file.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>
+      Was the call successful?
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
+        class="bb_apilink"
+        >k_EResultOK</a
+      >
+      if it was; otherwise,
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultFileNotFound"
+        class="bb_apilink"
+        >k_EResultFileNotFound</a
+      >
+      if the file was not found. None of the other fields are filled out if the
+      call was not successful.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_ulFileSize</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>The original file size in bytes.</td>
+  </tr>
+  <tr>
+    <td><strong>m_FileSHA</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >［20］
+    </td>
+    <td>The original file SHA1 hash.</td>
+  </tr>
+  <tr>
+    <td><strong>m_unFlags</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td></td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetFileDetails"
+  class="bb_apilink"
+  >ISteamApps::GetFileDetails</a
+>
+<h2 class="bb_subsection">
+  <a name="NewUrlLaunchParameters_t"></a>NewUrlLaunchParameters_t
+</h2>
+Posted after the user executes a steam url with command line or query parameters
+such as
+<code class="bb_code bb_code_inline nohighlight"
+  >steam://run/&lt;appid&gt;//?param1=value1;param2=value2;param3=value3;</code
+>
+while the game is already running. The new params can be queried with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetLaunchCommandLine"
+  class="bb_apilink"
+  >ISteamApps::GetLaunchCommandLine</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetLaunchQueryParam"
+  class="bb_apilink"
+  >ISteamApps::GetLaunchQueryParam</a
+>.<br /><br />This callback has no fields.
+<h2 class="bb_subsection">
+  <a name="NewLaunchQueryParameters_t"></a>NewLaunchQueryParameters_t
+</h2>
+Posted after the user executes a steam url with query parameters such as
+<code class="bb_code bb_code_inline nohighlight"
+  >steam://run/&lt;appid&gt;//?param1=value1;param2=value2;param3=value3;</code
+>
+while the game is already running. The new params can be queried with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetLaunchQueryParam"
+  class="bb_apilink"
+  >ISteamApps::GetLaunchQueryParam</a
+>.<br /><br />This callback has no fields.
+<h2 class="bb_subsection">
+  <a name="RegisterActivationCodeResponse_t"></a
+  >RegisterActivationCodeResponse_t
+</h2>
+Only used internally in Steam.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamApps#ERegisterActivationCodeResult"
+        class="bb_apilink"
+        >ERegisterActivationCodeResult</a
+      >
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>m_unPackageRegistered</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="enums"></a>Enums</h2>
+These are enums which are defined for use with ISteamApps.
+<h2 class="bb_subsection">
+  <a name="ERegisterActivationCodeResult"></a>ERegisterActivationCodeResult
+</h2>
+Only used internally in Steam.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ERegisterActivationCodeResultOK">
+    <td><strong>k_ERegisterActivationCodeResultOK</strong></td>
+    <td>0</td>
+    <td></td>
+  </tr>
+  <tr id="k_ERegisterActivationCodeResultFail">
+    <td><strong>k_ERegisterActivationCodeResultFail</strong></td>
+    <td>1</td>
+    <td></td>
+  </tr>
+  <tr id="k_ERegisterActivationCodeResultAlreadyRegistered">
+    <td><strong>k_ERegisterActivationCodeResultAlreadyRegistered</strong></td>
+    <td>2</td>
+    <td></td>
+  </tr>
+  <tr id="k_ERegisterActivationCodeResultTimeout">
+    <td><strong>k_ERegisterActivationCodeResultTimeout</strong></td>
+    <td>3</td>
+    <td></td>
+  </tr>
+  <tr id="k_ERegisterActivationCodeAlreadyOwned">
+    <td><strong>k_ERegisterActivationCodeAlreadyOwned</strong></td>
+    <td>4</td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="constants"></a>Constants</h2>
+These are constants which are defined for use with ISteamApps.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_cubAppProofOfPurchaseKeyMax">
+    <td><strong>k_cubAppProofOfPurchaseKeyMax</strong></td>
+    <td>int</td>
+    <td>240</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="STEAMAPPS_INTERFACE_VERSION">
+    <td><strong>STEAMAPPS_INTERFACE_VERSION</strong></td>
+    <td>const char *</td>
+    <td>"STEAMAPPS_INTERFACE_VERSION008"</td>
+    <td></td>
+  </tr>
+</table>

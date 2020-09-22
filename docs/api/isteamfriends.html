@@ -1,0 +1,5037 @@
+<h1>ISteamFriends Interface</h1>
+Interface to access information about individual users and interact with the
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>.
+<h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
+Member functions for
+<code class="bb_code bb_code_inline nohighlight">ISteamFriends</code> are called
+through the global accessor function
+<code class="bb_code bb_code_inline nohighlight">SteamFriends()</code>.
+<h2 class="bb_subsection">
+  <a name="ActivateGameOverlay"></a>ActivateGameOverlay
+</h2>
+<div class="bb_code cpp">
+  void ActivateGameOverlay( const char *pchDialog );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchDialog</strong></td>
+    <td>const char *</td>
+    <td>
+      The dialog to open. Valid options are: "friends", "community", "players",
+      "settings", "officialgamegroup", "stats", "achievements".
+    </td>
+  </tr>
+</table>
+<br />Activates the
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>
+to a specific dialog.<br /><br />This is equivalent to calling
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToUser"
+  class="bb_apilink"
+  >ISteamFriends::ActivateGameOverlayToUser</a
+>
+with <code class="bb_code bb_code_inline nohighlight">steamID</code> set to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#GetSteamID"
+  class="bb_apilink"
+  >ISteamUser::GetSteamID</a
+>.<br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  SteamFriends()-&gt;ActivateGameOverlay( "friends" );
+</div>
+<h2 class="bb_subsection">
+  <a name="ActivateGameOverlayInviteDialog"></a>ActivateGameOverlayInviteDialog
+</h2>
+<div class="bb_code cpp">
+  void ActivateGameOverlayInviteDialog( CSteamID steamIDLobby );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDLobby</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the lobby that selected users will be invited to.</td>
+  </tr>
+</table>
+<br />Activates the
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>
+to open the invite dialog. Invitations sent from this dialog will be for the
+provided lobby.
+<h2 class="bb_subsection">
+  <a name="ActivateGameOverlayToStore"></a>ActivateGameOverlayToStore
+</h2>
+<div class="bb_code cpp">
+  void ActivateGameOverlayToStore( AppId_t nAppID, EOverlayToStoreFlag eFlag );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>nAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The app ID to show the store page of.</td>
+  </tr>
+  <tr>
+    <td><strong>eFlag</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#EOverlayToStoreFlag"
+        class="bb_apilink"
+        >EOverlayToStoreFlag</a
+      >
+    </td>
+    <td>Flags to modify the behavior when the page opens.</td>
+  </tr>
+</table>
+<br />Activates the
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>
+to the Steam store page for the provided app.<br /><br />Using
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_uAppIdInvalid"
+  class="bb_apilink"
+  >k_uAppIdInvalid</a
+>
+brings the user to the front page of the Steam store.
+<h2 class="bb_subsection">
+  <a name="ActivateGameOverlayToUser"></a>ActivateGameOverlayToUser
+</h2>
+<div class="bb_code cpp">
+  void ActivateGameOverlayToUser( const char *pchDialog, CSteamID steamID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchDialog</strong></td>
+    <td>const char *</td>
+    <td>The dialog to open.</td>
+  </tr>
+  <tr>
+    <td><strong>steamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the context to open this dialog to.</td>
+  </tr>
+</table>
+<br />Activates
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>
+to a specific dialog.<br /><br />Valid
+<code class="bb_code bb_code_inline nohighlight">pchDialog</code> options
+are:<br />
+<ul class="bb_ul">
+  <li>
+    "steamid" - Opens the overlay web browser to the specified user or groups
+    profile.<br />
+  </li>
+  <li>
+    "chat" - Opens a chat window to the specified user, or joins the group
+    chat.<br />
+  </li>
+  <li>
+    "jointrade" - Opens a window to a Steam Trading session that was started
+    with the
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ISteamEconomy#StartTrade"
+      class="bb_apilink"
+      >ISteamEconomy/StartTrade</a
+    >
+    Web API.<br />
+  </li>
+  <li>
+    "stats" - Opens the overlay web browser to the specified user's stats.<br />
+  </li>
+  <li>
+    "achievements" - Opens the overlay web browser to the specified user's
+    achievements.<br />
+  </li>
+  <li>
+    "friendadd" - Opens the overlay in minimal mode prompting the user to add
+    the target user as a friend.<br />
+  </li>
+  <li>
+    "friendremove" - Opens the overlay in minimal mode prompting the user to
+    remove the target friend.<br />
+  </li>
+  <li>
+    "friendrequestaccept" - Opens the overlay in minimal mode prompting the user
+    to accept an incoming friend invite.<br />
+  </li>
+  <li>
+    "friendrequestignore" - Opens the overlay in minimal mode prompting the user
+    to ignore an incoming friend invite.
+  </li>
+</ul>
+<h2 class="bb_subsection">
+  <a name="ActivateGameOverlayToWebPage"></a>ActivateGameOverlayToWebPage
+</h2>
+<div class="bb_code cpp">
+  void ActivateGameOverlayToWebPage( const char *pchURL );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchURL</strong></td>
+    <td>const char *</td>
+    <td>
+      The webpage to open. (A fully qualified address with the protocol is
+      required, e.g.
+      <a
+        href="http://%22http://www.steampowered.com%22)"
+        target="_blank"
+        rel="noreferrer"
+        >"http://www.steampowered.com")</a
+      >
+    </td>
+  </tr>
+</table>
+<br />Activates
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>
+web browser directly to the specified URL.
+<h2 class="bb_subsection"><a name="ClearRichPresence"></a>ClearRichPresence</h2>
+<div class="bb_code cpp">void ClearRichPresence();</div>
+Clears all of the current user's Rich Presence key/values.
+<h2 class="bb_subsection">
+  <a name="CloseClanChatWindowInSteam"></a>CloseClanChatWindowInSteam
+</h2>
+<div class="bb_code cpp">
+  bool CloseClanChatWindowInSteam( CSteamID steamIDClanChat );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group chat room to close.</td>
+  </tr>
+</table>
+<br />Closes the specified Steam group chat room in the Steam UI.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the user successfully left the Steam group
+chat room.<br /><strong>false</strong> if the user is not in the provided Steam
+group chat room.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#IsClanChatWindowOpenInSteam"
+  class="bb_apilink"
+  >ISteamFriends::IsClanChatWindowOpenInSteam</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#OpenClanChatWindowInSteam"
+  class="bb_apilink"
+  >ISteamFriends::OpenClanChatWindowInSteam</a
+>
+<h2 class="bb_subsection">
+  <a name="DownloadClanActivityCounts"></a>DownloadClanActivityCounts
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t DownloadClanActivityCounts( CSteamID *psteamIDClans, int
+  cClansToRequest );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>psteamIDClans</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+      *
+    </td>
+    <td>A list of steam groups to get the updated data for.</td>
+  </tr>
+  <tr>
+    <td><strong>cClansToRequest</strong></td>
+    <td>int</td>
+    <td>
+      This MUST be the number of groups in
+      <code class="bb_code bb_code_inline nohighlight">psteamIDClans</code>.
+    </td>
+  </tr>
+</table>
+<br />Refresh the Steam Group activity data or get the data from groups other
+than one that the current user is a member.<br /><br />After receiving the
+callback you can then use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanActivityCounts"
+  class="bb_apilink"
+  >ISteamFriends::GetClanActivityCounts</a
+>
+to get the up to date user counts.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#DownloadClanActivityCountsResult_t"
+  class="bb_apilink"
+  >DownloadClanActivityCountsResult_t</a
+>
+call result.
+<h2 class="bb_subsection">
+  <a name="EnumerateFollowingList"></a>EnumerateFollowingList
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t EnumerateFollowingList( uint32 unStartIndex );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>unStartIndex</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>
+      The index to start receiving followers from. This should be 0 on the
+      initial call.
+    </td>
+  </tr>
+</table>
+<br />Gets the list of users that the current user is following.<br /><br />You
+can be following people that are not your friends. Following allows you to
+receive updates when the person does things like post a new piece of content to
+the Steam Workshop.<br /><br /><strong>NOTE:</strong> This returns up to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cEnumerateFollowersMax"
+  class="bb_apilink"
+  >k_cEnumerateFollowersMax</a
+>
+users at once. If the current user is following more than that, you will need to
+call this repeatedly, with
+<code class="bb_code bb_code_inline nohighlight">unStartIndex</code> set to the
+total number of followers that you have received so far.<br />I.E. If you have
+received 50 followers, and the user is following 105, you will need to call this
+again with
+<code class="bb_code bb_code_inline nohighlight">unStartIndex</code> = 50 to get
+the next 50, and then again with
+<code class="bb_code bb_code_inline nohighlight">unStartIndex</code> = 100 to
+get the remaining 5 users.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendsEnumerateFollowingList_t"
+  class="bb_apilink"
+  >FriendsEnumerateFollowingList_t</a
+>
+call result.<br /><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  class CEnumerateFollowingListExample { public: void GetWhoWeFollow(); private:
+  void OnFriendsEnumerateFollowingList( FriendsEnumerateFollowingList_t
+  *pCallback, bool bIOFailure ); CCallResult&lt; CEnumerateFollowingListExample,
+  FriendsEnumerateFollowingList_t &gt;
+  m_SteamCallResultFriendsEnumerateFollowingList; int m_nFollowersParsed; };
+  void CEnumerateFollowingListExample::GetWhoWeFollow() { m_nFollowersParsed =
+  0; printf( "Getting the list of users that we follow.\n" ); SteamAPICall_t
+  handle = SteamFriends()-&gt;EnumerateFollowingList( 0 );
+  m_SteamCallResultFriendsEnumerateFollowingList.Set( handle, this,
+  &amp;CEnumerateFollowingListExample::OnFriendsEnumerateFollowingList ); } void
+  CEnumerateFollowingListExample::OnFriendsEnumerateFollowingList(
+  FriendsEnumerateFollowingList_t *pCallback, bool bIOFailure ) { if (
+  pCallback-&gt;m_eResult != k_EResultOK || bIOFailure ) { printf(
+  "OnFriendsEnumerateFollowingList failed with m_eResult: %d and bIOFailure:
+  %d!", pCallback-&gt;m_eResult, bIOFailure ); return; } printf(
+  "FriendsEnumerateFollowingList retrieved %d of %d people that we follow.\n",
+  pCallback-&gt;m_nResultsReturned, pCallback-&gt;m_nTotalResultCount ); for (
+  int i = 0; i &lt; pCallback-&gt;m_nResultsReturned; ++i ) { printf( " %d:
+  %lld\n", i, pCallback-&gt;m_rgSteamID[i].ConvertToUint64() ); }
+  m_nFollowersParsed += pCallback-&gt;m_nResultsReturned; // There are more
+  followers! Gets the next set of them! if ( m_nFollowersParsed &lt;
+  pCallback-&gt;m_nTotalResultCount ) { SteamAPICall_t handle =
+  SteamFriends()-&gt;EnumerateFollowingList( pCallback-&gt;m_nResultsReturned );
+  m_SteamCallResultFriendsEnumerateFollowingList.Set( handle, this,
+  &amp;CEnumerateFollowingListExample::OnFriendsEnumerateFollowingList ); } }
+</div>
+<h2 class="bb_subsection">
+  <a name="GetChatMemberByIndex"></a>GetChatMemberByIndex
+</h2>
+<div class="bb_code cpp">
+  CSteamID GetChatMemberByIndex( CSteamID steamIDClan, int iUser );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      This MUST be the same source used in the previous call to
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanChatMemberCount"
+        class="bb_apilink"
+        >ISteamFriends::GetClanChatMemberCount</a
+      >!
+    </td>
+  </tr>
+  <tr>
+    <td><strong>iUser</strong></td>
+    <td>int</td>
+    <td>
+      An index between 0 and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanChatMemberCount"
+        class="bb_apilink"
+        >ISteamFriends::GetClanChatMemberCount</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets the Steam ID at the given index in a Steam group chat.<br /><br /><strong
+  >NOTE:</strong
+>
+You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanChatMemberCount"
+  class="bb_apilink"
+  >ISteamFriends::GetClanChatMemberCount</a
+>
+before calling this.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+  class="bb_apilink"
+  >CSteamID</a
+><br />Invalid indices return
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil"
+  class="bb_apilink"
+  >k_steamIDNil</a
+>.
+<h2 class="bb_subsection">
+  <a name="GetClanActivityCounts"></a>GetClanActivityCounts
+</h2>
+<div class="bb_code cpp">
+  bool GetClanActivityCounts( CSteamID steamIDClan, int *pnOnline, int
+  *pnInGame, int *pnChatting );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam group to get the activity of.</td>
+  </tr>
+  <tr>
+    <td><strong>pnOnline</strong></td>
+    <td>int *</td>
+    <td>Returns the number of members that are online.</td>
+  </tr>
+  <tr>
+    <td><strong>pnInGame</strong></td>
+    <td>int *</td>
+    <td>
+      Returns the number members that are in game (excluding those with their
+      status set to offline).
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pnChatting</strong></td>
+    <td>int *</td>
+    <td>Returns the number of members in the group chat room.</td>
+  </tr>
+</table>
+<br />Gets the most recent information we have about what the users in a Steam
+Group are doing.<br /><br />This can only retrieve data that the local client
+knows about. To refresh the data or get data from a group other than one that
+the current user is a member of you must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#DownloadClanActivityCounts"
+  class="bb_apilink"
+  >ISteamFriends::DownloadClanActivityCounts</a
+>.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the
+data was successfully returned.<br /><strong>false</strong> if the provided
+Steam ID is invalid or the local client does not have info about the Steam group
+and sets all the other parameters to <strong>0</strong>.
+<h2 class="bb_subsection"><a name="GetClanByIndex"></a>GetClanByIndex</h2>
+<div class="bb_code cpp">CSteamID GetClanByIndex( int iClan );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iClan</strong></td>
+    <td>int</td>
+    <td>
+      An index between 0 and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanCount"
+        class="bb_apilink"
+        >ISteamFriends::GetClanCount</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets the Steam group's Steam ID at the given index.<br /><br /><strong
+  >NOTE:</strong
+>
+You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanCount"
+  class="bb_apilink"
+  >ISteamFriends::GetClanCount</a
+>
+before calling this.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+  class="bb_apilink"
+  >CSteamID</a
+><br />Invalid indices return
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil"
+  class="bb_apilink"
+  >k_steamIDNil</a
+>.
+<h2 class="bb_subsection">
+  <a name="GetClanChatMemberCount"></a>GetClanChatMemberCount
+</h2>
+<div class="bb_code cpp">
+  int GetClanChatMemberCount( CSteamID steamIDClan );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam group to get the chat count of.</td>
+  </tr>
+</table>
+<br />Get the number of users in a Steam group chat.<br /><br /><strong
+  >NOTE:</strong
+>
+Large steam groups cannot be iterated by the local user.<br /><br /><strong
+  >NOTE:</strong
+>
+The current user must be in a lobby to retrieve the Steam IDs of other users in
+that lobby.<br /><br />This is used for iteration, after calling this then
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetChatMemberByIndex"
+  class="bb_apilink"
+  >ISteamFriends::GetChatMemberByIndex</a
+>
+can be used to get the Steam ID of each person in the chat.<br /><br /><strong
+  >Returns:</strong
+>
+int<br /><strong>0</strong> if the Steam ID provided is invalid or if the local
+user doesn't have the data available.
+<h2 class="bb_subsection">
+  <a name="GetClanChatMessage"></a>GetClanChatMessage
+</h2>
+<div class="bb_code cpp">
+  int GetClanChatMessage( CSteamID steamIDClanChat, int iMessage, void
+  *prgchText, int cchTextMax, EChatEntryType *peChatEntryType, CSteamID
+  *psteamidChatter );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group chat room.</td>
+  </tr>
+  <tr>
+    <td><strong>iMessage</strong></td>
+    <td>int</td>
+    <td>
+      The index of the message. This should be the
+      <code class="bb_code bb_code_inline nohighlight">m_iMessageID</code> field
+      of
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedClanChatMsg_t"
+        class="bb_apilink"
+        >GameConnectedClanChatMsg_t</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>prgchText</strong></td>
+    <td>void *</td>
+    <td>
+      The buffer where the chat message will be copied into. (Should be big
+      enough to hold 2048 UTF-8 characters. So 8192 bytes + 1 for '\0')
+    </td>
+  </tr>
+  <tr>
+    <td><strong>cchTextMax</strong></td>
+    <td>int</td>
+    <td>
+      The size of
+      <code class="bb_code bb_code_inline nohighlight">prgchText</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>peChatEntryType</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EChatEntryType"
+        class="bb_apilink"
+        >EChatEntryType</a
+      >
+      *
+    </td>
+    <td>Returns the type of chat entry that was received.</td>
+  </tr>
+  <tr>
+    <td><strong>psteamidChatter</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+      *
+    </td>
+    <td>Returns the Steam ID of the user that sent the message.</td>
+  </tr>
+</table>
+<br />Gets the data from a Steam group chat room message.<br /><br />This should
+only ever be called in response to a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedClanChatMsg_t"
+  class="bb_apilink"
+  >GameConnectedClanChatMsg_t</a
+>
+callback.<br /><br /><strong>Returns:</strong> int<br />The number of bytes
+copied into
+<code class="bb_code bb_code_inline nohighlight">prgchText</code>.<br />Returns
+<strong>0</strong> and sets
+<code class="bb_code bb_code_inline nohighlight">peChatEntryType</code> to
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_EChatEntryTypeInvalid"
+  class="bb_apilink"
+  >k_EChatEntryTypeInvalid</a
+>
+if the current user is not in the specified Steam group chat room or if the
+index provided in
+<code class="bb_code bb_code_inline nohighlight">iMessage</code> is invalid.
+<h2 class="bb_subsection"><a name="GetClanCount"></a>GetClanCount</h2>
+<div class="bb_code cpp">int GetClanCount();</div>
+Gets the number of Steam groups that the current user is a member of.<br /><br />This
+is used for iteration, after calling this then
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanByIndex"
+  class="bb_apilink"
+  >ISteamFriends::GetClanByIndex</a
+>
+can be used to get the Steam ID of each Steam group.<br /><br /><strong
+  >Returns:</strong
+>
+int<br />The number of Steam groups that the user is a member of.<br /><br /><strong
+  >Example:</strong
+><br />
+<div class="bb_code cpp">
+  void ListSteamGroups() { int nGroups = SteamFriends()-&gt;GetClanCount();
+  printf( "Listing %d Steam Groups\n", nGroups ); for ( int i = 0; i &lt;
+  nGroups; ++i ) { CSteamID groupSteamID = SteamFriends()-&gt;GetClanByIndex( i
+  ); const char *szGroupName = SteamFriends()-&gt;GetClanName( groupSteamID );
+  const char *szGroupTag = SteamFriends()-&gt;GetClanTag( groupSteamID ); int
+  nOnline, nInGame, nChatting; bool success =
+  SteamFriends()-&gt;GetClanActivityCounts( groupSteamID, &amp;nOnline,
+  &amp;nInGame, &amp;nChatting ); printf( "Group %d - ID: %lld - Name: '%s' -
+  Tag: '%s'\n", i, groupSteamID.ConvertToUint64(), szGroupName, szGroupTag );
+  printf( " - Online: %d, In Game: %d, Chatting: %d\n", nOnline, nInGame,
+  nChatting ); } }
+</div>
+<h2 class="bb_subsection"><a name="GetClanName"></a>GetClanName</h2>
+<div class="bb_code cpp">const char * GetClanName( CSteamID steamIDClan );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam group to get the name of.</td>
+  </tr>
+</table>
+<br />Gets the display name for the specified Steam group; if the local client
+knows about it.<br /><br /><strong>Returns:</strong> const char *<br />The Steam
+groups name in UTF-8 format. Returns an empty string ("") if the provided Steam
+ID is invalid or the user does not know about the group.<br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#DownloadClanActivityCounts"
+  class="bb_apilink"
+  >ISteamFriends::DownloadClanActivityCounts</a
+>
+<h2 class="bb_subsection">
+  <a name="GetClanOfficerByIndex"></a>GetClanOfficerByIndex
+</h2>
+<div class="bb_code cpp">
+  CSteamID GetClanOfficerByIndex( CSteamID steamIDClan, int iOfficer );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      This must be the same steam group used in the previous call to
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOfficerCount"
+        class="bb_apilink"
+        >ISteamFriends::GetClanOfficerCount</a
+      >!
+    </td>
+  </tr>
+  <tr>
+    <td><strong>iOfficer</strong></td>
+    <td>int</td>
+    <td>
+      An index between 0 and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOfficerCount"
+        class="bb_apilink"
+        >ISteamFriends::GetClanOfficerCount</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets the Steam ID of the officer at the given index in a Steam group.<br /><br /><strong
+  >NOTE:</strong
+>
+You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOfficerCount"
+  class="bb_apilink"
+  >ISteamFriends::GetClanOfficerCount</a
+>
+before calling this.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+  class="bb_apilink"
+  >CSteamID</a
+><br /><a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil"
+  class="bb_apilink"
+  >k_steamIDNil</a
+>
+if <code class="bb_code bb_code_inline nohighlight">steamIDClan</code> or
+<code class="bb_code bb_code_inline nohighlight">iOfficer</code> are invalid.
+<h2 class="bb_subsection">
+  <a name="GetClanOfficerCount"></a>GetClanOfficerCount
+</h2>
+<div class="bb_code cpp">int GetClanOfficerCount( CSteamID steamIDClan );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam group to get the officer count of.</td>
+  </tr>
+</table>
+<br />Gets the number of officers (administrators and moderators) in a specified
+Steam group.<br /><br />This also includes the owner of the Steam group.<br /><br />This
+is used for iteration, after calling this then
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOfficerByIndex"
+  class="bb_apilink"
+  >ISteamFriends::GetClanOfficerByIndex</a
+>
+can be used to get the Steam ID of each officer.<br /><br /><strong
+  >NOTE:</strong
+>
+You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestClanOfficerList"
+  class="bb_apilink"
+  >ISteamFriends::RequestClanOfficerList</a
+>
+before this to get the required data!<br /><br /><strong>Returns:</strong>
+int<br />The number of officers in the Steam group. Returns
+<strong>0</strong> if
+<code class="bb_code bb_code_inline nohighlight">steamIDClan</code> is invalid
+or if
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestClanOfficerList"
+  class="bb_apilink"
+  >ISteamFriends::RequestClanOfficerList</a
+>
+has not been called for it.
+<h2 class="bb_subsection"><a name="GetClanOwner"></a>GetClanOwner</h2>
+<div class="bb_code cpp">CSteamID GetClanOwner( CSteamID steamIDClan );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group to get the owner for.</td>
+  </tr>
+</table>
+<br />Gets the owner of a Steam Group.<br /><br /><strong>NOTE:</strong> You
+must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestClanOfficerList"
+  class="bb_apilink"
+  >ISteamFriends::RequestClanOfficerList</a
+>
+before this to get the required data!<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+  class="bb_apilink"
+  >CSteamID</a
+><br />Returns
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil"
+  class="bb_apilink"
+  >k_steamIDNil</a
+>
+if <code class="bb_code bb_code_inline nohighlight">steamIDClan</code> is
+invalid or if
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestClanOfficerList"
+  class="bb_apilink"
+  >ISteamFriends::RequestClanOfficerList</a
+>
+has not been called for it.
+<h2 class="bb_subsection"><a name="GetClanTag"></a>GetClanTag</h2>
+<div class="bb_code cpp">const char * GetClanTag( CSteamID steamIDClan );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam group to get the tag of.</td>
+  </tr>
+</table>
+<br />Gets the unique tag (abbreviation) for the specified Steam group; If the
+local client knows about it.<br /><br />The Steam group abbreviation is a unique
+way for people to identify the group and is limited to 12 characters. In some
+games this will appear next to the name of group members.<br /><br /><strong
+  >Returns:</strong
+>
+const char *<br />The Steam groups tag in UTF-8 format. Returns an empty string
+("") if the provided Steam ID is invalid or the user does not know about the
+group.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#DownloadClanActivityCounts"
+  class="bb_apilink"
+  >ISteamFriends::DownloadClanActivityCounts</a
+>
+<h2 class="bb_subsection"><a name="GetCoplayFriend"></a>GetCoplayFriend</h2>
+<div class="bb_code cpp">CSteamID GetCoplayFriend( int iCoplayFriend );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iCoplayFriend</strong></td>
+    <td>int</td>
+    <td>
+      An index between 0 and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetCoplayFriendCount"
+        class="bb_apilink"
+        >ISteamFriends::GetCoplayFriendCount</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets the Steam ID of the recently played with user at the given index.<br /><br /><strong
+  >NOTE:</strong
+>
+You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetCoplayFriendCount"
+  class="bb_apilink"
+  >ISteamFriends::GetCoplayFriendCount</a
+>
+before calling this.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+  class="bb_apilink"
+  >CSteamID</a
+><br />Invalid indices return
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil"
+  class="bb_apilink"
+  >k_steamIDNil</a
+>.
+<h2 class="bb_subsection">
+  <a name="GetCoplayFriendCount"></a>GetCoplayFriendCount
+</h2>
+<div class="bb_code cpp">int GetCoplayFriendCount();</div>
+Gets the number of players that the current users has recently played with,
+across all games.<br /><br />This is used for iteration, after calling this then
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetCoplayFriend"
+  class="bb_apilink"
+  >ISteamFriends::GetCoplayFriend</a
+>
+can be used to get the Steam ID of each player.<br /><br />These players are
+have been set with previous calls to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#SetPlayedWith"
+  class="bb_apilink"
+  >ISteamFriends::SetPlayedWith</a
+>.<br /><br /><strong>Returns:</strong> int<br />The number of users that the
+current user has recently played with.<br /><br /><strong>Example:</strong
+><br />
+<div class="bb_code cpp">
+  void ListRecentlyPlayedWithList() { int nPlayers =
+  SteamFriends()-&gt;GetCoplayFriendCount(); printf( "Listing %d Recently Played
+  with Players\n", nPlayers ); for ( int i = 0; i &lt; nPlayers; ++i ) {
+  CSteamID playerSteamID = SteamFriends()-&gt;GetCoplayFriend( i ); int
+  iTimeStamp = SteamFriends()-&gt;GetFriendCoplayTime( playerSteamID ); AppId_t
+  app = SteamFriends()-&gt;GetFriendCoplayGame( playerSteamID ); printf( "Player
+  %d - ID: %lld - Time: %d - App: %d\n", i, playerSteamID.ConvertToUint64(),
+  iTimeStamp, app ); } }
+</div>
+<h2 class="bb_subsection"><a name="GetFollowerCount"></a>GetFollowerCount</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t GetFollowerCount( CSteamID steamID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The user to get the follower count for.</td>
+  </tr>
+</table>
+<br />Gets the number of users following the specified user.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendsGetFollowerCount_t"
+  class="bb_apilink"
+  >FriendsGetFollowerCount_t</a
+>
+call result.<br /><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  class GetFollowerCountExample { public: void GetFollowerCount(); private: void
+  OnFriendsGetFollowerCount( FriendsGetFollowerCount_t *pCallback, bool
+  bIOFailure ); CCallResult&lt; GetFollowerCountExample,
+  FriendsGetFollowerCount_t &gt; m_SteamCallResultFriendsGetFollowerCount; };
+  void GetFollowerCountExample::GetFollowerCount() { printf( "Getting the number
+  of users who follow us.\n" ); SteamAPICall_t handle =
+  SteamFriends()-&gt;GetFollowerCount( SteamUser()-&gt;GetSteamID() );
+  m_SteamCallResultFriendsGetFollowerCount.Set( handle, this,
+  &amp;GetFollowerCountExample::OnFriendsGetFollowerCount ); } void
+  GetFollowerCountExample::OnFriendsGetFollowerCount( FriendsGetFollowerCount_t
+  *pCallback, bool bIOFailure ) { if ( pCallback-&gt;m_eResult != k_EResultOK ||
+  bIOFailure ) { printf( "OnFriendsGetFollowerCount failed for %lld with
+  m_eResult: %d and bIOFailure: %d!", pCallback-&gt;m_steamID.ConvertToUint64(),
+  pCallback-&gt;m_eResult, bIOFailure ); return; } printf( "Got a
+  FriendsGetFollowerCount_t, we have %d followers.\n", pCallback-&gt;m_nCount );
+  }
+</div>
+<h2 class="bb_subsection"><a name="GetFriendByIndex"></a>GetFriendByIndex</h2>
+<div class="bb_code cpp">
+  CSteamID GetFriendByIndex( int iFriend, int iFriendFlags );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iFriend</strong></td>
+    <td>int</td>
+    <td>
+      An index between 0 and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendCount"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendCount</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>iFriendFlags</strong></td>
+    <td>int</td>
+    <td>
+      A combined union (binary "or") of
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#EFriendFlags"
+        class="bb_apilink"
+        >EFriendFlags</a
+      >. This must be the same value as used in the previous call to
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendCount"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendCount</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets the Steam ID of the user at the given index.<br /><br /><strong
+  >NOTE:</strong
+>
+You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendCount"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendCount</a
+>
+before calling this.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+  class="bb_apilink"
+  >CSteamID</a
+><br />Invalid indices return
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil"
+  class="bb_apilink"
+  >k_steamIDNil</a
+>.
+<h2 class="bb_subsection">
+  <a name="GetFriendCoplayGame"></a>GetFriendCoplayGame
+</h2>
+<div class="bb_code cpp">
+  AppId_t GetFriendCoplayGame( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      The Steam ID of the user on the recently-played-with list to get the game
+      played.
+    </td>
+  </tr>
+</table>
+<br />Gets the app ID of the game that user played with someone on their
+recently-played-with list.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+  class="bb_apilink"
+  >AppId_t</a
+><br />Steam IDs not in the recently-played-with list return
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_uAppIdInvalid"
+  class="bb_apilink"
+  >k_uAppIdInvalid</a
+>.
+<h2 class="bb_subsection">
+  <a name="GetFriendCoplayTime"></a>GetFriendCoplayTime
+</h2>
+<div class="bb_code cpp">
+  int GetFriendCoplayTime( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      The Steam ID of the user on the recently-played-with list to get the
+      timestamp for.
+    </td>
+  </tr>
+</table>
+<br />Gets the timestamp of when the user played with someone on their
+recently-played-with list.<br /><br /><strong>Returns:</strong> int<br />The
+time is provided in Unix epoch format (seconds since Jan 1st 1970).<br />Steam
+IDs not in the recently-played-with list return <strong>0</strong>.
+<h2 class="bb_subsection"><a name="GetFriendCount"></a>GetFriendCount</h2>
+<div class="bb_code cpp">int GetFriendCount( int iFriendFlags );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iFriendFlags</strong></td>
+    <td>int</td>
+    <td>
+      A combined union (binary "or") of one or more
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#EFriendFlags"
+        class="bb_apilink"
+        >EFriendFlags</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets the number of users the client knows about who meet a specified
+criteria. (Friends, blocked, users on the same server, etc)<br /><br />This can
+be used to iterate over all of the users by calling
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendByIndex"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendByIndex</a
+>
+to get the Steam IDs of each user.<br /><br /><strong>Returns:</strong>
+int<br />The number of users that meet the specified criteria.<br /><br /><strong
+  >NOTE:</strong
+>
+Returns <strong>-1</strong> if the current user is not logged on.<br /><br /><strong
+  >Example:</strong
+><br />
+<div class="bb_code cpp">
+  int nFriends = SteamFriends()-&gt;GetFriendCount( k_EFriendFlagImmediate ); if
+  ( nFriends == -1) { printf( "GetFriendCount returned -1, the current user is
+  not logged in.\n" ); // We always recommend resetting to 0 just in case you
+  were to do something like allocate // an array with this value, or loop over
+  it in a way that doesn't take into the -1 into account. nFriends = 0; } for (
+  int i = 0; i &lt; nFriends; ++i ) { CSteamID friendSteamID =
+  SteamFriends()-&gt;GetFriendByIndex( i, k_EFriendFlagImmediate ); const char
+  *friendName = SteamFriends()-&gt;GetFriendPersonaName( friendSteamID );
+  printf( "Friend %d: %lld - %s\n", i, friendSteamID.ConvertToUint64(),
+  friendName ); }
+</div>
+<h2 class="bb_subsection">
+  <a name="GetFriendCountFromSource"></a>GetFriendCountFromSource
+</h2>
+<div class="bb_code cpp">
+  int GetFriendCountFromSource( CSteamID steamIDSource );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDSource</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      The Steam group, chat room, lobby or game server to get the user count of.
+    </td>
+  </tr>
+</table>
+<br />Get the number of users in a source (Steam group, chat room, lobby, or
+game server).<br /><br /><strong>NOTE:</strong> Large Steam groups cannot be
+iterated by the local user.<br /><br /><strong>NOTE:</strong> If you're getting
+the number of lobby members then you should use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetNumLobbyMembers"
+  class="bb_apilink"
+  >ISteamMatchmaking::GetNumLobbyMembers</a
+>
+instead.<br /><br />This is used for iteration, after calling this then
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendFromSourceByIndex"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendFromSourceByIndex</a
+>
+can be used to get the Steam ID of each person in the source.<br /><br /><strong
+  >Returns:</strong
+>
+int<br /><strong>0</strong> if the Steam ID provided is invalid or if the local
+user doesn't have the data available.
+<h2 class="bb_subsection">
+  <a name="GetFriendFromSourceByIndex"></a>GetFriendFromSourceByIndex
+</h2>
+<div class="bb_code cpp">
+  CSteamID GetFriendFromSourceByIndex( CSteamID steamIDSource, int iFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDSource</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      This MUST be the same source used in the previous call to
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendCountFromSource"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendCountFromSource</a
+      >!
+    </td>
+  </tr>
+  <tr>
+    <td><strong>iFriend</strong></td>
+    <td>int</td>
+    <td>
+      An index between 0 and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendCountFromSource"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendCountFromSource</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets the Steam ID at the given index from a source (Steam group, chat
+room, lobby, or game server).<br /><br /><strong>NOTE:</strong> You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendCountFromSource"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendCountFromSource</a
+>
+before calling this.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+  class="bb_apilink"
+  >CSteamID</a
+><br />Invalid indices return
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil"
+  class="bb_apilink"
+  >k_steamIDNil</a
+>.
+<h2 class="bb_subsection">
+  <a name="GetFriendGamePlayed"></a>GetFriendGamePlayed
+</h2>
+<div class="bb_code cpp">
+  bool GetFriendGamePlayed( CSteamID steamIDFriend, FriendGameInfo_t
+  *pFriendGameInfo );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the other user.</td>
+  </tr>
+  <tr>
+    <td><strong>pFriendGameInfo</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendGameInfo_t"
+        class="bb_apilink"
+        >FriendGameInfo_t</a
+      >
+      *
+    </td>
+    <td>Fills in the details if the user is in a game.</td>
+  </tr>
+</table>
+<br />Checks if the specified friend is in a game, and gets info about the game
+if they are.<br /><br /><strong>Returns:</strong> bool<br /><strong
+  >true</strong
+>
+if the user is a friend and is in a game; otherwise, <strong>false</strong>.
+<h2 class="bb_subsection"><a name="GetFriendMessage"></a>GetFriendMessage</h2>
+<div class="bb_code cpp">
+  int GetFriendMessage( CSteamID steamIDFriend, int iMessageID, void *pvData,
+  int cubData, EChatEntryType *peChatEntryType );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the friend that sent this message.</td>
+  </tr>
+  <tr>
+    <td><strong>iMessageID</strong></td>
+    <td>int</td>
+    <td>
+      The index of the message. This should be the
+      <code class="bb_code bb_code_inline nohighlight">m_iMessageID</code> field
+      of
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedFriendChatMsg_t"
+        class="bb_apilink"
+        >GameConnectedFriendChatMsg_t</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pvData</strong></td>
+    <td>void *</td>
+    <td>The buffer where the chat message will be copied into.</td>
+  </tr>
+  <tr>
+    <td><strong>cubData</strong></td>
+    <td>int</td>
+    <td>
+      The size of
+      <code class="bb_code bb_code_inline nohighlight">pvData</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>peChatEntryType</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EChatEntryType"
+        class="bb_apilink"
+        >EChatEntryType</a
+      >
+      *
+    </td>
+    <td>Returns the type of chat entry that was received.</td>
+  </tr>
+</table>
+<br />Gets the data from a Steam friends message.<br /><br />This should only
+ever be called in response to a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedFriendChatMsg_t"
+  class="bb_apilink"
+  >GameConnectedFriendChatMsg_t</a
+>
+callback.<br /><br /><strong>Returns:</strong> int<br />The number of bytes
+copied into
+<code class="bb_code bb_code_inline nohighlight">pvData</code>.<br />Returns
+<strong>0</strong> and sets
+<code class="bb_code bb_code_inline nohighlight">peChatEntryType</code> to
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_EChatEntryTypeInvalid"
+  class="bb_apilink"
+  >k_EChatEntryTypeInvalid</a
+>
+if the current user is chat restricted, if the provided Steam ID is not a
+friend, or if the index provided in
+<code class="bb_code bb_code_inline nohighlight">iMessageID</code> is invalid.
+<h2 class="bb_subsection">
+  <a name="GetFriendPersonaName"></a>GetFriendPersonaName
+</h2>
+<div class="bb_code cpp">
+  const char * GetFriendPersonaName( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the other user.</td>
+  </tr>
+</table>
+<br />Gets the specified user's persona (display) name.<br /><br />This will
+only be known to the current user if the other user is in their friends list, on
+the same game server, in a chat room or lobby, or in a small Steam group with
+the local user.<br /><br /><strong>NOTE:</strong> Upon on first joining a lobby,
+chat room, or game server the current user will not known the name of the other
+users automatically; that information will arrive asynchronously via
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#PersonaStateChange_t"
+  class="bb_apilink"
+  >PersonaStateChange_t</a
+>
+callbacks.<br /><br />To get the persona name of the current user use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetPersonaName"
+  class="bb_apilink"
+  >ISteamFriends::GetPersonaName</a
+>.<br /><br /><strong>Returns:</strong> const char *<br />The current users
+persona name in UTF-8 format. Guaranteed to not be
+<strong>NULL</strong>.<br /><br />Returns an empty string (""), or "[unknown]"
+if the Steam ID is invalid or not known to the caller.
+<h2 class="bb_subsection">
+  <a name="GetFriendPersonaNameHistory"></a>GetFriendPersonaNameHistory
+</h2>
+<div class="bb_code cpp">
+  const char * GetFriendPersonaNameHistory( CSteamID steamIDFriend, int
+  iPersonaName );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the other user.</td>
+  </tr>
+  <tr>
+    <td><strong>iPersonaName</strong></td>
+    <td>int</td>
+    <td>
+      The index of the history to receive. <strong>0</strong> is their current
+      persona name, <strong>1</strong> is their most recent before they changed
+      it, etc.
+    </td>
+  </tr>
+</table>
+<br />Gets one of the previous display names for the specified user.<br /><br />This
+only works for display names that the current user has seen on the local
+computer.<br /><br /><strong>Returns:</strong> const char *<br />The players old
+persona name at the given index. Returns an empty string when there are no
+further items in the history.
+<h2 class="bb_subsection">
+  <a name="GetFriendPersonaState"></a>GetFriendPersonaState
+</h2>
+<div class="bb_code cpp">
+  EPersonaState GetFriendPersonaState( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the other user.</td>
+  </tr>
+</table>
+<br />Gets the current status of the specified user.<br /><br />This will only
+be known to the current user if the other user is in their friends list, on the
+same game server, in a chat room or lobby, or in a small Steam group with the
+local user.<br /><br />To get the state of the current user use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetPersonaState"
+  class="bb_apilink"
+  >ISteamFriends::GetPersonaState</a
+>.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#EPersonaState"
+  class="bb_apilink"
+  >EPersonaState</a
+><br />The friend state of the specified user. (Online, Offline, In-Game, etc)
+<h2 class="bb_subsection">
+  <a name="GetFriendRelationship"></a>GetFriendRelationship
+</h2>
+<div class="bb_code cpp">
+  EFriendRelationship GetFriendRelationship( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the other user.</td>
+  </tr>
+</table>
+<br />Gets a relationship to a specified user.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#EFriendRelationship"
+  class="bb_apilink"
+  >EFriendRelationship</a
+><br />How the users know each other.
+<h2 class="bb_subsection">
+  <a name="GetFriendRichPresence"></a>GetFriendRichPresence
+</h2>
+<div class="bb_code cpp">
+  const char * GetFriendRichPresence( CSteamID steamIDFriend, const char *pchKey
+  );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The friend to get the Rich Presence value for.</td>
+  </tr>
+  <tr>
+    <td><strong>pchKey</strong></td>
+    <td>const char *</td>
+    <td>The Rich Presence key to request.</td>
+  </tr>
+</table>
+<br />Get a Rich Presence value from a specified friend.<br /><br /><strong
+  >Returns:</strong
+>
+const char *<br />Returns an empty string ("") if the specified key is not
+set.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestFriendRichPresence"
+  class="bb_apilink"
+  >ISteamFriends::RequestFriendRichPresence</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
+  class="bb_apilink"
+  >ISteamFriends::SetRichPresence</a
+>
+<h2 class="bb_subsection">
+  <a name="GetFriendRichPresenceKeyByIndex"></a>GetFriendRichPresenceKeyByIndex
+</h2>
+<div class="bb_code cpp">
+  const char * GetFriendRichPresenceKeyByIndex( CSteamID steamIDFriend, int iKey
+  );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      This should be the same user provided to the previous call to
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendRichPresenceKeyCount"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendRichPresenceKeyCount</a
+      >!
+    </td>
+  </tr>
+  <tr>
+    <td><strong>iKey</strong></td>
+    <td>int</td>
+    <td>
+      An index between 0 and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendRichPresenceKeyCount"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendRichPresenceKeyCount</a
+      >.
+    </td>
+  </tr>
+</table>
+<br /><br /><br /><strong>Returns:</strong> const char *<br />Returns an empty
+string ("") if the index is invalid or the specified user has no Rich Presence
+data available.
+<h2 class="bb_subsection">
+  <a name="GetFriendRichPresenceKeyCount"></a>GetFriendRichPresenceKeyCount
+</h2>
+<div class="bb_code cpp">
+  int GetFriendRichPresenceKeyCount( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user to get the Rich Presence Key Count of.</td>
+  </tr>
+</table>
+<br />Gets the number of Rich Presence keys that are set on the specified
+user.<br /><br />This is used for iteration, after calling this then
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendRichPresenceKeyByIndex"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendRichPresenceKeyByIndex</a
+>
+to get the rich presence keys.<br /><br />This is typically only ever used for
+debugging purposes.<br /><br /><strong>Returns:</strong> int<br />Returns
+<strong>0</strong> if there is no Rich Presence information for the specified
+user.
+<h2 class="bb_subsection">
+  <a name="GetFriendsGroupCount"></a>GetFriendsGroupCount
+</h2>
+<div class="bb_code cpp">int GetFriendsGroupCount();</div>
+Gets the number of friends groups (tags) the user has created.<br /><br />This
+is used for iteration, after calling this then
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendsGroupIDByIndex"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendsGroupIDByIndex</a
+>
+can be used to get the ID of each friend group.<br /><br />This is not to be
+confused with Steam groups. Those can be obtained with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanCount"
+  class="bb_apilink"
+  >ISteamFriends::GetClanCount</a
+>.<br /><br /><strong>Returns:</strong> int<br />The number of friends groups
+the current user has.<br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  void ListFriendsGroups() { int nGroups =
+  SteamFriends()-&gt;GetFriendsGroupCount(); for ( int i = 0; i &lt; nGroups;
+  ++i ) { FriendsGroupID_t friendsGroupID =
+  SteamFriends()-&gt;GetFriendsGroupIDByIndex( i ); const char
+  *szFriendsGroupName = SteamFriends()-&gt;GetFriendsGroupName( friendsGroupID
+  ); int nFriendsGroupMembers = SteamFriends()-&gt;GetFriendsGroupMembersCount(
+  friendsGroupID ); printf( "Group %d - ID: %d - Name: '%s' - Members: %d\n", i,
+  friendsGroupID, szFriendsGroupName, nFriendsGroupMembers );
+  std::vector&lt;CSteamID&gt; friends( nFriendsGroupMembers );
+  SteamFriends()-&gt;GetFriendsGroupMembersList( friendsGroupID, friends.data(),
+  nFriendsGroupMembers ); for ( int j = 0; j &lt; nFriendsGroupMembers; ++j ) {
+  printf( " - Member %d - ID: %lld\n", j, friends[j].ConvertToUint64() ); } } }
+</div>
+<h2 class="bb_subsection">
+  <a name="GetFriendsGroupIDByIndex"></a>GetFriendsGroupIDByIndex
+</h2>
+<div class="bb_code cpp">
+  FriendsGroupID_t GetFriendsGroupIDByIndex( int iFG );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iFG</strong></td>
+    <td>int</td>
+    <td>
+      An index between 0 and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendsGroupCount"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendsGroupCount</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets the friends group ID for the given index.<br /><br /><strong
+  >NOTE:</strong
+>
+You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendsGroupCount"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendsGroupCount</a
+>
+before calling this.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendsGroupID_t"
+  class="bb_apilink"
+  >FriendsGroupID_t</a
+><br />Invalid indices return
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#k_FriendsGroupID_Invalid"
+  class="bb_apilink"
+  >ISteamFriends::k_FriendsGroupID_Invalid</a
+>.
+<h2 class="bb_subsection">
+  <a name="GetFriendsGroupMembersCount"></a>GetFriendsGroupMembersCount
+</h2>
+<div class="bb_code cpp">
+  int GetFriendsGroupMembersCount( FriendsGroupID_t friendsGroupID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>friendsGroupID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendsGroupID_t"
+        class="bb_apilink"
+        >FriendsGroupID_t</a
+      >
+    </td>
+    <td>The friends group ID to get the number of friends in.</td>
+  </tr>
+</table>
+<br />Gets the number of friends in a given friends group.<br /><br />This
+should be called before getting the list of friends with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendsGroupMembersList"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendsGroupMembersList</a
+>.<br /><br /><strong>Returns:</strong> int<br />The number of friends in the
+specified friends group.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendsGroupCount"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendsGroupCount</a
+>
+<h2 class="bb_subsection">
+  <a name="GetFriendsGroupMembersList"></a>GetFriendsGroupMembersList
+</h2>
+<div class="bb_code cpp">
+  void GetFriendsGroupMembersList( FriendsGroupID_t friendsGroupID, CSteamID
+  *pOutSteamIDMembers, int nMembersCount );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>friendsGroupID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendsGroupID_t"
+        class="bb_apilink"
+        >FriendsGroupID_t</a
+      >
+    </td>
+    <td>The friends group ID to get the members list of.</td>
+  </tr>
+  <tr>
+    <td><strong>pOutSteamIDMembers</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+      *
+    </td>
+    <td>Returns the Steam IDs of the friends by setting them in this array.</td>
+  </tr>
+  <tr>
+    <td><strong>nMembersCount</strong></td>
+    <td>int</td>
+    <td>
+      This should match the number of elements allocated
+      <code class="bb_code bb_code_inline nohighlight">pOutSteamIDMembers</code>
+      and the value returned by
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendsGroupMembersCount"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendsGroupMembersCount</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets the number of friends in the given friends group.<br /><br />If fewer
+friends exist than requested those positions' Steam IDs will be invalid.<br /><br />You
+must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendsGroupMembersCount"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendsGroupMembersCount</a
+>
+before calling this to set up the
+<code class="bb_code bb_code_inline nohighlight">pOutSteamIDMembers</code> array
+with an appropriate size!<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendsGroupCount"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendsGroupCount</a
+>
+<h2 class="bb_subsection">
+  <a name="GetFriendsGroupName"></a>GetFriendsGroupName
+</h2>
+<div class="bb_code cpp">
+  const char * GetFriendsGroupName( FriendsGroupID_t friendsGroupID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>friendsGroupID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendsGroupID_t"
+        class="bb_apilink"
+        >FriendsGroupID_t</a
+      >
+    </td>
+    <td>The friends group ID to get the name of.</td>
+  </tr>
+</table>
+<br />Gets the name for the given friends group.<br /><br /><strong
+  >Returns:</strong
+>
+const char *<br />The friend groups name in UTF-8 format. Returns
+<strong>NULL</strong> if the group ID is invalid.<br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendsGroupCount"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendsGroupCount</a
+>
+<h2 class="bb_subsection">
+  <a name="GetFriendSteamLevel"></a>GetFriendSteamLevel
+</h2>
+<div class="bb_code cpp">
+  int GetFriendSteamLevel( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user.</td>
+  </tr>
+</table>
+<br />Gets the Steam level of the specified user.<br /><br />You can use the
+local users Steam ID (<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#GetSteamID"
+  class="bb_apilink"
+  >ISteamUser::GetSteamID</a
+>) to get their level.<br /><br /><strong>Returns:</strong> int<br />The Steam
+level if it's available.<br /><br />If the Steam level is not immediately
+available for the specified user then this returns <strong>0</strong> and queues
+it to be downloaded from the Steam servers. When it gets downloaded a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#PersonaStateChange_t"
+  class="bb_apilink"
+  >PersonaStateChange_t</a
+>
+callback will be posted with
+<code class="bb_code bb_code_inline nohighlight">m_nChangeFlags</code> including
+<code class="bb_code bb_code_inline nohighlight"
+  >k_EPersonaChangeSteamLevel</code
+>.
+<h2 class="bb_subsection">
+  <a name="GetLargeFriendAvatar"></a>GetLargeFriendAvatar
+</h2>
+<div class="bb_code cpp">
+  int GetLargeFriendAvatar( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td></td>
+  </tr>
+</table>
+<br />Gets a handle to the large (128*128px) avatar for the specified user.<br /><br />You
+can pass in
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#GetSteamID"
+  class="bb_apilink"
+  >ISteamUser::GetSteamID</a
+>
+to get the current users avatar.<br /><br /><strong>NOTE:</strong> This only
+works for users that the local user knows about. They will automatically know
+about their friends, people on leaderboards they've requested, or people in the
+same source as them (Steam group, chat room, lobby, or game server). If they
+don't know about them then you must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestUserInformation"
+  class="bb_apilink"
+  >ISteamFriends::RequestUserInformation</a
+>
+to cache the avatar locally.<br /><br /><strong>Returns:</strong>
+int<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#AvatarImageLoaded_t"
+  class="bb_apilink"
+  >AvatarImageLoaded_t</a
+>
+callback.<br />A Steam image handle which is used with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageSize"
+  class="bb_apilink"
+  >ISteamUtils::GetImageSize</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageRGBA"
+  class="bb_apilink"
+  >ISteamUtils::GetImageRGBA</a
+>.<br />Returns <strong>0</strong> if no avatar is set for the user.<br />Returns
+<strong>-1</strong> if the avatar image data has not been loaded yet and
+requests that it gets download. In this case wait for a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#AvatarImageLoaded_t"
+  class="bb_apilink"
+  >AvatarImageLoaded_t</a
+>
+callback and then call this again.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetMediumFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetMediumFriendAvatar</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetSmallFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetSmallFriendAvatar</a
+>
+<h2 class="bb_subsection">
+  <a name="GetMediumFriendAvatar"></a>GetMediumFriendAvatar
+</h2>
+<div class="bb_code cpp">
+  int GetMediumFriendAvatar( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td></td>
+  </tr>
+</table>
+<br />Gets a handle to the medium (64*64px) avatar for the specified user.<br /><br />You
+can pass in
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#GetSteamID"
+  class="bb_apilink"
+  >ISteamUser::GetSteamID</a
+>
+to get the current users avatar.<br /><br /><strong>NOTE:</strong> This only
+works for users that the local user knows about. They will automatically know
+about their friends, people on leaderboards they've requested, or people in the
+same source as them (Steam group, chat room, lobby, or game server). If they
+don't know about them then you must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestUserInformation"
+  class="bb_apilink"
+  >ISteamFriends::RequestUserInformation</a
+>
+to cache the avatar locally.<br /><br /><strong>Returns:</strong> int<br />A
+Steam image handle which is used with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageSize"
+  class="bb_apilink"
+  >ISteamUtils::GetImageSize</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageRGBA"
+  class="bb_apilink"
+  >ISteamUtils::GetImageRGBA</a
+>.<br />Returns <strong>0</strong> if no avatar is set for the user.<br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetLargeFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetLargeFriendAvatar</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetSmallFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetSmallFriendAvatar</a
+>
+<h2 class="bb_subsection"><a name="GetPersonaName"></a>GetPersonaName</h2>
+<div class="bb_code cpp">const char * GetPersonaName();</div>
+Gets the current users persona (display) name.<br /><br />This is the same name
+that is displayed the users community profile page.<br /><br />To get the
+persona name of other users use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendPersonaName"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendPersonaName</a
+>.<br /><br /><strong>Returns:</strong> const char *<br />The current users
+persona name in UTF-8 format. Guaranteed to not be <strong>NULL</strong>.
+<h2 class="bb_subsection"><a name="GetPersonaState"></a>GetPersonaState</h2>
+<div class="bb_code cpp">EPersonaState GetPersonaState();</div>
+Gets the friend status of the current user.<br /><br />To get the state of other
+users use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendPersonaState"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendPersonaState</a
+>.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#EPersonaState"
+  class="bb_apilink"
+  >EPersonaState</a
+><br />The friend state of the current user. (Online, Offline, In-Game, etc)
+<h2 class="bb_subsection"><a name="GetPlayerNickname"></a>GetPlayerNickname</h2>
+<div class="bb_code cpp">
+  const char * GetPlayerNickname( CSteamID steamIDPlayer );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDPlayer</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user.</td>
+  </tr>
+</table>
+<br />Gets the nickname that the current user has set for the specified user.<br /><br /><strong
+  >Returns:</strong
+>
+const char *<br /><strong>NULL</strong> if the no nickname has been set for that
+user.
+<h2 class="bb_subsection">
+  <a name="GetSmallFriendAvatar"></a>GetSmallFriendAvatar
+</h2>
+<div class="bb_code cpp">
+  int GetSmallFriendAvatar( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td></td>
+  </tr>
+</table>
+<br />Gets a handle to the small (32*32px) avatar for the specified user.<br /><br />You
+can pass in
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#GetSteamID"
+  class="bb_apilink"
+  >ISteamUser::GetSteamID</a
+>
+to get the current users avatar.<br /><br /><strong>NOTE:</strong> This only
+works for users that the local user knows about. They will automatically know
+about their friends, people on leaderboards they've requested, or people in the
+same source as them (Steam group, chat room, lobby, or game server). If they
+don't know about them then you must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestUserInformation"
+  class="bb_apilink"
+  >ISteamFriends::RequestUserInformation</a
+>
+to cache the avatar locally.<br /><br /><strong>Returns:</strong> int<br />A
+Steam image handle which is used with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageSize"
+  class="bb_apilink"
+  >ISteamUtils::GetImageSize</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageRGBA"
+  class="bb_apilink"
+  >ISteamUtils::GetImageRGBA</a
+>.<br />Returns <strong>0</strong> if no avatar is set for the user.<br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetLargeFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetLargeFriendAvatar</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetMediumFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetMediumFriendAvatar</a
+>
+<h2 class="bb_subsection">
+  <a name="GetUserRestrictions"></a>GetUserRestrictions
+</h2>
+<div class="bb_code cpp">uint32 GetUserRestrictions();</div>
+Checks if current user is chat restricted.<br /><br />If they are restricted,
+then they can't send or receive any text/voice chat messages, can't see custom
+avatars.<br />A chat restricted user can't add friends or join any groups.<br />Restricted
+users can still be online and send/receive game invites.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+><br />See:
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#EUserRestriction"
+  class="bb_apilink"
+  >EUserRestriction</a
+>
+<h2 class="bb_subsection"><a name="HasFriend"></a>HasFriend</h2>
+<div class="bb_code cpp">
+  bool HasFriend( CSteamID steamIDFriend, int iFriendFlags );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam user to check the friend status of.</td>
+  </tr>
+  <tr>
+    <td><strong>iFriendFlags</strong></td>
+    <td>int</td>
+    <td>
+      A combined union (binary "or") of one or more
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#EFriendFlags"
+        class="bb_apilink"
+        >EFriendFlags</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Checks if the user meets the specified criteria. (Friends, blocked, users
+on the same server, etc)<br /><br /><strong>Returns:</strong> bool<br /><strong
+  >true</strong
+>
+if the specified user meets any of the criteria specified in
+<code class="bb_code bb_code_inline nohighlight">iFriendFlags</code>; otherwise,
+<strong>false</strong>.
+<h2 class="bb_subsection"><a name="InviteUserToGame"></a>InviteUserToGame</h2>
+<div class="bb_code cpp">
+  bool InviteUserToGame( CSteamID steamIDFriend, const char *pchConnectString );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the friend to invite.</td>
+  </tr>
+  <tr>
+    <td><strong>pchConnectString</strong></td>
+    <td>const char *</td>
+    <td>
+      A string that lets the friend know how to join the game (I.E. the game
+      server IP). This can not be longer than specified in
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cchMaxRichPresenceValueLength"
+        class="bb_apilink"
+        >k_cchMaxRichPresenceValueLength</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Invites a friend or clan member to the current game using a special invite
+string.<br /><br />If the target user accepts the invite then the
+pchConnectString gets added to the command-line when launching the game.<br />If
+the game is already running for that user, then they will receive a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameRichPresenceJoinRequested_t"
+  class="bb_apilink"
+  >GameRichPresenceJoinRequested_t</a
+>
+callback with the connect string.<br /><br /><strong>Returns:</strong>
+bool<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameRichPresenceJoinRequested_t"
+  class="bb_apilink"
+  >GameRichPresenceJoinRequested_t</a
+>
+callback.<br /><strong>true</strong> if the invite was successfully sent.<br /><strong
+  >false</strong
+>
+under the following conditions:<br />
+<ul class="bb_ul">
+  <li>
+    The Steam ID provided to
+    <code class="bb_code bb_code_inline nohighlight">steamIDFriend</code> was
+    invalid.<br />
+  </li>
+  <li>
+    The Steam ID provided to
+    <code class="bb_code bb_code_inline nohighlight">steamIDFriend</code> is not
+    a friend or does not share the same Steam Group as the current user.<br />
+  </li>
+  <li>
+    The value provided to
+    <code class="bb_code bb_code_inline nohighlight">pchConnectString</code> was
+    too long.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#InviteUserToLobby"
+  class="bb_apilink"
+  >ISteamMatchmaking::InviteUserToLobby</a
+>
+<h2 class="bb_subsection"><a name="IsClanChatAdmin"></a>IsClanChatAdmin</h2>
+<div class="bb_code cpp">
+  bool IsClanChatAdmin( CSteamID steamIDClanChat, CSteamID steamIDUser );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group chat room.</td>
+  </tr>
+  <tr>
+    <td><strong>steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user to check the admin status of.</td>
+  </tr>
+</table>
+<br />Checks if a user in the Steam group chat room is an admin.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the specified user is an admin.<br /><strong
+  >false</strong
+>
+if the user is not an admin, if the current user is not in the chat room
+specified, or the specified user is not in the chat room.
+<h2 class="bb_subsection"><a name="IsClanPublic"></a>IsClanPublic</h2>
+<div class="bb_code cpp">bool IsClanPublic( CSteamID steamIDClan );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan </strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group.</td>
+  </tr>
+</table>
+<br />Checks if the Steam group is public.<br /><br /><strong>Returns:</strong>
+bool<br /><strong>true</strong> if the specified group is public<br /><strong
+  >false</strong
+>
+if the specified group is not public
+<h2 class="bb_subsection">
+  <a name="IsClanOfficialGameGroup"></a>IsClanOfficialGameGroup
+</h2>
+<div class="bb_code cpp">
+  bool IsClanOfficialGameGroup( CSteamID steamIDClan );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan </strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group.</td>
+  </tr>
+</table>
+<br />Checks if the Steam group is an official game group/community hub.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the specified group is an official game
+group/community hub<br /><strong>false</strong> if the specified group is not an
+official game group/community hub
+<h2 class="bb_subsection">
+  <a name="IsClanChatWindowOpenInSteam"></a>IsClanChatWindowOpenInSteam
+</h2>
+<div class="bb_code cpp">
+  bool IsClanChatWindowOpenInSteam( CSteamID steamIDClanChat );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group chat room to check.</td>
+  </tr>
+</table>
+<br />Checks if the Steam Group chat room is open in the Steam UI.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the specified Steam group chat room is
+opened; otherwise, <strong>false</strong>.<br />This also returns
+<strong>false</strong> if the specified Steam group chat room is unknown.<br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#OpenClanChatWindowInSteam"
+  class="bb_apilink"
+  >ISteamFriends::OpenClanChatWindowInSteam</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#CloseClanChatWindowInSteam"
+  class="bb_apilink"
+  >ISteamFriends::CloseClanChatWindowInSteam</a
+>
+<h2 class="bb_subsection"><a name="IsFollowing"></a>IsFollowing</h2>
+<div class="bb_code cpp">SteamAPICall_t IsFollowing( CSteamID steamID );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the check if we are following.</td>
+  </tr>
+</table>
+<br />Checks if the current user is following the specified user.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendsIsFollowing_t"
+  class="bb_apilink"
+  >FriendsIsFollowing_t</a
+>
+call result.<br /><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  class CIsFollowingExample { public: CIsFollowingExample(); void
+  CheckWhichFriendsWeAreFollowing(); private: void OnFriendsIsFollowing(
+  FriendsIsFollowing_t *pCallback, bool bIOFailure ); CCallResult&lt;
+  CIsFollowingExample, FriendsIsFollowing_t &gt;
+  m_SteamCallResultFriendsIsFollowing; int m_nFriends; int m_iFriendIndex; };
+  CIsFollowingExample::CIsFollowingExample() { m_nFriends =
+  SteamFriends()-&gt;GetFriendCount( k_EFriendFlagImmediate ); if ( m_nFriends
+  == -1 ) { printf( "GetFriendCount returned -1, the current user is not logged
+  in.\n" ); m_nFriends = 0; } m_iFriendIndex = 0; } void
+  CIsFollowingExample::CheckWhichFriendsWeAreFollowing() { if ( m_iFriendIndex
+  &lt; m_nFriends ) { CSteamID steamID = SteamFriends()-&gt;GetFriendByIndex(
+  m_iFriendIndex, k_EFriendFlagImmediate ); printf( "Checking if we follow %lld
+  (%d of %d).\n", steamID.ConvertToUint64(), m_iFriendIndex, m_nFriends );
+  SteamAPICall_t handle = SteamFriends()-&gt;IsFollowing( steamID );
+  m_SteamCallResultFriendsIsFollowing.Set( handle, this,
+  &amp;CIsFollowingExample::OnFriendsIsFollowing ); } } void
+  CIsFollowingExample::OnFriendsIsFollowing( FriendsIsFollowing_t *pCallback,
+  bool bIOFailure ) { if ( pCallback-&gt;m_eResult != k_EResultOK || bIOFailure
+  ) { printf( "OnFriendsIsFollowing failed for %lld with m_eResult: %d and
+  bIOFailure: %d!\n", pCallback-&gt;m_steamID.ConvertToUint64(),
+  pCallback-&gt;m_eResult, bIOFailure ); return; } if (
+  pCallback-&gt;m_bIsFollowing ) printf( "We are following %lld\n",
+  pCallback-&gt;m_steamID.ConvertToUint64() ); // Recursively check our whole
+  friends list. m_iFriendIndex++; CheckWhichFriendsWeAreFollowing(); }
+</div>
+<h2 class="bb_subsection"><a name="IsUserInSource"></a>IsUserInSource</h2>
+<div class="bb_code cpp">
+  bool IsUserInSource( CSteamID steamIDUser, CSteamID steamIDSource );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The user to check if they are in the source.</td>
+  </tr>
+  <tr>
+    <td><strong>steamIDSource</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The source to check for the user.</td>
+  </tr>
+</table>
+<br />Checks if a specified user is in a source (Steam group, chat room, lobby,
+or game server).<br /><br /><strong>Returns:</strong> bool<br /><strong
+  >true</strong
+>
+if the local user can see that
+<code class="bb_code bb_code_inline nohighlight">steamIDUser</code> is a member
+or in <code class="bb_code bb_code_inline nohighlight">steamIDSource</code>;
+otherwise, <strong>false</strong>.
+<h2 class="bb_subsection"><a name="JoinClanChatRoom"></a>JoinClanChatRoom</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t JoinClanChatRoom( CSteamID steamIDClan );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group to join.</td>
+  </tr>
+</table>
+<br />Allows the user to join Steam group (clan) chats right within the game.<br /><br />The
+behavior is somewhat complicated, because the user may or may not be already in
+the group chat from outside the game or in the overlay.<br /><br />You can use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToUser"
+  class="bb_apilink"
+  >ISteamFriends::ActivateGameOverlayToUser</a
+>
+to open the in-game overlay version of the chat.<br /><br />If you have joined a
+Steam group chat then you should be watching for the following callbacks:<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedClanChatMsg_t"
+      class="bb_apilink"
+      >GameConnectedClanChatMsg_t</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedChatJoin_t"
+      class="bb_apilink"
+      >GameConnectedChatJoin_t</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedChatLeave_t"
+      class="bb_apilink"
+      >GameConnectedChatLeave_t</a
+    >
+  </li>
+</ul>
+<br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#JoinClanChatRoomCompletionResult_t"
+  class="bb_apilink"
+  >JoinClanChatRoomCompletionResult_t</a
+>
+call result.<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedChatJoin_t"
+  class="bb_apilink"
+  >GameConnectedChatJoin_t</a
+>
+callback.<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedClanChatMsg_t"
+  class="bb_apilink"
+  >GameConnectedClanChatMsg_t</a
+>
+callback.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#LeaveClanChatRoom"
+  class="bb_apilink"
+  >ISteamFriends::LeaveClanChatRoom</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanChatMemberCount"
+  class="bb_apilink"
+  >ISteamFriends::GetClanChatMemberCount</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetChatMemberByIndex"
+  class="bb_apilink"
+  >ISteamFriends::GetChatMemberByIndex</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#SendClanChatMessage"
+  class="bb_apilink"
+  >ISteamFriends::SendClanChatMessage</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanChatMessage"
+  class="bb_apilink"
+  >ISteamFriends::GetClanChatMessage</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#IsClanChatAdmin"
+  class="bb_apilink"
+  >ISteamFriends::IsClanChatAdmin</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#IsClanChatWindowOpenInSteam"
+  class="bb_apilink"
+  >ISteamFriends::IsClanChatWindowOpenInSteam</a
+>
+<h2 class="bb_subsection"><a name="LeaveClanChatRoom"></a>LeaveClanChatRoom</h2>
+<div class="bb_code cpp">bool LeaveClanChatRoom( CSteamID steamIDClan );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group chat to leave.</td>
+  </tr>
+</table>
+<br />Leaves a Steam group chat that the user has previously entered with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#JoinClanChatRoom"
+  class="bb_apilink"
+  >ISteamFriends::JoinClanChatRoom</a
+>.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedChatLeave_t"
+  class="bb_apilink"
+  >GameConnectedChatLeave_t</a
+>
+callback.<br /><strong>true</strong> if user is in the specified chat room,
+otherwise <strong>false</strong>.
+<h2 class="bb_subsection">
+  <a name="OpenClanChatWindowInSteam"></a>OpenClanChatWindowInSteam
+</h2>
+<div class="bb_code cpp">
+  bool OpenClanChatWindowInSteam( CSteamID steamIDClanChat );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the Steam group chat room to open.</td>
+  </tr>
+</table>
+<br />Opens the specified Steam group chat room in the Steam UI.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the user successfully entered the Steam group
+chat room.<br /><strong>false</strong> in one of the following situations:<br />
+<ul class="bb_ul">
+  <li>
+    The provided Steam group chat room does not exist or the user does not have
+    access to join it.<br />
+  </li>
+  <li>The current user is currently rate limited.<br /></li>
+  <li>The current user is chat restricted.</li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#IsClanChatWindowOpenInSteam"
+  class="bb_apilink"
+  >ISteamFriends::IsClanChatWindowOpenInSteam</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#CloseClanChatWindowInSteam"
+  class="bb_apilink"
+  >ISteamFriends::CloseClanChatWindowInSteam</a
+>
+<h2 class="bb_subsection">
+  <a name="ReplyToFriendMessage"></a>ReplyToFriendMessage
+</h2>
+<div class="bb_code cpp">
+  bool ReplyToFriendMessage( CSteamID steamIDFriend, const char *pchMsgToSend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the friend to send the message to.</td>
+  </tr>
+  <tr>
+    <td><strong>pchMsgToSend</strong></td>
+    <td>const char *</td>
+    <td>The UTF-8 formatted message to send.</td>
+  </tr>
+</table>
+<br />Sends a message to a Steam friend.<br /><br /><strong>Returns:</strong>
+bool<br /><strong>true</strong> if the message was successfully sent.<br /><strong
+  >false</strong
+>
+if the current user is rate limited or chat restricted.
+<h2 class="bb_subsection">
+  <a name="RequestClanOfficerList"></a>RequestClanOfficerList
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t RequestClanOfficerList( CSteamID steamIDClan );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam group to get the officers list for.</td>
+  </tr>
+</table>
+<br />Requests information about a Steam group officers (administrators and
+moderators).<br /><br /><strong>NOTE:</strong> You can only ask about Steam
+groups that a user is a member of.<br /><strong>NOTE:</strong> This won't
+download avatars for the officers automatically. If no avatar image is available
+for an officer, then call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestUserInformation"
+  class="bb_apilink"
+  >ISteamFriends::RequestUserInformation</a
+>
+to download the avatar.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#ClanOfficerListResponse_t"
+  class="bb_apilink"
+  >ClanOfficerListResponse_t</a
+>
+call result.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOwner"
+  class="bb_apilink"
+  >ISteamFriends::GetClanOwner</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOfficerCount"
+  class="bb_apilink"
+  >ISteamFriends::GetClanOfficerCount</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOfficerByIndex"
+  class="bb_apilink"
+  >ISteamFriends::GetClanOfficerByIndex</a
+><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  class CClanOfficerListExample { public: void RequestOfficerList(); private:
+  void OnClanOfficerListResponse( ClanOfficerListResponse_t *pCallback, bool
+  bIOFailure ); CCallResult&lt; CClanOfficerListExample,
+  ClanOfficerListResponse_t &gt; m_SteamCallResultClanOfficerListResponse; };
+  void CClanOfficerListExample::RequestOfficerList() { printf( "Requesting the
+  Clan Officer List\n" ); const CSteamID SteamworksDevGroup =
+  103582791433474333ull; SteamAPICall_t handle =
+  SteamFriends()-&gt;RequestClanOfficerList( SteamworksDevGroup );
+  m_SteamCallResultClanOfficerListResponse.Set( handle, this,
+  &amp;CClanOfficerListExample::OnClanOfficerListResponse ); } void
+  CClanOfficerListExample::OnClanOfficerListResponse( ClanOfficerListResponse_t
+  *pCallback, bool bIOFailure ) { if ( !pCallback-&gt;m_bSuccess || bIOFailure )
+  { printf( "ClanOfficerListResponse failed for %lld!",
+  pCallback-&gt;m_steamIDClan.ConvertToUint64() ); return; } printf( "Got a
+  ClanOfficerListResponse for: %s (%lld)\n", SteamFriends()-&gt;GetClanName(
+  pCallback-&gt;m_steamIDClan ), pCallback-&gt;m_steamIDClan.ConvertToUint64()
+  ); CSteamID ownerSteamID =
+  SteamFriends()-&gt;GetClanOwner(pCallback-&gt;m_steamIDClan); printf( " The
+  owner of the clan is: %s (%lld) and there are %d officers.\n",
+  SteamFriends()-&gt;GetFriendPersonaName( ownerSteamID ),
+  ownerSteamID.ConvertToUint64(), pCallback-&gt;m_cOfficers ); int nOfficers =
+  SteamFriends()-&gt;GetClanOfficerCount( pCallback-&gt;m_steamIDClan ); printf(
+  " GetClanOfficerCount reports: %d", nOfficers ); for ( int i = 0; i &lt;
+  nOfficers; ++i ) { CSteamID officerSteamID =
+  SteamFriends()-&gt;GetClanOfficerByIndex( pCallback-&gt;m_steamIDClan, i );
+  printf( " Officer %d: %s (%lld)\n", i,
+  SteamFriends()-&gt;GetFriendPersonaName(officerSteamID),
+  officerSteamID.ConvertToUint64() ); } }
+</div>
+<h2 class="bb_subsection">
+  <a name="RequestFriendRichPresence"></a>RequestFriendRichPresence
+</h2>
+<div class="bb_code cpp">
+  void RequestFriendRichPresence( CSteamID steamIDFriend );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user to request the rich presence of.</td>
+  </tr>
+</table>
+<br />Requests Rich Presence data from a specific user.<br /><br />This is used
+to get the Rich Presence information from a user that is not a friend of the
+current user, like someone in the same lobby or game server.<br /><br />This
+function is rate limited, if you call this too frequently for a particular user
+then it will just immediately post a callback without requesting new data from
+the server.<br /><br /><strong>Returns:</strong> void<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendRichPresenceUpdate_t"
+  class="bb_apilink"
+  >FriendRichPresenceUpdate_t</a
+>
+callback.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendRichPresence"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendRichPresence</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
+  class="bb_apilink"
+  >ISteamFriends::SetRichPresence</a
+>
+<h2 class="bb_subsection">
+  <a name="RequestUserInformation"></a>RequestUserInformation
+</h2>
+<div class="bb_code cpp">
+  bool RequestUserInformation( CSteamID steamIDUser, bool bRequireNameOnly );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The user to request the information of.</td>
+  </tr>
+  <tr>
+    <td><strong>bRequireNameOnly</strong></td>
+    <td>bool</td>
+    <td>
+      Retrieve the Persona name only (<strong>true</strong>)? Or both the name
+      and the avatar (<strong>false</strong>)?
+    </td>
+  </tr>
+</table>
+<br />Requests the persona name and optionally the avatar of a specified
+user.<br /><br /><strong>NOTE:</strong> It's a lot slower to download avatars
+and churns the local cache, so if you don't need avatars, don't request them.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#PersonaStateChange_t"
+  class="bb_apilink"
+  >PersonaStateChange_t</a
+>
+callback.<br /><strong>true</strong> means that the data has being requested,
+and a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#PersonaStateChange_t"
+  class="bb_apilink"
+  >PersonaStateChange_t</a
+>
+callback will be posted when it's retrieved.<br /><strong>false</strong> means
+that we already have all the details about that user, and functions that require
+this information can be used immediately.
+<h2 class="bb_subsection">
+  <a name="SendClanChatMessage"></a>SendClanChatMessage
+</h2>
+<div class="bb_code cpp">
+  bool SendClanChatMessage( CSteamID steamIDClanChat, const char *pchText );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the group chat to send the message to.</td>
+  </tr>
+  <tr>
+    <td><strong>pchText</strong></td>
+    <td>const char *</td>
+    <td>
+      The UTF-8 formatted message to send. This can be up to 2048 characters
+      long.
+    </td>
+  </tr>
+</table>
+<br />Sends a message to a Steam group chat room.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if the message was successfully sent.<br /><strong
+  >false</strong
+>
+under one of the following circumstances:<br />
+<ul class="bb_ul">
+  <li>The current user is not in the specified group chat.<br /></li>
+  <li>The current user is not connected to Steam.<br /></li>
+  <li>The current user is rate limited.<br /></li>
+  <li>The current user is chat restricted.<br /></li>
+  <li>
+    The message in
+    <code class="bb_code bb_code_inline nohighlight">pchText</code> exceeds 2048
+    characters.
+  </li>
+</ul>
+<h2 class="bb_subsection">
+  <a name="SetInGameVoiceSpeaking"></a>SetInGameVoiceSpeaking
+</h2>
+<div class="bb_code cpp">
+  void SetInGameVoiceSpeaking( CSteamID steamIDUser, bool bSpeaking );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>Unused.</td>
+  </tr>
+  <tr>
+    <td><strong>bSpeaking</strong></td>
+    <td>bool</td>
+    <td>
+      Did the user start speaking in game (<strong>true</strong>) or stopped
+      speaking in game (<strong>false</strong>)?
+    </td>
+  </tr>
+</table>
+<br />Let Steam know that the user is currently using voice chat in game.<br /><br />This
+will suppress the microphone for all voice communication in the Steam UI.
+<h2 class="bb_subsection">
+  <a name="SetListenForFriendsMessages"></a>SetListenForFriendsMessages
+</h2>
+<div class="bb_code cpp">
+  bool SetListenForFriendsMessages( bool bInterceptEnabled );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>bInterceptEnabled</strong></td>
+    <td>bool</td>
+    <td>
+      Turn friends message interception on (<strong>true</strong>) or off
+      (<strong>false</strong>)?
+    </td>
+  </tr>
+</table>
+<br />Listens for Steam friends chat messages.<br /><br />You can then show
+these chats inline in the game. For example with a Blizzard style chat message
+system or the chat system in Dota 2.<br /><br />After enabling this you will
+receive
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedFriendChatMsg_t"
+  class="bb_apilink"
+  >GameConnectedFriendChatMsg_t</a
+>
+callbacks when ever the user receives a chat message. You can get the actual
+message data from this callback with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendMessage"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendMessage</a
+>. You can send messages with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#ReplyToFriendMessage"
+  class="bb_apilink"
+  >ISteamFriends::ReplyToFriendMessage</a
+>.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameConnectedFriendChatMsg_t"
+  class="bb_apilink"
+  >GameConnectedFriendChatMsg_t</a
+>
+callback.<br />Always returns <strong>true</strong>.
+<h2 class="bb_subsection"><a name="SetPersonaName"></a>SetPersonaName</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t SetPersonaName( const char *pchPersonaName );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchPersonaName</strong></td>
+    <td>const char *</td>
+    <td>
+      The users new persona name. Can not be longer than
+      <code class="bb_code bb_code_inline nohighlight"
+        >k_cchPersonaNameMax</code
+      >
+      bytes.
+    </td>
+  </tr>
+</table>
+<br />Sets the current users persona name, stores it on the server and publishes
+the changes to all friends who are online.<br /><br />Changes take place locally
+immediately, and a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#PersonaStateChange_t"
+  class="bb_apilink"
+  >PersonaStateChange_t</a
+>
+callback is posted, presuming success.<br /><br />If the name change fails to
+happen on the server, then an additional
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#PersonaStateChange_t"
+  class="bb_apilink"
+  >PersonaStateChange_t</a
+>
+callback will be posted to change the name back, in addition to the final result
+available in the call result.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#SetPersonaNameResponse_t"
+  class="bb_apilink"
+  >SetPersonaNameResponse_t</a
+>
+call result.
+<h2 class="bb_subsection"><a name="SetPlayedWith"></a>SetPlayedWith</h2>
+<div class="bb_code cpp">
+  void SetPlayedWith( CSteamID steamIDUserPlayedWith );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDUserPlayedWith</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The other user that we have played with.</td>
+  </tr>
+</table>
+<br />Mark a target user as 'played with'.<br /><br /><strong>NOTE:</strong> The
+current user must be in game with the other player for the association to
+work.<br /><br />You can view the players you have recently played with
+<a
+  href="http://steamcommunity.com/my/friends/coplay/"
+  target="_blank"
+  rel="noreferrer"
+  >here</a
+>
+on the Steam community and in the
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>.
+<h2 class="bb_subsection"><a name="SetRichPresence"></a>SetRichPresence</h2>
+<div class="bb_code cpp">
+  bool SetRichPresence( const char *pchKey, const char *pchValue );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchKey</strong></td>
+    <td>const char *</td>
+    <td>
+      The rich presence 'key' to set. This can not be longer than specified in
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cchMaxRichPresenceKeyLength"
+        class="bb_apilink"
+        >k_cchMaxRichPresenceKeyLength</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pchValue</strong></td>
+    <td>const char *</td>
+    <td>
+      The rich presence 'value' to associate with
+      <code class="bb_code bb_code_inline nohighlight">pchKey</code>. This can
+      not be longer than specified in
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cchMaxRichPresenceValueLength"
+        class="bb_apilink"
+        >k_cchMaxRichPresenceValueLength</a
+      >.<br />If this is set to an empty string ("") or
+      <strong>NULL</strong> then the key is removed if it's set.
+    </td>
+  </tr>
+</table>
+<br />Sets a Rich Presence key/value for the current user that is automatically
+shared to all friends playing the same game.<br /><br />Each user can have up to
+20 keys set as defined by
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cchMaxRichPresenceKeys"
+  class="bb_apilink"
+  >k_cchMaxRichPresenceKeys</a
+>.<br /><br />There are two special keys used for viewing/joining games:<br />
+<ul class="bb_ul">
+  <li>
+    "status" - A UTF-8 string that will show up in the 'view game info' dialog
+    in the Steam friends list.<br />
+  </li>
+  <li>
+    "connect" - A UTF-8 string that contains the command-line for how a friend
+    can connect to a game. This enables the 'join game' button in the 'view game
+    info' dialog, in the steam friends list right click menu, and on the players
+    Steam community profile. Be sure your app implements
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamApps#GetLaunchCommandLine"
+      class="bb_apilink"
+      >ISteamApps::GetLaunchCommandLine</a
+    >
+    so you can disable the popup warning when launched via a command line.
+  </li>
+</ul>
+<br />There are three additional special keys used by the
+<a
+  href="https://steamcommunity.com/updates/chatupdate"
+  target="_blank"
+  rel="noreferrer"
+  >new Steam Chat</a
+>:<br />
+<ul class="bb_ul %1$s">
+  <li>
+    "steam_display" - Names a rich presence localization token that will be
+    displayed in the viewing user's selected language in the Steam client UI.
+    See
+    <a href="#richpresencelocalization" class="bb_doclink"
+      >Rich Presence Localization</a
+    >
+    for more info, including a link to a page for testing this rich presence
+    data. If steam_display is not set to a valid localization tag, then rich
+    presence will not be displayed in the Steam client.<br />
+  </li>
+  <li>
+    "steam_player_group" - When set, indicates to the Steam client that the
+    player is a member of a particular group. Players in the same group may be
+    organized together in various places in the Steam UI. This string could
+    identify a party, a server, or whatever grouping is relevant for your game.
+    The string itself is not displayed to users.<br />
+  </li>
+  <li>
+    "steam_player_group_size" - When set, indicates the total number of players
+    in the steam_player_group. The Steam client may use this number to display
+    additional information about a group when all of the members are not part of
+    a user's friends list. (For example, "Bob, Pete, and 4 more".)
+  </li>
+</ul>
+<br />You can clear all of the keys for the current user with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#ClearRichPresence"
+  class="bb_apilink"
+  >ISteamFriends::ClearRichPresence</a
+>.<br /><br />To get rich presence keys for friends see:
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendRichPresence"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendRichPresence</a
+>.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the
+rich presence was set successfully.<br /><strong>false</strong> under the
+following conditions:<br />
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">pchKey</code> was longer
+    than
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cchMaxRichPresenceKeyLength"
+      class="bb_apilink"
+      >k_cchMaxRichPresenceKeyLength</a
+    >
+    or had a length of <strong>0</strong>.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">pchValue</code> was longer
+    than
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cchMaxRichPresenceValueLength"
+      class="bb_apilink"
+      >k_cchMaxRichPresenceValueLength</a
+    >.<br />
+  </li>
+  <li>
+    The user has reached the maximum amount of rich presence keys as defined by
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cchMaxRichPresenceKeys"
+      class="bb_apilink"
+      >k_cchMaxRichPresenceKeys</a
+    >.
+  </li>
+</ul>
+<h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
+These are callbacks which can be fired by calling
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
+  class="bb_apilink"
+  >SteamAPI_RunCallbacks</a
+>. Many of these will be fired directly in response to the member functions of
+<code class="bb_code bb_code_inline nohighlight">ISteamFriends</code>.
+<h2 class="bb_subsection">
+  <a name="AvatarImageLoaded_t"></a>AvatarImageLoaded_t
+</h2>
+Called when a large avatar is loaded if you have tried requesting it when it was
+unavailable.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID that the avatar has been loaded for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_iImage</strong></td>
+    <td>int</td>
+    <td>The Steam image handle of the now loaded image.</td>
+  </tr>
+  <tr>
+    <td><strong>m_iWide</strong></td>
+    <td>int</td>
+    <td>Width of the loaded image.</td>
+  </tr>
+  <tr>
+    <td><strong>m_iTall</strong></td>
+    <td>int</td>
+    <td>Height of the loaded image.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetLargeFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetLargeFriendAvatar</a
+>
+<h2 class="bb_subsection">
+  <a name="ClanOfficerListResponse_t"></a>ClanOfficerListResponse_t
+</h2>
+Marks the return of a request officer list call.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDClan</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam group that we just got the officer list for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_cOfficers</strong></td>
+    <td>int</td>
+    <td>
+      The number of officers in the group. This is the same as
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOfficerCount"
+        class="bb_apilink"
+        >ISteamFriends::GetClanOfficerCount</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_bSuccess</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >
+    </td>
+    <td>
+      Was the call successful? If it wasn't this may indicate a temporary loss
+      of connection to Steam.<br />If this returns <strong>true</strong>, this
+      does not necessarily mean that all of the info for this Steam group has
+      been downloaded.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestClanOfficerList"
+  class="bb_apilink"
+  >ISteamFriends::RequestClanOfficerList</a
+>
+<h2 class="bb_subsection">
+  <a name="DownloadClanActivityCountsResult_t"></a
+  >DownloadClanActivityCountsResult_t
+</h2>
+Called when a Steam group activity has received.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_bSuccess</strong></td>
+    <td>bool</td>
+    <td>Was the call successful?</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#DownloadClanActivityCounts"
+  class="bb_apilink"
+  >ISteamFriends::DownloadClanActivityCounts</a
+>
+<h2 class="bb_subsection">
+  <a name="FriendRichPresenceUpdate_t"></a>FriendRichPresenceUpdate_t
+</h2>
+Called when Rich Presence data has been updated for a user, this can happen
+automatically when friends in the same game update their rich presence, or after
+a call to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestFriendRichPresence"
+  class="bb_apilink"
+  >ISteamFriends::RequestFriendRichPresence</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user who's rich presence has changed.</td>
+  </tr>
+  <tr>
+    <td><strong>m_nAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The App ID of the game. This should always be the current game.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestFriendRichPresence"
+  class="bb_apilink"
+  >ISteamFriends::RequestFriendRichPresence</a
+>
+<h2 class="bb_subsection">
+  <a name="FriendsEnumerateFollowingList_t"></a>FriendsEnumerateFollowingList_t
+</h2>
+Returns the result of
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#EnumerateFollowingList"
+  class="bb_apilink"
+  >ISteamFriends::EnumerateFollowingList</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>The result of the operation.</td>
+  </tr>
+  <tr>
+    <td><strong>m_rgSteamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >［<a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cEnumerateFollowersMax"
+        class="bb_apilink"
+        >k_cEnumerateFollowersMax</a
+      >］
+    </td>
+    <td>The list of users that we are following.</td>
+  </tr>
+  <tr>
+    <td><strong>m_nResultsReturned</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+    </td>
+    <td>
+      The number of results returned in
+      <code class="bb_code bb_code_inline nohighlight">m_rgSteamID</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_nTotalResultCount</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+    </td>
+    <td>
+      The total number of people we are following. If this is greater than
+      <code class="bb_code bb_code_inline nohighlight">m_nResultsReturned</code>
+      Then you should make a subsequent call to
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#EnumerateFollowingList"
+        class="bb_apilink"
+        >ISteamFriends::EnumerateFollowingList</a
+      >
+      with
+      <code class="bb_code bb_code_inline nohighlight">m_nResultsReturned</code>
+      as the index to get the next portion of followers.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#EnumerateFollowingList"
+  class="bb_apilink"
+  >ISteamFriends::EnumerateFollowingList</a
+>
+<h2 class="bb_subsection">
+  <a name="FriendsGetFollowerCount_t"></a>FriendsGetFollowerCount_t
+</h2>
+Returns the result of
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFollowerCount"
+  class="bb_apilink"
+  >ISteamFriends::GetFollowerCount</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>The result of the operation.</td>
+  </tr>
+  <tr>
+    <td><strong>m_steamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user we requested the follower count for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_nCount</strong></td>
+    <td>int</td>
+    <td>The number of followers the user has.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFollowerCount"
+  class="bb_apilink"
+  >ISteamFriends::GetFollowerCount</a
+>
+<h2 class="bb_subsection">
+  <a name="FriendsIsFollowing_t"></a>FriendsIsFollowing_t
+</h2>
+Returns the result of
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#IsFollowing"
+  class="bb_apilink"
+  >ISteamFriends::IsFollowing</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>The result of the operation.</td>
+  </tr>
+  <tr>
+    <td><strong>m_steamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID that was checked.</td>
+  </tr>
+  <tr>
+    <td><strong>m_bIsFollowing</strong></td>
+    <td>bool</td>
+    <td>
+      Are we following the user? (<strong>true</strong>) or not?
+      (<strong>false</strong>)
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#IsFollowing"
+  class="bb_apilink"
+  >ISteamFriends::IsFollowing</a
+>
+<h2 class="bb_subsection">
+  <a name="GameConnectedChatJoin_t"></a>GameConnectedChatJoin_t
+</h2>
+Called when a user has joined a Steam group chat that the we are in.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the chat that a user has joined.</td>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user that has joined the chat.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#JoinClanChatRoom"
+  class="bb_apilink"
+  >ISteamFriends::JoinClanChatRoom</a
+>
+<h2 class="bb_subsection">
+  <a name="GameConnectedChatLeave_t"></a>GameConnectedChatLeave_t
+</h2>
+Called when a user has left a Steam group chat that the we are in.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the chat that a user has left.</td>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user that has left the chat.</td>
+  </tr>
+  <tr>
+    <td><strong>m_bKicked</strong></td>
+    <td>bool</td>
+    <td>
+      Was the user kicked by an officer (<strong>true</strong>), or not
+      (<strong>false</strong>)?
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_bDropped</strong></td>
+    <td>bool</td>
+    <td>
+      Was the users connection to Steam dropped (<strong>true</strong>), or did
+      they leave via other means (<strong>false</strong>)?
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#LeaveClanChatRoom"
+  class="bb_apilink"
+  >ISteamFriends::LeaveClanChatRoom</a
+>
+<h2 class="bb_subsection">
+  <a name="GameConnectedClanChatMsg_t"></a>GameConnectedClanChatMsg_t
+</h2>
+Called when a chat message has been received in a Steam group chat that we are
+in.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the chat that the message was received in.</td>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user that sent the message.</td>
+  </tr>
+  <tr>
+    <td><strong>m_iMessageID</strong></td>
+    <td>int</td>
+    <td>
+      The index of the message to get the actual data from with
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanChatMessage"
+        class="bb_apilink"
+        >ISteamFriends::GetClanChatMessage</a
+      >.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#JoinClanChatRoom"
+  class="bb_apilink"
+  >ISteamFriends::JoinClanChatRoom</a
+>
+<h2 class="bb_subsection">
+  <a name="GameConnectedFriendChatMsg_t"></a>GameConnectedFriendChatMsg_t
+</h2>
+Called when chat message has been received from a friend.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the friend that sent the message.</td>
+  </tr>
+  <tr>
+    <td><strong>m_iMessageID</strong></td>
+    <td>int</td>
+    <td>
+      The index of the message to get the actual data from with
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendMessage"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendMessage</a
+      >.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#SetListenForFriendsMessages"
+  class="bb_apilink"
+  >ISteamFriends::SetListenForFriendsMessages</a
+>
+<h2 class="bb_subsection">
+  <a name="GameLobbyJoinRequested_t"></a>GameLobbyJoinRequested_t
+</h2>
+Called when the user tries to join a lobby from their friends list or from an
+invite. The game client should attempt to connect to specified lobby when this
+is received. If the game isn't running yet then the game will be automatically
+launched with the command line parameter
+<code class="bb_code bb_code_inline nohighlight"
+  >+connect_lobby &lt;64-bit lobby Steam ID&gt;</code
+>
+instead.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDLobby</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the lobby to connect to.</td>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      The friend they joined through. This will be invalid if not directly via a
+      friend.
+    </td>
+  </tr>
+</table>
+<br />NOTE: This callback is made when joining a lobby. If the user is
+attempting to join a game but not a lobby, then the callback
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameRichPresenceJoinRequested_t"
+  class="bb_apilink"
+  >GameRichPresenceJoinRequested_t</a
+>
+will be made.
+<h2 class="bb_subsection">
+  <a name="GameOverlayActivated_t"></a>GameOverlayActivated_t
+</h2>
+Posted when the
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>
+activates or deactivates. The game can use this to be pause or resume single
+player games.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_bActive</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >
+    </td>
+    <td>
+      <strong>1</strong> if it's just been activated, otherwise
+      <strong>0</strong>.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="GameRichPresenceJoinRequested_t"></a>GameRichPresenceJoinRequested_t
+</h2>
+Called when the user tries to join a game from their friends list or after a
+user accepts an invite by a friend with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#InviteUserToGame"
+  class="bb_apilink"
+  >ISteamFriends::InviteUserToGame</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDFriend</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      The friend they joined through. This will be invalid if not directly via a
+      friend.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_rgchConnect</strong></td>
+    <td>
+      char［<a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#k_cchMaxRichPresenceValueLength"
+        class="bb_apilink"
+        >k_cchMaxRichPresenceValueLength</a
+      >］
+    </td>
+    <td>The value associated with the "connect" Rich Presence key.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#InviteUserToGame"
+  class="bb_apilink"
+  >ISteamFriends::InviteUserToGame</a
+><br /><br />NOTE: This callback is made when joining a game. If the user is
+attempting to join a lobby, then the callback
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GameLobbyJoinRequested_t"
+  class="bb_apilink"
+  >GameLobbyJoinRequested_t</a
+>
+will be made.
+<h2 class="bb_subsection">
+  <a name="GameServerChangeRequested_t"></a>GameServerChangeRequested_t
+</h2>
+Called when the user tries to join a different game server from their friends
+list. The game client should attempt to connect to specified server when this is
+received.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_rgchServer</strong></td>
+    <td>char［64］</td>
+    <td>
+      Server address (e.g. "127.0.0.1:27015",
+      <a
+        href="http://%22tf2.valvesoftware.com%22)"
+        target="_blank"
+        rel="noreferrer"
+        >"tf2.valvesoftware.com")</a
+      >
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_rgchPassword</strong></td>
+    <td>char［64］</td>
+    <td>Server password, if any.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="JoinClanChatRoomCompletionResult_t"></a
+  >JoinClanChatRoomCompletionResult_t
+</h2>
+Posted when the user has attempted to join a Steam group chat via
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#JoinClanChatRoom"
+  class="bb_apilink"
+  >ISteamFriends::JoinClanChatRoom</a
+><br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDClanChat</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the chat that the user has joined.</td>
+  </tr>
+  <tr>
+    <td><strong>m_eChatRoomEnterResponse</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EChatRoomEnterResponse"
+        class="bb_apilink"
+        >EChatRoomEnterResponse</a
+      >
+    </td>
+    <td>The result of the operation.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#JoinClanChatRoom"
+  class="bb_apilink"
+  >ISteamFriends::JoinClanChatRoom</a
+>
+<h2 class="bb_subsection">
+  <a name="PersonaStateChange_t"></a>PersonaStateChange_t
+</h2>
+Called whenever a friends' status changes.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_ulSteamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>Steam ID of the user who changed.</td>
+  </tr>
+  <tr>
+    <td><strong>m_nChangeFlags</strong></td>
+    <td>int</td>
+    <td>
+      A bit-wise union of
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#EPersonaChange"
+        class="bb_apilink"
+        >EPersonaChange</a
+      >
+      values.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestUserInformation"
+  class="bb_apilink"
+  >ISteamFriends::RequestUserInformation</a
+>
+<h2 class="bb_subsection">
+  <a name="SetPersonaNameResponse_t"></a>SetPersonaNameResponse_t
+</h2>
+Reports the result of an attempt to change the current user's persona name.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_bSuccess</strong></td>
+    <td>bool</td>
+    <td><strong>true</strong> if name change completed successfully.</td>
+  </tr>
+  <tr>
+    <td><strong>m_bLocalSuccess</strong></td>
+    <td>bool</td>
+    <td>
+      <strong>true</strong> if name change was retained locally. We might not
+      have been able to communicate with Steam.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_result</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>The result of the operation.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#SetPersonaName"
+  class="bb_apilink"
+  >ISteamFriends::SetPersonaName</a
+>
+<h2 class="bb_section"><a name="structs"></a>Structs</h2>
+These are structs which functions in ISteamFriends may return and/or interact
+with.
+<h2 class="bb_subsection"><a name="FriendGameInfo_t"></a>FriendGameInfo_t</h2>
+Information about the game a friend is playing.<br />Obtainable from:
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendGamePlayed"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendGamePlayed</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_gameID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CGameID"
+        class="bb_apilink"
+        >CGameID</a
+      >
+    </td>
+    <td>The game ID that the friend is playing.</td>
+  </tr>
+  <tr>
+    <td><strong>m_unGameIP</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>The IP of the server the friend is playing on.</td>
+  </tr>
+  <tr>
+    <td><strong>m_usGamePort</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint16"
+        class="bb_apilink"
+        >uint16</a
+      >
+    </td>
+    <td>The port of the server the friend is playing on.</td>
+  </tr>
+  <tr>
+    <td><strong>m_usQueryPort</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint16"
+        class="bb_apilink"
+        >uint16</a
+      >
+    </td>
+    <td>The query port of the server the friend is playing on.</td>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDLobby</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the lobby the friend is in.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="FriendSessionStateInfo_t"></a>FriendSessionStateInfo_t
+</h2>
+Information about user sessions. (Steam Internal usage only.)<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_uiOnlineSessionInstances</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>m_uiPublishedToFriendsSessionInstance</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >
+    </td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="enums"></a>Enums</h2>
+These are enums which are defined for use with ISteamFriends.
+<h2 class="bb_subsection"><a name="EFriendFlags"></a>EFriendFlags</h2>
+Flags for enumerating friends list, or quickly checking the relationship between
+users.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EFriendFlagNone">
+    <td><strong>k_EFriendFlagNone</strong></td>
+    <td>0x00</td>
+    <td>None.</td>
+  </tr>
+  <tr id="k_EFriendFlagBlocked">
+    <td><strong>k_EFriendFlagBlocked</strong></td>
+    <td>0x01</td>
+    <td>Users that the current user has blocked from contacting.</td>
+  </tr>
+  <tr id="k_EFriendFlagFriendshipRequested">
+    <td><strong>k_EFriendFlagFriendshipRequested</strong></td>
+    <td>0x02</td>
+    <td>Users that have sent a friend invite to the current user.</td>
+  </tr>
+  <tr id="k_EFriendFlagImmediate">
+    <td><strong>k_EFriendFlagImmediate</strong></td>
+    <td>0x04</td>
+    <td>The current user's "regular" friends.</td>
+  </tr>
+  <tr id="k_EFriendFlagClanMember">
+    <td><strong>k_EFriendFlagClanMember</strong></td>
+    <td>0x08</td>
+    <td>
+      Users that are in one of the same (small) Steam groups as the current
+      user.
+    </td>
+  </tr>
+  <tr id="k_EFriendFlagOnGameServer">
+    <td><strong>k_EFriendFlagOnGameServer</strong></td>
+    <td>0x10</td>
+    <td>
+      Users that are on the same game server; as set by
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#SetPlayedWith"
+        class="bb_apilink"
+        >ISteamFriends::SetPlayedWith</a
+      >.
+    </td>
+  </tr>
+  <tr id="k_EFriendFlagRequestingFriendship">
+    <td><strong>k_EFriendFlagRequestingFriendship</strong></td>
+    <td>0x80</td>
+    <td>Users that the current user has sent friend invites to.</td>
+  </tr>
+  <tr id="k_EFriendFlagRequestingInfo">
+    <td><strong>k_EFriendFlagRequestingInfo</strong></td>
+    <td>0x100</td>
+    <td>
+      Users that are currently sending additional info about themselves after a
+      call to
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestUserInformation"
+        class="bb_apilink"
+        >ISteamFriends::RequestUserInformation</a
+      >
+    </td>
+  </tr>
+  <tr id="k_EFriendFlagIgnored">
+    <td><strong>k_EFriendFlagIgnored</strong></td>
+    <td>0x200</td>
+    <td>Users that the current user has ignored from contacting them.</td>
+  </tr>
+  <tr id="k_EFriendFlagIgnoredFriend">
+    <td><strong>k_EFriendFlagIgnoredFriend</strong></td>
+    <td>0x400</td>
+    <td>
+      Users that have ignored the current user; but the current user still knows
+      about them.
+    </td>
+  </tr>
+  <tr id="k_EFriendFlagChatMember">
+    <td><strong>k_EFriendFlagChatMember</strong></td>
+    <td>0x1000</td>
+    <td>Users in one of the same chats.</td>
+  </tr>
+  <tr id="k_EFriendFlagAll">
+    <td><strong>k_EFriendFlagAll</strong></td>
+    <td>0xFFFF</td>
+    <td>Returns all friend flags.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EFriendRelationship"></a>EFriendRelationship
+</h2>
+Declares the set of relationships that Steam users may have.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EFriendRelationshipNone">
+    <td><strong>k_EFriendRelationshipNone</strong></td>
+    <td>0</td>
+    <td>The users have no relationship.</td>
+  </tr>
+  <tr id="k_EFriendRelationshipBlocked">
+    <td><strong>k_EFriendRelationshipBlocked</strong></td>
+    <td>1</td>
+    <td>
+      The user has just clicked Ignore on an friendship invite. This doesn't get
+      stored.
+    </td>
+  </tr>
+  <tr id="k_EFriendRelationshipRequestRecipient">
+    <td><strong>k_EFriendRelationshipRequestRecipient</strong></td>
+    <td>2</td>
+    <td>The user has requested to be friends with the current user.</td>
+  </tr>
+  <tr id="k_EFriendRelationshipFriend">
+    <td><strong>k_EFriendRelationshipFriend</strong></td>
+    <td>3</td>
+    <td>A "regular" friend.</td>
+  </tr>
+  <tr id="k_EFriendRelationshipRequestInitiator">
+    <td><strong>k_EFriendRelationshipRequestInitiator</strong></td>
+    <td>4</td>
+    <td>The current user has sent a friend invite.</td>
+  </tr>
+  <tr id="k_EFriendRelationshipIgnored">
+    <td><strong>k_EFriendRelationshipIgnored</strong></td>
+    <td>5</td>
+    <td>
+      The current user has explicit blocked this other user from
+      comments/chat/etc. This is stored.
+    </td>
+  </tr>
+  <tr id="k_EFriendRelationshipIgnoredFriend">
+    <td><strong>k_EFriendRelationshipIgnoredFriend</strong></td>
+    <td>6</td>
+    <td>The user has ignored the current user.</td>
+  </tr>
+  <tr id="k_EFriendRelationshipSuggested_DEPRECATED">
+    <td><strong>k_EFriendRelationshipSuggested_DEPRECATED</strong></td>
+    <td>7</td>
+    <td>Deprecated -- Unused.</td>
+  </tr>
+  <tr id="k_EFriendRelationshipMax">
+    <td><strong>k_EFriendRelationshipMax</strong></td>
+    <td>8</td>
+    <td>
+      The total number of friend relationships used for looping and
+      verification.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EOverlayToStoreFlag"></a>EOverlayToStoreFlag
+</h2>
+These values are passed as parameters to the store with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToStore"
+  class="bb_apilink"
+  >ISteamFriends::ActivateGameOverlayToStore</a
+>
+and modify the behavior when the page opens.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EOverlayToStoreFlag_None">
+    <td><strong>k_EOverlayToStoreFlag_None</strong></td>
+    <td>0</td>
+    <td>No</td>
+  </tr>
+  <tr id="k_EOverlayToStoreFlag_AddToCart">
+    <td><strong>k_EOverlayToStoreFlag_AddToCart</strong></td>
+    <td>1</td>
+    <td>Add the specified app ID to the users cart.</td>
+  </tr>
+  <tr id="k_EOverlayToStoreFlag_AddToCartAndShow">
+    <td><strong>k_EOverlayToStoreFlag_AddToCartAndShow</strong></td>
+    <td>2</td>
+    <td>Add the specified app ID to the users cart and show the store page.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EPersonaChange"></a>EPersonaChange</h2>
+used in PersonaStateChange_t::m_nChangeFlags to describe what's changed about a
+user<br />these flags describe what the client has learned has changed recently,
+so on startup you'll see a name, avatar &amp; relationship change for every
+friend<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EPersonaChangeName">
+    <td><strong>k_EPersonaChangeName</strong></td>
+    <td>0x0001</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeStatus">
+    <td><strong>k_EPersonaChangeStatus</strong></td>
+    <td>0x0002</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeComeOnline">
+    <td><strong>k_EPersonaChangeComeOnline</strong></td>
+    <td>0x0004</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeGoneOffline">
+    <td><strong>k_EPersonaChangeGoneOffline</strong></td>
+    <td>0x0008</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeGamePlayed">
+    <td><strong>k_EPersonaChangeGamePlayed</strong></td>
+    <td>0x0010</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeGameServer">
+    <td><strong>k_EPersonaChangeGameServer</strong></td>
+    <td>0x0020</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeAvatar">
+    <td><strong>k_EPersonaChangeAvatar</strong></td>
+    <td>0x0040</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeJoinedSource">
+    <td><strong>k_EPersonaChangeJoinedSource</strong></td>
+    <td>0x0080</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeLeftSource">
+    <td><strong>k_EPersonaChangeLeftSource</strong></td>
+    <td>0x0100</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeRelationshipChanged">
+    <td><strong>k_EPersonaChangeRelationshipChanged</strong></td>
+    <td>0x0200</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeNameFirstSet">
+    <td><strong>k_EPersonaChangeNameFirstSet</strong></td>
+    <td>0x0400</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeFacebookInfo">
+    <td><strong>k_EPersonaChangeFacebookInfo</strong></td>
+    <td>0x0800</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeNickname">
+    <td><strong>k_EPersonaChangeNickname</strong></td>
+    <td>0x1000</td>
+    <td></td>
+  </tr>
+  <tr id="k_EPersonaChangeSteamLevel">
+    <td><strong>k_EPersonaChangeSteamLevel</strong></td>
+    <td>0x2000</td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EPersonaState"></a>EPersonaState</h2>
+List of states a Steam friend can be in.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EPersonaStateOffline">
+    <td><strong>k_EPersonaStateOffline</strong></td>
+    <td>0</td>
+    <td>Friend is not currently logged on.</td>
+  </tr>
+  <tr id="k_EPersonaStateOnline">
+    <td><strong>k_EPersonaStateOnline</strong></td>
+    <td>1</td>
+    <td>Friend is logged on.</td>
+  </tr>
+  <tr id="k_EPersonaStateBusy">
+    <td><strong>k_EPersonaStateBusy</strong></td>
+    <td>2</td>
+    <td>User is on, but busy.</td>
+  </tr>
+  <tr id="k_EPersonaStateAway">
+    <td><strong>k_EPersonaStateAway</strong></td>
+    <td>3</td>
+    <td>Auto-away feature.</td>
+  </tr>
+  <tr id="k_EPersonaStateSnooze">
+    <td><strong>k_EPersonaStateSnooze</strong></td>
+    <td>4</td>
+    <td>Auto-away for a long time.</td>
+  </tr>
+  <tr id="k_EPersonaStateLookingToTrade">
+    <td><strong>k_EPersonaStateLookingToTrade</strong></td>
+    <td>5</td>
+    <td>Online, trading.</td>
+  </tr>
+  <tr id="k_EPersonaStateLookingToPlay">
+    <td><strong>k_EPersonaStateLookingToPlay</strong></td>
+    <td>6</td>
+    <td>Online, wanting to play.</td>
+  </tr>
+  <tr id="k_EPersonaStateMax">
+    <td><strong>k_EPersonaStateMax</strong></td>
+    <td>7</td>
+    <td>The total number of states. Only used for looping and validation.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EUserRestriction"></a>EUserRestriction</h2>
+User restriction flags. These are returned by
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetUserRestrictions"
+  class="bb_apilink"
+  >ISteamFriends::GetUserRestrictions</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_nUserRestrictionNone">
+    <td><strong>k_nUserRestrictionNone</strong></td>
+    <td>0</td>
+    <td>No known chat/content restriction.</td>
+  </tr>
+  <tr id="k_nUserRestrictionUnknown">
+    <td><strong>k_nUserRestrictionUnknown</strong></td>
+    <td>1</td>
+    <td>We don't know yet, the user is offline.</td>
+  </tr>
+  <tr id="k_nUserRestrictionAnyChat">
+    <td><strong>k_nUserRestrictionAnyChat</strong></td>
+    <td>2</td>
+    <td>User is not allowed to (or can't) send/recv any chat.</td>
+  </tr>
+  <tr id="k_nUserRestrictionVoiceChat">
+    <td><strong>k_nUserRestrictionVoiceChat</strong></td>
+    <td>4</td>
+    <td>User is not allowed to (or can't) send/recv voice chat.</td>
+  </tr>
+  <tr id="k_nUserRestrictionGroupChat">
+    <td><strong>k_nUserRestrictionGroupChat</strong></td>
+    <td>8</td>
+    <td>User is not allowed to (or can't) send/recv group chat.</td>
+  </tr>
+  <tr id="k_nUserRestrictionRating">
+    <td><strong>k_nUserRestrictionRating</strong></td>
+    <td>16</td>
+    <td>User is too young according to rating in current region.</td>
+  </tr>
+  <tr id="k_nUserRestrictionGameInvites">
+    <td><strong>k_nUserRestrictionGameInvites</strong></td>
+    <td>32</td>
+    <td>
+      User cannot send or recv game invites, for example if they are on mobile.
+    </td>
+  </tr>
+  <tr id="k_nUserRestrictionTrading">
+    <td><strong>k_nUserRestrictionTrading</strong></td>
+    <td>64</td>
+    <td>
+      User cannot participate in trading, for example if they are on a console
+      or mobile.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
+These are typedefs which are defined for use with ISteamFriends.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Base type</th>
+    <th>Description</th>
+  </tr>
+  <tr id="FriendsGroupID_t">
+    <td><strong>FriendsGroupID_t</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int16"
+        class="bb_apilink"
+        >int16</a
+      >
+    </td>
+    <td>Friends group (tags) identifier.</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="constants"></a>Constants</h2>
+These are constants which are defined for use with ISteamFriends.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_cchMaxFriendsGroupName">
+    <td><strong>k_cchMaxFriendsGroupName</strong></td>
+    <td>int</td>
+    <td>64</td>
+    <td>
+      The maximum length that a friends group name can be (not including the
+      null-terminator!)
+    </td>
+  </tr>
+  <tr id="k_cchMaxRichPresenceKeyLength">
+    <td><strong>k_cchMaxRichPresenceKeyLength</strong></td>
+    <td>int</td>
+    <td>64</td>
+    <td>The maximum length that a rich presence key can be.</td>
+  </tr>
+  <tr id="k_cchMaxRichPresenceKeys">
+    <td><strong>k_cchMaxRichPresenceKeys</strong></td>
+    <td>int</td>
+    <td>20</td>
+    <td>The maximum amount of rich presence keys that can be set.</td>
+  </tr>
+  <tr id="k_cchMaxRichPresenceValueLength">
+    <td><strong>k_cchMaxRichPresenceValueLength</strong></td>
+    <td>int</td>
+    <td>256</td>
+    <td>The maximum length that a rich presence value can be.</td>
+  </tr>
+  <tr id="k_cchPersonaNameMax">
+    <td><strong>k_cchPersonaNameMax</strong></td>
+    <td>int</td>
+    <td>128</td>
+    <td>Maximum number of UTF-8 bytes in a users persona (display) name.</td>
+  </tr>
+  <tr id="k_cEnumerateFollowersMax">
+    <td><strong>k_cEnumerateFollowersMax</strong></td>
+    <td>int</td>
+    <td>50</td>
+    <td>
+      The maximum number of followers that will be returned in a
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendsEnumerateFollowingList_t"
+        class="bb_apilink"
+        >FriendsEnumerateFollowingList_t</a
+      >
+      call result at once.
+    </td>
+  </tr>
+  <tr id="k_cFriendsGroupLimit">
+    <td><strong>k_cFriendsGroupLimit</strong></td>
+    <td>int</td>
+    <td>100</td>
+    <td>Deprecated - Unused.</td>
+  </tr>
+  <tr id="k_cubChatMetadataMax">
+    <td><strong>k_cubChatMetadataMax</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>8192</td>
+    <td>
+      Maximum size in bytes that chat room, lobby, or chat/lobby member metadata
+      may have.
+    </td>
+  </tr>
+  <tr id="k_cwchPersonaNameMax">
+    <td><strong>k_cwchPersonaNameMax</strong></td>
+    <td>int</td>
+    <td>32</td>
+    <td>
+      The maximum amount of UTF-16 characters in a users persona (display) name.
+    </td>
+  </tr>
+  <tr id="k_FriendsGroupID_Invalid">
+    <td><strong>k_FriendsGroupID_Invalid</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#FriendsGroupID_t"
+        class="bb_apilink"
+        >FriendsGroupID_t</a
+      >
+    </td>
+    <td>-1</td>
+    <td>Invalid friends group identifier.</td>
+  </tr>
+  <tr id="STEAMFRIENDS_INTERFACE_VERSION">
+    <td><strong>STEAMFRIENDS_INTERFACE_VERSION</strong></td>
+    <td>const char *</td>
+    <td>"SteamFriends015"</td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_section">
+  <a name="richpresencelocalization"></a>Rich Presence Localization
+</h2>
+<br />Localization for rich presence is a list of token names and values
+provided for each supported language. Token names begin a # and can contain any
+alphanumeric character and underscores. Token values contain localized text, and
+may also contain <i>substitutions</i>, which specify portions of the string to
+be replaced by other rich presence values.<br /><br />
+<ul class="bb_ul %1$s">
+  <li>
+    The simplest token is plain localized text:<br />
+    <div class="bb_code">"#Status_AtMainMenu" "At the Main Menu"</div>
+    In the example above, if
+    <code class="bb_code bb_code_inline nohighlight">steam_display</code> is set
+    to
+    <code class="bb_code bb_code_inline nohighlight">#Status_AtMainMenu</code>
+    using
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
+      class="bb_apilink"
+      >SetRichPresence</a
+    >, then "<code class="bb_code bb_code_inline nohighlight"
+      >At the Main Menu</code
+    >" will be displayed alongside the player's information in the Steam
+    client.<br /><br />
+  </li>
+  <li>
+    A substitution looks like this:<br />
+    <div class="bb_code">"#StatusWithScore" "Score: %score%"</div>
+    In this case, if
+    <code class="bb_code bb_code_inline nohighlight">steam_display</code> is set
+    to "<code class="bb_code bb_code_inline nohighlight">#StatusWithScore</code
+    >" using
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#SetRichPresence"
+      class="bb_apilink"
+      >SetRichPresence</a
+    >
+    and "<code class="bb_code bb_code_inline nohighlight">score</code>" is set
+    to "<code class="bb_code bb_code_inline nohighlight">3</code>" using the
+    same API, then "<code class="bb_code bb_code_inline nohighlight"
+      >Score: 3</code
+    >" will be displayed alongside the player's information in the Steam
+    client.<br /><br />
+  </li>
+  <li>
+    Substitutions can also trigger additional localization by enclosing a
+    substring with braces. For example:<br />
+    <div class="bb_code">
+      "#PlayingHero" "Playing: {#Hero_%hero%}" "#Hero_Tidehunter" "Tidehunter"
+    </div>
+    Substitutions on the brace-delimited substring are performed first, then the
+    resultant tag is localized. In this instance, if
+    <code class="bb_code bb_code_inline nohighlight">steam_display</code> is set
+    to "<code class="bb_code bb_code_inline nohighlight">#PlayingHero</code>"
+    and "<code class="bb_code bb_code_inline nohighlight">hero</code>" is set to
+    "<code class="bb_code bb_code_inline nohighlight">Tidehunter</code>", the
+    Steam client will localize "<code class="bb_code bb_code_inline nohighlight"
+      >#Hero_Tidehunter</code
+    >" and display "<code class="bb_code bb_code_inline nohighlight"
+      >Playing: Tidehunter</code
+    >".
+    <h2 class="bb_subsection"><a name="1"></a></h2>
+    <div class="bb_callout bb_blue">
+      <div>
+        <sup
+          >Note: Rich presence keys used in substitutions may only contain
+          alphanumeric characters, underscores, and colons.</sup
+        >
+      </div>
+    </div>
+    <br />In the case where a localization token is not found, the system will
+    attempt to fallback to English. If English is also not found, then rich
+    presence will not be displayed in the Steam client. Similarly, if a token
+    specifies a substitution using a rich presence key that is not set, then
+    rich presence will not be displayed in the Steam client.<br /><br />The game
+    developer provides the rich presence localization file under the
+    <strong>Rich Presence</strong> section of the
+    <strong>Community tab </strong> which can be found through the
+    <strong>Edit Steamworks Settings</strong> page.<br /><br /><img
+      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/rpedit.jpg"
+      alt="rpedit.jpg"
+      title="rpedit.jpg"
+    /><br /><br />For testing,
+    <a
+      href="http://www.steamcommunity.com/dev/testrichpresence"
+      target="_blank"
+      rel="noreferrer"
+      >http://www.steamcommunity.com/dev/testrichpresence</a
+    >
+    can be used to display the localized rich presence string for the logged in
+    user, as well as some error information about incomplete or incorrect data.
+    The string will be localized into whatever language has been set for the
+    Steam website.<br /><br />Each language can be uploaded individually in
+    files that look like this:<br /><br />
+    <div class="bb_code">
+      "lang" { "english" { "tokens" { "#StatusWithoutScore"
+      "{#Status_%gamestatus%}" "#StatusWithScore" "{#Status_%gamestatus%}:
+      %score%" "#Status_AtMainMenu" "At the main menu" "#Status_WaitingForMatch"
+      "Waiting for match" "#Status_Winning" "Winning" "#Status_Losing" "Losing"
+      "#Status_Tied" "Tied" } } }
+    </div>
+    <br />Multiple languages can also be included in a single upload. Only
+    languages present in the file are overwritten.<br />
+    <div class="bb_code">
+      "lang" { "english" { "tokens" { "#StatusWithoutScore"
+      "{#Status_%gamestatus%}" "#StatusWithScore" "{#Status_%gamestatus%}:
+      %score%" "#Status_AtMainMenu" "At the main menu" "#Status_WaitingForMatch"
+      "Waiting for match" "#Status_Winning" "Winning" "#Status_Losing" "Losing"
+      "#Status_Tied" "Tied" } } "french" { "tokens" { "#Status_AtMainMenu" "Au
+      menu principal" "#Status_WaitingForMatch" "En attente de match"
+      "#Status_Winning" "Gagnant" "#Status_Losing" "Perdant" "#Status_Tied"
+      "Egalité" } } }
+    </div>
+  </li>
+</ul>

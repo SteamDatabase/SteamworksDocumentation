@@ -1,0 +1,139 @@
+<h1>Mouse Regions</h1>
+Certain inputs can be mapped to "mouse regions", which send mouse input to the
+game, but map the input's total range of movement 1:1 with screen space, which
+means e.g. that touching a specific location on, say, a touch pad, will always
+put the cursor at the same place on the screen. In addition to working great for
+top-down style games, regions can be restricted to certain areas of the screen,
+scaled, stretched and mode-shifted in to select mini-maps, toolbars, inventory,
+etc.<br /><br />For example, you can use this in legacy mode for games that
+require precision clicking on UI elements in fixed locations.<br /><br />Note
+that mouse regions do not fire any actions or mouse events automatically, by
+default they just control the mouse position. If you want to additionally fire
+actions or mouse events you must specifically apply those bindings in your
+configuration.
+<h2 class="bb_subsection"><a name="1"></a>Examples</h2>
+<br /><i>The Banner Saga</i><br /><br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/banner_saga_mouse_regions.png"
+  alt="banner_saga_mouse_regions.png"
+  title="banner_saga_mouse_regions.png"
+/><br /><br />This game features tactical turn-based combat, and on this
+particular screen there is a HUD element in the lower left that lets you select
+different characters. By placing an oval-shaped mouse region in the lower left
+hand corner and binding it to the Steam controller trackpad, we can easily
+select a character just by swiping left or right and clicking.<br /><br /><i
+  >Empires of the Undergrowth</i
+><br /><br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/empires_of_the_undergrowth.png"
+  alt="empires_of_the_undergrowth.png"
+  title="empires_of_the_undergrowth.png"
+/><br /><br />This is an insect-themed Real-Time Strategy game. Here the lower
+left hand corner features a minimap, so placing a mouse region in that area will
+allow us to scroll around and quickly direct our attention where it's needed.
+<h2 class="bb_subsection"><a name="2"></a>Visible mouse regions</h2>
+<br />If you select "Toggle Controller HUD" from the Big Picture Mode overlay,
+you'll see an on-screen indication of your mouse region, which is useful for
+setting it up the first time.<br /><br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/toggle_controller_hud.png"
+  alt="toggle_controller_hud.png"
+  title="toggle_controller_hud.png"
+/><br /><br />The shape of the mouse region depends on the controller and input.
+For example, the PS4 controller has a rectangular trackpad, which creates a
+rectangular mouse region, whereas the Steam controller has a circular trackpad,
+which creates circular mouse regions.<br /><br />
+<table>
+  <tr>
+    <th>Device</th>
+    <th>Input</th>
+    <th>Mouse region shape</th>
+  </tr>
+  <tr>
+    <td>Generic gamepad</td>
+    <td>Joystick</td>
+    <td>Circle</td>
+  </tr>
+  <tr>
+    <td>PS4 controller</td>
+    <td>Trackpad</td>
+    <td>Rectangle</td>
+  </tr>
+  <tr>
+    <td>PS4 controller</td>
+    <td>Gyro</td>
+    <td>Rectangle</td>
+  </tr>
+  <tr>
+    <td>PS4 controller</td>
+    <td>Joystick</td>
+    <td>Circle</td>
+  </tr>
+  <tr>
+    <td>Steam controller</td>
+    <td>Trackpad</td>
+    <td>Circle</td>
+  </tr>
+  <tr>
+    <td>Steam controller</td>
+    <td>Gyro</td>
+    <td>Rectangle</td>
+  </tr>
+  <tr>
+    <td>Steam controller</td>
+    <td>Joystick</td>
+    <td>Circle</td>
+  </tr>
+  <tr>
+    <td>Xbox controller</td>
+    <td>Joystick</td>
+    <td>Circle</td>
+  </tr>
+</table>
+<br /><br />Here's what the mouse region configuration screen looks like:<br /><br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/mouse_region.png"
+  alt="mouse_region.png"
+  title="mouse_region.png"
+/>
+<h2 class="bb_section"><a name="3"></a>Basic Settings</h2>
+<h2 class="bb_subsection"><a name="4"></a>Region Size</h2>
+<br />This will scale the size of the region that is mapped to the outer extents
+of the pad/stick. You can set any value between 0.0 and 1.0, and the default
+value is 0.8.<br /><br />At 0.8, the mouse region should cover the entire screen
+surface of a standard 16:9 screen, regardless of whether the mouse region shape
+is rectangular or circular. For a rectangular mouse region, it should map 1:1
+with the screen's boundaries. For a circular region at this size, it will extend
+the circle far enough past in both directions to contain the entire size of the
+screen, with clamping applied at the edges.
+<h2 class="bb_subsection"><a name="5"></a>Region Horizontal/Vertical Scale</h2>
+<br />This will scale the region on either axis. Acceptable values are between
+0.0 and 1.0. Setting horizontal and vertical scale to different values will
+allow you to stretch the mouse region and achieve different rectangular and/or
+elliptical shapes.<br /><br />Choosing 0.0 for both scales will compress your
+mouse region into a point.
+<h2 class="bb_subsection"><a name="6"></a>Click Binding</h2>
+<br />This action will be triggered when you click the pad/stick.
+<h2 class="bb_subsection"><a name="7"></a>Touch Binding</h2>
+(touch controls only)<br /><br />An action can be sent while touching the pad.
+This button will be released when you stop touching.
+<h2 class="bb_subsection"><a name="8"></a>Horizontal/Vertical Position</h2>
+<br />These let you set the on-screen position that the mouse region is centered
+upon. Note that 0,0 represents the upper-left corner of the screen and 1,1
+represents the lower-right.<br /><br />This is the center point for the mouse
+region, so if you put a mouse region center in one of the four corners of the
+screen, effectively only 1/4 of your mouse region's area will be available --
+off-screen movement will be clamped.
+<h2 class="bb_subsection"><a name="9"></a>Haptics Intensity</h2>
+<br />This sets the intensity of the Haptic feedback (vibrations in the
+trackpad).
+<h2 class="bb_section"><a name="10"></a>Additional Settings</h2>
+<h2 class="bb_subsection">
+  <a name="11"></a>Snap Mouse To Region On Mode Shift
+</h2>
+(if used with a mode shift)<br /><br />When enabling the mode shift, this
+controls whether the mouse should be snapped to the center of the region or not.
+<h2 class="bb_subsection"><a name="12"></a>Snap Mouse Back on Stop</h2>
+<br />This controls whether the mouse should be snapped back to its former
+position when this mouse region stops receiving input. This happens when either
+the input source that controls it stops receiving input, or the mode shift that
+triggered it ends.
+<h2 class="bb_subsection"><a name="13"></a>Trigger Press Mouse Dampening</h2>
+<br />This setting is non-functional for mouse regions, and will be removed
+soon.

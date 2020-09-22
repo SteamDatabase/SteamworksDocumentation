@@ -1,0 +1,323 @@
+<h1>Setting Up A Stream</h1>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+In this tutorial, we will walk you through the steps required to broadcast your
+game on the Steam storefront.
+<h2 class="bb_subsection"><a name="2"></a>Before You Begin</h2>
+<br />
+<ul class="bb_ul">
+  <li>
+    You will need a non-limited Steam account. “Non-limited” means that the
+    Steam account you plan to stream from must have spent at least $5 USD on the
+    Steam store. “Limited” accounts (accounts that have not spent at least $5
+    USD on Steam) will not be able to create an RTMP token and will not be able
+    to stream to a store page on Steam.<br />
+  </li>
+  <li>
+    The account you plan to stream from must own the game it will be streaming
+    from. You can check this by logging into the Steam client with this account
+    and confirming you see the game in your Steam Library.<br />
+  </li>
+  <li>
+    The account must also be a member of this Steam Community group -&gt;
+    <a
+      href="https://steamcommunity.com/groups/storebroadcastbeta"
+      target="_blank"
+      rel="noreferrer"
+      >https://steamcommunity.com/groups/storebroadcastbeta</a
+    >
+  </li>
+</ul>
+<h2 class="bb_subsection"><a name="3"></a>Setting up your Stream using RTMP</h2>
+<br />The steps below will help you gather the information required to stream
+your game from third-party broadcasting software. Streaming on Steam uses the
+RTMP protocol. You won’t need to know exactly how this protocol works to stream
+on Steam, but some familiarity with the below concepts will be helpful.<br />
+<ul class="bb_ul">
+  <li>
+    1. Go to
+    <a
+      href="http://steamcommunity.com/broadcast/upload/"
+      target="_blank"
+      rel="noreferrer"
+      >http://steamcommunity.com/broadcast/upload/</a
+    >
+    <br /><br />
+  </li>
+  <li>
+    2. Check the Upload Server. Steam will automatically select an upload server
+    that’s close to your current location based on your IP address. If you want
+    to select a different upload server, you can do so using the list on the
+    page. The computer that is streaming your game will send video to the upload
+    server, so it’s important to pick one that will have the lowest latency
+    possible, usually the one geographically closest to you.<br /><br /><img
+      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream1.png"
+      alt="stream1.png"
+      title="stream1.png"
+    /><br /><br /><br />
+  </li>
+  <li>
+    3. Locate your RTMP token. You will need to enter this token into your
+    streaming software.<br /><br /><strong>What is an RTMP token?</strong
+    ><br /><br />An RTMP token is a unique identifier to allow you to stream
+    your on Steam. You will generate this token at
+    <a
+      href="https://steamcommunity.com/broadcast/upload"
+      target="_blank"
+      rel="noreferrer"
+      >https://steamcommunity.com/broadcast/upload</a
+    >, and enter it into the software you plan to use to stream your game to
+    Steam.
+    <div class="bb_callout">
+      <div>
+        <u>Important</u>: Treat your token like a password, and Never share it,
+        as anyone who has it can stream as you. If you believe your key is
+        compromised, you can invalidate it and generate a new one on this page.
+      </div>
+    </div>
+    <br /><img
+      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream2.png"
+      alt="stream2.png"
+      title="stream2.png"
+    /><br /><br /><br />
+  </li>
+  <li>
+    4. Enter Your Game's AppID<br /><br />You can see your game’s App ID by
+    visiting your game’s App landing page in Steamworks or going to your game’s
+    Steam store page--your appID is in the URL.<br /><br />Note that you should
+    only use the appID for your “base” game--do not use the appID for DLC,
+    Demos, Soundtracks, or other secondary application types.<br /><br /><img
+      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream3.png"
+      alt="stream3.png"
+      title="stream3.png"
+    /><br /><br /><br />
+  </li>
+  <li>
+    5. Set Your Broadcast Permissions<br /><br />By default, your stream is set
+    to “Friends Only”, which means it’s only visible by you and your friends on
+    Steam. This is a good way to test your stream before it’s publicly visible
+    on your store page. It will be visible by clicking the “Your broadcast URL”
+    under Quick Links on this page. Once you are ready for your stream to appear
+    publicly on your store page, you can change this permission to “Public”.<br /><br /><img
+      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream4.png"
+      alt="stream4.png"
+      title="stream4.png"
+    />
+  </li>
+</ul>
+<h2 class="bb_subsection"><a name="4"></a>Setting up OBS <i>(Optional)</i></h2>
+There are several software tools available for streaming your game to Steam. OBS
+is a popular free and open-source option. Below are steps to get your stream set
+up in OBS. Steam supports any broadcast software that supports the RTMP
+protocol.<br />
+<br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream5.png"
+  alt="stream5.png"
+  title="stream5.png"
+/><br />
+<ul class="bb_ul">
+  <li>1. Navigate to File--&gt;Settings--&gt;Stream<br /><br /></li>
+  <li>
+    2. In the dropdown menu, select “Custom”<br /><br /><img
+      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream6.png"
+      alt="stream6.png"
+      title="stream6.png"
+    /><br /><br />
+  </li>
+  <li>
+    3. In the “Server” field, enter the “Upload Server” you selected at
+    <a
+      href="http://steamcommunity.com/broadcast/upload/"
+      target="_blank"
+      rel="noreferrer"
+      >http://steamcommunity.com/broadcast/upload/</a
+    ><br /><br />
+  </li>
+  <li>
+    4. In the “Stream Key” field, enter the token provided at
+    <a
+      href="http://steamcommunity.com/broadcast/upload/"
+      target="_blank"
+      rel="noreferrer"
+      >http://steamcommunity.com/broadcast/upload/</a
+    ><br /><br />
+  </li>
+  <li>
+    5. In OBS, navigate to File--&gt;Settings--&gt;Output<br /><br /><img
+      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream7.png"
+      alt="stream7.png"
+      title="stream7.png"
+    /><br /><br />
+  </li>
+  <li>6. Under Output Mode, select “Advanced” in the drop-down menu.<br /></li>
+  <li>
+    7. On the Streaming tab, enter Keyframe Interval to 2.
+    <u
+      >Note: This step is important. Without this setting your stream will fail
+      to start.</u
+    >
+    <h2 class="bb_subsection"><a name="5"></a>Testing Your Stream</h2>
+    Once you are ready, begin streaming your game using OBS. Next, go back to
+    <a
+      href="http://steamcommunity.com/broadcast/upload/"
+      target="_blank"
+      rel="noreferrer"
+      >http://steamcommunity.com/broadcast/upload/</a
+    >
+    and look for a link to the right of the page called “Your Broadcast URL”.<br /><br /><img
+      src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream8.png"
+      alt="stream8.png"
+      title="stream8.png"
+    /><br /><br />You should see your gameplay being streamed on this page. At
+    this point, if you set your broadcast permission to “Friends only”, your
+    stream is not public yet.
+    <h2 class="bb_subsection">
+      <a name="6"></a>Create a Steam Event For Your Game
+    </h2>
+    It's a good idea to let your community know about your stream. You can do
+    this using the Event tools on Steamworks. Below is a brief guide to setting
+    up a Live-Stream/Broadcast event. You can learn more about Events on Steam
+    here:
+    <a
+      href="https://partner.steamgames.com/doc/marketing/event_tools"
+      target="_blank"
+      rel="noreferrer"
+      >https://partner.steamgames.com/doc/marketing/event_tools</a
+    >.<br /><br />Follow these steps:<br />
+    <ul class="bb_ul">
+      <li>
+        1. From your game’s App Landing Page, Click “Post New Event” (or
+        whatever it says)<br /><br />
+      </li>
+      <li>
+        2. Select “Live-Stream/Broadcast” <br /><br /><br /><img
+          src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream10.png"
+          alt="stream10.png"
+          title="stream10.png"
+        /><br /><br /><br />
+      </li>
+      <li>
+        3. Navigate to the “Broadcasting” tab<br /><br /><br /><img
+          src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream11.png"
+          alt="stream11.png"
+          title="stream11.png"
+        /><br />
+        <br /><br />This is where you will designate one or more Steam accounts
+        as allowed to stream to your store page during the event. Enter a title
+        for your broadcast from the list, or enter your own. If you enter a
+        custom name, don’t forget to add localized titles.<br /><br /><img
+          src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream12.png"
+          alt="stream12.png"
+          title="stream12.png"
+        /><br /><br /><br />Add the account you intend to Stream with:<br /><br /><br /><img
+          src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream13.png"
+          alt="stream13.png"
+          title="stream13.png"
+        /><br /><br /><br /><u>Important:</u> The Steam account setting up the
+        stream and the account that is streaming must be friends in order for it
+        to be visible on this page.<br /><br /><strong
+          >Suggested but optional:</strong
+        >
+        upload artwork (which you can re-use in the future) for your livestream.
+        This artwork will appear on both sides of your livestream.
+        <br /><br />Click the “Save” button to save your event.<br /><br />
+      </li>
+      <li>
+        4. Go to the “Options” tab and confirm the start and stop times of the
+        event are correct. You can continue your stream for up to 24 hours past
+        the end time of your event.<br /><br />
+      </li>
+      <li>
+        5. Enable the broadcast feature on the event<br /><br /><img
+          src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stream14.png"
+          alt="stream14.png"
+          title="stream14.png"
+        /><br /><br />• Save and publish your event. When you start streaming
+        during the event, your stream will appear on your store page. Note that
+        There may be a delay up to 5 minutes before the stream is picked up on
+        the store page once you start streaming, so you may want to begin the
+        stream a few minutes early to account for this.
+      </li>
+    </ul>
+    <h2 class="bb_subsection"><a name="7"></a>Troubleshooting:</h2>
+    <br />Q: I don’t see my broadcast on my Steam store page!<br /><br />
+    <ul class="bb_ul">
+      <li>
+        A.You may need to refresh the product page after a few seconds. We only
+        display the live broadcast once a connection is established. First
+        viewers will take the longest to establish the connection to the
+        broadcaster.<br />
+      </li>
+      <li>
+        Confirm that you have entered the right appID at
+        <a
+          href="https://steamcommunity.com/broadcast/upload"
+          target="_blank"
+          rel="noreferrer"
+          >https://steamcommunity.com/broadcast/upload</a
+        >. The appid is used to connect the stream to the correct game. If the
+        appid is missing, the Steam store product page will not show the stream
+        and it will not be featured on the front page. You will need to enter
+        the appID and regenerate the RTMP token and enter it into your
+        broadcasting software.
+      </li>
+    </ul>
+    <h2 class="bb_section"><a name="8"></a>RTMP Streaming Specs</h2>
+    If your stream is using external software to stream content to steam, then
+    this section applies. At this time, Steam requires these encoding specs to
+    be set. If you're having issues with videos stuttering, pausing, or not
+    playing back correctly, please check the following:<br /><br /><strong
+      >Video encoding requirements</strong
+    ><br /><br />
+    <ul class="bb_ul">
+      <li>Codec: H.264<br /></li>
+      <li>Profile: High<br /></li>
+      <li>Level: 4.1<br /></li>
+      <li>Frame Rate: 30 FPS or 60 FPS<br /></li>
+      <li>Frame Ratio: 16:9<br /></li>
+      <li>Keyframe interval: 2 seconds<br /></li>
+      <li>Maximum bitrate: 7000 kbps CBR</li>
+    </ul>
+    Audio encoding requirements<br />
+    <ul class="bb_ul">
+      <li>Codec: AAC-LC<br /></li>
+      <li>Maximum bitrate: 128 kbps</li>
+    </ul>
+    <br /><strong>Streaming Software Notes</strong><br />VMIX: By default, VMIX
+    uses Profile Main and Level 3.0. You must change those settings in order for
+    VMIX to stream correctly to Steam.
+    <h2 class="bb_section">
+      <a name="multistream"></a>Using a Multi-streaming Service
+    </h2>
+    <ul class="bb_ul">
+      <li>
+        If you are looking for a simultaneous streaming platform to stream at
+        once to Twitch, Steam, YouTube etc. – Restream.io or easylive.io are
+        great options.<br />
+      </li>
+      <li>
+        A step-by-step “how to” video is available at
+        <a
+          href="https://support.restream.io/how-to-stream-games-to-steam"
+          target="_blank"
+          rel="noreferrer"
+          >https://support.restream.io/how-to-stream-games-to-steam</a
+        ><br />
+      </li>
+      <li>
+        A step-by-step “how to” video is available at
+        <a
+          href="https://easylive.io/en/support/knowledge-base/outputbroadcasters/steam/"
+          target="_blank"
+          rel="noreferrer"
+          >https://easylive.io/en/support/knowledge-base/outputbroadcasters/steam/</a
+        >
+      </li>
+    </ul>
+    <h2 class="bb_section"><a name="9"></a>Content Rules</h2>
+    Remember to obey the content rules when broadcasting on your product page.
+    Those rules can be found in the FAQ under the answer to 'What kind of
+    content is restricted?'. Valve may moderate streams that violate these
+    rules, or take other action on offending partner accounts, including
+    termination.
+  </li>
+</ul>

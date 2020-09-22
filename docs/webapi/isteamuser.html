@@ -1,0 +1,612 @@
+<h1>ISteamUser Interface</h1>
+Used to access information and interact with users.<br /><br />See
+<a
+  href="https://partner.steamgames.com/doc/webapi/IPlayerService"
+  class="bb_apilink"
+  >IPlayerService</a
+>
+for additional methods.<br /><br />For more info on how to use the Steamworks
+Web API please see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section"><a name="CheckAppOwnership"></a>CheckAppOwnership</h2>
+<div class="bb_code http">
+  GET https://partner.steam-api.com/ISteamUser/CheckAppOwnership/v2/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>AppID to check for ownership</td>
+  </tr>
+</table>
+<br />Checks if the specified user owns the app.<br /><br />The JSON response
+will contain the following fields:<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>ownsapp</strong></td>
+    <td>bool</td>
+    <td>Indicates if the user is the actual owner or the app.</td>
+  </tr>
+  <tr>
+    <td><strong>permanent</strong></td>
+    <td>bool</td>
+    <td>Indicates if the user owns the app permanently.</td>
+  </tr>
+  <tr>
+    <td><strong>timestamp</strong></td>
+    <td>string</td>
+    <td>Time that the app was acquired.</td>
+  </tr>
+  <tr>
+    <td><strong>ownersteamid</strong></td>
+    <td>uint64</td>
+    <td>Indicates the true owner of the app.</td>
+  </tr>
+  <tr>
+    <td><strong>sitelicense</strong></td>
+    <td>bool</td>
+    <td>Indicates if user is borrowing this license from a PC Cafe site.</td>
+  </tr>
+</table>
+<br />This method has previous versions which are no longer officially
+supported. They will continue to be usable but it's highly recommended that you
+use the latest version.<br />Change history:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>Version 2</strong> - Adds element <strong>sitelicense </strong>to
+    the response.
+  </li>
+</ul>
+<br /><strong>NOTE:</strong> This call requires the publisher API key that owns
+the specified App ID to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section"><a name="GetAppPriceInfo"></a>GetAppPriceInfo</h2>
+<div class="bb_code http">
+  GET https://partner.steam-api.com/ISteamUser/GetAppPriceInfo/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>appids</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Comma-delimited list of appids (max: 100)</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="GetFriendList"></a>GetFriendList</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/ISteamUser/GetFriendList/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>relationship</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>relationship type (ex: friend)</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="GetPlayerBans"></a>GetPlayerBans</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamids</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Comma-delimited list of SteamIDs</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="GetPlayerSummaries"></a>GetPlayerSummaries</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamids</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Comma-delimited list of SteamIDs (max: 100)</td>
+  </tr>
+</table>
+<br /><br /><br />This method has previous versions which are no longer
+officially supported. They will continue to be usable but it's highly
+recommended that you use the latest version.<br />Change history:<br />
+<ul class="bb_ul">
+  <li><strong>Version 2</strong> - Removes element names from arrays</li>
+</ul>
+<br />The response from the call will look something like this:<br /><br />
+<div class="bb_code">
+  "response":{ "players":[ { "steamid":"77561198355051011",
+  "communityvisibilitystate":1, "profilestate":1, "personaname":"Mister
+  Manager", "lastlogoff":1556305001,
+  "profileurl":"https://steamcommunity.com/profiles/77561198355051011/",
+  "avatar":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/32/32f70a383a437d03af91d2f01a0776adf75201b5.jpg",
+  "avatarmedium":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/32/32f70a383a437d03af91d2f01a0776adf75201b5_medium.jpg",
+  "avatarfull":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/32/32f70a383a437d03af91d2f01a0776adf75201b5_full.jpg",
+  }, { "steamid":"77561197978236369", "communityvisibilitystate":3,
+  "profilestate":1, "personaname":"Olive The Dog", "lastlogoff":1556239336,
+  "profileurl":"https://steamcommunity.com/id/olive_the_dog/",
+  "avatar":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/41/555d2fbb879593c0565ce0489428a09c019feffa.jpg",
+  "avatarmedium":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/41/555d2fbb879593c0565ce0489428a09c019feffa_medium.jpg",
+  "avatarfull":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/41/555d2fbb879593c0565ce0489428a09c019feffa_full.jpg",
+  } ] }
+</div>
+<h2 class="bb_section">
+  <a name="GetPublisherAppOwnership"></a>GetPublisherAppOwnership
+</h2>
+<div class="bb_code http">
+  GET https://partner.steam-api.com/ISteamUser/GetPublisherAppOwnership/v3/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+</table>
+<br /><br />This method has previous versions which are no longer officially
+supported. They will continue to be usable but it's highly recommended that you
+use the latest version.<br />Change history:<br />
+<ul class="bb_ul">
+  <li><strong>Version 3</strong> - Adds element sitelicense to the response</li>
+</ul>
+<br />The response from the call will look something like this:<br /><br />
+<div class="bb_code">
+  "appownership":{ "apps":[ { "appid":60, "ownsapp":true, "permanent":true,
+  "timestamp":"2005-04-03T17:50:29Z", "ownersteamid":"76561197978236369",
+  "sitelicense":"false" }, { "appid":220, "ownsapp":false, "permanent":false,
+  "timestamp":"NIL", "ownersteamid":"0", "sitelicense":"true" } ] }
+</div>
+<br />The JSON response will contain the following fields:<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>AppID associated with your WebAPI key</td>
+  </tr>
+  <tr>
+    <td><strong>ownsapp</strong></td>
+    <td>bool</td>
+    <td>
+      Whether the user currently owns your game. Will be true for ownership via
+      purchases, CD-keys, Family Sharing, free weekends, and site license
+    </td>
+  </tr>
+  <tr>
+    <td><strong>permanent</strong></td>
+    <td>bool</td>
+    <td>
+      Whether the user permanetly owns your game. Not true for ownership via
+      Family Sharing, free weekends, or site license
+    </td>
+  </tr>
+  <tr>
+    <td><strong>timestamp</strong></td>
+    <td>string</td>
+    <td>GMT time for when the user first accquired the appID</td>
+  </tr>
+  <tr>
+    <td><strong>ownersteamid</strong></td>
+    <td>uint64</td>
+    <td>
+      SteamID for the actual owner. If the app is owned via Family Sharing,
+      ownersteamid will be the actual owner. Otherwise will be the same steamID
+      passed in
+    </td>
+  </tr>
+  <tr>
+    <td><strong>sitelicense</strong></td>
+    <td>bool</td>
+    <td>Indicates if user is borrowing this license from a commercial site</td>
+  </tr>
+</table>
+<br /><strong>NOTE:</strong> This call requires a publisher API key to use this
+method. As such this API <strong>MUST</strong> be called from a secure server,
+and can never be used directly by clients!
+<h2 class="bb_section">
+  <a name="GetPublisherAppOwnershipChanges"></a>GetPublisherAppOwnershipChanges
+</h2>
+<div class="bb_code http">
+  GET
+  https://partner.steam-api.com/ISteamUser/GetPublisherAppOwnershipChanges/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>packagerowversion</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      The unsigned 64-bit row version to read package changes from. The row
+      version of data read up to will be returned for use in future calls.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>cdkeyrowversion</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      The unsigned 64-bit row version to read CD Key changes from. The row
+      version of data read up to will be returned for use in future calls.
+    </td>
+  </tr>
+</table>
+<br />This method can be used to determine what SteamIDs have ownership changes
+starting from a particular package or key row version number. From the list of
+SteamIDs returned, a call to
+<a href="#GetPublisherAppOwnership" class="bb_doclink"
+  >GetPublisherAppOwnership</a
+>
+can then return the associated ownership data for the applications in the group
+associated with the key passed in. A partner may wish to track this data in
+conjunction with linked Steam Accounts to better understand the state of product
+ownership on Steam.<br /><br />To begin, make a call to
+<strong>GetPublisherAppOwnershipChanges</strong> passing in
+<strong>packagerowversion </strong>and <strong>cdkeyrowversion</strong> with the
+values of 0 (zero). The response from the call will look something like this:<br /><br />
+<div class="bb_code">
+  "ownershipchanges": { "steamids": [ { "steamid": "76561198114498811" }, {
+  "steamid": "76561198114498812" }, ... ], "packagerowversion": "12448390228",
+  "cdkeyrowversion": "49857241147", "moredata": true }
+</div>
+<br />The JSON response will contain the following fields:<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamids/steamid</strong></td>
+    <td>string</td>
+    <td>
+      The list of SteamIDs for any accounts that have changed since the provided
+      row versions. Up to 10,000 SteamIDs will be returned per call.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>packagerowversion</strong></td>
+    <td>string</td>
+    <td>
+      The package row version that matches the last SteamID returned. Store this
+      for future calls to GetPublisherAppOwnershipChanges
+    </td>
+  </tr>
+  <tr>
+    <td><strong>cdkeyrowversion</strong></td>
+    <td>string</td>
+    <td>
+      The cd key row version that matches the last SteamID returned. Store this
+      for future calls to GetPublisherAppOwnershipChanges
+    </td>
+  </tr>
+  <tr>
+    <td><strong>moredata</strong></td>
+    <td>bool</td>
+    <td>Indicates if more and newer data is available.</td>
+  </tr>
+</table>
+<br />After this first call returns: <br />
+<ol class="bb_ol">
+  <li>
+    Make a call to
+    <a href="#GetPublisherAppOwnership" class="bb_doclink"
+      >GetPublisherAppOwnership</a
+    >
+    for each SteamID to get the actual ownership per AppID. Store or use that
+    data as needed.<br />
+  </li>
+  <li>
+    Once all the SteamIDs have been processed, check the value of
+    <strong>moredata</strong>. If it is true, make a new call to
+    <strong>GetPublisherAppOwnershipChanges</strong> passing in the
+    <strong>packagerowversion</strong> and <strong>cdkeyrowversion</strong> as
+    returned from the previous call to
+    <strong>GetPublisherAppOwnershipChanges</strong>.<br />
+  </li>
+  <li>
+    Repeat Step 1 and 2 until <strong>moredata</strong> returns false. <br />
+  </li>
+  <li>
+    Store the final <strong>packagerowversion </strong>and
+    <strong>cdkeyrowversion </strong>values for use in future
+    <strong>GetPublisherAppOwnershipChanges</strong> calls (e.g. 24 hours later)
+    instead of starting at 0 (zero) again.
+  </li>
+</ol>
+<br /><strong>NOTE:</strong> This call requires a publisher API key to use this
+method. As such this API <strong>MUST</strong> be called from a secure server,
+and can never be used directly by clients!
+<h2 class="bb_section"><a name="GetUserGroupList"></a>GetUserGroupList</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/ISteamUser/GetUserGroupList/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="GrantPackage"></a>GrantPackage</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/ISteamUser/GrantPackage/v2/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>packageid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>PackageID to grant</td>
+  </tr>
+  <tr>
+    <td><strong>ipaddress</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>ip address of user in string format (xxx.xxx.xxx.xxx).</td>
+  </tr>
+  <tr>
+    <td><strong>thirdpartykey</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>
+      Optionally associate third party key during grant. 'thirdpartyappid' will
+      have to be set.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>thirdpartyappid</strong></td>
+    <td>uint32</td>
+    <td></td>
+    <td>
+      Has to be set if 'thirdpartykey' is set. The appid associated with the
+      'thirdpartykey'.
+    </td>
+  </tr>
+</table>
+<br />This call will only work on packages which have "canbegrantedfromexternal"
+set to 1.<br /><br />Version 2 of GrantPackage also allows the package to be
+revoked via
+<a href="#RevokePackage" class="bb_doclink">RevokePackage</a
+>.<br /><br /><strong>NOTE:</strong> This call requires a publisher API key to
+use this method. As such this API <strong>MUST</strong> be called from a secure
+server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="RevokePackage"></a>RevokePackage</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/ISteamUser/RevokePackage/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>SteamID of user</td>
+  </tr>
+  <tr>
+    <td><strong>packageid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>PackageID to revoke</td>
+  </tr>
+  <tr>
+    <td><strong>revokereason</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Reason why the package is being revoked</td>
+  </tr>
+</table>
+<br />This call will only work on packages which have "canbegrantedfromexternal"
+set to 1. Additionally the call will only work on packages that have been
+granted via <a href="#GrantPackage" class="bb_doclink">GrantPackage</a> version
+2 and up, and only by the same Steamworks partner that issued the grant.<br /><br />Revokereason
+must be set to one of the following values:<br />
+<ul class="bb_ul">
+  <li>refund<br /></li>
+  <li>chargeback<br /></li>
+  <li>betaended</li>
+</ul>
+<br />The value of revokereason determines what alert message will be seen by
+the user.<br /><br />An HTTP status of 200 indicates success. Or you can check
+for the response "success", which will be either true or false. If false, an
+"error" string should provide additional information.<br /><br /><strong
+  >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section"><a name="ResolveVanityURL"></a>ResolveVanityURL</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>vanityurl</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>The vanity URL to get a SteamID for</td>
+  </tr>
+  <tr>
+    <td><strong>url_type</strong></td>
+    <td>int32</td>
+    <td></td>
+    <td>
+      The type of vanity URL. 1 (default): Individual profile, 2: Group, 3:
+      Official game group
+    </td>
+  </tr>
+</table>
+<br />

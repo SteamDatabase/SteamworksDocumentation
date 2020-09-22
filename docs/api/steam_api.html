@@ -1,0 +1,2661 @@
+<h1>steam_api.h</h1>
+Provides the core foundation to initialize and access the Steamworks API.<br /><br />All
+of the types listed here are global defines and not associated with any one
+specific API.
+<h2 class="bb_section"><a name="Functions"></a>Functions</h2>
+<br />These are global functions which do not require an interface to set up.
+You can read more about these functions in the
+<a
+  href="https://partner.steamgames.com/doc/sdk/api#initialization_and_shutdown"
+  class="bb_doclink"
+  >Steamworks API Overview</a
+>.
+<h2 class="bb_subsection"><a name="SteamAPI_Init"></a>SteamAPI_Init</h2>
+<div class="bb_code cpp">S_API bool S_CALLTYPE SteamAPI_Init();</div>
+Initializes the Steamworks API.<br /><br />See
+<a
+  href="https://partner.steamgames.com/doc/sdk/api#initialization_and_shutdown"
+  class="bb_doclink"
+  >Initialization and Shutdown</a
+>
+for additional information.<br /><br /><strong>Returns:</strong>
+bool<br /><strong>true</strong> indicates that all required interfaces have been
+acquired and are accessible.<br /><strong>false</strong> indicates one of the
+following conditions:<br />
+<ul class="bb_ul">
+  <li>
+    The Steam client isn't running. A running Steam client is required to
+    provide implementations of the various Steamworks interfaces.<br />
+  </li>
+  <li>
+    The Steam client couldn't determine the App ID of game. If you're running
+    your application from the executable or debugger directly then you must have
+    a <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> in
+    your game directory next to the executable, with your app ID in it and
+    nothing else. Steam will look for this file in the current working
+    directory. If you are running your executable from a different directory you
+    may need to relocate the
+    <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code>
+    file.<br />
+  </li>
+  <li>
+    Your application is not running under the same OS user context as the Steam
+    client, such as a different user or administration access level.<br />
+  </li>
+  <li>
+    Ensure that you own a license for the App ID on the currently active Steam
+    account. Your game must show up in your Steam library.<br />
+  </li>
+  <li>
+    Your App ID is not completely set up, i.e. in
+    <code class="bb_code bb_code_inline nohighlight"
+      >Release State: Unavailable</code
+    >, or it's missing default packages.
+  </li>
+</ul>
+<br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  int main() { if ( SteamAPI_RestartAppIfNecessary( k_uAppIdInvalid ) ) //
+  Replace with your App ID { return 1; } if ( !SteamAPI_Init() ) { printf(
+  "Fatal Error - Steam must be running to play this game (SteamAPI_Init()
+  failed).\n" ); return 1; } return 0; }
+</div>
+<h2 class="bb_subsection">
+  <a name="SteamAPI_ReleaseCurrentThreadMemory"></a
+  >SteamAPI_ReleaseCurrentThreadMemory
+</h2>
+<div class="bb_code cpp">
+  S_API void S_CALLTYPE SteamAPI_ReleaseCurrentThreadMemory();
+</div>
+Free's the internal Steamworks API memory associated with the calling thread.<br /><br />Most
+Steamworks API functions allocate a small amount of thread-local memory for
+parameter storage, calling this will manually free such memory. This function is
+called automatically by
+<a href="#SteamAPI_RunCallbacks" class="bb_apilink">SteamAPI_RunCallbacks</a>,
+so a program that only ever accesses the Steamworks API from a single thread
+never needs to explicitly call this function.
+<h2 class="bb_subsection">
+  <a name="SteamAPI_RestartAppIfNecessary"></a>SteamAPI_RestartAppIfNecessary
+</h2>
+<div class="bb_code cpp">
+  S_API bool S_CALLTYPE SteamAPI_RestartAppIfNecessary( uint32 unOwnAppID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>unOwnAppID</strong></td>
+    <td>uint32</td>
+    <td>The App ID of this title.</td>
+  </tr>
+</table>
+<br />Checks if your executable was launched through Steam and relaunches it
+through Steam if it wasn't.<br /><br />See
+<a
+  href="https://partner.steamgames.com/doc/sdk/api#initialization_and_shutdown"
+  class="bb_doclink"
+  >Initialization and Shutdown</a
+>
+for additional information.<br /><br /><strong>Returns:</strong> bool<br />If
+this returns <strong>true</strong> then it starts the Steam client if required
+and launches your game again through it, and you should quit your process as
+soon as possible. This effectively runs
+<code class="bb_code bb_code_inline nohighlight"
+  >steam://run/&lt;AppId&gt;</code
+>
+so it may not relaunch the exact executable that called it, as it will always
+relaunch from the version installed in your Steam library folder.<br /><br />If
+it returns <strong>false</strong>, then your game was launched by the Steam
+client and no action needs to be taken. One exception is if a
+<code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file is
+present then this will return <strong>false</strong> regardless. This allows you
+to develop and test without launching your game through the Steam client. Make
+sure to remove the
+<code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file
+when uploading the game to your Steam depot!<br /><br /><strong>Example:</strong
+><br />
+<div class="bb_code cpp">
+  int main() { if ( SteamAPI_RestartAppIfNecessary( k_uAppIdInvalid ) ) //
+  Replace with your App ID { return 1; } if ( !SteamAPI_Init() ) { printf(
+  "Fatal Error - Steam must be running to play this game (SteamAPI_Init()
+  failed).\n" ); return 1; } return 0; }
+</div>
+<h2 class="bb_subsection">
+  <a name="SteamAPI_RunCallbacks"></a>SteamAPI_RunCallbacks
+</h2>
+<div class="bb_code cpp">S_API void S_CALLTYPE SteamAPI_RunCallbacks();</div>
+Dispatches callbacks and call results to all of the registered listeners.<br /><br />It's
+best to call this at &gt;10Hz, the more time between calls, the more potential
+latency between receiving events or results from the Steamworks API. Most games
+call this once per render-frame. All registered listener functions will be
+invoked during this call, in the callers thread context.<br /><br />SteamAPI_RunCallbacks
+is safe to call from multiple threads simultaneously, but if you choose to do
+this, callback code could be executed on any thread. One alternative is to call
+SteamAPI_RunCallbacks from the main thread only, and call
+<a href="#SteamAPI_ReleaseCurrentThreadMemory" class="bb_apilink"
+  >SteamAPI_ReleaseCurrentThreadMemory</a
+>
+regularly on other threads.
+<h2 class="bb_subsection">
+  <a name="SteamAPI_SetMiniDumpComment"></a>SteamAPI_SetMiniDumpComment
+</h2>
+<div class="bb_code cpp">
+  S_API void S_CALLTYPE SteamAPI_SetMiniDumpComment( const char *pchMsg );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchMsg</strong></td>
+    <td>const char *</td>
+    <td>
+      The message to attach to the minidump. This must be null terminated.
+    </td>
+  </tr>
+</table>
+<br />Attaches an arbitrary comment to embed in the minidump.<br /><br />Some
+examples that you may want to include are what level the user was playing, how
+many players on the server, how much memory is free, etc.<br />This must be
+called before calling
+<a href="#SteamAPI_WriteMiniDump" class="bb_apilink">SteamAPI_WriteMiniDump</a>.
+<div class="bb_callout bb_red bb_fixed">
+  <div><strong>NOTE:</strong> Only works on 32bit Windows!</div>
+</div>
+<h2 class="bb_subsection"><a name="SteamAPI_Shutdown"></a>SteamAPI_Shutdown</h2>
+<div class="bb_code cpp">S_API void S_CALLTYPE SteamAPI_Shutdown();</div>
+Shuts down the Steamworks API, releases pointers and frees memory.<br /><br />You
+should call this during process shutdown if possible.<br /><br />This will not
+unhook the
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>
+from your game as there's no guarantee that your rendering API is done using it.
+<h2 class="bb_subsection">
+  <a name="SteamAPI_WriteMiniDump"></a>SteamAPI_WriteMiniDump
+</h2>
+<div class="bb_code cpp">
+  S_API void S_CALLTYPE SteamAPI_WriteMiniDump( uint32 uStructuredExceptionCode,
+  void* pvExceptionInfo, uint32 uBuildID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>uStructuredExceptionCode</strong></td>
+    <td>uint32</td>
+    <td>The structured exception code.</td>
+  </tr>
+  <tr>
+    <td><strong>pvExceptionInfo</strong></td>
+    <td>void*</td>
+    <td>The EXCEPTION_POINTERS containing the actual exception information.</td>
+  </tr>
+  <tr>
+    <td><strong>uBuildID</strong></td>
+    <td>uint32</td>
+    <td>
+      A Build ID to track what version of the app submitted this minidump. This
+      is not the same as a Steam build ID and is used only for crash reporting.
+    </td>
+  </tr>
+</table>
+<br />Writes and uploads a minidump to report crashes.<br /><br />See
+<a
+  href="https://partner.steamgames.com/doc/features/error_reporting"
+  class="bb_doclink"
+  >Steam Error Reporting</a
+>
+for more information.<br /><br />You can add an optional comment by calling
+<a href="#SteamAPI_SetMiniDumpComment" class="bb_apilink"
+  >SteamAPI_SetMiniDumpComment</a
+>
+before you call this function.
+<div class="bb_callout bb_red bb_fixed">
+  <div><strong>NOTE:</strong> This only supports 32bit Windows.</div>
+</div>
+<br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  #ifdef _WIN32 #include &lt;Windows.h&gt; void MiniDumpFunction( unsigned int
+  nExceptionCode, EXCEPTION_POINTERS *pException ) { // You can build and set an
+  arbitrary comment to embed in the minidump here, // maybe you want to put what
+  level the user was playing, how many players on the server, // how much memory
+  is free, etc... SteamAPI_SetMiniDumpComment( "Minidump comment:
+  SteamworksExample.exe/n" ); // The 0 here is a build ID, we don't set it
+  SteamAPI_WriteMiniDump( nExceptionCode, pException, 0 ); } int RealMain(
+  HINSTANCE hInstance, LPSTR lpCmdLine, int nCmdShow ) { __debugbreak(); return
+  0; } int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
+  lpCmdLine, int nCmdShow ) { // All we do here is call the real main function
+  after setting up our se translator // this allows us to catch exceptions and
+  report errors to Steam. // // Note that you must set your compiler flags
+  correctly to enable structured exception // handling in order for this
+  particular setup method to work. if ( IsDebuggerPresent() ) { // We don't want
+  to mask exceptions (or report them to Steam!) when debugging. // If you would
+  like to step through the exception handler, attach a debugger // after running
+  the game outside of the debugger. return RealMain( lpCmdLine, hInstance,
+  nCmdShow ); } _set_se_translator( MiniDumpFunction ); try // this try block
+  allows the SE translator to work { return RealMain( hInstance, lpCmdLine,
+  nCmdShow ); } catch( ... ) { return -1; } } #endif
+</div>
+<h2 class="bb_section"><a name="structs"></a>Structs</h2>
+These are structs which functions in steam_api may return and/or interact with.
+<h2 class="bb_subsection"><a name="CGameID"></a>CGameID</h2>
+The globally unique identifier for Steam Games.
+<h2 class="bb_subsection"><a name="CSteamID"></a>CSteamID</h2>
+The globally unique identifier for all Steam accounts, Steam groups, Lobbies and
+Chat rooms.<br />See
+<a href="#EAccountType" class="bb_apilink">EAccountType</a> and
+<a href="#EUniverse" class="bb_apilink">EUniverse</a>.
+<h2 class="bb_section"><a name="enums"></a>Enums</h2>
+These are enums which are defined for use with steam_api.
+<h2 class="bb_subsection"><a name="EAccountType"></a>EAccountType</h2>
+Steam account types. This is used internally in
+<a href="#CSteamID" class="bb_apilink">CSteamID</a>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EAccountTypeInvalid">
+    <td><strong>k_EAccountTypeInvalid</strong></td>
+    <td>0</td>
+    <td>Used for invalid Steam IDs.</td>
+  </tr>
+  <tr id="k_EAccountTypeIndividual">
+    <td><strong>k_EAccountTypeIndividual</strong></td>
+    <td>1</td>
+    <td>Regular user account.</td>
+  </tr>
+  <tr id="k_EAccountTypeMultiseat">
+    <td><strong>k_EAccountTypeMultiseat</strong></td>
+    <td>2</td>
+    <td>Multiseat (e.g. cybercafe) account.</td>
+  </tr>
+  <tr id="k_EAccountTypeGameServer">
+    <td><strong>k_EAccountTypeGameServer</strong></td>
+    <td>3</td>
+    <td>Persistent (not anonymous) game server account.</td>
+  </tr>
+  <tr id="k_EAccountTypeAnonGameServer">
+    <td><strong>k_EAccountTypeAnonGameServer</strong></td>
+    <td>4</td>
+    <td>Anonymous game server account.</td>
+  </tr>
+  <tr id="k_EAccountTypePending">
+    <td><strong>k_EAccountTypePending</strong></td>
+    <td>5</td>
+    <td>Pending.</td>
+  </tr>
+  <tr id="k_EAccountTypeContentServer">
+    <td><strong>k_EAccountTypeContentServer</strong></td>
+    <td>6</td>
+    <td>Valve internal content server account.</td>
+  </tr>
+  <tr id="k_EAccountTypeClan">
+    <td><strong>k_EAccountTypeClan</strong></td>
+    <td>7</td>
+    <td>Steam Group (clan).</td>
+  </tr>
+  <tr id="k_EAccountTypeChat">
+    <td><strong>k_EAccountTypeChat</strong></td>
+    <td>8</td>
+    <td>Steam group chat or lobby.</td>
+  </tr>
+  <tr id="k_EAccountTypeConsoleUser">
+    <td><strong>k_EAccountTypeConsoleUser</strong></td>
+    <td>9</td>
+    <td>
+      Fake Steam ID for local PSN account on PS3 or Live account on 360, etc.
+    </td>
+  </tr>
+  <tr id="k_EAccountTypeAnonUser">
+    <td><strong>k_EAccountTypeAnonUser</strong></td>
+    <td>10</td>
+    <td>
+      Anonymous user account. (Used to create an account or reset a password)
+    </td>
+  </tr>
+  <tr id="k_EAccountTypeMax">
+    <td><strong>k_EAccountTypeMax</strong></td>
+    <td>11</td>
+    <td>Max of 16 items in this field</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EAppOwnershipFlags"></a>EAppOwnershipFlags
+</h2>
+Flags that represent the ownership information of an App ID. (Steam Internal
+usage only)<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_None">
+    <td><strong>k_EAppOwnershipFlags_None</strong></td>
+    <td>0x0000</td>
+    <td>Unknown.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_OwnsLicense">
+    <td><strong>k_EAppOwnershipFlags_OwnsLicense</strong></td>
+    <td>0x0001</td>
+    <td>Owns a license for this app.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_FreeLicense">
+    <td><strong>k_EAppOwnershipFlags_FreeLicense</strong></td>
+    <td>0x0002</td>
+    <td>The user has not paid for the app.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_RegionRestricted">
+    <td><strong>k_EAppOwnershipFlags_RegionRestricted</strong></td>
+    <td>0x0004</td>
+    <td>Owns app, but not allowed to play in current region.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_LowViolence">
+    <td><strong>k_EAppOwnershipFlags_LowViolence</strong></td>
+    <td>0x0008</td>
+    <td>Only owns a low violence version.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_InvalidPlatform">
+    <td><strong>k_EAppOwnershipFlags_InvalidPlatform</strong></td>
+    <td>0x0010</td>
+    <td>App not supported on current platform.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_SharedLicense">
+    <td><strong>k_EAppOwnershipFlags_SharedLicense</strong></td>
+    <td>0x0020</td>
+    <td>
+      License was shared by an authorized device via Steam Family Sharing.
+    </td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_FreeWeekend">
+    <td><strong>k_EAppOwnershipFlags_FreeWeekend</strong></td>
+    <td>0x0040</td>
+    <td>Owned by a free weekend licenses.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_RetailLicense">
+    <td><strong>k_EAppOwnershipFlags_RetailLicense</strong></td>
+    <td>0x0080</td>
+    <td>Has a retail license for game, (CD-Key etc) (Deprecated)</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_LicenseLocked">
+    <td><strong>k_EAppOwnershipFlags_LicenseLocked</strong></td>
+    <td>0x0100</td>
+    <td>Shared license is locked (in use) by other user.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_LicensePending">
+    <td><strong>k_EAppOwnershipFlags_LicensePending</strong></td>
+    <td>0x0200</td>
+    <td>
+      Owns app, but transaction is still pending. Can't install or play yet.
+    </td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_LicenseExpired">
+    <td><strong>k_EAppOwnershipFlags_LicenseExpired</strong></td>
+    <td>0x0400</td>
+    <td>Doesn't own app anymore since license expired.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_LicensePermanent">
+    <td><strong>k_EAppOwnershipFlags_LicensePermanent</strong></td>
+    <td>0x0800</td>
+    <td>Permanent license, not borrowed, or guest or freeweekend etc.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_LicenseRecurring">
+    <td><strong>k_EAppOwnershipFlags_LicenseRecurring</strong></td>
+    <td>0x1000</td>
+    <td>Recurring license, user is charged periodically.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_LicenseCanceled">
+    <td><strong>k_EAppOwnershipFlags_LicenseCanceled</strong></td>
+    <td>0x2000</td>
+    <td>Mark as canceled, but might be still active if recurring.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_AutoGrant">
+    <td><strong>k_EAppOwnershipFlags_AutoGrant</strong></td>
+    <td>0x4000</td>
+    <td>Ownership is based on any kind of autogrant license.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_PendingGift">
+    <td><strong>k_EAppOwnershipFlags_PendingGift</strong></td>
+    <td>0x8000</td>
+    <td>User has pending gift to redeem.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_RentalNotActivated">
+    <td><strong>k_EAppOwnershipFlags_RentalNotActivated</strong></td>
+    <td>0x10000</td>
+    <td>Rental hasn't been activated yet.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_Rental">
+    <td><strong>k_EAppOwnershipFlags_Rental</strong></td>
+    <td>0x20000</td>
+    <td>Is a rental.</td>
+  </tr>
+  <tr id="k_EAppOwnershipFlags_SiteLicense">
+    <td><strong>k_EAppOwnershipFlags_SiteLicense</strong></td>
+    <td>0x40000</td>
+    <td>Is from a site license</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EAppReleaseState"></a>EAppReleaseState</h2>
+Release state of an App ID. (Steam Internal usage only)<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EAppReleaseState_Unknown">
+    <td><strong>k_EAppReleaseState_Unknown</strong></td>
+    <td>0</td>
+    <td>
+      Unknown, can't get application information, or license info is missing.
+    </td>
+  </tr>
+  <tr id="k_EAppReleaseState_Unavailable">
+    <td><strong>k_EAppReleaseState_Unavailable</strong></td>
+    <td>1</td>
+    <td>Even if user owns it, they can't see game at all.</td>
+  </tr>
+  <tr id="k_EAppReleaseState_Prerelease">
+    <td><strong>k_EAppReleaseState_Prerelease</strong></td>
+    <td>2</td>
+    <td>Can be purchased and is visible in games list, nothing else.</td>
+  </tr>
+  <tr id="k_EAppReleaseState_PreloadOnly">
+    <td><strong>k_EAppReleaseState_PreloadOnly</strong></td>
+    <td>3</td>
+    <td>Owners can preload app, not play it.</td>
+  </tr>
+  <tr id="k_EAppReleaseState_Released">
+    <td><strong>k_EAppReleaseState_Released</strong></td>
+    <td>4</td>
+    <td>Owners can download and play app.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EAppType"></a>EAppType</h2>
+App ID type, more info is available on
+<a
+  href="https://partner.steamgames.com/doc/store/application#types_of_applications"
+  class="bb_doclink"
+  >Types of Applications</a
+>
+(Steam Internal usage only)<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EAppType_Invalid">
+    <td><strong>k_EAppType_Invalid</strong></td>
+    <td>0x000</td>
+    <td>Unknown / invalid.</td>
+  </tr>
+  <tr id="k_EAppType_Game">
+    <td><strong>k_EAppType_Game</strong></td>
+    <td>0x001</td>
+    <td>Playable game, default type.</td>
+  </tr>
+  <tr id="k_EAppType_Application">
+    <td><strong>k_EAppType_Application</strong></td>
+    <td>0x002</td>
+    <td>Software application.</td>
+  </tr>
+  <tr id="k_EAppType_Tool">
+    <td><strong>k_EAppType_Tool</strong></td>
+    <td>0x004</td>
+    <td>SDKs, editors &amp; dedicated servers.</td>
+  </tr>
+  <tr id="k_EAppType_Demo">
+    <td><strong>k_EAppType_Demo</strong></td>
+    <td>0x008</td>
+    <td>Game demo.</td>
+  </tr>
+  <tr id="k_EAppType_Media_DEPRECATED">
+    <td><strong>k_EAppType_Media_DEPRECATED</strong></td>
+    <td>0x010</td>
+    <td>
+      Legacy - was used for game trailers, which are now just videos on the web.
+    </td>
+  </tr>
+  <tr id="k_EAppType_DLC">
+    <td><strong>k_EAppType_DLC</strong></td>
+    <td>0x020</td>
+    <td>Downloadable Content.</td>
+  </tr>
+  <tr id="k_EAppType_Guide">
+    <td><strong>k_EAppType_Guide</strong></td>
+    <td>0x040</td>
+    <td>Game guide, PDF etc</td>
+  </tr>
+  <tr id="k_EAppType_Driver">
+    <td><strong>k_EAppType_Driver</strong></td>
+    <td>0x080</td>
+    <td>Hardware driver updater (ATI, Razor etc.)</td>
+  </tr>
+  <tr id="k_EAppType_Config">
+    <td><strong>k_EAppType_Config</strong></td>
+    <td>0x100</td>
+    <td>Hidden app used to config Steam features (backpack, sales, etc.)</td>
+  </tr>
+  <tr id="k_EAppType_Hardware">
+    <td><strong>k_EAppType_Hardware</strong></td>
+    <td>0x200</td>
+    <td>
+      S hardware device (Steam Machine, Steam Controller, Steam Link, etc.)
+    </td>
+  </tr>
+  <tr id="k_EAppType_Franchise">
+    <td><strong>k_EAppType_Franchise</strong></td>
+    <td>0x400</td>
+    <td>A hub for collections of multiple apps, eg films, series, games.</td>
+  </tr>
+  <tr id="k_EAppType_Video">
+    <td><strong>k_EAppType_Video</strong></td>
+    <td>0x800</td>
+    <td>
+      A video component of either a Film or TVSeries (may be the feature, an
+      episode, preview, making-of, etc.)
+    </td>
+  </tr>
+  <tr id="k_EAppType_Plugin">
+    <td><strong>k_EAppType_Plugin</strong></td>
+    <td>0x1000</td>
+    <td>Plug-in types for other Apps.</td>
+  </tr>
+  <tr id="k_EAppType_Music">
+    <td><strong>k_EAppType_Music</strong></td>
+    <td>0x2000</td>
+    <td>Music files.</td>
+  </tr>
+  <tr id="k_EAppType_Series">
+    <td><strong>k_EAppType_Series</strong></td>
+    <td>0x4000</td>
+    <td>Container app for video series.</td>
+  </tr>
+  <tr id="k_EAppType_Shortcut">
+    <td><strong>k_EAppType_Shortcut</strong></td>
+    <td>0x40000000</td>
+    <td>Just a shortcut, client side only.</td>
+  </tr>
+  <tr id="k_EAppType_DepotOnly">
+    <td><strong>k_EAppType_DepotOnly</strong></td>
+    <td>0x80000000</td>
+    <td>Placeholder since depots and apps share the same namespace.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EAuthSessionResponse"></a>EAuthSessionResponse
+</h2>
+Callback return values for the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
+  class="bb_apilink"
+  >ValidateAuthTicketResponse_t</a
+>
+callback which is posted as a response to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
+  class="bb_apilink"
+  >ISteamUser::BeginAuthSession</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamGameServer#BeginAuthSession"
+  class="bb_apilink"
+  >ISteamGameServer::BeginAuthSession</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EAuthSessionResponseOK">
+    <td><strong>k_EAuthSessionResponseOK</strong></td>
+    <td>0</td>
+    <td>
+      Steam has verified the user is online, the ticket is valid and ticket has
+      not been reused.
+    </td>
+  </tr>
+  <tr id="k_EAuthSessionResponseUserNotConnectedToSteam">
+    <td><strong>k_EAuthSessionResponseUserNotConnectedToSteam</strong></td>
+    <td>1</td>
+    <td>The user in question is not connected to steam.</td>
+  </tr>
+  <tr id="k_EAuthSessionResponseNoLicenseOrExpired">
+    <td><strong>k_EAuthSessionResponseNoLicenseOrExpired</strong></td>
+    <td>2</td>
+    <td>
+      The user doesn't have a license for this App ID or the ticket has expired.
+    </td>
+  </tr>
+  <tr id="k_EAuthSessionResponseVACBanned">
+    <td><strong>k_EAuthSessionResponseVACBanned</strong></td>
+    <td>3</td>
+    <td>The user is VAC banned for this game.</td>
+  </tr>
+  <tr id="k_EAuthSessionResponseLoggedInElseWhere">
+    <td><strong>k_EAuthSessionResponseLoggedInElseWhere</strong></td>
+    <td>4</td>
+    <td>
+      The user account has logged in elsewhere and the session containing the
+      game instance has been disconnected.
+    </td>
+  </tr>
+  <tr id="k_EAuthSessionResponseVACCheckTimedOut">
+    <td><strong>k_EAuthSessionResponseVACCheckTimedOut</strong></td>
+    <td>5</td>
+    <td>VAC has been unable to perform anti-cheat checks on this user.</td>
+  </tr>
+  <tr id="k_EAuthSessionResponseAuthTicketCanceled">
+    <td><strong>k_EAuthSessionResponseAuthTicketCanceled</strong></td>
+    <td>6</td>
+    <td>The ticket has been canceled by the issuer.</td>
+  </tr>
+  <tr id="k_EAuthSessionResponseAuthTicketInvalidAlreadyUsed">
+    <td><strong>k_EAuthSessionResponseAuthTicketInvalidAlreadyUsed</strong></td>
+    <td>7</td>
+    <td>This ticket has already been used, it is not valid.</td>
+  </tr>
+  <tr id="k_EAuthSessionResponseAuthTicketInvalid">
+    <td><strong>k_EAuthSessionResponseAuthTicketInvalid</strong></td>
+    <td>8</td>
+    <td>
+      This ticket is not from a user instance currently connected to steam.
+    </td>
+  </tr>
+  <tr id="k_EAuthSessionResponsePublisherIssuedBan">
+    <td><strong>k_EAuthSessionResponsePublisherIssuedBan</strong></td>
+    <td>9</td>
+    <td>
+      The user is banned for this game. The ban came via the web api and not
+      VAC.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EBeginAuthSessionResult"></a>EBeginAuthSessionResult
+</h2>
+Results returned from
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
+  class="bb_apilink"
+  >ISteamUser::BeginAuthSession</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamGameServer#BeginAuthSession"
+  class="bb_apilink"
+  >ISteamGameServer::BeginAuthSession</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EBeginAuthSessionResultOK">
+    <td><strong>k_EBeginAuthSessionResultOK</strong></td>
+    <td>0</td>
+    <td>Ticket is valid for this game and this Steam ID.</td>
+  </tr>
+  <tr id="k_EBeginAuthSessionResultInvalidTicket">
+    <td><strong>k_EBeginAuthSessionResultInvalidTicket</strong></td>
+    <td>1</td>
+    <td>The ticket is invalid.</td>
+  </tr>
+  <tr id="k_EBeginAuthSessionResultDuplicateRequest">
+    <td><strong>k_EBeginAuthSessionResultDuplicateRequest</strong></td>
+    <td>2</td>
+    <td>A ticket has already been submitted for this Steam ID.</td>
+  </tr>
+  <tr id="k_EBeginAuthSessionResultInvalidVersion">
+    <td><strong>k_EBeginAuthSessionResultInvalidVersion</strong></td>
+    <td>3</td>
+    <td>Ticket is from an incompatible interface version.</td>
+  </tr>
+  <tr id="k_EBeginAuthSessionResultGameMismatch">
+    <td><strong>k_EBeginAuthSessionResultGameMismatch</strong></td>
+    <td>4</td>
+    <td>Ticket is not for this game.</td>
+  </tr>
+  <tr id="k_EBeginAuthSessionResultExpiredTicket">
+    <td><strong>k_EBeginAuthSessionResultExpiredTicket</strong></td>
+    <td>5</td>
+    <td>Ticket has expired.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EBroadcastUploadResult"></a>EBroadcastUploadResult
+</h2>
+Broadcast upload result from
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#BroadcastUploadStop_t"
+  class="bb_apilink"
+  >BroadcastUploadStop_t</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EBroadcastUploadResultNone">
+    <td><strong>k_EBroadcastUploadResultNone</strong></td>
+    <td>0</td>
+    <td>Broadcast state unknown.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultOK">
+    <td><strong>k_EBroadcastUploadResultOK</strong></td>
+    <td>1</td>
+    <td>Broadcast was good, no problems.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultInitFailed">
+    <td><strong>k_EBroadcastUploadResultInitFailed</strong></td>
+    <td>2</td>
+    <td>Broadcast init failed.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultFrameFailed">
+    <td><strong>k_EBroadcastUploadResultFrameFailed</strong></td>
+    <td>3</td>
+    <td>Broadcast frame upload failed.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultTimeout">
+    <td><strong>k_EBroadcastUploadResultTimeout</strong></td>
+    <td>4</td>
+    <td>Broadcast upload timed out.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultBandwidthExceeded">
+    <td><strong>k_EBroadcastUploadResultBandwidthExceeded</strong></td>
+    <td>5</td>
+    <td>Broadcast send too much data.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultLowFPS">
+    <td><strong>k_EBroadcastUploadResultLowFPS</strong></td>
+    <td>6</td>
+    <td>Broadcast FPS is too low.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultMissingKeyFrames">
+    <td><strong>k_EBroadcastUploadResultMissingKeyFrames</strong></td>
+    <td>7</td>
+    <td>Broadcast sending not enough key frames.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultNoConnection">
+    <td><strong>k_EBroadcastUploadResultNoConnection</strong></td>
+    <td>8</td>
+    <td>Broadcast client failed to connect to relay.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultRelayFailed">
+    <td><strong>k_EBroadcastUploadResultRelayFailed</strong></td>
+    <td>9</td>
+    <td>Relay dropped the upload.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultSettingsChanged">
+    <td><strong>k_EBroadcastUploadResultSettingsChanged</strong></td>
+    <td>10</td>
+    <td>The client changed broadcast settings.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultMissingAudio">
+    <td><strong>k_EBroadcastUploadResultMissingAudio</strong></td>
+    <td>11</td>
+    <td>Client failed to send audio data.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultTooFarBehind">
+    <td><strong>k_EBroadcastUploadResultTooFarBehind</strong></td>
+    <td>12</td>
+    <td>Clients was too slow uploading.</td>
+  </tr>
+  <tr id="k_EBroadcastUploadResultTranscodeBehind">
+    <td><strong>k_EBroadcastUploadResultTranscodeBehind</strong></td>
+    <td>13</td>
+    <td>Server failed to keep up with transcode.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EChatEntryType"></a>EChatEntryType</h2>
+Chat Entry Types.<br /><br />Returned by
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendMessage"
+  class="bb_apilink"
+  >ISteamFriends::GetFriendMessage</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetClanChatMessage"
+  class="bb_apilink"
+  >ISteamFriends::GetClanChatMessage</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyChatEntry"
+  class="bb_apilink"
+  >ISteamMatchmaking::GetLobbyChatEntry</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EChatEntryTypeInvalid">
+    <td><strong>k_EChatEntryTypeInvalid</strong></td>
+    <td>0</td>
+    <td>Invalid.</td>
+  </tr>
+  <tr id="k_EChatEntryTypeChatMsg">
+    <td><strong>k_EChatEntryTypeChatMsg</strong></td>
+    <td>1</td>
+    <td>Normal text message from another user.</td>
+  </tr>
+  <tr id="k_EChatEntryTypeTyping">
+    <td><strong>k_EChatEntryTypeTyping</strong></td>
+    <td>2</td>
+    <td>The other user is typing, not used in multi-user chat.</td>
+  </tr>
+  <tr id="k_EChatEntryTypeInviteGame">
+    <td><strong>k_EChatEntryTypeInviteGame</strong></td>
+    <td>3</td>
+    <td>Invite from other user into that users current game.</td>
+  </tr>
+  <tr id="k_EChatEntryTypeEmote">
+    <td><strong>k_EChatEntryTypeEmote</strong></td>
+    <td>4</td>
+    <td>Text emote message (Deprecated, should be treated as ChatMsg).</td>
+  </tr>
+  <tr id="k_EChatEntryTypeLeftConversation">
+    <td><strong>k_EChatEntryTypeLeftConversation</strong></td>
+    <td>6</td>
+    <td>A user has left the conversation (closed the chat window).</td>
+  </tr>
+  <tr id="k_EChatEntryTypeEntered">
+    <td><strong>k_EChatEntryTypeEntered</strong></td>
+    <td>7</td>
+    <td>
+      User has entered the conversation, used in multi-user chat and group chat.
+    </td>
+  </tr>
+  <tr id="k_EChatEntryTypeWasKicked">
+    <td><strong>k_EChatEntryTypeWasKicked</strong></td>
+    <td>8</td>
+    <td>User was kicked (Data: Steam ID of the user performing the kick).</td>
+  </tr>
+  <tr id="k_EChatEntryTypeWasBanned">
+    <td><strong>k_EChatEntryTypeWasBanned</strong></td>
+    <td>9</td>
+    <td>User was banned (Data: Steam ID of the user performing the ban).</td>
+  </tr>
+  <tr id="k_EChatEntryTypeDisconnected">
+    <td><strong>k_EChatEntryTypeDisconnected</strong></td>
+    <td>10</td>
+    <td>User disconnected.</td>
+  </tr>
+  <tr id="k_EChatEntryTypeHistoricalChat">
+    <td><strong>k_EChatEntryTypeHistoricalChat</strong></td>
+    <td>11</td>
+    <td>A chat message from user's chat history or offline message.</td>
+  </tr>
+  <tr id="k_EChatEntryTypeLinkBlocked">
+    <td><strong>k_EChatEntryTypeLinkBlocked</strong></td>
+    <td>14</td>
+    <td>A link was removed by the chat filter.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EChatRoomEnterResponse"></a>EChatRoomEnterResponse
+</h2>
+Chat Room Enter Responses.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseSuccess">
+    <td><strong>k_EChatRoomEnterResponseSuccess</strong></td>
+    <td>1</td>
+    <td>Success.</td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseDoesntExist">
+    <td><strong>k_EChatRoomEnterResponseDoesntExist</strong></td>
+    <td>2</td>
+    <td>Chat doesn't exist (probably closed).</td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseNotAllowed">
+    <td><strong>k_EChatRoomEnterResponseNotAllowed</strong></td>
+    <td>3</td>
+    <td>
+      General Denied - You don't have the permissions needed to join the chat.
+    </td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseFull">
+    <td><strong>k_EChatRoomEnterResponseFull</strong></td>
+    <td>4</td>
+    <td>Chat room has reached its maximum size.</td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseError">
+    <td><strong>k_EChatRoomEnterResponseError</strong></td>
+    <td>5</td>
+    <td>Unexpected Error.</td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseBanned">
+    <td><strong>k_EChatRoomEnterResponseBanned</strong></td>
+    <td>6</td>
+    <td>You are banned from this chat room and may not join.</td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseLimited">
+    <td><strong>k_EChatRoomEnterResponseLimited</strong></td>
+    <td>7</td>
+    <td>
+      Joining this chat is not allowed because you are a limited user (no value
+      on account).
+    </td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseClanDisabled">
+    <td><strong>k_EChatRoomEnterResponseClanDisabled</strong></td>
+    <td>8</td>
+    <td>Attempt to join a clan chat when the clan is locked or disabled.</td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseCommunityBan">
+    <td><strong>k_EChatRoomEnterResponseCommunityBan</strong></td>
+    <td>9</td>
+    <td>
+      Attempt to join a chat when the user has a community lock on their
+      account.
+    </td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseMemberBlockedYou">
+    <td><strong>k_EChatRoomEnterResponseMemberBlockedYou</strong></td>
+    <td>10</td>
+    <td>
+      Join failed - a user that is in the chat has blocked you from joining.
+    </td>
+  </tr>
+  <tr id="k_EChatRoomEnterResponseYouBlockedMember">
+    <td><strong>k_EChatRoomEnterResponseYouBlockedMember</strong></td>
+    <td>11</td>
+    <td>Join failed - you have blocked a user that is already in the chat.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EChatSteamIDInstanceFlags"></a>EChatSteamIDInstanceFlags
+</h2>
+Special flags for Chat accounts - they go in the top 8 bits of the Steam ID's
+"instance", leaving 12 for the actual instances<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EChatAccountInstanceMask">
+    <td><strong>k_EChatAccountInstanceMask</strong></td>
+    <td>0x00000FFF</td>
+    <td>Top 8 bits are flags.</td>
+  </tr>
+  <tr id="k_EChatInstanceFlagClan">
+    <td><strong>k_EChatInstanceFlagClan</strong></td>
+    <td>( k_unSteamAccountInstanceMask + 1 ) &gt;&gt; 1</td>
+    <td>The Steam ID is for a Steam group.</td>
+  </tr>
+  <tr id="k_EChatInstanceFlagLobby">
+    <td><strong>k_EChatInstanceFlagLobby</strong></td>
+    <td>( k_unSteamAccountInstanceMask + 1 ) &gt;&gt; 2</td>
+    <td>The Steam ID is for a Lobby.</td>
+  </tr>
+  <tr id="k_EChatInstanceFlagMMSLobby">
+    <td><strong>k_EChatInstanceFlagMMSLobby</strong></td>
+    <td>( k_unSteamAccountInstanceMask + 1 ) &gt;&gt; 3</td>
+    <td>The Steam ID is for a MMS Lobby.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EDenyReason"></a>EDenyReason</h2>
+Result values when a client failed to join or has been kicked from a game
+server. Obtained from
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamGameServer#GSClientDeny_t"
+  class="bb_apilink"
+  >GSClientDeny_t</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamGameServer#GSClientKick_t"
+  class="bb_apilink"
+  >GSClientKick_t</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EDenyInvalid">
+    <td><strong>k_EDenyInvalid</strong></td>
+    <td>0</td>
+    <td>Unknown.</td>
+  </tr>
+  <tr id="k_EDenyInvalidVersion">
+    <td><strong>k_EDenyInvalidVersion</strong></td>
+    <td>1</td>
+    <td>The client and server are not the same version.</td>
+  </tr>
+  <tr id="k_EDenyGeneric">
+    <td><strong>k_EDenyGeneric</strong></td>
+    <td>2</td>
+    <td>Generic.</td>
+  </tr>
+  <tr id="k_EDenyNotLoggedOn">
+    <td><strong>k_EDenyNotLoggedOn</strong></td>
+    <td>3</td>
+    <td>The client is not logged on.</td>
+  </tr>
+  <tr id="k_EDenyNoLicense">
+    <td><strong>k_EDenyNoLicense</strong></td>
+    <td>4</td>
+    <td>The client does not have a license to play this game.</td>
+  </tr>
+  <tr id="k_EDenyCheater">
+    <td><strong>k_EDenyCheater</strong></td>
+    <td>5</td>
+    <td>The client is VAC banned.</td>
+  </tr>
+  <tr id="k_EDenyLoggedInElseWhere">
+    <td><strong>k_EDenyLoggedInElseWhere</strong></td>
+    <td>6</td>
+    <td>The client is logged in elsewhere.</td>
+  </tr>
+  <tr id="k_EDenyUnknownText">
+    <td><strong>k_EDenyUnknownText</strong></td>
+    <td>7</td>
+    <td></td>
+  </tr>
+  <tr id="k_EDenyIncompatibleAnticheat">
+    <td><strong>k_EDenyIncompatibleAnticheat</strong></td>
+    <td>8</td>
+    <td></td>
+  </tr>
+  <tr id="k_EDenyMemoryCorruption">
+    <td><strong>k_EDenyMemoryCorruption</strong></td>
+    <td>9</td>
+    <td></td>
+  </tr>
+  <tr id="k_EDenyIncompatibleSoftware">
+    <td><strong>k_EDenyIncompatibleSoftware</strong></td>
+    <td>10</td>
+    <td></td>
+  </tr>
+  <tr id="k_EDenySteamConnectionLost">
+    <td><strong>k_EDenySteamConnectionLost</strong></td>
+    <td>11</td>
+    <td>The server lost connection to steam.</td>
+  </tr>
+  <tr id="k_EDenySteamConnectionError">
+    <td><strong>k_EDenySteamConnectionError</strong></td>
+    <td>12</td>
+    <td>The server had a general error connecting to Steam.</td>
+  </tr>
+  <tr id="k_EDenySteamResponseTimedOut">
+    <td><strong>k_EDenySteamResponseTimedOut</strong></td>
+    <td>13</td>
+    <td>The server timed out connecting to Steam.</td>
+  </tr>
+  <tr id="k_EDenySteamValidationStalled">
+    <td><strong>k_EDenySteamValidationStalled</strong></td>
+    <td>14</td>
+    <td>The client has not authed with Steam yet.</td>
+  </tr>
+  <tr id="k_EDenySteamOwnerLeftGuestUser">
+    <td><strong>k_EDenySteamOwnerLeftGuestUser</strong></td>
+    <td>15</td>
+    <td>
+      The owner of the shared game has left, called for each guest of the owner.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EGameIDType"></a>EGameIDType</h2>
+Used to describe the type of
+<a href="#CGameID" class="bb_apilink">CGameID</a>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EGameIDTypeApp">
+    <td><strong>k_EGameIDTypeApp</strong></td>
+    <td>0</td>
+    <td>The Game ID is a regular steam app.</td>
+  </tr>
+  <tr id="k_EGameIDTypeGameMod">
+    <td><strong>k_EGameIDTypeGameMod</strong></td>
+    <td>1</td>
+    <td>The Game ID is a mod.</td>
+  </tr>
+  <tr id="k_EGameIDTypeShortcut">
+    <td><strong>k_EGameIDTypeShortcut</strong></td>
+    <td>2</td>
+    <td>The game ID is a shortcut.</td>
+  </tr>
+  <tr id="k_EGameIDTypeP2P">
+    <td><strong>k_EGameIDTypeP2P</strong></td>
+    <td>3</td>
+    <td>The game ID is a P2P file.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="ELaunchOptionType"></a>ELaunchOptionType</h2>
+Codes for well defined launch options, corresponds to "Launch Type" in the
+applications Launch Options which can be found on the
+<a
+  href="https://partner.steamgames.com/apps/config/"
+  target="_blank"
+  rel="noreferrer"
+  >General Installation Settings</a
+>
+page.<br /><br />There is a special function BIsVRLaunchOptionType, to check a
+the type is any of the VR launch options.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ELaunchOptionType_None">
+    <td><strong>k_ELaunchOptionType_None</strong></td>
+    <td>0</td>
+    <td>Unspecified.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Default">
+    <td><strong>k_ELaunchOptionType_Default</strong></td>
+    <td>1</td>
+    <td>Runs the app in default mode.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_SafeMode">
+    <td><strong>k_ELaunchOptionType_SafeMode</strong></td>
+    <td>2</td>
+    <td>Runs the game in safe mode.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Multiplayer">
+    <td><strong>k_ELaunchOptionType_Multiplayer</strong></td>
+    <td>3</td>
+    <td>Runs the game in multiplayer mode.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Config">
+    <td><strong>k_ELaunchOptionType_Config</strong></td>
+    <td>4</td>
+    <td>Runs config tool for this game.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_OpenVR">
+    <td><strong>k_ELaunchOptionType_OpenVR</strong></td>
+    <td>5</td>
+    <td>Runs game in VR mode using OpenVR.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Server">
+    <td><strong>k_ELaunchOptionType_Server</strong></td>
+    <td>6</td>
+    <td>Runs dedicated server for this game.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Editor">
+    <td><strong>k_ELaunchOptionType_Editor</strong></td>
+    <td>7</td>
+    <td>Runs game editor.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Manual">
+    <td><strong>k_ELaunchOptionType_Manual</strong></td>
+    <td>8</td>
+    <td>Shows game manual.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Benchmark">
+    <td><strong>k_ELaunchOptionType_Benchmark</strong></td>
+    <td>9</td>
+    <td>Runs game benchmark.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Option1">
+    <td><strong>k_ELaunchOptionType_Option1</strong></td>
+    <td>10</td>
+    <td>Generic run option, uses description field for game name.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Option2">
+    <td><strong>k_ELaunchOptionType_Option2</strong></td>
+    <td>11</td>
+    <td>Generic run option, uses description field for game name.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Option3">
+    <td><strong>k_ELaunchOptionType_Option3</strong></td>
+    <td>12</td>
+    <td>Generic run option, uses description field for game name.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_OculusVR">
+    <td><strong>k_ELaunchOptionType_OculusVR</strong></td>
+    <td>13</td>
+    <td>Runs game in VR mode using the Oculus SDK.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_OpenVROverlay">
+    <td><strong>k_ELaunchOptionType_OpenVROverlay</strong></td>
+    <td>14</td>
+    <td>Runs an OpenVR dashboard overlay.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_OSVR">
+    <td><strong>k_ELaunchOptionType_OSVR</strong></td>
+    <td>15</td>
+    <td>Runs game in VR mode using the OSVR SDK.</td>
+  </tr>
+  <tr id="k_ELaunchOptionType_Dialog">
+    <td><strong>k_ELaunchOptionType_Dialog</strong></td>
+    <td>1000</td>
+    <td>Show launch options dialog.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EMarketingMessageFlags"></a>EMarketingMessageFlags
+</h2>
+Internal Steam marketing message flags that change how a client should handle
+them.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EMarketingMessageFlagsNone">
+    <td><strong>k_EMarketingMessageFlagsNone</strong></td>
+    <td>0</td>
+    <td></td>
+  </tr>
+  <tr id="k_EMarketingMessageFlagsHighPriority">
+    <td><strong>k_EMarketingMessageFlagsHighPriority</strong></td>
+    <td>1 &lt;&lt; 0</td>
+    <td></td>
+  </tr>
+  <tr id="k_EMarketingMessageFlagsPlatformWindows">
+    <td><strong>k_EMarketingMessageFlagsPlatformWindows</strong></td>
+    <td>1 &lt;&lt; 1</td>
+    <td></td>
+  </tr>
+  <tr id="k_EMarketingMessageFlagsPlatformMac">
+    <td><strong>k_EMarketingMessageFlagsPlatformMac</strong></td>
+    <td>1 &lt;&lt; 2</td>
+    <td></td>
+  </tr>
+  <tr id="k_EMarketingMessageFlagsPlatformLinux">
+    <td><strong>k_EMarketingMessageFlagsPlatformLinux</strong></td>
+    <td>1 &lt;&lt; 3</td>
+    <td></td>
+  </tr>
+  <tr id="k_EMarketingMessageFlagsPlatformRestrictions">
+    <td><strong>k_EMarketingMessageFlagsPlatformRestrictions</strong></td>
+    <td>=</td>
+    <td>aggregate flags</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="ENotificationPosition"></a>ENotificationPosition
+</h2>
+Possible positions to have the overlay show notifications in. Used with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#SetOverlayNotificationPosition"
+  class="bb_apilink"
+  >ISteamUtils::SetOverlayNotificationPosition</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EPositionTopLeft">
+    <td><strong>k_EPositionTopLeft</strong></td>
+    <td>0</td>
+    <td>Top left corner.</td>
+  </tr>
+  <tr id="k_EPositionTopRight">
+    <td><strong>k_EPositionTopRight</strong></td>
+    <td>1</td>
+    <td>Top right corner.</td>
+  </tr>
+  <tr id="k_EPositionBottomLeft">
+    <td><strong>k_EPositionBottomLeft</strong></td>
+    <td>2</td>
+    <td>Bottom left corner.</td>
+  </tr>
+  <tr id="k_EPositionBottomRight">
+    <td><strong>k_EPositionBottomRight</strong></td>
+    <td>3</td>
+    <td>Bottom right corner.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EResult"></a>EResult</h2>
+Steam error result codes.<br /><br />These are frequently returned by functions,
+callbacks, and call results from both the Steamworks API and the Web API. An API
+may return arbitrary EResult codes, refer to the documentation for that API
+function or callback to see what it could return and what they mean in the
+context of that API call.<br />This is similar to Win32's HRESULT type or POSIXs
+errno.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EResultOK">
+    <td><strong>k_EResultOK</strong></td>
+    <td>1</td>
+    <td>Success.</td>
+  </tr>
+  <tr id="k_EResultFail">
+    <td><strong>k_EResultFail</strong></td>
+    <td>2</td>
+    <td>Generic failure.</td>
+  </tr>
+  <tr id="k_EResultNoConnection">
+    <td><strong>k_EResultNoConnection</strong></td>
+    <td>3</td>
+    <td>Your Steam client doesn't have a connection to the back-end.</td>
+  </tr>
+  <tr id="k_EResultInvalidPassword">
+    <td><strong>k_EResultInvalidPassword</strong></td>
+    <td>5</td>
+    <td>Password/ticket is invalid.</td>
+  </tr>
+  <tr id="k_EResultLoggedInElsewhere">
+    <td><strong>k_EResultLoggedInElsewhere</strong></td>
+    <td>6</td>
+    <td>The user is logged in elsewhere.</td>
+  </tr>
+  <tr id="k_EResultInvalidProtocolVer">
+    <td><strong>k_EResultInvalidProtocolVer</strong></td>
+    <td>7</td>
+    <td>Protocol version is incorrect.</td>
+  </tr>
+  <tr id="k_EResultInvalidParam">
+    <td><strong>k_EResultInvalidParam</strong></td>
+    <td>8</td>
+    <td>A parameter is incorrect.</td>
+  </tr>
+  <tr id="k_EResultFileNotFound">
+    <td><strong>k_EResultFileNotFound</strong></td>
+    <td>9</td>
+    <td>File was not found.</td>
+  </tr>
+  <tr id="k_EResultBusy">
+    <td><strong>k_EResultBusy</strong></td>
+    <td>10</td>
+    <td>Called method is busy - action not taken.</td>
+  </tr>
+  <tr id="k_EResultInvalidState">
+    <td><strong>k_EResultInvalidState</strong></td>
+    <td>11</td>
+    <td>Called object was in an invalid state.</td>
+  </tr>
+  <tr id="k_EResultInvalidName">
+    <td><strong>k_EResultInvalidName</strong></td>
+    <td>12</td>
+    <td>The name was invalid.</td>
+  </tr>
+  <tr id="k_EResultInvalidEmail">
+    <td><strong>k_EResultInvalidEmail</strong></td>
+    <td>13</td>
+    <td>The email was invalid.</td>
+  </tr>
+  <tr id="k_EResultDuplicateName">
+    <td><strong>k_EResultDuplicateName</strong></td>
+    <td>14</td>
+    <td>The name is not unique.</td>
+  </tr>
+  <tr id="k_EResultAccessDenied">
+    <td><strong>k_EResultAccessDenied</strong></td>
+    <td>15</td>
+    <td>Access is denied.</td>
+  </tr>
+  <tr id="k_EResultTimeout">
+    <td><strong>k_EResultTimeout</strong></td>
+    <td>16</td>
+    <td>Operation timed out.</td>
+  </tr>
+  <tr id="k_EResultBanned">
+    <td><strong>k_EResultBanned</strong></td>
+    <td>17</td>
+    <td>The user is VAC2 banned.</td>
+  </tr>
+  <tr id="k_EResultAccountNotFound">
+    <td><strong>k_EResultAccountNotFound</strong></td>
+    <td>18</td>
+    <td>Account not found.</td>
+  </tr>
+  <tr id="k_EResultInvalidSteamID">
+    <td><strong>k_EResultInvalidSteamID</strong></td>
+    <td>19</td>
+    <td>The Steam ID was invalid.</td>
+  </tr>
+  <tr id="k_EResultServiceUnavailable">
+    <td><strong>k_EResultServiceUnavailable</strong></td>
+    <td>20</td>
+    <td>The requested service is currently unavailable.</td>
+  </tr>
+  <tr id="k_EResultNotLoggedOn">
+    <td><strong>k_EResultNotLoggedOn</strong></td>
+    <td>21</td>
+    <td>The user is not logged on.</td>
+  </tr>
+  <tr id="k_EResultPending">
+    <td><strong>k_EResultPending</strong></td>
+    <td>22</td>
+    <td>Request is pending, it may be in process or waiting on third party.</td>
+  </tr>
+  <tr id="k_EResultEncryptionFailure">
+    <td><strong>k_EResultEncryptionFailure</strong></td>
+    <td>23</td>
+    <td>Encryption or Decryption failed.</td>
+  </tr>
+  <tr id="k_EResultInsufficientPrivilege">
+    <td><strong>k_EResultInsufficientPrivilege</strong></td>
+    <td>24</td>
+    <td>Insufficient privilege.</td>
+  </tr>
+  <tr id="k_EResultLimitExceeded">
+    <td><strong>k_EResultLimitExceeded</strong></td>
+    <td>25</td>
+    <td>Too much of a good thing.</td>
+  </tr>
+  <tr id="k_EResultRevoked">
+    <td><strong>k_EResultRevoked</strong></td>
+    <td>26</td>
+    <td>Access has been revoked (used for revoked guest passes.)</td>
+  </tr>
+  <tr id="k_EResultExpired">
+    <td><strong>k_EResultExpired</strong></td>
+    <td>27</td>
+    <td>License/Guest pass the user is trying to access is expired.</td>
+  </tr>
+  <tr id="k_EResultAlreadyRedeemed">
+    <td><strong>k_EResultAlreadyRedeemed</strong></td>
+    <td>28</td>
+    <td>
+      Guest pass has already been redeemed by account, cannot be used again.
+    </td>
+  </tr>
+  <tr id="k_EResultDuplicateRequest">
+    <td><strong>k_EResultDuplicateRequest</strong></td>
+    <td>29</td>
+    <td>
+      The request is a duplicate and the action has already occurred in the
+      past, ignored this time.
+    </td>
+  </tr>
+  <tr id="k_EResultAlreadyOwned">
+    <td><strong>k_EResultAlreadyOwned</strong></td>
+    <td>30</td>
+    <td>
+      All the games in this guest pass redemption request are already owned by
+      the user.
+    </td>
+  </tr>
+  <tr id="k_EResultIPNotFound">
+    <td><strong>k_EResultIPNotFound</strong></td>
+    <td>31</td>
+    <td>IP address not found.</td>
+  </tr>
+  <tr id="k_EResultPersistFailed">
+    <td><strong>k_EResultPersistFailed</strong></td>
+    <td>32</td>
+    <td>Failed to write change to the data store.</td>
+  </tr>
+  <tr id="k_EResultLockingFailed">
+    <td><strong>k_EResultLockingFailed</strong></td>
+    <td>33</td>
+    <td>Failed to acquire access lock for this operation.</td>
+  </tr>
+  <tr id="k_EResultLogonSessionReplaced">
+    <td><strong>k_EResultLogonSessionReplaced</strong></td>
+    <td>34</td>
+    <td>The logon session has been replaced.</td>
+  </tr>
+  <tr id="k_EResultConnectFailed">
+    <td><strong>k_EResultConnectFailed</strong></td>
+    <td>35</td>
+    <td>Failed to connect.</td>
+  </tr>
+  <tr id="k_EResultHandshakeFailed">
+    <td><strong>k_EResultHandshakeFailed</strong></td>
+    <td>36</td>
+    <td>The authentication handshake has failed.</td>
+  </tr>
+  <tr id="k_EResultIOFailure">
+    <td><strong>k_EResultIOFailure</strong></td>
+    <td>37</td>
+    <td>There has been a generic IO failure.</td>
+  </tr>
+  <tr id="k_EResultRemoteDisconnect">
+    <td><strong>k_EResultRemoteDisconnect</strong></td>
+    <td>38</td>
+    <td>The remote server has disconnected.</td>
+  </tr>
+  <tr id="k_EResultShoppingCartNotFound">
+    <td><strong>k_EResultShoppingCartNotFound</strong></td>
+    <td>39</td>
+    <td>Failed to find the shopping cart requested.</td>
+  </tr>
+  <tr id="k_EResultBlocked">
+    <td><strong>k_EResultBlocked</strong></td>
+    <td>40</td>
+    <td>A user blocked the action.</td>
+  </tr>
+  <tr id="k_EResultIgnored">
+    <td><strong>k_EResultIgnored</strong></td>
+    <td>41</td>
+    <td>The target is ignoring sender.</td>
+  </tr>
+  <tr id="k_EResultNoMatch">
+    <td><strong>k_EResultNoMatch</strong></td>
+    <td>42</td>
+    <td>Nothing matching the request found.</td>
+  </tr>
+  <tr id="k_EResultAccountDisabled">
+    <td><strong>k_EResultAccountDisabled</strong></td>
+    <td>43</td>
+    <td>The account is disabled.</td>
+  </tr>
+  <tr id="k_EResultServiceReadOnly">
+    <td><strong>k_EResultServiceReadOnly</strong></td>
+    <td>44</td>
+    <td>This service is not accepting content changes right now.</td>
+  </tr>
+  <tr id="k_EResultAccountNotFeatured">
+    <td><strong>k_EResultAccountNotFeatured</strong></td>
+    <td>45</td>
+    <td>Account doesn't have value, so this feature isn't available.</td>
+  </tr>
+  <tr id="k_EResultAdministratorOK">
+    <td><strong>k_EResultAdministratorOK</strong></td>
+    <td>46</td>
+    <td>Allowed to take this action, but only because requester is admin.</td>
+  </tr>
+  <tr id="k_EResultContentVersion">
+    <td><strong>k_EResultContentVersion</strong></td>
+    <td>47</td>
+    <td>
+      A Version mismatch in content transmitted within the Steam protocol.
+    </td>
+  </tr>
+  <tr id="k_EResultTryAnotherCM">
+    <td><strong>k_EResultTryAnotherCM</strong></td>
+    <td>48</td>
+    <td>
+      The current CM can't service the user making a request, user should try
+      another.
+    </td>
+  </tr>
+  <tr id="k_EResultPasswordRequiredToKickSession">
+    <td><strong>k_EResultPasswordRequiredToKickSession</strong></td>
+    <td>49</td>
+    <td>
+      You are already logged in elsewhere, this cached credential login has
+      failed.
+    </td>
+  </tr>
+  <tr id="k_EResultAlreadyLoggedInElsewhere">
+    <td><strong>k_EResultAlreadyLoggedInElsewhere</strong></td>
+    <td>50</td>
+    <td>
+      The user is logged in elsewhere. (Use
+      <a href="#k_EResultLoggedInElsewhere" class="bb_apilink"
+        >k_EResultLoggedInElsewhere</a
+      >
+      instead!)
+    </td>
+  </tr>
+  <tr id="k_EResultSuspended">
+    <td><strong>k_EResultSuspended</strong></td>
+    <td>51</td>
+    <td>
+      Long running operation has suspended/paused. (eg. content download.)
+    </td>
+  </tr>
+  <tr id="k_EResultCancelled">
+    <td><strong>k_EResultCancelled</strong></td>
+    <td>52</td>
+    <td>
+      Operation has been canceled, typically by user. (eg. a content download.)
+    </td>
+  </tr>
+  <tr id="k_EResultDataCorruption">
+    <td><strong>k_EResultDataCorruption</strong></td>
+    <td>53</td>
+    <td>Operation canceled because data is ill formed or unrecoverable.</td>
+  </tr>
+  <tr id="k_EResultDiskFull">
+    <td><strong>k_EResultDiskFull</strong></td>
+    <td>54</td>
+    <td>Operation canceled - not enough disk space.</td>
+  </tr>
+  <tr id="k_EResultRemoteCallFailed">
+    <td><strong>k_EResultRemoteCallFailed</strong></td>
+    <td>55</td>
+    <td>The remote or IPC call has failed.</td>
+  </tr>
+  <tr id="k_EResultPasswordUnset">
+    <td><strong>k_EResultPasswordUnset</strong></td>
+    <td>56</td>
+    <td>Password could not be verified as it's unset server side.</td>
+  </tr>
+  <tr id="k_EResultExternalAccountUnlinked">
+    <td><strong>k_EResultExternalAccountUnlinked</strong></td>
+    <td>57</td>
+    <td>
+      External account (PSN, Facebook...) is not linked to a Steam account.
+    </td>
+  </tr>
+  <tr id="k_EResultPSNTicketInvalid">
+    <td><strong>k_EResultPSNTicketInvalid</strong></td>
+    <td>58</td>
+    <td>PSN ticket was invalid.</td>
+  </tr>
+  <tr id="k_EResultExternalAccountAlreadyLinked">
+    <td><strong>k_EResultExternalAccountAlreadyLinked</strong></td>
+    <td>59</td>
+    <td>
+      External account (PSN, Facebook...) is already linked to some other
+      account, must explicitly request to replace/delete the link first.
+    </td>
+  </tr>
+  <tr id="k_EResultRemoteFileConflict">
+    <td><strong>k_EResultRemoteFileConflict</strong></td>
+    <td>60</td>
+    <td>
+      The sync cannot resume due to a conflict between the local and remote
+      files.
+    </td>
+  </tr>
+  <tr id="k_EResultIllegalPassword">
+    <td><strong>k_EResultIllegalPassword</strong></td>
+    <td>61</td>
+    <td>The requested new password is not allowed.</td>
+  </tr>
+  <tr id="k_EResultSameAsPreviousValue">
+    <td><strong>k_EResultSameAsPreviousValue</strong></td>
+    <td>62</td>
+    <td>
+      New value is the same as the old one. This is used for secret question and
+      answer.
+    </td>
+  </tr>
+  <tr id="k_EResultAccountLogonDenied">
+    <td><strong>k_EResultAccountLogonDenied</strong></td>
+    <td>63</td>
+    <td>Account login denied due to 2nd factor authentication failure.</td>
+  </tr>
+  <tr id="k_EResultCannotUseOldPassword">
+    <td><strong>k_EResultCannotUseOldPassword</strong></td>
+    <td>64</td>
+    <td>The requested new password is not legal.</td>
+  </tr>
+  <tr id="k_EResultInvalidLoginAuthCode">
+    <td><strong>k_EResultInvalidLoginAuthCode</strong></td>
+    <td>65</td>
+    <td>Account login denied due to auth code invalid.</td>
+  </tr>
+  <tr id="k_EResultAccountLogonDeniedNoMail">
+    <td><strong>k_EResultAccountLogonDeniedNoMail</strong></td>
+    <td>66</td>
+    <td>
+      Account login denied due to 2nd factor auth failure - and no mail has been
+      sent.
+    </td>
+  </tr>
+  <tr id="k_EResultHardwareNotCapableOfIPT">
+    <td><strong>k_EResultHardwareNotCapableOfIPT</strong></td>
+    <td>67</td>
+    <td>
+      The users hardware does not support Intel's Identity Protection Technology
+      (IPT).
+    </td>
+  </tr>
+  <tr id="k_EResultIPTInitError">
+    <td><strong>k_EResultIPTInitError</strong></td>
+    <td>68</td>
+    <td>
+      Intel's Identity Protection Technology (IPT) has failed to initialize.
+    </td>
+  </tr>
+  <tr id="k_EResultParentalControlRestricted">
+    <td><strong>k_EResultParentalControlRestricted</strong></td>
+    <td>69</td>
+    <td>
+      Operation failed due to parental control restrictions for current user.
+    </td>
+  </tr>
+  <tr id="k_EResultFacebookQueryError">
+    <td><strong>k_EResultFacebookQueryError</strong></td>
+    <td>70</td>
+    <td>Facebook query returned an error.</td>
+  </tr>
+  <tr id="k_EResultExpiredLoginAuthCode">
+    <td><strong>k_EResultExpiredLoginAuthCode</strong></td>
+    <td>71</td>
+    <td>Account login denied due to an expired auth code.</td>
+  </tr>
+  <tr id="k_EResultIPLoginRestrictionFailed">
+    <td><strong>k_EResultIPLoginRestrictionFailed</strong></td>
+    <td>72</td>
+    <td>The login failed due to an IP restriction.</td>
+  </tr>
+  <tr id="k_EResultAccountLockedDown">
+    <td><strong>k_EResultAccountLockedDown</strong></td>
+    <td>73</td>
+    <td>
+      The current users account is currently locked for use. This is likely due
+      to a hijacking and pending ownership verification.
+    </td>
+  </tr>
+  <tr id="k_EResultAccountLogonDeniedVerifiedEmailRequired">
+    <td><strong>k_EResultAccountLogonDeniedVerifiedEmailRequired</strong></td>
+    <td>74</td>
+    <td>The logon failed because the accounts email is not verified.</td>
+  </tr>
+  <tr id="k_EResultNoMatchingURL">
+    <td><strong>k_EResultNoMatchingURL</strong></td>
+    <td>75</td>
+    <td>There is no URL matching the provided values.</td>
+  </tr>
+  <tr id="k_EResultBadResponse">
+    <td><strong>k_EResultBadResponse</strong></td>
+    <td>76</td>
+    <td>Bad Response due to a Parse failure, missing field, etc.</td>
+  </tr>
+  <tr id="k_EResultRequirePasswordReEntry">
+    <td><strong>k_EResultRequirePasswordReEntry</strong></td>
+    <td>77</td>
+    <td>
+      The user cannot complete the action until they re-enter their password.
+    </td>
+  </tr>
+  <tr id="k_EResultValueOutOfRange">
+    <td><strong>k_EResultValueOutOfRange</strong></td>
+    <td>78</td>
+    <td>The value entered is outside the acceptable range.</td>
+  </tr>
+  <tr id="k_EResultUnexpectedError">
+    <td><strong>k_EResultUnexpectedError</strong></td>
+    <td>79</td>
+    <td>Something happened that we didn't expect to ever happen.</td>
+  </tr>
+  <tr id="k_EResultDisabled">
+    <td><strong>k_EResultDisabled</strong></td>
+    <td>80</td>
+    <td>The requested service has been configured to be unavailable.</td>
+  </tr>
+  <tr id="k_EResultInvalidCEGSubmission">
+    <td><strong>k_EResultInvalidCEGSubmission</strong></td>
+    <td>81</td>
+    <td>The files submitted to the CEG server are not valid.</td>
+  </tr>
+  <tr id="k_EResultRestrictedDevice">
+    <td><strong>k_EResultRestrictedDevice</strong></td>
+    <td>82</td>
+    <td>The device being used is not allowed to perform this action.</td>
+  </tr>
+  <tr id="k_EResultRegionLocked">
+    <td><strong>k_EResultRegionLocked</strong></td>
+    <td>83</td>
+    <td>The action could not be complete because it is region restricted.</td>
+  </tr>
+  <tr id="k_EResultRateLimitExceeded">
+    <td><strong>k_EResultRateLimitExceeded</strong></td>
+    <td>84</td>
+    <td>
+      Temporary rate limit exceeded, try again later, different from
+      k_EResultLimitExceeded which may be permanent.
+    </td>
+  </tr>
+  <tr id="k_EResultAccountLoginDeniedNeedTwoFactor">
+    <td><strong>k_EResultAccountLoginDeniedNeedTwoFactor</strong></td>
+    <td>85</td>
+    <td>Need two-factor code to login.</td>
+  </tr>
+  <tr id="k_EResultItemDeleted">
+    <td><strong>k_EResultItemDeleted</strong></td>
+    <td>86</td>
+    <td>The thing we're trying to access has been deleted.</td>
+  </tr>
+  <tr id="k_EResultAccountLoginDeniedThrottle">
+    <td><strong>k_EResultAccountLoginDeniedThrottle</strong></td>
+    <td>87</td>
+    <td>
+      Login attempt failed, try to throttle response to possible attacker.
+    </td>
+  </tr>
+  <tr id="k_EResultTwoFactorCodeMismatch">
+    <td><strong>k_EResultTwoFactorCodeMismatch</strong></td>
+    <td>88</td>
+    <td>Two factor authentication (Steam Guard) code is incorrect.</td>
+  </tr>
+  <tr id="k_EResultTwoFactorActivationCodeMismatch">
+    <td><strong>k_EResultTwoFactorActivationCodeMismatch</strong></td>
+    <td>89</td>
+    <td>
+      The activation code for two-factor authentication (Steam Guard) didn't
+      match.
+    </td>
+  </tr>
+  <tr id="k_EResultAccountAssociatedToMultiplePartners">
+    <td><strong>k_EResultAccountAssociatedToMultiplePartners</strong></td>
+    <td>90</td>
+    <td>The current account has been associated with multiple partners.</td>
+  </tr>
+  <tr id="k_EResultNotModified">
+    <td><strong>k_EResultNotModified</strong></td>
+    <td>91</td>
+    <td>The data has not been modified.</td>
+  </tr>
+  <tr id="k_EResultNoMobileDevice">
+    <td><strong>k_EResultNoMobileDevice</strong></td>
+    <td>92</td>
+    <td>The account does not have a mobile device associated with it.</td>
+  </tr>
+  <tr id="k_EResultTimeNotSynced">
+    <td><strong>k_EResultTimeNotSynced</strong></td>
+    <td>93</td>
+    <td>The time presented is out of range or tolerance.</td>
+  </tr>
+  <tr id="k_EResultSmsCodeFailed">
+    <td><strong>k_EResultSmsCodeFailed</strong></td>
+    <td>94</td>
+    <td>SMS code failure - no match, none pending, etc.</td>
+  </tr>
+  <tr id="k_EResultAccountLimitExceeded">
+    <td><strong>k_EResultAccountLimitExceeded</strong></td>
+    <td>95</td>
+    <td>Too many accounts access this resource.</td>
+  </tr>
+  <tr id="k_EResultAccountActivityLimitExceeded">
+    <td><strong>k_EResultAccountActivityLimitExceeded</strong></td>
+    <td>96</td>
+    <td>Too many changes to this account.</td>
+  </tr>
+  <tr id="k_EResultPhoneActivityLimitExceeded">
+    <td><strong>k_EResultPhoneActivityLimitExceeded</strong></td>
+    <td>97</td>
+    <td>Too many changes to this phone.</td>
+  </tr>
+  <tr id="k_EResultRefundToWallet">
+    <td><strong>k_EResultRefundToWallet</strong></td>
+    <td>98</td>
+    <td>Cannot refund to payment method, must use wallet.</td>
+  </tr>
+  <tr id="k_EResultEmailSendFailure">
+    <td><strong>k_EResultEmailSendFailure</strong></td>
+    <td>99</td>
+    <td>Cannot send an email.</td>
+  </tr>
+  <tr id="k_EResultNotSettled">
+    <td><strong>k_EResultNotSettled</strong></td>
+    <td>100</td>
+    <td>Can't perform operation until payment has settled.</td>
+  </tr>
+  <tr id="k_EResultNeedCaptcha">
+    <td><strong>k_EResultNeedCaptcha</strong></td>
+    <td>101</td>
+    <td>The user needs to provide a valid captcha.</td>
+  </tr>
+  <tr id="k_EResultGSLTDenied">
+    <td><strong>k_EResultGSLTDenied</strong></td>
+    <td>102</td>
+    <td>
+      A game server login token owned by this token's owner has been banned.
+    </td>
+  </tr>
+  <tr id="k_EResultGSOwnerDenied">
+    <td><strong>k_EResultGSOwnerDenied</strong></td>
+    <td>103</td>
+    <td>
+      Game server owner is denied for some other reason such as account locked,
+      community ban, vac ban, missing phone, etc.
+    </td>
+  </tr>
+  <tr id="k_EResultInvalidItemType">
+    <td><strong>k_EResultInvalidItemType</strong></td>
+    <td>104</td>
+    <td>The type of thing we were requested to act on is invalid.</td>
+  </tr>
+  <tr id="k_EResultIPBanned">
+    <td><strong>k_EResultIPBanned</strong></td>
+    <td>105</td>
+    <td>The IP address has been banned from taking this action.</td>
+  </tr>
+  <tr id="k_EResultGSLTExpired">
+    <td><strong>k_EResultGSLTExpired</strong></td>
+    <td>106</td>
+    <td>
+      This Game Server Login Token (GSLT) has expired from disuse; it can be
+      reset for use.
+    </td>
+  </tr>
+  <tr id="k_EResultInsufficientFunds">
+    <td><strong>k_EResultInsufficientFunds</strong></td>
+    <td>107</td>
+    <td>user doesn't have enough wallet funds to complete the action</td>
+  </tr>
+  <tr id="k_EResultTooManyPending">
+    <td><strong>k_EResultTooManyPending</strong></td>
+    <td>108</td>
+    <td>There are too many of this thing pending already</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="ESteamUserStatType"></a>ESteamUserStatType
+</h2>
+Fields used internally to store user stats.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ESteamUserStatTypeINVALID">
+    <td><strong>k_ESteamUserStatTypeINVALID</strong></td>
+    <td>0</td>
+    <td>Invalid.</td>
+  </tr>
+  <tr id="k_ESteamUserStatTypeINT">
+    <td><strong>k_ESteamUserStatTypeINT</strong></td>
+    <td>1</td>
+    <td>32-bit int stat.</td>
+  </tr>
+  <tr id="k_ESteamUserStatTypeFLOAT">
+    <td><strong>k_ESteamUserStatTypeFLOAT</strong></td>
+    <td>2</td>
+    <td>32-bit float stat.</td>
+  </tr>
+  <tr id="k_ESteamUserStatTypeAVGRATE">
+    <td><strong>k_ESteamUserStatTypeAVGRATE</strong></td>
+    <td>3</td>
+    <td>Read as FLOAT, set with count / session length.</td>
+  </tr>
+  <tr id="k_ESteamUserStatTypeACHIEVEMENTS">
+    <td><strong>k_ESteamUserStatTypeACHIEVEMENTS</strong></td>
+    <td>4</td>
+    <td>Standard user achievement.</td>
+  </tr>
+  <tr id="k_ESteamUserStatTypeGROUPACHIEVEMENTS">
+    <td><strong>k_ESteamUserStatTypeGROUPACHIEVEMENTS</strong></td>
+    <td>5</td>
+    <td>Deprecated.</td>
+  </tr>
+  <tr id="k_ESteamUserStatTypeMAX">
+    <td><strong>k_ESteamUserStatTypeMAX</strong></td>
+    <td>6</td>
+    <td>Total number of user stat types, used for sanity checks.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="ETextFilteringContext"></a>ETextFilteringContext
+</h2>
+Parameter to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#FilterText"
+  class="bb_apilink"
+  >ISteamUtils::FilterText</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ETextFilteringContextUnknown">
+    <td><strong>k_ETextFilteringContextUnknown</strong></td>
+    <td>0</td>
+    <td>Unknown context.</td>
+  </tr>
+  <tr id="k_ETextFilteringContextGameContent">
+    <td><strong>k_ETextFilteringContextGameContent</strong></td>
+    <td>1</td>
+    <td>Game content, only legally required filtering is performed.</td>
+  </tr>
+  <tr id="k_ETextFilteringContextChat">
+    <td><strong>k_ETextFilteringContextChat</strong></td>
+    <td>2</td>
+    <td>Chat from another player.</td>
+  </tr>
+  <tr id="k_ETextFilteringContextName">
+    <td><strong>k_ETextFilteringContextName</strong></td>
+    <td>3</td>
+    <td>Character or item name.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EUniverse"></a>EUniverse</h2>
+Steam universes. Each universe is a self-contained Steam instance.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EUniverseInvalid">
+    <td><strong>k_EUniverseInvalid</strong></td>
+    <td>0</td>
+    <td>Invalid.</td>
+  </tr>
+  <tr id="k_EUniversePublic">
+    <td><strong>k_EUniversePublic</strong></td>
+    <td>1</td>
+    <td>The standard public universe.</td>
+  </tr>
+  <tr id="k_EUniverseBeta">
+    <td><strong>k_EUniverseBeta</strong></td>
+    <td>2</td>
+    <td>Beta universe used inside Valve.</td>
+  </tr>
+  <tr id="k_EUniverseInternal">
+    <td><strong>k_EUniverseInternal</strong></td>
+    <td>3</td>
+    <td>Internal universe used inside Valve.</td>
+  </tr>
+  <tr id="k_EUniverseDev">
+    <td><strong>k_EUniverseDev</strong></td>
+    <td>4</td>
+    <td>Dev universe used inside Valve.</td>
+  </tr>
+  <tr id="k_EUniverseMax">
+    <td><strong>k_EUniverseMax</strong></td>
+    <td>5</td>
+    <td>Total number of universes, used for sanity checks.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EUserHasLicenseForAppResult"></a>EUserHasLicenseForAppResult
+</h2>
+Result of
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUser#UserHasLicenseForApp"
+  class="bb_apilink"
+  >ISteamUser::UserHasLicenseForApp</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EUserHasLicenseResultHasLicense">
+    <td><strong>k_EUserHasLicenseResultHasLicense</strong></td>
+    <td>0</td>
+    <td>The user has a license for specified app.</td>
+  </tr>
+  <tr id="k_EUserHasLicenseResultDoesNotHaveLicense">
+    <td><strong>k_EUserHasLicenseResultDoesNotHaveLicense</strong></td>
+    <td>1</td>
+    <td>The user does not have a license for the specified app.</td>
+  </tr>
+  <tr id="k_EUserHasLicenseResultNoAuth">
+    <td><strong>k_EUserHasLicenseResultNoAuth</strong></td>
+    <td>2</td>
+    <td>The user has not been authenticated.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EVoiceResult"></a>EVoiceResult</h2>
+Results for use with the
+<a href="https://partner.steamgames.com/doc/features/voice" class="bb_doclink"
+  >Steam Voice</a
+>
+functions.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EVoiceResultOK">
+    <td><strong>k_EVoiceResultOK</strong></td>
+    <td>0</td>
+    <td>The call has completed successfully.</td>
+  </tr>
+  <tr id="k_EVoiceResultNotInitialized">
+    <td><strong>k_EVoiceResultNotInitialized</strong></td>
+    <td>1</td>
+    <td>The Steam Voice interface has not been initialized.</td>
+  </tr>
+  <tr id="k_EVoiceResultNotRecording">
+    <td><strong>k_EVoiceResultNotRecording</strong></td>
+    <td>2</td>
+    <td>Steam Voice is not currently recording.</td>
+  </tr>
+  <tr id="k_EVoiceResultNoData">
+    <td><strong>k_EVoiceResultNoData</strong></td>
+    <td>3</td>
+    <td>There is no voice data available.</td>
+  </tr>
+  <tr id="k_EVoiceResultBufferTooSmall">
+    <td><strong>k_EVoiceResultBufferTooSmall</strong></td>
+    <td>4</td>
+    <td>The provided buffer is too small to receive the data.</td>
+  </tr>
+  <tr id="k_EVoiceResultDataCorrupted">
+    <td><strong>k_EVoiceResultDataCorrupted</strong></td>
+    <td>5</td>
+    <td>The voice data has been corrupted.</td>
+  </tr>
+  <tr id="k_EVoiceResultRestricted">
+    <td><strong>k_EVoiceResultRestricted</strong></td>
+    <td>6</td>
+    <td>The user is chat restricted.</td>
+  </tr>
+  <tr id="k_EVoiceResultUnsupportedCodec">
+    <td><strong>k_EVoiceResultUnsupportedCodec</strong></td>
+    <td>7</td>
+    <td>Deprecated.</td>
+  </tr>
+  <tr id="k_EVoiceResultReceiverOutOfDate">
+    <td><strong>k_EVoiceResultReceiverOutOfDate</strong></td>
+    <td>8</td>
+    <td>Deprecated.</td>
+  </tr>
+  <tr id="k_EVoiceResultReceiverDidNotAnswer">
+    <td><strong>k_EVoiceResultReceiverDidNotAnswer</strong></td>
+    <td>9</td>
+    <td>Deprecated.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="EVRHMDType"></a>EVRHMDType</h2>
+Code points for VR HMD vendors and models. Use the special functions
+BIsOculusHMD and BIsViveHMD to check for a specific brand.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_eEVRHMDType_None">
+    <td><strong>k_eEVRHMDType_None</strong></td>
+    <td>-1</td>
+    <td>Unknown vendor and model.</td>
+  </tr>
+  <tr id="k_eEVRHMDType_Unknown">
+    <td><strong>k_eEVRHMDType_Unknown</strong></td>
+    <td>0</td>
+    <td>Unknown vendor and model.</td>
+  </tr>
+  <tr id="k_eEVRHMDType_HTC_Dev">
+    <td><strong>k_eEVRHMDType_HTC_Dev</strong></td>
+    <td>1</td>
+    <td>Original HTC dev kits.</td>
+  </tr>
+  <tr id="k_eEVRHMDType_HTC_VivePre">
+    <td><strong>k_eEVRHMDType_HTC_VivePre</strong></td>
+    <td>2</td>
+    <td>HTC Vive Pre dev kits.</td>
+  </tr>
+  <tr id="k_eEVRHMDType_HTC_Vive">
+    <td><strong>k_eEVRHMDType_HTC_Vive</strong></td>
+    <td>3</td>
+    <td>HTC Vive Consumer Release.</td>
+  </tr>
+  <tr id="k_eEVRHMDType_HTC_Unknown">
+    <td><strong>k_eEVRHMDType_HTC_Unknown</strong></td>
+    <td>20</td>
+    <td>Unknown HTC HMD.</td>
+  </tr>
+  <tr id="k_eEVRHMDType_Oculus_DK1">
+    <td><strong>k_eEVRHMDType_Oculus_DK1</strong></td>
+    <td>21</td>
+    <td>Oculus Rift Development Kit 1.</td>
+  </tr>
+  <tr id="k_eEVRHMDType_Oculus_DK2">
+    <td><strong>k_eEVRHMDType_Oculus_DK2</strong></td>
+    <td>22</td>
+    <td>Oculus Rift Development Kit 2</td>
+  </tr>
+  <tr id="k_eEVRHMDType_Oculus_Rift">
+    <td><strong>k_eEVRHMDType_Oculus_Rift</strong></td>
+    <td>23</td>
+    <td>Oculus Rift Consumer Version 1.</td>
+  </tr>
+  <tr id="k_eEVRHMDType_Oculus_Unknown">
+    <td><strong>k_eEVRHMDType_Oculus_Unknown</strong></td>
+    <td>40</td>
+    <td>Unknown Oculus HMD.</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
+These are typedefs which are defined for use with steam_api.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Base type</th>
+    <th>Description</th>
+  </tr>
+  <tr id="AccountID_t">
+    <td><strong>AccountID_t</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>
+      This is used internally in
+      <a href="#CSteamID" class="bb_apilink">CSteamID</a> to represent a
+      specific user account without caring about what steam universe it's in.
+    </td>
+  </tr>
+  <tr id="AppId_t">
+    <td><strong>AppId_t</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>
+      Unique identifier for an app. For more information see the
+      <a
+        href="https://partner.steamgames.com/doc/store/application"
+        class="bb_doclink"
+        >Applications</a
+      >
+      documentation.
+    </td>
+  </tr>
+  <tr id="AssetClassId_t">
+    <td><strong>AssetClassId_t</strong></td>
+    <td><a href="#uint64" class="bb_apilink">uint64</a></td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="BREAKPAD_HANDLE">
+    <td><strong>BREAKPAD_HANDLE</strong></td>
+    <td>void *</td>
+    <td>
+      Used by the internal Steam crash handler interfaces to reference
+      particular installed crash handlers.
+    </td>
+  </tr>
+  <tr id="BundleId_t">
+    <td><strong>BundleId_t</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>Unique identifier for a bundle. (Only used internally in Steam.)</td>
+  </tr>
+  <tr id="CellID_t">
+    <td><strong>CellID_t</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="DepotId_t">
+    <td><strong>DepotId_t</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>Unique identifier for a depot.</td>
+  </tr>
+  <tr id="GID_t">
+    <td><strong>GID_t</strong></td>
+    <td><a href="#uint64" class="bb_apilink">uint64</a></td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="HAuthTicket">
+    <td><strong>HAuthTicket</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>
+      Handle to an user authentication ticket. Return type of
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
+        class="bb_apilink"
+        >ISteamUser::GetAuthSessionTicket</a
+      >.
+    </td>
+  </tr>
+  <tr id="int16">
+    <td><strong>int16</strong></td>
+    <td>short</td>
+    <td>Steam's version of a 16-bit integer, equivalent to int16_t.</td>
+  </tr>
+  <tr id="int32">
+    <td><strong>int32</strong></td>
+    <td>int</td>
+    <td>Steam's version of a 32-bit integer, equivalent to int32_t.</td>
+  </tr>
+  <tr id="int64">
+    <td><strong>int64</strong></td>
+    <td>long long</td>
+    <td>Steam's version of a 64-bit integer, equivalent to int64_t.</td>
+  </tr>
+  <tr id="int8">
+    <td><strong>int8</strong></td>
+    <td>signed char</td>
+    <td>Steam's version of a 8-bit integer, equivalent to int8_t.</td>
+  </tr>
+  <tr id="intp">
+    <td><strong>intp</strong></td>
+    <td>int/long long</td>
+    <td>
+      Steam's version of a signed type that can hold a pointer, equivalent to
+      intptr_t. (Only used internally in Steam.)
+    </td>
+  </tr>
+  <tr id="JobID_t">
+    <td><strong>JobID_t</strong></td>
+    <td><a href="#uint64" class="bb_apilink">uint64</a></td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="lint64">
+    <td><strong>lint64</strong></td>
+    <td>long int</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="ManifestId_t">
+    <td><strong>ManifestId_t</strong></td>
+    <td><a href="#uint64" class="bb_apilink">uint64</a></td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="PackageId_t">
+    <td><strong>PackageId_t</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="PartnerId_t">
+    <td><strong>PartnerId_t</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="PhysicalItemId_t">
+    <td><strong>PhysicalItemId_t</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="RTime32">
+    <td><strong>RTime32</strong></td>
+    <td><a href="#uint32" class="bb_apilink">uint32</a></td>
+    <td>
+      Steam's version of Unix epoch time. It offers 1 second resolution starting
+      from the epoch, 1970-01-01 00:00:00 +0000 (UTC)
+    </td>
+  </tr>
+  <tr id="SteamAPICall_t">
+    <td><strong>SteamAPICall_t</strong></td>
+    <td><a href="#uint64" class="bb_apilink">uint64</a></td>
+    <td>
+      Unique handle to a Steam API call.<br />If a function returns one of these
+      you must track its status by using the
+      <a
+        href="https://partner.steamgames.com/doc/sdk/api#callresults"
+        class="bb_doclink"
+        >Call Result</a
+      >
+      system.
+    </td>
+  </tr>
+  <tr id="TxnID_t">
+    <td><strong>TxnID_t</strong></td>
+    <td><a href="#GID_t" class="bb_apilink">GID_t</a></td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="uint16">
+    <td><strong>uint16</strong></td>
+    <td>unsigned short</td>
+    <td>
+      Steam's version of a 16-bit unsigned integer, equivalent to uint16_t.
+    </td>
+  </tr>
+  <tr id="uint32">
+    <td><strong>uint32</strong></td>
+    <td>unsigned int</td>
+    <td>
+      Steam's version of a 32-bit unsigned integer, equivalent to uint32_t.
+    </td>
+  </tr>
+  <tr id="uint64">
+    <td><strong>uint64</strong></td>
+    <td>unsigned long long</td>
+    <td>
+      Steam's version of a 64-bit unsigned integer, equivalent to uint64_t.
+    </td>
+  </tr>
+  <tr id="uint8">
+    <td><strong>uint8</strong></td>
+    <td>unsigned char</td>
+    <td>Steam's version of a 8-bit unsigned integer, equivalent to uint8_t.</td>
+  </tr>
+  <tr id="uintp">
+    <td><strong>uintp</strong></td>
+    <td>unsigned int/unsigned long long</td>
+    <td>
+      Steam's version of an unsigned type that can hold a pointer, equivalent to
+      uintptr_t. (Only used internally in Steam.)
+    </td>
+  </tr>
+  <tr id="ulint64">
+    <td><strong>ulint64</strong></td>
+    <td>unsigned long int</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="constants"></a>Constants</h2>
+These are constants which are defined for use with steam_api.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="BREAKPAD_INVALID_HANDLE">
+    <td><strong>BREAKPAD_INVALID_HANDLE</strong></td>
+    <td>int</td>
+    <td>(BREAKPAD_HANDLE)0</td>
+    <td></td>
+  </tr>
+  <tr id="k_cchGameExtraInfoMax">
+    <td><strong>k_cchGameExtraInfoMax</strong></td>
+    <td>int</td>
+    <td>64</td>
+    <td>
+      The maximum size (in UTF-8 bytes, including the null terminator) of the
+      <code class="bb_code bb_code_inline nohighlight">pchExtraInfo</code>
+      parameter of
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUser#TrackAppUsageEvent"
+        class="bb_apilink"
+        >ISteamUser::TrackAppUsageEvent</a
+      >.
+    </td>
+  </tr>
+  <tr id="k_cubSaltSize">
+    <td><strong>k_cubSaltSize</strong></td>
+    <td>int</td>
+    <td>8</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_GIDNil">
+    <td><strong>k_GIDNil</strong></td>
+    <td><a href="#GID_t" class="bb_apilink">GID_t</a></td>
+    <td>0xffffffffffffffffull</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_HAuthTicketInvalid">
+    <td><strong>k_HAuthTicketInvalid</strong></td>
+    <td><a href="#HAuthTicket" class="bb_apilink">HAuthTicket</a></td>
+    <td>0</td>
+    <td>An invalid user authentication ticket.</td>
+  </tr>
+  <tr id="k_JobIDNil">
+    <td><strong>k_JobIDNil</strong></td>
+    <td><a href="#JobID_t" class="bb_apilink">JobID_t</a></td>
+    <td>0xffffffffffffffffull</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_steamIDLanModeGS">
+    <td><strong>k_steamIDLanModeGS</strong></td>
+    <td>int</td>
+    <td>CSteamID(</td>
+    <td>This Steam ID comes from a user game connection to an sv_lan GS</td>
+  </tr>
+  <tr id="k_steamIDNil">
+    <td><strong>k_steamIDNil</strong></td>
+    <td>int</td>
+    <td>CSteamID()</td>
+    <td>Generic invalid CSteamID.</td>
+  </tr>
+  <tr id="k_steamIDNonSteamGS">
+    <td><strong>k_steamIDNonSteamGS</strong></td>
+    <td>int</td>
+    <td>CSteamID(</td>
+    <td>
+      This Steam ID can come from a user game connection to a GS that isn't
+      using the steam authentication system but still<br />wants to support the
+      "Join Game" option in the friends list
+    </td>
+  </tr>
+  <tr id="k_steamIDNotInitYetGS">
+    <td><strong>k_steamIDNotInitYetGS</strong></td>
+    <td>int</td>
+    <td>CSteamID(</td>
+    <td>
+      This Steam ID can come from a user game connection to a GS that has just
+      booted but hasnt yet even initialized<br />its steam3 component and
+      started logging on.
+    </td>
+  </tr>
+  <tr id="k_steamIDOutofDateGS">
+    <td><strong>k_steamIDOutofDateGS</strong></td>
+    <td>int</td>
+    <td>CSteamID(</td>
+    <td>
+      This Steam ID comes from a user game connection to an out of date GS that
+      hasnt implemented the protocol to provide its Steam ID
+    </td>
+  </tr>
+  <tr id="k_TxnIDNil">
+    <td><strong>k_TxnIDNil</strong></td>
+    <td><a href="#GID_t" class="bb_apilink">GID_t</a></td>
+    <td>k_GIDNil</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_TxnIDUnknown">
+    <td><strong>k_TxnIDUnknown</strong></td>
+    <td><a href="#GID_t" class="bb_apilink">GID_t</a></td>
+    <td>0</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_uAPICallInvalid">
+    <td><strong>k_uAPICallInvalid</strong></td>
+    <td><a href="#SteamAPICall_t" class="bb_apilink">SteamAPICall_t</a></td>
+    <td>0x0</td>
+    <td>An Invalid Steam API Call handle.</td>
+  </tr>
+  <tr id="k_uAppIdInvalid">
+    <td><strong>k_uAppIdInvalid</strong></td>
+    <td><a href="#AppId_t" class="bb_apilink">AppId_t</a></td>
+    <td>0x0</td>
+    <td>An Invalid App ID.</td>
+  </tr>
+  <tr id="k_uBundleIdInvalid">
+    <td><strong>k_uBundleIdInvalid</strong></td>
+    <td><a href="#BundleId_t" class="bb_apilink">BundleId_t</a></td>
+    <td>0</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_uCellIDInvalid">
+    <td><strong>k_uCellIDInvalid</strong></td>
+    <td><a href="#CellID_t" class="bb_apilink">CellID_t</a></td>
+    <td>0xFFFFFFFF</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_uDepotIdInvalid">
+    <td><strong>k_uDepotIdInvalid</strong></td>
+    <td><a href="#DepotId_t" class="bb_apilink">DepotId_t</a></td>
+    <td>0x0</td>
+    <td>An Invalid Depot ID.</td>
+  </tr>
+  <tr id="k_ulAssetClassIdInvalid">
+    <td><strong>k_ulAssetClassIdInvalid</strong></td>
+    <td><a href="#AssetClassId_t" class="bb_apilink">AssetClassId_t</a></td>
+    <td>0x0</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_uManifestIdInvalid">
+    <td><strong>k_uManifestIdInvalid</strong></td>
+    <td><a href="#ManifestId_t" class="bb_apilink">ManifestId_t</a></td>
+    <td>0</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_unSteamAccountIDMask">
+    <td><strong>k_unSteamAccountIDMask</strong></td>
+    <td>unsigned int</td>
+    <td>0xFFFFFFFF</td>
+    <td>
+      Used in <a href="#CSteamID" class="bb_apilink">CSteamID</a> to mask out
+      the <a href="#AccountID_t" class="bb_apilink">AccountID_t</a>.
+    </td>
+  </tr>
+  <tr id="k_unSteamAccountInstanceMask">
+    <td><strong>k_unSteamAccountInstanceMask</strong></td>
+    <td>unsigned int</td>
+    <td>0x000FFFFF</td>
+    <td>
+      Used in <a href="#CSteamID" class="bb_apilink">CSteamID</a> to mask out
+      the account instance.
+    </td>
+  </tr>
+  <tr id="k_unSteamUserConsoleInstance">
+    <td><strong>k_unSteamUserConsoleInstance</strong></td>
+    <td>unsigned int</td>
+    <td>2</td>
+    <td>
+      Used by <a href="#CSteamID" class="bb_apilink">CSteamID</a> to identify
+      users logged in from a console.
+    </td>
+  </tr>
+  <tr id="k_unSteamUserDesktopInstance">
+    <td><strong>k_unSteamUserDesktopInstance</strong></td>
+    <td>unsigned int</td>
+    <td>1</td>
+    <td>
+      Used by <a href="#CSteamID" class="bb_apilink">CSteamID</a> to identify
+      users logged in from the desktop client.
+    </td>
+  </tr>
+  <tr id="k_unSteamUserWebInstance">
+    <td><strong>k_unSteamUserWebInstance</strong></td>
+    <td>unsigned int</td>
+    <td>4</td>
+    <td>
+      Used by <a href="#CSteamID" class="bb_apilink">CSteamID</a> to identify
+      users logged in from the web.
+    </td>
+  </tr>
+  <tr id="k_uPackageIdFreeSub">
+    <td><strong>k_uPackageIdFreeSub</strong></td>
+    <td><a href="#PackageId_t" class="bb_apilink">PackageId_t</a></td>
+    <td>0x0</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_uPackageIdInvalid">
+    <td><strong>k_uPackageIdInvalid</strong></td>
+    <td><a href="#PackageId_t" class="bb_apilink">PackageId_t</a></td>
+    <td>0xFFFFFFFF</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_uPartnerIdInvalid">
+    <td><strong>k_uPartnerIdInvalid</strong></td>
+    <td><a href="#PartnerId_t" class="bb_apilink">PartnerId_t</a></td>
+    <td>0</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="k_uPhysicalItemIdInvalid">
+    <td><strong>k_uPhysicalItemIdInvalid</strong></td>
+    <td><a href="#PhysicalItemId_t" class="bb_apilink">PhysicalItemId_t</a></td>
+    <td>0x0</td>
+    <td>Only used internally in Steam.</td>
+  </tr>
+  <tr id="QUERY_PORT_ERROR">
+    <td><strong>QUERY_PORT_ERROR</strong></td>
+    <td>int</td>
+    <td>0xFFFE</td>
+    <td>We were unable to get the query port for this server.</td>
+  </tr>
+  <tr id="QUERY_PORT_NOT_INITIALIZED">
+    <td><strong>QUERY_PORT_NOT_INITIALIZED</strong></td>
+    <td>int</td>
+    <td>0xFFFF</td>
+    <td>
+      -----------------------------------------------------------------------------<br />Constants
+      used for query ports.<br />-----------------------------------------------------------------------------<br />We
+      haven't asked the GS for this query port's actual value yet.
+    </td>
+  </tr>
+</table>

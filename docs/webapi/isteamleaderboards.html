@@ -1,0 +1,320 @@
+<h1>ISteamLeaderboards Interface</h1>
+Used to access Steam leaderboards.<br /><br />For more info on how to use the
+Steamworks Web API please see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section"><a name="DeleteLeaderboard"></a>DeleteLeaderboard</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/ISteamLeaderboards/DeleteLeaderboard/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appid of game</td>
+  </tr>
+  <tr>
+    <td><strong>name</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>name of the leaderboard to delete</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section">
+  <a name="FindOrCreateLeaderboard"></a>FindOrCreateLeaderboard
+</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/ISteamLeaderboards/FindOrCreateLeaderboard/v2/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appid of game</td>
+  </tr>
+  <tr>
+    <td><strong>name</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>name of the leaderboard to create</td>
+  </tr>
+  <tr>
+    <td><strong>sortmethod</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>sort method to use for this leaderboard (defaults to Ascending)</td>
+  </tr>
+  <tr>
+    <td><strong>displaytype</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>display type for this leaderboard (defaults to Numeric)</td>
+  </tr>
+  <tr>
+    <td><strong>createifnotfound</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>
+      if this is true the leaderboard will be created if it doesn't exist.
+      Defaults to true.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>onlytrustedwrites</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>
+      if this is true the leaderboard scores cannot be set by clients, and can
+      only be set by publisher via SetLeaderboardScore WebAPI. Defaults to
+      false.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>onlyfriendsreads</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>
+      if this is true the leaderboard scores can only be read for friends by
+      clients, scores can always be read by publisher. Defaults to false.
+    </td>
+  </tr>
+</table>
+<br /><br /><br />This method has previous versions which are no longer
+officially supported. They will continue to be usable but it's highly
+recommended that you use the latest version.<br />Change history:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>Version 2</strong> - Fixes returning the leaderboard name in XML.
+  </li>
+</ul>
+<br /><strong>NOTE:</strong> This call requires a publisher API key to use this
+method. As such this API <strong>MUST</strong> be called from a secure server,
+and can never be used directly by clients!
+<h2 class="bb_section">
+  <a name="GetLeaderboardEntries"></a>GetLeaderboardEntries
+</h2>
+<div class="bb_code http">
+  GET https://partner.steam-api.com/ISteamLeaderboards/GetLeaderboardEntries/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appid of game</td>
+  </tr>
+  <tr>
+    <td><strong>rangestart</strong></td>
+    <td>int32</td>
+    <td>✔</td>
+    <td>range start or 0</td>
+  </tr>
+  <tr>
+    <td><strong>rangeend</strong></td>
+    <td>int32</td>
+    <td>✔</td>
+    <td>range end or max LB entries</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td></td>
+    <td>SteamID used for friend &amp; around user requests</td>
+  </tr>
+  <tr>
+    <td><strong>leaderboardid</strong></td>
+    <td>int32</td>
+    <td>✔</td>
+    <td>ID of the leaderboard to view</td>
+  </tr>
+  <tr>
+    <td><strong>datarequest</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>type of request: RequestGlobal, RequestAroundUser, RequestFriends</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section">
+  <a name="GetLeaderboardsForGame"></a>GetLeaderboardsForGame
+</h2>
+<div class="bb_code http">
+  GET
+  https://partner.steam-api.com/ISteamLeaderboards/GetLeaderboardsForGame/v2/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appid of game</td>
+  </tr>
+</table>
+<br /><br /><br />This method has previous versions which are no longer
+officially supported. They will continue to be usable but it's highly
+recommended that you use the latest version.<br />Change history:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>Version 2</strong> - Fixes returning the leaderboard name in XML.
+  </li>
+</ul>
+<br /><strong>NOTE:</strong> This call requires a publisher API key to use this
+method. As such this API <strong>MUST</strong> be called from a secure server,
+and can never be used directly by clients!
+<h2 class="bb_section"><a name="ResetLeaderboard"></a>ResetLeaderboard</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/ISteamLeaderboards/ResetLeaderboard/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appid of game</td>
+  </tr>
+  <tr>
+    <td><strong>leaderboardid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>
+      numeric ID of the target leaderboard. Can be retrieved from
+      GetLeaderboardsForGame
+    </td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section">
+  <a name="SetLeaderboardScore"></a>SetLeaderboardScore
+</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/ISteamLeaderboards/SetLeaderboardScore/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appid of game</td>
+  </tr>
+  <tr>
+    <td><strong>leaderboardid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>
+      numeric ID of the target leaderboard. Can be retrieved from
+      GetLeaderboardsForGame
+    </td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>steamID to set the score for</td>
+  </tr>
+  <tr>
+    <td><strong>score</strong></td>
+    <td>int32</td>
+    <td>✔</td>
+    <td>the score to set for this user</td>
+  </tr>
+  <tr>
+    <td><strong>scoremethod</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>update method to use. Can be "KeepBest" or "ForceUpdate"</td>
+  </tr>
+  <tr>
+    <td><strong>details</strong></td>
+    <td>rawbinary</td>
+    <td></td>
+    <td>
+      game-specific details for how the score was earned. Up to 256 bytes.
+    </td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!

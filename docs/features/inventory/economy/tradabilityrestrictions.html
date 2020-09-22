@@ -1,0 +1,144 @@
+<h1>Restricting Tradability After Market Purchases</h1>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+To help reduce fraud, Valve requires all marketable items to also be temporarily
+untradable after purchase for a minimum of three days. While it is possible to
+also temporarily restrict the marketabiltiy of items, we have found that it is
+not necessary to do so, and that only restricting tradability is sufficient to
+reduce fraud.<br /><br />Without restricting tradability after a purchase,
+fraudsters are able to monetize stolen credit cards by purchasing items using
+those stolen cards and then trade them to somebody who has agreed to purchase
+them for cash. Restricting tradability allows for our systems to catch that
+fraud for you while the items can still be recovered from the fraudster's
+account.
+<div class="bb_callout bb_red">
+  <div>
+    <strong>NOTE:</strong> The
+    <a
+      href="https://partner.steamgames.com/doc/features/inventory"
+      class="bb_doclink"
+      >Steam Inventory Service</a
+    >
+    automatically applies our recommended cooldowns as needed. This
+    documentation applies primarily to those looking to create their own
+    implementation of the Steam Asset API.
+  </div>
+</div>
+<h2 class="bb_section"><a name="2"></a>Implementation</h2>
+Implementing the temporary restriction requires four steps:<br />
+<ul class="bb_ul">
+  <li>Add the trade restriction to the item following a purchase<br /></li>
+  <li>
+    Add something to the asset class to indicate that the temporary restriction
+    is active<br />
+  </li>
+  <li>Tell Steam and the user that the item is untradable<br /></li>
+  <li>
+    Expose to Steam that this restriction will be added following a purchase
+  </li>
+</ul>
+<br />We've provided more detail for each of the four steps below.
+<h2 class="bb_subsection">
+  <a name="3"></a>Add the trade restriction to the item following a purchase
+</h2>
+When an item is purchased on the Steam Community Market, you will need to record
+somewhere on your backend that the item is now untradable for three days
+(usually recorded with the item's database record or a new attribute associated
+with that item). You'll want to do this at the same time you change ownership of
+the item in your
+<a
+  href="https://partner.steamgames.com/doc/features/inventory/economy/TradeSetOwned"
+  class="bb_doclink"
+  >TradeSetOwned</a
+>
+implementation, but only when
+<code class="bb_code bb_code_inline nohighlight">is_market</code> is set to
+<code class="bb_code bb_code_inline nohighlight">1</code> and
+<code class="bb_code bb_code_inline nohighlight">audit_action</code> is set to
+<code class="bb_code bb_code_inline nohighlight">101</code> (Trade Commit).
+<h2 class="bb_subsection">
+  <a name="4"></a>Add something to the asset class to indicate that the
+  temporary restriction is active
+</h2>
+You'll need to add something to the item's asset class (in the
+<a
+  href="https://partner.steamgames.com/doc/features/inventory/economy/GetContextContents"
+  class="bb_doclink"
+  >GetContextContents</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClass"
+  class="bb_doclink"
+  >GetAssetClass</a
+>
+response) to indicate that the temporary restriction is active and when it
+expires. An item's asset class is a black box to Steam, so how you do this is
+completely up to you. We recommend adding a new class property with
+<code class="bb_code bb_code_inline nohighlight">instance</code> set to true,
+<code class="bb_code bb_code_inline nohighlight">name</code> of something like
+<code class="bb_code bb_code_inline nohighlight">tradable_after</code>, and
+<code class="bb_code bb_code_inline nohighlight">value</code> of the time/date
+the restriction ends, rounded to the nearest day boundary. Rounding to the
+nearest day boundary reduces the number of unique class combinations, and thus
+improves Steam's ability to cache your
+<a
+  href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo"
+  class="bb_doclink"
+  >GetAssetClassInfo</a
+>
+responses.
+<h2 class="bb_subsection">
+  <a name="5"></a>Tell Steam and the user that the item is untradable
+</h2>
+While the temporary restriction is active, you'll need to make sure the
+<code class="bb_code bb_code_inline nohighlight">tradable</code> field in your
+<a
+  href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo"
+  class="bb_doclink"
+  >GetAssetClassInfo</a
+>
+response is false. Keep in mind that it is OK to have an item where
+<code class="bb_code bb_code_inline nohighlight">tradable</code> is false, but
+<code class="bb_code bb_code_inline nohighlight">marketable</code> is true.<br /><br />You
+also need to make sure Steam refreshes this information once the temporary
+restriction passes. To do this, set
+<code class="bb_code bb_code_inline nohighlight">cache_expiration</code> to the
+RFC 3339 UTC formatted time that the item will become tradable (or the time any
+part of the GetAssetClassInfo response will change). The time that the item will
+become tradable should have been passed in as part of the asset class as
+explained in the section above.<br /><br />It's also nice to remind the user why
+the item is untradable. You can include a description under
+<code class="bb_code bb_code_inline nohighlight">owner_descriptions</code> that
+also includes when the restriction will be removed. To make sure the user sees
+the correct time in their timezone, you can set the
+<code class="bb_code bb_code_inline nohighlight">type</code> of the description
+to <code class="bb_code bb_code_inline nohighlight">bbcode</code> and then place
+<code class="bb_code bb_code_inline nohighlight">[date]####[/date]</code>
+somewhere in the
+<code class="bb_code bb_code_inline nohighlight">value</code> of the description
+where <code class="bb_code bb_code_inline nohighlight">####</code> is the Unix
+timestamp for the time the restriction will be removed. Alternatively, you can
+say something like "The item will become tradable in 3 days", but then you have
+to remember to set the
+<code class="bb_code bb_code_inline nohighlight">cache_expiration</code>
+appropriately.
+<h2 class="bb_subsection">
+  <a name="6"></a>Expose to Steam that this restriction will be added following
+  a purchase
+</h2>
+To do this, you simply need to set the
+<code class="bb_code bb_code_inline nohighlight"
+  >market_tradable_restriction</code
+>
+field to <code class="bb_code bb_code_inline nohighlight">3</code> (or however
+many days purchased items will be untradable) in your
+<a
+  href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo"
+  class="bb_doclink"
+  >GetAssetClassInfo</a
+>
+response. This value is used to indicate to Steam and users that the item will
+be untradable for that many days if it were to be purchased on the market. Thus,
+this value has nothing to do with whether or not the restriction is currently
+active for an item, and should just always be a constant value of 3 or more for
+all marketable items.

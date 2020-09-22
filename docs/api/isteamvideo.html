@@ -1,0 +1,441 @@
+<h1>ISteamVideo Interface</h1>
+Provides functions to interface with the Steam video and broadcasting
+platforms.<br /><br />See
+<a
+  href="https://partner.steamgames.com/doc/features/streaming_video"
+  class="bb_doclink"
+  >Steam Video</a
+>
+for more information.
+<h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
+Member functions for
+<code class="bb_code bb_code_inline nohighlight">ISteamVideo</code> are called
+through the global accessor function
+<code class="bb_code bb_code_inline nohighlight">SteamVideo()</code>.
+<h2 class="bb_subsection"><a name="GetOPFSettings"></a>GetOPFSettings</h2>
+<div class="bb_code cpp">void GetOPFSettings( AppId_t unVideoAppID );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>unVideoAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The video app ID to get the OPF details of.</td>
+  </tr>
+</table>
+<br />Get the OPF details for 360 video playback<br /><br />To retrieve the 360
+OPF (open projection format) data to playback a 360 video, start by making a
+call to this, then the callback will indicate whether the request was
+successful. If it was successful, the actual OPF JSON data can be retrieved with
+a call to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFStringForApp"
+  class="bb_apilink"
+  >ISteamVideo::GetOPFStringForApp</a
+>.<br /><br /><strong>Returns:</strong> void<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettingsResult_t"
+  class="bb_apilink"
+  >GetOPFSettingsResult_t</a
+>
+callback.
+<h2 class="bb_subsection">
+  <a name="GetOPFStringForApp"></a>GetOPFStringForApp
+</h2>
+<div class="bb_code cpp">
+  bool GetOPFStringForApp( AppId_t unVideoAppID, char *pchBuffer, int32
+  *pnBufferSize );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>unVideoAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The video app ID to get the OPF string for.</td>
+  </tr>
+  <tr>
+    <td><strong>pchBuffer</strong></td>
+    <td>char *</td>
+    <td>Returns the OPF string by writing it to this buffer.</td>
+  </tr>
+  <tr>
+    <td><strong>pnBufferSize</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+      *
+    </td>
+    <td>
+      This should be set to the size of
+      <code class="bb_code bb_code_inline nohighlight">pchBuffer</code>, and
+      returns the number of bytes written to
+      <code class="bb_code bb_code_inline nohighlight">pchBuffer</code>.
+    </td>
+  </tr>
+</table>
+<br />Gets the OPF string for the specified video App ID.<br /><br />Once the
+callback for
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettingsResult_t"
+  class="bb_apilink"
+  >GetOPFSettingsResult_t</a
+>
+has been raised and the EResult indicates success, then calling this will return
+back the actual OPF data in a JSON format. The size of the OPF string varies,
+but at this time 48,000 bytes should be sufficient to contain the full string.
+If it is not,
+<code class="bb_code bb_code_inline nohighlight">pnBufferSize</code> will be set
+to the size required. In that case, make a second call with the correct buffer
+size.<br /><br /><strong>NOTE:</strong> The data returned in a successful call
+to GetOPFStringForApp() can only be retrieved once. If you need to retrieve it
+multiple times, a call to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettings"
+  class="bb_apilink"
+  >ISteamVideo::GetOPFSettings</a
+>
+will need to be made each time.<br /><br /><strong>Returns:</strong>
+bool<br /><strong>true</strong> if we have the OPF details from a previous call
+to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettings"
+  class="bb_apilink"
+  >ISteamVideo::GetOPFSettings</a
+>, otherwise <strong>false</strong>.<br /><br />Returns the details in
+<code class="bb_code bb_code_inline nohighlight">pchBuffer</code
+>.<br /><br />For a description of the OPF format and an example response,
+please see the
+<a
+  href="https://pixvana.com/open-projection-format/"
+  target="_blank"
+  rel="noreferrer"
+  >Pixvana OPF web page</a
+>.
+<h2 class="bb_subsection"><a name="GetVideoURL"></a>GetVideoURL</h2>
+<div class="bb_code cpp">void GetVideoURL( AppId_t unVideoAppID );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>unVideoAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The video app ID to receive the video stream for.</td>
+  </tr>
+</table>
+<br />Asynchronously gets the URL suitable for streaming the video associated
+with the specified video app ID.<br /><br /><strong>Returns:</strong>
+void<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetVideoURLResult_t"
+  class="bb_apilink"
+  >GetVideoURLResult_t</a
+>
+callback.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP"
+  target="_blank"
+  rel="noreferrer"
+  >DASH on Wikipedia</a
+>
+<h2 class="bb_subsection"><a name="IsBroadcasting"></a>IsBroadcasting</h2>
+<div class="bb_code cpp">bool IsBroadcasting( int *pnNumViewers );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pnNumViewers</strong></td>
+    <td>int *</td>
+    <td>
+      Returns the number of viewers currently watching the live broadcast.
+    </td>
+  </tr>
+</table>
+<br />Checks if the user is currently live broadcasting and gets the number of
+users.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if
+user is uploading a live broadcast, otherwise
+<strong>false</strong>.<br /><br />Returns the number of viewers via
+<code class="bb_code bb_code_inline nohighlight">pnNumViewers</code> if the user
+is currently broadcasting.
+<h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
+These are callbacks which can be fired by calling
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
+  class="bb_apilink"
+  >SteamAPI_RunCallbacks</a
+>. Many of these will be fired directly in response to the member functions of
+<code class="bb_code bb_code_inline nohighlight">ISteamVideo</code>.
+<h2 class="bb_subsection">
+  <a name="BroadcastUploadStart_t"></a>BroadcastUploadStart_t
+</h2>
+Automatically called whenever the user starts broadcasting.<br /><br />This
+callback has no fields.
+<h2 class="bb_subsection">
+  <a name="BroadcastUploadStop_t"></a>BroadcastUploadStop_t
+</h2>
+Automatically called whenever the user stops broadcasting.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EBroadcastUploadResult"
+        class="bb_apilink"
+        >EBroadcastUploadResult</a
+      >
+    </td>
+    <td>The reason why the broadcast has stopped.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="GetOPFSettingsResult_t"></a>GetOPFSettingsResult_t
+</h2>
+Triggered when the OPF Details for 360 video playback are retrieved.<br />After
+receiving this you can use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFStringForApp"
+  class="bb_apilink"
+  >ISteamVideo::GetOPFStringForApp</a
+>
+to access the OPF details.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>
+      The result of the operation.<br />Possible values:<br />
+      <ul class="bb_ul">
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
+            class="bb_apilink"
+            >k_EResultOK</a
+          >
+          - Success<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultInvalidParam"
+            class="bb_apilink"
+            >k_EResultInvalidParam</a
+          >
+          - This application is not a video and cannot be streamed.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultFileNotFound"
+            class="bb_apilink"
+            >k_EResultFileNotFound</a
+          >
+          - This video has not been processed for streaming.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultAccessDenied"
+            class="bb_apilink"
+            >k_EResultAccessDenied</a
+          >
+          - The video could not be accessed. Please ensure the account you are
+          logged in with owns this video.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultNoConnection"
+            class="bb_apilink"
+            >k_EResultNoConnection</a
+          >
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultServiceUnavailable"
+            class="bb_apilink"
+            >k_EResultServiceUnavailable</a
+          >
+          - The video service is not available.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultTimeout"
+            class="bb_apilink"
+            >k_EResultTimeout</a
+          >
+          - This video is not currently available to stream.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultBlocked"
+            class="bb_apilink"
+            >k_EResultBlocked</a
+          >
+          - Sorry, this video is not yet available to watch.
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_unVideoAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>The app ID of the video that we got the details of.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettings"
+  class="bb_apilink"
+  >ISteamVideo::GetOPFSettings</a
+>
+<h2 class="bb_subsection">
+  <a name="GetVideoURLResult_t"></a>GetVideoURLResult_t
+</h2>
+Provides the result of a call to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetVideoURL"
+  class="bb_apilink"
+  >ISteamVideo::GetVideoURL</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>
+      The result of the operation.<br />
+      <ul class="bb_ul">
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
+            class="bb_apilink"
+            >k_EResultOK</a
+          >
+          if the call is successful.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultInvalidParam"
+            class="bb_apilink"
+            >k_EResultInvalidParam</a
+          >
+          if the app ID provided is not a video app ID or if the user does not
+          own a license for it.
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_unVideoAppID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#AppId_t"
+        class="bb_apilink"
+        >AppId_t</a
+      >
+    </td>
+    <td>
+      The App ID provided in the original call to
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamVideo#GetVideoURL"
+        class="bb_apilink"
+        >ISteamVideo::GetVideoURL</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_rgchURL</strong></td>
+    <td>char［256］</td>
+    <td>
+      If the call was successful this contains the URL to the
+      <a
+        href="http://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP"
+        target="_blank"
+        rel="noreferrer"
+        >MPEG-DASH Standard</a
+      >
+      schema formatted xml document which can be used to stream the content.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamVideo#GetVideoURL"
+  class="bb_apilink"
+  >ISteamVideo::GetVideoURL</a
+>
+<h2 class="bb_section"><a name="constants"></a>Constants</h2>
+These are constants which are defined for use with ISteamVideo.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="STEAMVIDEO_INTERFACE_VERSION">
+    <td><strong>STEAMVIDEO_INTERFACE_VERSION</strong></td>
+    <td>const char *</td>
+    <td>"STEAMVIDEO_INTERFACE_V002"</td>
+    <td></td>
+  </tr>
+</table>

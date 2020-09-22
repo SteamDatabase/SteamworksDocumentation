@@ -1,0 +1,425 @@
+<h1>IPublishedFileService Interface</h1>
+Provides additional methods for interacting with Steam Workshop items.<br /><br />See
+<a
+  href="https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage"
+  class="bb_apilink"
+  >ISteamRemoteStorage</a
+>
+for the primary interface.<br /><br /><strong>NOTE:</strong> This is a Service
+interface, methods in this interface should be called with the
+<code class="bb_code bb_code_inline nohighlight">input_json</code>
+parameter.<br /><br />For more info on how to use the Steamworks Web API please
+see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section"><a name="QueryFiles"></a>QueryFiles</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/IPublishedFileService/QueryFiles/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>query_type</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>enumeration EPublishedFileQueryType in clientenums.h</td>
+  </tr>
+  <tr>
+    <td><strong>page</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Current page. Currently there is an upper limit of 1000.</td>
+  </tr>
+  <tr>
+    <td><strong>cursor</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      Cursor to paginate through the results (set to '*' for the first request).
+      Prefer this over using the page parameter, as it will allow you to do deep
+      pagination. When used, the page parameter will be ignored. Use the
+      "next_cursor" value returned in the response to set up the next query to
+      get the next set of results.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>numperpage</strong></td>
+    <td>uint32</td>
+    <td></td>
+    <td>(Optional) The number of results, per page to return.</td>
+  </tr>
+  <tr>
+    <td><strong>creator_appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>App that created the files</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>App that consumes the files</td>
+  </tr>
+  <tr>
+    <td><strong>requiredtags</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Tags to match on. See match_all_tags parameter below</td>
+  </tr>
+  <tr>
+    <td><strong>excludedtags</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      (Optional) Tags that must NOT be present on a published file to satisfy
+      the query.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>match_all_tags</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>
+      If true, then items must have all the tags specified, otherwise they must
+      have at least one of the tags.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>required_flags</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Required flags that must be set on any returned items</td>
+  </tr>
+  <tr>
+    <td><strong>omitted_flags</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Flags that must not be set on any returned items</td>
+  </tr>
+  <tr>
+    <td><strong>search_text</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Text to match in the item's title or description</td>
+  </tr>
+  <tr>
+    <td><strong>filetype</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>EPublishedFileInfoMatchingFileType</td>
+  </tr>
+  <tr>
+    <td><strong>child_publishedfileid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>Find all items that reference the given item.</td>
+  </tr>
+  <tr>
+    <td><strong>days</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>
+      If query_type is k_PublishedFileQueryType_RankedByTrend, then this is the
+      number of days to get votes for [1,7].
+    </td>
+  </tr>
+  <tr>
+    <td><strong>include_recent_votes_only</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>
+      If query_type is k_PublishedFileQueryType_RankedByTrend, then limit result
+      set just to items that have votes within the day range given
+    </td>
+  </tr>
+  <tr>
+    <td><strong>cache_max_age_seconds</strong></td>
+    <td>uint32</td>
+    <td></td>
+    <td>
+      Allow stale data to be returned for the specified number of seconds.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>int32</td>
+    <td></td>
+    <td>
+      Language to search in and also what gets returned. Defaults to English.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>required_kv_tags</strong></td>
+    <td>{message}</td>
+    <td>✔</td>
+    <td>Required key-value tags to match on.</td>
+  </tr>
+  <tr>
+    <td><strong>totalonly</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>
+      (Optional) If true, only return the total number of files that satisfy
+      this query.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>ids_only</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>
+      (Optional) If true, only return the published file ids of files that
+      satisfy this query.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>return_vote_data</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>Return vote data</td>
+  </tr>
+  <tr>
+    <td><strong>return_tags</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>Return tags in the file details</td>
+  </tr>
+  <tr>
+    <td><strong>return_kv_tags</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>Return key-value tags in the file details</td>
+  </tr>
+  <tr>
+    <td><strong>return_previews</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>Return preview image and video details in the file details</td>
+  </tr>
+  <tr>
+    <td><strong>return_children</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>Return child item ids in the file details</td>
+  </tr>
+  <tr>
+    <td><strong>return_short_description</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>Populate the short_description field instead of file_description</td>
+  </tr>
+  <tr>
+    <td><strong>return_for_sale_data</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>Return pricing information, if applicable</td>
+  </tr>
+  <tr>
+    <td><strong>return_metadata</strong></td>
+    <td>bool</td>
+    <td></td>
+    <td>Populate the metadata</td>
+  </tr>
+  <tr>
+    <td><strong>return_playtime_stats</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>
+      Return playtime stats for the specified number of days before today.
+    </td>
+  </tr>
+</table>
+<br />Performs a search query for published files
+<h2 class="bb_section">
+  <a name="SetDeveloperMetadata"></a>SetDeveloperMetadata
+</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/IPublishedFileService/SetDeveloperMetadata/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>publishedfileid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>metadata</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+</table>
+<br />Sets the metadata for a developer on the published file<br /><br /><strong
+  >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section"><a name="UpdateBanStatus"></a>UpdateBanStatus</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/IPublishedFileService/UpdateBanStatus/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>publishedfileid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>banned</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>reason</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Reason why the item was banned. Only visible to admins.</td>
+  </tr>
+</table>
+<br />Updates the ban status on the published file
+<h2 class="bb_section">
+  <a name="UpdateIncompatibleStatus"></a>UpdateIncompatibleStatus
+</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/IPublishedFileService/UpdateIncompatibleStatus/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>publishedfileid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>incompatible</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+</table>
+<br />Updates the incompatible status on the published file. "Incompatible"
+items are hidden from community hubs and user profiles, but can still be
+accessed by a direct link.<br /><br /><strong>NOTE:</strong> This call requires
+a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!
+<h2 class="bb_section"><a name="UpdateTags"></a>UpdateTags</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/IPublishedFileService/UpdateTags/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>publishedfileid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>add_tags</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>Tags to add</td>
+  </tr>
+  <tr>
+    <td><strong>remove_tags</strong></td>
+    <td>string</td>
+    <td></td>
+    <td>Tags to remove</td>
+  </tr>
+</table>
+<br />Updates tags on the published file. Existing tags will not be removed
+unless they are specified in the
+<code class="bb_code bb_code_inline nohighlight">remove_tags</code>
+parameter.<br /><br /><strong>NOTE:</strong> This call requires a publisher API
+key to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!

@@ -1,0 +1,211 @@
+<h1>IPlayerService Interface</h1>
+Provides additional methods for interacting with Steam Users.<br /><br />See
+<a
+  href="https://partner.steamgames.com/doc/webapi/ISteamUser"
+  class="bb_apilink"
+  >ISteamUser</a
+>
+for the primary interface.<br /><br /><strong>NOTE:</strong> This is a Service
+interface, methods in this interface should be called with the
+<code class="bb_code bb_code_inline nohighlight">input_json</code>
+parameter.<br /><br />For more info on how to use the Steamworks Web API please
+see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section">
+  <a name="GetRecentlyPlayedGames"></a>GetRecentlyPlayedGames
+</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The player we're asking about</td>
+  </tr>
+  <tr>
+    <td><strong>count</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The number of games to return (0/unset: all)</td>
+  </tr>
+</table>
+<br />Gets information about a player's recently played games
+<h2 class="bb_section"><a name="GetOwnedGames"></a>GetOwnedGames</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The player we're asking about</td>
+  </tr>
+  <tr>
+    <td><strong>include_appinfo</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>true if we want additional details (name, icon) about each game</td>
+  </tr>
+  <tr>
+    <td><strong>include_played_free_games</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>
+      Free games are excluded by default. If this is set, free games the user
+      has played will be returned.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>appids_filter</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>if set, restricts result set to the passed in apps</td>
+  </tr>
+</table>
+<br />Return a list of games owned by the player
+<h2 class="bb_section"><a name="GetSteamLevel"></a>GetSteamLevel</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The player we're asking about</td>
+  </tr>
+</table>
+<br />Returns the Steam Level of a user
+<h2 class="bb_section"><a name="GetBadges"></a>GetBadges</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/IPlayerService/GetBadges/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The player we're asking about</td>
+  </tr>
+</table>
+<br />Gets badges that are owned by a specific user
+<h2 class="bb_section">
+  <a name="GetCommunityBadgeProgress"></a>GetCommunityBadgeProgress
+</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/IPlayerService/GetCommunityBadgeProgress/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The player we're asking about</td>
+  </tr>
+  <tr>
+    <td><strong>badgeid</strong></td>
+    <td>int32</td>
+    <td>✔</td>
+    <td>The badge we're asking about</td>
+  </tr>
+</table>
+<br />Gets all the quests needed to get the specified badge, and which are
+completed
+<h2 class="bb_section">
+  <a name="IsPlayingSharedGame"></a>IsPlayingSharedGame
+</h2>
+<div class="bb_code http">
+  GET https://api.steampowered.com/IPlayerService/IsPlayingSharedGame/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API user authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The player we're asking about</td>
+  </tr>
+  <tr>
+    <td><strong>appid_playing</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The game player is currently playing</td>
+  </tr>
+</table>
+<br />Returns valid lender SteamID if game currently played is borrowed

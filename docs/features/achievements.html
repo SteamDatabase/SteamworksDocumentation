@@ -1,0 +1,604 @@
+<h1>Stats and Achievements</h1>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+Steam Stats and Achievements provides an easy way for your game to provide
+persistent, roaming achievement and statistics tracking for your users. The
+user's data is associated with their Steam account, and each user's achievements
+and statistics can be formatted and displayed in their Steam Community Profile.
+<h2 class="bb_section"><a name="2"></a>What they are good for</h2>
+In addition to providing highly-valued rewards to players of your games,
+achievements are useful for encouraging and rewarding teamwork and player
+interaction, providing extra dimensionality to the game objectives, and
+rewarding users for spending more of their time in-game.<br /><br />Statistics
+track fine-grained pieces of information, such as playtime, number of power-ups
+used, etc. You may choose to use them simply for tracking internal game data -
+so that, for instance, you can grant an achievement based on multi-session game
+play statistics collected from the user across multiple computers.
+<h2 class="bb_section"><a name="3"></a>Implementation Overview</h2>
+<h2 class="bb_subsection">
+  <a name="4"></a>Define Your Game's Stats and Achievements
+</h2>
+Achievements are application specific and are setup on the App Admin page of the
+Steamworks partner site.<br /><br />There are three types of statistics your
+game can store:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>INT</strong> - A 32-bit (signed) integer (e.g. number of games
+    played)<br />
+  </li>
+  <li>
+    <strong>FLOAT</strong> - A 32-bit floating point value (e.g. number of miles
+    driven)<br />
+  </li>
+  <li>
+    <strong>AVGRATE</strong> - A moving average. See:
+    <a href="#AVGRATE" class="bb_doclink">The AVGRATE stat type</a>
+  </li>
+</ul>
+<br />The Steamworks Partner Website provides an interface for defining and
+updating your game's statistics and achievements. Using it, you can:<br />
+<ul class="bb_ul">
+  <li>Define the initial statistics and achievements<br /></li>
+  <li>Add additional stats and achievements<br /></li>
+  <li>Update achievement names, descriptions, and icons<br /></li>
+  <li>
+    Update statistic parameters and constraints (max/min values, moving-average
+    window sizes, etc)
+  </li>
+</ul>
+Stats have the following properties:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>ID</strong> - An automatically-generated numerical ID for each
+    stat.<br />
+  </li>
+  <li>
+    <strong>Type</strong> - The type of this Stat - INT, FLOAT, or
+    <a href="#AVGRATE" class="bb_doclink">AVGRATE</a>.<br />
+  </li>
+  <li>
+    <strong>API Name</strong> - The string used to access this stat using the
+    API.<br />
+  </li>
+  <li>
+    <strong>Set By</strong> - Sets who can modify the stat. The default is
+    Client. For more see
+    <a href="#game_server_stats" class="bb_doclink">Game Server Stats</a>.<br />
+  </li>
+  <li>
+    <strong>Increment Only</strong> - If set, this stat is only allowed to
+    increase in value over time.<br />
+  </li>
+  <li>
+    <strong>Max Change</strong> - If set, sets a limit on the amount that the
+    stat's value can change from one SetStat call to the next.<br />
+  </li>
+  <li>
+    <strong>Min Value</strong> - If set, the minimum numerical value this stat
+    may take. By default, the min is the minimum of the underlying numerical
+    type (INT_MIN or -FLT_MAX).<br />
+  </li>
+  <li>
+    <strong>Max Value</strong> - If set, the maximum numerical value this stat
+    may take. By default, the max is the maximum of the underlying numerical
+    type (INT_MAX or FLT_MAX).<br />
+  </li>
+  <li>
+    <strong>Default Value</strong> - If set, the default value that this stat
+    will initially be set to for a new user. If not set, the default value is
+    zero.<br />
+  </li>
+  <li>
+    <strong>Aggregated -</strong> If set, Steam will keep a global total for
+    this stat. See Global Stats below for more information.<br />
+  </li>
+  <li>
+    <strong>Display Name</strong> - The name of this stat, when displayed in
+    your app.
+  </li>
+</ul>
+<strong>AVGRATE</strong> stats have the following additional properties:<br />
+<ul class="bb_ul">
+  <li>Window - The size of the "sliding window" used to average your data.</li>
+</ul>
+An <strong>AVGRATE</strong> stat is one that is automatically averaged by Steam.
+See the <a href="#AVGRATE" class="bb_doclink">AVGRATE</a> section below for more
+information.<br /><br />Achievements have the following properties:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>ID</strong> - An automatically-generated numerical ID for each
+    achievement.<br />
+  </li>
+  <li>
+    <strong>API Name</strong> - The string used to access this achievement using
+    the API.<br />
+  </li>
+  <li>
+    <strong>Progress Stat</strong> - Specifies a stat that's used as a progress
+    bar in the Community for this achievement. The achievement will also
+    automatically unlock when the stat reaches the unlock value.<br />
+  </li>
+  <li>
+    <strong>Display Name</strong> - The name this achievement will have in
+    client notification pop-ups, and in the Community. May be localized.<br />
+  </li>
+  <li>
+    <strong>Description</strong> - A description of this achievement, for
+    displaying in the Community. May be localized.<br />
+  </li>
+  <li>
+    <strong>Set By</strong> - Sets who can unlock the achievement. The default
+    is client. For more see
+    <a href="#game_server_stats" class="bb_doclink">Game Server Stats</a>.<br />
+  </li>
+  <li>
+    <strong>Hidden?</strong> - If true, a "hidden" achievement does not show up
+    on a user's Community page (at all) until they have achieved it.<br />
+  </li>
+  <li>
+    <strong>Achieved Icon</strong> - The icon to display when it is achieved.<br />
+  </li>
+  <li>
+    <strong>Unachieved Icon</strong> - The icon to display when it is not yet
+    achieved.
+  </li>
+</ul>
+<br />The following is the list of achievements from the
+<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
+  >Steamworks API Example Application (SpaceWar)</a
+>:<br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/achievements_spacewar.png"
+  alt="achievements_spacewar.png"
+  title="achievements_spacewar.png"
+/>
+<h2 class="bb_subsection"><a name="5"></a>How to use them</h2>
+<h4>Accessing Stats and Achievements from within your game:</h4>
+<ul class="bb_ul">
+  <li>
+    After initializing the
+    <a href="https://partner.steamgames.com/doc/api" class="bb_doclink"
+      >Steamworks API</a
+    >
+    you can start to use the Stats and Achievements API which is contained
+    within
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats"
+      class="bb_apilink"
+      >ISteamUserStats</a
+    >.<br />
+  </li>
+  <li>
+    At the start of a game session, call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    to fetch the user's stats and achievement data from the Steam back end. You
+    will receive a
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsReceived_t"
+      class="bb_apilink"
+      >ISteamUserStats::UserStatsReceived_t</a
+    >
+    callback when the data is ready.<br />
+  </li>
+  <li>
+    Use
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetStat"
+      class="bb_apilink"
+      >ISteamUserStats::GetStat</a
+    >
+    and
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievement"
+      class="bb_apilink"
+      >ISteamUserStats::GetAchievement</a
+    >
+    to iterate the data and initialize game state.<br />
+  </li>
+  <li>
+    If you want to display the achievements in your game you can use
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementDisplayAttribute"
+      class="bb_apilink"
+      >ISteamUserStats::GetAchievementDisplayAttribute</a
+    >
+    to retrieve human-readable properties of the achievement, including its name
+    ("name") and description ("desc"). These properties are localizable on the
+    Steamworks Partner Website, and the returned data varies with the language
+    in which the user is running the game. You can also get an achievement's
+    icon using
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementIcon"
+      class="bb_apilink"
+      >ISteamUserStats::GetAchievementIcon</a
+    >
+    or the time each achievements was unlocked with
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAndUnlockTime"
+      class="bb_apilink"
+      >ISteamUserStats::GetAchievementAndUnlockTime</a
+    >.<br />
+  </li>
+  <li>
+    Whenever a stat changes, especially before any changes are shown to the
+    user, call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetStat"
+      class="bb_apilink"
+      >ISteamUserStats::SetStat</a
+    >
+    or
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#UpdateAvgRateStat"
+      class="bb_apilink"
+      >ISteamUserStats::UpdateAvgRateStat</a
+    >. This call only modifies Steam's in-memory state and is very cheap. Doing
+    so allows Steam to persist the changes between sessions even in event of
+    game crash.<br />
+  </li>
+  <li>
+    At appropriate points within your game (i.e. checkpoints, level
+    transitions), call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+      class="bb_apilink"
+      >ISteamUserStats::StoreStats</a
+    >
+    to upload the changes. You will receive a
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsStored_t"
+      class="bb_apilink"
+      >ISteamUserStats::UserStatsStored_t</a
+    >
+    callback when that has completed.<br />
+  </li>
+  <li>
+    For achievements that have progress bars use
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#IndicateAchievementProgress"
+      class="bb_apilink"
+      >ISteamUserStats::IndicateAchievementProgress</a
+    >
+    at significant points to show a pop-up with the progress. For instance, if
+    you need 20 wins you may want to call this at 10 wins to show that the user
+    has made it halfway.<br />
+  </li>
+  <li>
+    Whenever one or more achievements are unlocked, call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetAchievement"
+      class="bb_apilink"
+      >ISteamUserStats::SetAchievement</a
+    >
+    for each unlocked achievement and then
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+      class="bb_apilink"
+      >ISteamUserStats::StoreStats</a
+    >
+    to immediately upload them. Your game will see a
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsStored_t"
+      class="bb_apilink"
+      >ISteamUserStats::UserStatsStored_t</a
+    >
+    callback, plus one
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserAchievementStored_t"
+      class="bb_apilink"
+      >ISteamUserStats::UserAchievementStored_t</a
+    >
+    callback for each unlocked achievement. The Steam Game Overlay will display
+    a notification panel to the user.
+  </li>
+</ul>
+<h2 class="bb_subsection"><a name="AVGRATE"></a>The AVGRATE stat type</h2>
+This type of stat provides some unique and very useful functionality, but it
+requires a little bit more detail to explain.<br /><br />Consider the case where
+you'd like to track an average statistic, such as "Points earned per hour". One
+approach would be to have two stats, an INT "TotalPoints" and a FLOAT
+"TotalPlayTimeHours", and then divide points by time to get Points per Hour.<br /><br />The
+downside to this implementation is that, once the player has accumulated a
+significant amount of playtime, the calculated average will change extremely
+slowly. In fact, the more the user plays the game, the less responsive that
+average will be. If the user has spent 100 hours playing the game, the
+calculated average will "lag" by about 50 hours of that. If they increase their
+skill, they will not see the increase in Points Per Hour that they expect.<br /><br />The
+AVGRATE stat type lets you implement a "sliding window" effect on the average.
+For instance, you can utilize only the previous few hours of gameplay, so the
+statistic will more accurately reflect the player's current skill level.<br /><br />Let's
+set up an AVGRATE stat to implement "points per hour" where only the previous 20
+hours of gameplay affect the value. To do this, you would:<br />
+<ul class="bb_ul">
+  <li>
+    Note that, because the average will be "per hour", the time units on all
+    time parameters associated with this stat will be "hours". This applies to
+    the Window property on the stat itself, and also for the "dSessionLength"
+    parameter passed in to
+    <code class="bb_code bb_code_inline nohighlight">UpdateAvgRateStat</code>
+    below.<br />
+  </li>
+  <li>
+    Create an AVGRATE stat named "AvgPointsPerHour", and a Window property of
+    20.0 (remember, that's in "hours")<br />
+  </li>
+  <li>
+    At appropriate points during your game, call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#UpdateAvgRateStat"
+      class="bb_apilink"
+      >ISteamUserStats::UpdateAvgRateStat</a
+    >
+    with the following parameters:<br />
+    <ul class="bb_ul">
+      <li><strong>pchName</strong> - "AvgPointsPerHour"<br /></li>
+      <li>
+        <strong>flCountThisSession</strong> - The number of points the player
+        earned since the last call to UpdateAvgRateStat.<br />
+      </li>
+      <li>
+        <strong>dSessionLength</strong> - The amount of game time since the last
+        call to UpdateAvgRateStat. The unit should be the same as the unit on
+        the stat's Window property. In this case, it is "hours".<br />
+      </li>
+    </ul>
+  </li>
+  <li>
+    For instance, if the player earned 77 points in the last round, which lasted
+    0.225 hours (13.5 minutes), that would be
+    <code class="bb_code bb_code_inline nohighlight"
+      >SteamUserStats()-&gt;UpdateAvgRateStat( "AvgPointsPerHour", 77, 0.225
+      )</code
+    >
+  </li>
+</ul>
+In the above example, Steam will take the current rounds average of 342.2 points
+per hour ( 77 divided by 0.225 ) and blend it with the previous value. The
+result will reflect the total average over the player's last 20 hours of game
+time. If this were the first time the stat was updated for the current user, the
+current value would be 342.2.<br /><br />This example uses "hours" as the time
+unit, but you may use whatever time unit you wish. Just keep in mind that you
+must consistently use that unit as your base for "dSessionLength", as well as
+the Window property.
+<h2 class="bb_subsection"><a name="6"></a>Getting stats for other users</h2>
+You can use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestUserStats</a
+>
+to get the stats for another user. You can then use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievement</a
+>, and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievementAndUnlockTime</a
+>
+to get data for that user. This data is not updated automatically as the other
+user uploads new stats, so to refresh the data just call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestUserStats</a
+>
+again.<br /><br />To keep from using too much memory, a Least Recently Used
+(LRU) cache is maintained and other user's stats will occasionally be unloaded.
+When this happens a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsUnloaded_t"
+  class="bb_apilink"
+  >ISteamUserStats::UserStatsUnloaded_t</a
+>
+callback is automatically sent. When this callback is sent then the specified
+user's stats will be unavailable until
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestUserStats</a
+>
+is called again.
+<h2 class="bb_subsection"><a name="7"></a>Offline mode</h2>
+Steam keeps a local cache of the stats and achievement data so that the APIs can
+be used as normal in offline mode. Any stats unable to be committed are saved
+for the next time the user is online. In the event that there have been
+modifications on more than one machine, Steam will automatically merge
+achievements and choose the set of stats that has had more progress. Because
+Steam keeps a local cache of stats data it is not necessary for the game to also
+keep a local cache of the data on disk. Such caches often come in conflict, and
+when they do it looks to users as if their progress has been reverted, which is
+a frustrating experience.
+<h2 class="bb_subsection"><a name="game_server_stats"></a>Game Server Stats</h2>
+Parallel to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats"
+  class="bb_apilink"
+  >ISteamUserStats</a
+>
+is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamGameServerStats"
+  class="bb_apilink"
+  >ISteamGameServerStats</a
+>
+for game servers. These can get stats for users in the same way as clients can
+(described above). They can also set stats and award achievements, but only if
+"Set by" is set to GS (game server) or Official GS. The difference between game
+servers and official game servers is that official game servers are servers that
+you host and control. Using official game servers to set stats offers enhanced
+security against cheating, as users may be able to modify their own game servers
+or spoof being a game server. To define official game servers, enter the IP
+ranges of the servers
+<a
+  href="https://partner.steamgames.com/apps/dedicatedservers/"
+  target="_blank"
+  rel="noreferrer"
+  >here</a
+>.<br /><br />Stats and achievements that are settable by game servers cannot be
+set by clients. Game servers can only set stats and achievements for users
+currently playing on the server. If the user leaves the server there is a short
+grace period to set any final stats, but then any new uploads will be denied.
+This is to help ensure consistency and to avoid making it possible for a
+malicious game server to set anyone's stats at any time. Given the restriction,
+it is important not to wait until the end of a round to set stats. Set them
+continuously so you can store them as a user quits.<br /><br />Clients will get
+automatic updates when a game server changes their stats. However, like clients,
+stats loaded by the server for other users are not refreshed automatically and
+can age out.
+<h2 class="bb_subsection"><a name="8"></a>Resetting stats</h2>
+During development, it is often the case that a complete wipe of stats and
+achievements on an account or all accounts is desirable for testing. To wipe
+stats for an account, call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#ResetAllStats"
+  class="bb_apilink"
+  >ISteamUserStats::ResetAllStats</a
+>
+with
+<code class="bb_code bb_code_inline nohighlight">bAchievementsToo</code> set to
+<strong>true</strong> to wipe achievements as well. Once called remember to
+reiterate your stats and achievements and reset your in-memory game state. There
+is no way to globally wipe stats and achievements for all users. One of the
+reasons for this is that even if a global wipe were to be done, games
+in-progress may not notice the wipe and write back in-memory values.
+Fortunately, there is an easy way to build a global wipe system into your game.
+To do so:<br />
+<ul class="bb_ul">
+  <li>Define a stat with a name like "Version"<br /></li>
+  <li>Put a hardcoded stats version number in the game<br /></li>
+  <li>
+    Once stats have been loaded, compare the "Version" stat against your
+    hardcoded version number<br />
+  </li>
+  <li>
+    If they don't match, call
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#ResetAllStats"
+      class="bb_apilink"
+      >ISteamUserStats::ResetAllStats</a
+    >
+    and then set the "Version" stat to the hardcoded number.
+  </li>
+</ul>
+This way, whenever you want a global wipe just change the hardcoded stats
+version number. The global wipe will then happen as people get the new build.
+<h2 class="bb_subsection"><a name="9"></a>Stat consistency</h2>
+It's a best practice to think about how related stats could become inconsistent.
+For instance, you may have three stats "GamesWon", "GamesLost", and
+"GamesPlayed". Despite the best of intentions, stats can and do get out of sync
+with each other. In this case, that could lead to games won and lost not adding
+up to the total of games played. If this was resolved by removing the
+"GamesLost" stat and instead computing it as "GamesPlayed" - "GamesWon", an
+inconsistency could cause "GamesLost" to be negative. In this case, it's best to
+drop the "GamesPlayed" stat and compute it as "GamesWon" + "GamesLost".
+<h2 class="bb_subsection"><a name="global_stats"></a>Global Stats</h2>
+Stats can be marked as aggregated on the admin page to tell Steam to keep a
+global total of all users' values for the stat. This can be used to get data on
+total money in the economy, total kills, favorite weapons, favorite maps, and
+which team tends to do better. On the flip side, this should not be used for
+stats like "MostKills" as adding that up for multiple users would be
+meaningless. As stats are in the hands of users, this data is subject to being
+manipulated. Therefore it's crucial when using aggregated stats to set good
+bounds for min value, max value, increment only (if appropriate), and max
+change. Max change has a special meaning for aggregated stats. When a new value
+is uploaded, the global value will change no more than the max change value.
+This limits how quickly a cheater can influence the global totals.<br /><br />To
+access the global totals, call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalStats</a
+>
+and then
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetGlobalStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetGlobalStat</a
+>
+for each global stat. You can also ask for
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalStats</a
+>
+for a specified number of days of history. The history is the amount that stat
+changed every day. You can access that history with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetGlobalStatHistory"
+  class="bb_apilink"
+  >ISteamUserStats::GetGlobalStatHistory</a
+>.<br /><br />You can also request global achievement completion percentages
+from the client. To do so first call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalAchievementPercentages</a
+>. Then, iterate the achievements in order of most completed to least completed
+by calling
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetMostAchievedAchievementInfo"
+  class="bb_apilink"
+  >ISteamUserStats::GetMostAchievedAchievementInfo</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetNextMostAchievedAchievementInfo"
+  class="bb_apilink"
+  >ISteamUserStats::GetNextMostAchievedAchievementInfo</a
+>. You can also get the completion percentage for a particular achievement by
+calling
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAchievedPercent"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAchievedPercent</a
+>.
+<h2 class="bb_subsection"><a name="testing"></a>Testing</h2>
+<br />Before your app is released, you will not be able to see which
+achievements have been earned in the Steam Community or library. Your app will
+need a way to output what achievements have been earned for the user.<br /><br />To
+clear an achievement or stats without adding code to your game, you can use the
+Steam client console. Run with steam.exe -console, then:<br />
+<ul class="bb_ul">
+  <li>achievement_clear &lt;appid&gt; &lt;achievement name&gt;<br /></li>
+  <li>reset_all_stats &lt;appid&gt;</li>
+</ul>
+<h2 class="bb_subsection"><a name="10"></a>The Steam Community</h2>
+After your game has been released then information about individual and global
+achievement progress will be displayed in the Steam Community. Each player will
+have a link from their Community profile that goes to a page showcasing what
+they have achieved, and which they have yet to unlock.
+<div class="bb_callout">
+  <div>
+    <strong>NOTE:</strong> Your achievements will not be shown until your app is
+    somewhat visible to the community.
+  </div>
+</div>
+<br />Each achievement is listed with the appropriate icon, and the name and
+description as set in the Steamworks control panel. If the achievement name and
+description have been localized into the language the user has selected, then
+they will display in that language.<br /><br />There will also be a link from
+this page, and one from your game's main Steam page, to a set of global
+achievement statistics for your game. It displays the percentage of Steam
+players of the game that have achieved each one, ordered from most common to the
+rarest achievement. This is fun for players to see, and also a great resource
+for you as a developer: are your special challenges hard enough? Or maybe too
+hard? (this information is also available on the Sales and Activations Reports
+site).
+<h2 class="bb_section"><a name="11"></a>More Questions?</h2>
+Ask questions on the
+<a
+  href="http://steamcommunity.com/groups/steamworks/discussions/6/"
+  target="_blank"
+  rel="noreferrer"
+  >Stats and Achievements discussion board</a
+>

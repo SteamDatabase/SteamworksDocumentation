@@ -1,0 +1,388 @@
+<h1>Templates for In-Game Actions Files</h1>
+Here are some example templates for
+<a
+  href="https://partner.steamgames.com/doc/features/steam_controller/iga_file"
+  class="bb_doclink"
+  >IGA files</a
+>
+that you can use as starting points for your games. None of these are for any
+specific game, and your game might have specific needs not covered by any of
+them, so feel free to experiment. This is just to give you a useful skeleton to
+build upon.<br /><br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#basic"
+      class="bb_doclink"
+      >Basic</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#fps"
+      class="bb_doclink"
+      >First Person Shooter</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#action"
+      class="bb_doclink"
+      >Third Person Action / Adventure</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#tactics"
+      class="bb_doclink"
+      >Turn Based Tactics</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#rts"
+      class="bb_doclink"
+      >Real Time Strategy</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#4x"
+      class="bb_doclink"
+      >4X Strategy</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#jrpg"
+      class="bb_doclink"
+      >Console-style JRPG</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#adventure"
+      class="bb_doclink"
+      >Point-and-click Adventure</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#racing"
+      class="bb_doclink"
+      >Racing</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples%3Fbeta%3D1#platformer"
+      class="bb_doclink"
+      >Platformer</a
+    >
+  </li>
+</ul>
+<h2 class="bb_section"><a name="basic"></a>Basic</h2>
+<br />This is a completely minimal file -- one action set, one digital action,
+and one analog action. About as much functionality as an Atari joystick or
+single-button mouse.<br /><br />
+<div class="bb_code vdf">
+  "In Game Actions" { "actions" { "TheOneAndOnlySet" { "title" "#Set_Title"
+  "Button" { "DoSomething" "#Action_DoSomething" } "StickPadGyro" { "Move" {
+  "title" "#Action_Move" "input_mode" "absolute_mouse" } } } } "localization" {
+  "english" { "set_title" "The One and Only Set" "Action_DoSomething" "Do
+  Something" "Action_Move" "Move" } } }
+</div>
+<h2 class="bb_section"><a name="fps"></a> First Person Shooter</h2>
+<br />This is for a first-person shooter where you can move around, jump, shoot
+things, and hold multiple items (presumably weapons) in your inventory that you
+can freely switch between at any time.<br /><br />
+<div class="bb_code">
+  "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls"
+  "StickPadGyro" { "Move" { "title" "#Action_Move" "input_mode" "joystick_move"
+  } "Look" { "title" "#Action_Look" "input_mode" "absolute_mouse" } } "Button" {
+  "Attack" "#Action_Attack" "AltAttack" "#Action_AltAttack" "Jump"
+  "#Action_Jump" "Crouch" "#Action_Crouch" "Sprint" "#Action_Sprint"
+  "StrafeLeft" "#Action_StrafeLeft" "StrafeRight" "#Action_StrafeRight"
+  "Interact" "#Action_Interact" "Menu" "#Action_Menu" "Item1" "#Action_Item1"
+  "Item2" "#Action_Item2" "Item3" "#Action_Item3" "Item4" "#Action_Item4"
+  "Item5" "#Action_Item5" "PrevItem" "#Action_PrevItem" "NextItem"
+  "#Action_NextItem" } } "MenuControls" { "title" "#Set_MenuControls" "Button" {
+  "MenuUp" "#Menu_Up" "MenuDown" "#Menu_Down" "MenuLeft" "#Menu_Left"
+  "MenuRight" "#Menu_Right" "Affirm" "#Menu_Affirm" "Cancel" "#Menu_Cancel"
+  "Other" "#Menu_Other" "ScrollUp" "#Menu_ScrollUp" "ScrollDown"
+  "#Menu_ScrollDown" "DismissMenu" "#Menu_DismissMenu" } } } "localization" {
+  "english" { "Set_GameControls" "Game Controls" "Set_MenuControls" "Menu
+  Controls" "Action_Move" "Move" "Action_Look" "Look" "Action_Attack" "Attack"
+  "Action_AltAttack" "Alternate Attack" "Action_Jump" "Jump" "Action_Crouch"
+  "Crouch" "Action_Sprint" "Sprint" "Action_StrafeLeft" "Strafe Left"
+  "Action_StrafeRight" "Strafe Right" "Action_Interact" "Interact" "Action_Menu"
+  "Menu" "Action_Item1" "Item 1" "Action_Item2" "Item 2" "Action_Item3" "Item 3"
+  "Action_Item4" "Item 4" "Action_Item5" "Item 5" "Action_PrevItem" "Previous
+  Item" "Action_NextItem" "Next Item" "Menu_Up" "Up" "Menu_Down" "Down"
+  "Menu_Left" "Left" "Menu_Right" "Right" "Menu_Affirm" "Affirm" "Menu_Cancel"
+  "Cancel" "Menu_Other" "Other" "Menu_ScrollUp" "Scroll Up" "Menu_ScrollDown"
+  "Scroll Down" "Menu_DismissMenu" "Dismiss Menu" } } }
+</div>
+<h2 class="bb_section">
+  <a name="action"></a> Third Person Action / Adventure
+</h2>
+<br />This is for a third-person action / adventure game where you move a
+character around an environment, and can do basic things like jump, sneak,
+interact with things/people, and engage in simple combat.<br /><br />
+<div class="bb_code">
+  "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls"
+  "StickPadGyro" { "Move" { "title" "#Action_Move" "input_mode" "joystick_move"
+  } "Camera" { "title" "#Action_Camera" "input_mode" "joystick_move" } }
+  "Button" { "attack" "#Action_Attack" "block" "#Action_Block" "jump"
+  "#Action_Jump" "interact" "#Action_Interact" "sneak" "#Action_Sneak"
+  "sidestep" "#Action_Sidestep" "map" "#Action_Map" "menu" "#Action_Menu" } }
+  "MenuControls" { "title" "#Set_MenuControls" "Button" { "MenuUp" "#Menu_Up"
+  "MenuDown" "#Menu_Down" "MenuLeft" "#Menu_Left" "MenuRight" "#Menu_Right"
+  "Affirm" "#Menu_Affirm" "Cancel" "#Menu_Cancel" "Other" "#Menu_Other"
+  "ScrollUp" "#Menu_ScrollUp" "ScrollDown" "#Menu_ScrollDown" "DismissMenu"
+  "#Menu_DismissMenu" } } } "localization" { "english" { "Set_GameControls"
+  "Game Controls" "Set_MenuControls" "Menu Controls" "Action_Move" "Move"
+  "Action_Camera" "Camera" "Action_Attack" "Attack" "Action_Block" "Block"
+  "Action_Jump" "Jump" "Action_Sneak" "Sneak" "Action_Sidestep" "Sidestep"
+  "Action_Interact" "Interact" "Action_Menu" "Menu" "Action_Map" "Map" "Menu_Up"
+  "Up" "Menu_Down" "Down" "Menu_Left" "Left" "Menu_Right" "Right" "Menu_Affirm"
+  "Affirm" "Menu_Cancel" "Cancel" "Menu_Other" "Other" "Menu_ScrollUp" "Scroll
+  Up" "Menu_ScrollDown" "Scroll Down" "Menu_DismissMenu" "Dismiss Menu" } } }
+</div>
+<h2 class="bb_section"><a name="tactics"></a>Turn Based Tactics</h2>
+<br />This is for a turn-based tactics game where you move units around a grid
+and issue commands. Also includes actions for controlling a 3D camera and basic
+navigation.<br /><br />
+<div class="bb_code">
+  "In Game Actions" { "actions" { "MenuControls" { "title" "#Set_MenuControls"
+  "StickPadGyro" { "MenuCursor" { "title" "#Action_MenuCursor" "input_mode"
+  "absolute_mouse" } } "Button" { "Up" "#Action_Up" "Down" "#Action_Down" "Left"
+  "#Action_Left" "Right" "#Action_Right" "QuickSave" "#Action_QuickSave"
+  "QuickLoad" "#Action_QuickLoad" "Affirm" "#Action_Affirm" "Cancel"
+  "#Action_Cancel" } } "BattleControls" { "title" "#Set_BattleControls"
+  "StickPadGyro" { "BattleCamera" { "title" "#Action_BattleCamera" "input_mode"
+  "absolute_mouse" } "BattleCursor" { "title" "#Action_BattleCursor"
+  "input_mode" "absolute_mouse" } } "Button" { "Up" "#Action_Up" "Down"
+  "#Action_Down" "Left" "#Action_Left" "Right" "#Action_Right" "QuickSave"
+  "#Action_QuickSave" "QuickLoad" "#Action_QuickLoad" "ConfirmCommand"
+  "#Action_ConfirmCommand" "Pause" "#Action_Pause" "Cancel" "#Action_Cancel"
+  "Interact" "#Action_Interact" "EndTurn" "#Action_EndTurn" "Waypoint"
+  "#Action_Waypoint" "NextUnit" "#Action_NextUnit" "PrevUnit" "#Action_PrevUnit"
+  "Ability1" "#Action_Ability1" "Ability2" "#Action_Ability2" "Ability3"
+  "#Action_Ability3" "Ability4" "#Action_Ability4" "Ability5" "#Action_Ability5"
+  "Ability6" "#Action_Ability6" "Ability7" "#Action_Ability7" "Ability8"
+  "#Action_Ability8" "Ability9" "#Action_Ability9" "Ability0" "#Action_Ability0"
+  "CameraRotateLeft" "#Action_CameraRotateLeft" "CameraRotateRight"
+  "#Action_CameraRotateRight" "CameraZoomIn" "#Action_CameraZoomIn"
+  "CameraZoomOut" "#Action_CameraZoomOut" "CameraCenterOnSelection"
+  "#Action_CameraCenterOnSelection" } } } "localization" { "english" {
+  "Set_MenuControls" "Menu Controls" "Action_MenuCursor" "Menu Cursor"
+  "Action_Up" "Up" "Action_Down" "Down" "Action_Left" "Left" "Action_Right"
+  "Right" "Action_QuickSave" "Quick Save" "Action_QuickLoad" "Quick Load"
+  "Action_Affirm" "Affirm" "Action_Cancel" "Cancel" "Set_BattleControls" "Battle
+  Controls" "Action_BattleCamera" "Battle Camera" "Action_BattleCursor" "Battle
+  Cursor" "Action_ConfirmCommand" "Confirm Command" "Action_Pause" "Pause"
+  "Action_Interact" "Interact" "Action_EndTurn" "End Turn" "Action_Waypoint"
+  "Place / Remove Waypoint" "Action_NextUnit" "Next Unit" "Action_PrevUnit"
+  "Previous Unit" "Action_Ability1" "Ability 1" "Action_Ability2" "Ability 2"
+  "Action_Ability3" "Ability 3" "Action_Ability4" "Ability 4" "Action_Ability5"
+  "Ability 5" "Action_Ability6" "Ability 6" "Action_Ability7" "Ability 7"
+  "Action_Ability8" "Ability 8" "Action_Ability9" "Ability 9" "Action_Ability0"
+  "Ability 0" "Action_CameraRotateLeft" "Rotate Camera Left"
+  "Action_CameraRotateRight" "Rotate Camera Right" "Action_CameraZoomIn" "Zoom
+  Camera In" "Action_CameraZoomOut" "Zoom Camera Out"
+  "Action_CameraCenterOnSelection" "Center Camera on Selected Object" } } }
+</div>
+<h2 class="bb_section"><a name="rts"></a> Real Time Strategy</h2>
+<br />This is for a Real Time Strategy game where you build units &amp;
+buildings and command units individually or in groups. A few special things are
+going on here -- first of all, there's two
+<a
+  href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
+  class="bb_doclink"
+  >action layers</a
+>
+for the Unit and Build menus, but it's also set up to use actions in chords.<br /><br />In
+this game, you can assign units, buildings, or groups of units to ten groups
+bound to ten hotkeys (implemented her as actions "Group 0" through "Group 9").
+After you activate an action such as "assign_group" or "add_remove_group", the
+game's programming will wait until an action such as "group_0" or "group_3" to
+be pressed. "assign_group" + "group_2" means, "assign the current selection to
+group 2," whereas "select_group" + "group_5" means, "select everything currently
+assigned to group 5." This sort of thing has to be implemented by the game's own
+logic, but it's much simpler than creating individual action permutations for
+each slot, ie "add_remove_group_2", "assign_group_2", "select_group_2",
+etc...<br /><br />Additionally, the Unit commands have the special action
+"queue." When an order action is received, if the game detects that the "queue"
+action is also currently being fired, it will not immediately execute the
+original order, but instead stick it on queue for that unit. When done with a
+"move" order this could be used to set waypoints, for instance. Again, this sort
+of logic would need to be implemented by the game itself.<br /><br />
+<div class="bb_code">
+  "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls"
+  "StickPadGyro" { "MoveCursor" { "title" "#Action_MoveCursor" "input_mode"
+  "absolute_mouse" } "CameraPan" { "title" "#Action_CameraPan" "input_mode"
+  "absolute_mouse" } "CameraZoom" { "title" "#Action_CameraZoom" "input_mode"
+  "absolute_mouse" } } "Button" { "click" "#Action_Click" "cancel"
+  "#Action_Cancel" "select" "#Action_Select" "select_add_remove"
+  "#Action_AddRemove" "select_type" "#Action_SelectType" "select_idle"
+  "#Action_SelectIdle" "move_attack" "#Action_MoveAttack" "move_no_attack"
+  "#Action_Move" "attack_target" "#Action_Attack" "assign_group"
+  "#Action_AssignGroup" "add_remove_group" "#Action_AddRemoveGroup"
+  "select_group" "#Action_SelectGroup" "group_0" "#Action_Group0" "group_1"
+  "#Action_Group1" "group_2" "#Action_Group2" "group_3" "#Action_Group3"
+  "group_4" "#Action_Group4" "group_5" "#Action_Group5" "group_6"
+  "#Action_Group6" "group_7" "#Action_Group7" "group_8" "#Action_Group8"
+  "group_9" "#Action_Group9" } } "MenuControls" { "title" "#Set_MenuControls"
+  "Button" { "MenuUp" "#Menu_Up" "MenuDown" "#Menu_Down" "MenuLeft" "#Menu_Left"
+  "MenuRight" "#Menu_Right" "Affirm" "#Menu_Affirm" "Cancel" "#Menu_Cancel"
+  "Other" "#Menu_Other" "ScrollUp" "#Menu_ScrollUp" "ScrollDown"
+  "#Menu_ScrollDown" "DismissMenu" "#Menu_DismissMenu" } } } "action_layers" {
+  "title" "#Layer_UnitMenu" "Button" { "stop" "#Unit_Stop" "hold" "#Unit_Hold"
+  "patrol" "#Unit_Patrol" "follow" "#Unit_Follow" "queue" "#Unit_Queue"
+  "unit_ability_1" "#Unit_Ability1" "unit_ability_2" "#Unit_Ability2" } "title"
+  "#Layer_BuildMenu" "Button" { "build_0" "#Build_0" "build_1" "#Build_1"
+  "build_2" "#Build_2" "build_3" "#Build_3" "build_4" "#Build_4" "build_5"
+  "#Build_5" "build_6" "#Build_6" "build_7" "#Build_7" "build_8" "#Build_8"
+  "build_9" "#Build_9" } } "localization" { "english" { "Set_GameControls" "Game
+  Controls" "Set_MenuControls" "Menu Controls" "Layer_UnitMenu" "Unit Menu"
+  "Layer_BuildMenu" "Build Menu" "Action_MoveCursor" "Move Cursor"
+  "Action_CameraPan" "Pan camera" "Action_CameraZoom" "Zoom camera"
+  "Action_Click" "Click mouse" "Action_Cancel" "Cancel" "Action_Select" "Select"
+  "Action_AddRemove" "Add/remove from selection" "Action_SelectType" "Select all
+  units of type" "Action_SelectIdle" "Select idle worker" "Action_MoveAttack"
+  "Attack-Move" "Action_Move" "Move (no attack)" "Action_Attack" "Attack target"
+  "Action_AssignGroup" "Assign group" "Action_AddRemoveGroup" "Add/remove from
+  group" "Action_SelectGroup" "Select group" "Action_Group0" "Group 0"
+  "Action_Group1" "Group 1" "Action_Group2" "Group 2" "Action_Group3" "Group 3"
+  "Action_Group4" "Group 4" "Action_Group5" "Group 5" "Action_Group6" "Group 6"
+  "Action_Group7" "Group 7" "Action_Group8" "Group 8" "Action_Group9" "Group 9"
+  "Menu_Up" "Up" "Menu_Down" "Down" "Menu_Left" "Left" "Menu_Right" "Right"
+  "Menu_Affirm" "Affirm" "Menu_Cancel" "Cancel" "Menu_Other" "Other"
+  "Menu_ScrollUp" "Scroll Up" "Menu_ScrollDown" "Scroll Down" "Menu_DismissMenu"
+  "Dismiss Menu" "Unit_Stop" "Stop" "Unit_Hold" "Hold ground" "Unit_Patrol"
+  "Patrol" "Unit_Follow" "Follow" "Unit_Queue" "Queue action/waypoint"
+  "Unit_Ability1" "Ability 1" "Unit_Ability2" "Ability 2" "Build_0" "Build
+  option 0" "Build_1" "Build option 1" "Build_2" "Build option 2" "Build_3"
+  "Build option 3" "Build_4" "Build option 4" "Build_5" "Build option 5"
+  "Build_6" "Build option 6" "Build_7" "Build option 7" "Build_8" "Build option
+  8" "Build_9" "Build option 9" } } }
+</div>
+<h2 class="bb_section"><a name="4x"></a> 4X Strategy</h2>
+<br />This is a simple 4X strategy game, where you move units on a main map,
+colonize territory (whether that's planets or islands or cities), and engage in
+combat with other empires. Base actions such as "click", "cancel", "select", and
+"inspect" are always available in the base action set, whereas other actions
+come in via
+<a
+  href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
+  class="bb_doclink"
+  >action set layers</a
+>
+depending on context. For instance, in the main map you have additional actions
+such as ending the turn, or cycling between your colonies. In battle, you can
+cycle between units, and tell them to move, attack, or retreat.<br /><br />
+<div class="bb_code">
+  "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls"
+  "StickPadGyro" { "MoveCursor" { "title" "#Action_MoveCursor" "input_mode"
+  "absolute_mouse" } "CameraPan" { "title" "#Action_CameraPan" "input_mode"
+  "absolute_mouse" } "CameraZoom" { "title" "#Action_CameraZoom" "input_mode"
+  "absolute_mouse" } } "Button" { "click" "#Action_Click" "cancel"
+  "#Action_Cancel" "select" "#Action_Select" "inspect" "#Action_Inspect" "menu"
+  "#Action_Menu" } } "MenuControls" { "title" "#Layer_MenuControls" "Button" {
+  "MenuUp" "#Menu_Up" "MenuDown" "#Menu_Down" "MenuLeft" "#Menu_Left"
+  "MenuRight" "#Menu_Right" "Affirm" "#Menu_Affirm" "Cancel" "#Menu_Cancel"
+  "Other" "#Menu_Other" "ScrollUp" "#Menu_ScrollUp" "ScrollDown"
+  "#Menu_ScrollDown" "DismissMenu" "#Menu_DismissMenu" } } } "action_layers" {
+  "title" "#Layer_Map" "Button" { "turn" "#Map_Turn" "next_colony"
+  "#Map_NextColony" "prev_colony" "#Map_PreviousColony" } "title"
+  "#Layer_Combat" "Button" { "next_unit" "#Battle_NextUnit" "prev_unit"
+  "#Battle_PrevUnit" "retreat" "#Battle_Retreat" "attack" "#Battle_Attack"
+  "move_unit" "#Battle_MoveUnit" } } "localization" { "english" {
+  "Set_GameControls" "Game Controls" "Set_MenuControls" "Menu Controls"
+  "Layer_Map" "Map Controls" "Layer_Combat" "Combat Controls" "Action_Click"
+  "Click" "Action_Cancel" "Cancel" "Action_Select" "Select" "Action_Inspect"
+  "Inspect" "Action_Menu" "Menu" "Map_Turn" "End turn" "Map_NextColony" "Next
+  Colony" "Map_PrevColony" "Previous Colony" "Battle_NextUnit" "Next Unit"
+  "Battle_PrevUnit" "Previous Unit" "Battle_Retreat" "Retreat" "Battle_Attack"
+  "Attack" "Battle_MoveUnit" "Move Unit" "Menu_Down" "Down" "Menu_Left" "Left"
+  "Menu_Right" "Right" "Menu_Affirm" "Affirm" "Menu_Cancel" "Cancel"
+  "Menu_Other" "Other" "Menu_ScrollUp" "Scroll Up" "Menu_ScrollDown" "Scroll
+  Down" "Menu_DismissMenu" "Dismiss Menu" } } }
+</div>
+<h2 class="bb_section"><a name="jrpg"></a> Console-style JRPG</h2>
+<br />A simple console-style JRPG where you move a character avatar around a map
+environment such as an overworld, dungeon, or town, and can interact with
+things. The game features a modal battle system that mostly uses the same basic
+menu-driven actions (up/down/left/right/select/cancel), but has some special
+commands like toggling a special power between targetting an individual and a
+group of enemies, skipping a character's turn, and pausing the game.<br /><br />
+<div class="bb_code">
+  "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls"
+  "Button" { "Action_Select" "#Action_Select" "Action_Up" "#Action_Up"
+  "Action_Down" "#Action_Down" "Action_Left" "#Action_Left" "Action_Right"
+  "#Action_Right" "Action_Cancel" "#Action_Cancel" "Action_Menu" "#Action_Menu"
+  } "StickPadGyro" { "Move" { "title" "#Action_Move" "input_mode"
+  "joystick_move" } } } } "action_layers" { "BattleControls" { "title"
+  "#Layer_Battle" "Button" { "Battle_ToggleMulti" "#Battle_ToggleMulti"
+  "Battle_Pause" "#Battle_Pause" "Battle_Skip" "#Battle_Skip" } } }
+  "localization" { "english" { "Set_GameControls" "General Controls"
+  "Action_Move" "Move" "Action_Select" "Select/Interact" "Action_Cancel"
+  "Cancel/Back" "Action_Menu" "Menu" "Action_Up" "Up" "Action_Down" "Down"
+  "Action_Left" "Left" "Action_Right" "Right" "Battle_ToggleMulti" "Toggle
+  multiple targets" "Battle_Pause" "Pause" "Battle_Skip" "Skip Character" } } }
+</div>
+<h2 class="bb_section"><a name="adventure"></a> Point-and-click Adventure</h2>
+<br />A simple point-and click adventure game where you point to a location on
+the screen and tell your character to move there, examine something, or interact
+with it. Inventory management is done by bringing up a menu, where you can point
+to an object (or use up/down/left/right actions to navigate) to select it.<br /><br />
+<div class="bb_code">
+  "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls"
+  "Button" { "Action_Interact" "#Action_Interact" "Action_MoveTo"
+  "#Action_MoveTo" "Action_Examine" "#Action_Examine" "Action_Cancel"
+  "#Action_Cancel" "Action_Menu" "#Action_Menu" "Action_Item" "#Action_Item" }
+  "StickPadGyro" { "MoveCursor" { "title" "#Action_MoveCursor" "input_mode"
+  "absolute_mouse" } } } } "action_layers" { "MenuControls" { "title"
+  "#Layer_MenuControls" "Button" { "Menu_Up" "#Menu_Up" "Menu_Down" "#Menu_Down"
+  "Menu_Left" "#Menu_Left" "Menu_Right" "#Menu_Right" "Menu_Select"
+  "#Menu_Select" "Menu_Cancel" "#Menu_Cancel" } } } "localization" { "english" {
+  "Set_GameControls" "General Controls" "Layer_MenuControls" "Menu Controls"
+  "Action_MoveCursor" "Move cursor" "Action_MoveTo" "Move to location"
+  "Action_Interact" "Interact" "Action_Examine" "Examine" "Action_Cancel"
+  "Cancel/Back" "Action_Menu" "Menu" "Action_Item" "Use Item" "Menu_Up" "Up"
+  "Menu_Down" "Down" "Menu_Left" "Left" "Menu_Right" "Right" "Menu_Select"
+  "Select" "Menu_Cancel" "Cancel" } } }
+</div>
+<h2 class="bb_section"><a name="racing"></a>Racing</h2>
+<br />A simple racing game where you race manual transmission ("stick shift")
+cars.<br /><br />
+<div class="bb_code">
+  "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls"
+  "Button" { "Action_Gas" "#Action_Gas" "Action_Brake" "#Action_Brake"
+  "Action_Clutch" "#Action_Clutch" "Action_ShiftUp" "#Action_ShiftUp"
+  "Action_ShiftDown" "#Action_ShiftDown" "Action_Handbrake" "#Action_Handbrake"
+  "Action_Pause" "#Action_Pause" } "StickPadGyro" { "Steer" { "title"
+  "#Action_Steer" "input_mode" "joystick_move" } "Look" { "title" "#Action_Look"
+  "input_mode" "absolute_mouse" } } } } "localization" { "english" {
+  "Set_GameControls" "General Controls" "Action_Gas" "Gas" "Action_Brake"
+  "Brake" "Action_Clutch" "Clutch" "Action_ShiftUp" "Shift Gear Up"
+  "Action_ShiftDown" "Shift Gear Down" "Action_Handbrake" "Handbrake"
+  "Action_Pause" "Pause" "Action_Steer" "Steer" "Action_Look" "Free look" } } }
+</div>
+<h2 class="bb_section"><a name="platformer"></a>Platformer</h2>
+<br />A very simple platform game where you can move around, jump, hold down a
+button to run, and interact with environmental objects (e.g. pick up /
+throw).<br /><br />
+<div class="bb_code">
+  "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls"
+  "Button" { "Action_Jump" "#Action_Jump" "Action_Run" "#Action_Run"
+  "Action_Interact" "#Action_Interact" "Action_Up" "#Action_Up" "Action_Down"
+  "#Action_Down" "Action_Left" "#Action_Left" "Action_Right" "#Action_Right"
+  "Action_Pause" "#Action_Pause" } "StickPadGyro" { "Move" { "title"
+  "#Action_Move" "input_mode" "joystick_move" } } } } "localization" { "english"
+  { "Set_GameControls" "General Controls" "Action_Move" "Move" "Action_Jump"
+  "Jump" "Action_Run" "Run" "Action_Interact" "Interact" "Action_Up" "Up"
+  "Action_Down" "Down" "Action_Left" "Left" "Action_Right" "Right"
+  "Action_Pause" "Pause" } } }
+</div>

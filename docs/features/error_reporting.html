@@ -1,0 +1,71 @@
+<h1>Steam Error Reporting</h1>
+<div class="bb_callout bb_yellow">
+  <div>
+    <strong>Note:</strong> Steam Error Reporting is only supported for Windows
+    32-bit applications.
+  </div>
+</div>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+If Steam error reporting is implemented then Steam will automatically upload
+mini dumps of any exception after 10 similar exceptions are thrown.<br /><br />You
+can view the details of each crash on the
+<a href="https://partner.steamgames.com/errors" target="_blank" rel="noreferrer"
+  >Error Reports</a
+>
+page of the Steamworks Partner backend.<br /><br />Mini-dumps are always stored
+locally on the computer before they are uploaded to Steam. If you need to
+examine one directly, you should be able to find it in the games install
+directory.
+<h2 class="bb_section"><a name="2"></a>How to Implement</h2>
+Steam error reporting is easy to use if you're already using
+<a
+  href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms680657(v=vs.85).aspx"
+  target="_blank"
+  rel="noreferrer"
+  >Structured Exception Handling</a
+>.<br /><br />You must hook up the Win32
+<a
+  href="https://msdn.microsoft.com/en-us/library/5z4bw5h5.aspx"
+  target="_blank"
+  rel="noreferrer"
+  >_set_se_translator</a
+>
+function which calls a function you create to handle the minidump. In that
+function you can use
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_SetMiniDumpComment"
+  class="bb_apilink"
+  >SteamAPI_SetMiniDumpComment</a
+>
+and
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_WriteMiniDump"
+  class="bb_apilink"
+  >SteamAPI_WriteMiniDump</a
+>
+to notify Steam about the impending crash.
+<h2 class="bb_section"><a name="3"></a>Example</h2>
+<div class="bb_code cpp">
+  #ifdef _WIN32 #include &lt;Windows.h&gt; void MiniDumpFunction( unsigned int
+  nExceptionCode, EXCEPTION_POINTERS *pException ) { // You can build and set an
+  arbitrary comment to embed in the minidump here, // maybe you want to put what
+  level the user was playing, how many players on the server, // how much memory
+  is free, etc... SteamAPI_SetMiniDumpComment( "Minidump comment:
+  SteamworksExample.exe/n" ); // The 0 here is a build ID, we don't set it
+  SteamAPI_WriteMiniDump( nExceptionCode, pException, 0 ); } int RealMain(
+  HINSTANCE hInstance, LPSTR lpCmdLine, int nCmdShow ) { __debugbreak(); return
+  0; } int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
+  lpCmdLine, int nCmdShow ) { // All we do here is call the real main function
+  after setting up our se translator // this allows us to catch exceptions and
+  report errors to Steam. // // Note that you must set your compiler flags
+  correctly to enable structured exception // handling in order for this
+  particular setup method to work. if ( IsDebuggerPresent() ) { // We don't want
+  to mask exceptions (or report them to Steam!) when debugging. // If you would
+  like to step through the exception handler, attach a debugger // after running
+  the game outside of the debugger. return RealMain( lpCmdLine, hInstance,
+  nCmdShow ); } _set_se_translator( MiniDumpFunction ); try // this try block
+  allows the SE translator to work { return RealMain( hInstance, lpCmdLine,
+  nCmdShow ); } catch( ... ) { return -1; } } #endif
+</div>
+<h2 class="bb_section"><a name="4"></a>Requirements</h2>
+The error reporting API currently only supports 32-bit applications on Windows.

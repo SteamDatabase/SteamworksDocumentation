@@ -1,0 +1,243 @@
+<h1>Creating a retail "Gold Master" disk</h1>
+<h2 class="bb_section"><a name="Requirements"></a>Before you begin</h2>
+Before customizing a Steam gold master disk, first package your game files in
+one or more depots and
+<a
+  href="https://partner.steamgames.com/doc/sdk/uploading#Building_Retail_Install_Discs"
+  class="bb_doclink"
+  >create a retail disc</a
+>.
+<h2 class="bb_section">
+  <a name="Setup"></a>Customizing the Steamworks Setup Application
+</h2>
+The Steamworks SDK includes a customizable installer that you can include on
+your gold master. The installer is designed to help users install Steam and
+begin loading your game as quickly as possible. The installer has also been
+designed to ensure compatibility with the installation portion of the Games for
+Windows certification.<br />To get started, copy all files from the
+<code class="bb_code bb_code_inline nohighlight"
+  >tools\goldmaster\disk_assets</code
+>
+folder in the SDK to your gold master's build output folder (See
+<a
+  href="https://partner.steamgames.com/doc/sdk/uploading#Building_Retail_Install_Discs"
+  class="bb_doclink"
+  >building retail discs for Steam Pipe</a
+>).
+<h2 class="bb_subsection"><a name="setup_config"></a>Configuration</h2>
+The setup application can be customized through modifying configuration files
+and replacing files in the
+<code class="bb_code bb_code_inline nohighlight">resources</code> directory.
+Setup uses two configuration files:
+<code class="bb_code bb_code_inline nohighlight">setup.ini</code> (always
+loaded) and a localized configuration file (<code
+  class="bb_code bb_code_inline nohighlight"
+  >resources\setup_&lt;language&gt;.ini</code
+>).<br /><br /><code class="bb_code bb_code_inline nohighlight">setup.ini</code>
+is the first configuration file loaded by the setup application. This file is
+used to configure all language independent settings. The values in this file can
+be overridden by language specific configuration files. The syntax is
+"parameter" "value". The following parameters are available:<br />
+<ol class="bb_ol">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">Game</code> - Game name
+    that appears in the setup menu<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">AppID</code> - Application
+    ID for your game, provided by Valve<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">URL</code> - URL the user
+    is directed to when the technical support button is selected<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">RequiredSize</code> -
+    Amount of disk space (in KB) that your game will occupy after installation.
+    If Steam is not installed, this value will be used by the Steam's installer
+    to warn the user if they choose to install Steam to a drive which does not
+    have enough free disk space to install your game.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">FontName</code> - Font used
+    for menu text<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">FontHeight</code> - Height
+    of menu text<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">MenuPos</code> - X and Y
+    coordinates (in pixels) for the top left corner of the menu (ex: "200
+    324")<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">MenuStyle</code> -
+    Alignment of menu text (0 = left, 1 = center, 2 = right)<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">ColorDefault</code> - RGB
+    color for menu text (ex: "255 255 255")<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">ColorHover</code> - RGB
+    color for menu text when the mouse is hovering over the text (ex: "250 180
+    60")<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">ColorDown</code> - RBG
+    color for menu text when a mouse button is depressed over the text (ex: "0 0
+    0")
+  </li>
+</ol>
+<br />Setup can also display a EULA before installing your game. The EULA must
+be an RTF file. Setup will try to load the EULA from
+<code class="bb_code bb_code_inline nohighlight"
+  >resources\eula_&lt;language&gt;.rtf</code
+>. If a localized version is not available, it will try to load
+<code class="bb_code bb_code_inline nohighlight">resources\eula.rtf</code>. If
+both files do not exist, it will skip displaying a EULA.
+<h2 class="bb_subsection"><a name="localization"></a>Localization</h2>
+On startup, the setup application will load each
+<code class="bb_code bb_code_inline nohighlight"
+  >resources\setup_&lt;language&gt;.ini</code
+>
+configuration file. The user will then be asked to select a language from a
+dropdown listing each supported language. These localized configuration files
+can override any value defined in
+<code class="bb_code bb_code_inline nohighlight">setup.ini</code>, and also
+define the strings shown to a user for each language. If you do not support a
+language for which the SDK supplies a localized ini file, simply delete the ini
+file.<br />If you need to support a language that is currently not supported by
+Steam, please let us know in the
+<a
+  href="http://steamcommunity.com/groups/steamworks/discussions"
+  target="_blank"
+  rel="noreferrer"
+  >Steamworks Development Discussions</a
+>
+<h2 class="bb_subsection">
+  <a name="setup_graphics"></a>Graphics and Sound Effects
+</h2>
+The following files can be replaced to customize the setup application and Steam
+installation for your game:<br />
+<ol class="bb_ol">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">splash.tga</code> - Image
+    displayed by Steam while installing files from disk (392x165 pixels)<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">icon.ico</code> - Icon used
+    in <code class="bb_code bb_code_inline nohighlight">autorun.inf</code> as
+    the icon for your installation disk<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">resources\setup.bmp</code>
+    and
+    <code class="bb_code bb_code_inline nohighlight"
+      >resources\setup_&lt;language&gt;.bmp</code
+    >
+    - Image used for the background of setup.exe (640x480 pixels). Setup will
+    first search for a localized version, and then load
+    <code class="bb_code bb_code_inline nohighlight">setup.bmp</code> if a
+    localized version doesn't exist.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">resources\click.wav</code>
+    - Played when a button is click in setup.exe (delete to play no sound)<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">resources\hover.wav</code>
+    - Played when a mouse hovers over a button in setup.exe (delete to play no
+    sound)<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">resources\launch.wav</code>
+    - Played when setup.exe starts (delete to play no sound)
+  </li>
+</ol>
+The font name, height, color and other text attributes can be configured through
+<code class="bb_code bb_code_inline nohighlight">setup.ini</code>. See
+<a href="#setup_config" class="bb_doclink">Configuration</a> for more details.
+<h2 class="bb_subsection"><a name="setup_installscript"></a>Installscript</h2>
+Before installing Steam,
+<a
+  href="https://partner.steamgames.com/doc/sdk/installscripts"
+  class="bb_doclink"
+  >Installscript</a
+>
+can be used to have the setup application install all 3rd-party applications
+your game depends on. When installed from the setup application, users running
+Windows Vista will only need to authorize one UAC elevation for the entire
+installation process (a requirement for Games For Windows certification). If not
+installed through the setup application, Steam will need to ask for elevation a
+second time when executing your game's Installscript prior to launching your
+game.<br />There are some important differences between running Installscript
+from the setup application, and running it from Steam:<br />
+<ol class="bb_ol">
+  <li>
+    The setup application can only run applications listed under the
+    <code class="bb_code bb_code_inline nohighlight">Run Process</code> key in
+    your Installscript.<br />
+  </li>
+  <li>
+    The setup application will not run any process marked with
+    <code class="bb_code bb_code_inline nohighlight">AsCurrentUser</code> in
+    your Installscript. The setup application will only be run by
+    administrators, so the Installscript should only contain applications which
+    need to be run by administrators.<br />
+  </li>
+  <li>
+    Because the Installscript run from the setup application will run prior to
+    installing Steam and your game, the
+    <code class="bb_code bb_code_inline nohighlight">%INSTALLDIR%</code>
+    Installscript variable will refer to the
+    <code class="bb_code bb_code_inline nohighlight">resources</code> directory
+    on the install media and you will not have access to the install path for
+    your game.
+  </li>
+</ol>
+<br />Because of these limitations, you should create a new version of your
+installscript that contains only applications that need to be run by an
+administrator (DirectX redist, MSVC++ redist, etc.). After creating and signing
+the new installscript vdf through the
+<a href="https://partner.steamgames.com/apps/" target="_blank" rel="noreferrer"
+  >game admin</a
+>, move the file to
+<code class="bb_code bb_code_inline nohighlight"
+  >resources\installscript.vdf</code
+>.<br /><br />For more information about Installscript, see
+<a
+  href="https://partner.steamgames.com/doc/sdk/installscripts"
+  class="bb_doclink"
+  >Making and Using an InstallScript</a
+>.
+<h2 class="bb_section"><a name="Testing"></a>Testing</h2>
+Once you have built your installation files and customized the setup
+application, you will have a gold master image you can use for testing and
+replication. If your depots have not been uploaded to the public Steam universe,
+you will need to test your gold master with a
+<a
+  href="https://partner.steamgames.com/doc/sdk/uploading/local_content_server"
+  class="bb_doclink"
+  >Steam client configured to use your local content server</a
+>. When testing on a machine with an existing installation of Steam, simply
+place the
+<code class="bb_code bb_code_inline nohighlight">steam_dev.cfg</code> which
+points to your local content server in the same directory as your Steam
+installation. When testing on a machine which does not have Steam installed, you
+will need to:<br />
+<ul class="bb_ul">
+  <li>Create the directory you plan to install Steam into<br /></li>
+  <li>
+    Place a copy of the
+    <code class="bb_code bb_code_inline nohighlight">steam_dev.cfg</code> that
+    points to your local content server in this new directory<br />
+  </li>
+  <li>
+    Select your new directory when installing Steam through your gold master
+  </li>
+</ul>
+When you have a final version of your gold master, you should test it on
+computers WITH and WITHOUT Steam installed to check both install paths. Steam
+should show the status of your game as 100% after the installation is completed.

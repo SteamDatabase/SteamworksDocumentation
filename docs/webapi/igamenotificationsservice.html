@@ -1,0 +1,449 @@
+<h1>IGameNotificationsService Interface</h1>
+This is the interface used to interact with
+<a
+  href="https://partner.steamgames.com/doc/features/game_notifications"
+  class="bb_doclink"
+  >Game Notifications</a
+>.<br /><br /><strong>NOTE:</strong> This is a Service interface, methods in
+this interface should be called with the
+<code class="bb_code bb_code_inline nohighlight">input_json</code>
+parameter.<br /><br />For more info on how to use the Steamworks Web API please
+see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section"><a name="CreateSession"></a>CreateSession</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/IGameNotificationsService/CreateSession/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The App ID to create the session for.</td>
+  </tr>
+  <tr>
+    <td><strong>context</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>
+      Game-specified context value the game can use to associate the session
+      with some object on their backend.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>title</strong></td>
+    <td>{message}</td>
+    <td>✔</td>
+    <td>
+      The title of the session to be displayed within each user's list of
+      sessions.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>users</strong></td>
+    <td>{message}</td>
+    <td>✔</td>
+    <td>The initial state of all users in the session.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>
+      (Optional) Steam ID to make the request on behalf of -- if specified, the
+      user must be in the session and all users being added to the session must
+      be friends with the user.
+    </td>
+  </tr>
+</table>
+<br />Creates a brand new async session with the players specified in the
+request.<br /><br />The unique session id returned in this API call should be
+stored with the game session state of the game, as it will be used to reference
+other calls in the Game Notifications API<br /><br /><strong>NOTE:</strong> This
+call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!<br /><br /><strong>Example Response:</strong><br />
+<div class="bb_code xml">{ "response": { "sessionid": "10" } }</div>
+<br /><strong>Calling Example:</strong><br />
+<div class="bb_code">
+  { "context": "31415926" "title": { "token": "#MyToken", "variables": [ {
+  "key": "username", "value": "SteamUser" } ] }, "users": [ { "steamid":
+  "76561197960265729", "state": "waiting", "title": { "token": "#TitleToken",
+  "variables": [ { "key": "username", "value": "Bob" } { "key": "level",
+  "value": "1" } ] }, "message": { "token": "#StatusMessageToken", "variables":
+  [ { "key": "city", "value": "Bellevue" } ] } } ] }
+</div>
+<h2 class="bb_section"><a name="UpdateSession"></a>UpdateSession</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/IGameNotificationsService/UpdateSession/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>sessionid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The sessionid to update.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The App ID of the session to update.</td>
+  </tr>
+  <tr>
+    <td><strong>title</strong></td>
+    <td>{message}</td>
+    <td>✔</td>
+    <td>
+      (Optional) The new title of the session. If not specified, the title will
+      not be changed.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>users</strong></td>
+    <td>{message}</td>
+    <td>✔</td>
+    <td>
+      (Optional) A list of users whose state will be updated to reflect the
+      given state. If the users are not already in the session, they will be
+      added to it.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>
+      (Optional) Steam ID to make the request on behalf of -- if specified, the
+      user must be in the session.
+    </td>
+  </tr>
+</table>
+<br />Update a game session whenever the state of the game changes.<br /><br />Be
+sure to update the state of each user accordingly, as what is sent here will be
+reflected in user notifications for all users in the game. Any users that were
+in the session that are not specified will be removed from the session, and any
+newly specified users will be added to the session. You must send the complete
+state of the session -- all previous state will be replaced by the newly
+specified state.<br /><br /><strong>NOTE:</strong> This call requires a
+publisher API key to use this method. As such this API <strong>MUST</strong> be
+called from a secure server, and can never be used directly by clients!<br /><br /><strong
+  >Example Response:</strong
+><br />
+<div class="bb_code xml">{ "response": { } }</div>
+<br /><strong>Calling Example:</strong><br />
+<div class="bb_code">
+  { "sessionid": "1234", "title": { "token": "#MyToken", "variables": [ { "key":
+  "username", "value": "SteamUser" } ] }, "users": [ { "steamid":
+  "76561197960265729", "state": "waiting", "title": { "token": "#TitleToken",
+  "variables": [ { "key": "username", "value": "Bob" } { "key": "level",
+  "value": "1" } ] }, "message": { "token": "#StatusMessageToken", "variables":
+  [ { "key": "city", "value": "Bellevue" } ] } }, { "steamid":
+  "76561197960265730", "state": "waiting", "title": { "token": "#TitleToken",
+  "variables": [ { "key": "username", "value": "Greg" } { "key": "level",
+  "value": "2" } ] }, "message": { "token": "#StatusMessageToken", "variables":
+  [ { "key": "city", "value": "Seattle" } ] } } ] }
+</div>
+<h2 class="bb_section">
+  <a name="EnumerateSessionsForApp"></a>EnumerateSessionsForApp
+</h2>
+<div class="bb_code http">
+  GET
+  https://partner.steam-api.com/IGameNotificationsService/EnumerateSessionsForApp/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>
+      The sessionid to request details for. Optional. If not specified, all the
+      user's sessions will be returned.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The user whose sessions are to be enumerated.</td>
+  </tr>
+  <tr>
+    <td><strong>include_all_user_messages</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>
+      (Optional) Set whether the message for all users should be included.
+      Defaults to false.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>include_auth_user_message</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>
+      (Optional) Set whether the message for the authenticated user should be
+      included. Defaults to false.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>(Optional) Language to localize the text in.</td>
+  </tr>
+</table>
+<br />This returns a list of sessions that a Steam ID is part of.<br /><br />The
+optional bools will return further details about each session if set.<br /><br /><strong
+  >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!<br /><br /><strong>Example Response:</strong><br />
+<div class="bb_code xml">
+  { "response": { [ { "sessionid": "123", "appid": "100", "title": { "token":
+  "#TitleToken", "variables": [ { "key": "keyName", "value": "keyValue" } ] },
+  "time_created": "100000", // Unix time "time_updated": "200000", //Unix time
+  "user_status": [ { "steamid": "76561197960265729", "state": "waiting",
+  "title": { "token": "#TitleToken", "variables": [ { "key": "username",
+  "value": "Bob" } { "key": "level", "value": "1" } ] }, "message": { "token":
+  "#StatusMessageToken", "variables": [ { "key": "city", "value": "Bellevue" } ]
+  } }, { "steamid": "76561197960265730", "state": "waiting", "title": { "token":
+  "#TitleToken", "variables": [ { "key": "username", "value": "Greg" } { "key":
+  "level", "value": "2" } ] }, "message": { "token": "#StatusMessageToken",
+  "variables": [ { "key": "city", "value": "Seattle" } ] } } ] } }
+</div>
+<br /><strong>Calling Example:</strong><br />
+<div class="bb_code">
+  { "steamid": "76561197960265729", "include_all_user_messages": "0",
+  "include_auth_user_message": "1" }
+</div>
+<h2 class="bb_section">
+  <a name="GetSessionDetailsForApp"></a>GetSessionDetailsForApp
+</h2>
+<div class="bb_code http">
+  GET
+  https://partner.steam-api.com/IGameNotificationsService/GetSessionDetailsForApp/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>sessions</strong></td>
+    <td>{message}</td>
+    <td>✔</td>
+    <td>The session(s) to receive the details for</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The appid for the sessions.</td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Language to localize the text in.</td>
+  </tr>
+</table>
+<br />Returns details about specific session(s).<br /><br /><strong
+  >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!<br /><br /><strong>Example Response:</strong><br />
+<div class="bb_code xml">
+  { "response": { [ { "sessionid": "12", "appid": "100", "title": { "token":
+  "#TitleToken", "variables": [ { "key": "keyName", "value": "keyValue" } ] },
+  "time_created": "100000", // Unix time "time_updated": "200000", //Unix time
+  "user_status": [ { "steamid": "76561197960265729", "state": "waiting",
+  "title": { "token": "#TitleToken", "variables": [ { "key": "username",
+  "value": "Bob" } { "key": "level", "value": "1" } ] }, "message": { "token":
+  "#StatusMessageToken", "variables": [ { "key": "city", "value": "Bellevue" } ]
+  } }, { "steamid": "76561197960265730", "state": "waiting", "title": { "token":
+  "#TitleToken", "variables": [ { "key": "username", "value": "Greg" } { "key":
+  "level", "value": "2" } ] }, "message": { "token": "#StatusMessageToken",
+  "variables": [ { "key": "city", "value": "Seattle" } ] } } ] } }
+</div>
+<br /><strong>Calling Example:</strong><br />
+<div class="bb_code">
+  { "sessions": [ { "sessionid": "12", "include_all_user_messages": "0" }, {
+  "sessionid": "13", "include_all_user_messages": "0" } ] }
+</div>
+<h2 class="bb_section">
+  <a name="RequestNotifications"></a>RequestNotifications
+</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/IGameNotificationsService/RequestNotifications/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The Steam ID to request notifications for.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The App ID to request notifications for.</td>
+  </tr>
+</table>
+<br />Requests that a user receive game notifications for an app.<br /><br />Whenever
+a user starts a game that requires game notifications, the server must make a
+RequestNotifications call for the signed in user. This will register your game
+to use offline notifications with the user by asking the user to opt into game
+notifications for your specific game. Make this call, at most, once per game
+launch. Subsequent calls will not ask the user to opt in if the user has decided
+to opt out.<br /><br /><strong>NOTE:</strong> This call requires a publisher API
+key to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!<br /><br /><strong
+  >Example Response:</strong
+><br />
+<div class="bb_code xml">{ "response": { } }</div>
+<br /><strong>Calling Example:</strong><br />
+<div class="bb_code">{ "steamid": "76561197960265729", "appid": 480 }</div>
+<h2 class="bb_section"><a name="DeleteSession"></a>DeleteSession</h2>
+<div class="bb_code http">
+  POST https://partner.steam-api.com/IGameNotificationsService/DeleteSession/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>sessionid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The sessionid to delete.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The App ID of the session to delete.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>
+      (Optional) Steam ID to make the request on behalf of -- if specified, the
+      user must be in the session.
+    </td>
+  </tr>
+</table>
+<br />Delete an active async game session. This will remove all notifications to
+any user that is part of the game session.<br /><br /><strong>NOTE:</strong>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!<br /><br /><strong>Example Response:</strong><br />
+<div class="bb_code xml">{ "response": { } }</div>
+<br /><strong>Calling Example:</strong><br />
+<div class="bb_code">{ "sessionid": "10" }</div>
+<h2 class="bb_section"><a name="DeleteSessionBatch"></a>DeleteSessionBatch</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/IGameNotificationsService/DeleteSessionBatch/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>sessionid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The sessionid to delete.</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The appid of the session to delete.</td>
+  </tr>
+</table>
+<br />Deletes a batch of async game sessions<br /><br /><strong>NOTE:</strong>
+This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used
+directly by clients!

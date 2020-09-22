@@ -1,0 +1,298 @@
+<h1>Creating and using Install Scripts</h1>
+<h2 class="bb_section"><a name="basics"></a>Overview</h2>
+While Steam can automatically install many
+<a
+  href="https://partner.steamgames.com/doc/features/common_redist"
+  class="bb_doclink"
+  >common redistributables</a
+>, your application may have other first-run requirements.
+<div class="bb_callout">
+  <div>
+    NOTE: Install script functionality described below is primarily for Windows
+    operating systems. MacOS support is limited to file permissions and
+    symlinks. There is no Linux/SteamOS install script functionality at this
+    time.
+  </div>
+</div>
+<br />An install script file is a configuration file that lets you run certain
+actions upon installation.<br /><br />Full games/applications and DLC packages
+may both have install scripts. If you
+<a href="#build" class="bb_doclink"
+  >integrate your install scripts into your build</a
+>, you may have any number of install scripts. For a SteamPlay app, it's
+recommended that you always use your OS-specific depots to contain your install
+scripts.
+<h4>Example</h4>
+A basic one will look like this:<br />
+<div class="bb_code">
+  "InstallScript" { "Registry" { "HKEY_LOCAL_MACHINE\\SOFTWARE\\Foo\\Bar" {
+  "string" { "Install_Path" "%INSTALLDIR%" "Exe_Path" "%INSTALLDIR%\\foobar.exe"
+  } "dword" { "PatchVersion" "12" } } } "Run Process" { "DirectX" { "HasRunKey"
+  "HKEY_LOCAL_MACHINE\\Software\\Valve\\Steam\\Apps\\480" "Process 1"
+  "%INSTALLDIR%\\DirectX\\DXSETUP.exe" "Command 1" "/silent" "NoCleanUp" "1" } }
+  }
+</div>
+<br />The second keyname after the root describes what kind of action will take
+place.<br /><br /><strong>Note:</strong> All keynames and values can use escape
+sequences, so if you use a
+<code class="bb_code bb_code_inline nohighlight">\</code>, make it a
+<code class="bb_code bb_code_inline nohighlight">\\</code>.
+<h2 class="bb_section">
+  <a name="build"></a>Integrating Install Scripts into Your Build
+</h2>
+First, the install script file must be part of a depot that is installed with
+the build. Ensure that the file resides within the defined ContentRoot of the
+App or Depot.<br /><br />Second, mark an install script using the
+<code class="bb_code bb_code_inline nohighlight">InstallScript</code> directive
+in a depot build script. You can see an example on the
+<a
+  href="https://partner.steamgames.com/doc/sdk/uploading#Advanced_File_Mapping"
+  class="bb_doclink"
+  >Uploading to Steam - Advanced File Mapping Rules</a
+>
+page.<br /><br />During the build process, two things take place:<br />
+<ul class="bb_ul">
+  <li>
+    The install script is uploaded to Steam and cryptographically signed. This
+    signature is validated by Steam before executing any install script, and is
+    required to perform certain operations, including writing to the HKLM hive
+    on Windows. This may cause your local copy of the install script to be
+    modified.<br />
+  </li>
+  <li>
+    The install script is marked in the depot manifest. You can see this in the
+    generated
+    <code class="bb_code bb_code_inline nohighlight">manifest.txt</code> file as
+    a <code class="bb_code bb_code_inline nohighlight">100</code> in the
+    <code class="bb_code bb_code_inline nohighlight">Flags</code> field.
+  </li>
+</ul>
+When a Steam user is starting a game, Steam will scan all of the mounted depots
+for that game for any file with the install script flag and run them.
+<h2 class="bb_section"><a name="registry"></a>Registry</h2>
+The Registry command allows you to create or modify string and dword registry
+values. Any key under the "Registry" keyname will be treated as the full path to
+the registry key you want to create or open. Under that key, specify either a
+"string" or "dword" key. Any keynames and values stored in the "string" or
+"dword" keys will be the registry names and values that get set.<br />To set the
+<a
+  href="https://msdn.microsoft.com/en-us/library/aa266441(v=vs.60).aspx"
+  target="_blank"
+  rel="noreferrer"
+  >default value</a
+>
+for a registry key, you should enter the key name as
+<code class="bb_code bb_code_inline nohighlight">(Default)</code>.
+<h2 class="bb_section"><a name="run_process"></a>Run Process</h2>
+The Run Process command allows your application to run programs before the user
+first launches your game.<br />To determine whether the program needs to run,
+the install script looks at the keyname (as a registry DWORD value) in the
+HasRunKey value. If that value is not present or 0, then it will call
+CreateProcess on the processXX/commandXX values. If CreateProcess fails, then
+ShellExecuteEx is called. If the program's ExitCode is 0, then the install
+script assumes it was successful and writes your keyname as 1 in the
+registry.<br /><br />Steam customers love a quick and silent install. Add silent
+or quiet parameters to all run process commands and only add what you absolutely
+need for the game.<br />The required Run Process key/values are:<br />
+<ul class="bb_ul">
+  <li><strong>Process 1</strong> - Path to the program you want to launch</li>
+</ul>
+The optional Run Process key/values are:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>Command 1</strong> - Optional command you want to pass to the
+    program<br />
+  </li>
+  <li>
+    <strong>HasRunKey</strong> - Optional registry key to check that the prereq
+    is already installed<br />
+  </li>
+  <li>
+    <strong>NoCleanUp</strong> - Optional flag, when set install script will not
+    delete the keyname when your app is deleted from Steam<br />
+  </li>
+  <li>
+    <strong>MinimumHasRunValue</strong> - Optional, sets the minimum value the
+    install script should check for when determining to launch the program<br />
+  </li>
+  <li>
+    <strong>Requirement_OS</strong> - Optional key to apply OS requirements see
+    <a href="#requirement_os" class="bb_doclink">OS Specific Redists</a> for
+    more details<br />
+  </li>
+  <li>
+    <strong>AsCurrentUser</strong> - Optional flag, set it to 1 if it's
+    important for that program to run as the current user. Otherwise, the Steam
+    client might run it as Administrator to avoid elevation prompts in Big
+    Picture or VR environments.
+  </li>
+</ul>
+<h2 class="bb_section">
+  <a name="firewall_exceptions"></a>Firewall Exceptions
+</h2>
+If your game uses any networking, use the firewall exception to grant the
+firewall exception in windows automatically without forcing the user to accept
+the exception.<br />
+<div class="bb_code">
+  "Firewall" { "Space War Game" "%INSTALLDIR%\\SpaceWar.exe" }
+</div>
+<h2 class="bb_section"><a name="requirement_os"></a>OS Specific Redists</h2>
+The Requirement_OS value is available to run different installs on different OS
+versions / SKUs. It requires a new key group called Requirement_OS, then
+additional key value pairs inside. Available OS options are listed below.<br />
+<ul class="bb_ul">
+  <li>
+    <strong>Is64BitWindows</strong> - Specifies that the process will only run
+    on a 64 bit version of the operating system. Values are 1 or 0.<br />
+  </li>
+  <li>
+    <strong>OSType</strong> - Specifies that the process will only run on a
+    specific version of the operating system. Values are:<br />
+    <ul class="bb_ul">
+      <li>Windows 3.11<br /></li>
+      <li>Windows 95<br /></li>
+      <li>Windows 98<br /></li>
+      <li>Windows ME<br /></li>
+      <li>Windows NT<br /></li>
+      <li>Windows 2000<br /></li>
+      <li>Windows XP<br /></li>
+      <li>Windows 2003<br /></li>
+      <li>Windows Vista<br /></li>
+      <li>Windows 7<br /></li>
+      <li>Windows 2008<br /></li>
+      <li>Windows 2012<br /></li>
+      <li>Windows 2012 R2<br /></li>
+      <li>Windows 8<br /></li>
+      <li>Windows 8.1<br /></li>
+      <li>Windows 10</li>
+    </ul>
+  </li>
+</ul>
+<br /><strong>64 bit Example</strong><br />This example will run the appropriate
+installer for the 32 or 64 bit installer.<br />
+<div class="bb_code">
+  "Net32" { "Process 1" "%INSTALLDIR%\\redist\\Controller\\32bitInstaller.exe"
+  "NoCleanUp" "1" "Requirement_OS" { "Is64BitWindows" "0" } } "Net64" { "Process
+  1" "%INSTALLDIR%\\redist\\Controller\\64bitInstaller.exe" "NoCleanUp" "1"
+  "Requirement_OS" { "Is64BitWindows" "1" } }
+</div>
+<br /><strong>OS Type Example</strong><br />This example will only run on
+Windows XP<br /><br />
+<div class="bb_code">
+  "Controller" { "Process 1" "%INSTALLDIR%\\redist\\WinXPInstaller.exe"
+  "NoCleanUp" "1" "Requirement_OS" { "OSType" "Windows XP" } }
+</div>
+<h2 class="bb_section">
+  <a name="environment_variables"></a>Environment Variables
+</h2>
+Environment variables are supported in an install script. All of the
+<a
+  href="https://en.wikipedia.org/wiki/Environment_variable#Windows"
+  target="_blank"
+  rel="noreferrer"
+  >standard environment variables available on Windows</a
+>
+can be used, along with a few others specific to an install script. They are:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>%INSTALLDIR%</strong> - The full path to where the application is
+    installed, without a backslash.<br />
+  </li>
+  <li>
+    <strong>%ROOTDRIVE%</strong> - The drive letter to where the application is
+    installed, like <code class="bb_code bb_code_inline nohighlight">C</code
+    ><br />
+  </li>
+  <li>
+    <strong>%APPDATA%</strong> - The \Documents and
+    Settings\username\Application Data folder<br />
+  </li>
+  <li>
+    <strong>%USER_MYDOCS%</strong> - Get the user\My Documents folder<br />
+  </li>
+  <li>
+    <strong>%COMMON_MYDOCS%</strong> - Get the All Users\Documents folder<br />
+  </li>
+  <li>
+    <strong>%LOCALAPPDATA%</strong> - \Documents and Settings\username\Local
+    Settings\Application Data folder (only on Vista and Newer)<br />
+  </li>
+  <li><strong>%WinDir%</strong> - Windows installation directory<br /></li>
+  <li>
+    <strong>%STEAMPATH%</strong> - The full path to the Steam client install
+    directory.
+  </li>
+</ul>
+<h2 class="bb_section">
+  <a name="language_specific_values"></a>Language Specific Values
+</h2>
+Both string and DWORD values can be assigned different data depending on what
+language the user is running Steam in. To use, create a subkey in the "string"
+or "dword" key with the name of the language, then assign the names and values
+in there. For example:<br />
+<div class="bb_code">
+  "InstallScript" { "Registry" { "HKEY_LOCAL_MACHINE\\SOFTWARE\\MonkeyDime
+  Studios\\Killer Banana Peel" { "dword" { "english" { "Language" "1" } "french"
+  { "Language" "2" } "german" { "Language" "3" } "italian" { "Language" "4" }
+  "spanish" { "Language" "5" } } } } }
+</div>
+<br />The install script gets the language from Steam's registry key, querying
+the value "Language". If that value isn't found then "english" is the default.
+<h2 class="bb_section">
+  <a name="uninstallation"></a>Uninstallation of an app
+</h2>
+When a user deletes or verifies your app from Steam, install scripts will be
+called to remove any registry values it created. The install script will also
+remove the value used to determine if a program should execute from
+<code class="bb_code bb_code_inline nohighlight"
+  >Run Process[code-inline], so that it can execute the next time your app runs
+  (unless the [code-inline]NoCleanUp</code
+>
+flag is set).
+<h2 class="bb_section">
+  <a name="runOnUninstall"></a>Run Process on Uninstall
+</h2>
+If you need to run any process at the time your app is uninstalled, add this to
+the install script. Please do not uninstall common redists such as DirectX, msvc
+run time, etc, as they are likely to be used by other games. This is only
+intended for game specific uninstall processes.<br /><strong>NOTE:</strong> Run
+Process On Uninstall will also be called when a user verifies the app in Steam.
+Do not run a process that will delete all files, as this will cause Steam to
+redownload everything during a verify.<br />
+<div class="bb_code">
+  "InstallScript" { "Run Process On Uninstall" { "Process_name" { "Process 1"
+  "process.exe" "Command 1" "/command" } } }
+</div>
+<h2 class="bb_section"><a name="FAQ"></a>Frequently Asked Questions</h2>
+<strong
+  >Q. Why does my install script keep running my redistributable every time I
+  launch the game?</strong
+><br /><strong>A.</strong> This typically means that the redist is returning a
+non-zero return code. Steam checks that the return code is zero. If it sees that
+the return code is zero, it marks the redist as installed and doesn't run it
+again. If it returns any other value, Steam will attempt to run it again on next
+launch.<br /><br />To fix this examine your redistributable paths and
+parameters. Some redists will return non-zero values if they already exist on
+the machine. This can often be fixed by using the redist's silent or quiet
+flag.<br /><br /><strong>Q. Why doesn't my registry key get written?</strong
+><br /><strong>A.</strong> Typically this is because the install script isn't
+signed and you're writing to HKLM.<br />See the section on
+<a href="#build" class="bb_doclink">build integration</a>, and ensure that a
+<code class="bb_code bb_code_inline nohighlight">"kvsignatures"</code> key was
+added to your script during the build, as Steam requires this signing to be
+completed to write to HKLM.<br /><br />This can also be caused by the Windows 64
+bit virtualization on 64 bit Windows, Steam writes to the
+<a
+  href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724072(v=vs.85).aspx"
+  target="_blank"
+  rel="noreferrer"
+  >Wow6432Node</a
+>
+path in the registry.<br /><br /><strong
+  >Q. Why doesn't my install script seem to run at all?</strong
+><br /><strong>A.</strong> Please double check that your configuration is
+properly prepared.<br /><br /><strong
+  >Q. How do I add Mac redistributables? or Why doesn't Run Process work in my
+  mac install script?</strong
+><br /><strong>A.</strong> We don't currently have support for installing Mac
+redistributables. You will need to put the installer into your main executable.

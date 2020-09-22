@@ -1,0 +1,1362 @@
+<h1>ISteamUtils Interface</h1>
+Interface which provides access to a range of miscellaneous utility functions.
+<h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
+Member functions for
+<code class="bb_code bb_code_inline nohighlight">ISteamUtils</code> are called
+through the global accessor function
+<code class="bb_code bb_code_inline nohighlight">SteamUtils()</code>.
+<h2 class="bb_subsection">
+  <a name="BOverlayNeedsPresent"></a>BOverlayNeedsPresent
+</h2>
+<div class="bb_code cpp">bool BOverlayNeedsPresent();</div>
+Checks if the Overlay needs a present. Only required if using event driven
+render updates.<br /><br />Typically this call is unneeded if your game has a
+constantly running frame loop that calls the D3D Present API, or OGL SwapBuffers
+API every frame as is the case in most games. However, if you have a game that
+only refreshes the screen on an event driven basis then that can break the
+overlay, as it uses your Present/SwapBuffers calls to drive it's internal frame
+loop and it may also need to Present() to the screen any time a notification
+happens or when the overlay is brought up over the game by a user. You can use
+this API to ask the overlay if it currently need a present in that case, and
+then you can check for this periodically (roughly 33hz is desirable) and make
+sure you refresh the screen with Present or SwapBuffers to allow the overlay to
+do it's work.<br /><br /><strong>Returns:</strong> bool<br /><strong
+  >true</strong
+>
+if the overlay needs you to refresh the screen, otherwise
+<strong>false</strong>.
+<h2 class="bb_subsection">
+  <a name="CheckFileSignature"></a>CheckFileSignature
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t CheckFileSignature( const char *szFileName );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>szFileName</strong></td>
+    <td>const char *</td>
+    <td>.</td>
+  </tr>
+</table>
+<br />Deprecated.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#CheckFileSignature_t"
+  class="bb_apilink"
+  >CheckFileSignature_t</a
+>
+call result.
+<h2 class="bb_subsection">
+  <a name="GetAPICallFailureReason"></a>GetAPICallFailureReason
+</h2>
+<div class="bb_code cpp">
+  ESteamAPICallFailure GetAPICallFailureReason( SteamAPICall_t hSteamAPICall );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamAPICall</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+        class="bb_apilink"
+        >SteamAPICall_t</a
+      >
+    </td>
+    <td>The Steam API Call handle to check the failure for.</td>
+  </tr>
+</table>
+<br />Used to get the failure reason of a call result.<br /><br />The primary
+usage for this function is debugging. The failure reasons are typically out of
+your control and tend to not be very important. Just keep retrying your API Call
+until it works.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#ESteamAPICallFailure"
+  class="bb_apilink"
+  >ESteamAPICallFailure</a
+><br />[type]ESteamAPICallFailure[/type]<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#IsAPICallCompleted"
+  class="bb_apilink"
+  >ISteamUtils::IsAPICallCompleted</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAPICallResult"
+  class="bb_apilink"
+  >ISteamUtils::GetAPICallResult</a
+><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  void CHTMLSurface::OnBrowserReady( HTML_BrowserReady_t *pBrowserReady, bool
+  bIOFailure ) { if ( bIOFailure ) { SteamUtils()-&gt;GetAPICallFailureReason(
+  handle ); // handle must be stored separately. return; } }
+</div>
+<h2 class="bb_subsection"><a name="GetAPICallResult"></a>GetAPICallResult</h2>
+<div class="bb_code cpp">
+  bool GetAPICallResult( SteamAPICall_t hSteamAPICall, void *pCallback, int
+  cubCallback, int iCallbackExpected, bool *pbFailed );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamAPICall</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+        class="bb_apilink"
+        >SteamAPICall_t</a
+      >
+    </td>
+    <td>The handle to the API Call.</td>
+  </tr>
+  <tr>
+    <td><strong>pCallback</strong></td>
+    <td>void *</td>
+    <td>Returns the callback into the preallocated memory provided.</td>
+  </tr>
+  <tr>
+    <td><strong>cubCallback</strong></td>
+    <td>int</td>
+    <td>The size of pCallback that you are passing in.</td>
+  </tr>
+  <tr>
+    <td><strong>iCallbackExpected</strong></td>
+    <td>int</td>
+    <td>The k_iCallback number associated with the callback.</td>
+  </tr>
+  <tr>
+    <td><strong>pbFailed</strong></td>
+    <td>bool *</td>
+    <td>Returns if the API call has encountered a failure.</td>
+  </tr>
+</table>
+<br />Gets the content of a completed API Call. Provided for the backend of the
+CallResult wrapper.<br /><br />It's generally not recommended that you use this
+manually.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
+upon success if the API Call is valid and has completed, otherwise
+<strong>false</strong>.<br /><br />If the call is successful, it copies the
+callback into
+<code class="bb_code bb_code_inline nohighlight">pCallback</code> and returns
+failures in
+<code class="bb_code bb_code_inline nohighlight">pbFailed</code
+>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#IsAPICallCompleted"
+  class="bb_apilink"
+  >ISteamUtils::IsAPICallCompleted</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAPICallFailureReason"
+  class="bb_apilink"
+  >ISteamUtils::GetAPICallFailureReason</a
+>
+<h2 class="bb_subsection"><a name="GetAppID"></a>GetAppID</h2>
+<div class="bb_code cpp">uint32 GetAppID();</div>
+Gets the App ID of the current process.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+><br />Returns the AppId.
+<h2 class="bb_subsection">
+  <a name="GetConnectedUniverse"></a>GetConnectedUniverse
+</h2>
+<div class="bb_code cpp">EUniverse GetConnectedUniverse();</div>
+Gets the universe that the current client is connecting to. (Valve use only.)<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#EUniverse"
+  class="bb_apilink"
+  >EUniverse</a
+><br />[type]EUniverse[/type]
+<h2 class="bb_subsection"><a name="GetCSERIPPort"></a>GetCSERIPPort</h2>
+<div class="bb_code cpp">
+  bool GetCSERIPPort( uint32 *unIP, uint16 *usPort );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>unIP</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+      *
+    </td>
+    <td>Returns the IP that the client is connected to.</td>
+  </tr>
+  <tr>
+    <td><strong>usPort</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint16"
+        class="bb_apilink"
+        >uint16</a
+      >
+      *
+    </td>
+    <td>Returns the port that the client is connected to.</td>
+  </tr>
+</table>
+<br />Gets the IP of the reporting server for valve - currently only used in
+Source engine games<br /><br /><strong>Returns:</strong> bool<br />Returns
+<strong>true</strong> if the user is currently connected; otherwise,
+<strong>false</strong>.
+<h2 class="bb_subsection">
+  <a name="GetCurrentBatteryPower"></a>GetCurrentBatteryPower
+</h2>
+<div class="bb_code cpp">uint8 GetCurrentBatteryPower();</div>
+Gets the current amount of battery power on the computer.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+  class="bb_apilink"
+  >uint8</a
+><br />The current battery power ranging between [0..100]%. Returns 255 when the
+user is on AC power.
+<h2 class="bb_subsection">
+  <a name="GetEnteredGamepadTextInput"></a>GetEnteredGamepadTextInput
+</h2>
+<div class="bb_code cpp">
+  bool GetEnteredGamepadTextInput( char *pchText, uint32 cchText );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchText</strong></td>
+    <td>char *</td>
+    <td>A preallocated buffer to copy the text input string into.</td>
+  </tr>
+  <tr>
+    <td><strong>cchText</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>
+      The size of the
+      <code class="bb_code bb_code_inline nohighlight">pchText</code> buffer.
+    </td>
+  </tr>
+</table>
+<br />Gets the gamepad text input from the Big Picture overlay.<br /><br />This
+must be called within the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GamepadTextInputDismissed_t"
+  class="bb_apilink"
+  >GamepadTextInputDismissed_t</a
+>
+callback, and only if
+<code class="bb_code bb_code_inline nohighlight"
+  >GamepadTextInputDismissed_t.m_bSubmitted</code
+>
+is true.<br /><br />Provides the text input as UTF8.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if there was text to receive and
+<code class="bb_code bb_code_inline nohighlight">cchText</code> is the same size
+as GamepadTextInputDismissed_t.m_unSubmittedText; otherwise,
+<strong>false</strong>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#ShowGamepadTextInput"
+  class="bb_apilink"
+  >ISteamUtils::ShowGamepadTextInput</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetEnteredGamepadTextLength"
+  class="bb_apilink"
+  >ISteamUtils::GetEnteredGamepadTextLength</a
+><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  void OnGamepadTextInputDismissed_t( GamepadTextInputDismissed_t* pCallback ) {
+  // The user canceled, if ( !pCallback.m_bSubmitted ) return; // Use some max
+  input length that we passed into ShowGamepadTextInput, +1 for the null
+  terminator. const uint32 MAX_INPUT_LENGTH = 64 + 1; uint32 length =
+  SteamUtils()-&gt;GetEnteredGamepadTextLength(); char*
+  szTextInput[MAX_INPUT_LENGTH]; bool success =
+  SteamUtils()-&gt;GetEnteredGamepadTextInput( szTextInput, length ); if (
+  !success ) { // Log an error. This should only ever happen if length is &gt;
+  MaxInputLength return; } // Display the updated string }
+</div>
+<h2 class="bb_subsection">
+  <a name="GetEnteredGamepadTextLength"></a>GetEnteredGamepadTextLength
+</h2>
+<div class="bb_code cpp">uint32 GetEnteredGamepadTextLength();</div>
+Gets the length of the gamepad text input from the Big Picture overlay.<br /><br />This
+must be called within the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GamepadTextInputDismissed_t"
+  class="bb_apilink"
+  >GamepadTextInputDismissed_t</a
+>
+callback, and only if
+<code class="bb_code bb_code_inline nohighlight"
+  >GamepadTextInputDismissed_t.m_bSubmitted</code
+>
+is true.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+><br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#ShowGamepadTextInput"
+  class="bb_apilink"
+  >ISteamUtils::ShowGamepadTextInput</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetEnteredGamepadTextInput"
+  class="bb_apilink"
+  >ISteamUtils::GetEnteredGamepadTextInput</a
+><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  void OnGamepadTextInputDismissed_t( GamepadTextInputDismissed_t* pCallback ) {
+  // The user canceled, if ( !pCallback.m_bSubmitted ) return; // Use some max
+  input length that we passed into ShowGamepadTextInput, +1 for the null
+  terminator. const uint32 MAX_INPUT_LENGTH = 64 + 1; uint32 length =
+  SteamUtils()-&gt;GetEnteredGamepadTextLength(); const char*
+  szTextInput[MAX_INPUT_LENGTH]; bool success =
+  SteamUtils()-&gt;GetEnteredGamepadTextInput( szTextInput, length ); if (
+  !success ) { // Log an error. This should only ever happen if length is &gt;
+  MaxInputLength return; } // Display the updated string }
+</div>
+<h2 class="bb_subsection"><a name="GetImageRGBA"></a>GetImageRGBA</h2>
+<div class="bb_code cpp">
+  bool GetImageRGBA( int iImage, uint8 *pubDest, int nDestBufferSize );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iImage</strong></td>
+    <td>int</td>
+    <td>The handle to the image that will be obtained.</td>
+  </tr>
+  <tr>
+    <td><strong>pubDest</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >
+      *
+    </td>
+    <td>The buffer that will be filled.</td>
+  </tr>
+  <tr>
+    <td><strong>nDestBufferSize</strong></td>
+    <td>int</td>
+    <td>
+      The total size of the
+      <code class="bb_code bb_code_inline nohighlight">pubDest</code> buffer.
+    </td>
+  </tr>
+</table>
+<br />Gets the image bytes from an image handle.<br /><br />Prior to calling
+this you must get the size of the image by calling
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageSize"
+  class="bb_apilink"
+  >ISteamUtils::GetImageSize</a
+>
+so that you can create your buffer with an appropriate size. You can then
+allocate your buffer with the width and height as: width * height * 4. The image
+is provided in RGBA format. This call can be somewhat expensive as it converts
+from the compressed type (JPG, PNG, TGA) and provides no internal caching of
+returned buffer, thus it is highly recommended to only call this once per image
+handle and cache the result. This function is only used for Steam Avatars and
+Achievement images and those are not expected to change mid game.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> upon success if the image handle is valid and
+the buffer was filled out, otherwise <strong>false</strong>.<br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetSmallFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetSmallFriendAvatar</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetMediumFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetMediumFriendAvatar</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetLargeFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetLargeFriendAvatar</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementIcon"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementIcon</a
+><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  HGAMETEXTURE GetSteamImageAsTexture( int iImage ) { HGAMETEXTURE hTexture = 0;
+  // You should first check if you have already cached this image using
+  something like a dictionary/map // with iImage as the key and then return the
+  texture handle associated with it if it exists. // If it doesn't exist,
+  continue on, and add the texture to the map before returning at the end of the
+  function. // If we have to check the size of the image. uint32 uAvatarWidth,
+  uAvatarHeight; bool success = SteamUtils()-&gt;GetImageSize( iImage,
+  &amp;uAvatarWidth, &amp;uAvatarHeight ); if ( !success ) { // Log a warning
+  message. return hTexture; } // Get the actual raw RGBA data from Steam and
+  turn it into a texture in our game engine const int uImageSizeInBytes =
+  uAvatarWidth * uAvatarHeight * 4; uint8 *pAvatarRGBA = new uint8[
+  uImageSizeInBytes ]; success = SteamUtils()-&gt;GetImageRGBA( iImage,
+  pAvatarRGBA, uImageSizeInBytes ); if( !success ) { // Do something to convert
+  the RGBA texture into your internal texture format for displaying. // hTexture
+  = m_pGameEngine-&gt;HCreateTexture( pAvatarRGBA, uAvatarWidth, uAvatarHeight
+  ); // And add the texture to the cache } // Don't forget to free the memory!
+  delete[] pAvatarRGBA; return hTexture; }
+</div>
+<h2 class="bb_subsection"><a name="GetImageSize"></a>GetImageSize</h2>
+<div class="bb_code cpp">
+  bool GetImageSize( int iImage, uint32 *pnWidth, uint32 *pnHeight );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iImage</strong></td>
+    <td>int</td>
+    <td>The image handle to get the size for.</td>
+  </tr>
+  <tr>
+    <td><strong>pnWidth</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+      *
+    </td>
+    <td>Returns the width of the image.</td>
+  </tr>
+  <tr>
+    <td><strong>pnHeight</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+      *
+    </td>
+    <td>Returns the height of the image.</td>
+  </tr>
+</table>
+<br />Gets the size of a Steam image handle.<br /><br />This must be called
+before calling
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageRGBA"
+  class="bb_apilink"
+  >ISteamUtils::GetImageRGBA</a
+>
+to create an appropriately sized buffer that will be filled with the raw image
+data.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon
+success if the image handle is valid and the sizes were filled out, otherwise
+<strong>false</strong>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetSmallFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetSmallFriendAvatar</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetMediumFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetMediumFriendAvatar</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamFriends#GetLargeFriendAvatar"
+  class="bb_apilink"
+  >ISteamFriends::GetLargeFriendAvatar</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementIcon"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementIcon</a
+>
+<h2 class="bb_subsection"><a name="GetIPCCallCount"></a>GetIPCCallCount</h2>
+<div class="bb_code cpp">uint32 GetIPCCallCount();</div>
+Returns the number of IPC calls made since the last time this function was
+called.<br /><br />Used for perf debugging so you can determine how many IPC
+(Inter-Process Communication) calls your game makes per frame<br />Every IPC
+call is at minimum a thread context switch if not a process one so you want to
+rate control how often you do them.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+>
+<h2 class="bb_subsection"><a name="GetIPCountry"></a>GetIPCountry</h2>
+<div class="bb_code cpp">const char * GetIPCountry();</div>
+Returns the 2 digit ISO 3166-1-alpha-2 format country code which client is
+running in.<br />e.g "US" or "UK".<br /><br />This is looked up via an
+IP-to-location database.<br /><br /><strong>Returns:</strong> const char *
+<h2 class="bb_subsection">
+  <a name="GetSecondsSinceAppActive"></a>GetSecondsSinceAppActive
+</h2>
+<div class="bb_code cpp">uint32 GetSecondsSinceAppActive();</div>
+Returns the number of seconds since the application was active.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+>
+<h2 class="bb_subsection">
+  <a name="GetSecondsSinceComputerActive"></a>GetSecondsSinceComputerActive
+</h2>
+<div class="bb_code cpp">uint32 GetSecondsSinceComputerActive();</div>
+Returns the number of seconds since the user last moved the mouse.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+>
+<h2 class="bb_subsection"><a name="GetServerRealTime"></a>GetServerRealTime</h2>
+<div class="bb_code cpp">uint32 GetServerRealTime();</div>
+Returns the Steam server time in Unix epoch format. (Number of seconds since Jan
+1, 1970 UTC)<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+>
+<h2 class="bb_subsection">
+  <a name="GetSteamUILanguage"></a>GetSteamUILanguage
+</h2>
+<div class="bb_code cpp">const char * GetSteamUILanguage();</div>
+Returns the language the steam client is running in.<br /><br />You probably
+want
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetCurrentGameLanguage"
+  class="bb_apilink"
+  >ISteamApps::GetCurrentGameLanguage</a
+>
+instead, this should only be used in very special cases.<br /><br />For a full
+list of languages see
+<a
+  href="https://partner.steamgames.com/doc/store/localization#supported_languages"
+  class="bb_doclink"
+  >Supported Languages</a
+>.<br /><br /><strong>Returns:</strong> const char *<br /><br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetCurrentGameLanguage"
+  class="bb_apilink"
+  >ISteamApps::GetCurrentGameLanguage</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamApps#GetAvailableGameLanguages"
+  class="bb_apilink"
+  >ISteamApps::GetAvailableGameLanguages</a
+>
+<h2 class="bb_subsection">
+  <a name="IsAPICallCompleted"></a>IsAPICallCompleted
+</h2>
+<div class="bb_code cpp">
+  bool IsAPICallCompleted( SteamAPICall_t hSteamAPICall, bool *pbFailed );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamAPICall</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+        class="bb_apilink"
+        >SteamAPICall_t</a
+      >
+    </td>
+    <td>The API Call handle to check.</td>
+  </tr>
+  <tr>
+    <td><strong>pbFailed</strong></td>
+    <td>bool *</td>
+    <td>
+      Returns whether the API call has encountered a failure
+      (<strong>true</strong>) or not (<strong>false</strong>).
+    </td>
+  </tr>
+</table>
+<br />Checks if an API Call is completed. Provides the backend of the CallResult
+wrapper.<br /><br />It's generally not recommended that you use this
+yourself.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
+if the API Call is valid and has completed, otherwise
+<strong>false</strong>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAPICallResult"
+  class="bb_apilink"
+  >ISteamUtils::GetAPICallResult</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAPICallFailureReason"
+  class="bb_apilink"
+  >ISteamUtils::GetAPICallFailureReason</a
+>
+<h2 class="bb_subsection"><a name="IsOverlayEnabled"></a>IsOverlayEnabled</h2>
+<div class="bb_code cpp">bool IsOverlayEnabled();</div>
+Checks if the
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink"
+  >Steam Overlay</a
+>
+is running &amp; the user can access it.<br /><br />The overlay process could
+take a few seconds to start &amp; hook the game process, so this function will
+initially return false while the overlay is loading.<br /><br /><strong
+  >Returns:</strong
+>
+bool
+<h2 class="bb_subsection">
+  <a name="IsSteamChinaLauncher"></a>IsSteamChinaLauncher
+</h2>
+<div class="bb_code cpp">bool IsSteamChinaLauncher();</div>
+Returns whether the current launcher is a Steam China launcher. You can cause
+the client to behave as the Steam China launcher by adding -dev -steamchina to
+the command line when running Steam.
+<h2 class="bb_subsection"><a name="InitFilterText"></a>InitFilterText</h2>
+<div class="bb_code cpp">bool InitFilterText();</div>
+Initializes text filtering, loading dictionaries for the language the game is
+running in.<br /><br />Users can customize the text filter behavior in their
+<a
+  href="https://store.steampowered.com/account/preferences#CommunityContentPreferences"
+  target="_blank"
+  rel="noreferrer"
+  >Steam Account preferences</a
+><br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if
+initialization succeeds, <strong>false</strong> if filtering is unavailable for
+the game's language, in which case
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#FilterText"
+  class="bb_apilink"
+  >ISteamUtils::FilterText</a
+>() will act as a passthrough.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#FilterText"
+  class="bb_apilink"
+  >ISteamUtils::FilterText</a
+>
+<h2 class="bb_subsection"><a name="FilterText"></a>FilterText</h2>
+<div class="bb_code cpp">
+  int FilterText( ETextFilteringContext eContext, CSteamID sourceSteamID, const
+  char *pchInputMessage, char *pchOutFilteredText, uint32
+  nByteSizeOutFilteredText );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>eContext</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#ETextFilteringContext"
+        class="bb_apilink"
+        >ETextFilteringContext</a
+      >
+    </td>
+    <td>the type of content in the input string</td>
+  </tr>
+  <tr>
+    <td><strong>sourceSteamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      the Steam ID that is the source of the input string (e.g. the player with
+      the name, or who said the chat text)
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pchInputText</strong></td>
+    <td>const char*</td>
+    <td>
+      the input string that should be filtered, which can be ASCII or UTF-8
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pchOutFilteredText</strong></td>
+    <td>char*</td>
+    <td>where the output will be placed, even if no filtering is performed</td>
+  </tr>
+  <tr>
+    <td><strong>nByteSizeOutFilteredText </strong></td>
+    <td>uint32</td>
+    <td>
+      the size (in bytes) of pchOutFilteredText, should be at least
+      strlen(pchInputText)+1
+    </td>
+  </tr>
+</table>
+Filters the provided input message and places the filtered result into
+pchOutFilteredText, using legally required filtering and additional filtering
+based on the context and user settings.<br /><br /><strong>Returns:</strong>
+int<br />Returns the number of characters (not bytes) filtered.<br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#InitFilterText"
+  class="bb_apilink"
+  >ISteamUtils::InitFilterText</a
+>
+<h2 class="bb_subsection">
+  <a name="IsSteamInBigPictureMode"></a>IsSteamInBigPictureMode
+</h2>
+<div class="bb_code cpp">bool IsSteamInBigPictureMode();</div>
+Checks if Steam &amp; the Steam Overlay are running in Big Picture mode.<br /><br />Games
+must be launched through the Steam client to enable the Big Picture overlay.<br />During
+development, a game can be added as a non-steam game to the developers library
+to test this feature.<br /><br /><strong>Returns:</strong> bool<br /><strong
+  >true</strong
+>
+if the Big Picture overlay is available; otherwise,
+<strong>false</strong>.<br />This will always return <strong>false</strong> if
+your app is not the 'game'
+<a
+  href="https://partner.steamgames.com/doc/store/application#types_of_applications"
+  class="bb_doclink"
+  >application type</a
+>.
+<h2 class="bb_subsection">
+  <a name="IsSteamRunningInVR"></a>IsSteamRunningInVR
+</h2>
+<div class="bb_code cpp">bool IsSteamRunningInVR();</div>
+Checks if Steam is running in VR mode.<br /><br /><strong>Returns:</strong>
+bool<br /><strong>true</strong> if Steam itself is running in VR mode;
+otherwise, <strong>false</strong>.
+<h2 class="bb_subsection">
+  <a name="IsVRHeadsetStreamingEnabled"></a>IsVRHeadsetStreamingEnabled
+</h2>
+<div class="bb_code cpp">bool IsVRHeadsetStreamingEnabled();</div>
+Checks if the HMD view will be streamed via Steam Remote Play.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br /><strong>true</strong> if VR is enabled and the HMD view is currently
+being streamed; otherwise, <strong>false</strong>.<br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#SetVRHeadsetStreamingEnabled"
+  class="bb_apilink"
+  >ISteamUtils::SetVRHeadsetStreamingEnabled</a
+>
+<h2 class="bb_subsection">
+  <a name="SetOverlayNotificationInset"></a>SetOverlayNotificationInset
+</h2>
+<div class="bb_code cpp">
+  void SetOverlayNotificationInset( int nHorizontalInset, int nVerticalInset );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>nHorizontalInset</strong></td>
+    <td>int</td>
+    <td>The horizontal (left-right) distance in pixels from the corner.</td>
+  </tr>
+  <tr>
+    <td><strong>nVerticalInset</strong></td>
+    <td>int</td>
+    <td>The vertical (up-down) distance in pixels from the corner.</td>
+  </tr>
+</table>
+<br />Sets the inset of the overlay notification from the corner specified by
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#SetOverlayNotificationPosition"
+  class="bb_apilink"
+  >ISteamUtils::SetOverlayNotificationPosition</a
+>.<br /><br />A value of (0, 0) resets the position into the corner.<br /><br />This
+position is per-game and is reset each launch.
+<h2 class="bb_subsection">
+  <a name="SetOverlayNotificationPosition"></a>SetOverlayNotificationPosition
+</h2>
+<div class="bb_code cpp">
+  void SetOverlayNotificationPosition( ENotificationPosition
+  eNotificationPosition );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>eNotificationPosition</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#ENotificationPosition"
+        class="bb_apilink"
+        >ENotificationPosition</a
+      >
+    </td>
+    <td></td>
+  </tr>
+</table>
+<br />Sets which corner the Steam overlay notification popup should display
+itself in.<br /><br />You can also set the distance from the specified corner by
+using
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#SetOverlayNotificationInset"
+  class="bb_apilink"
+  >ISteamUtils::SetOverlayNotificationInset</a
+>.<br /><br />This position is per-game and is reset each launch.
+<h2 class="bb_subsection">
+  <a name="SetVRHeadsetStreamingEnabled"></a>SetVRHeadsetStreamingEnabled
+</h2>
+<div class="bb_code cpp">
+  void SetVRHeadsetStreamingEnabled( bool bEnabled );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>bEnabled</strong></td>
+    <td>bool</td>
+    <td>
+      Turns VR HMD Streaming on (<strong>true</strong>) or off
+      (<strong>false</strong>).
+    </td>
+  </tr>
+</table>
+<br />Set whether the HMD content will be streamed via Steam Remote Play.<br /><br />If
+this is enabled, then the scene in the HMD headset will be streamed, and remote
+input will not be allowed. Otherwise if this is disabled, then the application
+window will be streamed instead, and remote input will be allowed. VR games
+default to enabled unless "VRHeadsetStreaming" "0" is in the extended appinfo
+for a game.<br /><br />This is useful for games that have asymmetric multiplayer
+gameplay.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#IsVRHeadsetStreamingEnabled"
+  class="bb_apilink"
+  >ISteamUtils::IsVRHeadsetStreamingEnabled</a
+>
+<h2 class="bb_subsection">
+  <a name="SetWarningMessageHook"></a>SetWarningMessageHook
+</h2>
+<div class="bb_code cpp">
+  void SetWarningMessageHook( SteamAPIWarningMessageHook_t pFunction );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pFunction</strong></td>
+    <td>SteamAPIWarningMessageHook_t</td>
+    <td>Function pointer to the callback function.</td>
+  </tr>
+</table>
+<br />Sets a warning message hook to receive SteamAPI warnings and info messages
+in a callback function.<br /><br />The function prototype must match the
+definition in SteamAPIWarningMessageHook_t. This includes the extern "C" linkage
+and __cdecl calling convention.<br /><br />'int nSeverity' is the severity; 0
+for msg, 1 for warning. If you are running in through a debugger only warnings
+will be sent. If you add -debug_steamapi to the command-line then informational
+messages will also be sent.<br />'const char * pchDebugText' is the text of the
+message.<br />Callbacks will occur directly after the API function is called
+that generated the warning or message<br /><br />Passing NULL will unhook.<br /><br /><strong
+  >Example:</strong
+><br />
+<div class="bb_code cpp">
+  extern "C" void __cdecl SteamAPIDebugTextHook( int nSeverity, const char
+  *pchDebugText ) { ::OutputDebugString( pchDebugText ); if ( nSeverity &gt;= 1
+  ) { // place to set a breakpoint for catching API errors int x = 3; x = x; } }
+  void EnableWarningMessageHook() { SteamUtils()-&gt;SetWarningMessageHook(
+  &amp;SteamAPIDebugTextHook ); }
+</div>
+<h2 class="bb_subsection">
+  <a name="ShowGamepadTextInput"></a>ShowGamepadTextInput
+</h2>
+<div class="bb_code cpp">
+  bool ShowGamepadTextInput( EGamepadTextInputMode eInputMode,
+  EGamepadTextInputLineMode eLineInputMode, const char *pchDescription, uint32
+  unCharMax, const char *pchExistingText );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>eInputMode</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#EGamepadTextInputMode"
+        class="bb_apilink"
+        >EGamepadTextInputMode</a
+      >
+    </td>
+    <td>
+      Selects the input mode to use, either Normal or Password (hidden text)
+    </td>
+  </tr>
+  <tr>
+    <td><strong>eLineInputMode</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#EGamepadTextInputLineMode"
+        class="bb_apilink"
+        >EGamepadTextInputLineMode</a
+      >
+    </td>
+    <td>Controls whether to use single or multi line input.</td>
+  </tr>
+  <tr>
+    <td><strong>pchDescription</strong></td>
+    <td>const char *</td>
+    <td>
+      Sets the description that should inform the user what the input dialog is
+      for.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>unCharMax</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>The maximum number of characters that the user can input.</td>
+  </tr>
+  <tr>
+    <td><strong>pchExistingText</strong></td>
+    <td>const char *</td>
+    <td>Sets the preexisting text which the user can edit.</td>
+  </tr>
+</table>
+<br />Activates the Big Picture text input dialog which only supports gamepad
+input.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if
+the big picture overlay is running; otherwise,
+<strong>false</strong>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetEnteredGamepadTextLength"
+  class="bb_apilink"
+  >ISteamUtils::GetEnteredGamepadTextLength</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetEnteredGamepadTextInput"
+  class="bb_apilink"
+  >ISteamUtils::GetEnteredGamepadTextInput</a
+>
+<h2 class="bb_subsection"><a name="StartVRDashboard"></a>StartVRDashboard</h2>
+<div class="bb_code cpp">void StartVRDashboard();</div>
+Asks Steam to create and render the OpenVR dashboard.
+<h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
+These are callbacks which can be fired by calling
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
+  class="bb_apilink"
+  >SteamAPI_RunCallbacks</a
+>. Many of these will be fired directly in response to the member functions of
+<code class="bb_code bb_code_inline nohighlight">ISteamUtils</code>.
+<h2 class="bb_subsection">
+  <a name="CheckFileSignature_t"></a>CheckFileSignature_t
+</h2>
+CallResult for
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#CheckFileSignature"
+  class="bb_apilink"
+  >ISteamUtils::CheckFileSignature</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eCheckFileSignature</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#ECheckFileSignature"
+        class="bb_apilink"
+        >ECheckFileSignature</a
+      >
+    </td>
+    <td>
+      Contains the result of the file signature check.<br /><a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#k_ECheckFileSignatureNoSignaturesFoundForThisApp"
+        class="bb_apilink"
+        >k_ECheckFileSignatureNoSignaturesFoundForThisApp</a
+      >
+      - This app has not been configured on the signing tab of the partner site
+      to enable this function.<br /><a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#k_ECheckFileSignatureNoSignaturesFoundForThisFile"
+        class="bb_apilink"
+        >k_ECheckFileSignatureNoSignaturesFoundForThisFile</a
+      >
+      - This file is not listed on the signing tab for the partner site.<a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#k_ECheckFileSignatureFileNotFound"
+        class="bb_apilink"
+        >k_ECheckFileSignatureFileNotFound</a
+      >
+      - The file does not exist on disk.<a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#k_ECheckFileSignatureInvalidSignature"
+        class="bb_apilink"
+        >k_ECheckFileSignatureInvalidSignature</a
+      >
+      - The file exists, and the signing tab has been set for this file, but the
+      file is either not signed or the signature does not match.<br /><a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#k_ECheckFileSignatureValidSignature"
+        class="bb_apilink"
+        >k_ECheckFileSignatureValidSignature</a
+      >
+      - The file is signed and the signature is valid.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#CheckFileSignature"
+  class="bb_apilink"
+  >ISteamUtils::CheckFileSignature</a
+>
+<h2 class="bb_subsection">
+  <a name="GamepadTextInputDismissed_t"></a>GamepadTextInputDismissed_t
+</h2>
+Called when the big picture gamepad text input has been closed.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_bSubmitted</strong></td>
+    <td>bool</td>
+    <td>
+      <strong>true</strong> if user entered &amp; accepted text (Call
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#GetEnteredGamepadTextInput"
+        class="bb_apilink"
+        >ISteamUtils::GetEnteredGamepadTextInput</a
+      >
+      to receive the text), <strong>false</strong> if input was canceled.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_unSubmittedText</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>Contains the length in bytes if there was text submitted.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="IPCountry_t"></a>IPCountry_t</h2>
+Called when the country of the user changed. The country should be updated with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetIPCountry"
+  class="bb_apilink"
+  >ISteamUtils::GetIPCountry</a
+>.<br /><br />This callback has no fields.
+<h2 class="bb_subsection"><a name="LowBatteryPower_t"></a>LowBatteryPower_t</h2>
+Called when running on a laptop and less than 10 minutes of battery is left, and
+then fires then every minute afterwards.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_nMinutesBatteryLeft</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >
+    </td>
+    <td>The estimated amount of battery life left in minutes.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="SteamAPICallCompleted_t"></a>SteamAPICallCompleted_t
+</h2>
+Called when a SteamAPICall_t has completed (or failed)<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_hAsyncCall</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+        class="bb_apilink"
+        >SteamAPICall_t</a
+      >
+    </td>
+    <td>The handle of the Steam API Call that completed.</td>
+  </tr>
+  <tr>
+    <td><strong>m_iCallback</strong></td>
+    <td>int</td>
+    <td>
+      This is the k_iCallback constant which uniquely identifies the completed
+      callback.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_cubParam</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>The size in bytes of the completed callback.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection"><a name="SteamShutdown_t"></a>SteamShutdown_t</h2>
+Called when Steam wants to shutdown.<br /><br />This callback has no fields.
+<h2 class="bb_section"><a name="enums"></a>Enums</h2>
+These are enums which are defined for use with ISteamUtils.
+<h2 class="bb_subsection">
+  <a name="ECheckFileSignature"></a>ECheckFileSignature
+</h2>
+The result of a call to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#CheckFileSignature"
+  class="bb_apilink"
+  >ISteamUtils::CheckFileSignature</a
+><br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ECheckFileSignatureInvalidSignature">
+    <td><strong>k_ECheckFileSignatureInvalidSignature</strong></td>
+    <td>0</td>
+    <td></td>
+  </tr>
+  <tr id="k_ECheckFileSignatureValidSignature">
+    <td><strong>k_ECheckFileSignatureValidSignature</strong></td>
+    <td>1</td>
+    <td></td>
+  </tr>
+  <tr id="k_ECheckFileSignatureFileNotFound">
+    <td><strong>k_ECheckFileSignatureFileNotFound</strong></td>
+    <td>2</td>
+    <td></td>
+  </tr>
+  <tr id="k_ECheckFileSignatureNoSignaturesFoundForThisApp">
+    <td><strong>k_ECheckFileSignatureNoSignaturesFoundForThisApp</strong></td>
+    <td>3</td>
+    <td></td>
+  </tr>
+  <tr id="k_ECheckFileSignatureNoSignaturesFoundForThisFile">
+    <td><strong>k_ECheckFileSignatureNoSignaturesFoundForThisFile</strong></td>
+    <td>4</td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EGamepadTextInputLineMode"></a>EGamepadTextInputLineMode
+</h2>
+Controls number of allowed lines for the Big Picture gamepad text entry<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EGamepadTextInputLineModeSingleLine">
+    <td><strong>k_EGamepadTextInputLineModeSingleLine</strong></td>
+    <td>0</td>
+    <td></td>
+  </tr>
+  <tr id="k_EGamepadTextInputLineModeMultipleLines">
+    <td><strong>k_EGamepadTextInputLineModeMultipleLines</strong></td>
+    <td>1</td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="EGamepadTextInputMode"></a>EGamepadTextInputMode
+</h2>
+Input modes for the Big Picture gamepad text entry<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EGamepadTextInputModeNormal">
+    <td><strong>k_EGamepadTextInputModeNormal</strong></td>
+    <td>0</td>
+    <td></td>
+  </tr>
+  <tr id="k_EGamepadTextInputModePassword">
+    <td><strong>k_EGamepadTextInputModePassword</strong></td>
+    <td>1</td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="ESteamAPICallFailure"></a>ESteamAPICallFailure
+</h2>
+Steam API call failure results returned by
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAPICallFailureReason"
+  class="bb_apilink"
+  >ISteamUtils::GetAPICallFailureReason</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ESteamAPICallFailureNone">
+    <td><strong>k_ESteamAPICallFailureNone</strong></td>
+    <td>-1</td>
+    <td>No failure.</td>
+  </tr>
+  <tr id="k_ESteamAPICallFailureSteamGone">
+    <td><strong>k_ESteamAPICallFailureSteamGone</strong></td>
+    <td>0</td>
+    <td>
+      The local Steam process has stopped responding, it may have been
+      forcefully closed or is frozen.
+    </td>
+  </tr>
+  <tr id="k_ESteamAPICallFailureNetworkFailure">
+    <td><strong>k_ESteamAPICallFailureNetworkFailure</strong></td>
+    <td>1</td>
+    <td>
+      The network connection to the Steam servers has been lost, or was already
+      broken.<br />A
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUser#SteamServersDisconnected_t"
+        class="bb_apilink"
+        >SteamServersDisconnected_t</a
+      >
+      callback will be sent around the same time, and a
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUser#SteamServersConnected_t"
+        class="bb_apilink"
+        >SteamServersConnected_t</a
+      >
+      callback will be sent when the client is able to talk to the Steam servers
+      again.
+    </td>
+  </tr>
+  <tr id="k_ESteamAPICallFailureInvalidHandle">
+    <td><strong>k_ESteamAPICallFailureInvalidHandle</strong></td>
+    <td>2</td>
+    <td>
+      The
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+        class="bb_apilink"
+        >SteamAPICall_t</a
+      >
+      handle passed in no longer exists.
+    </td>
+  </tr>
+  <tr id="k_ESteamAPICallFailureMismatchedCallback">
+    <td><strong>k_ESteamAPICallFailureMismatchedCallback</strong></td>
+    <td>3</td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAPICallResult"
+        class="bb_apilink"
+        >GetAPICallResult</a
+      >
+      was called with the wrong callback type for this API call.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="constants"></a>Constants</h2>
+These are constants which are defined for use with ISteamUtils.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="STEAMUTILS_INTERFACE_VERSION">
+    <td><strong>STEAMUTILS_INTERFACE_VERSION</strong></td>
+    <td>const char *</td>
+    <td>"SteamUtils009"</td>
+    <td></td>
+  </tr>
+</table>

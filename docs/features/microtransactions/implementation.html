@@ -1,0 +1,694 @@
+<h1>Microtransactions Implementation Guide</h1>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+The goal of the Steam in-game payment system is to provide an easy way for
+developers to sell arbitrary goods to users such that the user never has to
+leave the game experience. It's completely up to the merchant what they want to
+sell. It can be in-game items like weapons or ammunition, game currency like
+coins or gold, or even attire for your player character. You can have as many or
+as few items as you like in your game and you can sell them one at a time or as
+bundled groups. Steam places no restrictions on what you sell or how you sell it
+nor does it preclude the use of whatever other mechanisms your game has for
+selling items. Its purpose is to bring a common payment experience that user's
+are familiar with from the Steam platform into your game and allow them to
+easily spend their Steam wallet value on your products. Using this type of
+integration, your game will have immediate access to new Steam users and payment
+methods as soon as they become available.<br /><br />With this system, the
+purchase is completely under your control. A successful response to a purchase
+request will result in the user reliably getting charged and you getting
+positive and immediate notification of the event. Once a purchase is approved,
+it's up to you to grant and manage the items. If an item is time based for
+example, your system dictates how long that item is good for.<br /><br />In
+addition to in-game purchasing, the system will provide additional functionality
+that your accounting and support systems can use:<br />
+<ol class="bb_ol">
+  <li>You can receive notification if customers fail to pay.<br /></li>
+  <li>
+    You can issue refunds and query transaction status through the web
+    service.<br />
+  </li>
+  <li>
+    You will have access to detailed reports on our steamstats partner site
+    showing live sales of items and games.
+  </li>
+</ol>
+<h2 class="bb_section"><a name="2"></a>Best Practices for In-Game Purchases</h2>
+If you are working to bring your title with in-game purchases to Steam, we've
+got a few suggestions, best practices, and resources to help you get started.
+Whether you have a Free to Play game, or a game that is purchased upfront, there
+are common elements with any game that has in-game purchases that are useful to
+consider when working toward your launch on Steam.<br /><br />Please see the
+<a
+  href="https://partner.steamgames.com/doc/features/microtransactions"
+  class="bb_doclink"
+  >Microtransactions (In-Game Purchases)</a
+>
+documentation for suggestions for in-game economies and best practices.
+<h2 class="bb_section"><a name="3"></a>How the Payment System Works</h2>
+The payment system is a combination of whatever purchase process you have
+in-game, the Steam billing web service, and a customer approval process.<br /><br />The
+purchase process occurs in the following sequence. Your customer always starts
+and completes his order in your game.<br />
+<ol class="bb_ol">
+  <li>
+    When a user wishes to buy something in-game, your game sends a purchase
+    request to your purchasing server. The purchasing server can be any service
+    entity that your game system has for handling purchase requests. It could be
+    a web server or your authentication system. The server will need to
+    communicate with the Steam billing servers over HTTP. Your purchasing server
+    can also request the user's country, language, and currency from the Steam
+    billing servers. You can use this data to adjust your pricing as needed.<br />
+  </li>
+  <li>
+    Your purchasing server then initiates a payment transaction on behalf of the
+    client to the Steam web service. The request is a secure HTTP POST. The
+    contents of this request include the client metadata and a description and
+    cost of each item that the user wishes to purchase.<br />
+  </li>
+  <li>
+    Upon receiving this request, Steam will automatically activate the client's
+    in- game overlay and present a dialog to the user listing all of the items,
+    their cost and a button to confirm or authorize the transaction. If the user
+    does not have enough funds in their Steam account, the overlay will guide
+    the user through a funding process. The Steam overlay handles collecting all
+    of the user's billing information. Upon completion, the client will receive
+    a notification that the purchase was either authorized or denied. Your game
+    should register to receive a callback for this notification and forward the
+    result to your purchasing server.<br />
+  </li>
+  <li>
+    Your purchasing server receives the notification and posts a
+    FinalizeTransaction call to Steam to complete the operation. A successful
+    response will result in the user being charged and you can then grant the
+    item to the user.
+  </li>
+</ol>
+<br />Alternatively, for games whose purchasing options are typically serviced
+through a web page or if you wish to offer Steam as a payment method directly on
+your web site, you can optionally do a browser-based integration. For this
+solution the purchase process occurs in the following sequence:<br />
+<ol class="bb_ol">
+  <li>
+    User wishes to buy something in-game or on your web site. If in-game, you
+    would launch a browser to your web page.<br />
+  </li>
+  <li>
+    Your purchasing server initiates a web transaction on behalf of the user in
+    the form of a secure HTTP POST. If successful, it will return a unique Steam
+    URL that you can then redirect the user's browser session to and they can
+    authorize the transaction. When you redirect, you will also specify a return
+    URL where the user will be sent back to after they complete
+    authorization.<br />
+  </li>
+  <li>
+    When the user is directed back to your site, your purchasing server requests
+    status about the transaction and if it's been successfully authorized, you
+    can capture funds with a FinalizeTransaction call to Steam.
+  </li>
+</ol>
+<h2 class="bb_section"><a name="4"></a>Setting up a connection</h2>
+<h4>Pre-Conditions</h4>
+First create a WebAPI publisher key. Instructions can be found on the
+<a
+  href="https://partner.steamgames.com/doc/webapi_overview/auth"
+  class="bb_doclink"
+  >Authentication using Web API Keys</a
+>
+documentation page. This key is passed with all web server requests and is used
+to authenticate server requests. This should be sent as a
+<code class="bb_code bb_code_inline nohighlight"
+  >key=&lt;your key here&gt;</code
+>
+parameter with the requests.
+<h4>Store the order</h4>
+Store each order for later reference in your system. Use a unique 64-bit Order
+ID to reference the transactions within Steam.
+<h4>Submitting requests</h4>
+All requests should be sent using HTTP 1.1 GET or POST using an SSL v3, 128 bit
+encryption. The Content-Type should be "application/x-www-form-urlencoded" and
+the POST parameters should be in the body of the request in standard form
+urlencoding format. Text should be transmitted as UTF-8.<br /><br />Requests
+will go through the base URI:<br /><code
+  class="bb_code bb_code_inline nohighlight"
+  >https://partner.steam-api.com/ISteamMicroTxn/*</code
+><br /><br />Some commands return a pass or fail result. For cases where a fail
+result is returned, an additional error code and description will be appended.
+These keys will not be present for a pass response.<br /><br />Responses will be
+returned in JSON format by default. You may optionally specify XML format by
+adding the "format=xml" parameter to the request.<br />
+Note: You must implement a flexible JSON or XML solution that allows parameter
+keys to be posted and returned in arbitrary order.
+<h4>Testing</h4>
+Steam offers a developer sandbox to test your integration. The sandbox supports
+all requests available through the regular API but no actual funds will be
+withdrawn from the tester's Steam wallet.<br /><br />The sandbox is accessed
+through a different base URI:<br /><code
+  class="bb_code bb_code_inline nohighlight"
+  >https://partner.steam-api.com/ISteamMicroTxnSandbox/*</code
+>
+<h2 class="bb_section"><a name="5"></a>Integration Steps</h2>
+<h2 class="bb_subsection"><a name="6"></a>In-Game Purchasing</h2>
+<br />This is for games that have an integrated store and the user experience
+will stay in-game.<br />
+<ul class="bb_ul">
+  <li>
+    <strong>Step 1</strong><br />
+    Your game needs to ship with the Steamworks API. This means including a
+    header file, linking in a lib file, and shipping a DLL with your product.
+    Refer to
+    <a href="https://partner.steamgames.com/doc/sdk/api" class="bb_doclink"
+      >Steamworks API Overview</a
+    >
+    for more details. The Steamworks API must be successfully initialized before
+    continuing!<br />
+  </li>
+  <li>
+    <strong>Step 2</strong><br />
+    The user elects to purchase one or more items within your game. Once an item
+    (or items) has been identified, your game needs to collect some metadata
+    about the user:<br />
+    <ul class="bb_ul">
+      <li>
+        Steam ID - This 64-bit number uniquely identifies the client within the
+        Steam system.<br />
+      </li>
+      <li>
+        Country code - The ISO 3166 country code of the client indicates where
+        the client is purchasing from. Use this to determine what price to apply
+        for the purchase.<br />
+      </li>
+      <li>
+        Currency code - The ISO 4217 currency code that the client will be
+        charged in.<br />
+      </li>
+      <li>
+        Client game language code - The ISO 639-1 language code that the client
+        game is currently running.<br />
+      </li>
+    </ul>
+    <br />
+    The Steam ID and language can be obtained from the Steamworks API calls:<br />
+    <ul class="bb_ul">
+      <li>
+        <a
+          href="https://partner.steamgames.com/doc/api/ISteamUser#GetSteamID"
+          class="bb_apilink"
+          >ISteamUser::GetSteamID</a
+        ><br />
+      </li>
+      <li>
+        <a
+          href="https://partner.steamgames.com/doc/api/ISteamApps#GetCurrentGameLanguage"
+          class="bb_apilink"
+          >ISteamApps::GetCurrentGameLanguage</a
+        ><br />
+      </li>
+    </ul>
+    <br />
+    To get the country and currency type for the user, use the
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserInfo"
+      class="bb_apilink"
+      >ISteamMicroTxn/GetUserInfo</a
+    >
+    web API request passing it the user's Steam ID.<br /><br />
+    This user metadata should be bundled and sent with your regular purchasing
+    data to your purchasing server.<br />
+  </li>
+  <li>
+    <strong>Step 3</strong><br />
+    Your purchasing server initiates a purchase request through the Steam web
+    service on behalf of the client. Use the
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn"
+      class="bb_apilink"
+      >ISteamMicroTxn/InitTxn</a
+    >
+    described later in this document. You will need to send the following data
+    with the request:<br />
+    <ul class="bb_ul">
+      <li>
+        Order ID - A unique 64-bit number that you assign for this purchase.
+        This number is your key to the transaction. It is used to reference the
+        transaction within the Steam system.<br />
+      </li>
+      <li>Steam ID - The ID received from the client in step 3.<br /></li>
+      <li>App ID - The unique identifier of your Steam game.<br /></li>
+      <li>
+        Language - The ISO 639-1 language code that your item(s) are listed
+        in.<br />
+      </li>
+      <li>
+        Currency - The ISO 4217 currency code that your price(s) are listed in.
+        If this does not match the client’s currency code provided in step 2
+        then an automatic currency conversion will be applied at the current
+        market rate. Steam will present the converted price to the user, in
+        their local currency for approval. For the best customer experience it
+        is recommended that you provide specific pricing in each currency you
+        expect your customers to use.<br />
+      </li>
+      <li>
+        A list of one or more items that the client wishes to purchase. With
+        each item you specify the following data:<br />
+        <ul class="bb_ul">
+          <li>Item ID - Your own 32-bit identifier for the item.<br /></li>
+          <li>
+            Quantity - Number of items of this type in the transaction.<br />
+          </li>
+          <li>
+            Amount - The amount (in hundredths) that you wish to charge the user
+            for this item. Some currencies must be priced in full values, see
+            <a
+              href="https://partner.steamgames.com/doc/store/pricing/currencies"
+              class="bb_doclink"
+              >Supported Currencies</a
+            >
+            for more information. If the Quantity value for this item is greater
+            than one, this value is the total that will get charged (Amount =
+            Quantity x item_cost).<br />
+          </li>
+          <li>
+            Item Description - A text description for the item. This will be
+            displayed to the user when they are prompted to authorize the
+            transaction. You can choose to localize this description based upon
+            the client's indicated language code.<br />
+          </li>
+          <li>
+            Item Category - An optional text description of a category that this
+            item should be grouped with. This value is used for grouping sales
+            data in backend Steam reporting and is never displayed to the
+            user.<br />
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <br />
+    If the transaction is accepted by Steam, the client will automatically be
+    notified to authorize the purchase. If an error is returned then the problem
+    will need to be corrected and a new purchase transaction submitted.<br />
+  </li>
+  <li>
+    <strong>Step 4</strong><br />
+    A successful
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn"
+      class="bb_apilink"
+      >ISteamMicroTxn/InitTxn</a
+    >
+    attempt will result in the user receiving a notification via the Steam
+    in-game overlay that the transaction needs to be authorized. Details of the
+    transaction are displayed using the item descriptions supplied by your
+    purchase request. The user can then authorize the transaction. If the user
+    does not have sufficient funds in their account, Steam will automatically
+    guide them through a funding process. At the end, your game will receive
+    notification that the transaction has either been authorized or denied.<br /><br />
+    Your game will need to register a
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUser#MicroTxnAuthorizationResponse_t"
+      class="bb_apilink"
+      >ISteamUser::MicroTxnAuthorizationResponse_t</a
+    >
+    callback handler to receive notification of the approval (or denial) event.
+    This callback result contains the AppID, OrderID, and authorization state of
+    the transaction. Your game can send this result to your purchasing server so
+    it can know to finalize the transaction. Refer to the
+    <a
+      href="https://partner.steamgames.com/doc/sdk/api#callbacks"
+      class="bb_doclink"
+      >Callbacks</a
+    >
+    documentation for more details.<br />
+  </li>
+  <li>
+    <strong>Step 5</strong><br />
+    Your purchasing server uses the
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn"
+      class="bb_apilink"
+      >ISteamMicroTxn/FinalizeTxn</a
+    >
+    API command to complete the transaction with the following parameters:<br />
+    <ul class="bb_ul">
+      <li>
+        Order ID - The order ID you created to initiate the transaction.<br />
+      </li>
+      <li>App ID - The unique identifier of your Steam game.<br /></li>
+    </ul>
+    <br />
+    A successful response means that the purchase has been accepted and the
+    items should be granted. An error response indicates that the purchase did
+    not complete properly and an appropriate error message is given.
+  </li>
+</ul>
+<h2 class="bb_subsection"><a name="7"></a>Web-based Purchasing</h2>
+If your game store is a web page or you just want to add Steam as a payment
+method to your existing store checkout, you can use the following steps for
+integration:<br />
+<ul class="bb_ul">
+  <li>
+    <strong>Step 1</strong><br />
+    Get the user's Steam ID. <br />
+    <ul class="bb_ul">
+      <li>
+        If the user is currently in-game, use the Steamworks API to return the
+        Steam ID:
+        <a
+          href="https://partner.steamgames.com/doc/api/ISteamUser#GetSteamID"
+          class="bb_apilink"
+          >ISteamUser::GetSteamID</a
+        >.<br />
+      </li>
+      <li>
+        If the user is at your website you can use the Steamworks OpenID API to
+        securely retrieve the user's Steam ID. Details for OpenID can be found
+        on the Steamworks
+        <a
+          href="https://partner.steamgames.com/doc/features/auth#website"
+          class="bb_doclink"
+          >Web Browser based authentication with OpenID</a
+        >
+        documentation page.<br />
+      </li>
+    </ul>
+    <br />
+    <strong>Note:</strong> We recommend that you link the user's game account
+    with their Steam ID so that the user only has to do this secondary login one
+    time.<br />
+  </li>
+  <li>
+    <strong>Step 2</strong><br />
+    Get the country and currency type for the user by calling the
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserInfo"
+      class="bb_apilink"
+      >ISteamMicroTxn/GetUserInfo</a
+    >
+    web API request passing it the user's Steam ID. This data can be used to
+    display your store with appropriate pricing and currency values for the
+    user.<br /><br />
+    <strong>Note:</strong>
+    <code class="bb_code bb_code_inline nohighlight">GetUserInfo</code> has an
+    optional IP address parameter that you can use to hint to Steam where the
+    user is originating from. Send the public IP address of the user for all
+    web-based purchases or any time the user is not actively logged in through
+    the Steam client and playing your game.<br />
+  </li>
+  <li>
+    <strong>Step 3</strong><br />
+    Your purchasing server initiates a purchase request through the Steam web
+    service using the
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn"
+      class="bb_apilink"
+      >ISteamMicroTxn/InitTxn</a
+    >. Two additional pieces of data will need to be supplied beyond what is
+    needed for regular in-game purchasing:<br />
+    <ul class="bb_ul">
+      <li>
+        usersession - This should be set to "web" indicating the user will be
+        authenticating the transaction through a browser.<br />
+      </li>
+      <li>ipaddress - The public IP address of the user.<br /></li>
+    </ul>
+    <br />
+    When usersession is set to WEB, the InitTxn request will return an
+    additional steamurl parameter. This is a unique URL that you can redirect
+    the user's web session to and identifies the transaction created by this API
+    call.<br /><br />
+  </li>
+  <li>
+    <strong>Step 4</strong><br />
+    Your purchasing server redirects the user's web session to the Steam URL
+    returned in the InitTxn API call. Along with the redirect, append your own
+    URL which will be where the user is returned to after the transaction is
+    authorized (or declined). Use a fully specified URL (e.g.
+    <a href="http://www.steamgames.com)" target="_blank" rel="noreferrer"
+      >http://www.steamgames.com)</a
+    >
+    in the form of<br />
+    <code class="bb_code bb_code_inline nohighlight"
+      >returnurl=:your_URL_here</code
+    ><br />
+    When a user is redirected to the Steam URL, they will need to log into Steam
+    before authenticating. If the user is selecting Steam as a payment method on
+    your web site this would be expected behavior from the user's point of view.
+    If however, the user was already logged into Steam and playing your game, it
+    would be desirable to skip this second login requirement. This can be
+    accomplished by using the built-in web browser capability of the game
+    overlay. When the game overlay browser is used for authorization, the user
+    will be logged in automatically. To launch the browser use the Steamworks
+    API call<br />
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToWebPage"
+      class="bb_apilink"
+      >ISteamFriends::ActivateGameOverlayToWebPage</a
+    ><br /><br />
+    Full details on using the game overlay can be found
+    <a
+      href="https://partner.steamgames.com/doc/features/overlay"
+      class="bb_doclink"
+      >here</a
+    >.<br />
+  </li>
+  <li>
+    <strong>Step 5</strong><br />
+    When the user returns to your site, issue an
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#QueryTxn"
+      class="bb_apilink"
+      >ISteamMicroTxn/QueryTxn</a
+    >
+    API call to get the results. If the order status is "Approved" then capture
+    funds with the
+    <a
+      href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn"
+      class="bb_apilink"
+      >ISteamMicroTxn/FinalizeTxn</a
+    >
+    API call. Abandon the transaction if any other status returns.<br /><br />
+    <strong>Note:</strong> If the user closes their browser or something happens
+    that otherwise prevents their return to your site, abandon the transaction
+    and do not issue a FinalizeTxn call. Even if the user approved the
+    transaction and somehow did not get redirected back, abandon it and start
+    again.
+  </li>
+</ul>
+<h2 class="bb_section"><a name="8"></a>Steam Refunds Support</h2>
+<a
+  href="http://store.steampowered.com/steam_refunds/"
+  target="_blank"
+  rel="noreferrer"
+  >Steam's refund policy</a
+>
+allows users to obtain a refund for in-game purchases within 48 hours of
+purchase as long as none of the items purchased have been consumed, modified, or
+transferred. If you wish to participate in this policy, you will need to
+implement the following APIs and provide us with the endpoint URL.<br />
+<table>
+  <tr>
+    <td>GET</td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/features/inventory/economy/QueryRefundAllowed"
+        class="bb_doclink"
+        >QueryRefundAllowed/v0001</a
+      >
+    </td>
+    <td>Called to check on the status of each item in an in-game purchase.</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/features/inventory/economy/RefundPurchase"
+        class="bb_doclink"
+        >RefundPurchase/v0001</a
+      >
+    </td>
+    <td>
+      Called when a refund has been approved either automatically or by a
+      support agent.
+    </td>
+  </tr>
+</table>
+<br />For more information see the
+<a
+  href="https://partner.steamgames.com/doc/features/inventory/economy"
+  class="bb_doclink"
+  >Steam Economy</a
+>
+documentation.
+<h2 class="bb_section">
+  <a name="status_values"></a>Appendix A: Status Values
+</h2>
+These are the possible status values returned by the
+<a
+  href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn"
+  class="bb_apilink"
+  >ISteamMicroTxn</a
+>
+Web API. The response key that carries these values is usually called
+<code class="bb_code bb_code_inline nohighlight">status</code>.<br />
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">Init</code> - Order has
+    been created but not authorized by user.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">Approved</code> - Order has
+    been approved by user.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">Succeeded</code> - Order
+    has been successfully processed.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">Failed</code> - Order has
+    failed or been denied.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">Refunded</code> - Order has
+    been refunded and product should be revoked by the game. A refund may be
+    initiated by the customer or forced by Valve when a fraudulent transaction
+    has been identified.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">PartialRefund</code> - One
+    or more items in the cart have been refunded. Check itemstatus field of each
+    item for details.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">Chargedback</code> - Order
+    is fraudulent or disputed and product should be revoked by the game.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight"
+      >RefundedSuspectedFraud</code
+    >
+    - Order was refunded by Valve because it was suspected to be fraud. Product
+    should be revoked by the game.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight"
+      >RefundedFriendlyFraud</code
+    >
+    - Order was refunded by Valve because it was determined to be friendly
+    fraud. Product should be revoked by the game.
+  </li>
+</ul>
+<h2 class="bb_section"><a name="error_codes"></a>Appendix B: Error Codes</h2>
+These are the possible error codes returned by the
+<a
+  href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn"
+  class="bb_apilink"
+  >ISteamMicroTxn</a
+>
+Web API. The response key that carries these values is usually
+<code class="bb_code bb_code_inline nohighlight">errorcode</code>.<br />See
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+  class="bb_apilink"
+  >EResult</a
+>
+for a complete list of error codes that may be returned by Steam APIs.<br />
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">1</code> - Success<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">2</code> - The operation
+    failed<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">3</code> - Invalid
+    parameter<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">4</code> - Internal
+    error<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">5</code> - User has not
+    approved transaction<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">6</code> - Transaction has
+    already been committed<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">7</code> - User is not
+    logged in<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">8</code> - Currency does
+    not match user's Steam Account currency<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">9</code> - Account does not
+    exist or is temporarily unavailable<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">10</code> - Transaction has
+    been denied by user<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">11</code> - Transaction has
+    been denied because user is in a restricted country<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">12</code> - Transaction has
+    been denied because billing agreement is not active<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">13</code> - Billing
+    agreement cannot be processed because it is not type GAME<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">14</code> - Billing
+    agreement is on hold due to billing dispute or chargeback<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">15</code> - Billing
+    agreement cannot be processed because it is not type STEAM<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">16</code> - User already
+    has a billing agreement for this game<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">100</code> - Insufficient
+    funds<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">101</code> - Time limit for
+    finalization has been exceeded<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">102</code> - Account is
+    disabled<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">103</code> - Account is not
+    allowed to purchase<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">104</code> - Transaction
+    denied due to fraud detection<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">105</code> - No cached
+    payment method<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">106</code> - Transaction
+    would exceed the spending limit of the billing agreement
+  </li>
+</ul>
+<h2 class="bb_section"><a name="9"></a>More Questions?</h2>
+Ask questions on the
+<a
+  href="http://steamcommunity.com/groups/steamworks/discussions/4"
+  target="_blank"
+  rel="noreferrer"
+  >In-Game Purchasing Integration discussion</a
+>
+board.

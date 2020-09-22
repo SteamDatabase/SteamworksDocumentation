@@ -1,0 +1,326 @@
+<h1>GetContexts/v0001</h1>
+This returns the contexts that exist for the specified user.<br /><br /><strong
+  >Called by:</strong
+>
+Support Tool, Trading UI, Inventory UI<br /><br /><strong>HTTP Method:</strong>
+GET
+<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      This is the "Asset Server Key" that you provided in your app's Steam
+      Economy Settings on the partner site.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>32bit App ID of the application associated with the contexts.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>64bit Steam ID of the user to return contexts for.</td>
+  </tr>
+  <tr>
+    <td><strong>parent</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>
+      The 64-bit ID of the parent context to return children for. If this
+      parameter is zero, return the root level contexts.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>category</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      "history" or "assets" if this is being called from the support tool. If
+      this call is being made from the trading or inventory UIs the category
+      will be "trading". This can be useful if you have contexts that only make
+      sense to appear in certain categories. It is also likely that some context
+      commands only make sense in certain categories, so you can filter which
+      commands you send based on the category. If you don't support the support
+      tool APIs, it is fine to treat all categories the same.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>commands</strong></td>
+    <td>bool</td>
+    <td>✔</td>
+    <td>True if context commands should be included in the output.</td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the
+      language to return strings in. Some examples include en_US, de_DE, zh_CN,
+      and ko_KR. Default: en_US
+    </td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="2"></a>Returns</h2>
+The output from this method should be encoded in the JSON format.<br /><br /><strong
+  >Response:</strong
+><br />
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">result</code><br />
+    <ul class="bb_ul">
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">success</code> - True
+        if the method was successful. If the asset server is returning false, it
+        should set
+        <code class="bb_code bb_code_inline nohighlight">error</code> to a
+        string that explains why.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">error</code> - a string
+        describing why this call failed. This message will be recorded in the
+        error log, which is available under the Economy tab on the Steamworks
+        site.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">contexts</code> - an
+        array of the contexts that are children of the specified parent.<br />
+        <ul class="bb_ul">
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">id</code> - The
+            64-bit ID of the context within this game for this steam ID. See
+            <a
+              href="https://partner.steamgames.com/doc/features/inventory/economy/contextid"
+              class="bb_doclink"
+              >Steam Economy Context IDs</a
+            >
+            for more information.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">name</code> - The
+            name of the context. This will be displayed to support agents. If
+            <code class="bb_code bb_code_inline nohighlight">user_facing</code>
+            is true it will also be displayed to users.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">nested</code> - If
+            this is true a subsequent call to
+            <code class="bb_code bb_code_inline nohighlight">GetContexts</code>
+            with this context as the parent will return a non-empty context
+            list.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">asset_count</code>
+            - The number of assets and currencies owned by the user in this
+            context. This number is shown to the user and any context with an
+            asset_count of zero will typically be hidden from the user.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">user_facing</code>
+            - If this is true and the context contains assets it will be
+            displayed in the trade UI and inventory UI.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">commands</code> -
+            An array of commands to show for this context in the Economy page of
+            the support tool. See below for more information on commands.<br />
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">alerts</code>(optional)
+        - An array of alerts to show for this game in the trade UI. This node is
+        ignored for categories other than "trading"<br />
+        <ul class="bb_ul">
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">text</code> -
+            Localized string to show in the trade UI for this game.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">color</code
+            >(optional) - Hex color code of the color to display this alert
+            in.<br />
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">trade_permissions</code
+        >(optional) - Trade permission level of this user. Value must be one of
+        NONE, RECEIVEONLY, SENDONLY, SENDONLY_FULLINVENTORY, or FULL.<br />
+        Users with NONE will not be able to complete any trade including an
+        asset from this game. Users with RECEIVEONLY will be allowed to receive
+        assets for the game, but not add assets of their own to a trade. Users
+        with SENDONLY will be allowed to add assets they own to a trade, but
+        will not be allowed to receive assets for the game. Users with
+        SENDONLY_FULLINVENTORY have the same restrictions as SENDONLY, but the
+        user will be notified that the restriction is because their inventory
+        for the game is full. Users with FULL permissions can add any of their
+        own items to a trade that are marked as tradable or receive any tradable
+        item from their trading partner. This node is ignored for categories
+        other than "trading". Default: FULL.<br />
+      </li>
+    </ul>
+  </li>
+</ul>
+<h2 class="bb_section"><a name="3"></a>Commands</h2>
+Each context can contain commands that allow support agents to manipulate the
+user's assets. These only appear on the Economy page in the support tool. They
+are used for operations like adding new items, reloading the account, and
+deleting items. When a command is executed
+<a
+  href="https://partner.steamgames.com/doc/features/inventory/economy/ContextCommand"
+  class="bb_doclink"
+  >ContextCommand/v0001</a
+>
+will be called. Each command is specified as follows:<br />
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">name</code> - Name of the
+    command. This is displayed in the support tool and will be returned to
+    <code class="bb_code bb_code_inline nohighlight">ContextCommand</code
+    >.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">description</code> -
+    Description of what the command is going to do. This is displayed to the
+    support agent in the confirmation dialog<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">record_note</code> - If
+    this is true the support agent will be prompted for a note to record in the
+    support activity history for the account.<br />
+    False should be returned for commands that don't make any changes to the
+    user's information (such as a command to reload the user from the
+    database.)<br />
+    (Default: True)<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">asset_command</code
+    >(optional) - If this is true the command will appear on each asset in the
+    context instead of on the context itself.<br />
+    If a support agent executes this command on a context the additional
+    argument
+    <code class="bb_code bb_code_inline nohighlight">assetid</code> will be
+    added to the resulting call to
+    <code class="bb_code bb_code_inline nohighlight">ContextCommand</code
+    >.<br />
+    <br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">options</code> - An array
+    of options to display in the confirmation dialog.<br />
+    <ul class="bb_ul">
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">name</code> - Name of
+        the option.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">type</code> - Type of
+        the control to show for the option. The support types are
+        <code class="bb_code bb_code_inline nohighlight">checkbox</code>,
+        <code class="bb_code bb_code_inline nohighlight">dropdown</code>,
+        <code class="bb_code bb_code_inline nohighlight">numeric</code>, and
+        <code class="bb_code bb_code_inline nohighlight">type_picker</code
+        >.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">default</code> -
+        Default for this option. This is a bool for checkbox options and the
+        name of the value for dropdown optons.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">supervisor_only</code>
+        - This is true if only a restricted set of support agents should have
+        access to this option. For all other agents the default will be used.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">values</code> - An
+        array of the possible values for
+        <code class="bb_code bb_code_inline nohighlight">dropdown</code>
+        options. This is not used for other option types.<br />
+        <ul class="bb_ul">
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">name</code> - Name
+            to show the support agent for this value.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">value</code> -
+            Value to return in
+            <code class="bb_code bb_code_inline nohighlight"
+              >ContextCommand</code
+            >
+            if this is picked from the dropdown.<br />
+          </li>
+        </ul>
+        <br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">types</code> - Array of
+        types to display in
+        <code class="bb_code bb_code_inline nohighlight">type_picker</code>
+        options. This is not used for other option types.<br />
+        <ul class="bb_ul">
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">name</code> - Name
+            of the type<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">value</code> -
+            Value to return for this type.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">icon_url</code> -
+            URL of the icon to show next to this type in the picker control.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">tags</code> - An
+            array of tags to show under the name in the type picker.<br />
+          </li>
+        </ul>
+        <br />
+      </li>
+    </ul>
+  </li>
+</ul>
+<h2 class="bb_section"><a name="4"></a>Example Output</h2>
+<div class="bb_code json">
+  { "result": { "success": true, "contexts": [ { "id": 2, "name": "Backpack",
+  "nested": false, "commands": [ { "name": "Reload", "description": "Reload the
+  user's information from the database.", "record_note": false }, { "name":
+  "Delete All", "description": "Delete all of the user's items.", "options": [ {
+  "name": "Delete Purchased Items", "type": "checkbox", "default": false } ] },
+  { "name": "Add Item", "description": "Adds an item for the user. Please don't
+  set Quality, Particle Effect, or Level unless you know what you're doing.",
+  "options": [ { "name": "Quality", "type": "dropdown", "default": "unique",
+  "values": [ { "name": "Any", "value": "Any" }, { "name": "Normal", "value":
+  "normal" }, { "name": "Genuine", "value": "rarity1" }, { "name": "Vintage",
+  "value": "vintage" }, { "name": "Unusual", "value": "rarity4" } ] }, { "name":
+  "Particle Effect", "type": "dropdown", "default": "none", "values": [ {
+  "name": "None", "value": 0 }, { "name": "burningplayer_red", "value": 1 }, {
+  "name": "burningplayer_flyingbits", "value": 2 } ] }, { "name": "Level",
+  "type": "numeric", "default": 0 }, { "name": "Not Tradable", "type":
+  "checkbox", "default": false }, { "name": "Not Usable In Crafting", "type":
+  "checkbox", "default": false }, { "name": "Item Type", "type": "type_picker",
+  "types": [ { "value": "The Kritzkrieg", "icon_url":
+  "http://media.steampowered.com/apps/440/icons/c_overhealer.b5ed539b534216652b45694e19c78d2aaebcfe5e.png",
+  "name": "Kritzkrieg", "tags": [ "Slot: secondary", "Used By: Medic" ] }, {
+  "value": "The Blutsauger", "icon_url":
+  "http://media.steampowered.com/apps/440/icons/c_leechgun.198c5a7943a16f08b5227f2e84d165c153ed0223.png",
+  "name": "Blutsauger", "tags": [ "Slot: primary", "Used By: Medic" ] } ] } ] },
+  { "name": "Delete Item", "asset_command": true, "description": "Delete an
+  item" } ] , "asset_count": 180, "user_facing": true }, { "id": 3, "name":
+  "Recipes", "nested": false, "asset_count": 0, "user_facing": false } ] ,
+  "alerts": [ ] , "trade_permissions": "FULL" } }
+</div>

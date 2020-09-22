@@ -1,0 +1,103 @@
+<h1>ISteamPublishedItemVoting Interface</h1>
+Allows partners to access the voting information of the content in their
+<a
+  href="https://partner.steamgames.com/doc/features/workshop"
+  class="bb_doclink"
+  >Steam Workshop</a
+>.<br /><br />See the primary Steam Workshop interface
+<a
+  href="https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage"
+  class="bb_apilink"
+  >ISteamRemoteStorage</a
+>
+for more.<br /><br />For more info on how to use the Steamworks Web API please
+see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+  >Web API Overview</a
+>.
+<h2 class="bb_section"><a name="ItemVoteSummary"></a>ItemVoteSummary</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/ISteamPublishedItemVoting/ItemVoteSummary/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>Steam ID of user</td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>appID of product</td>
+  </tr>
+  <tr>
+    <td><strong>count</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Count of how many items we are querying</td>
+  </tr>
+  <tr>
+    <td><strong>publishedfileid[0]</strong></td>
+    <td>uint64</td>
+    <td></td>
+    <td>The Published File ID who's vote details are required</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="UserVoteSummary"></a>UserVoteSummary</h2>
+<div class="bb_code http">
+  POST
+  https://partner.steam-api.com/ISteamPublishedItemVoting/UserVoteSummary/v1/
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>Steamworks Web API publisher authentication key.</td>
+  </tr>
+  <tr>
+    <td><strong>steamid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>Steam ID of user</td>
+  </tr>
+  <tr>
+    <td><strong>count</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>Count of how many items we are querying</td>
+  </tr>
+  <tr>
+    <td><strong>publishedfileid[0]</strong></td>
+    <td>uint64</td>
+    <td></td>
+    <td>A Specific Published Item</td>
+  </tr>
+</table>
+<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key
+to use this method. As such this API <strong>MUST</strong> be called from a
+secure server, and can never be used directly by clients!

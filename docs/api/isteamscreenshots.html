@@ -1,0 +1,788 @@
+<h1>ISteamScreenshots Interface</h1>
+Functions for adding screenshots to the user's screenshot library.<br /><br />See
+<a
+  href="https://partner.steamgames.com/doc/features/screenshots"
+  class="bb_doclink"
+  >Steam Screenshots</a
+>
+for more information.
+<h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
+Member functions for
+<code class="bb_code bb_code_inline nohighlight">ISteamScreenshots</code> are
+called through the global accessor function
+<code class="bb_code bb_code_inline nohighlight">SteamScreenshots()</code>.
+<h2 class="bb_subsection">
+  <a name="AddScreenshotToLibrary"></a>AddScreenshotToLibrary
+</h2>
+<div class="bb_code cpp">
+  ScreenshotHandle AddScreenshotToLibrary( const char *pchFilename, const char
+  *pchThumbnailFilename, int nWidth, int nHeight );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchFilename</strong></td>
+    <td>const char *</td>
+    <td>The absolute file path to the JPG, PNG, or TGA screenshot.</td>
+  </tr>
+  <tr>
+    <td><strong>pchThumbnailFilename</strong></td>
+    <td>const char *</td>
+    <td>
+      The absolute file path to an optional thumbnail image. This must be 200px
+      wide, as described by
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#k_ScreenshotThumbWidth"
+        class="bb_apilink"
+        >k_ScreenshotThumbWidth</a
+      >
+      and the same aspect ratio. Pass <strong>NULL</strong> if there is no
+      thumbnail, one will be created automatically.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>nWidth</strong></td>
+    <td>int</td>
+    <td>The width of the screenshot.</td>
+  </tr>
+  <tr>
+    <td><strong>nHeight</strong></td>
+    <td>int</td>
+    <td>The height of the screenshot.</td>
+  </tr>
+</table>
+<br />Adds a screenshot to the user's Steam screenshot library from disk.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotHandle"
+  class="bb_apilink"
+  >ScreenshotHandle</a
+><br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback.<br />The handle to this screenshot that is valid for the duration of
+the game process and can be used to apply tags.<br />Returns
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#INVALID_SCREENSHOT_HANDLE"
+  class="bb_apilink"
+  >INVALID_SCREENSHOT_HANDLE</a
+>
+if the file could not be saved.<br /><br />This call is asynchronous, a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback will be sent when the screenshot has finished writing to disk.
+<h2 class="bb_subsection">
+  <a name="AddVRScreenshotToLibrary"></a>AddVRScreenshotToLibrary
+</h2>
+<div class="bb_code cpp">
+  ScreenshotHandle AddVRScreenshotToLibrary( EVRScreenshotType eType, const char
+  *pchFilename, const char *pchVRFilename );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>eType</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#EVRScreenshotType"
+        class="bb_apilink"
+        >EVRScreenshotType</a
+      >
+    </td>
+    <td>The type of VR screenshot that this is.</td>
+  </tr>
+  <tr>
+    <td><strong>pchFilename</strong></td>
+    <td>const char *</td>
+    <td>
+      The absolute file path to a 2D JPG, PNG, or TGA version of the screenshot
+      for the library view.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pchVRFilename</strong></td>
+    <td>const char *</td>
+    <td>
+      The absolute file path to the VR screenshot, this should be the same type
+      of screenshot specified in
+      <code class="bb_code bb_code_inline nohighlight">eType</code>.
+    </td>
+  </tr>
+</table>
+<br />Adds a VR screenshot to the user's Steam screenshot library from disk in
+the supported type.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotHandle"
+  class="bb_apilink"
+  >ScreenshotHandle</a
+><br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback.<br />The handle to this screenshot that is valid for the duration of
+the game process and can be used to apply tags.<br />Returns
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#INVALID_SCREENSHOT_HANDLE"
+  class="bb_apilink"
+  >INVALID_SCREENSHOT_HANDLE</a
+>
+if the file could not be saved.<br /><br />This call is asynchronous, a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback will be sent when the screenshot has finished writing to disk.
+<h2 class="bb_subsection"><a name="HookScreenshots"></a>HookScreenshots</h2>
+<div class="bb_code cpp">void HookScreenshots( bool bHook );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>bHook</strong></td>
+    <td>bool</td>
+    <td>
+      Enable (<strong>true</strong>) or disable (<strong>false</strong>)
+      hooking?
+    </td>
+  </tr>
+</table>
+<br />Toggles whether the overlay handles screenshots when the user presses the
+screenshot hotkey, or if the game handles them.<br /><br />Hooking is disabled
+by default, and only ever enabled if you do so with this function.<br /><br />If
+the hooking is enabled, then the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotRequested_t"
+  class="bb_apilink"
+  >ScreenshotRequested_t</a
+>
+callback will be sent if the user presses the hotkey or when
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TriggerScreenshot"
+  class="bb_apilink"
+  >ISteamScreenshots::TriggerScreenshot</a
+>
+is called, and then the game is expected to call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#WriteScreenshot"
+  class="bb_apilink"
+  >ISteamScreenshots::WriteScreenshot</a
+>
+or
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddScreenshotToLibrary"
+  class="bb_apilink"
+  >ISteamScreenshots::AddScreenshotToLibrary</a
+>
+in response.<br /><br />You can check if hooking is enabled with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#IsScreenshotsHooked"
+  class="bb_apilink"
+  >ISteamScreenshots::IsScreenshotsHooked</a
+>.
+<h2 class="bb_subsection">
+  <a name="IsScreenshotsHooked"></a>IsScreenshotsHooked
+</h2>
+<div class="bb_code cpp">bool IsScreenshotsHooked();</div>
+Checks if the app is hooking screenshots, or if the Steam Overlay is handling
+them.<br /><br />This can be toggled with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#HookScreenshots"
+  class="bb_apilink"
+  >ISteamScreenshots::HookScreenshots</a
+>.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the
+game is hooking screenshots and is expected to handle them; otherwise,
+<strong>false</strong>.
+<h2 class="bb_subsection"><a name="SetLocation"></a>SetLocation</h2>
+<div class="bb_code cpp">
+  bool SetLocation( ScreenshotHandle hScreenshot, const char *pchLocation );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hScreenshot</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotHandle"
+        class="bb_apilink"
+        >ScreenshotHandle</a
+      >
+    </td>
+    <td>The handle to the screenshot to tag.</td>
+  </tr>
+  <tr>
+    <td><strong>pchLocation</strong></td>
+    <td>const char *</td>
+    <td>
+      The location in the game where this screenshot was taken. This can not be
+      longer than
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#k_cubUFSTagValueMax"
+        class="bb_apilink"
+        >k_cubUFSTagValueMax</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Sets optional metadata about a screenshot's location. For example, the
+name of the map it was taken on.<br /><br />You can get the handle to tag the
+screenshot once it has been successfully saved from the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback or via the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#WriteScreenshot"
+  class="bb_apilink"
+  >ISteamScreenshots::WriteScreenshot</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddScreenshotToLibrary"
+  class="bb_apilink"
+  >ISteamScreenshots::AddScreenshotToLibrary</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddVRScreenshotToLibrary"
+  class="bb_apilink"
+  >ISteamScreenshots::AddVRScreenshotToLibrary</a
+>
+calls.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if
+the location was successfully added to the screenshot.<br /><strong
+  >false</strong
+>
+if <code class="bb_code bb_code_inline nohighlight">hScreenshot</code> was
+invalid, or
+<code class="bb_code bb_code_inline nohighlight">pchLocation</code> is invalid
+or too long.
+<h2 class="bb_subsection"><a name="TagPublishedFile"></a>TagPublishedFile</h2>
+<div class="bb_code cpp">
+  bool TagPublishedFile( ScreenshotHandle hScreenshot, PublishedFileId_t
+  unPublishedFileID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hScreenshot</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotHandle"
+        class="bb_apilink"
+        >ScreenshotHandle</a
+      >
+    </td>
+    <td>The handle to the screenshot to tag.</td>
+  </tr>
+  <tr>
+    <td><strong>unPublishedFileID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t"
+        class="bb_apilink"
+        >PublishedFileId_t</a
+      >
+    </td>
+    <td>The workshop item ID that is in the screenshot.</td>
+  </tr>
+</table>
+<br />Tags a published file as being visible in the screenshot.<br /><br />You
+can tag up to the value declared by
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#k_nScreenshotMaxTaggedPublishedFiles"
+  class="bb_apilink"
+  >k_nScreenshotMaxTaggedPublishedFiles</a
+>
+in a single screenshot. Tagging more items than that will just be discarded.<br /><br />This
+function has a built in delay before saving the tag which allows you to call it
+repeatedly for each item.<br /><br />You can get the handle to tag the
+screenshot once it has been successfully saved from the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback or via the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#WriteScreenshot"
+  class="bb_apilink"
+  >ISteamScreenshots::WriteScreenshot</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddScreenshotToLibrary"
+  class="bb_apilink"
+  >ISteamScreenshots::AddScreenshotToLibrary</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddVRScreenshotToLibrary"
+  class="bb_apilink"
+  >ISteamScreenshots::AddVRScreenshotToLibrary</a
+>
+calls.<br /><br /><strong>Returns:</strong> bool
+<h2 class="bb_subsection"><a name="TagUser"></a>TagUser</h2>
+<div class="bb_code cpp">
+  bool TagUser( ScreenshotHandle hScreenshot, CSteamID steamID );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hScreenshot</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotHandle"
+        class="bb_apilink"
+        >ScreenshotHandle</a
+      >
+    </td>
+    <td>The handle to the screenshot to tag.</td>
+  </tr>
+  <tr>
+    <td><strong>steamID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of a user that is in the screenshot.</td>
+  </tr>
+</table>
+<br />Tags a Steam user as being visible in the screenshot.<br /><br />You can
+tag up to the value declared by
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#k_nScreenshotMaxTaggedUsers"
+  class="bb_apilink"
+  >k_nScreenshotMaxTaggedUsers</a
+>
+in a single screenshot. Tagging more users than that will just be discarded.<br /><br />This
+function has a built in delay before saving the tag which allows you to call it
+repeatedly for each item.<br /><br />You can get the handle to tag the
+screenshot once it has been successfully saved from the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback or via the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#WriteScreenshot"
+  class="bb_apilink"
+  >ISteamScreenshots::WriteScreenshot</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddScreenshotToLibrary"
+  class="bb_apilink"
+  >ISteamScreenshots::AddScreenshotToLibrary</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddVRScreenshotToLibrary"
+  class="bb_apilink"
+  >ISteamScreenshots::AddVRScreenshotToLibrary</a
+>
+calls.<br /><br /><strong>Returns:</strong> bool
+<h2 class="bb_subsection"><a name="TriggerScreenshot"></a>TriggerScreenshot</h2>
+<div class="bb_code cpp">void TriggerScreenshot();</div>
+Either causes the Steam Overlay to take a screenshot, or tells your screenshot
+manager that a screenshot needs to be taken. Depending on the value of
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#IsScreenshotsHooked"
+  class="bb_apilink"
+  >ISteamScreenshots::IsScreenshotsHooked</a
+>.<br /><br /><strong>Returns:</strong> void<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotRequested_t"
+  class="bb_apilink"
+  >ScreenshotRequested_t</a
+>
+callback.<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback.<br />Only causes
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotRequested_t"
+  class="bb_apilink"
+  >ScreenshotRequested_t</a
+>
+if hooking has been enabled with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#HookScreenshots"
+  class="bb_apilink"
+  >ISteamScreenshots::HookScreenshots</a
+>. Otherwise
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+will be called when the screenshot has been saved and added to the library.
+<h2 class="bb_subsection"><a name="WriteScreenshot"></a>WriteScreenshot</h2>
+<div class="bb_code cpp">
+  ScreenshotHandle WriteScreenshot( void *pubRGB, uint32 cubRGB, int nWidth, int
+  nHeight );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pubRGB</strong></td>
+    <td>void *</td>
+    <td>The buffer containing the raw RGB data from the screenshot.</td>
+  </tr>
+  <tr>
+    <td><strong>cubRGB</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>
+      The size of
+      <code class="bb_code bb_code_inline nohighlight">pubRGB</code> in bytes.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>nWidth</strong></td>
+    <td>int</td>
+    <td>The width of the screenshot in pixels.</td>
+  </tr>
+  <tr>
+    <td><strong>nHeight</strong></td>
+    <td>int</td>
+    <td>The height of the screenshot in pixels.</td>
+  </tr>
+</table>
+<br />Writes a screenshot to the user's Steam screenshot library given the raw
+image data, which must be in RGB format.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotHandle"
+  class="bb_apilink"
+  >ScreenshotHandle</a
+><br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback.<br />The handle to this screenshot that is valid for the duration of
+the game process and can be used to apply tags.<br />Returns
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#INVALID_SCREENSHOT_HANDLE"
+  class="bb_apilink"
+  >INVALID_SCREENSHOT_HANDLE</a
+>
+if the file could not be saved.<br /><br />This call is asynchronous, the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotReady_t"
+  class="bb_apilink"
+  >ScreenshotReady_t</a
+>
+callback will be sent when the screenshot has finished writing to disk.
+<h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
+These are callbacks which can be fired by calling
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
+  class="bb_apilink"
+  >SteamAPI_RunCallbacks</a
+>. Many of these will be fired directly in response to the member functions of
+<code class="bb_code bb_code_inline nohighlight">ISteamScreenshots</code>.
+<h2 class="bb_subsection"><a name="ScreenshotReady_t"></a>ScreenshotReady_t</h2>
+A screenshot successfully written or otherwise added to the library and can now
+be tagged.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_hLocal</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#ScreenshotHandle"
+        class="bb_apilink"
+        >ScreenshotHandle</a
+      >
+    </td>
+    <td>The screenshot handle that has been written.</td>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>
+      The result of the operation. Possible values:<br />
+      <ul class="bb_ul">
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
+            class="bb_apilink"
+            >k_EResultOK</a
+          >
+          - The screenshot was successfully added to the users library.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultFail"
+            class="bb_apilink"
+            >k_EResultFail</a
+          >
+          - The screenshot could not be loaded or parsed.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultIOFailure"
+            class="bb_apilink"
+            >k_EResultIOFailure</a
+          >
+          - The screenshot could not be saved to the disk.
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#WriteScreenshot"
+  class="bb_apilink"
+  >ISteamScreenshots::WriteScreenshot</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddScreenshotToLibrary"
+  class="bb_apilink"
+  >ISteamScreenshots::AddScreenshotToLibrary</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TriggerScreenshot"
+  class="bb_apilink"
+  >ISteamScreenshots::TriggerScreenshot</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddVRScreenshotToLibrary"
+  class="bb_apilink"
+  >ISteamScreenshots::AddVRScreenshotToLibrary</a
+>
+<h2 class="bb_subsection">
+  <a name="ScreenshotRequested_t"></a>ScreenshotRequested_t
+</h2>
+A screenshot has been requested by the user from the Steam screenshot hotkey.
+This will only be called if
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#HookScreenshots"
+  class="bb_apilink"
+  >ISteamScreenshots::HookScreenshots</a
+>
+has been enabled, in which case Steam will not take the screenshot itself.<br /><br />This
+callback has no fields.<br /><br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TriggerScreenshot"
+  class="bb_apilink"
+  >ISteamScreenshots::TriggerScreenshot</a
+>
+<h2 class="bb_section"><a name="enums"></a>Enums</h2>
+These are enums which are defined for use with ISteamScreenshots.
+<h2 class="bb_subsection"><a name="EVRScreenshotType"></a>EVRScreenshotType</h2>
+Describes the type of VR screenshots.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_EVRScreenshotType_None">
+    <td><strong>k_EVRScreenshotType_None</strong></td>
+    <td>0</td>
+    <td></td>
+  </tr>
+  <tr id="k_EVRScreenshotType_Mono">
+    <td><strong>k_EVRScreenshotType_Mono</strong></td>
+    <td>1</td>
+    <td></td>
+  </tr>
+  <tr id="k_EVRScreenshotType_Stereo">
+    <td><strong>k_EVRScreenshotType_Stereo</strong></td>
+    <td>2</td>
+    <td></td>
+  </tr>
+  <tr id="k_EVRScreenshotType_MonoCubemap">
+    <td><strong>k_EVRScreenshotType_MonoCubemap</strong></td>
+    <td>3</td>
+    <td></td>
+  </tr>
+  <tr id="k_EVRScreenshotType_MonoPanorama">
+    <td><strong>k_EVRScreenshotType_MonoPanorama</strong></td>
+    <td>4</td>
+    <td></td>
+  </tr>
+  <tr id="k_EVRScreenshotType_StereoPanorama">
+    <td><strong>k_EVRScreenshotType_StereoPanorama</strong></td>
+    <td>5</td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
+These are typedefs which are defined for use with ISteamScreenshots.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Base type</th>
+    <th>Description</th>
+  </tr>
+  <tr id="ScreenshotHandle">
+    <td><strong>ScreenshotHandle</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>
+      Handle to a screenshot. This will be valid for the lifetime of your
+      process, but no longer.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="constants"></a>Constants</h2>
+These are constants which are defined for use with ISteamScreenshots.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="INVALID_SCREENSHOT_HANDLE">
+    <td><strong>INVALID_SCREENSHOT_HANDLE</strong></td>
+    <td>int</td>
+    <td>0</td>
+    <td>
+      An invalid screenshot handle, this is returned when writing or adding a
+      screenshot has failed.
+    </td>
+  </tr>
+  <tr id="k_cubUFSTagTypeMax">
+    <td><strong>k_cubUFSTagTypeMax</strong></td>
+    <td>int</td>
+    <td>255</td>
+    <td>Unused.</td>
+  </tr>
+  <tr id="k_cubUFSTagValueMax">
+    <td><strong>k_cubUFSTagValueMax</strong></td>
+    <td>int</td>
+    <td>255</td>
+    <td>
+      The maximum length in bytes of a location metadata string set on a
+      screenshot using
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#SetLocation"
+        class="bb_apilink"
+        >ISteamScreenshots::SetLocation</a
+      >.
+    </td>
+  </tr>
+  <tr id="k_nScreenshotMaxTaggedPublishedFiles">
+    <td><strong>k_nScreenshotMaxTaggedPublishedFiles</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>32</td>
+    <td>
+      The maximum number of workshop items that can be tagged in a screenshot
+      using
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TagPublishedFile"
+        class="bb_apilink"
+        >ISteamScreenshots::TagPublishedFile</a
+      >.
+    </td>
+  </tr>
+  <tr id="k_nScreenshotMaxTaggedUsers">
+    <td><strong>k_nScreenshotMaxTaggedUsers</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>32</td>
+    <td>
+      The maximum number of users that can be tagged in a screenshot using
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#TagUser"
+        class="bb_apilink"
+        >ISteamScreenshots::TagUser</a
+      >.
+    </td>
+  </tr>
+  <tr id="k_ScreenshotThumbWidth">
+    <td><strong>k_ScreenshotThumbWidth</strong></td>
+    <td>int</td>
+    <td>200</td>
+    <td>
+      Required width of a thumbnail provided to
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamScreenshots#AddScreenshotToLibrary"
+        class="bb_apilink"
+        >ISteamScreenshots::AddScreenshotToLibrary</a
+      >. If you do not provide a thumbnail then one will be generated
+      automatically.
+    </td>
+  </tr>
+  <tr id="STEAMSCREENSHOTS_INTERFACE_VERSION">
+    <td><strong>STEAMSCREENSHOTS_INTERFACE_VERSION</strong></td>
+    <td>const char *</td>
+    <td>"STEAMSCREENSHOTS_INTERFACE_VERSION003"</td>
+    <td></td>
+  </tr>
+</table>

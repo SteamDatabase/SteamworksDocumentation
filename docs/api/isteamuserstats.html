@@ -1,0 +1,4268 @@
+<h1>ISteamUserStats Interface</h1>
+Provides functions for accessing and submitting stats, achievements, and
+leaderboards.
+<h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
+Member functions for
+<code class="bb_code bb_code_inline nohighlight">ISteamUserStats</code> are
+called through the global accessor function
+<code class="bb_code bb_code_inline nohighlight">SteamUserStats()</code>.
+<h2 class="bb_subsection">
+  <a name="AttachLeaderboardUGC"></a>AttachLeaderboardUGC
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t AttachLeaderboardUGC( SteamLeaderboard_t hSteamLeaderboard,
+  UGCHandle_t hUGC );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>
+      A leaderboard handle obtained from
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindLeaderboard</a
+      >
+      or
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindOrCreateLeaderboard</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>hUGC</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#UGCHandle_t"
+        class="bb_apilink"
+        >UGCHandle_t</a
+      >
+    </td>
+    <td>
+      Handle to a piece of user generated content that was shared using
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileShare"
+        class="bb_apilink"
+        >ISteamRemoteStorage::FileShare</a
+      >
+      or
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateItem"
+        class="bb_apilink"
+        >ISteamUGC::CreateItem</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Attaches a piece of user generated content the current user's entry on a
+leaderboard.<br /><br />This content could be a replay of the user achieving the
+score or a ghost to race against. The attached handle will be available when the
+entry is retrieved and can be accessed by other users using
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetDownloadedLeaderboardEntry"
+  class="bb_apilink"
+  >ISteamUserStats::GetDownloadedLeaderboardEntry</a
+>
+which contains
+<code class="bb_code bb_code_inline nohighlight">LeaderboardEntry_t.m_hUGC</code
+>. To create and download user generated content see the documentation for the
+Steam Workshop.<br /><br />Once attached, the content will be available even if
+the underlying Cloud file is changed or deleted by the user.<br /><br />You must
+call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindLeaderboard</a
+>
+or
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindOrCreateLeaderboard</a
+>
+to get a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+  class="bb_apilink"
+  >SteamLeaderboard_t</a
+>
+prior to calling this function.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardUGCSet_t"
+  class="bb_apilink"
+  >LeaderboardUGCSet_t</a
+>
+call result.
+<h2 class="bb_subsection"><a name="ClearAchievement"></a>ClearAchievement</h2>
+<div class="bb_code cpp">bool ClearAchievement( const char *pchName );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the Achievement to reset.</td>
+  </tr>
+</table>
+<br />Resets the unlock status of an achievement.<br /><br />This is primarily
+only ever used for testing.<br /><br />You must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+and it needs to return successfully via its callback prior to calling this!<br /><br />This
+call only modifies Steam's in-memory state so it is quite cheap. To send the
+unlock status to the server and to trigger the Steam overlay notification you
+must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>.<br /><br /><strong>Returns:</strong> bool<br />This function returns
+<strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    The specified achievement "API Name" exists in App Admin on the Steamworks
+    website, and the changes are published.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#ResetAllStats"
+  class="bb_apilink"
+  >ISteamUserStats::ResetAllStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAndUnlockTime</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievement</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::SetAchievement</a
+>
+<h2 class="bb_subsection">
+  <a name="DownloadLeaderboardEntries"></a>DownloadLeaderboardEntries
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t DownloadLeaderboardEntries( SteamLeaderboard_t
+  hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int
+  nRangeStart, int nRangeEnd );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>
+      A leaderboard handle obtained from
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindLeaderboard</a
+      >
+      or
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindOrCreateLeaderboard</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>eLeaderboardDataRequest</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#ELeaderboardDataRequest"
+        class="bb_apilink"
+        >ELeaderboardDataRequest</a
+      >
+    </td>
+    <td>The type of data request to make.</td>
+  </tr>
+  <tr>
+    <td><strong>nRangeStart</strong></td>
+    <td>int</td>
+    <td>
+      The index to start downloading entries relative to
+      eLeaderboardDataRequest.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>nRangeEnd</strong></td>
+    <td>int</td>
+    <td>
+      The last index to retrieve entries for relative to
+      eLeaderboardDataRequest.
+    </td>
+  </tr>
+</table>
+<br />Fetches a series of leaderboard entries for a specified leaderboard.<br /><br />You
+can ask for more entries than exist, then this will return as many as do
+exist.<br /><br />If you want to download entries for an arbitrary set of users,
+such as all of the users on a server then you can use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntriesForUsers"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntriesForUsers</a
+>
+which takes an array of Steam IDs.<br /><br />You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindLeaderboard</a
+>
+or
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindOrCreateLeaderboard</a
+>
+to get a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+  class="bb_apilink"
+  >SteamLeaderboard_t</a
+>
+prior to calling this function.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardScoresDownloaded_t"
+  class="bb_apilink"
+  >LeaderboardScoresDownloaded_t</a
+>
+call result.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetDownloadedLeaderboardEntry"
+  class="bb_apilink"
+  >ISteamUserStats::GetDownloadedLeaderboardEntry</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
+  class="bb_apilink"
+  >ISteamUserStats::UploadLeaderboardScore</a
+>
+<h2 class="bb_subsection">
+  <a name="DownloadLeaderboardEntriesForUsers"></a
+  >DownloadLeaderboardEntriesForUsers
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t DownloadLeaderboardEntriesForUsers( SteamLeaderboard_t
+  hSteamLeaderboard, CSteamID *prgUsers, int cUsers );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>
+      A leaderboard handle obtained from
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindLeaderboard</a
+      >
+      or
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindOrCreateLeaderboard</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>prgUsers</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+      *
+    </td>
+    <td>An array of Steam IDs to get the leaderboard entries for.</td>
+  </tr>
+  <tr>
+    <td><strong>cUsers</strong></td>
+    <td>int</td>
+    <td>
+      The number of elements in the
+      <code class="bb_code bb_code_inline nohighlight">prgUsers</code> array.
+    </td>
+  </tr>
+</table>
+<br />Fetches leaderboard entries for an arbitrary set of users on a specified
+leaderboard.<br /><br />A maximum of 100 users can be downloaded at a time, with
+only one outstanding call at a time. If a user doesn't have an entry on the
+specified leaderboard, they won't be included in the result.<br /><br />If you
+want to download entries based on their ranking or friends of the current user
+then you should use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntries</a
+>.<br /><br />You must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindLeaderboard</a
+>
+or
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindOrCreateLeaderboard</a
+>
+to get a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+  class="bb_apilink"
+  >SteamLeaderboard_t</a
+>
+prior to calling this function.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardScoresDownloaded_t"
+  class="bb_apilink"
+  >LeaderboardScoresDownloaded_t</a
+>
+call result.<br />Returns
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid"
+  class="bb_apilink"
+  >k_uAPICallInvalid</a
+>
+indicating an error if the number of users is greater than 100 or if one of the
+Steam IDs is invalid.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetDownloadedLeaderboardEntry"
+  class="bb_apilink"
+  >ISteamUserStats::GetDownloadedLeaderboardEntry</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
+  class="bb_apilink"
+  >ISteamUserStats::UploadLeaderboardScore</a
+>
+<h2 class="bb_subsection"><a name="FindLeaderboard"></a>FindLeaderboard</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t FindLeaderboard( const char *pchLeaderboardName );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchLeaderboardName</strong></td>
+    <td>const char *</td>
+    <td>
+      The name of the leaderboard to find. Must not be longer than
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchLeaderboardNameMax"
+        class="bb_apilink"
+        >k_cchLeaderboardNameMax</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Gets a leaderboard by name.<br /><br />You must call either this or
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindOrCreateLeaderboard</a
+>
+to obtain the leaderboard handle which is valid for the game session for each
+leaderboard you wish to access prior to calling any other Leaderboard
+functions.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardFindResult_t"
+  class="bb_apilink"
+  >LeaderboardFindResult_t</a
+>
+call result.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardEntryCount"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardEntryCount</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntries</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
+  class="bb_apilink"
+  >ISteamUserStats::UploadLeaderboardScore</a
+>
+<h2 class="bb_subsection">
+  <a name="FindOrCreateLeaderboard"></a>FindOrCreateLeaderboard
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t FindOrCreateLeaderboard( const char *pchLeaderboardName,
+  ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType
+  eLeaderboardDisplayType );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchLeaderboardName</strong></td>
+    <td>const char *</td>
+    <td>
+      The name of the leaderboard to find or create. Must not be longer than
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchLeaderboardNameMax"
+        class="bb_apilink"
+        >k_cchLeaderboardNameMax</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>eLeaderboardSortMethod</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#ELeaderboardSortMethod"
+        class="bb_apilink"
+        >ELeaderboardSortMethod</a
+      >
+    </td>
+    <td>The sort order of the new leaderboard if it's created.</td>
+  </tr>
+  <tr>
+    <td><strong>eLeaderboardDisplayType</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#ELeaderboardDisplayType"
+        class="bb_apilink"
+        >ELeaderboardDisplayType</a
+      >
+    </td>
+    <td>
+      The display type (used by the Steam Community web site) of the new
+      leaderboard if it's created.
+    </td>
+  </tr>
+</table>
+<br />Gets a leaderboard by name, it will create it if it's not yet created.<br /><br />You
+must call either this or
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindLeaderboard</a
+>
+to obtain the leaderboard handle which is valid for the game session for each
+leaderboard you wish to access prior to calling any other Leaderboard
+functions.<br /><br />Leaderboards created with this function will not
+automatically show up in the Steam Community. You must manually set the
+Community Name field in the App Admin panel of the Steamworks website. As such
+it's generally recommended to prefer creating the leaderboards in the App Admin
+panel on the Steamworks website and using
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindLeaderboard</a
+>
+unless you're expected to have a large amount of dynamically created
+leaderboards.<br /><br />You should never pass
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_ELeaderboardSortMethodNone"
+  class="bb_apilink"
+  >k_ELeaderboardSortMethodNone</a
+>
+for
+<code class="bb_code bb_code_inline nohighlight">eLeaderboardSortMethod</code>
+or
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_ELeaderboardDisplayTypeNone"
+  class="bb_apilink"
+  >k_ELeaderboardDisplayTypeNone</a
+>
+for
+<code class="bb_code bb_code_inline nohighlight">eLeaderboardDisplayType</code>
+as this is undefined behavior.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardFindResult_t"
+  class="bb_apilink"
+  >LeaderboardFindResult_t</a
+>
+call result.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardEntryCount"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardEntryCount</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntries</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
+  class="bb_apilink"
+  >ISteamUserStats::UploadLeaderboardScore</a
+>
+<h2 class="bb_subsection"><a name="GetAchievement"></a>GetAchievement</h2>
+<div class="bb_code cpp">
+  bool GetAchievement( const char *pchName, bool *pbAchieved );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>pbAchieved</strong></td>
+    <td>bool *</td>
+    <td>Returns the unlock status of the achievement.</td>
+  </tr>
+</table>
+<br />Gets the unlock status of the Achievement.<br /><br />The equivalent
+function for other users is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievement</a
+>.<br /><br /><strong>Returns:</strong> bool<br />This function returns
+<strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The 'API Name' of the specified achievement exists in App Admin on the
+    Steamworks website, and the changes are published.
+  </li>
+</ul>
+<br />If the call is successful then the unlock status is returned via the
+<code class="bb_code bb_code_inline nohighlight">pbAchieved</code>
+parameter.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementDisplayAttribute"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementDisplayAttribute</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementName"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementName</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementIcon"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementIcon</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAndUnlockTime</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAchievedPercent"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAchievedPercent</a
+>
+<h2 class="bb_subsection">
+  <a name="GetAchievementAchievedPercent"></a>GetAchievementAchievedPercent
+</h2>
+<div class="bb_code cpp">
+  bool GetAchievementAchievedPercent( const char *pchName, float *pflPercent );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>pflPercent</strong></td>
+    <td>float *</td>
+    <td>
+      Variable to return the percentage of people that have unlocked this
+      achievement from 0 to 100.
+    </td>
+  </tr>
+</table>
+<br />Returns the percentage of users who have unlocked the specified
+achievement.<br /><br />You must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalAchievementPercentages</a
+>
+and it needs to return successfully via its callback prior to calling this.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br />Returns <strong>true</strong> upon success; otherwise
+<strong>false</strong> if
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalAchievementPercentages</a
+>
+has not been called or if the specified 'API Name' does not exist in the global
+achievement percentages.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetMostAchievedAchievementInfo"
+  class="bb_apilink"
+  >ISteamUserStats::GetMostAchievedAchievementInfo</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetNextMostAchievedAchievementInfo"
+  class="bb_apilink"
+  >ISteamUserStats::GetNextMostAchievedAchievementInfo</a
+>
+<h2 class="bb_subsection">
+  <a name="GetAchievementAndUnlockTime"></a>GetAchievementAndUnlockTime
+</h2>
+<div class="bb_code cpp">
+  bool GetAchievementAndUnlockTime( const char *pchName, bool *pbAchieved,
+  uint32 *punUnlockTime );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>pbAchieved</strong></td>
+    <td>bool *</td>
+    <td>Returns whether the current user has unlocked the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>punUnlockTime</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+      *
+    </td>
+    <td>
+      Returns the time that the achievement was unlocked; if pbAchieved is true.
+    </td>
+  </tr>
+</table>
+<br />Gets the achievement status, and the time it was unlocked if unlocked.<br /><br />If
+the return value is true, but the unlock time is zero, that means it was
+unlocked before Steam began tracking achievement unlock times (December 2009).
+The time is provided in Unix epoch format, seconds since January 1, 1970 UTC.<br /><br />The
+equivalent function for other users is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievementAndUnlockTime</a
+>.<br /><br /><strong>Returns:</strong> bool<br />This function returns
+<strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The 'API Name' of the specified achievement exists in App Admin on the
+    Steamworks website, and the changes are published.
+  </li>
+</ul>
+<br />If the call is successful then the achieved status and unlock time are
+provided via the arguments
+<code class="bb_code bb_code_inline nohighlight">pbAchieved</code> and
+<code class="bb_code bb_code_inline nohighlight">punUnlockTime</code
+>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievement</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementDisplayAttribute"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementDisplayAttribute</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementName"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementName</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementIcon"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementIcon</a
+>
+<h2 class="bb_subsection">
+  <a name="GetAchievementDisplayAttribute"></a>GetAchievementDisplayAttribute
+</h2>
+<div class="bb_code cpp">
+  const char * GetAchievementDisplayAttribute( const char *pchName, const char
+  *pchKey );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>pchKey</strong></td>
+    <td>const char *</td>
+    <td>The 'key' to get a value for.</td>
+  </tr>
+</table>
+<br />Get general attributes for an achievement. Currently provides: Name,
+Description, and Hidden status.<br /><br />This receives the value from a
+dictionary/map keyvalue store, so you must provide one of the following keys.<br />
+<ul class="bb_ul">
+  <li>
+    "<strong>name</strong>" to retrive the localized achievement name in UTF8<br />
+  </li>
+  <li>
+    "<strong>desc</strong>" to retrive the localized achievement description in
+    UTF8<br />
+  </li>
+  <li>
+    "<strong>hidden</strong>" for retrieving if an achievement is hidden.
+    Returns "0" when not hidden, "1" when hidden
+  </li>
+</ul>
+<br />This localization is provided based on the games language if it's set,
+otherwise it checks if a localization is avilable for the users Steam UI
+Language. If that fails too, then it falls back to english.<br /><br /><strong
+  >Returns:</strong
+>
+const char *<br />This function returns the value as a string upon success if
+all of the following conditions are met; otherwise, an empty string:
+<strong>""</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The specified achievement exists in App Admin on the Steamworks website, and
+    the changes are published.<br />
+  </li>
+  <li>
+    The specified
+    <code class="bb_code bb_code_inline nohighlight">pchKey</code> is valid.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievement</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementName"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementName</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementIcon"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementIcon</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAndUnlockTime</a
+>
+<h2 class="bb_subsection">
+  <a name="GetAchievementIcon"></a>GetAchievementIcon
+</h2>
+<div class="bb_code cpp">int GetAchievementIcon( const char *pchName );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the achievement.</td>
+  </tr>
+</table>
+<br />Gets the icon for an achievement.<br /><br /><strong>Returns:</strong>
+int<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserAchievementIconFetched_t"
+  class="bb_apilink"
+  >UserAchievementIconFetched_t</a
+>
+callback.<br />The image is returned as a handle to be used with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageRGBA"
+  class="bb_apilink"
+  >ISteamUtils::GetImageRGBA</a
+>
+to get the actual image data.<br /><br />An invalid handle of
+<strong>0</strong> will be returned under the following conditions:<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has not completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The specified achievement does not exist in App Admin on the Steamworks
+    website, or the changes are not published.<br />
+  </li>
+  <li>
+    Steam is still fetching the image data from the server. This will trigger a
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserAchievementIconFetched_t"
+      class="bb_apilink"
+      >UserAchievementIconFetched_t</a
+    >
+    callback which will notify you when the image data is ready and provide you
+    with a new handle. If the
+    <code class="bb_code bb_code_inline nohighlight">m_nIconHandle</code> in the
+    callback is still <strong>0</strong>, then there is no image set for the
+    specified achievement.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievement</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementName"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementName</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAndUnlockTime</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAchievedPercent"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAchievedPercent</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementDisplayAttribute"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementDisplayAttribute</a
+>
+<h2 class="bb_subsection">
+  <a name="GetAchievementName"></a>GetAchievementName
+</h2>
+<div class="bb_code cpp">
+  const char * GetAchievementName( uint32 iAchievement );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iAchievement</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>Index of the achievement.</td>
+  </tr>
+</table>
+<br />Gets the 'API name' for an achievement index between 0 and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetNumAchievements"
+  class="bb_apilink"
+  >ISteamUserStats::GetNumAchievements</a
+>.<br /><br />This function must be used in cojunction with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetNumAchievements"
+  class="bb_apilink"
+  >ISteamUserStats::GetNumAchievements</a
+>
+to loop over the list of achievements.<br /><br />In general games should not
+need these functions as they should have the list of achievements compiled into
+them.<br /><br /><strong>Returns:</strong> const char *<br />The 'API Name' of
+the achievement, returns an empty string if
+<code class="bb_code bb_code_inline nohighlight">iAchievement</code> is not a
+valid index.
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+must have been called and successfully returned its callback, and the current
+App ID must have achievements.<br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  int numAchievements = SteamUserStats()-&gt;GetNumAchievements(); for ( int i =
+  0; i &lt; numAchievements; ++i ) { const char *achName =
+  SteamUserStats()-&gt;GetAchievementName( i ); if ( achName ) { printf( "%s",
+  achName ); } }
+</div>
+<h2 class="bb_subsection">
+  <a name="GetDownloadedLeaderboardEntry"></a>GetDownloadedLeaderboardEntry
+</h2>
+<div class="bb_code cpp">
+  bool GetDownloadedLeaderboardEntry( SteamLeaderboardEntries_t
+  hSteamLeaderboardEntries, int index, LeaderboardEntry_t *pLeaderboardEntry,
+  int32 *pDetails, int cDetailsMax );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamLeaderboardEntries</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboardEntries_t"
+        class="bb_apilink"
+        >SteamLeaderboardEntries_t</a
+      >
+    </td>
+    <td>
+      A leaderboard entries handle obtained from the most recently received
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardScoresDownloaded_t"
+        class="bb_apilink"
+        >LeaderboardScoresDownloaded_t</a
+      >
+      call result.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>index</strong></td>
+    <td>int</td>
+    <td>
+      The index of the leaderboard entry to receive, must be between 0 and
+      <code class="bb_code bb_code_inline nohighlight"
+        >LeaderboardScoresDownloaded_t.m_cEntryCount</code
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pLeaderboardEntry</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardEntry_t"
+        class="bb_apilink"
+        >LeaderboardEntry_t</a
+      >
+      *
+    </td>
+    <td>Variable where the entry will be returned to.</td>
+  </tr>
+  <tr>
+    <td><strong>pDetails</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+      *
+    </td>
+    <td>
+      A preallocated array where the details of this entry get returned into.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>cDetailsMax</strong></td>
+    <td>int</td>
+    <td>
+      The length of the
+      <code class="bb_code bb_code_inline nohighlight">pDetails</code> array.
+    </td>
+  </tr>
+</table>
+<br />Retrieves the data for a single leaderboard entry.<br /><br />You should
+use a for loop from 0 to
+<code class="bb_code bb_code_inline nohighlight"
+  >LeaderboardScoresDownloaded_t.m_cEntryCount</code
+>
+to get all the downloaded entries. Once you've accessed all the entries, the
+data will be freed, and the
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboardEntries_t"
+  class="bb_apilink"
+  >SteamLeaderboardEntries_t</a
+>
+handle will become invalid.<br /><br />Optionally details may be returned for
+the entry via the
+<code class="bb_code bb_code_inline nohighlight">pDetails</code>. If this is
+NULL then
+<code class="bb_code bb_code_inline nohighlight">cDetailsMax</code> MUST be
+<strong>0</strong>.<br /><br /><strong>Returns:</strong> bool<br />This function
+returns <strong>true</strong> upon success if all of the following conditions
+are met; otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight"
+      >hSteamLeaderboardEntries</code
+    >
+    must be a valid handle from the last received
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardScoresDownloaded_t"
+      class="bb_apilink"
+      >LeaderboardScoresDownloaded_t</a
+    >
+    call result.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">index</code> must be
+    between 0 and
+    <code class="bb_code bb_code_inline nohighlight"
+      >LeaderboardScoresDownloaded_t.m_cEntryCount</code
+    >
+  </li>
+</ul>
+<br />If the call is successful then the entry is returned via the parameter
+<code class="bb_code bb_code_inline nohighlight">pLeaderboardEntry</code> and if
+<code class="bb_code bb_code_inline nohighlight">cDetailsMax</code> is not 0
+then <code class="bb_code bb_code_inline nohighlight">pDetails</code> is filled
+with the unlock details.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntries</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
+  class="bb_apilink"
+  >ISteamUserStats::UploadLeaderboardScore</a
+><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  void OnLeaderboardScoresDownloaded( LeaderboardScoresDownloaded_t *pCallback )
+  { for ( int i = 0; i &lt; pCallback-&gt;m_cEntryCount; i++ ) {
+  LeaderboardEntry_t leaderboardEntry; int32 details[3]; // We know that we
+  store this many initially. SteamUserStats()-&gt;GetDownloadedLeaderboardEntry(
+  pCallback-&gt;m_hSteamLeaderboardEntries, i, &amp;leaderboardEntry, details, 3
+  ); assert( leaderboardEntry.m_cDetails == 3 ); //... } }
+</div>
+<h2 class="bb_subsection"><a name="GetGlobalStat"></a>GetGlobalStat</h2>
+<div class="bb_code cpp">
+  bool GetGlobalStat( const char *pchStatName, int64 *pData ); bool
+  GetGlobalStat( const char *pchStatName, double *pData );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchStatName</strong></td>
+    <td>const char *</td>
+    <td>
+      The 'API Name' of the stat. Must not be longer than
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
+        class="bb_apilink"
+        >k_cchStatNameMax</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pData</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int64"
+        class="bb_apilink"
+        >int64</a
+      >
+      * / double *
+    </td>
+    <td>The variable to return the stat value into.</td>
+  </tr>
+</table>
+<br />Gets the lifetime totals for an aggregated stat.<br /><br />You must have
+called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalStats</a
+>
+and it needs to return successfully via its callback prior to calling this.<br /><br /><strong
+  >Returns:</strong
+>
+bool<br />This function returns <strong>true</strong> upon success if all of the
+following conditions are met; otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    The specified stat exists in App Admin on the Steamworks website, and the
+    changes are published.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestGlobalStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The type matches the type listed in the App Admin panel of the Steamworks
+    website.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetGlobalStatHistory"
+  class="bb_apilink"
+  >ISteamUserStats::GetGlobalStatHistory</a
+>
+<h2 class="bb_subsection">
+  <a name="GetGlobalStatHistory"></a>GetGlobalStatHistory
+</h2>
+<div class="bb_code cpp">
+  int32 GetGlobalStatHistory( const char *pchStatName, int64 *pData, uint32
+  cubData ); int32 GetGlobalStatHistory( const char *pchStatName, double *pData,
+  uint32 cubData );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchStatName</strong></td>
+    <td>const char *</td>
+    <td>
+      The 'API Name' of the stat. Must not be longer than
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
+        class="bb_apilink"
+        >k_cchStatNameMax</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pData</strong></td>
+    <td>double *</td>
+    <td>Array that the daily history will be returned into.</td>
+  </tr>
+  <tr>
+    <td><strong>cubData</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>
+      The total size <strong>in bytes</strong> of the
+      <code class="bb_code bb_code_inline nohighlight">pData</code> array.
+    </td>
+  </tr>
+</table>
+<br />Gets the daily history for an aggregated stat.<br /><br />pData will be
+filled with daily values, starting with today.<br />So when called, pData[0]
+will be today, pData[1] will be yesterday, and pData[2] will be two days ago,
+etc.<br /><br />You must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalStats</a
+>
+and it needs to return successfully via its callback prior to calling this.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#int32"
+  class="bb_apilink"
+  >int32</a
+><br />The number of elements returned in the
+<code class="bb_code bb_code_inline nohighlight">pData</code>
+array.<br /><br />A value of <strong>0</strong> indicates failure for one of the
+following reasons:<br />
+<ul class="bb_ul">
+  <li>
+    The specified stat does not exist in App Admin on the Steamworks website, or
+    the changes aren't published.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestGlobalStats</a
+    >
+    has not been called or returned its callback, with at least 1 day of
+    history.<br />
+  </li>
+  <li>
+    The type does not match the type listed in the App Admin panel of the
+    Steamworks website.<br />
+  </li>
+  <li>There is no history available.</li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetGlobalStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetGlobalStat</a
+>
+<h2 class="bb_subsection">
+  <a name="GetLeaderboardDisplayType"></a>GetLeaderboardDisplayType
+</h2>
+<div class="bb_code cpp">
+  ELeaderboardDisplayType GetLeaderboardDisplayType( SteamLeaderboard_t
+  hSteamLeaderboard );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>
+      A leaderboard handle obtained from
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindLeaderboard</a
+      >
+      or
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindOrCreateLeaderboard</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Returns the display type of a leaderboard handle.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#ELeaderboardDisplayType"
+  class="bb_apilink"
+  >ELeaderboardDisplayType</a
+><br />The display type of the leaderboard. Returns
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_ELeaderboardDisplayTypeNone"
+  class="bb_apilink"
+  >k_ELeaderboardDisplayTypeNone</a
+>
+if the leaderboard handle is invalid.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardName"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardName</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardSortMethod"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardSortMethod</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardEntryCount"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardEntryCount</a
+>
+<h2 class="bb_subsection">
+  <a name="GetLeaderboardEntryCount"></a>GetLeaderboardEntryCount
+</h2>
+<div class="bb_code cpp">
+  int GetLeaderboardEntryCount( SteamLeaderboard_t hSteamLeaderboard );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>
+      A leaderboard handle obtained from
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindLeaderboard</a
+      >
+      or
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindOrCreateLeaderboard</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Returns the total number of entries in a leaderboard.<br /><br />This is
+cached on a per leaderboard basis upon the first call to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindLeaderboard</a
+>
+or
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindOrCreateLeaderboard</a
+>
+and is refreshed on each successful call to
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntries</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntriesForUsers"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntriesForUsers</a
+>, and
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
+  class="bb_apilink"
+  >ISteamUserStats::UploadLeaderboardScore</a
+>.<br /><br /><strong>Returns:</strong> int<br />The number of entries in the
+leaderboard. Returns 0 if the leaderboard handle is invalid.<br /><br /><strong
+  >See Also:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardName"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardName</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardSortMethod"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardSortMethod</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardDisplayType"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardDisplayType</a
+>
+<h2 class="bb_subsection">
+  <a name="GetLeaderboardName"></a>GetLeaderboardName
+</h2>
+<div class="bb_code cpp">
+  const char * GetLeaderboardName( SteamLeaderboard_t hSteamLeaderboard );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>
+      A leaderboard handle obtained from
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindLeaderboard</a
+      >
+      or
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindOrCreateLeaderboard</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Returns the name of a leaderboard handle.<br /><br /><strong
+  >Returns:</strong
+>
+const char *<br />The name of the leaderboard. Returns an empty string if the
+leaderboard handle is invalid.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardEntryCount"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardEntryCount</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardSortMethod"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardSortMethod</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardDisplayType"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardDisplayType</a
+>
+<h2 class="bb_subsection">
+  <a name="GetLeaderboardSortMethod"></a>GetLeaderboardSortMethod
+</h2>
+<div class="bb_code cpp">
+  ELeaderboardSortMethod GetLeaderboardSortMethod( SteamLeaderboard_t
+  hSteamLeaderboard );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>
+      A leaderboard handle obtained from
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindLeaderboard</a
+      >
+      or
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindOrCreateLeaderboard</a
+      >.
+    </td>
+  </tr>
+</table>
+<br />Returns the sort order of a leaderboard handle.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#ELeaderboardSortMethod"
+  class="bb_apilink"
+  >ELeaderboardSortMethod</a
+><br />The sort method of the leaderboard. Returns
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_ELeaderboardSortMethodNone"
+  class="bb_apilink"
+  >k_ELeaderboardSortMethodNone</a
+>
+if the leaderboard handle is invalid.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardName"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardName</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardDisplayType"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardDisplayType</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardEntryCount"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardEntryCount</a
+>
+<h2 class="bb_subsection">
+  <a name="GetMostAchievedAchievementInfo"></a>GetMostAchievedAchievementInfo
+</h2>
+<div class="bb_code cpp">
+  int GetMostAchievedAchievementInfo( char *pchName, uint32 unNameBufLen, float
+  *pflPercent, bool *pbAchieved );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>char *</td>
+    <td>String buffer to return the 'API Name' of the achievement into.</td>
+  </tr>
+  <tr>
+    <td><strong>unNameBufLen</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>
+      The size in bytes of pchName, should be at least as long as your longest
+      achievement 'API Name'.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pflPercent</strong></td>
+    <td>float *</td>
+    <td>
+      Variable to return the percentage of people that have unlocked this
+      achievement from 0 to 100.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pbAchieved</strong></td>
+    <td>bool *</td>
+    <td>
+      Variable to return whether the current user has unlocked this achievement.
+    </td>
+  </tr>
+</table>
+<br />Gets the info on the most achieved achievement for the game.<br /><br />You
+must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalAchievementPercentages</a
+>
+and it needs to return successfully via its callback prior to calling this.<br /><br /><strong
+  >Returns:</strong
+>
+int<br />Returns <strong>-1</strong> if
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalAchievementPercentages</a
+>
+has not been called or if there are no global achievement percentages for this
+app Id.<br /><br />If the call is successful it returns an iterator which should
+be used with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetNextMostAchievedAchievementInfo"
+  class="bb_apilink"
+  >ISteamUserStats::GetNextMostAchievedAchievementInfo</a
+>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalAchievementPercentages</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetNextMostAchievedAchievementInfo"
+  class="bb_apilink"
+  >ISteamUserStats::GetNextMostAchievedAchievementInfo</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAchievedPercent"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAchievedPercent</a
+><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  const int ACH_NAME_MAX_LENGTH = 64; char[ACH_NAME_MAX_LENGTH] achName; float
+  achPercent; float achUnlocked; int i =
+  SteamUserStats()-&gt;GetMostAchievedAchievementInfo( achName,
+  ACH_NAME_MAX_LENGTH, achPercent, achUnlocked ); while ( i != -1 ) { printf(
+  "AchievementInfo - name: %s, percent: %f, unlocked: %d", achName, achPercent,
+  achUnlocked ); // Do something like add/update this info in your local
+  achievement object or display it to the user. i =
+  SteamUserStats()-&gt;GetNextMostAchievedAchievementInfo( i, achName,
+  ACH_NAME_MAX_LENGTH, achPercent, achUnlocked ); }
+</div>
+<h2 class="bb_subsection">
+  <a name="GetNextMostAchievedAchievementInfo"></a
+  >GetNextMostAchievedAchievementInfo
+</h2>
+<div class="bb_code cpp">
+  int GetNextMostAchievedAchievementInfo( int iIteratorPrevious, char *pchName,
+  uint32 unNameBufLen, float *pflPercent, bool *pbAchieved );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>iIteratorPrevious</strong></td>
+    <td>int</td>
+    <td>
+      Iterator returned from the previous call to this function or from
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetMostAchievedAchievementInfo"
+        class="bb_apilink"
+        >ISteamUserStats::GetMostAchievedAchievementInfo</a
+      >
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>char *</td>
+    <td>String buffer to return the 'API Name' of the achievement into.</td>
+  </tr>
+  <tr>
+    <td><strong>unNameBufLen</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>
+      The size in bytes of pchName, should be at least as long as your longest
+      achievement 'API Name'.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pflPercent</strong></td>
+    <td>float *</td>
+    <td>
+      Variable to return the percentage of people that have unlocked this
+      achievement from 0 to 100.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pbAchieved</strong></td>
+    <td>bool *</td>
+    <td>
+      Variable to return whether the current user has unlocked this achievement.
+    </td>
+  </tr>
+</table>
+<br />Gets the info on the next most achieved achievement for the game.<br /><br />You
+must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalAchievementPercentages</a
+>
+and it needs to return successfully via its callback prior to calling this.<br /><br /><strong
+  >Returns:</strong
+>
+int<br />Returns <strong>-1</strong> if
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalAchievementPercentages</a
+>
+has not been called or if there are no global achievement percentages for this
+app Id.<br /><br />If the call is successful it returns an iterator which should
+be used with subsequent calls to this function.<br /><br /><strong
+  >Example:</strong
+><br />
+<div class="bb_code cpp">
+  const int ACH_NAME_MAX_LENGTH = 64; char[ACH_NAME_MAX_LENGTH] achName; float
+  achPercent; float achUnlocked; int i =
+  SteamUserStats()-&gt;GetMostAchievedAchievementInfo( achName,
+  ACH_NAME_MAX_LENGTH, achPercent, achUnlocked ); while ( i != -1 ) { printf(
+  "AchievementInfo - name: %s, percent: %f, unlocked: %d", achName, achPercent,
+  achUnlocked ); // Do something like add/update this info in your local
+  achievement object or display it to the user. i =
+  SteamUserStats()-&gt;GetNextMostAchievedAchievementInfo( i, achName,
+  ACH_NAME_MAX_LENGTH, achPercent, achUnlocked ); }
+</div>
+<h2 class="bb_subsection">
+  <a name="GetNumAchievements"></a>GetNumAchievements
+</h2>
+<div class="bb_code cpp">uint32 GetNumAchievements();</div>
+Get the number of achievements defined in the App Admin panel of the Steamworks
+website.<br /><br />This is used for iterating through all of the achievements
+with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementName"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementName</a
+>.<br /><br />In general games should not need these functions because they
+should have a list of existing achievements compiled into them.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+  class="bb_apilink"
+  >uint32</a
+><br />The number of achievements. Returns <strong>0</strong> if
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+has not been called and successfully returned its callback, or the current App
+ID has no achievements.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementName"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementName</a
+><br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+  int numAchievements = SteamUserStats()-&gt;GetNumAchievements(); for ( int i =
+  0; i &lt; numAchievements; ++i ) { const char *achName =
+  SteamUserStats()-&gt;GetAchievementName( i ); if ( achName ) { printf( "%s",
+  achName ); } }
+</div>
+<h2 class="bb_subsection">
+  <a name="GetNumberOfCurrentPlayers"></a>GetNumberOfCurrentPlayers
+</h2>
+<div class="bb_code cpp">SteamAPICall_t GetNumberOfCurrentPlayers();</div>
+Asynchronously retrieves the total number of players currently playing the
+current game. Both online and in offline mode.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#NumberOfCurrentPlayers_t"
+  class="bb_apilink"
+  >NumberOfCurrentPlayers_t</a
+>
+call result.
+<h2 class="bb_subsection"><a name="GetStat"></a>GetStat</h2>
+<div class="bb_code cpp">
+  bool GetStat( const char *pchName, int32 *pData ); bool GetStat( const char
+  *pchName, float *pData );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>
+      The 'API Name' of the stat. Must not be longer than
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
+        class="bb_apilink"
+        >k_cchStatNameMax</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pData</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+      * / float *
+    </td>
+    <td>The variable to return the stat value into.</td>
+  </tr>
+</table>
+<br />Gets the current value of the a stat for the current user.<br /><br />You
+must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+and it needs to return successfully via its callback prior to calling this.<br /><br />To
+receive stats for other users use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserStat</a
+>.<br /><br /><strong>Returns:</strong> bool<br />This function returns
+<strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    The specified stat exists in App Admin on the Steamworks website, and the
+    changes are published.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The type passed to this function must match the type listed in the App Admin
+    panel of the Steamworks website.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetStat"
+  class="bb_apilink"
+  >ISteamUserStats::SetStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UpdateAvgRateStat"
+  class="bb_apilink"
+  >ISteamUserStats::UpdateAvgRateStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#ResetAllStats"
+  class="bb_apilink"
+  >ISteamUserStats::ResetAllStats</a
+>
+<h2 class="bb_subsection">
+  <a name="GetTrophySpaceRequiredBeforeInstall"></a
+  >GetTrophySpaceRequiredBeforeInstall
+</h2>
+<div class="bb_code cpp">uint64 GetTrophySpaceRequiredBeforeInstall();</div>
+DEPRECATE ME.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+  class="bb_apilink"
+  >uint64</a
+>
+<h2 class="bb_subsection">
+  <a name="GetUserAchievement"></a>GetUserAchievement
+</h2>
+<div class="bb_code cpp">
+  bool GetUserAchievement( CSteamID steamIDUser, const char *pchName, bool
+  *pbAchieved );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user to get the achievement for.</td>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>pbAchieved</strong></td>
+    <td>bool *</td>
+    <td>Returns the unlock status of the achievement.</td>
+  </tr>
+</table>
+<br />Gets the unlock status of the Achievement.<br /><br />The equivalent
+function for the local user is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievement</a
+>, the equivalent function for game servers is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#GetUserAchievement"
+  class="bb_apilink"
+  >ISteamGameServerStats::GetUserAchievement</a
+>.<br /><br /><strong>Returns:</strong> bool<br />This function returns
+<strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestUserStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The 'API Name' of the specified achievement exists in App Admin on the
+    Steamworks website, and the changes are published.
+  </li>
+</ul>
+<br />If the call is successful then the unlock status is returned via the
+<code class="bb_code bb_code_inline nohighlight">pbAchieved</code>
+parameter.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestUserStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievementAndUnlockTime</a
+>
+<h2 class="bb_subsection">
+  <a name="GetUserAchievementAndUnlockTime"></a>GetUserAchievementAndUnlockTime
+</h2>
+<div class="bb_code cpp">
+  bool GetUserAchievementAndUnlockTime( CSteamID steamIDUser, const char
+  *pchName, bool *pbAchieved, uint32 *punUnlockTime );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user to get the achievement for.</td>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>pbAchieved</strong></td>
+    <td>bool *</td>
+    <td>Returns whether the current user has unlocked the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>punUnlockTime</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+      *
+    </td>
+    <td>
+      Returns the time that the achievement was unlocked; if pbAchieved is true.
+    </td>
+  </tr>
+</table>
+<br />Gets the achievement status, and the time it was unlocked if unlocked.<br /><br />If
+the return value is true, but the unlock time is zero, that means it was
+unlocked before Steam began tracking achievement unlock times (December 2009).
+The time is provided in Unix epoch format, seconds since January 1, 1970 UTC.<br /><br />The
+equivalent function for the local user is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAndUnlockTime</a
+>.<br /><br /><strong>Returns:</strong> bool<br />This function returns
+<strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestUserStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The 'API Name' of the specified achievement exists in App Admin on the
+    Steamworks website, and the changes are published.
+  </li>
+</ul>
+<br />If the call is successful then the achieved status and unlock time are
+provided via the arguments
+<code class="bb_code bb_code_inline nohighlight">pbAchieved</code> and
+<code class="bb_code bb_code_inline nohighlight">punUnlockTime</code
+>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestUserStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievement</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserStat</a
+>
+<h2 class="bb_subsection"><a name="GetUserStat"></a>GetUserStat</h2>
+<div class="bb_code cpp">
+  bool GetUserStat( CSteamID steamIDUser, const char *pchName, int32 *pData );
+  bool GetUserStat( CSteamID steamIDUser, const char *pchName, float *pData );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user to get the stat for.</td>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>
+      The 'API Name' of the stat. Must not be longer than
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
+        class="bb_apilink"
+        >k_cchStatNameMax</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>pData</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+      * / float *
+    </td>
+    <td>The variable to return the stat value into.</td>
+  </tr>
+</table>
+<br />Gets the current value of the a stat for the specified user.<br /><br />You
+must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestUserStats</a
+>
+and it needs to return successfully via its callback prior to calling this.<br /><br />The
+equivalent function for the local user is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetStat</a
+>, the equivalent function for game servers is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#GetUserStat"
+  class="bb_apilink"
+  >ISteamGameServerStats::GetUserStat</a
+>.<br /><br /><strong>Returns:</strong> bool<br />This function returns
+<strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    The specified stat exists in App Admin on the Steamworks website, and the
+    changes are published.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestUserStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The type does not match the type listed in the App Admin panel of the
+    Steamworks website.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievement</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievementAndUnlockTime</a
+>
+<h2 class="bb_subsection"><a name="GetUserStatsData"></a>GetUserStatsData</h2>
+<div class="bb_code cpp">
+  bool GetUserStatsData( void *pvData, uint32 cubData, uint32 *pcubWritten );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pvData</strong></td>
+    <td>void *</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>cubData</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>pcubWritten</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+      *
+    </td>
+    <td></td>
+  </tr>
+</table>
+<br />DEPRECATE ME.<br /><br /><strong>Returns:</strong> bool
+<h2 class="bb_subsection">
+  <a name="IndicateAchievementProgress"></a>IndicateAchievementProgress
+</h2>
+<div class="bb_code cpp">
+  bool IndicateAchievementProgress( const char *pchName, uint32 nCurProgress,
+  uint32 nMaxProgress );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>nCurProgress</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>The current progress.</td>
+  </tr>
+  <tr>
+    <td><strong>nMaxProgress</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>The progress required to unlock the achievement.</td>
+  </tr>
+</table>
+<br />Shows the user a pop-up notification with the current progress of an
+achievement.<br /><br />Calling this function will NOT set the progress or
+unlock the achievement, the game must do that manually by calling
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetStat"
+  class="bb_apilink"
+  >ISteamUserStats::SetStat</a
+>!<br /><br />The notification looks like this:<br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/achievement_progress.png"
+  alt="achievement_progress.png"
+  title="achievement_progress.png"
+/><br /><br /><strong>Returns:</strong> bool<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsStored_t"
+  class="bb_apilink"
+  >UserStatsStored_t</a
+>
+callback.<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserAchievementStored_t"
+  class="bb_apilink"
+  >UserAchievementStored_t</a
+>
+callback.<br />This function returns <strong>true</strong> upon success if all
+of the following conditions are met; otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The specified achievement exists in App Admin on the Steamworks website, and
+    the changes are published.<br />
+  </li>
+  <li>The specified achievement is not already unlocked.<br /></li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">nCurProgress</code> is less
+    than <code class="bb_code bb_code_inline nohighlight">nMaxProgress</code>.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::SetAchievement</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetStat"
+  class="bb_apilink"
+  >ISteamUserStats::SetStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#SetOverlayNotificationPosition"
+  class="bb_apilink"
+  >ISteamUtils::SetOverlayNotificationPosition</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUtils#SetOverlayNotificationInset"
+  class="bb_apilink"
+  >ISteamUtils::SetOverlayNotificationInset</a
+>
+<h2 class="bb_subsection">
+  <a name="InstallPS3Trophies"></a>InstallPS3Trophies
+</h2>
+<div class="bb_code cpp">bool InstallPS3Trophies();</div>
+DEPRECATE ME!!<br /><br /><strong>Returns:</strong> bool
+<h2 class="bb_subsection">
+  <a name="RequestCurrentStats"></a>RequestCurrentStats
+</h2>
+<div class="bb_code cpp">bool RequestCurrentStats();</div>
+Asynchronously request the user's current stats and achievements from the
+server.<br /><br />You must always call this first to get the initial status of
+stats and achievements.<br />Only after the resulting callback comes back can
+you start calling the rest of the stats and achievement functions for the
+current user.<br /><br />The equivalent function for other users is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestUserStats</a
+>.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsReceived_t"
+  class="bb_apilink"
+  >UserStatsReceived_t</a
+>
+callback.<br />Only returns <strong>false</strong> if there is no user logged
+in; otherwise, <strong>true</strong>.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetStat"
+  class="bb_apilink"
+  >ISteamUserStats::SetStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::SetAchievement</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>
+<h2 class="bb_subsection">
+  <a name="RequestGlobalAchievementPercentages"></a
+  >RequestGlobalAchievementPercentages
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t RequestGlobalAchievementPercentages();
+</div>
+Asynchronously fetch the data for the percentage of players who have received
+each achievement for the current game globally.<br /><br />You must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+and it needs to return successfully via its callback prior to calling this!<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GlobalAchievementPercentagesReady_t"
+  class="bb_apilink"
+  >GlobalAchievementPercentagesReady_t</a
+>
+call result.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetMostAchievedAchievementInfo"
+  class="bb_apilink"
+  >ISteamUserStats::GetMostAchievedAchievementInfo</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetNextMostAchievedAchievementInfo"
+  class="bb_apilink"
+  >ISteamUserStats::GetNextMostAchievedAchievementInfo</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAchievedPercent"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAchievedPercent</a
+>
+<h2 class="bb_subsection">
+  <a name="RequestGlobalStats"></a>RequestGlobalStats
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t RequestGlobalStats( int nHistoryDays );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>nHistoryDays</strong></td>
+    <td>int</td>
+    <td>
+      How many days of day-by-day history to retrieve in addition to the overall
+      totals. The limit is 60.
+    </td>
+  </tr>
+</table>
+<br />Asynchronously fetches global stats data, which is available for stats
+marked as "aggregated" in the App Admin panel of the Steamworks website.<br /><br />You
+must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+and it needs to return successfully via its callback prior to calling this.<br /><br /><strong
+  >Returns:</strong
+>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GlobalStatsReceived_t"
+  class="bb_apilink"
+  >GlobalStatsReceived_t</a
+>
+call result.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetGlobalStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetGlobalStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetGlobalStatHistory"
+  class="bb_apilink"
+  >ISteamUserStats::GetGlobalStatHistory</a
+>
+<h2 class="bb_subsection"><a name="RequestUserStats"></a>RequestUserStats</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t RequestUserStats( CSteamID steamIDUser );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The Steam ID of the user to request stats for.</td>
+  </tr>
+</table>
+<br />Asynchronously downloads stats and achievements for the specified user
+from the server.<br /><br />These stats are not automatically updated; you'll
+need to call this function again to refresh any data that may have change.<br /><br />To
+keep from using too much memory, an least recently used cache (LRU) is
+maintained and other user's stats will occasionally be unloaded. When this
+happens a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsUnloaded_t"
+  class="bb_apilink"
+  >UserStatsUnloaded_t</a
+>
+callback is sent. After receiving this callback the user's stats will be
+unavailable until this function is called again.<br /><br />The equivalent
+function for the local user is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>, the equivalent function for game servers is
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamGameServerStats::RequestUserStats</a
+>.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsReceived_t"
+  class="bb_apilink"
+  >UserStatsReceived_t</a
+>
+call result.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievement</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserAchievementAndUnlockTime</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetUserStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetUserStat</a
+>
+<h2 class="bb_subsection"><a name="ResetAllStats"></a>ResetAllStats</h2>
+<div class="bb_code cpp">bool ResetAllStats( bool bAchievementsToo );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>bAchievementsToo</strong></td>
+    <td>bool</td>
+    <td>Also reset the user's achievements?</td>
+  </tr>
+</table>
+<br />Resets the current users stats and, optionally achievements.<br /><br />This
+automatically calls
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>
+to persist the changes to the server. This should typically only be used for
+testing purposes during development. Ensure that you sync up your stats with the
+new default values provided by Steam after calling this by calling
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
+indicating success if
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+has been called and successfully returned its callback; otherwise
+<strong>false</strong>.
+<h2 class="bb_subsection"><a name="SetAchievement"></a>SetAchievement</h2>
+<div class="bb_code cpp">bool SetAchievement( const char *pchName );</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>The 'API Name' of the Achievement to unlock.</td>
+  </tr>
+</table>
+<br />Unlocks an achievement.<br /><br />You must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+and it needs to return successfully via its callback prior to calling this!<br /><br />You
+can unlock an achievement multiple times so you don't need to worry about only
+setting achievements that aren't already set. This call only modifies Steam's
+in-memory state so it is quite cheap. To send the unlock status to the server
+and to trigger the Steam overlay notification you must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>.<br /><br /><strong>Returns:</strong> bool<br />This function returns
+<strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    The specified achievement "API Name" exists in App Admin on the Steamworks
+    website, and the changes are published.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#ResetAllStats"
+  class="bb_apilink"
+  >ISteamUserStats::ResetAllStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementAndUnlockTime"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementAndUnlockTime</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievement</a
+>
+<h2 class="bb_subsection"><a name="SetStat"></a>SetStat</h2>
+<div class="bb_code cpp">
+  bool SetStat( const char *pchName, int32 nData ); bool SetStat( const char
+  *pchName, float fData );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>
+      The 'API Name' of the stat. Must not be longer than
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
+        class="bb_apilink"
+        >k_cchStatNameMax</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>nData</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+      / float
+    </td>
+    <td>
+      The new value of the stat. This must be an absolute value, it will not
+      increment or decrement for you.
+    </td>
+  </tr>
+</table>
+<br />Sets / updates the value of a given stat for the current user.<br /><br />You
+must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+and it needs to return successfully via its callback prior to calling this!<br /><br />This
+call only modifies Steam's in-memory state and is very cheap. Doing so allows
+Steam to persist the changes even in the event of a game crash or unexpected
+shutdown.<br />To submit the stats to the server you must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>.<br /><br />If this is returning false and everything appears correct, then
+check to ensure that your changes in the App Admin panel of the Steamworks
+website are published.<br /><br /><strong>Returns:</strong> bool<br />This
+function returns <strong>true</strong> upon success if all of the following
+conditions are met; otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    The specified stat exists in App Admin on the Steamworks website, and the
+    changes are published.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The type passed to this function must match the type listed in the App Admin
+    panel of the Steamworks website.
+  </li>
+</ul>
+<br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetStat"
+  class="bb_apilink"
+  >ISteamUserStats::GetStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UpdateAvgRateStat"
+  class="bb_apilink"
+  >ISteamUserStats::UpdateAvgRateStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#ResetAllStats"
+  class="bb_apilink"
+  >ISteamUserStats::ResetAllStats</a
+>
+<h2 class="bb_subsection"><a name="SetUserStatsData"></a>SetUserStatsData</h2>
+<div class="bb_code cpp">
+  bool SetUserStatsData( const void *pvData, uint32 cubData );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pvData</strong></td>
+    <td>const void *</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>cubData</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td></td>
+  </tr>
+</table>
+<br />DEPRECATE ME.<br /><br /><strong>Returns:</strong> bool
+<h2 class="bb_subsection"><a name="StoreStats"></a>StoreStats</h2>
+<div class="bb_code cpp">bool StoreStats();</div>
+Send the changed stats and achievements data to the server for permanent
+storage.<br /><br />If this fails then nothing is sent to the server. It's
+advisable to keep trying until the call is successful.<br /><br />This call can
+be rate limited. Call frequency should be on the order of minutes, rather than
+seconds. You should only be calling this during major state changes such as the
+end of a round, the map changing, or the user leaving a server. This call is
+required to display the achievement unlock notification dialog though, so if you
+have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::SetAchievement</a
+>
+then it's advisable to call this soon after that.<br /><br />If you have stats
+or achievements that you have saved locally but haven't uploaded with this
+function when your application process ends then this function will
+automatically be called.<br /><br />You can find additional debug information
+written to the
+<code class="bb_code bb_code_inline nohighlight"
+  >%steam_install%\logs\stats_log.txt</code
+>
+file.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsStored_t"
+  class="bb_apilink"
+  >UserStatsStored_t</a
+>
+callback.<br />Triggers a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserAchievementStored_t"
+  class="bb_apilink"
+  >UserAchievementStored_t</a
+>
+callback.<br />This function returns <strong>true</strong> upon success if all
+of the following conditions are met; otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>
+    The current game has stats associated with it in the Steamworks Partner
+    backend, and those stats are published.
+  </li>
+</ul>
+<br />If the call is successful you will receive a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsStored_t"
+  class="bb_apilink"
+  >UserStatsStored_t</a
+>
+callback.<br /><br />If
+<code class="bb_code bb_code_inline nohighlight">m_eResult</code> has a result
+of
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#k_EResultInvalidParam"
+  class="bb_apilink"
+  >k_EResultInvalidParam</a
+>, then one or more stats uploaded has been rejected, either because they broke
+constraints or were out of date. In this case the server sends back updated
+values and the stats should be updated locally to keep in sync.<br /><br />If
+one or more achievements has been unlocked then this will also trigger a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserAchievementStored_t"
+  class="bb_apilink"
+  >UserAchievementStored_t</a
+>
+callback.<br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetStat"
+  class="bb_apilink"
+  >ISteamUserStats::SetStat</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetAchievement"
+  class="bb_apilink"
+  >ISteamUserStats::SetAchievement</a
+>
+<h2 class="bb_subsection"><a name="UpdateAvgRateStat"></a>UpdateAvgRateStat</h2>
+<div class="bb_code cpp">
+  bool UpdateAvgRateStat( const char *pchName, float flCountThisSession, double
+  dSessionLength );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>pchName</strong></td>
+    <td>const char *</td>
+    <td>
+      The 'API Name' of the stat. Must not be longer than
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
+        class="bb_apilink"
+        >k_cchStatNameMax</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>flCountThisSession</strong></td>
+    <td>float</td>
+    <td>The value accumulation since the last call to this function.</td>
+  </tr>
+  <tr>
+    <td><strong>dSessionLength</strong></td>
+    <td>double</td>
+    <td>The amount of time in seconds since the last call to this function.</td>
+  </tr>
+</table>
+<br />Updates an AVGRATE stat with new values.<br /><br />You must have called
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>
+and it needs to return successfully via its callback prior to calling this!<br /><br />This
+call only modifies Steam's in-memory state and is very cheap. Doing so allows
+Steam to persist the changes even in the event of a game crash or unexpected
+shutdown.<br />To submit the stats to the server you must call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>.<br /><br />If this is returning false and everything appears correct, then
+check to ensure that your changes in the App Admin panel of the Steamworks
+website are published.<br /><br /><strong>Returns:</strong> bool<br />This
+function returns <strong>true</strong> upon success if all of the following
+conditions are met; otherwise, <strong>false</strong>.<br />
+<ul class="bb_ul">
+  <li>
+    The specified stat exists in App Admin on the Steamworks website, and the
+    changes are published.<br />
+  </li>
+  <li>
+    <a
+      href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+      class="bb_apilink"
+      >ISteamUserStats::RequestCurrentStats</a
+    >
+    has completed and successfully returned its callback.<br />
+  </li>
+  <li>The type must be AVGRATE in the Steamworks Partner backend.</li>
+</ul>
+<h2 class="bb_subsection">
+  <a name="UploadLeaderboardScore"></a>UploadLeaderboardScore
+</h2>
+<div class="bb_code cpp">
+  SteamAPICall_t UploadLeaderboardScore( SteamLeaderboard_t hSteamLeaderboard,
+  ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int32 nScore,
+  const int32 *pScoreDetails, int cScoreDetailsCount );
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>
+      A leaderboard handle obtained from
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindLeaderboard</a
+      >
+      or
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+        class="bb_apilink"
+        >ISteamUserStats::FindOrCreateLeaderboard</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>eLeaderboardUploadScoreMethod</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#ELeaderboardUploadScoreMethod"
+        class="bb_apilink"
+        >ELeaderboardUploadScoreMethod</a
+      >
+    </td>
+    <td>
+      Do you want to force the score to change, or keep the previous score if it
+      was better?
+    </td>
+  </tr>
+  <tr>
+    <td><strong>nScore</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+    </td>
+    <td>The score to upload.</td>
+  </tr>
+  <tr>
+    <td><strong>pScoreDetails</strong></td>
+    <td>
+      const
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+      *
+    </td>
+    <td>
+      Optional: Array containing the details surrounding the unlocking of this
+      score.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>cScoreDetailsCount</strong></td>
+    <td>int</td>
+    <td>
+      The number of elements in
+      <code class="bb_code bb_code_inline nohighlight">pScoreDetails</code>.
+      Must not exceed k_cLeaderboardDetailsMax
+    </td>
+  </tr>
+</table>
+<br />Uploads a user score to a specified leaderboard.<br /><br />Details are
+optional game-defined information which outlines how the user got that score.
+For example if it's a racing style time based leaderboard you could store the
+timestamps when the player hits each checkpoint. If you have collectibles along
+the way you could use bit fields as booleans to store the items the player
+picked up in the playthrough.<br /><br />Uploading scores to Steam is rate
+limited to 10 uploads per 10 minutes and you may only have one outstanding call
+to this function at a time.<br /><br /><strong>Returns:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t"
+  class="bb_apilink"
+  >SteamAPICall_t</a
+>
+to be used with a
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardScoreUploaded_t"
+  class="bb_apilink"
+  >LeaderboardScoreUploaded_t</a
+>
+call result.<br /><br /><br /><strong>See Also:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntries</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#AttachLeaderboardUGC"
+  class="bb_apilink"
+  >ISteamUserStats::AttachLeaderboardUGC</a
+>
+<h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
+These are callbacks which can be fired by calling
+<a
+  href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
+  class="bb_apilink"
+  >SteamAPI_RunCallbacks</a
+>. Many of these will be fired directly in response to the member functions of
+<code class="bb_code bb_code_inline nohighlight">ISteamUserStats</code>.
+<h2 class="bb_subsection">
+  <a name="GlobalAchievementPercentagesReady_t"></a
+  >GlobalAchievementPercentagesReady_t
+</h2>
+Called when the global achievement percentages have been received from the
+server.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_nGameID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>Game ID which these achievement percentages are for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>
+      Result of the request. Returns:<br /><a
+        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
+        class="bb_apilink"
+        >k_EResultOK</a
+      >
+      indicating success.<br /><a
+        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultInvalidState"
+        class="bb_apilink"
+        >k_EResultInvalidState</a
+      >
+      Stats haven't been loaded yet, Call
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+        class="bb_apilink"
+        >ISteamUserStats::RequestCurrentStats</a
+      >.<br /><a
+        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultFail"
+        class="bb_apilink"
+        >k_EResultFail</a
+      >
+      if the remote call fails or there are no global achievement percentages
+      for the current AppId.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalAchievementPercentages</a
+>
+<h2 class="bb_subsection">
+  <a name="GlobalStatsReceived_t"></a>GlobalStatsReceived_t
+</h2>
+Called when the global stats have been received from the server.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_nGameID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>Game ID which these global stats are for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>
+      The result of the request. Returns:<br />
+      <ul class="bb_ul">
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
+            class="bb_apilink"
+            >k_EResultOK</a
+          >
+          indicating success.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultInvalidState"
+            class="bb_apilink"
+            >k_EResultInvalidState</a
+          >
+          Stats haven't been loaded yet, Call
+          <a
+            href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+            class="bb_apilink"
+            >ISteamUserStats::RequestCurrentStats</a
+          >.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultFail"
+            class="bb_apilink"
+            >k_EResultFail</a
+          >
+          if the remote call fails.
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestGlobalStats</a
+>
+<h2 class="bb_subsection">
+  <a name="LeaderboardFindResult_t"></a>LeaderboardFindResult_t
+</h2>
+Result when finding a leaderboard.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>
+      Handle to the leaderboard that was serarched for. <strong>0</strong> if no
+      leaderboard was found.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_bLeaderboardFound</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >
+    </td>
+    <td>
+      Was the leaderboard found? <strong>1</strong> if it was,
+      <strong>0</strong> if it wasn't.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindOrCreateLeaderboard</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindLeaderboard</a
+>
+<h2 class="bb_subsection">
+  <a name="LeaderboardScoresDownloaded_t"></a>LeaderboardScoresDownloaded_t
+</h2>
+Called when scores for a leaderboard have been downloaded and are ready to be
+retrieved.<br />After calling you must use
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetDownloadedLeaderboardEntry"
+  class="bb_apilink"
+  >ISteamUserStats::GetDownloadedLeaderboardEntry</a
+>
+to retrieve the info for each downloaded entry.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>Handle to the leaderboard that these entries belong to.</td>
+  </tr>
+  <tr>
+    <td><strong>m_hSteamLeaderboardEntries</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboardEntries_t"
+        class="bb_apilink"
+        >SteamLeaderboardEntries_t</a
+      >
+    </td>
+    <td>
+      The handle to pass into
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetDownloadedLeaderboardEntry"
+        class="bb_apilink"
+        >ISteamUserStats::GetDownloadedLeaderboardEntry</a
+      >
+      to retrieve the info for each downloaded entry.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_cEntryCount</strong></td>
+    <td>int</td>
+    <td>The number of entries downloaded.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntries</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntriesForUsers"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntriesForUsers</a
+>
+<h2 class="bb_subsection">
+  <a name="LeaderboardScoreUploaded_t"></a>LeaderboardScoreUploaded_t
+</h2>
+Result indicating that a leaderboard score has been uploaded.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_bSuccess</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >
+    </td>
+    <td>
+      Was the call successful? Returns <strong>1</strong> if the call was
+      successful, <strong>0</strong> on failure.<br />The amount of details sent
+      exceeds
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cLeaderboardDetailsMax"
+        class="bb_apilink"
+        >k_cLeaderboardDetailsMax</a
+      >.<br />The leaderboard is set to "Trusted" in App Admin on Steamworks
+      website, and will only accept scores sent from the Steam Web API.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>Handle to the leaderboard that this score was uploaded to.</td>
+  </tr>
+  <tr>
+    <td><strong>m_nScore</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+    </td>
+    <td>The score that was attempted to set.</td>
+  </tr>
+  <tr>
+    <td><strong>m_bScoreChanged</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >
+    </td>
+    <td>
+      <strong>true</strong> if the score on the leaderboard changed otherwise
+      <strong>false</strong> if the existing score was better.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_nGlobalRankNew</strong></td>
+    <td>int</td>
+    <td>The new global rank of the user on this leaderboard.</td>
+  </tr>
+  <tr>
+    <td><strong>m_nGlobalRankPrevious</strong></td>
+    <td>int</td>
+    <td>
+      The previous global rank of the user on this leaderboard;
+      <strong>0</strong> if the user had no existing entry in the leaderboard.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
+  class="bb_apilink"
+  >ISteamUserStats::UploadLeaderboardScore</a
+>
+<h2 class="bb_subsection">
+  <a name="LeaderboardUGCSet_t"></a>LeaderboardUGCSet_t
+</h2>
+Result indicating that user generated content has been attached to one of the
+current user's leaderboard entries.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>
+      The result of the operation.Possible Values:<br />
+      <ul class="bb_ul">
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
+            class="bb_apilink"
+            >k_EResultOK</a
+          >
+          - The UGC has been successfully attached.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultTimeout"
+            class="bb_apilink"
+            >k_EResultTimeout</a
+          >
+          - The upload took too long, the UGC was not submitted.<br />
+        </li>
+        <li>
+          <a
+            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultInvalidParam"
+            class="bb_apilink"
+            >k_EResultInvalidParam</a
+          >
+          - The handle passed into
+          <code class="bb_code bb_code_inline nohighlight"
+            >m_hSteamLeaderboard</code
+          >
+          is invalid, the UGC was not submitted.
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_hSteamLeaderboard</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#SteamLeaderboard_t"
+        class="bb_apilink"
+        >SteamLeaderboard_t</a
+      >
+    </td>
+    <td>Handle to the leaderboard that the UGC was attached to.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#AttachLeaderboardUGC"
+  class="bb_apilink"
+  >ISteamUserStats::AttachLeaderboardUGC</a
+>
+<h2 class="bb_subsection">
+  <a name="NumberOfCurrentPlayers_t"></a>NumberOfCurrentPlayers_t
+</h2>
+Gets the current number of players for the current AppId.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_bSuccess</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint8"
+        class="bb_apilink"
+        >uint8</a
+      >
+    </td>
+    <td>
+      Was the call successful? Returns <strong>1</strong> if it was; otherwise,
+      <strong>0</strong> on failure.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_cPlayers</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+    </td>
+    <td>Number of players currently playing.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetNumberOfCurrentPlayers"
+  class="bb_apilink"
+  >ISteamUserStats::GetNumberOfCurrentPlayers</a
+>
+<h2 class="bb_subsection">
+  <a name="PS3TrophiesInstalled_t"></a>PS3TrophiesInstalled_t
+</h2>
+Called when PS3 trophies are available.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_nGameID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>Game that these stats are for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>The result of the operation.</td>
+  </tr>
+  <tr>
+    <td><strong>m_ulRequiredDiskSpace</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>
+      If <code class="bb_code bb_code_inline nohighlight">m_eResult</code> is
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultDiskFull"
+        class="bb_apilink"
+        >k_EResultDiskFull</a
+      >, then this will contain the amount of space needed to install trophies.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="UserAchievementIconFetched_t"></a>UserAchievementIconFetched_t
+</h2>
+Result of an achievement icon that has been fetched<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_nGameID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CGameID"
+        class="bb_apilink"
+        >CGameID</a
+      >
+    </td>
+    <td>The Game ID this achievement is for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_rgchAchievementName</strong></td>
+    <td>
+      char［<a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
+        class="bb_apilink"
+        >k_cchStatNameMax</a
+      >］
+    </td>
+    <td>The name of the achievement that this callback is for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_bAchieved</strong></td>
+    <td>bool</td>
+    <td>
+      Returns whether the icon for the achieved (<strong>true</strong>) or
+      unachieved (<strong>false</strong>) version.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_nIconHandle</strong></td>
+    <td>int</td>
+    <td>
+      Handle to the image, which can be used with
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUtils#GetImageRGBA"
+        class="bb_apilink"
+        >ISteamUtils::GetImageRGBA</a
+      >
+      to get the image data. <strong>0</strong> means no image is set for the
+      achievement.
+    </td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetAchievementIcon"
+  class="bb_apilink"
+  >ISteamUserStats::GetAchievementIcon</a
+>
+<h2 class="bb_subsection">
+  <a name="UserAchievementStored_t"></a>UserAchievementStored_t
+</h2>
+Result of a request to store the achievements on the server, or an "indicate
+progress" call. If both
+<code class="bb_code bb_code_inline nohighlight">m_nCurProgress</code> and
+<code class="bb_code bb_code_inline nohighlight">m_nMaxProgress</code> are zero,
+that means the achievement has been fully unlocked.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_nGameID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>Game ID that this achievement is for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_bGroupAchievement</strong></td>
+    <td>bool</td>
+    <td>Unused.</td>
+  </tr>
+  <tr>
+    <td><strong>m_rgchAchievementName</strong></td>
+    <td>
+      char［<a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
+        class="bb_apilink"
+        >k_cchStatNameMax</a
+      >］
+    </td>
+    <td>Name of the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>m_nCurProgress</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>Current progress towards the achievement.</td>
+  </tr>
+  <tr>
+    <td><strong>m_nMaxProgress</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint32"
+        class="bb_apilink"
+        >uint32</a
+      >
+    </td>
+    <td>The total amount of progress required to unlock.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#IndicateAchievementProgress"
+  class="bb_apilink"
+  >ISteamUserStats::IndicateAchievementProgress</a
+>
+<h2 class="bb_subsection">
+  <a name="UserStatsReceived_t"></a>UserStatsReceived_t
+</h2>
+Called when the latest stats and achievements for a specific user (including the
+local user) have been received from the server.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_nGameID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>Game ID that these stats are for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>
+      Returns whether the call was successful or not. If the user has no stats,
+      this will be set to
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultFail"
+        class="bb_apilink"
+        >k_EResultFail</a
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>The user whose stats were retrieved.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestCurrentStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestUserStats</a
+>
+<h2 class="bb_subsection"><a name="UserStatsStored_t"></a>UserStatsStored_t</h2>
+Result of a request to store the user stats.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_nGameID</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>Game ID that these stats are for.</td>
+  </tr>
+  <tr>
+    <td><strong>m_eResult</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#EResult"
+        class="bb_apilink"
+        >EResult</a
+      >
+    </td>
+    <td>Returns whether the call was successful or not.</td>
+  </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+  class="bb_apilink"
+  >ISteamUserStats::StoreStats</a
+>,
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#IndicateAchievementProgress"
+  class="bb_apilink"
+  >ISteamUserStats::IndicateAchievementProgress</a
+>
+<h2 class="bb_subsection">
+  <a name="UserStatsUnloaded_t"></a>UserStatsUnloaded_t
+</h2>
+Callback indicating that a user's stats have been unloaded.<br /><br />Call
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats"
+  class="bb_apilink"
+  >ISteamUserStats::RequestUserStats</a
+>
+again before accessing stats for this user.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>User whose stats have been unloaded.</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="structs"></a>Structs</h2>
+These are structs which functions in ISteamUserStats may return and/or interact
+with.
+<h2 class="bb_subsection">
+  <a name="LeaderboardEntry_t"></a>LeaderboardEntry_t
+</h2>
+A single entry in a leaderboard, as returned by
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetDownloadedLeaderboardEntry"
+  class="bb_apilink"
+  >ISteamUserStats::GetDownloadedLeaderboardEntry</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>m_steamIDUser</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#CSteamID"
+        class="bb_apilink"
+        >CSteamID</a
+      >
+    </td>
+    <td>
+      User who this entry belongs to. You can use
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendPersonaName"
+        class="bb_apilink"
+        >ISteamFriends::GetFriendPersonaName</a
+      >
+      and
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamFriends#GetSmallFriendAvatar"
+        class="bb_apilink"
+        >ISteamFriends::GetSmallFriendAvatar</a
+      >
+      to get more info.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_nGlobalRank</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+    </td>
+    <td>
+      The global rank of this entry ranging from [1..N], where N is the number
+      of users with an entry in the leaderboard.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>m_nScore</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+    </td>
+    <td>The raw score as set in the leaderboard.</td>
+  </tr>
+  <tr>
+    <td><strong>m_cDetails</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#int32"
+        class="bb_apilink"
+        >int32</a
+      >
+    </td>
+    <td>The number of details available for this entry.</td>
+  </tr>
+  <tr>
+    <td><strong>m_hUGC</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#UGCHandle_t"
+        class="bb_apilink"
+        >UGCHandle_t</a
+      >
+    </td>
+    <td>
+      Handle for the UGC attached to the entry.
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCHandleInvalid"
+        class="bb_apilink"
+        >k_UGCHandleInvalid</a
+      >
+      if there is none.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="enums"></a>Enums</h2>
+These are enums which are defined for use with ISteamUserStats.
+<h2 class="bb_subsection">
+  <a name="ELeaderboardDataRequest"></a>ELeaderboardDataRequest
+</h2>
+Type of data request, used when downloading leaderboard entries with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
+  class="bb_apilink"
+  >ISteamUserStats::DownloadLeaderboardEntries</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ELeaderboardDataRequestGlobal">
+    <td><strong>k_ELeaderboardDataRequestGlobal</strong></td>
+    <td>0</td>
+    <td>
+      Used to query for a sequential range of leaderboard entries by leaderboard
+      rank. The start and end parameters control the requested range. For
+      example, you can display the top 10 on a leaderboard for your game by
+      setting start to 1 and end to 10.
+    </td>
+  </tr>
+  <tr id="k_ELeaderboardDataRequestGlobalAroundUser">
+    <td><strong>k_ELeaderboardDataRequestGlobalAroundUser</strong></td>
+    <td>1</td>
+    <td>
+      Used to retrieve leaderboard entries relative a user's entry. The start
+      parameter is the number of entries to retrieve before the current user's
+      entry, and the end parameter is the number of entries after the current
+      user's entry. The current user's entry is always included. For example, if
+      the current user is #5 on the leaderboard, setting start to -2 and end to
+      2 will return 5 entries: ranks #3 through #7. If there are not enough
+      entries in the leaderboard before or after the user's entry, Steam will
+      adjust the range to try to return the number of entries requested. For
+      example, if the user is #1 on the leaderboard and start is set to -2, end
+      is set to 2, Steam will return the first 5 entries in the leaderboard.
+    </td>
+  </tr>
+  <tr id="k_ELeaderboardDataRequestFriends">
+    <td><strong>k_ELeaderboardDataRequestFriends</strong></td>
+    <td>2</td>
+    <td>
+      Used to retrieve all leaderboard entries for friends of the current user.
+      The start and end parameters are ignored.
+    </td>
+  </tr>
+  <tr id="k_ELeaderboardDataRequestUsers">
+    <td><strong>k_ELeaderboardDataRequestUsers</strong></td>
+    <td>3</td>
+    <td>
+      Used internally, do not use with
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
+        class="bb_apilink"
+        >ISteamUserStats::DownloadLeaderboardEntries</a
+      >! Doing so is undefined behavior.
+    </td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="ELeaderboardDisplayType"></a>ELeaderboardDisplayType
+</h2>
+The display type used by the Steam Community web site to know how to format the
+leaderboard scores when displayed. You can set the display type when creating a
+leaderboard with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindOrCreateLeaderboard</a
+>
+or in the Steamworks partner backend. You can retrieve the display type for a
+given leaderboard with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardDisplayType"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardDisplayType</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ELeaderboardDisplayTypeNone">
+    <td><strong>k_ELeaderboardDisplayTypeNone</strong></td>
+    <td>0</td>
+    <td>
+      This is only ever used when a leaderboard is invalid, you should never set
+      this yourself.
+    </td>
+  </tr>
+  <tr id="k_ELeaderboardDisplayTypeNumeric">
+    <td><strong>k_ELeaderboardDisplayTypeNumeric</strong></td>
+    <td>1</td>
+    <td>The score is just a simple numerical value.</td>
+  </tr>
+  <tr id="k_ELeaderboardDisplayTypeTimeSeconds">
+    <td><strong>k_ELeaderboardDisplayTypeTimeSeconds</strong></td>
+    <td>2</td>
+    <td>The score represents a time, in seconds.</td>
+  </tr>
+  <tr id="k_ELeaderboardDisplayTypeTimeMilliSeconds">
+    <td><strong>k_ELeaderboardDisplayTypeTimeMilliSeconds</strong></td>
+    <td>3</td>
+    <td>The score represents a time, in milliseconds.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="ELeaderboardSortMethod"></a>ELeaderboardSortMethod
+</h2>
+The sort method used to set whether a higher or lower score is better. You can
+set the sort method when creating a leaderboard with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
+  class="bb_apilink"
+  >ISteamUserStats::FindOrCreateLeaderboard</a
+>
+or in App Admin on the Steamworks website. You can retrieve the sort method for
+a given leaderboard with
+<a
+  href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardSortMethod"
+  class="bb_apilink"
+  >ISteamUserStats::GetLeaderboardSortMethod</a
+>.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ELeaderboardSortMethodNone">
+    <td><strong>k_ELeaderboardSortMethodNone</strong></td>
+    <td>0</td>
+    <td>
+      Only ever used when a leaderboard is invalid, you should never set this
+      yourself.
+    </td>
+  </tr>
+  <tr id="k_ELeaderboardSortMethodAscending">
+    <td><strong>k_ELeaderboardSortMethodAscending</strong></td>
+    <td>1</td>
+    <td>The top-score is the lowest number.</td>
+  </tr>
+  <tr id="k_ELeaderboardSortMethodDescending">
+    <td><strong>k_ELeaderboardSortMethodDescending</strong></td>
+    <td>2</td>
+    <td>The top-score is the highest number.</td>
+  </tr>
+</table>
+<h2 class="bb_subsection">
+  <a name="ELeaderboardUploadScoreMethod"></a>ELeaderboardUploadScoreMethod
+</h2>
+<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_ELeaderboardUploadScoreMethodNone">
+    <td><strong>k_ELeaderboardUploadScoreMethodNone</strong></td>
+    <td>0</td>
+    <td></td>
+  </tr>
+  <tr id="k_ELeaderboardUploadScoreMethodKeepBest">
+    <td><strong>k_ELeaderboardUploadScoreMethodKeepBest</strong></td>
+    <td>1</td>
+    <td>Leaderboard will keep user's best score</td>
+  </tr>
+  <tr id="k_ELeaderboardUploadScoreMethodForceUpdate">
+    <td><strong>k_ELeaderboardUploadScoreMethodForceUpdate</strong></td>
+    <td>2</td>
+    <td>Leaderboard will always replace score with specified</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
+These are typedefs which are defined for use with ISteamUserStats.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Base type</th>
+    <th>Description</th>
+  </tr>
+  <tr id="SteamLeaderboardEntries_t">
+    <td><strong>SteamLeaderboardEntries_t</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>
+      Handle to a list of downloaded entries in a leaderboard. This is returned
+      by
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardScoresDownloaded_t"
+        class="bb_apilink"
+        >LeaderboardScoresDownloaded_t</a
+      >
+      and can be used to iterate through all of the entries with
+      <a
+        href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetDownloadedLeaderboardEntry"
+        class="bb_apilink"
+        >ISteamUserStats::GetDownloadedLeaderboardEntry</a
+      >
+    </td>
+  </tr>
+  <tr id="SteamLeaderboard_t">
+    <td><strong>SteamLeaderboard_t</strong></td>
+    <td>
+      <a
+        href="https://partner.steamgames.com/doc/api/steam_api#uint64"
+        class="bb_apilink"
+        >uint64</a
+      >
+    </td>
+    <td>Handle to a single leaderboard.</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="constants"></a>Constants</h2>
+These are constants which are defined for use with ISteamUserStats.<br /><br />
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr id="k_cchLeaderboardNameMax">
+    <td><strong>k_cchLeaderboardNameMax</strong></td>
+    <td>int</td>
+    <td>128</td>
+    <td>Maximum number of bytes for a leaderboard name (UTF-8 encoded).</td>
+  </tr>
+  <tr id="k_cchStatNameMax">
+    <td><strong>k_cchStatNameMax</strong></td>
+    <td>int</td>
+    <td>128</td>
+    <td>
+      Maximum number of bytes for stat and achievement names (UTF-8 encoded).
+    </td>
+  </tr>
+  <tr id="k_cLeaderboardDetailsMax">
+    <td><strong>k_cLeaderboardDetailsMax</strong></td>
+    <td>int</td>
+    <td>64</td>
+    <td>
+      Maximum number of details that you can store for a single leaderboard
+      entry.
+    </td>
+  </tr>
+  <tr id="STEAMUSERSTATS_INTERFACE_VERSION">
+    <td><strong>STEAMUSERSTATS_INTERFACE_VERSION</strong></td>
+    <td>const char *</td>
+    <td>"STEAMUSERSTATS_INTERFACE_VERSION011"</td>
+    <td></td>
+  </tr>
+</table>

@@ -1,0 +1,384 @@
+<h1>Developing for SteamOS and Linux</h1>
+<h2 class="bb_section"><a name="1"></a>Linux Overview</h2>
+Steam for Linux is now available to all Steam users. With a growing catalog of
+Linux-supported games and an active Steam for Linux community group, it's a good
+time to port your game to Linux.<br /><br />Developing a Linux game for Steam
+can be challenging for developers coming from a Windows or macOS development
+background. The following information will help you successfully port your game
+to Steam for Linux.
+<h2 class="bb_section"><a name="2"></a>Getting Started</h2>
+Building your game on Linux requires the following:<br /><br />
+<ul class="bb_ul">
+  <li>
+    A development machine running a fully-updated version of Linux. This can be
+    a dual-boot machine, a dedicated Linux machine, or even a virtual machine
+    running Linux. In addition, development is supported on both 32- and 64-bit
+    Linux distributions. The recommended Linux distribution is the latest Ubuntu
+    LTS release as they received the most testing by Valve and the linux
+    community.
+    <a
+      href="http://www.ubuntu.com/download/desktop"
+      target="_blank"
+      rel="noreferrer"
+      >Ubuntu can be installed from here</a
+    >.<br />
+  </li>
+  <li>
+    <a
+      href="http://store.steampowered.com/about/"
+      target="_blank"
+      rel="noreferrer"
+      >The Steam for Linux client</a
+    >.<br />
+  </li>
+  <li>
+    The basic Linux development tool set (e.g. g++, gcc, and a make utility);
+    contained in the build-essential package. Install this package either by
+    using Ubuntu Software Center or from an open terminal window with the
+    apt-get command: sudo apt-get install build-essential.<br />
+  </li>
+  <li>
+    The latest version of the
+    <a
+      href="https://github.com/ValveSoftware/steam-runtime"
+      target="_blank"
+      rel="noreferrer"
+      >Steam Linux Runtime</a
+    >
+    which includes the tools and a complete set of libraries required to ship
+    Linux games on Steam. Instructions on how to use the runtime are included in
+    the README.md contained within the repository.
+  </li>
+</ul>
+<br />If you have general Linux Steamworks questions or to report issues with
+the runtime, please join the Steamworks Development Group and post on the Linux
+Discussions .
+<h2 class="bb_section"><a name="3"></a>Linux Tools</h2>
+There is a vast array of Linux development tools ranging from command-line
+interfaces to graphical developer IDEs. The following information is based on
+the experience of the Valve Linux team.<br /><br />For those with Windows
+development tool experience, the easiest route to Linux development is Visual
+Studio on Windows and
+<a href="http://wingdb.com/" target="_blank" rel="noreferrer">WinGDB</a> - a
+Visual C++ extension that allows debugging of remote Linux processes, using the
+Visual Studio debugging interface.<br /><br />For development on Linux, the
+following tools were used by the Valve Linux team:<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="http://qt-project.org/downloads#qt-creator"
+      target="_blank"
+      rel="noreferrer"
+      >QtCreator</a
+    >
+    - a debugger and IDE with familiar Visual Studio key bindings.<br />
+  </li>
+  <li>
+    <a
+      href="http://www.slickedit.com/index.php"
+      target="_blank"
+      rel="noreferrer"
+      >SlickEdit</a
+    >
+    - provides a basic, configurable GUI with user-defined key bindings.<br />
+  </li>
+  <li>
+    <a href="http://www.gnu.org/software/gdb/" target="_blank" rel="noreferrer"
+      >gdb</a
+    >
+    - a popular command-line debugger.<br />
+  </li>
+  <li>
+    <a href="http://cgdb.github.com/" target="_blank" rel="noreferrer">cgdb</a>
+    - a wrapper of gdb that provides a split-screen view of the current location
+    in source code during execution.<br />
+  </li>
+  <li>
+    <a
+      href="http://eclipse.org/downloads/?osType=linux"
+      target="_blank"
+      rel="noreferrer"
+      >Eclipse</a
+    >
+    - another IDE that can be configured for Linux development. Available on
+    Windows,<br />
+    macOS, and Linux.<br />
+  </li>
+  <li>
+    <a
+      href="http://www.tuxfiles.org/linuxhelp/vimcheat.html"
+      target="_blank"
+      rel="noreferrer"
+      >vim</a
+    >
+    - a basic command-line text editor.
+  </li>
+</ul>
+<br />The following debugging and tracing tools have been used by the Valve
+Linux team:<br />
+<ul class="bb_ul">
+  <li>QtCreator - see above.<br /></li>
+  <li>
+    <a
+      href="http://fedoraproject.org/wiki/Releases/FeatureBuildId#Find_files_by_build_ID"
+      target="_blank"
+      rel="noreferrer"
+      >Symbol Servers</a
+    ><br />
+  </li>
+  <li>
+    <a
+      href="https://gpuopen.com/archive/gpu-perfstudio/"
+      target="_blank"
+      rel="noreferrer"
+      >PerfStudio</a
+    >
+    - a fully-featured, frame-based debugger with support<br />
+    for API-tracing for games running on AMD graphics cards. Available on
+    Windows.<br />
+  </li>
+  <li>
+    <a
+      href="http://www.radgametools.com/telemetry.htm"
+      target="_blank"
+      rel="noreferrer"
+      >Telemetry</a
+    >
+    - a fully-featured profiler for games running on graphics cards. Available
+    on<br />
+    Linux, Windows, and macOS.<br />
+  </li>
+  <li>
+    <a
+      href="http://developer.amd.com/tools/heterogeneous-computing/codexl/"
+      target="_blank"
+      rel="noreferrer"
+      >CodeXL</a
+    >
+    - tools for debugging GL calls and their contextual state for<br />
+    games running on AMD graphics cards<br />
+  </li>
+  <li>
+    <a href="http://www.gremedy.com/" target="_blank" rel="noreferrer"
+      >gDEBugger</a
+    >
+    - a debugger that debugs, profiles, and analyzes OpenGL code. Active
+    development has shifted to<br />
+    CodeXL.<br />
+  </li>
+  <li>
+    <a
+      href="http://en.wikipedia.org/wiki/Perf_(Linux)"
+      target="_blank"
+      rel="noreferrer"
+      >perf</a
+    >
+    - a command-line tool with various performance features. Available on
+    Linux.<br />
+  </li>
+  <li>
+    <a
+      href="https://developer.nvidia.com/nvidia-nsight-visual-studio-edition"
+      target="_blank"
+      rel="noreferrer"
+      >NVIDIA Nsight</a
+    >
+    - an extension for Visual Studio for debugging games running<br />
+    on Nvidia graphics cards.<br />
+  </li>
+  <li>
+    <a href="https://lttng.org/download" target="_blank" rel="noreferrer"
+      >lTTng</a
+    >
+    - a Linux tracing tool<br />
+  </li>
+  <li>
+    <a href="http://apitrace.github.com/" target="_blank" rel="noreferrer"
+      >apitrace</a
+    >
+    project - a set of tools for tracing and replaying OpenGL and OpenGL ES
+    calls from your game<br />
+  </li>
+  <li>
+    <a href="http://www.rotateright.com/" target="_blank" rel="noreferrer"
+      >Zoom</a
+    >
+    - a CPU profiler with a powerful and friendly user interface
+  </li>
+</ul>
+<h2 class="bb_subsection"><a name="4"></a>Linux APIs</h2>
+<a href="https://www.khronos.org/vulkan/" target="_blank" rel="noreferrer"
+  >Vulkan</a
+>
+is the prefered library for high-performance graphics rendering. It is the open
+equivalent to DirectX12 and Metal.<br /><br /><a
+  href="http://www.opengl.org/documentation/"
+  target="_blank"
+  rel="noreferrer"
+  >OpenGL</a
+>
+was the older standard graphics rendering. A majority of games make direct calls
+to OpenGL but there are other games that use a translation method where legacy
+rendering code is translated into OpenGL calls. This is the approach used by
+older Valve Source games such as Team Fortress 2 and Counter-Strike: Source. If
+you choose OpenGL then we recommend using the core functionality in OpenGL 3.0
+for your game.<br /><br />Simple DirectMedia Layer (SDL) version 2.0 provides
+low-level access to audio and windowing, amongst many other things. Support for
+3D rendering is provided using OpenGL. Installation instructions can be found
+<a href="https://wiki.libsdl.org/Installation" target="_blank" rel="noreferrer"
+  >here</a
+>. For more information and documentation, see the SDL
+<a href="https://wiki.libsdl.org/FrontPage" target="_blank" rel="noreferrer"
+  >wiki</a
+>. Valve uses this in Steam and most of our games to handle windowing and it
+provides the backend which powers the
+<a
+  href="https://partner.steamgames.com/doc/features/steam_controller"
+  class="bb_doclink"
+  >Steam Controller</a
+>
+API.<br /><br />For audio support,
+<a
+  href="http://connect.creativelabs.com/openal/default.aspx"
+  target="_blank"
+  rel="noreferrer"
+  >OpenAL</a
+>
+is an open source audio library (used by the Steam client) that supports
+multichannel positional audio. SDL supports audio with a callback API that works
+with PulseAudio, ALSA and OSS on the back end.<br /><br />The following
+libraries provide support for other aspects of game development:<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="http://www.freetype.org/index.html"
+      target="_blank"
+      rel="noreferrer"
+      >FreeType</a
+    >
+    - font rendering (both vector-based and bitmap fonts) on Linux<br />
+  </li>
+  <li>
+    <a
+      href="http://www.freedesktop.org/wiki/Software/fontconfig"
+      target="_blank"
+      rel="noreferrer"
+      >Fontconfig</a
+    >
+    - configuring and customizing font access<br />
+  </li>
+  <li>
+    <a
+      href="http://www.fmod.org/products/fmodex.html"
+      target="_blank"
+      rel="noreferrer"
+      >FMOD Ex</a
+    >
+    - an audio engine for Windows developers that are new to Linux development
+    but have experience with FMOD<br />
+  </li>
+  <li>
+    <a
+      href="http://www.radgametools.com/miles.htm"
+      target="_blank"
+      rel="noreferrer"
+      >Miles Sound System</a
+    >
+    - a middleware sound engine for Linux development<br />
+  </li>
+  <li>
+    <a
+      href="http://www.radgametools.com/bnkmain.htm"
+      target="_blank"
+      rel="noreferrer"
+      >Bink Video</a
+    >
+    - a video codec designed for game developers<br />
+  </li>
+  <li>
+    <a href="http://www.webmproject.org/" target="_blank" rel="noreferrer"
+      >WebM</a
+    >
+    - an open media file format; used for recording Team Fortress 2 video
+    instead of QuickTime.
+  </li>
+</ul>
+<h2 class="bb_section"><a name="5"></a>GitHub Repositories</h2>
+The following repositories are public and used for projects related to Steam for
+Linux:<br />
+<ul class="bb_ul">
+  <li>
+    <a
+      href="https://github.com/ValveSoftware/steam-for-linux"
+      target="_blank"
+      rel="noreferrer"
+      >steam-for-linux</a
+    >
+    - contains content for the Steam for Linux client and the bug tracker for
+    the Linux Steam client<br />
+  </li>
+  <li>
+    <a
+      href="https://github.com/ValveSoftware/steam-runtime"
+      target="_blank"
+      rel="noreferrer"
+      >steam-runtime</a
+    >
+    - contains the Steam Linux Runtime project. The purpose is to provide a
+    stable runtime environment for the development of Steam Linux games.
+    <h2 class="bb_section"><a name="FAQ"></a>Frequently Asked Questions</h2>
+    <strong
+      >Q. My Linux game has multiple external library dependencies. How do I
+      solve this problem?</strong
+    ><br /><strong>A.</strong> Many popular libraries such as SDL, OpenAL,
+    FreeType and Fontconfig are all included in the
+    <a
+      href="https://github.com/ValveSoftware/steam-runtime"
+      target="_blank"
+      rel="noreferrer"
+      >Steam Linux Runtime</a
+    >
+    for your convenience. If you have other external library dependencies which
+    are not in the runtime and are freely redistributable, please bring it up on
+    the
+    <a
+      href="http://steamcommunity.com/groups/steamworks/discussions/13/"
+      target="_blank"
+      rel="noreferrer"
+      >Linux &amp; SteamOS Steamworks Development Discussions</a
+    >
+    board.<br /><br /><strong>Is there Steam DRM for Linux?</strong
+    ><br /><strong>A.</strong> Yes! The new
+    <code class="bb_code bb_code_inline nohighlight">drmtoolp</code> DRM tool
+    includes linux support. See
+    <a href="https://partner.steamgames.com/doc/features/drm" class="bb_doclink"
+      >Steam DRM</a
+    >
+    for more information.<br /><br /><strong
+      >Q. How does driver performance compare between Ubuntu and
+      Windows?</strong
+    ><br /><strong>A.</strong> Proprietary Nvidia drivers are comparable to
+    Windows in terms of stability, performance, and features. Proprietary
+    drivers for both AMD and Intel are also available but their current
+    performance and stability are lower than equivalent Windows drivers.<br /><br />In
+    terms of Linux performance, it differs depending on the video card and
+    driver type being used, e.g. such as open-source vs. proprietary. Typically,
+    proprietary drivers out-perform open-source drivers and have a larger
+    feature set. In addition, the age of the driver can vary between proprietary
+    and open-source versions.<br /><br /><strong
+      >Q. The
+      <a
+        href="https://partner.steamgames.com/doc/features/overlay"
+        class="bb_doclink"
+        >Steam Overlay</a
+      >
+      won't work when launching from outside of Steam.</strong
+    ><br /><strong>A.</strong> On Linux you must set the LD_PRELOAD environment
+    variable to load the gameoverlayrenderer.so<br /><br />This will look
+    something like:<br />
+    <div class="bb_code">
+      export
+      LD_PRELOAD=~/.local/share/Steam/ubuntu12_32/gameoverlayrenderer.so;~/.local/share/Steam/ubuntu12_64/gameoverlayrenderer.so
+    </div>
+  </li>
+</ul>

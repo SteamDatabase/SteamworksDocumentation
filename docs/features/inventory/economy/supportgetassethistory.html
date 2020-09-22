@@ -1,0 +1,121 @@
+<h1>SupportGetAssetHistory/v0001</h1>
+This returns everything the support tool needs to display history for a single
+asset.<br /><br /><strong>Called by:</strong> Support Tool<br /><br /><strong
+  >HTTP Method:</strong
+>
+GET
+<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      This is the "Asset Server Key" that you provided in your app's Steam
+      Economy Settings on the partner site.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>32bit App ID of the application associated with the assets.</td>
+  </tr>
+  <tr>
+    <td><strong>contextid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The 64-bit ID of the context container this asset can be found in.</td>
+  </tr>
+  <tr>
+    <td><strong>assetid</strong></td>
+    <td>uint64</td>
+    <td>✔</td>
+    <td>The 64-bit ID of the asset to return history for.</td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="2"></a>Returns</h2>
+The output from this method should be encoded in the JSON format.<br /><br /><strong
+  >Response:</strong
+><br />
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">result</code><br />
+    <ul class="bb_ul">
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">success</code> - True
+        if the method was successful. If the asset server is returning false, it
+        should set
+        <code class="bb_code bb_code_inline nohighlight">error</code> to a
+        string that explains why.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">error</code> - a string
+        describing why this call failed. This message will be recorded in the
+        error log, which is available under the Economy tab on the Steamworks
+        site.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">history</code> - an
+        array of history events for this asset.<br />
+        <ul class="bb_ul">
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">action</code> - The
+            name of the type of action this event represents.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">timestamp</code> -
+            The time this event occurred expressed as seconds since 1/1/1970.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">owner</code> - The
+            owner of the asset when this event occurred.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">ownerid</code> -
+            The steam ID of the owner of this asset when this event occurred, if
+            available.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">data</code>
+            (optional) - More information about the event. This could be the
+            name of another player, the name of a crafting recipe, or any other
+            game specific value. It is meant to give the support agent some idea
+            what has happened with this asset.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">steamid</code>
+            (optional) - The Steam ID of the other player involved in the event,
+            if appropriate.<br />
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<h2 class="bb_section"><a name="3"></a>Example Output</h2>
+<div class="bb_code json">
+  { "result": { "history": [ { "action": "Econ SetUnowned", "timestamp":
+  1321059071, "ownerid": 76561197969518075, "data": "101" }, { "action": "Econ
+  SetOwned", "timestamp": 1321059071, "ownerid": 76561197968459473, "data":
+  "101" }, { "action": "Econ SetUnowned", "timestamp": 1321058861, "ownerid":
+  76561197968459473, "data": "101" }, { "action": "Econ SetOwned", "timestamp":
+  1321058861, "ownerid": 76561197969518075, "data": "101" }, { "action": "Added
+  from Bundle", "timestamp": 1292657489, "ownerid": 76561197968459473 } ] ,
+  "success": true } }
+</div>
+<br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_asset_details.png"
+  alt="economy_asset_details.png"
+  title="economy_asset_details.png"
+/><br /><br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_asset_list.png"
+  alt="economy_asset_list.png"
+  title="economy_asset_list.png"
+/>

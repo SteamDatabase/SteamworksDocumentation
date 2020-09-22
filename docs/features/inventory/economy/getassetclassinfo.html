@@ -1,0 +1,421 @@
+<h1>GetAssetClassInfo/v0001</h1>
+This returns the details required to show an asset class to a user. This method
+will be called at least once for each asset that appears in a user's inventory.
+It is heavily cached so it may be called less often than once per asset view. If
+you need to invalidate the cache for any reason you can change the Asset Class
+Version under the Economy tab of the technical details for your app.<br /><br />Usually
+the class identifiers are entirely defined by the game in which the asset
+exists. The one exception is currency. The Steam Economy server may call
+GetAssetClassInfo with a single identifier called "currencyid" with a value
+equal to the ID of the currency it needs to look up. In this case the asset
+server should return currency display details instead of asset display
+details.<br /><br /><strong>Called by:</strong> Inventory UI<br /><br /><strong
+  >HTTP Method:</strong
+>
+GET
+<h2 class="bb_section"><a name="1"></a>Parameters:</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>key</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      This is the "Asset Server Key" that you provided in your app's Steam
+      Economy Settings on the partner site.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>appid</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>32bit App ID of the application associated with the assets.</td>
+  </tr>
+  <tr>
+    <td><strong>class_count</strong></td>
+    <td>uint32</td>
+    <td>✔</td>
+    <td>The number of class identifiers specified.</td>
+  </tr>
+  <tr>
+    <td><strong>class_name#</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      The name of the identifier. There will be one of these parameters for each
+      number between 0 and class_count-1. (e.g. class_name0, class_name1,
+      class_name2)
+    </td>
+  </tr>
+  <tr>
+    <td><strong>class_value#</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      The value of the identifier. There will be one of these parameters for
+      each number between 0 and class_count-1. (e.g. class_value0, class_value1,
+      class_value2)
+    </td>
+  </tr>
+  <tr>
+    <td><strong>language</strong></td>
+    <td>string</td>
+    <td>✔</td>
+    <td>
+      ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the
+      language to return strings in. Some examples include en_US, de_DE, zh_CN,
+      and ko_KR. Default: en_US
+    </td>
+  </tr>
+</table>
+<h2 class="bb_section"><a name="2"></a>Returns</h2>
+The output from this method should be encoded in the JSON format.<br /><br /><strong
+  >Response:</strong
+><br />
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">result</code><br />
+    <ul class="bb_ul">
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">success</code> - True
+        if the method was successful. If the asset server is returning false, it
+        should set
+        <code class="bb_code bb_code_inline nohighlight">error</code> to a
+        string that explains why.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">error</code> - A string
+        describing why this call failed. This message will be recorded in the
+        error log, which is available under the Economy tab on the Steamworks
+        site.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">asset</code> - An
+        object containing display details for the specified asset class
+        identifiers.<br />
+      </li>
+    </ul>
+  </li>
+</ul>
+<h2 class="bb_section"><a name="3"></a>Display Details:</h2>
+<ul class="bb_ul">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">background_color</code> -
+    An RGB hex color value represented as a string.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">icon_url</code> - The icon
+    to use for this asset. This image should be in the JPEG, GIF, or PNG
+    formats.<br />
+    PNG or GIF are preferred because they support transparency. Games can
+    provide one size of icon via this field and Steam will scale it to fit the
+    UI as appropriate. This icon should be at least 200x200 pixels in size.
+    Steam will provide CDN distribution for all images when they are displayed
+    to users so the number of hits to this URL will be relatively low.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">icon_url_large</code>
+    (optional) - The large icon associated with the descriptions. Image format
+    rules are the same as icon_url.<br />
+    This large icon should be at least 330x192 pixels in size. If icon_url_large
+    is not provided,
+    <code class="bb_code bb_code_inline nohighlight">icon_url</code> will be
+    used instead.<br />
+    Steam will provide CDN distribution for all images when they are displayed
+    to users so the number of hits to this URL will be relatively low.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">descriptions</code> - An
+    array of descriptions to display for the asset. These will be displayed in
+    the order<br />
+    they appear in the array in tooltips and detailed item descriptions.<br />
+    <ul class="bb_ul">
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">type</code> (optional)
+        - The <code class="bb_code bb_code_inline nohighlight">type</code> field
+        controls how the
+        <code class="bb_code bb_code_inline nohighlight">value</code> field is
+        rendered.<br />
+        It can be any of the following values:<br />
+        <ul class="bb_ul">
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">text</code> - The
+            value will be interpreted as raw translated text in the specified
+            language. Some characters (less than, greater than, etc.) will be
+            converted to HTML entities so they won't be interpreted as tags.
+            Every linefeed character will be converted to
+            <code class="bb_code bb_code_inline nohighlight">&lt;br&gt;</code
+            >.<br />
+            This type should be used for user-provided data.
+            <code class="bb_code bb_code_inline nohighlight">text</code> is the
+            default type if no type is specified.<br />
+          </li>
+          <li>
+            <code class="bb_code bb_code_inline nohighlight">html</code> - The
+            value will be included in the page as HTML with tags left intact.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">image</code> - Value is
+        the URL of an image to show for this description. Steam will put a CDN
+        in front of the image so the number of hits to this URL will be
+        relatively low.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">value</code> -
+        Translated string to display for this description.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">color</code> (optional)
+        - An RGB hex color to use for the value. Use whatever color this
+        information appears in on in-game UI. This field only applies to values
+        of type
+        <code class="bb_code bb_code_inline nohighlight">text</code>.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">label</code> (optional)
+        - If this field is present the description value will be prefixed with
+        this label.<br />
+      </li>
+    </ul>
+  </li>
+</ul>
+<ul class="bb_ul %1$s">
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">tags</code> (optional) - An
+    array of tags that apply to the asset. These are displayed as filtering
+    options to the user in various places of the UI, including the Community
+    Market and in users' Inventory.<br />
+    <ul class="bb_ul">
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">internal_name</code> -
+        A name to identify this tag. The internal name is not shown to the user.
+        <strong>Do not</strong> use spaces, non-ASCII, or non-printable
+        characters in the
+        <code class="bb_code bb_code_inline nohighlight">internal_name</code
+        >.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">name</code> - The
+        localized name of this tag. Displayed to the user.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">category</code> - The
+        category to place this tag in. This is only used internally for grouping
+        and not shown to the user. <strong>Do not</strong> use spaces,
+        non-ASCII, or non-printable characters in the
+        <code class="bb_code bb_code_inline nohighlight">category</code>.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">category_name</code> -
+        The localized name of the category. Displayed to the user.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">color</code> (optional)
+        - An RGB hex color to use when displaying the tag's name.<br />
+      </li>
+    </ul>
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">tradable</code> (optional)
+    - If this is true the item will appear in the trade UI. (Default: False)<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">marketable</code>
+    (optional) - If this is true the item will be allowed to be sold on the
+    <a href="http://steamcommunity.com/market/" target="_blank" rel="noreferrer"
+      >Steam Community Market</a
+    >. (Default: False).<br /><br />
+    <strong>NOTE:</strong> Community Market listings cannot currently be tested.
+    Listing an item on the Community Market will immediately expose it, even if
+    the game's economy is marked as private.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">market_name</code>
+    (required if marketable) - If the item is marketable, this is the name which
+    will be used to group items together and will display on the Community
+    Market. This should be localized where possible.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">market_hash_name</code>
+    (required if marketable) - This should always be the English value of
+    <code class="bb_code bb_code_inline nohighlight">market_name</code>. This is
+    used to correlate the various versions together and show price history and
+    other information.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">market_fee</code>
+    (optional) - If the item is marketable, the amount of the transaction
+    (default 10%) which will be taken as the game fee. This fee is paid by the
+    buyer of the item at the time of the transaction and remitted to the
+    publisher as part of their monthly payment. Expressed as a decimal between 0
+    and 0.95 (though a more reasonable fee is recommended). (Default: 0.10)<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">commodity</code> (optional)
+    - Indicates that every item with the same
+    <code class="bb_code bb_code_inline nohighlight">market_hash_name</code> as
+    this item is exactly the same. There ought to be no differences as far as
+    users are concerned. This changes the Community Market UI for this kind of
+    item and allows users to place buy orders. The user has no control over who
+    they're buying from or what market listing they're purchasing which is why
+    it's important that all items with the same
+    <code class="bb_code bb_code_inline nohighlight">market_hash_name</code> are
+    identical when
+    <code class="bb_code bb_code_inline nohighlight">commodity</code> is true.
+    (Default: False)<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight"
+      >market_tradable_restriction</code
+    >
+    (optional) - The number of days the item will be untradable after purchase.
+    You may consider placing a trade restriction on purchased items to reduce
+    the ability for users to commit credit card fraud. Valve games use a value
+    of 7. (Default: 0)<br />
+    <strong>NOTE:</strong> This value is not authoritative. Steam does not
+    enforce this restriction for you. The value of this field is only used to
+    inform users that a restriction exists. After an item is purchased, it is
+    the asset server's job to place the trade restriction on the new item. The
+    asset server can do this when
+    <a
+      href="https://partner.steamgames.com/doc/features/inventory/economy/TradeSetOwned"
+      class="bb_doclink"
+      >TradeSetOwned/v0001</a
+    >
+    is called when
+    <code class="bb_code bb_code_inline nohighlight">is_market</code> is set to
+    <code class="bb_code bb_code_inline nohighlight">1</code> and
+    <code class="bb_code bb_code_inline nohighlight">audit_action</code> is set
+    to <code class="bb_code bb_code_inline nohighlight">101</code>.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight"
+      >market_marketable_restriction</code
+    >
+    (optional) - Just like
+    <code class="bb_code bb_code_inline nohighlight"
+      >market_tradable_restriction</code
+    >, but indicates the number of days the item will not be marketable after
+    purchase. Valve games use a value of 7. (Default: 0)<br />
+    <strong>NOTE:</strong> This value is not authoritative. Steam does not
+    enforce this restriction for you. The value of this field is only used to
+    inform users that a restriction exists. After an item is purchased, it is
+    the asset server's job to place the market restriction on the new item. The
+    asset server can do this when
+    <a
+      href="https://partner.steamgames.com/doc/features/inventory/economy/TradeSetOwned"
+      class="bb_doclink"
+      >TradeSetOwned/v0001</a
+    >
+    is called when
+    <code class="bb_code bb_code_inline nohighlight">is_market</code> is set to
+    <code class="bb_code bb_code_inline nohighlight">1</code> and
+    <code class="bb_code bb_code_inline nohighlight">audit_action</code> is set
+    to <code class="bb_code bb_code_inline nohighlight">101</code>.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">actions</code> - An array
+    of actions (links), usually to show more information about an asset. These
+    are displayed as buttons below the description on the inventory page. These
+    links will be opened in the user's default browser.<br />
+    <ul class="bb_ul">
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">link</code> - The URL
+        to navigate to when the button is clicked. The tokens %assetid%,
+        %contextid%, and %appid%, will be replaced with the asset's ID, context
+        ID, and owning app ID, respectively.<br />
+      </li>
+      <li>
+        <code class="bb_code bb_code_inline nohighlight">name</code> - The label
+        to display on the button.<br />
+      </li>
+    </ul>
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">owner_descriptions</code> -
+    An array of descriptions that are only shown to the owner of the asset. The
+    contents of this array are exactly like those in
+    <code class="bb_code bb_code_inline nohighlight">descriptions</code>. The
+    only difference between the two lists is who can see the descriptions.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">owner_actions</code> - An
+    array of actions that are shown only to the owner of the asset. The format
+    should be the same as
+    <code class="bb_code bb_code_inline nohighlight">actions</code>. These
+    represent special actions only available to the person who owns the asset,
+    such as activating or modifying the asset.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">fraudwarnings</code> - An
+    array of strings of fraud warnings to display if the item is added to a
+    trade.<br />
+    These are displayed in red if the item is added to a trade.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">name</code> - The first row
+    of the item display<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">name_color</code> - An RGB
+    hex color to use for the name. This should match any rarity or quality-based
+    color coding of asset names in your game.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">type</code> - The second
+    row of the item display<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">contained_item</code>
+    (optional) - This node should contain a complete asset block for an item
+    contained inside this asset. Source games use this for wrapped gifts, but it
+    may not apply to your game.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">cache_expiration</code>
+    (optional) - RFC 3339 UTC formatted time that Steam's cache of the response
+    should be invalidated. Use only if any portion of the GetAssetClassInfo
+    response will change at a later time even though the set of asset class
+    properties did not change. This will be useful, for example, if the item
+    becomes tradable at a later time. We recommend rounding up times in asset
+    class properties (and thus also in this field) up to day or hour boundaries
+    to improve Steam's ability to cache asset descriptions.<br />
+  </li>
+  <li>
+    <code class="bb_code bb_code_inline nohighlight">item_expiration</code>
+    (optional) - RFC 3339 UTC formatted time of when the item can no longer be
+    used. Any Market listings will not be purchasable after this time and will
+    be automatically canceled.
+  </li>
+</ul>
+<h2 class="bb_section"><a name="4"></a>Example Output</h2>
+<div class="bb_code json">
+  { "result": { "asset": { "descriptions": [ { "name": "attribute", "value":
+  "+50% fire damage resistance on wearer", "color": "99ccff" }, { "name":
+  "attribute", "value": "+40% explosive damage resistance on wearer", "color":
+  "99ccff" }, { "name": "attribute", "value": "Alt-Fire: Gain increased attack
+  power by\ncharging toward your enemies." } ] , "fraudwarnings": [ "This item
+  has been renamed.\nOriginal name: \"Chargin' Targe\"" ] , "tradable": true,
+  "background_color": "3C352E", "icon_url":
+  "http://media.steampowered.com/apps/440/icons/c_targe_large.b7d8c75ecfc9b04cc49d2c61ddc77996d7ec2f3a.png",
+  "name": "''Awesome Targe''", "type": "Level 10 Shield", "name_color":
+  "7D6D00", "actions": [ { "name": "Item Wiki Page...", "link":
+  "http://wiki.teamfortress.com/scripts/itemredirect.php?id=131&amp;lang=en_US"
+  } ] }, "success": true } }
+</div>
+<br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_asset_tooltip.png"
+  alt="economy_asset_tooltip.png"
+  title="economy_asset_tooltip.png"
+/><br /><br /><img
+  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_asset_icon.png"
+  alt="economy_asset_icon.png"
+  title="economy_asset_icon.png"
+/>

@@ -1,0 +1,243 @@
+<h1>Error Codes &amp; Responses</h1>
+<h2 class="bb_section"><a name="response_formats"></a>Response Formats</h2>
+Every method in the Steamworks Web API is able to return responses in multiple
+formats. By default, all responses are returned
+<code class="bb_code bb_code_inline nohighlight">JSON</code> encoded. However,
+each request can optionally contain a
+<code class="bb_code bb_code_inline nohighlight">format</code> parameter to
+specify one of the following response formats.<br /><br /><strong
+  >Example:</strong
+><br />
+<div class="bb_code nohighlight">
+  http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&amp;count=1&amp;format=xml
+</div>
+<br />The following values can be passed for this parameter:<br />
+<ul class="bb_ul">
+  <li>
+    <h4>JSON</h4>
+    <ul class="bb_ul">
+      <li>
+        The API always returns an object containing the named object with the
+        result data.<br />
+      </li>
+      <li>
+        Arrays are represented as an array with the name of the type of the
+        objects in the array.<br />
+      </li>
+      <li>Null is represented as JSON's null.<br /></li>
+      <li>64 bit numbers are returned as a string.<br /></li>
+      <li>
+        <strong>Example:</strong><br />
+        <div class="bb_code json">
+          { "appnews": { "appid": 440, "newsitems": [ { "gid":
+          "1904306376092568991", "title": "Prince of Prolander Event ", "url":
+          "http://store.steampowered.com/news/externalpost/tf2_blog/1904306376092568991",
+          "is_external_url": true, "author": "", "contents": "&lt;a
+          href=/"http://rgl.gg/default.aspx/"&gt;&lt;img
+          src=/"https://steamcdn-a.akamaihd.net/steam/news/29555/prince.png?t=1495219023/"&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;/n&lt;p&gt;&lt;b&gt;This
+          Sunday at 4:30pm EST&lt;/b&gt; &lt;a
+          href=/"http://rgl.gg/default.aspx/"
+          target=\"_blank\"&gt;RGL.gg&lt;/a&gt; is hosting their Prince of
+          Prolander event. See legendary players &lt;a
+          href=/"https://www.youtube.com/user/stabbyvideo/"
+          target=\"_blank\"&gt;Stabby&lt;/a&gt; and &lt;a
+          href=/"https://www.youtube.com/user/danethebrain/"
+          target=\"_blank\"&gt;Uncle Dane&lt;/a&gt; duke it out to answer the
+          age old question: Who is better? Spies or Engies? Come see them settle
+          the score once and for all in the new competitive TF2 format, Pick/Ban
+          Prolander. Be sure to tune in to &lt;a
+          href=/"https://www.twitch.tv/extvesports/"
+          target=\"_blank\"&gt;Twitch&lt;/a&gt; this Sunday, and witness this
+          historic event!&lt;/p&gt;&lt;br&gt;", "feedlabel": "TF2 Blog", "date":
+          1495218420, "feedname": "tf2_blog", "feed_type": 0, "appid": 440 } ],
+          "count": 2385 } }
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <h4>XML</h4>
+    <ul class="bb_ul">
+      <li>XML Attributes are not used.<br /></li>
+      <li>
+        Arrays are represented as a series of sub-elements in the containing
+        element of the type of the array.<br />
+      </li>
+      <li>
+        Null is represented by the word "null" between the element's tags.<br />
+      </li>
+      <li>
+        <strong>Example</strong>:<br />
+        <div class="bb_code xml">
+          &lt;?xml version="1.0" encoding="UTF-8"?&gt; &lt;!DOCTYPE appnews&gt;
+          &lt;appnews&gt; &lt;appid&gt;440&lt;/appid&gt; &lt;newsitems&gt;
+          &lt;newsitem&gt; &lt;gid&gt;1904306376092568991&lt;/gid&gt;
+          &lt;title&gt;Prince of Prolander Event &lt;/title&gt;
+          &lt;url&gt;http://store.steampowered.com/news/externalpost/tf2_blog/1904306376092568991&lt;/url&gt;
+          &lt;is_external_url&gt;true&lt;/is_external_url&gt; &lt;author/&gt;
+          &lt;contents&gt;&amp;lt;a
+          href="http://rgl.gg/default.aspx"&amp;gt;&amp;lt;img
+          src="https://steamcdn-a.akamaihd.net/steam/news/29555/prince.png?t=1495219023"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;
+          &amp;lt;p&amp;gt;&amp;lt;b&amp;gt;This Sunday at 4:30pm
+          EST&amp;lt;/b&amp;gt; &amp;lt;a href="http://rgl.gg/default.aspx"
+          target="_blank"&amp;gt;RGL.gg&amp;lt;/a&amp;gt; is hosting their
+          Prince of Prolander event. See legendary players &amp;lt;a
+          href="https://www.youtube.com/user/stabbyvideo"
+          target="_blank"&amp;gt;Stabby&amp;lt;/a&amp;gt; and &amp;lt;a
+          href="https://www.youtube.com/user/danethebrain"
+          target="_blank"&amp;gt;Uncle Dane&amp;lt;/a&amp;gt; duke it out to
+          answer the age old question: Who is better? Spies or Engies? Come see
+          them settle the score once and for all in the new competitive TF2
+          format, Pick/Ban Prolander. Be sure to tune in to &amp;lt;a
+          href="https://www.twitch.tv/extvesports"
+          target="_blank"&amp;gt;Twitch&amp;lt;/a&amp;gt; this Sunday, and
+          witness this historic
+          event!&amp;lt;/p&amp;gt;&amp;lt;br&amp;gt;&lt;/contents&gt;
+          &lt;feedlabel&gt;TF2 Blog&lt;/feedlabel&gt;
+          &lt;date&gt;1495218420&lt;/date&gt;
+          &lt;feedname&gt;tf2_blog&lt;/feedname&gt;
+          &lt;feed_type&gt;0&lt;/feed_type&gt; &lt;appid&gt;440&lt;/appid&gt;
+          &lt;/newsitem&gt; &lt;/newsitems&gt; &lt;count&gt;2385&lt;/count&gt;
+          &lt;/appnews&gt;
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <h4>VDF (Valve Data Format)</h4>
+    <ul class="bb_ul">
+      <li>
+        This is Valve's internal data format as used in the Source Engine games.
+        TF2's GetSchema returns data similar to "items/items_game.txt" (although
+        qualities are not expanded into objects with a "value" field).<br />
+      </li>
+      <li>
+        Documentation is available on the
+        <a
+          href="https://developer.valvesoftware.com/wiki/KeyValues"
+          target="_blank"
+          rel="noreferrer"
+          >Valve Developer Community wiki</a
+        >
+        and on the
+        <a
+          href="https://wiki.teamfortress.com/wiki/WebAPI/VDF"
+          target="_blank"
+          rel="noreferrer"
+          >Official Team Fortress 2 wiki</a
+        >.<br />
+      </li>
+      <li>
+        Arrays in the data are represented as a VDF array with the name of the
+        type of the objects in the array, with a VDF array being an object with
+        each item being prefixed with its numeric key as a quoted string.<br />
+      </li>
+      <li>Null is represented as an empty string.<br /></li>
+      <li>
+        <strong>Example</strong>:<br />
+        <div class="bb_code nohighlight">
+          "appnews" { "appid" "440" "newsitems" { "0" { "gid"
+          "1904306376092568991" "title" "Prince of Prolander Event " "url"
+          "http://store.steampowered.com/news/externalpost/tf2_blog/1904306376092568991"
+          "is_external_url" "1" "author" "" "contents" "&lt;a
+          href=/"http://rgl.gg/default.aspx/"&gt;&lt;img
+          src=/"https://steamcdn-a.akamaihd.net/steam/news/29555/prince.png?t=1495219023/"&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+          &lt;p&gt;&lt;b&gt;This Sunday at 4:30pm EST&lt;/b&gt; &lt;a
+          href=/"http://rgl.gg/default.aspx/"
+          target=\"_blank\"&gt;RGL.gg&lt;/a&gt; is hosting their Prince of
+          Prolander event. See legendary players &lt;a
+          href=/"https://www.youtube.com/user/stabbyvideo/"
+          target=\"_blank\"&gt;Stabby&lt;/a&gt; and &lt;a
+          href=/"https://www.youtube.com/user/danethebrain/"
+          target=\"_blank\"&gt;Uncle Dane&lt;/a&gt; duke it out to answer the
+          age old question: Who is better? Spies or Engies? Come see them settle
+          the score once and for all in the new competitive TF2 format, Pick/Ban
+          Prolander. Be sure to tune in to &lt;a
+          href=/"https://www.twitch.tv/extvesports/"
+          target=\"_blank\"&gt;Twitch&lt;/a&gt; this Sunday, and witness this
+          historic event!&lt;/p&gt;&lt;br&gt;" "feedlabel" "TF2 Blog" "date"
+          "1495218420" "feedname" "tf2_blog" "feed_type" "0" "appid" "440" } }
+          "count" "2385" }
+        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+<br />A flexible solution should be used to parse Web API results as each method
+may return results in an arbitrary order.
+<h2 class="bb_section"><a name="status_codes"></a>HTTP Status Codes</h2>
+The Steamworks Web API attempts to return appropriate HTTP status codes when
+possible.<br /><br />Some of the common ones are:<br />
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Text</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>OK</td>
+    <td>Success!</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Bad Request</td>
+    <td>Please verify that all required parameters are being sent.</td>
+  </tr>
+  <tr>
+    <td>401</td>
+    <td>Unauthorized</td>
+    <td>
+      Access is denied. Retrying will not help. Please verify your
+      <code class="bb_code bb_code_inline nohighlight">key=</code> parameter.
+    </td>
+  </tr>
+  <tr>
+    <td>403</td>
+    <td>Forbidden</td>
+    <td>
+      Access is denied. Retrying will not help. Please verify your
+      <code class="bb_code bb_code_inline nohighlight">key=</code> parameter.
+    </td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Not Found</td>
+    <td>The API requested does not exists.</td>
+  </tr>
+  <tr>
+    <td>405</td>
+    <td>Method Not Allowed</td>
+    <td>
+      This API has been called with a the wrong HTTP method like GET or PUSH.
+    </td>
+  </tr>
+  <tr>
+    <td>429</td>
+    <td>Too Many Requests</td>
+    <td>You are being rate limited.</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error</td>
+    <td>
+      An unrecoverable error has occurred, please try again. If this continues
+      to persist then please post to the
+      <a
+        href="https://steamcommunity.com/groups/steamworks/discussions"
+        target="_blank"
+        rel="noreferrer"
+        >Steamworks developer discussion</a
+      >
+      with additional details of your request.
+    </td>
+  </tr>
+  <tr>
+    <td>503</td>
+    <td>Service Unavailable</td>
+    <td>
+      Server is temporarily unavailable, or too busy to respond. Please wait and
+      try again later.
+    </td>
+  </tr>
+</table>
