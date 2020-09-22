@@ -1,2 +1,97 @@
 <h1>Matchmaking based on skill</h1>
-The Steam matchmaking API has rich options for matching players based on skill. More information on the base toolset of matchmaking is <a href="https://partner.steamgames.com/doc/features/multiplayer/matchmaking" class="bb_doclink">here</a>.<h2 class="bb_section"><a name="1"></a>Overview</h2>A common problem in matching users for multiplayer gameplay is finding users of a similar skill-level, or playstyle, to try ensure users get the most out of each game. To solve this, Steamworks provides a rich set of search options for finding games, built on the Steam lobby system, and the Stats API.<h2 class="bb_section"><a name="2"></a>Matchmaking process flow</h2>The usual model for getting groups together to play is as follows:<br><ol class="bb_ol ">    <li> User selects in the game that they want to play multiplayer, and what kind of multiplayer they want (rules, scenario, etc.). They also set what skill level they'd like to match with.<br>    </li><li> The game searches for lobbies that have a similar same set of rules, using the lobby search API. One of the parameters is the skill level they'd like to match with.<br>    </li><li> If a lobby is found, then the game joins that lobby; if no lobby is found, then it creates a new lobby.<br>    </li><li> The lobby owner can then update the skill setting for the lobby based on the average skill of the users in the lobby (or by some other function).<br>    </li><li> Once the game has completed, stats for each user can be updated with new skill values.</li></ol><h2 class="bb_section"><a name="3"></a>Creating and updating a skill value for a player</h2>To set up a skill for a player, you create new stats as detailed on the Stats API page. If desired, you can set up multiple stats to track multiple skill axis. You'll want to set the stats as 'Increment Only' - meaning that the Steam servers enforce the skill stat can only increase, preventing a user as marking them as low skill so they can play against easy targets. The number range can be as large or small as you want; 0-100 is typical but in no way required. You'll use these skill stats when searching for or setting up a game, and then update them when a game ends. If possible marking these stats only settable by 'Official GS' so that players can not tamper with them is highly preferable.<br><br>Steps:<br><ol class="bb_ol ">    <li> Create an increment-only stat for each skill axis you want to track through the 'Stats' tab for your game in the Steamworks Game Admin<br>    </li><li> In your game, retrieve the user's skill stat(s) by calling <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetStat" class="bb_apilink">ISteamUserStats::GetStat</a> for each stat, then for use retrieved values when matchmaking<br>    </li><li> After a game has completed, update the user's skill stat(s) by calling <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetStat" class="bb_apilink">ISteamUserStats::SetStat</a> for each stat followed by <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats" class="bb_apilink">ISteamUserStats::StoreStats</a></li></ol><h2 class="bb_section"><a name="4"></a>Finding a game session matching by skill</h2>To create a lobby for users of a particular skill level, once a lobby has been created, the owner should add their skill stat(s) to the lobby metadata by calling <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyData" class="bb_apilink">ISteamMatchmaking::SetLobbyData</a>. When another user searches for a game session using the lobby search API, the searcher can use <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddRequestLobbyListNearValueFilter" class="bb_apilink">ISteamMatchmaking::AddRequestLobbyListNearValueFilter</a> to find lobbies with skill levels near the user's level. The results returned will be sorted by the best match. If you have multiple measures of skill, you can add multiple near filters, with the near filters set earlier taking precedence in the sort order of the search results. You can also specify mininum or maximum values for the skill to find.<h2 class="bb_section"><a name="5"></a>Dealing with low numbers of search results</h2>A common problem with other matchmaking systems is that a search can result in a low number of results, where it's hard to find any game let alone a well-matched one. This is common for multiplayer games where the game session has a strict start and end, like an RTS, without users being able to join a game in progress. This is because the number of users searching at the same second in time can be fairly small. Steam solves this by making each search be very quick, typically takes a few hundred milliseconds to return. This means you can start of with a fairly restrictive filter then expand the scope with successive searches. This expands the window of time, leading to an increased chance of having a good match occur, while still leaving control in the hands of the game for how long it should make a user wait before letting them play.<h2 class="bb_section"><a name="6"></a>Matching by playstyle</h2>Steamworks matchmaking isn't restricted to just one number - you can specify multiple keys to search on. This lets you try and match on playstyle, or have different skill measures for different game modes. To do this, you can make multiple stats to store the numbers, set the multiple keys in the created lobby, and add multiple near-clauses to the search.
+The Steam matchmaking API has rich options for matching players based on skill. More information on
+the base toolset of matchmaking is
+<a href="https://partner.steamgames.com/doc/features/multiplayer/matchmaking" class="bb_doclink"
+    >here</a
+>.
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+A common problem in matching users for multiplayer gameplay is finding users of a similar
+skill-level, or playstyle, to try ensure users get the most out of each game. To solve this,
+Steamworks provides a rich set of search options for finding games, built on the Steam lobby system,
+and the Stats API.
+<h2 class="bb_section"><a name="2"></a>Matchmaking process flow</h2>
+The usual model for getting groups together to play is as follows:<br />
+<ol class="bb_ol">
+    <li>
+        User selects in the game that they want to play multiplayer, and what kind of multiplayer
+        they want (rules, scenario, etc.). They also set what skill level they'd like to match
+        with.<br />
+    </li>
+    <li>
+        The game searches for lobbies that have a similar same set of rules, using the lobby search
+        API. One of the parameters is the skill level they'd like to match with.<br />
+    </li>
+    <li>
+        If a lobby is found, then the game joins that lobby; if no lobby is found, then it creates a
+        new lobby.<br />
+    </li>
+    <li>
+        The lobby owner can then update the skill setting for the lobby based on the average skill
+        of the users in the lobby (or by some other function).<br />
+    </li>
+    <li>Once the game has completed, stats for each user can be updated with new skill values.</li>
+</ol>
+<h2 class="bb_section"><a name="3"></a>Creating and updating a skill value for a player</h2>
+To set up a skill for a player, you create new stats as detailed on the Stats API page. If desired,
+you can set up multiple stats to track multiple skill axis. You'll want to set the stats as
+'Increment Only' - meaning that the Steam servers enforce the skill stat can only increase,
+preventing a user as marking them as low skill so they can play against easy targets. The number
+range can be as large or small as you want; 0-100 is typical but in no way required. You'll use
+these skill stats when searching for or setting up a game, and then update them when a game ends. If
+possible marking these stats only settable by 'Official GS' so that players can not tamper with them
+is highly preferable.<br /><br />Steps:<br />
+<ol class="bb_ol">
+    <li>
+        Create an increment-only stat for each skill axis you want to track through the 'Stats' tab
+        for your game in the Steamworks Game Admin<br />
+    </li>
+    <li>
+        In your game, retrieve the user's skill stat(s) by calling
+        <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetStat" class="bb_apilink"
+            >ISteamUserStats::GetStat</a
+        >
+        for each stat, then for use retrieved values when matchmaking<br />
+    </li>
+    <li>
+        After a game has completed, update the user's skill stat(s) by calling
+        <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetStat" class="bb_apilink"
+            >ISteamUserStats::SetStat</a
+        >
+        for each stat followed by
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
+            class="bb_apilink"
+            >ISteamUserStats::StoreStats</a
+        >
+    </li>
+</ol>
+<h2 class="bb_section"><a name="4"></a>Finding a game session matching by skill</h2>
+To create a lobby for users of a particular skill level, once a lobby has been created, the owner
+should add their skill stat(s) to the lobby metadata by calling
+<a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyData" class="bb_apilink"
+    >ISteamMatchmaking::SetLobbyData</a
+>. When another user searches for a game session using the lobby search API, the searcher can use
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddRequestLobbyListNearValueFilter"
+    class="bb_apilink"
+    >ISteamMatchmaking::AddRequestLobbyListNearValueFilter</a
+>
+to find lobbies with skill levels near the user's level. The results returned will be sorted by the
+best match. If you have multiple measures of skill, you can add multiple near filters, with the near
+filters set earlier taking precedence in the sort order of the search results. You can also specify
+mininum or maximum values for the skill to find.
+<h2 class="bb_section"><a name="5"></a>Dealing with low numbers of search results</h2>
+A common problem with other matchmaking systems is that a search can result in a low number of
+results, where it's hard to find any game let alone a well-matched one. This is common for
+multiplayer games where the game session has a strict start and end, like an RTS, without users
+being able to join a game in progress. This is because the number of users searching at the same
+second in time can be fairly small. Steam solves this by making each search be very quick, typically
+takes a few hundred milliseconds to return. This means you can start of with a fairly restrictive
+filter then expand the scope with successive searches. This expands the window of time, leading to
+an increased chance of having a good match occur, while still leaving control in the hands of the
+game for how long it should make a user wait before letting them play.
+<h2 class="bb_section"><a name="6"></a>Matching by playstyle</h2>
+Steamworks matchmaking isn't restricted to just one number - you can specify multiple keys to search
+on. This lets you try and match on playstyle, or have different skill measures for different game
+modes. To do this, you can make multiple stats to store the numbers, set the multiple keys in the
+created lobby, and add multiple near-clauses to the search.

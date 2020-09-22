@@ -1,2 +1,124 @@
 <h1>Recurring In-Game Billing</h1>
-<h2 class="bb_section"><a name="1"></a>Overview</h2><div class="bb_callout "><div><strong>Note:</strong> This document is intended to be used as a supplement to the base in-game purchasing document. The APIs described here are extensions to that API. If you are looking for recurring subscriptions that are initiated on the Steam store, please see the <a href="https://partner.steamgames.com/doc/store/pricing/subscriptions" class="bb_doclink">Recurring Subscriptions</a> documentation for more information.</div></div><br>When you create recurring payments for a Steam user, you first establish a billing agreement with the user which describes the payment terms. The user must agree to the terms before the billing process can begin. Payment processing can be handled in two ways:<br><br><ul class="bb_ul ">	<li> Billing and payment are handled entirely by Steam.<br>	</li><li> Payment is initiated by the game's own billing system which communicates with the Steam backend for processing of the actual payment.</li></ul><br>In both cases, payment results can be retrieved through the microtransaction API either by querying status on individual users or by parsing the settlement report which will show all payments for all users.<h2 class="bb_subsection"><a name="2"></a>Establishing a Billing Agreement</h2>Use the <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink">ISteamMicroTxn/InitTxn</a> Web API to define the recurring billing agreement. The agreement is created in the same fashion as other in-game item sales on Steam but requires additional data to fully define it. Establishing the agreement can be done as a stand-alone sales event or in a shopping cart with other in-game items that a user has elected to purchase. If the transaction is accepted by Steam, the user will be notified to authorize the agreement and the API will return a unique 64-bit billing agreement ID in the response. If an error is returned then the problem will need to be corrected and a new request submitted. Once approved, you should use the <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn" class="bb_apilink">ISteamMicroTxn/FinalizeTxn</a> Web API to complete the agreement.<br><br>Two types of billing agreements can be created depending on which party should initiate the payment cycle:<br><br><ul class="bb_ul ">	<li> Steam – Where Steam manages and performs all processing based on criteria specified in the billing agreement. This is suitable for cases where the recurring payment will remain consistent over time. The game billing server merely needs to request status on user payments. If necessary, time can be added to an agreement through the API to extend credit to a user.<br>	</li><li> Game – Here the game's billing system initiates the recurring payment. This allows for more flexibility in the payment amount and the time of processing. For this, the game's billing server will use the <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#ProcessAgreement" class="bb_apilink">ISteamMicroTxn/ProcessAgreement</a> API to initiate a payment and also specify the amount. Use this for cases where you may want to adjust the payment amount over time or issue credit.</li></ul><br>A user may only have one active billing agreement per game. You may create a new billing agreement for a user at any time, but all previous billing agreements will be disabled upon completing a <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn" class="bb_apilink">ISteamMicroTxn/FinalizeTxn</a> call. Each billing agreement will be given a unique 64-bit ID that you can use to reference it, but only the most recent agreement will be allowed to process payment.<br><br>Users can elect to cancel an agreement at any time from within their Steam account settings. Notification of cancellations will be done through the <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport" class="bb_apilink">ISteamMicroTxn/GetReport</a> Web API.<br><br>Additional Web APIs for recurring payments are:<br><ul class="bb_ul ">	<li> <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#CancelAgreement" class="bb_apilink">ISteamMicroTxn/CancelAgreement</a><br>	</li><li> <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo" class="bb_apilink">ISteamMicroTxn/GetUserAgreementInfo</a><br>	</li><li> <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#AdjustAgreement" class="bb_apilink">ISteamMicroTxn/AdjustAgreement</a></li></ul><h2 class="bb_subsection"><a name="3"></a>Receiving Status</h2>Payment status for billing agreements can be retrieved by these two Web APIs:<br><ul class="bb_ul ">	<li> <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo" class="bb_apilink">ISteamMicroTxn/GetUserAgreementInfo</a> - This can be used to retrieve detailed information about all agreements for a user that are applicable to your game including last payment made and time of next payment.<br>	</li><li> <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport" class="bb_apilink">ISteamMicroTxn/GetReport</a> – This API shows all transactions associated with your game including those produced by billing agreements. Additionally, since users can cancel and renew subscriptions from within their Steam account, the game can receive notification of those actions through this API.</li></ul>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+<div class="bb_callout">
+    <div>
+        <strong>Note:</strong> This document is intended to be used as a supplement to the base
+        in-game purchasing document. The APIs described here are extensions to that API. If you are
+        looking for recurring subscriptions that are initiated on the Steam store, please see the
+        <a href="https://partner.steamgames.com/doc/store/pricing/subscriptions" class="bb_doclink"
+            >Recurring Subscriptions</a
+        >
+        documentation for more information.
+    </div>
+</div>
+<br />When you create recurring payments for a Steam user, you first establish a billing agreement
+with the user which describes the payment terms. The user must agree to the terms before the billing
+process can begin. Payment processing can be handled in two ways:<br /><br />
+<ul class="bb_ul">
+    <li>Billing and payment are handled entirely by Steam.<br /></li>
+    <li>
+        Payment is initiated by the game's own billing system which communicates with the Steam
+        backend for processing of the actual payment.
+    </li>
+</ul>
+<br />In both cases, payment results can be retrieved through the microtransaction API either by
+querying status on individual users or by parsing the settlement report which will show all payments
+for all users.
+<h2 class="bb_subsection"><a name="2"></a>Establishing a Billing Agreement</h2>
+Use the
+<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink"
+    >ISteamMicroTxn/InitTxn</a
+>
+Web API to define the recurring billing agreement. The agreement is created in the same fashion as
+other in-game item sales on Steam but requires additional data to fully define it. Establishing the
+agreement can be done as a stand-alone sales event or in a shopping cart with other in-game items
+that a user has elected to purchase. If the transaction is accepted by Steam, the user will be
+notified to authorize the agreement and the API will return a unique 64-bit billing agreement ID in
+the response. If an error is returned then the problem will need to be corrected and a new request
+submitted. Once approved, you should use the
+<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn" class="bb_apilink"
+    >ISteamMicroTxn/FinalizeTxn</a
+>
+Web API to complete the agreement.<br /><br />Two types of billing agreements can be created
+depending on which party should initiate the payment cycle:<br /><br />
+<ul class="bb_ul">
+    <li>
+        Steam – Where Steam manages and performs all processing based on criteria specified in the
+        billing agreement. This is suitable for cases where the recurring payment will remain
+        consistent over time. The game billing server merely needs to request status on user
+        payments. If necessary, time can be added to an agreement through the API to extend credit
+        to a user.<br />
+    </li>
+    <li>
+        Game – Here the game's billing system initiates the recurring payment. This allows for more
+        flexibility in the payment amount and the time of processing. For this, the game's billing
+        server will use the
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#ProcessAgreement"
+            class="bb_apilink"
+            >ISteamMicroTxn/ProcessAgreement</a
+        >
+        API to initiate a payment and also specify the amount. Use this for cases where you may want
+        to adjust the payment amount over time or issue credit.
+    </li>
+</ul>
+<br />A user may only have one active billing agreement per game. You may create a new billing
+agreement for a user at any time, but all previous billing agreements will be disabled upon
+completing a
+<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn" class="bb_apilink"
+    >ISteamMicroTxn/FinalizeTxn</a
+>
+call. Each billing agreement will be given a unique 64-bit ID that you can use to reference it, but
+only the most recent agreement will be allowed to process payment.<br /><br />Users can elect to
+cancel an agreement at any time from within their Steam account settings. Notification of
+cancellations will be done through the
+<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport" class="bb_apilink"
+    >ISteamMicroTxn/GetReport</a
+>
+Web API.<br /><br />Additional Web APIs for recurring payments are:<br />
+<ul class="bb_ul">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#CancelAgreement"
+            class="bb_apilink"
+            >ISteamMicroTxn/CancelAgreement</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo"
+            class="bb_apilink"
+            >ISteamMicroTxn/GetUserAgreementInfo</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#AdjustAgreement"
+            class="bb_apilink"
+            >ISteamMicroTxn/AdjustAgreement</a
+        >
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="3"></a>Receiving Status</h2>
+Payment status for billing agreements can be retrieved by these two Web APIs:<br />
+<ul class="bb_ul">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo"
+            class="bb_apilink"
+            >ISteamMicroTxn/GetUserAgreementInfo</a
+        >
+        - This can be used to retrieve detailed information about all agreements for a user that are
+        applicable to your game including last payment made and time of next payment.<br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport"
+            class="bb_apilink"
+            >ISteamMicroTxn/GetReport</a
+        >
+        – This API shows all transactions associated with your game including those produced by
+        billing agreements. Additionally, since users can cancel and renew subscriptions from within
+        their Steam account, the game can receive notification of those actions through this API.
+    </li>
+</ul>

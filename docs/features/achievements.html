@@ -16,7 +16,7 @@ computers.
 <h2 class="bb_subsection"><a name="4"></a>Define Your Game's Stats and Achievements</h2>
 Achievements are application specific and are setup on the App Admin page of the Steamworks partner
 site.<br /><br />There are three types of statistics your game can store:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li><strong>INT</strong> - A 32-bit (signed) integer (e.g. number of games played)<br /></li>
     <li>
         <strong>FLOAT</strong> - A 32-bit floating point value (e.g. number of miles driven)<br />
@@ -28,7 +28,7 @@ site.<br /><br />There are three types of statistics your game can store:<br />
 </ul>
 <br />The Steamworks Partner Website provides an interface for defining and updating your game's
 statistics and achievements. Using it, you can:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>Define the initial statistics and achievements<br /></li>
     <li>Add additional stats and achievements<br /></li>
     <li>Update achievement names, descriptions, and icons<br /></li>
@@ -38,7 +38,7 @@ statistics and achievements. Using it, you can:<br />
     </li>
 </ul>
 Stats have the following properties:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li><strong>ID</strong> - An automatically-generated numerical ID for each stat.<br /></li>
     <li>
         <strong>Type</strong> - The type of this Stat - INT, FLOAT, or
@@ -76,13 +76,13 @@ Stats have the following properties:<br />
     <li><strong>Display Name</strong> - The name of this stat, when displayed in your app.</li>
 </ul>
 <strong>AVGRATE</strong> stats have the following additional properties:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>Window - The size of the "sliding window" used to average your data.</li>
 </ul>
 An <strong>AVGRATE</strong> stat is one that is automatically averaged by Steam. See the
 <a href="#AVGRATE" class="bb_doclink">AVGRATE</a> section below for more information.<br /><br />Achievements
 have the following properties:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         <strong>ID</strong> - An automatically-generated numerical ID for each achievement.<br />
     </li>
@@ -123,7 +123,7 @@ have the following properties:<br />
 />
 <h2 class="bb_subsection"><a name="5"></a>How to use them</h2>
 <h4>Accessing Stats and Achievements from within your game:</h4>
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         After initializing the
         <a href="https://partner.steamgames.com/doc/api" class="bb_doclink">Steamworks API</a> you
@@ -264,7 +264,7 @@ implement a "sliding window" effect on the average. For instance, you can utiliz
 few hours of gameplay, so the statistic will more accurately reflect the player's current skill
 level.<br /><br />Let's set up an AVGRATE stat to implement "points per hour" where only the
 previous 20 hours of gameplay affect the value. To do this, you would:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         Note that, because the average will be "per hour", the time units on all time parameters
         associated with this stat will be "hours". This applies to the Window property on the stat
@@ -283,7 +283,7 @@ previous 20 hours of gameplay affect the value. To do this, you would:<br />
             >ISteamUserStats::UpdateAvgRateStat</a
         >
         with the following parameters:<br />
-        <ul class="bb_ul ">
+        <ul class="bb_ul">
             <li><strong>pchName</strong> - "AvgPointsPerHour"<br /></li>
             <li>
                 <strong>flCountThisSession</strong> - The number of points the player earned since
@@ -393,7 +393,7 @@ achievements and reset your in-memory game state. There is no way to globally wi
 achievements for all users. One of the reasons for this is that even if a global wipe were to be
 done, games in-progress may not notice the wipe and write back in-memory values. Fortunately, there
 is an easy way to build a global wipe system into your game. To do so:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>Define a stat with a name like "Version"<br /></li>
     <li>Put a hardcoded stats version number in the game<br /></li>
     <li>
@@ -479,7 +479,7 @@ and
 in the Steam Community or library. Your app will need a way to output what achievements have been
 earned for the user.<br /><br />To clear an achievement or stats without adding code to your game,
 you can use the Steam client console. Run with steam.exe -console, then:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>achievement_clear &lt;appid&gt; &lt;achievement name&gt;<br /></li>
     <li>reset_all_stats &lt;appid&gt;</li>
 </ul>
@@ -487,7 +487,7 @@ you can use the Steam client console. Run with steam.exe -console, then:<br />
 After your game has been released then information about individual and global achievement progress
 will be displayed in the Steam Community. Each player will have a link from their Community profile
 that goes to a page showcasing what they have achieved, and which they have yet to unlock.
-<div class="bb_callout ">
+<div class="bb_callout">
     <div>
         <strong>NOTE:</strong> Your achievements will not be shown until your app is somewhat
         visible to the community.

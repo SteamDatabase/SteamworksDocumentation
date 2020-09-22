@@ -1,6 +1,6 @@
 <h1>ISteamNetworkingSockets Interface</h1>
 Networking API similar to Berkeley sockets, but for games.<br /><br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         It's a connection-oriented API (like TCP, not UDP). When sending and receiving messages, the
         peer is identified using a connection handle.<br />
@@ -33,7 +33,7 @@ Networking API similar to Berkeley sockets, but for games.<br /><br />
     </li>
 </ul>
 <br />Related documents:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         <a
             href="https://partner.steamgames.com/doc/features/multiplayer/networking"
@@ -233,7 +233,7 @@ the connection to the k_ESteamNetworkingConnectionState_ProblemDetectedLocally s
 also close the connection before it is accepted, and a transition to the
 k_ESteamNetworkingConnectionState_ClosedByPeer is also possible depending the exact sequence of
 events.<br /><br />Returns:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>k_EResultInvalidParam if the handle is invalid.<br /></li>
     <li>
         k_EResultInvalidState if the connection is not in the appropriate state. (Remember that the
@@ -306,7 +306,7 @@ port. Otherwise, the port will be zero.
 </div>
 Send a message to the remote host on the specified connection.<br /><br />nSendFlags determines the
 delivery guarantees that will be provided, when data should be buffered, etc. E.g.:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>k_nSteamNetworkingSend_Unreliable<br /></li>
     <li>k_nSteamNetworkingSend_Reliable<br /></li>
     <li>k_nSteamNetworkingSend_NoNagle<br /></li>
@@ -325,7 +325,7 @@ message sizes, and so if your code sends many small chunks of data, performance 
 code based on stream sockets that does not write excessively small chunks will work without any
 changes. <br /><br />The pOutMessageNumber is an optional pointer to receive the message number
 assigned to the message, if sending was successful.<br /><br />Returns:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         k_EResultInvalidParam: invalid connection handle, or the individual message is too big. (See
         k_cbMaxSteamNetworkingSocketsMessageSizeSend)<br />
@@ -359,7 +359,7 @@ the appropriate function to free it. Note that if you use your own buffer, it MU
 until the callback is executed. And also note that your callback can be invoked at any time from any
 thread (perhaps even before SendMessages returns!), so it MUST be fast and threadsafe.<br /><br />You
 MUST also fill in:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>m_conn - the handle of the connection to send the message to<br /></li>
     <li>m_nFlags - bitmask of k_nSteamNetworkingSend_xxx flags.</li>
 </ul>
@@ -382,7 +382,7 @@ Flush any messages waiting on the Nagle timer and send them at the next transmis
 (often that means right now).<br /><br />If Nagle is enabled (it's on by default) then when calling
 SendMessageToConnection the message will be buffered, up to the Nagle time before being sent, to
 merge small messages into the same packet. (See k_ESteamNetworkingConfig_NagleTime)<br /><br />Returns:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>k_EResultInvalidParam: invalid connection handle<br /></li>
     <li>k_EResultInvalidState: connection is in an invalid state<br /></li>
     <li>k_EResultNoConnection: connection has ended<br /></li>
@@ -495,7 +495,7 @@ if the connection handle is invalid, or the connection has ended.
 </div>
 Returns very detailed connection stats in diagnostic text format. Useful for dumping to a log, etc.
 The format of this information is subject to change.<br /><br />Returns:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li><strong>-1</strong>: failure (bad connection handle)<br /></li>
     <li><strong>0</strong>: OK, your buffer was filled in and '\0'-terminated<br /></li>
     <li>
@@ -508,7 +508,7 @@ The format of this information is subject to change.<br /><br />Returns:<br />
     bool SetConnectionUserData( HSteamNetConnection hPeer, int64 nUserData );
 </div>
 <br />Set connection user data. The data is used in the following places:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         You can query it using
         <a
@@ -728,7 +728,7 @@ for more info.<br /><br />Also, note that the routing information is contained i
 >
 to send this info to your game coordinator service, and also login securely at the same time.<br /><br />On
 a successful exit, k_EResultOK is returned<br /><br />Unsuccessful exit:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>Something other than k_EResultOK is returned.<br /></li>
     <li>
         k_EResultInvalidState: We are not configured to listen for SDR (SDR_LISTEN_SOCKET is not
@@ -778,7 +778,7 @@ for more about why this is preferable to setting the options "immediately" after
 <br />Generate an authentication blob that can be used to securely login with your backend, using
 SteamDatagram_ParseHostedServerLogin. (See steamdatagram_gamecoordinator.h)<br /><br />Before
 calling the function:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         Populate the app data in pLoginInfo (m_cbAppData and m_appData). You can leave all other
         fields uninitialized.<br />
@@ -789,7 +789,7 @@ calling the function:<br />
     </li>
 </ul>
 <br />On a successful exit:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>k_EResultOK is returned<br /></li>
     <li>All of the remaining fields of pLoginInfo will be filled out.<br /></li>
     <li>
@@ -797,7 +797,7 @@ calling the function:<br />
     </li>
 </ul>
 <br />Unsuccessful exit:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>Something other than k_EResultOK is returned.<br /></li>
     <li>k_EResultNotLoggedOn: you are not logged in (yet)<br /></li>
     <li>
@@ -833,7 +833,7 @@ This callback is posted whenever a connection is created, destroyed, or changes 
 field will contain a complete description of the connection at the time the change occurred and the
 callback was posted. In particular, m_info.m_eState will have the new connection state.<br /><br />You
 will usually need to listen for this callback to know when:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         <strong>A new connection arrives on a listen socket.</strong> m_info.m_hListenSocket will be
         set, m_eOldState = k_ESteamNetworkingConnectionState_None, and m_info.m_eState =
@@ -889,7 +889,7 @@ will usually need to listen for this callback to know when:<br />
 time. It is possible that the connection has already changed state by the time you process this
 callback.<br /><br />Also note that callbacks will be posted when connections are created and
 destroyed by your own API calls.<br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     struct SteamNetConnectionStatusChangedCallback_t { /// Connection handle HSteamNetConnection
     m_hConn; /// Full connection info SteamNetConnectionInfo_t m_info; /// Previous state. (Current
     state is in m_info.m_eState) ESteamNetworkingConnectionState m_eOldState; };
@@ -899,12 +899,12 @@ destroyed by your own API calls.<br /><br />
 </h2>
 <br />A struct used to describe our readiness to participate in authenticated, encrypted
 communication. In order to do this we need:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>The list of trusted CA certificates that might be relevant for this app.<br /></li>
     <li>A valid certificate issued by a CA.</li>
 </ul>
 <br />This callback is posted whenever the state of our readiness changes.<br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     struct SteamNetAuthenticationStatus_t { /// Status ESteamNetworkingAvailability m_eAvail; ///
     Non-localized English language status. For diagnostic/debugging /// purposes only. char
     m_debugMsg[ 256 ]; };

@@ -1,2 +1,192 @@
 <h1>Platforms</h1>
-<h2 class="bb_section"><a name="1"></a>Overview</h2>This section describes the general workflow and settings necessary for releasing your application on additional operating systems.<br><br>Steam provides support for Windows, macOS, and Linux (SteamOS).<br><br>You can see platform usage stats from the <a href="http://store.steampowered.com/hwsurvey" target="_blank" rel="noreferrer">Steam Hardware Survey</a> to help you make decisions on what platforms you are going to want to support.<h2 class="bb_subsection"><a name="2"></a>Microsoft Windows</h2>Steam officially supports Windows 7 and above. As of January 2019, <a href="https://support.steampowered.com/kb_article.php?ref=1558-AFCM-4577" target="_blank" rel="noreferrer">Steam no longer supports Windows XP and Windows Vista</a>.<br><br>Visit the <a href="http://steamcommunity.com/groups/steamworks/discussions/14/" target="_blank" rel="noreferrer">Steamworks Development Discussions - Windows</a>.<h2 class="bb_subsection"><a name="3"></a>Apple macOS</h2>Steam officially supports Intel Mac, OS X version 10.11 (El Capitan), or later.<br><br><strong>Notarization</strong><br>Starting October 14th, 2019 Steam will require all new macOS Applications to be 64-bit and notarized by Apple.  If your Mac application already supports 64-bit, please login to Steamworks and select the "macOS -&gt; 64 Bit Binaries Included" checkbox in the "Supported Operating Systems" section for your application. This will ensure that your macOS app will appear as compatible for users who are running Steam on macOS 10.15. <br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/MacPlatformButtons.jpg"><br><br>You can read more about Apple's plan to drop support of 32-bit Mac applications in the support article <a href="https://support.apple.com/en-us/HT208436" target="_blank" rel="noreferrer">HERE</a>.<br><br>If you're not familiar with Apple's 64-bit requirements or the notarization process in macOS you can read more about that <a href="https://developer.apple.com/documentation/security/notarizing_your_app_before_distribution" target="_blank" rel="noreferrer">HERE</a>.<br><br>If you have already had your 64-bit Mac Application Notarized by Apple, please check the App Bundles Are Notarized checkbox in Steamworks as well.<br><br><strong>Entitlements</strong><br>Support for 10.15 (Catalina) requires adding the following entitlements to your build configuration<br><ul class="bb_ul "><li><code class="bb_code bb_code_inline nohighlight">com.apple.security.cs.disable-library-validation </code> (allows loading the Steamworks SDK library and overlay library)<br></li><li><code class="bb_code bb_code_inline nohighlight">com.apple.security.cs.allow-dyld-environment-variables </code> (enables the overlay library to be injected into the game process)</li></ul><br>You can find additional information about these entitlements and other app security details <a href="https://developer.apple.com/documentation/security/hardened_runtime?language=objc" target="_blank" rel="noreferrer">HERE</a>.<br><br><strong>32-bit Mac apps</strong><br>Steam users who have purchased older 32-bit Mac apps still have a license to those apps on Steam and will still have access to those apps in their Steam Library. MacOS 32-bit applications will continue to work on macOS 10.14 Mojave and older macOS versions. In addition, Steam users are protected by Steam Play and will be able to play those games on other supported platforms as well at no additional charge. You can read more about ways users can continue playing their Steam library on Mac computers <a href="https://support.steampowered.com/kb_article.php?ref=1055-ISJM-8568" target="_blank" rel="noreferrer">HERE</a>.<h2 class="bb_subsection"><a name="4"></a>Linux &amp; SteamOS</h2>Steam only officially supports <a href="http://ubuntu.com" target="_blank" rel="noreferrer">Ubuntu</a> running Ubuntu 12.04 LTS or newer and SteamOS, but the <a href="http://steamcommunity.com/app/221410" target="_blank" rel="noreferrer">Steam for Linux</a> community is extremely resourceful and has managed to run Steam on a large variety of distros. Valve approves of these efforts but does not officially endorse or provide support for them. Steam on Linux supports both x86 and x64, it's highly recommended that you ship 64 bit binaries as the vast majority of users will be running that.<br><br>The <a href="https://github.com/ValveSoftware/steam-for-linux" target="_blank" rel="noreferrer">Steam for Linux Client</a> Github page is very active and contains the bug tracker for the Linux Steam Client.<br><br>See <a href="https://partner.steamgames.com/doc/store/application/platforms/linux" class="bb_doclink">Developing for SteamOS and Linux</a> for additional information on getting started.<br><br>Search for <a href="https://partner.steamgames.com/doc?q=linux+steamos" target="_blank" rel="noreferrer">Linux &amp; SteamOS specific documentation</a> or visit the <a href="http://steamcommunity.com/groups/steamworks/discussions/13/" target="_blank" rel="noreferrer">Steamworks Development Discussions - Linux &amp; SteamOS</a> if you want additional help with Linux and SteamOS.<h2 class="bb_section"><a name="5"></a>Steamworks Video Tutorial - Adding New Platforms and Languages</h2>This tutorial walks you through adding new platforms and languages to your game by adding additional <a href="https://partner.steamgames.com/doc/store/application/depots" class="bb_doclink">depots</a> to your app.<br><a href="https://www.youtube.com/watch?v=PShS32hcing" target="_blank" rel="noreferrer" id="dynamiclink_0">https://www.youtube.com/watch?v=PShS32hcing</a><h2 class="bb_section"><a name="6"></a>Building and Testing</h2>For general help with building depots and preparing content, please see <a href="https://partner.steamgames.com/doc/sdk/uploading" class="bb_doclink">Uploading to Steam</a><br><ol class="bb_ol ">	<li> In the Steamworks Settings for your application, create <a href="https://partner.steamgames.com/doc/store/application/depots" class="bb_doclink">depots</a> for the new operating systems in the Creating &amp; Adding Depots section (under the "SteamPipe" tab&gt;Depots).<br>		Save this change.<br>		<strong>NOTE:</strong> Don't check the boxes under <strong>Supported Operating Systems</strong> on the General Application Settings tab yet, that will be done when you're ready to release.<br>	</li><li> Create a Steam build for these new depots.<br>	</li><li> Set that build to a beta branch with a password.<br>	</li><li> Update your autogrant package to contain these new depots so Steam will let you download the files. You can find your autogrant package by on the <a href="https://partner.steamgames.com/apps/associated/" target="_blank" rel="noreferrer">Associated Packages &amp; DLC</a> page.<br>	</li><li> Test the new versions on whatever operating system you are targeting.</li></ol><h2 class="bb_section"><a name="7"></a>Releasing</h2>When you are ready to release, you will need to make sure that you add the necessary depots to any public packages and update your store page to reflect the new content available.<br><ol class="bb_ol ">	<li> Add the new <a href="https://partner.steamgames.com/doc/store/application/depots" class="bb_doclink">depots</a> to all existing <a href="https://partner.steamgames.com/doc/store/application/packages" class="bb_doclink">packages</a> of the game (so users will get them). You can see all packages associated with your application on the <a href="https://partner.steamgames.com/apps/associated/" target="_blank" rel="noreferrer">Associated Packages &amp; DLC</a> page.<br>	</li><li> In the <a href="https://partner.steamgames.com/apps/view/" target="_blank" rel="noreferrer">Steamworks Settings for your app</a>, check the appropriate operating system boxes under <strong>Supported Operating Systems</strong>.<br>	</li><li> Edit your store page and check the appropriate operating system boxes on the Basic Info tab.<br>	</li><li> Then scroll down and enter the corresponding system requirements. Preview your store page and then publish your changes when you're happy with how the system requirements appear.<br>	</li><li> Finally, return to your Steamworks Settings page and move the build to the Default branch. (Under the SteamPipe tab &gt; Depots)<br>	</li><li> Head over to the Steam Community Hub for your application and post an announcement to let existing and prospective customers know you've updated!</li></ol>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+This section describes the general workflow and settings necessary for releasing your application on
+additional operating systems.<br /><br />Steam provides support for Windows, macOS, and Linux
+(SteamOS).<br /><br />You can see platform usage stats from the
+<a href="http://store.steampowered.com/hwsurvey" target="_blank" rel="noreferrer"
+    >Steam Hardware Survey</a
+>
+to help you make decisions on what platforms you are going to want to support.
+<h2 class="bb_subsection"><a name="2"></a>Microsoft Windows</h2>
+Steam officially supports Windows 7 and above. As of January 2019,
+<a
+    href="https://support.steampowered.com/kb_article.php?ref=1558-AFCM-4577"
+    target="_blank"
+    rel="noreferrer"
+    >Steam no longer supports Windows XP and Windows Vista</a
+>.<br /><br />Visit the
+<a
+    href="http://steamcommunity.com/groups/steamworks/discussions/14/"
+    target="_blank"
+    rel="noreferrer"
+    >Steamworks Development Discussions - Windows</a
+>.
+<h2 class="bb_subsection"><a name="3"></a>Apple macOS</h2>
+Steam officially supports Intel Mac, OS X version 10.11 (El Capitan), or later.<br /><br /><strong
+    >Notarization</strong
+><br />Starting October 14th, 2019 Steam will require all new macOS Applications to be 64-bit and
+notarized by Apple. If your Mac application already supports 64-bit, please login to Steamworks and
+select the "macOS -&gt; 64 Bit Binaries Included" checkbox in the "Supported Operating Systems"
+section for your application. This will ensure that your macOS app will appear as compatible for
+users who are running Steam on macOS 10.15. <br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/MacPlatformButtons.jpg"
+/><br /><br />You can read more about Apple's plan to drop support of 32-bit Mac applications in the
+support article
+<a href="https://support.apple.com/en-us/HT208436" target="_blank" rel="noreferrer">HERE</a
+>.<br /><br />If you're not familiar with Apple's 64-bit requirements or the notarization process in
+macOS you can read more about that
+<a
+    href="https://developer.apple.com/documentation/security/notarizing_your_app_before_distribution"
+    target="_blank"
+    rel="noreferrer"
+    >HERE</a
+>.<br /><br />If you have already had your 64-bit Mac Application Notarized by Apple, please check
+the App Bundles Are Notarized checkbox in Steamworks as well.<br /><br /><strong
+    >Entitlements</strong
+><br />Support for 10.15 (Catalina) requires adding the following entitlements to your build
+configuration<br />
+<ul class="bb_ul">
+    <li>
+        <code class="bb_code bb_code_inline nohighlight"
+            >com.apple.security.cs.disable-library-validation
+        </code>
+        (allows loading the Steamworks SDK library and overlay library)<br />
+    </li>
+    <li>
+        <code class="bb_code bb_code_inline nohighlight"
+            >com.apple.security.cs.allow-dyld-environment-variables
+        </code>
+        (enables the overlay library to be injected into the game process)
+    </li>
+</ul>
+<br />You can find additional information about these entitlements and other app security details
+<a
+    href="https://developer.apple.com/documentation/security/hardened_runtime?language=objc"
+    target="_blank"
+    rel="noreferrer"
+    >HERE</a
+>.<br /><br /><strong>32-bit Mac apps</strong><br />Steam users who have purchased older 32-bit Mac
+apps still have a license to those apps on Steam and will still have access to those apps in their
+Steam Library. MacOS 32-bit applications will continue to work on macOS 10.14 Mojave and older macOS
+versions. In addition, Steam users are protected by Steam Play and will be able to play those games
+on other supported platforms as well at no additional charge. You can read more about ways users can
+continue playing their Steam library on Mac computers
+<a
+    href="https://support.steampowered.com/kb_article.php?ref=1055-ISJM-8568"
+    target="_blank"
+    rel="noreferrer"
+    >HERE</a
+>.
+<h2 class="bb_subsection"><a name="4"></a>Linux &amp; SteamOS</h2>
+Steam only officially supports
+<a href="http://ubuntu.com" target="_blank" rel="noreferrer">Ubuntu</a> running Ubuntu 12.04 LTS or
+newer and SteamOS, but the
+<a href="http://steamcommunity.com/app/221410" target="_blank" rel="noreferrer">Steam for Linux</a>
+community is extremely resourceful and has managed to run Steam on a large variety of distros. Valve
+approves of these efforts but does not officially endorse or provide support for them. Steam on
+Linux supports both x86 and x64, it's highly recommended that you ship 64 bit binaries as the vast
+majority of users will be running that.<br /><br />The
+<a href="https://github.com/ValveSoftware/steam-for-linux" target="_blank" rel="noreferrer"
+    >Steam for Linux Client</a
+>
+Github page is very active and contains the bug tracker for the Linux Steam Client.<br /><br />See
+<a href="https://partner.steamgames.com/doc/store/application/platforms/linux" class="bb_doclink"
+    >Developing for SteamOS and Linux</a
+>
+for additional information on getting started.<br /><br />Search for
+<a href="https://partner.steamgames.com/doc?q=linux+steamos" target="_blank" rel="noreferrer"
+    >Linux &amp; SteamOS specific documentation</a
+>
+or visit the
+<a
+    href="http://steamcommunity.com/groups/steamworks/discussions/13/"
+    target="_blank"
+    rel="noreferrer"
+    >Steamworks Development Discussions - Linux &amp; SteamOS</a
+>
+if you want additional help with Linux and SteamOS.
+<h2 class="bb_section">
+    <a name="5"></a>Steamworks Video Tutorial - Adding New Platforms and Languages
+</h2>
+This tutorial walks you through adding new platforms and languages to your game by adding additional
+<a href="https://partner.steamgames.com/doc/store/application/depots" class="bb_doclink">depots</a>
+to your app.<br /><a
+    href="https://www.youtube.com/watch?v=PShS32hcing"
+    target="_blank"
+    rel="noreferrer"
+    id="dynamiclink_0"
+    >https://www.youtube.com/watch?v=PShS32hcing</a
+>
+<h2 class="bb_section"><a name="6"></a>Building and Testing</h2>
+For general help with building depots and preparing content, please see
+<a href="https://partner.steamgames.com/doc/sdk/uploading" class="bb_doclink">Uploading to Steam</a
+><br />
+<ol class="bb_ol">
+    <li>
+        In the Steamworks Settings for your application, create
+        <a href="https://partner.steamgames.com/doc/store/application/depots" class="bb_doclink"
+            >depots</a
+        >
+        for the new operating systems in the Creating &amp; Adding Depots section (under the
+        "SteamPipe" tab&gt;Depots).<br />
+        Save this change.<br />
+        <strong>NOTE:</strong> Don't check the boxes under
+        <strong>Supported Operating Systems</strong> on the General Application Settings tab yet,
+        that will be done when you're ready to release.<br />
+    </li>
+    <li>Create a Steam build for these new depots.<br /></li>
+    <li>Set that build to a beta branch with a password.<br /></li>
+    <li>
+        Update your autogrant package to contain these new depots so Steam will let you download the
+        files. You can find your autogrant package by on the
+        <a href="https://partner.steamgames.com/apps/associated/" target="_blank" rel="noreferrer"
+            >Associated Packages &amp; DLC</a
+        >
+        page.<br />
+    </li>
+    <li>Test the new versions on whatever operating system you are targeting.</li>
+</ol>
+<h2 class="bb_section"><a name="7"></a>Releasing</h2>
+When you are ready to release, you will need to make sure that you add the necessary depots to any
+public packages and update your store page to reflect the new content available.<br />
+<ol class="bb_ol">
+    <li>
+        Add the new
+        <a href="https://partner.steamgames.com/doc/store/application/depots" class="bb_doclink"
+            >depots</a
+        >
+        to all existing
+        <a href="https://partner.steamgames.com/doc/store/application/packages" class="bb_doclink"
+            >packages</a
+        >
+        of the game (so users will get them). You can see all packages associated with your
+        application on the
+        <a href="https://partner.steamgames.com/apps/associated/" target="_blank" rel="noreferrer"
+            >Associated Packages &amp; DLC</a
+        >
+        page.<br />
+    </li>
+    <li>
+        In the
+        <a href="https://partner.steamgames.com/apps/view/" target="_blank" rel="noreferrer"
+            >Steamworks Settings for your app</a
+        >, check the appropriate operating system boxes under
+        <strong>Supported Operating Systems</strong>.<br />
+    </li>
+    <li>
+        Edit your store page and check the appropriate operating system boxes on the Basic Info
+        tab.<br />
+    </li>
+    <li>
+        Then scroll down and enter the corresponding system requirements. Preview your store page
+        and then publish your changes when you're happy with how the system requirements appear.<br />
+    </li>
+    <li>
+        Finally, return to your Steamworks Settings page and move the build to the Default branch.
+        (Under the SteamPipe tab &gt; Depots)<br />
+    </li>
+    <li>
+        Head over to the Steam Community Hub for your application and post an announcement to let
+        existing and prospective customers know you've updated!
+    </li>
+</ol>

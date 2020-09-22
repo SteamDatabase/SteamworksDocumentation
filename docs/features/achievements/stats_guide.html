@@ -1,206 +1,214 @@
 <h1>Step by Step: Stats</h1>
-<h2 class="bb_section"><a name="1"></a>Introduction</h2>The following is a quick step by step guide to integrating very basic Steam Stats into your application in under 10 minutes and under 10 lines of code integrated into your code base. The <a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a> comes with a great example application called <a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink">Spacewar</a> that shows off the full breadth of Steam features and should be your first stop to see all Steam features in action. This tutorial distills the information found in Spacewar and the Stats and Achievements API down to just the necessary information required for Steam Stats to keep things as straightforward as possible. Please note that there is a considerable amount of overlap between stats and achievements, as such if you are integrating both be aware that a lot of calls can be consolidated.<h2 class="bb_section"><a name="2"></a>Step 1 - Defining your game's Stats</h2>Stats are application specific and are setup on the <a href="https://partner.steamgames.com/apps/stats/" target="_blank" rel="noreferrer">Stats Configuration</a> page in the Steamworks App Admin backend. The following is the list of stats from the Steamworks sample app Spacewar:<br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stats_spacewar.png" alt="stats_spacewar.png" title="stats_spacewar.png"><h2 class="bb_section"><a name="3"></a>Step 2 - Encapsulating Stats work</h2>The following code is game independent and can be added to your game as you see fit. The class is fully functional as is but can be easily extended to meet any further needs. All of this code was taken directly from the Spacewar example files <code class="bb_code bb_code_inline nohighlight">StatsAndAchievements.cpp/h</code>.<h2 class="bb_subsection"><a name="4"></a>Header File</h2>We first define a structure to hold our stats data received from steam, define stat types in a handy enum and then provide a macro for creating stats objects. This data maps directly to what is found on the <a href="https://partner.steamgames.com/apps/stats/" target="_blank" rel="noreferrer">Stats Configuration</a> page.<br><div class="bb_code cpp">#define _STAT_ID( id,type,name ) { id, type, name, 0, 0, 0, 0 }
-
-enum EStatTypes
-{
-	STAT_INT = 0,
-	STAT_FLOAT = 1,
-	STAT_AVGRATE = 2,
-};
-
-struct Stat_t
-{
-	int m_ID;
-	EStatTypes m_eStatType;
-	const char *m_pchStatName;
-	int m_iValue;
-	float m_flValue;
-	float m_flAvgNumerator;
-	float m_flAvgDenominator;
-};
-</div><br>Next we define a helper class that will wrap all of the Steam Stats API calls as well as creating all of the <a href="https://partner.steamgames.com/doc/sdk/api#callbacks" class="bb_doclink">Steam callbacks</a>.<br><div class="bb_code cpp">class CSteamStats
-{
-private:
-	int64 m_iAppID; // Our current AppID
-	Stat_t *m_pStats; // Stats data
-	int m_iNumStats; // The number of Stats
-	bool m_bInitialized; // Have we called Request stats and received the callback?
-
-public:
-	CSteamStats(Stat_t *Stats, int NumStats);
-	~CSteamStats();
-
-	bool RequestStats();
-	bool StoreStats();
-
-	STEAM_CALLBACK( CSteamStats, OnUserStatsReceived, UserStatsReceived_t,
-		m_CallbackUserStatsReceived );
-	STEAM_CALLBACK( CSteamStats, OnUserStatsStored, UserStatsStored_t,
-		m_CallbackUserStatsStored );
-};
-</div><h2 class="bb_subsection"><a name="5"></a>Code File</h2><h4>Constructor</h4><strong>Parameters</strong> - The constructor takes a pointer to an array of stats along with the length of the array. The formating of that array will be covered in the main game code later.<br><strong>Returns</strong> - N/A<br><strong>What it does</strong> - The constructor initializes a number of members along with grabbing the app ID we are currently running as. In addition it hooks up the call back methods to handle asynchronous calls made to Steam. Finally it makes an initial call to <code class="bb_code bb_code_inline nohighlight">RequestStats()</code> to get stats and achievements for the current user.<br><div class="bb_code cpp">CSteamStats::CSteamStats(Stat_t *Stats, int NumStats) :
- m_iAppID( 0 ),
- m_bInitialized( false ),
- m_CallbackUserStatsReceived( this, &amp;CSteamStats::OnUserStatsReceived ),
- m_CallbackUserStatsStored( this, &amp;CSteamStats::OnUserStatsStored )
-{
-	m_iAppID = SteamUtils()-&gt;GetAppID();
-	m_pStats = Stats;
-	m_iNumStats = NumStats;
-	RequestStats();
-}
-</div><h4>RequestStats()</h4><strong>Parameters</strong> - None<br><strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then most likely Steam is not initialized. Make sure you have a steam client open when you try to make this call and that <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink">SteamAPI_Init</a> has been called before it.<br><strong>What it does</strong> - This method basically wraps a call to <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats" class="bb_apilink">ISteamUserStats::RequestCurrentStats</a> which is an asynchronous call to steam requesting the stats of the current user. This call needs to be made before you can set any stats or achievements. The initial call to this method is made in the constructor. You can call it again any time after that if you want to check on updated stats or achievements.<br><div class="bb_code ">bool CSteamStats::RequestStats()
-{
-	// Is Steam loaded? If not we can't get stats.
-	if ( NULL == SteamUserStats() || NULL == SteamUser() )
-	{
-		return false;
-	}
-	// Is the user logged on?  If not we can't get stats.
-	if ( !SteamUser()-&gt;BLoggedOn() )
-	{
-		return false;
-	}
-	// Request user stats.
-	return SteamUserStats()-&gt;RequestCurrentStats();
-}
-</div><h4>StoreStats()</h4><strong>Parameters</strong> - None<br><strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then most likely Steam is not initialized. Make sure you have a steam client open when you try to make this call and that <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink">SteamAPI_Init</a> has been called before it.<br><strong>What it does</strong> - This method basically wraps a call to <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats" class="bb_apilink">ISteamUserStats::StoreStats</a> which is an asynchronous call to steam that stores the stats of the current user on the server. This call needs to be made anytime you want to update the stats of the user.<br><div class="bb_code cpp">bool CSteamStats::StoreStats()
-{
-	if ( m_bInitialized )
-	{
-		// load stats
-		for ( int iStat = 0; iStat &lt; m_NumStats; ++iStat )
-		{
-			Stat_t &amp;stat = m_pStats[iStat];
-			switch (stat.m_eStatType)
-			{
-			case STAT_INT:
-				SteamUserStats()-&gt;SetStat( stat.m_pchStatName, stat.m_iValue );
-				break;
-
-			case STAT_FLOAT:
-				SteamUserStats()-&gt;SetStat( stat.m_pchStatName, stat.m_flValue );
-				break;
-
-			case STAT_AVGRATE:
-				SteamUserStats()-&gt;UpdateAvgRateStat(stat.m_pchStatName, stat.m_flAvgNumerator, stat.m_flAvgDenominator );
-				// The averaged result is calculated for us
-				SteamUserStats()-&gt;GetStat(stat.m_pchStatName, &amp;stat.m_flValue );
-				break;
-
-			default:
-				break;
-			}
-		}
-
-		return SteamUserStats()-&gt;StoreStats();
-	}
-}
-</div><h4>OnUserStatsReceived()</h4><strong>Parameters</strong> - N/A<br><strong>Returns</strong> - Nothing<br><strong>What it does</strong> - This method is a callback that is called anytime you attempt to request stats. Stats are requested by using <code class="bb_code bb_code_inline nohighlight">RequestStats()</code>. The method updates the member variable m_Stats to reflect the latest stats data returned from Steam.<br><div class="bb_code cpp">void CSteamStats::OnUserStatsReceived( UserStatsReceived_t *pCallback )
-{
-	// we may get callbacks for other games' stats arriving, ignore them
-	if ( m_iAppID == pCallback-&gt;m_nGameID )
-	{
-		if ( k_EResultOK == pCallback-&gt;m_eResult )
-		{
-			OutputDebugString( "Received stats and achievements from Steam\n" );
-			// load stats
-			for ( int iStat = 0; iStat &lt; m_iNumStats; ++iStat )
-			{
-				Stat_t &amp;stat = m_Stats[iStat];
-				switch (stat.m_eStatType)
-				{
-				case STAT_INT:
-					SteamUserStats()-&gt;GetStat(stat.m_pchStatName, &amp;stat.m_iValue);
-					break;
-
-				case STAT_FLOAT:
-				case STAT_AVGRATE:
-					SteamUserStats()-&gt;GetStat(stat.m_pchStatName, &amp;stat.m_flValue);
-					break;
-
-				default:
-					break;
-				}
-			}
-			m_bInitialized = true;
-		}
-		else
-		{
-			char buffer[128];
-			_snprintf( buffer, 128, "RequestStats - failed, %d\n", pCallback-&gt;m_eResult );
-			OutputDebugString( buffer );
-		}
-	}
-}
-</div><h4>OnUserStatsStored()</h4><strong>Parameters</strong> - N/A<br><strong>Returns</strong> - Nothing<br><strong>What it does</strong> - This method is a callback that is called anytime you attempt to store stats on Steam. If any of the stats that we tried to set broke a constraint they will be reverted to their old value so we reload their values.<br><div class="bb_code cpp">void CSteamStats::OnUserStatsStored( UserStatsStored_t *pCallback )
-{
-	// we may get callbacks for other games' stats arriving, ignore them
-	if ( m_iAppID == pCallback-&gt;m_nGameID )
-	{
-		if ( k_EResultOK == pCallback-&gt;m_eResult )
-		{
-			OutputDebugString( "StoreStats - success\n" );
-		}
-		else if ( k_EResultInvalidParam == pCallback-&gt;m_eResult )
-		{
-			// One or more stats we set broke a constraint. They've been reverted,
-			// and we should re-iterate the values now to keep in sync.
-			OutputDebugString( "StoreStats - some failed to validate\n" );
-			// Fake up a callback here so that we re-load the values.
-			UserStatsReceived_t callback;
-			callback.m_eResult = k_EResultOK;
-			callback.m_nGameID = m_iAppID;
-			OnUserStatsReceived( &amp;callback );
-		}
-		else
-		{
-			char buffer[128];
-			_snprintf( buffer, 128, "StoreStats - failed, %d\n", pCallback-&gt;m_eResult );
-			OutputDebugString( buffer );
-		}
-	}
-}
-</div><h2 class="bb_section"><a name="6"></a>Step 3 - Integrating into your game</h2>The following is a complete listing of code snippets that you would need to integrate into your game in the appropriate locations.<h2 class="bb_subsection"><a name="7"></a>Defines and Globals</h2>The following is the list of includes that are needed to build with Stats, an array for our game specific stats and a global pointer to our helper object. Please note that the stats match those of the Admin page on Steamworks.<br><div class="bb_code cpp">...
-#include "steam_api.h"
-#include "isteamuserstats.h"
-#include "SteamStats.h"
-
-// Stats array which will hold data about the stats and their state
-Stat_t g_Stats[] =
-{
-	_STAT_ID( 1, STAT_INT, "NumGames"),
-	_STAT_ID( 2, STAT_INT, "NumWins"),
-	_STAT_ID( 3, STAT_INT, "NumLosses"),
-	_STAT_ID( 4, STAT_FLOAT, "FeetTraveled"),
-	_STAT_ID( 5, STAT_AVGRATE, "AverageSpeed"),
-	_STAT_ID( 7, STAT_FLOAT, "MaxFeetTraveled"),
-};
-
-// Global access to Stats Object
-CSteamStats* g_SteamStats = NULL;
-...
-</div><h2 class="bb_subsection"><a name="8"></a>Initialization</h2>The call to <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink">SteamAPI_Init</a> initializes all of Steam and must be called before anything else. If that call succeeds then we create the helper object by passing in the array of stats along with the size of the array.<br><div class="bb_code cpp">...
-// Initialize Steam
-bool bRet = SteamAPI_Init();
-// Create the SteamStats object if Steam was successfully initialized
-if (bRet)
-{
-	g_SteamStats = new CSteamStats(g_Stats, 6);
-}
-...
-</div><h2 class="bb_subsection"><a name="9"></a>Processing Callbacks</h2>To ensure that we process all Steam callbacks we need to regularly pump for new messages. This is achieved by adding the this call to the game loop.<br><div class="bb_code cpp">...
-SteamAPI_RunCallbacks();
-...
-</div><h2 class="bb_subsection"><a name="10"></a>Saving Stats</h2>Stats are saved by making an single call to <code class="bb_code bb_code_inline nohighlight">StoreStats()</code>.<br><div class="bb_code cpp">...
-if (g_SteamStats)
-	g_SteamStats-&gt;StoreStats();
-...
-</div><h2 class="bb_subsection"><a name="11"></a>Shutdown</h2>The call to <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink">SteamAPI_Shutdown</a> is probably something you already have in your code. It shuts down steam and must be called before you application exits. Finally we delete the helper object we created.<br><div class="bb_code cpp">...
-// Shutdown Steam
-SteamAPI_Shutdown();
-// Delete the SteamStats object
-if (g_SteamStats)
-	delete g_SteamStats;
-...
-</div><h2 class="bb_section"><a name="12"></a>Step 4 - Testing and Troubleshooting</h2>This sample code outputs debug information to the debug console that can help you understand what calls are succeeding or failing. The following are some typical failure messages and fixes:<br><br><strong>This application has failed to start because steam_api.dll was not found. Re-installing the application may fix this problem.</strong><br>Make sure steam_api.dll is in the same directory as the executable.<br><br><strong>[S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local steamclient.dll</strong><br>You most likely don't have a Steam client running. Start Steam and log in.<br><br><strong>[S_API FAIL] SteamAPI_Init() failed; no appID found.</strong><br>You most likely don't have the steam_appid.txt file in place. Place it in your source folder and ensure that it has your appID number in it.
+<h2 class="bb_section"><a name="1"></a>Introduction</h2>
+The following is a quick step by step guide to integrating very basic Steam Stats into your
+application in under 10 minutes and under 10 lines of code integrated into your code base. The
+<a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a> comes with a
+great example application called
+<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink">Spacewar</a> that
+shows off the full breadth of Steam features and should be your first stop to see all Steam features
+in action. This tutorial distills the information found in Spacewar and the Stats and Achievements
+API down to just the necessary information required for Steam Stats to keep things as
+straightforward as possible. Please note that there is a considerable amount of overlap between
+stats and achievements, as such if you are integrating both be aware that a lot of calls can be
+consolidated.
+<h2 class="bb_section"><a name="2"></a>Step 1 - Defining your game's Stats</h2>
+Stats are application specific and are setup on the
+<a href="https://partner.steamgames.com/apps/stats/" target="_blank" rel="noreferrer"
+    >Stats Configuration</a
+>
+page in the Steamworks App Admin backend. The following is the list of stats from the Steamworks
+sample app Spacewar:<br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/stats_spacewar.png"
+    alt="stats_spacewar.png"
+    title="stats_spacewar.png"
+/>
+<h2 class="bb_section"><a name="3"></a>Step 2 - Encapsulating Stats work</h2>
+The following code is game independent and can be added to your game as you see fit. The class is
+fully functional as is but can be easily extended to meet any further needs. All of this code was
+taken directly from the Spacewar example files
+<code class="bb_code bb_code_inline nohighlight">StatsAndAchievements.cpp/h</code>.
+<h2 class="bb_subsection"><a name="4"></a>Header File</h2>
+We first define a structure to hold our stats data received from steam, define stat types in a handy
+enum and then provide a macro for creating stats objects. This data maps directly to what is found
+on the
+<a href="https://partner.steamgames.com/apps/stats/" target="_blank" rel="noreferrer"
+    >Stats Configuration</a
+>
+page.<br />
+<div class="bb_code cpp">
+    #define _STAT_ID( id,type,name ) { id, type, name, 0, 0, 0, 0 } enum EStatTypes { STAT_INT = 0,
+    STAT_FLOAT = 1, STAT_AVGRATE = 2, }; struct Stat_t { int m_ID; EStatTypes m_eStatType; const
+    char *m_pchStatName; int m_iValue; float m_flValue; float m_flAvgNumerator; float
+    m_flAvgDenominator; };
+</div>
+<br />Next we define a helper class that will wrap all of the Steam Stats API calls as well as
+creating all of the
+<a href="https://partner.steamgames.com/doc/sdk/api#callbacks" class="bb_doclink">Steam callbacks</a
+>.<br />
+<div class="bb_code cpp">
+    class CSteamStats { private: int64 m_iAppID; // Our current AppID Stat_t *m_pStats; // Stats
+    data int m_iNumStats; // The number of Stats bool m_bInitialized; // Have we called Request
+    stats and received the callback? public: CSteamStats(Stat_t *Stats, int NumStats);
+    ~CSteamStats(); bool RequestStats(); bool StoreStats(); STEAM_CALLBACK( CSteamStats,
+    OnUserStatsReceived, UserStatsReceived_t, m_CallbackUserStatsReceived ); STEAM_CALLBACK(
+    CSteamStats, OnUserStatsStored, UserStatsStored_t, m_CallbackUserStatsStored ); };
+</div>
+<h2 class="bb_subsection"><a name="5"></a>Code File</h2>
+<h4>Constructor</h4>
+<strong>Parameters</strong> - The constructor takes a pointer to an array of stats along with the
+length of the array. The formating of that array will be covered in the main game code later.<br /><strong
+    >Returns</strong
+>
+- N/A<br /><strong>What it does</strong> - The constructor initializes a number of members along
+with grabbing the app ID we are currently running as. In addition it hooks up the call back methods
+to handle asynchronous calls made to Steam. Finally it makes an initial call to
+<code class="bb_code bb_code_inline nohighlight">RequestStats()</code> to get stats and achievements
+for the current user.<br />
+<div class="bb_code cpp">
+    CSteamStats::CSteamStats(Stat_t *Stats, int NumStats) : m_iAppID( 0 ), m_bInitialized( false ),
+    m_CallbackUserStatsReceived( this, &amp;CSteamStats::OnUserStatsReceived ),
+    m_CallbackUserStatsStored( this, &amp;CSteamStats::OnUserStatsStored ) { m_iAppID =
+    SteamUtils()-&gt;GetAppID(); m_pStats = Stats; m_iNumStats = NumStats; RequestStats(); }
+</div>
+<h4>RequestStats()</h4>
+<strong>Parameters</strong> - None<br /><strong>Returns</strong> - a bool representing if the call
+succeeded or not. If the call failed then most likely Steam is not initialized. Make sure you have a
+steam client open when you try to make this call and that
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
+    >SteamAPI_Init</a
+>
+has been called before it.<br /><strong>What it does</strong> - This method basically wraps a call
+to
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
+    class="bb_apilink"
+    >ISteamUserStats::RequestCurrentStats</a
+>
+which is an asynchronous call to steam requesting the stats of the current user. This call needs to
+be made before you can set any stats or achievements. The initial call to this method is made in the
+constructor. You can call it again any time after that if you want to check on updated stats or
+achievements.<br />
+<div class="bb_code">
+    bool CSteamStats::RequestStats() { // Is Steam loaded? If not we can't get stats. if ( NULL ==
+    SteamUserStats() || NULL == SteamUser() ) { return false; } // Is the user logged on? If not we
+    can't get stats. if ( !SteamUser()-&gt;BLoggedOn() ) { return false; } // Request user stats.
+    return SteamUserStats()-&gt;RequestCurrentStats(); }
+</div>
+<h4>StoreStats()</h4>
+<strong>Parameters</strong> - None<br /><strong>Returns</strong> - a bool representing if the call
+succeeded or not. If the call failed then most likely Steam is not initialized. Make sure you have a
+steam client open when you try to make this call and that
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
+    >SteamAPI_Init</a
+>
+has been called before it.<br /><strong>What it does</strong> - This method basically wraps a call
+to
+<a href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats" class="bb_apilink"
+    >ISteamUserStats::StoreStats</a
+>
+which is an asynchronous call to steam that stores the stats of the current user on the server. This
+call needs to be made anytime you want to update the stats of the user.<br />
+<div class="bb_code cpp">
+    bool CSteamStats::StoreStats() { if ( m_bInitialized ) { // load stats for ( int iStat = 0;
+    iStat &lt; m_NumStats; ++iStat ) { Stat_t &amp;stat = m_pStats[iStat]; switch (stat.m_eStatType)
+    { case STAT_INT: SteamUserStats()-&gt;SetStat( stat.m_pchStatName, stat.m_iValue ); break; case
+    STAT_FLOAT: SteamUserStats()-&gt;SetStat( stat.m_pchStatName, stat.m_flValue ); break; case
+    STAT_AVGRATE: SteamUserStats()-&gt;UpdateAvgRateStat(stat.m_pchStatName, stat.m_flAvgNumerator,
+    stat.m_flAvgDenominator ); // The averaged result is calculated for us
+    SteamUserStats()-&gt;GetStat(stat.m_pchStatName, &amp;stat.m_flValue ); break; default: break; }
+    } return SteamUserStats()-&gt;StoreStats(); } }
+</div>
+<h4>OnUserStatsReceived()</h4>
+<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
+    >What it does</strong
+>
+- This method is a callback that is called anytime you attempt to request stats. Stats are requested
+by using <code class="bb_code bb_code_inline nohighlight">RequestStats()</code>. The method updates
+the member variable m_Stats to reflect the latest stats data returned from Steam.<br />
+<div class="bb_code cpp">
+    void CSteamStats::OnUserStatsReceived( UserStatsReceived_t *pCallback ) { // we may get
+    callbacks for other games' stats arriving, ignore them if ( m_iAppID == pCallback-&gt;m_nGameID
+    ) { if ( k_EResultOK == pCallback-&gt;m_eResult ) { OutputDebugString( "Received stats and
+    achievements from Steam\n" ); // load stats for ( int iStat = 0; iStat &lt; m_iNumStats; ++iStat
+    ) { Stat_t &amp;stat = m_Stats[iStat]; switch (stat.m_eStatType) { case STAT_INT:
+    SteamUserStats()-&gt;GetStat(stat.m_pchStatName, &amp;stat.m_iValue); break; case STAT_FLOAT:
+    case STAT_AVGRATE: SteamUserStats()-&gt;GetStat(stat.m_pchStatName, &amp;stat.m_flValue); break;
+    default: break; } } m_bInitialized = true; } else { char buffer[128]; _snprintf( buffer, 128,
+    "RequestStats - failed, %d\n", pCallback-&gt;m_eResult ); OutputDebugString( buffer ); } } }
+</div>
+<h4>OnUserStatsStored()</h4>
+<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
+    >What it does</strong
+>
+- This method is a callback that is called anytime you attempt to store stats on Steam. If any of
+the stats that we tried to set broke a constraint they will be reverted to their old value so we
+reload their values.<br />
+<div class="bb_code cpp">
+    void CSteamStats::OnUserStatsStored( UserStatsStored_t *pCallback ) { // we may get callbacks
+    for other games' stats arriving, ignore them if ( m_iAppID == pCallback-&gt;m_nGameID ) { if (
+    k_EResultOK == pCallback-&gt;m_eResult ) { OutputDebugString( "StoreStats - success\n" ); } else
+    if ( k_EResultInvalidParam == pCallback-&gt;m_eResult ) { // One or more stats we set broke a
+    constraint. They've been reverted, // and we should re-iterate the values now to keep in sync.
+    OutputDebugString( "StoreStats - some failed to validate\n" ); // Fake up a callback here so
+    that we re-load the values. UserStatsReceived_t callback; callback.m_eResult = k_EResultOK;
+    callback.m_nGameID = m_iAppID; OnUserStatsReceived( &amp;callback ); } else { char buffer[128];
+    _snprintf( buffer, 128, "StoreStats - failed, %d\n", pCallback-&gt;m_eResult );
+    OutputDebugString( buffer ); } } }
+</div>
+<h2 class="bb_section"><a name="6"></a>Step 3 - Integrating into your game</h2>
+The following is a complete listing of code snippets that you would need to integrate into your game
+in the appropriate locations.
+<h2 class="bb_subsection"><a name="7"></a>Defines and Globals</h2>
+The following is the list of includes that are needed to build with Stats, an array for our game
+specific stats and a global pointer to our helper object. Please note that the stats match those of
+the Admin page on Steamworks.<br />
+<div class="bb_code cpp">
+    ... #include "steam_api.h" #include "isteamuserstats.h" #include "SteamStats.h" // Stats array
+    which will hold data about the stats and their state Stat_t g_Stats[] = { _STAT_ID( 1, STAT_INT,
+    "NumGames"), _STAT_ID( 2, STAT_INT, "NumWins"), _STAT_ID( 3, STAT_INT, "NumLosses"), _STAT_ID(
+    4, STAT_FLOAT, "FeetTraveled"), _STAT_ID( 5, STAT_AVGRATE, "AverageSpeed"), _STAT_ID( 7,
+    STAT_FLOAT, "MaxFeetTraveled"), }; // Global access to Stats Object CSteamStats* g_SteamStats =
+    NULL; ...
+</div>
+<h2 class="bb_subsection"><a name="8"></a>Initialization</h2>
+The call to
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
+    >SteamAPI_Init</a
+>
+initializes all of Steam and must be called before anything else. If that call succeeds then we
+create the helper object by passing in the array of stats along with the size of the array.<br />
+<div class="bb_code cpp">
+    ... // Initialize Steam bool bRet = SteamAPI_Init(); // Create the SteamStats object if Steam
+    was successfully initialized if (bRet) { g_SteamStats = new CSteamStats(g_Stats, 6); } ...
+</div>
+<h2 class="bb_subsection"><a name="9"></a>Processing Callbacks</h2>
+To ensure that we process all Steam callbacks we need to regularly pump for new messages. This is
+achieved by adding the this call to the game loop.<br />
+<div class="bb_code cpp">... SteamAPI_RunCallbacks(); ...</div>
+<h2 class="bb_subsection"><a name="10"></a>Saving Stats</h2>
+Stats are saved by making an single call to
+<code class="bb_code bb_code_inline nohighlight">StoreStats()</code>.<br />
+<div class="bb_code cpp">... if (g_SteamStats) g_SteamStats-&gt;StoreStats(); ...</div>
+<h2 class="bb_subsection"><a name="11"></a>Shutdown</h2>
+The call to
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink"
+    >SteamAPI_Shutdown</a
+>
+is probably something you already have in your code. It shuts down steam and must be called before
+you application exits. Finally we delete the helper object we created.<br />
+<div class="bb_code cpp">
+    ... // Shutdown Steam SteamAPI_Shutdown(); // Delete the SteamStats object if (g_SteamStats)
+    delete g_SteamStats; ...
+</div>
+<h2 class="bb_section"><a name="12"></a>Step 4 - Testing and Troubleshooting</h2>
+This sample code outputs debug information to the debug console that can help you understand what
+calls are succeeding or failing. The following are some typical failure messages and fixes:<br /><br /><strong
+    >This application has failed to start because steam_api.dll was not found. Re-installing the
+    application may fix this problem.</strong
+><br />Make sure steam_api.dll is in the same directory as the executable.<br /><br /><strong
+    >[S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local
+    steamclient.dll</strong
+><br />You most likely don't have a Steam client running. Start Steam and log in.<br /><br /><strong
+    >[S_API FAIL] SteamAPI_Init() failed; no appID found.</strong
+><br />You most likely don't have the steam_appid.txt file in place. Place it in your source folder
+and ensure that it has your appID number in it.

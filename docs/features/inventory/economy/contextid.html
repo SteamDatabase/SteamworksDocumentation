@@ -1,2 +1,41 @@
 <h1>Steam Economy Context IDs</h1>
-Each asset in the Steam Economy can be uniquely identified by the combination of three numbers: App ID, Context ID, and Asset ID. It is up to each game to determine what the 64-bit context ID means for its assets. Depending on the style of game this will probably take one of a few different	forms. In any case, Steam doesn't care what the values of a context ID actually are. The only requirement is that stay the same for the same logical context (server, character, container, etc.) so that audit records will continue to be accurate and so <code class="bb_code bb_code_inline nohighlight">GetAssetDetails</code> will continue to work for those assets.<br><br>Steam reserves the top two bits of each context ID for its own use. Context IDs returned by an asset server must be zero in the top two bits.<br><br>All contexts defined by the asset server must also have a non-zero context ID. APIs that return context IDs must not specify a value of zero.<h2 class="bb_subsection"><a name="1"></a>Game-wide Inventory</h2>Some games have a single inventory per user and no concept of a persistent character that is distinct from the user's account. Those games may only have one context per account to represent all items owned by that account. They may also declare some contexts that contain other types of assets or contexts that aren't user-visible at all just to expose some internal data in the support tool.<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_simple_contexts.png" alt="economy_simple_contexts.png" title="economy_simple_contexts.png"><h2 class="bb_subsection"><a name="2"></a>Per-Character Inventory</h2>In some games each account can have multiple characters and each character can have multiple inventories. One context item scheme that can be used in these games is to break up the context ID into a 32-bit (with two reserved) character ID and a 32-bit container ID inside that character. If your game has globally unique 32-bit character IDs internally, your game can use those directly in the context ID.<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_character_contexts.png" alt="economy_simple_contexts.png" title="economy_simple_contexts.png"><h2 class="bb_subsection"><a name="3"></a>Characters on a Shard</h2>Some games have characters that are tied to a specific server and then multiple inventories per	character. This pattern is common in MMOs. One way to partition context IDs for this sort of setup would be to use the high 16 bits (with two reserved) for server ID, 32 bits for character ID, and 16 bits for container ID. (Zeros omitted from the diagram for the sake of brevity.)<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_shard_contexts.png" alt="economy_shard_contexts.png" title="economy_shard_contexts.png">
+Each asset in the Steam Economy can be uniquely identified by the combination of three numbers: App
+ID, Context ID, and Asset ID. It is up to each game to determine what the 64-bit context ID means
+for its assets. Depending on the style of game this will probably take one of a few different forms.
+In any case, Steam doesn't care what the values of a context ID actually are. The only requirement
+is that stay the same for the same logical context (server, character, container, etc.) so that
+audit records will continue to be accurate and so
+<code class="bb_code bb_code_inline nohighlight">GetAssetDetails</code> will continue to work for
+those assets.<br /><br />Steam reserves the top two bits of each context ID for its own use. Context
+IDs returned by an asset server must be zero in the top two bits.<br /><br />All contexts defined by
+the asset server must also have a non-zero context ID. APIs that return context IDs must not specify
+a value of zero.
+<h2 class="bb_subsection"><a name="1"></a>Game-wide Inventory</h2>
+Some games have a single inventory per user and no concept of a persistent character that is
+distinct from the user's account. Those games may only have one context per account to represent all
+items owned by that account. They may also declare some contexts that contain other types of assets
+or contexts that aren't user-visible at all just to expose some internal data in the support
+tool.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_simple_contexts.png"
+    alt="economy_simple_contexts.png"
+    title="economy_simple_contexts.png"
+/>
+<h2 class="bb_subsection"><a name="2"></a>Per-Character Inventory</h2>
+In some games each account can have multiple characters and each character can have multiple
+inventories. One context item scheme that can be used in these games is to break up the context ID
+into a 32-bit (with two reserved) character ID and a 32-bit container ID inside that character. If
+your game has globally unique 32-bit character IDs internally, your game can use those directly in
+the context ID.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_character_contexts.png"
+    alt="economy_simple_contexts.png"
+    title="economy_simple_contexts.png"
+/>
+<h2 class="bb_subsection"><a name="3"></a>Characters on a Shard</h2>
+Some games have characters that are tied to a specific server and then multiple inventories per
+character. This pattern is common in MMOs. One way to partition context IDs for this sort of setup
+would be to use the high 16 bits (with two reserved) for server ID, 32 bits for character ID, and 16
+bits for container ID. (Zeros omitted from the diagram for the sake of brevity.)<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/economy_shard_contexts.png"
+    alt="economy_shard_contexts.png"
+    title="economy_shard_contexts.png"
+/>

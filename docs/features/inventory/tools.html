@@ -1,43 +1,82 @@
 <h1>Steam Inventory Item Tools</h1>
-Now in <strong>beta</strong> is the ability to define "tool" items that you can use to modify <a href="https://partner.steamgames.com/doc/features/inventory/itemtags" class="bb_doclink">Steam Inventory Item Tags</a> on other items.<br><br>Using the <a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink">ISteamInventory::ExchangeItems</a> call, you then pass in both the tool and the target item--tags will be transferred or generated and a new item (copied from the target item) will be created.<br><br>These tags are automatically sent along with other item attributes to the Steam Client and can be retrieved by calling ISteamInventory::GetResultItemProperty() with the property name "tags".  The tags will be returned in the provided string buffer, delimited by the <code class="bb_code bb_code_inline nohighlight">;</code> character.<h2 class="bb_subsection"><a name="1"></a>Simple Example</h2><br>Here is an example of a tool that can apply a "paint" color to another item.<br><br>First, you'll need an item definition for the tool.  Note that you'll probably want to remove the tags using the <code class="bb_code bb_code_inline nohighlight">tags_to_remove_on_tool_use</code> property, otherwise you may get duplicate tags or tag categories on your item if multiple tools have been applied to it.  Any matching tags will be removed first before any new ones are applied.<br><br><div class="bb_code ">itemdefid: 100
-type: tag_tool
-name: Red Paint Can
-tags: paint_color:red
-tags_to_remove_on_tool_use: paint_color
-</div><br>On the target item, you'll need to specify that it can take the tag "paint_color":<br><br><div class="bb_code ">itemdefid: 200
-type: item
-name: Hat
-allowed_tags_from_tools: paint_color
-</div><br>Then using <a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink">ISteamInventory::ExchangeItems</a> call, a user could apply the "Red Paint Can" tool to their "Hat" and the resulting item should have the tag "paint_color:red".  Note that the expected item definition id should match the target item's item definition id.<br><br><div class="bb_code ">SteamItemInstanceID_t inputItems[2] = { unPaintCanItemDefID, unHatItemDefID  };
-uint32 inputQuantities[2] = { 1, 1 };
-
-SteamItemDef_t outputItems[1] = { unHatItemDefID };
-uint32 outputQuantity[1] = { 1 };
-
-SteamInventoryResult_t resultHandle;
-SteamInventory()-&gt;ExchangeItems( &amp;resultHandle, outputItems, outputQuantity, 1, inputItems, inputQuantities, 2 );
-</div><br>If you wanted to have a tool that just removed a tag, you can define something like this "Paint Stripper." You would call <a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink">ISteamInventory::ExchangeItems</a> in the same manner described above.  Your item definition would just have the <code class="bb_code bb_code_inline nohighlight">tags_to_remove_on_tool_use</code> property set.<br><br><div class="bb_code ">itemdefid: 300
-type: tag_tool
-name: Paint Stripper
-tags_to_remove_on_tool_use: paint_color
-</div><h2 class="bb_subsection"><a name="2"></a>Tag Generator Example</h2><br>Instead of a specific paint color, you can set up a tool that can apply tags from a <code class="bb_code bb_code_inline nohighlight">tag_generator</code> item definition.<br><br><div class="bb_code ">itemdefid: 500
-type: tag_generator
-name: Tag Generator Paint
-tag_generator_name: paint_color
-tag_generator_values:  red:33;blue:33;green:33;gold:1
-
-itemdefid: 100
-type: tag_tool
-name: Random Paint Can
-tag_generators: 500
-tags_to_remove_on_tool_use: paint_color
-</div><br>Then when a user applies the "Random Paint Can" tool to their "Hat" using the <a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink">ISteamInventory::ExchangeItems</a> call, they have a 33% chance to get either "red," "green," or "blue" and a 1% chance to get "gold."<h2 class="bb_subsection"><a name="3"></a>Dynamic Properties Restriction Example</h2><br>You can restrict the modification of certain <a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink">dynamic properties</a> on an item using tags.  With a <code class="bb_code bb_code_inline nohighlight">tag_tool</code>, you can now allow those properties to be set on an item where previously it would not be allowed if that item did not have the required tags.  Here's an example of an item that keeps track of kills on a rocket launcher.<br><br><div class="bb_code ">itemdefid: 100
-type: item
-name: Rocket Launcher
-
-itemdefid: 200
-type: tag_tool
-name: Kill Stat Tracker
-tags: stat_tracker:kills
-tags_to_remove_on_tool_use: stat_tracker:kills
-</div><br>Using the Steamworks API you can have the client update properties on the Rocket Launcher for the dynamic property "kills."  However, in the configuration for that dynamic property you can restrict that to items that have the "stat_tracker" tag either on the item or its associated item definition.  Once the "Kill Stat Tracker" has been applied to the Rocket Launcher, the dynamic property "kills" can be set on the Rocket Launcher as well.
+Now in <strong>beta</strong> is the ability to define "tool" items that you can use to modify
+<a href="https://partner.steamgames.com/doc/features/inventory/itemtags" class="bb_doclink"
+    >Steam Inventory Item Tags</a
+>
+on other items.<br /><br />Using the
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
+    >ISteamInventory::ExchangeItems</a
+>
+call, you then pass in both the tool and the target item--tags will be transferred or generated and
+a new item (copied from the target item) will be created.<br /><br />These tags are automatically
+sent along with other item attributes to the Steam Client and can be retrieved by calling
+ISteamInventory::GetResultItemProperty() with the property name "tags". The tags will be returned in
+the provided string buffer, delimited by the
+<code class="bb_code bb_code_inline nohighlight">;</code> character.
+<h2 class="bb_subsection"><a name="1"></a>Simple Example</h2>
+<br />Here is an example of a tool that can apply a "paint" color to another item.<br /><br />First,
+you'll need an item definition for the tool. Note that you'll probably want to remove the tags using
+the <code class="bb_code bb_code_inline nohighlight">tags_to_remove_on_tool_use</code> property,
+otherwise you may get duplicate tags or tag categories on your item if multiple tools have been
+applied to it. Any matching tags will be removed first before any new ones are applied.<br /><br />
+<div class="bb_code">
+    itemdefid: 100 type: tag_tool name: Red Paint Can tags: paint_color:red
+    tags_to_remove_on_tool_use: paint_color
+</div>
+<br />On the target item, you'll need to specify that it can take the tag "paint_color":<br /><br />
+<div class="bb_code">itemdefid: 200 type: item name: Hat allowed_tags_from_tools: paint_color</div>
+<br />Then using
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
+    >ISteamInventory::ExchangeItems</a
+>
+call, a user could apply the "Red Paint Can" tool to their "Hat" and the resulting item should have
+the tag "paint_color:red". Note that the expected item definition id should match the target item's
+item definition id.<br /><br />
+<div class="bb_code">
+    SteamItemInstanceID_t inputItems[2] = { unPaintCanItemDefID, unHatItemDefID }; uint32
+    inputQuantities[2] = { 1, 1 }; SteamItemDef_t outputItems[1] = { unHatItemDefID }; uint32
+    outputQuantity[1] = { 1 }; SteamInventoryResult_t resultHandle;
+    SteamInventory()-&gt;ExchangeItems( &amp;resultHandle, outputItems, outputQuantity, 1,
+    inputItems, inputQuantities, 2 );
+</div>
+<br />If you wanted to have a tool that just removed a tag, you can define something like this
+"Paint Stripper." You would call
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
+    >ISteamInventory::ExchangeItems</a
+>
+in the same manner described above. Your item definition would just have the
+<code class="bb_code bb_code_inline nohighlight">tags_to_remove_on_tool_use</code> property set.<br /><br />
+<div class="bb_code">
+    itemdefid: 300 type: tag_tool name: Paint Stripper tags_to_remove_on_tool_use: paint_color
+</div>
+<h2 class="bb_subsection"><a name="2"></a>Tag Generator Example</h2>
+<br />Instead of a specific paint color, you can set up a tool that can apply tags from a
+<code class="bb_code bb_code_inline nohighlight">tag_generator</code> item definition.<br /><br />
+<div class="bb_code">
+    itemdefid: 500 type: tag_generator name: Tag Generator Paint tag_generator_name: paint_color
+    tag_generator_values: red:33;blue:33;green:33;gold:1 itemdefid: 100 type: tag_tool name: Random
+    Paint Can tag_generators: 500 tags_to_remove_on_tool_use: paint_color
+</div>
+<br />Then when a user applies the "Random Paint Can" tool to their "Hat" using the
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
+    >ISteamInventory::ExchangeItems</a
+>
+call, they have a 33% chance to get either "red," "green," or "blue" and a 1% chance to get "gold."
+<h2 class="bb_subsection"><a name="3"></a>Dynamic Properties Restriction Example</h2>
+<br />You can restrict the modification of certain
+<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
+    >dynamic properties</a
+>
+on an item using tags. With a <code class="bb_code bb_code_inline nohighlight">tag_tool</code>, you
+can now allow those properties to be set on an item where previously it would not be allowed if that
+item did not have the required tags. Here's an example of an item that keeps track of kills on a
+rocket launcher.<br /><br />
+<div class="bb_code">
+    itemdefid: 100 type: item name: Rocket Launcher itemdefid: 200 type: tag_tool name: Kill Stat
+    Tracker tags: stat_tracker:kills tags_to_remove_on_tool_use: stat_tracker:kills
+</div>
+<br />Using the Steamworks API you can have the client update properties on the Rocket Launcher for
+the dynamic property "kills." However, in the configuration for that dynamic property you can
+restrict that to items that have the "stat_tracker" tag either on the item or its associated item
+definition. Once the "Kill Stat Tracker" has been applied to the Rocket Launcher, the dynamic
+property "kills" can be set on the Rocket Launcher as well.

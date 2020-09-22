@@ -1,30 +1,103 @@
 <h1>Steam Inventory Item Accessories</h1>
-Item accessories provide a way for players to customize their in-game items, and to create more valuable, interesting, and even unique versions of common items used in your game.<br><br>Attached accessories will be visible in the Inventory view on the community, and will create "Unique" (non-commodity) item listings when they are offered on the Steam Community Market.<br><br>It's up to you to decide what accessory types to support, and what cosmetic or gameplay effects different accessory types might have. You may also choose to support different types of accessories on different item types in your game.<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/backpackcomic_resize30.png" alt="backpackcomic_resize30.png" title="backpackcomic_resize30.png"><br><br>As a concrete example, we'll look at defining a familiar type of accessory item - stickers.<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/Unique_backpack.png" alt="Unique_backpack.png" title="Unique_backpack.png"><br><br>In this example, the "Unique" prefix is automatically added.<h2 class="bb_subsection"><a name="1"></a>Marking an item as customizable</h2>Players can only attach accessories to items that you have expressly configured for that type of accessory. To mark an item as being customizable, update the ItemDef with the property <code class="bb_code bb_code_inline nohighlight">"accessory_tag"</code> whose value is a per-item tag category token.<br><br>Example - <div class="bb_code json">    "accessory_tag": "sticker",
-</div><br>For this ItemDef, a per-item tag whose category is "sticker" will be treated as an attached accessory. The <i>value </i>of the per-item tag will be the ItemDefID of the accessory item.<br><br>Recall that per-item tags persist for the life of an item, including through ownership changes.<br><br>One item can have multiple accessories attached, as in the example shown above. You can limit the number of accessories on a single item with the property "accessory_limit":<br><br><div class="bb_code json">"accessory_limit": 3,</div><br>The default limit is 4. Larger limits are not recommended.<br><br>In-game, if an item is customizable, you can find the attached accessories by examining the per-item tags (call the SDK method <code class="bb_code bb_code_inline nohighlight">ISteamInventory::GetResultItemProperty()</code> with the property name "tags").<h2 class="bb_subsection"><a name="2"></a>Defining an accessory</h2>Because each accessory is actually an ItemDef, you can use existing tools to define the appearance of the accessory - including most importantly the <code class="bb_code bb_code_inline nohighlight">icon_url</code> property and localized names.<br><br>The generated description of customized items will use the information from the ItemDef. If you change the ItemDef, accessories already in user inventories will be updated as well.<br><br>A simple sticker definition:<br><div class="bb_code json">{
-    "appid": 480,
-    "name": "Blue Star",
-    "description": "A blue star sticker with mysterious powers",
-    "icon_url": ...
-</div><h2 class="bb_subsection"><a name="3"></a>Creating single-use accessories</h2>Any method that adds per-item tags can be used to attach accessories. The most interesting case is defining a consumable accessory that players can earn or buy, trade, and then use.<br><br>This functionality is provided by the <a href="https://partner.steamgames.com/doc/features/inventory/tools" class="bb_doclink">"tag_tool" item type</a>. The tag_tool is consumed in order to modify a target item.<br><br>First, to enable the tag tool, we need to enable the accessory tag on the customizable item (in our example, this is the backpack):<br><div class="bb_code json">{
-    "appid": 480,
-    "itemdefid": 2000,
-    "type": "item",
-    "name": "Everyday backpack",
-    "description": "A good place to keep things, with lots of room for stickers.",
-    "icon_url":...,
-
-    "accessory_tag": "sticker",
-    "accessory_limit": 3,
-    "allowed_tags_from_tools": "sticker"
-}
-</div><br>Each sticker type is created with the "type" set to a "tag_tool". The action of the tag tool will be to apply the accessory tag, with the itemdef of this sticker as the argument. So our sticker ItemDef will look like this:<br><div class="bb_code json">{
-    "appid": 480,
-    "itemdefid": 1001,
-    "name": "Blue Star",
-    "description": "A blue star sticker with mysterious powers",
-    "price_category": "1;VLV25",
-    "icon_url"...,
-
-    "type": "tag_tool",
-    "tags": "sticker:1001",
-}</div><br>Note that the "tags" value will apply the ItemDef ID of this sticker to the target item.<br><br>Also note that accessory items support all the normal Inventory actions and drop methods - including defining price categories and selling them on the Item Store.<h2 class="bb_subsection"><a name="4"></a>Using accessories</h2>To actually apply the sticker to an item, call the <a href="https://partner.steamgames.com/doc/webapi/IInventoryService#ExchangeItem" class="bb_doclink">ExchangeItem</a> (crafting) method from the SteamWorks SDK (or via the WebAPI from a trusted server). Pass the sticker and the customizable item as materials, and set the target ItemDef type to match the original customizable item. This will apply the tag_tool and update the target .<br><br>If the request is valid, the ExchangeItems call will atomically consume the sticker and update the tags on the target item.<br><br>Per-item tags can also be set other ways, including by item generators - see <a href="https://partner.steamgames.com/doc/features/inventory/itemtags" class="bb_doclink">the Item Tag page</a>.<h2 class="bb_subsection"><a name="5"></a>Localization and appearance</h2>Accessories are automatically rendered in the web view including the users' backpack and the Community Market. The description block will include a small version of the icon for each attached accessory, and list the localized names of each accessory.<br><br>As usual, item names are localized by providing values in the <a href="https://partner.steamgames.com/doc/features/inventory/schema" class="bb_doclink">ItemDef Schema</a>.<br><br>See the "Item Tags" section on the SteamWorks Inventory Service page to provide localized text for the internal name. In our example, the internal name "sticker" is simply mapped to "Sticker" in all supported languages.<h2 class="bb_subsection"><a name="6"></a>Removing or replacing accessories</h2>Once consumed, an accessory item can't be restored by removing it from the customized item. Accessories can of course be removed - see the per-item tags documentation for methods to remove tags from an item.<br><br>For user customization, you may choose to offer a tag_tool whose only purpose is to remove existing accessories.<br><br>Adding two instances of the same accessory to an item is not currently supported. Attempting to do so will fail in the ExchangeItems call and will not consume the accessory item.
+Item accessories provide a way for players to customize their in-game items, and to create more
+valuable, interesting, and even unique versions of common items used in your game.<br /><br />Attached
+accessories will be visible in the Inventory view on the community, and will create "Unique"
+(non-commodity) item listings when they are offered on the Steam Community Market.<br /><br />It's
+up to you to decide what accessory types to support, and what cosmetic or gameplay effects different
+accessory types might have. You may also choose to support different types of accessories on
+different item types in your game.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/backpackcomic_resize30.png"
+    alt="backpackcomic_resize30.png"
+    title="backpackcomic_resize30.png"
+/><br /><br />As a concrete example, we'll look at defining a familiar type of accessory item -
+stickers.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/Unique_backpack.png"
+    alt="Unique_backpack.png"
+    title="Unique_backpack.png"
+/><br /><br />In this example, the "Unique" prefix is automatically added.
+<h2 class="bb_subsection"><a name="1"></a>Marking an item as customizable</h2>
+Players can only attach accessories to items that you have expressly configured for that type of
+accessory. To mark an item as being customizable, update the ItemDef with the property
+<code class="bb_code bb_code_inline nohighlight">"accessory_tag"</code> whose value is a per-item
+tag category token.<br /><br />Example -
+<div class="bb_code json">"accessory_tag": "sticker",</div>
+<br />For this ItemDef, a per-item tag whose category is "sticker" will be treated as an attached
+accessory. The <i>value </i>of the per-item tag will be the ItemDefID of the accessory item.<br /><br />Recall
+that per-item tags persist for the life of an item, including through ownership changes.<br /><br />One
+item can have multiple accessories attached, as in the example shown above. You can limit the number
+of accessories on a single item with the property "accessory_limit":<br /><br />
+<div class="bb_code json">"accessory_limit": 3,</div>
+<br />The default limit is 4. Larger limits are not recommended.<br /><br />In-game, if an item is
+customizable, you can find the attached accessories by examining the per-item tags (call the SDK
+method
+<code class="bb_code bb_code_inline nohighlight">ISteamInventory::GetResultItemProperty()</code>
+with the property name "tags").
+<h2 class="bb_subsection"><a name="2"></a>Defining an accessory</h2>
+Because each accessory is actually an ItemDef, you can use existing tools to define the appearance
+of the accessory - including most importantly the
+<code class="bb_code bb_code_inline nohighlight">icon_url</code> property and localized names.<br /><br />The
+generated description of customized items will use the information from the ItemDef. If you change
+the ItemDef, accessories already in user inventories will be updated as well.<br /><br />A simple
+sticker definition:<br />
+<div class="bb_code json">
+    { "appid": 480, "name": "Blue Star", "description": "A blue star sticker with mysterious
+    powers", "icon_url": ...
+</div>
+<h2 class="bb_subsection"><a name="3"></a>Creating single-use accessories</h2>
+Any method that adds per-item tags can be used to attach accessories. The most interesting case is
+defining a consumable accessory that players can earn or buy, trade, and then use.<br /><br />This
+functionality is provided by the
+<a href="https://partner.steamgames.com/doc/features/inventory/tools" class="bb_doclink"
+    >"tag_tool" item type</a
+>. The tag_tool is consumed in order to modify a target item.<br /><br />First, to enable the tag
+tool, we need to enable the accessory tag on the customizable item (in our example, this is the
+backpack):<br />
+<div class="bb_code json">
+    { "appid": 480, "itemdefid": 2000, "type": "item", "name": "Everyday backpack", "description":
+    "A good place to keep things, with lots of room for stickers.", "icon_url":..., "accessory_tag":
+    "sticker", "accessory_limit": 3, "allowed_tags_from_tools": "sticker" }
+</div>
+<br />Each sticker type is created with the "type" set to a "tag_tool". The action of the tag tool
+will be to apply the accessory tag, with the itemdef of this sticker as the argument. So our sticker
+ItemDef will look like this:<br />
+<div class="bb_code json">
+    { "appid": 480, "itemdefid": 1001, "name": "Blue Star", "description": "A blue star sticker with
+    mysterious powers", "price_category": "1;VLV25", "icon_url"..., "type": "tag_tool", "tags":
+    "sticker:1001", }
+</div>
+<br />Note that the "tags" value will apply the ItemDef ID of this sticker to the target item.<br /><br />Also
+note that accessory items support all the normal Inventory actions and drop methods - including
+defining price categories and selling them on the Item Store.
+<h2 class="bb_subsection"><a name="4"></a>Using accessories</h2>
+To actually apply the sticker to an item, call the
+<a
+    href="https://partner.steamgames.com/doc/webapi/IInventoryService#ExchangeItem"
+    class="bb_doclink"
+    >ExchangeItem</a
+>
+(crafting) method from the SteamWorks SDK (or via the WebAPI from a trusted server). Pass the
+sticker and the customizable item as materials, and set the target ItemDef type to match the
+original customizable item. This will apply the tag_tool and update the target .<br /><br />If the
+request is valid, the ExchangeItems call will atomically consume the sticker and update the tags on
+the target item.<br /><br />Per-item tags can also be set other ways, including by item generators -
+see
+<a href="https://partner.steamgames.com/doc/features/inventory/itemtags" class="bb_doclink"
+    >the Item Tag page</a
+>.
+<h2 class="bb_subsection"><a name="5"></a>Localization and appearance</h2>
+Accessories are automatically rendered in the web view including the users' backpack and the
+Community Market. The description block will include a small version of the icon for each attached
+accessory, and list the localized names of each accessory.<br /><br />As usual, item names are
+localized by providing values in the
+<a href="https://partner.steamgames.com/doc/features/inventory/schema" class="bb_doclink"
+    >ItemDef Schema</a
+>.<br /><br />See the "Item Tags" section on the SteamWorks Inventory Service page to provide
+localized text for the internal name. In our example, the internal name "sticker" is simply mapped
+to "Sticker" in all supported languages.
+<h2 class="bb_subsection"><a name="6"></a>Removing or replacing accessories</h2>
+Once consumed, an accessory item can't be restored by removing it from the customized item.
+Accessories can of course be removed - see the per-item tags documentation for methods to remove
+tags from an item.<br /><br />For user customization, you may choose to offer a tag_tool whose only
+purpose is to remove existing accessories.<br /><br />Adding two instances of the same accessory to
+an item is not currently supported. Attempting to do so will fail in the ExchangeItems call and will
+not consume the accessory item.

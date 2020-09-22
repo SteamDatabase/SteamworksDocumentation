@@ -1,13 +1,1295 @@
 <h1>Steam Workshop Implementation Guide</h1>
-<h2 class="bb_section"><a name="1"></a>Introduction</h2>Steam Workshop is a system of back-end storage and front-end web pages that make it easy to store, organize, sort, rate, and download content for your game or application.<br><br>This page contains technical details on implementing Steam Workshop with your title. For information and definitions of the various types of Workshop integration you can utilize and how to make the best out of the tools provided by Steam please see the <a href="https://partner.steamgames.com/doc/features/workshop" class="bb_doclink">Steam Workshop Overview</a> before getting started integrating the steam workshop with your game.<br><br>In a typical set-up, customers of your game would use tools provided by you with purchase of your game to create modifications or entirely new content. Those customers would then submit that content through a form built into your tool to the Steam Workshop. Other customers would then be able to browse, sort, rate, and subscribe to items they wish to add to their game by going to the <a href="http://steamcommunity.com/workshop/" target="_blank" rel="noreferrer">Steam Workshop</a> in the Steam Community. Those items would then download through Steam. If you've registered for the <a href="https://partner.steamgames.com/doc/api/ISteamUGC#ItemInstalled_t" class="bb_apilink">ISteamUGC::ItemInstalled_t</a> callback within your game, you can then call <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo" class="bb_apilink">ISteamUGC::GetItemInstallInfo</a> to get the installed location and read the data directly from that folder. That new content would then be recognized by the game in whatever capacity makes sense for your game and the content created.<h2 class="bb_subsection"><a name="2"></a>Steam Workshop Types, Monetization, &amp; Best Practices</h2>For more information and definitions of the various types of Workshop integration you can utilize and how to make the best out of the tools provided by Steam, please see the <a href="https://partner.steamgames.com/doc/features/workshop" class="bb_doclink">Steam Workshop</a> documentation.<h2 class="bb_subsection"><a name="WorkshopVisibility"></a>Managing Steam Workshop Visibility</h2>The Steam Workshop is the website hosted through Steam that enumerates shared content and allows users to vote and comment on the content visible through the community. By default, applications are not enabled to be publicly visible in the Workshop. This prevents content not intended to be shared through the Steam Workshop portal from being visible unless the workshop is set to public.<br>Set the visibility state of the workshop through the following steps:<br><ol class="bb_ol ">	<li> Browse to the application landing page on the Steamworks website<br>	</li><li> Click <strong>Edit Steamworks Settings</strong><br>	</li><li> From the <strong>Workshop</strong> Tab, select <strong>General</strong><br>	</li><li> On the right-hand side of the page, find the <strong>Visibility State</strong> section.<br>	</li><li> Use the radio buttons to select the desired level of visibility which can include Developers Only, Developers &amp; Testers, Customers &amp; Developers and Everyone.<br>	</li><li> From the <strong>Publish</strong> tab, click <strong>Prepare for Publishing</strong><br>	</li><li> Click <strong>Publish to Steam</strong> and complete the process to publish the change.</li></ol>Note: To change the visibility state to Everyone, the Workshop checklist must be complete which includes branding, title, description and at least one item of content publicly visible.<h2 class="bb_section"><a name="TechOverview"></a>Tech Overview</h2>The process to share and consume User Generated Content is by using the <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API which can be found in the <a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a>. The methods exposed provide a way to share workshop item content which can then be discovered through the Steam Workshop or an in-app experience.<br><br>The Workshop API must be accessed through the pointer that is returned from <code class="bb_code bb_code_inline nohighlight">SteamUGC()</code>.<br><br>For example:<br><div class="bb_code ">SteamAPICall_t hSteamAPICall = SteamUGC()-&gt;CreateItem( SteamUtils()-&gt;GetAppID(), k_EWorkshopFileTypeMicrotransaction );</div><h2 class="bb_subsection"><a name="EnableISteamUGC"></a>Enabling ISteamUGC for a Game or Application</h2>Before workshop items can be uploaded to the Steamworks backend there are two configuration settings that must be made, Configuring Steam Cloud Quotas and Enabling the <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API.<br><br>The Steam Cloud feature is used to store the preview images associated to workshop items. The Steam Cloud Quota can be configured with the following steps:<br><ol class="bb_ol ">	<li> Navigate to the <a href="https://partner.steamgames.com/apps/cloud/" target="_blank" rel="noreferrer">Steam Cloud Settings</a> page in the App Admin panel.<br>	</li><li> Set the <strong>Byte quota per user</strong> and <strong>Number of files allowed per user</strong> to appropriate values for preview image storage<br>	</li><li> Click Save<br>	</li><li> From the <strong>Publish</strong> tab, click <strong>Prepare for Publishing</strong><br>	</li><li> Click <strong>Publish to Steam</strong> and complete the process to publish the change.</li></ol><br>Enabling the <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API can be accomplished with the following steps:<br><ol class="bb_ol ">	<li> Navigate to the <a href="https://partner.steamgames.com/apps/workshop/" target="_blank" rel="noreferrer">Steam Workshop Configuration</a> page in the App Admin panel.<br>	</li><li> Find the <strong>Additional Configuration Options</strong> section.<br>	</li><li> Check <strong>Enable ISteamUGC for file transfer</strong>.<br>	</li><li> Click <strong>Save</strong>.<br>	</li><li> From the <strong>Publish</strong> tab, click <strong>Prepare for Publishing</strong>.<br>	</li><li> Click <strong>Publish to Steam</strong> and complete the process to publish the change.</li></ol>Once these settings are in place workshop content can be uploaded via the API.<h2 class="bb_section"><a name="CreateUploadContent"></a>Creating and Uploading Content</h2>The process of creating and uploading workshop content is a simple and repeatable process as shown in the flow chart below.<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/ISteamUGCFlow-CreateUpload-Web2.png" alt="ISteamUGCFlow-CreateUpload-Web2.png" title="ISteamUGCFlow-CreateUpload-Web2.png"><h2 class="bb_subsection"><a name="creating_a_workshop_item"></a>Creating a Workshop Item</h2><ol class="bb_ol ">	<li> All workshop items begin their existence with a call to <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateItem" class="bb_apilink">ISteamUGC::CreateItem</a><br>	<ul class="bb_ul ">		<li> The <code class="bb_code bb_code_inline nohighlight">nConsumerAppId</code> variable should contain the App ID for the game or application. Do not pass the App ID of the workshop item creation tool if that is a separate App ID.<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EWorkshopFileType" class="bb_apilink">EWorkshopFileType</a> is an enumeration type that defines how the shared file will be shared with the community. The valid values are:<br>		<ul class="bb_ul ">			<li> <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_EWorkshopFileTypeCommunity" class="bb_apilink">k_EWorkshopFileTypeCommunity</a> - This file type is used to describe files that will be uploaded by users and made available to download by anyone in the community. Common usage of this would be to share user created mods.<br>			</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_EWorkshopFileTypeMicrotransaction" class="bb_apilink">k_EWorkshopFileTypeMicrotransaction</a> - This file type is used to describe files that are uploaded by users, but intended only for the game to consider adding as official content. These files will not be downloaded by users through the Workshop, but will be viewable by the community to rate.<br>			This is the implementation that Team Fortress 2 uses.<br>		</li></ul>	</li></ul>	</li><li> Register a call result handler for <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateItemResult_t" class="bb_apilink">CreateItemResult_t</a><br>	</li><li> First check the <code class="bb_code bb_code_inline nohighlight">m_eResult</code> to ensure that the item was created successfully.<br>	</li><li> When the call result handler is executed, read the <code class="bb_code bb_code_inline nohighlight">m_nPublishedFileId</code> value and store for future updates to the workshop item (e.g. in a project file associated with the creation tool).<br>	</li><li> The <code class="bb_code bb_code_inline nohighlight">m_bUserNeedsToAcceptWorkshopLegalAgreement</code> variable should also be checked and if it's <strong>true</strong>, the user should be redirected to accept the legal agreement. See the <a href="#Legal" class="bb_doclink">Workshop Legal Agreement</a> section for more details.</li></ol><h2 class="bb_subsection"><a name="uploading_a_workshop_item"></a>Uploading a Workshop Item</h2><ol class="bb_ol ">	<li> Once a workshop item has been created and a <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t" class="bb_apilink">PublishedFileId_t</a> value has been returned, the content of the workshop item can be populated and uploaded to the Steam Workshop.<br>	</li><li> An item update begins with a call to <a href="https://partner.steamgames.com/doc/api/ISteamUGC#StartItemUpdate" class="bb_apilink">ISteamUGC::StartItemUpdate</a><br>	</li><li> Using the <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCUpdateHandle_t" class="bb_apilink">UGCUpdateHandle_t</a> that is returned from <a href="https://partner.steamgames.com/doc/api/ISteamUGC#StartItemUpdate" class="bb_apilink">ISteamUGC::StartItemUpdate</a>, calls can be made to update the Title, Description, Visibility, Tags, Item Content and Item Preview Image through the various ISteamUGC::SetItem[...] methods.<br>	<ul class="bb_ul ">		<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemTitle" class="bb_apilink">ISteamUGC::SetItemTitle</a> - Sets a new title for an item.<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemDescription" class="bb_apilink">ISteamUGC::SetItemDescription</a> - Sets a new description for an item.<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemUpdateLanguage" class="bb_apilink">ISteamUGC::SetItemUpdateLanguage</a> - Sets the language of the title and description that will be set in this item update.<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemMetadata" class="bb_apilink">ISteamUGC::SetItemMetadata</a> - Sets arbitrary metadata for an item. This metadata can be returned from queries without having to download and install the actual content.<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemVisibility" class="bb_apilink">ISteamUGC::SetItemVisibility</a> - Sets the visibility of an item.<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemTags" class="bb_apilink">ISteamUGC::SetItemTags</a> - Sets arbitrary developer specified tags on an item.<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddItemKeyValueTag" class="bb_apilink">ISteamUGC::AddItemKeyValueTag</a> - Adds a key-value tag pair to an item. Keys can map to multiple different values (1-to-many relationship).<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveItemKeyValueTags" class="bb_apilink">ISteamUGC::RemoveItemKeyValueTags</a> - Removes an existing key value tag from an item.<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemContent" class="bb_apilink">ISteamUGC::SetItemContent</a> - Sets the folder that will be stored as the content for an item.<br>		</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemPreview" class="bb_apilink">ISteamUGC::SetItemPreview</a> -Sets the primary preview image for the item.	</li></ul>	</li><li> Once the update calls have been completed, calling <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink">ISteamUGC::SubmitItemUpdate</a> will initiate the upload process to the Steam Workshop.<br>	<ul class="bb_ul ">		<li> Register a call result handler for <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdateResult_t" class="bb_apilink">SubmitItemUpdateResult_t</a><br>		</li><li> When the call result handler is executed, check the <code class="bb_code bb_code_inline nohighlight">m_eResult</code> to confirm the upload completed successfully.<br>		</li><li> Note: There is no method to cancel the item update and upload once it's been called.	</li></ul>	</li><li> If desired, the progress of the upload can be tracked using <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemUpdateProgress" class="bb_apilink">ISteamUGC::GetItemUpdateProgress</a><br>	<ul class="bb_ul ">		<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#EItemUpdateStatus" class="bb_apilink">EItemUpdateStatus</a> defines the upload and update progress.<br>		</li><li> <code class="bb_code bb_code_inline nohighlight">punBytesProcessed</code> and <code class="bb_code bb_code_inline nohighlight">punBytesTotal</code> can be used to provide input for a user interface control such as a progress bar to indicate progress of the upload.<br>		</li><li> <code class="bb_code bb_code_inline nohighlight">punBytesTotal</code> may update during the upload process based upon the stage of the item update.	</li></ul>	</li><li> In the same way as Creating a Workshop Item, confirm the user has accepted the legal agreement. This is necessary in case where the user didn't initially create the item but is editing an existing item.</li></ol><h4>Additional Notes</h4><ul class="bb_ul ">	<li> Workshop items were previously designated as single files. With <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a>, a workshop item is a representation of a folder of files.<br>	</li><li> If a workshop item requires additional metadata for use by the consuming application, you can attach metadata to your item using the <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemMetadata" class="bb_apilink">ISteamUGC::SetItemMetadata</a> call. This metadata can be returned in queries without having to download and install the item content.<br>		Previously we suggested that you save this metadata to a file inside the workshop item folder, which of course you can still do.</li></ul><h2 class="bb_section"><a name="ConsumeContent"></a>Consuming Content</h2>Consuming workshop content falls into two categories, Item Subscription and Item Installation.<h2 class="bb_subsection"><a name="item_subscription"></a>Item Subscription</h2>The majority of subscriptions to a workshop item will happen through the Steam Workshop portal. It is a known location, common to all games and applications, and as such, users are likely to find and subscribe to items regularly on the workshop site.<br><br>However, ISteamUGC provides two methods for programmatically subscribing and unsubscribing to workshop items to support in-game item subscription management.<br><ul class="bb_ul ">	<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubscribeItem" class="bb_apilink">ISteamUGC::SubscribeItem</a> - Subscribe to a workshop item. It will be downloaded and installed as soon as possible.<br>	</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UnsubscribeItem" class="bb_apilink">ISteamUGC::UnsubscribeItem</a> - Unsubscribe from a workshop item. This will result in the item being removed after the game quits.</li></ul><br>Two additional methods exist for enumerating through a user's subscribed items.<br><ul class="bb_ul ">	<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetNumSubscribedItems" class="bb_apilink">ISteamUGC::GetNumSubscribedItems</a>	- Gets the total number of items the current user is subscribed to for the game or application.<br>	</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetSubscribedItems" class="bb_apilink">ISteamUGC::GetSubscribedItems</a> - Gets a list of all of the items the current user is subscribed to for the current game.</li></ul><h4>Receiving Notifications for External Subscription Actions</h4>In-game notifications can be received when a user has subscribed or unsubscribed from a file through any mechanism (e.g. ISteamUGC, Steam Workshop Website):<br><ul class="bb_ul ">	<li> Register a callback handler for <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStoragePublishedFileSubscribed_t" class="bb_apilink">RemoteStoragePublishedFileSubscribed_t</a> and <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStoragePublishedFileUnsubscribed_t" class="bb_apilink">RemoteStoragePublishedFileUnsubscribed_t</a><br>	</li><li> The structs will be populated with the <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t" class="bb_apilink">ISteamRemoteStorage::PublishedFileId_t</a> which can then be used to access the information about the workshop item.<br>	</li><li> The structs also contain the application ID (<code class="bb_code bb_code_inline nohighlight">m_unAppID</code>) associated with the workshop item. It should be compared against the running application ID as the handler will be called for all item subscriptions regardless of the running application.</li></ul><h2 class="bb_subsection"><a name="item_installation"></a>Item Installation</h2>Once Item Subscription information is known, the remaining consumption methods can be utilized. These methods provide information back to the game about the state of the item download and installation. Workshop item downloads are executed via the Steam Client and happen automatically, based on the following rules:<br><ol class="bb_ol ">	<li> When the Steam Client indicates a game or application is to launch, all app depots that have been updated will be downloaded and installed.<br>	</li><li> Any existing installed workshop items are updated if needed<br>	</li><li> Game or application then launches<br>	</li><li> Newly subscribed workshop items that are not downloaded will then download and be installed in the background.<br>	<ul class="bb_ul ">		<li> Subscribed files will be downloaded to the client in the order they were subscribed in.<br>		</li><li> The Steam download page will show workshop item downloads with a specific banner to indicate a workshop item download is occurring.	</li></ul></li></ol>Note: Using the "Verify Integrity of Game Files" feature in the Steam Client will also cause workshop items to be downloaded.<br><br>As the game will start before newly subscribed content is downloaded and installed, the remaining consumption methods exist to aid in monitoring and managing the install progress. They can also be used when items are subscribed in-game to provide status of installation in real time.<h4>Status of a Workshop Item</h4><ul class="bb_ul ">	<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemState" class="bb_apilink">ISteamUGC::GetItemState</a> - Gets the current state of a workshop item on this client.</li></ul><h4>Download Progress of a Workshop Item</h4><ul class="bb_ul ">	<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemDownloadInfo" class="bb_apilink">ISteamUGC::GetItemDownloadInfo</a> - Get info about a pending download of a workshop item that has <a href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EItemStateNeedsUpdate" class="bb_apilink">k_EItemStateNeedsUpdate</a> set.</li></ul><h4>Initiate or Increase the Priority of Downloading a Workshop Item</h4><ul class="bb_ul ">	<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItem" class="bb_apilink">ISteamUGC::DownloadItem</a><br>	<ul class="bb_ul ">		<li> Set <code class="bb_code bb_code_inline nohighlight">bHighPriority</code> to <code class="bb_code bb_code_inline nohighlight">true</code> to pause any existing in-progress downloads and immediately begin downloading this workshop item.<br>		</li><li> If the return value is <code class="bb_code bb_code_inline nohighlight">true</code> then register and wait for the callback <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t" class="bb_apilink">ISteamUGC::DownloadItemResult_t</a> before calling <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo" class="bb_apilink">ISteamUGC::GetItemInstallInfo</a> or accessing the workshop item on disk.<br>		</li><li> If the user is not subscribed to the item (e.g. a Game Server using anonymous login), the workshop item will be downloaded and cached temporarily.<br>		</li><li> If the workshop item has an <a href="https://partner.steamgames.com/doc/api/ISteamUGC#EItemState" class="bb_apilink">ISteamUGC::EItemState</a> of <code class="bb_code bb_code_inline nohighlight">k_EItemStateNeedsUpdate</code>, <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItem" class="bb_apilink">ISteamUGC::DownloadItem</a> can be called to initiate the update. Do not access the workshop item on disk until the callback <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t" class="bb_apilink">ISteamUGC::DownloadItemResult_t</a> is called.<br>		</li><li> This method only works with <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> created workshop items. It will not work with legacy <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage" class="bb_apilink">ISteamRemoteStorage</a> workshop items.<br>		</li><li> The <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t" class="bb_apilink">ISteamUGC::DownloadItemResult_t</a> callback struct contains the application ID (<code class="bb_code bb_code_inline nohighlight">m_unAppID</code>) associated with the workshop item. It should be compared against the running application ID as the handler will be called for all item downloads regardless of the running application.	</li></ul></li></ul><h4>Retrieving information about the local copy of the Workshop Item</h4><ul class="bb_ul ">	<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo" class="bb_apilink">ISteamUGC::GetItemInstallInfo</a> - Gets info about currently installed content on the disc for workshop items that have <a href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EItemStateInstalled" class="bb_apilink">k_EItemStateInstalled</a> set.</li></ul><h4>Notification when a Workshop Item is Installed or Updated</h4><ul class="bb_ul ">	<li> Register a callback handler for <a href="https://partner.steamgames.com/doc/api/ISteamUGC#ItemInstalled_t" class="bb_apilink">ISteamUGC::ItemInstalled_t</a>.</li></ul><h2 class="bb_section"><a name="QueryContent"></a>Querying Content</h2>The <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> interface provides a flexible way to enumerate the various kinds of UGC in Steam (e.g. Workshop items, screenshots, videos, etc.).<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/ISteamUGCFlows-QueryingContent-web2.png" alt="ISteamUGCFlows-QueryingContent-web2.png" title="ISteamUGCFlows-QueryingContent-web2.png"><br><br><ol class="bb_ol ">	<li> Register a call result handler for <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t" class="bb_apilink">SteamUGCQueryCompleted_t</a>.<br>	</li><li> There are a few methods available for creating the query depending upon the required scenario, Querying by Content Associated to a User or Querying All Content or getting the details of content you have ids for.<br>		<ul class="bb_ul ">			<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUserUGCRequest" class="bb_apilink">ISteamUGC::CreateQueryUserUGCRequest</a> - Query UGC associated with a user. You can use this to list the UGC the user is subscribed to amongst other things.<br>			</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest" class="bb_apilink">ISteamUGC::CreateQueryAllUGCRequest</a> - Query for all matching UGC. You can use this to list all of the available UGC for your app.<br>			</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUGCDetailsRequest" class="bb_apilink">ISteamUGC::CreateQueryUGCDetailsRequest</a> - Query for the details of specific workshop items.<br>		</li></ul>	</li><li> Customize the query as appropriate by calling the option setting methods:<br>		<ul class="bb_ul ">			<li> When querying for User UGC<br>				<ul class="bb_ul ">					<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetCloudFileNameFilter" class="bb_apilink">ISteamUGC::SetCloudFileNameFilter</a> - Sets to only return items that have a specific filename on a pending UGC Query.<br>				</li></ul>			</li><li> When querying for All UGC<br>				<ul class="bb_ul ">					<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetMatchAnyTag" class="bb_apilink">ISteamUGC::SetMatchAnyTag</a> - Sets whether workshop items will be returned if they have one or more matching tag, or if all tags need to match on a pending UGC Query.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetSearchText" class="bb_apilink">ISteamUGC::SetSearchText</a> - Sets a string to that items need to match in either the title or the description on a pending UGC Query.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRankedByTrendDays" class="bb_apilink">ISteamUGC::SetRankedByTrendDays</a> - Sets whether the order of the results will be updated based on the rank of items over a number of days on a pending UGC Query.<br>				</li></ul>			</li><li> When querying for either type of UGC<br>				<ul class="bb_ul ">					<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredTag" class="bb_apilink">ISteamUGC::AddRequiredTag</a> - Adds a required tag to a pending UGC Query. This will only return UGC with the specified tag.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddExcludedTag" class="bb_apilink">ISteamUGC::AddExcludedTag</a> - Adds a excluded tag to a pending UGC Query. This will only return UGC without the specified tag.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredKeyValueTag" class="bb_apilink">ISteamUGC::AddRequiredKeyValueTag</a> - Adds a required key-value tag to a pending UGC Query. This will only return workshop items that have a key = [param]pKey[/param] and a value = [param]pValue[/param].<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnOnlyIDs" class="bb_apilink">ISteamUGC::SetReturnOnlyIDs</a> - Sets whether to only return IDs instead of all the details on a pending UGC Query. This is useful for when you don't need all the information (e.g. you just want to get the IDs of the items a user has in their favorites list.)<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnKeyValueTags" class="bb_apilink">ISteamUGC::SetReturnKeyValueTags</a> - Sets whether to return any key-value tags for the items on a pending UGC Query.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnLongDescription" class="bb_apilink">ISteamUGC::SetReturnLongDescription</a> - Sets whether to return the full description for the items on a pending UGC Query.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnMetadata" class="bb_apilink">ISteamUGC::SetReturnMetadata</a> - Sets whether to return the developer specified metadata for the items on a pending UGC Query.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnChildren" class="bb_apilink">ISteamUGC::SetReturnChildren</a> - Sets whether to return the IDs of the child items of the items on a pending UGC Query.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnAdditionalPreviews" class="bb_apilink">ISteamUGC::SetReturnAdditionalPreviews</a> - Sets whether to return any additional images/videos attached to the items on a pending UGC Query.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnTotalOnly" class="bb_apilink">ISteamUGC::SetReturnTotalOnly</a> - Sets whether to only return the total number of matching items on a pending UGC Query. -- The actual items will not be returned when <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t" class="bb_apilink">ISteamUGC::SteamUGCQueryCompleted_t</a> is called.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetLanguage" class="bb_apilink">ISteamUGC::SetLanguage</a> - Sets the language to return the title and description in for the items on a pending UGC Query.<br>					</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetAllowCachedResponse" class="bb_apilink">ISteamUGC::SetAllowCachedResponse</a> - Sets whether results to be will be returned from the cache for the specific period of time on a pending UGC Query.<br>				</li></ul>		</li></ul>	</li><li> Send the query to Steam using <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink">ISteamUGC::SendQueryUGCRequest</a> which will invoke the <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t" class="bb_apilink">ISteamUGC::SteamUGCQueryCompleted_t</a> call result handler registered in step 1.<br>	</li><li> In the call result handler for <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t" class="bb_apilink">ISteamUGC::SteamUGCQueryCompleted_t</a>, call <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCResult" class="bb_apilink">ISteamUGC::GetQueryUGCResult</a> to retrieve the details for each item returned.<br><br>	</li><li> You can also call these functions to retrieve additional information for each item (some of this data is not returned by default, so you need to configure your query appropriately):<br>		<ul class="bb_ul ">			<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCPreviewURL" class="bb_apilink">ISteamUGC::GetQueryUGCPreviewURL</a> - Retrieve the URL to the preview image of an individual workshop item after receiving a querying UGC call result.<br>			</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCMetadata" class="bb_apilink">ISteamUGC::GetQueryUGCMetadata</a> - Retrieve the developer set metadata of an individual workshop item after receiving a querying UGC call result.<br>			</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCChildren" class="bb_apilink">ISteamUGC::GetQueryUGCChildren</a> - Retrieve the ids of any child items of an individual workshop item after receiving a querying UGC call result.<br>			</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCStatistic" class="bb_apilink">ISteamUGC::GetQueryUGCStatistic</a> - Retrieve various statistics of an individual workshop item after receiving a querying UGC call result.<br>			</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumAdditionalPreviews" class="bb_apilink">ISteamUGC::GetQueryUGCNumAdditionalPreviews</a> and <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCAdditionalPreview" class="bb_apilink">ISteamUGC::GetQueryUGCAdditionalPreview</a> - Retrieve the details of an additional preview associated with an individual workshop item after receiving a querying UGC call result.<br>			</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumKeyValueTags" class="bb_apilink">ISteamUGC::GetQueryUGCNumKeyValueTags</a> and <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCKeyValueTag" class="bb_apilink">ISteamUGC::GetQueryUGCKeyValueTag</a> - Retrieve the details of a key-value tag associated with an individual workshop item after receiving a querying UGC call result.<br>		</li></ul>	</li><li> Call <a href="https://partner.steamgames.com/doc/api/ISteamUGC#ReleaseQueryUGCRequest" class="bb_apilink">ISteamUGC::ReleaseQueryUGCRequest</a> to free up any memory allocated while querying or retrieving the results.</li></ol><h4>Paging Results</h4>Up to 50 results will be returned from each query. Paging through more results can be achieved by creating a query that increments the <code class="bb_code bb_code_inline nohighlight">unPage</code> parameter (which should start at 1).<h2 class="bb_section"><a name="PlaytimeTracking"></a>Playtime Tracking</h2>To track the playtime of Workshop items simply call <a href="https://partner.steamgames.com/doc/api/ISteamUGC#StartPlaytimeTracking" class="bb_apilink">ISteamUGC::StartPlaytimeTracking</a> with the ids of the items you want to track. Then when the items are removed from play call <a href="https://partner.steamgames.com/doc/api/ISteamUGC#StopPlaytimeTracking" class="bb_apilink">ISteamUGC::StopPlaytimeTracking</a> with the ids you want to stop tracking or call <a href="https://partner.steamgames.com/doc/api/ISteamUGC#StopPlaytimeTrackingForAllItems" class="bb_apilink">ISteamUGC::StopPlaytimeTrackingForAllItems</a> to stop tracking playtime for all items at once.<br>When your app shuts down, playtime tracking will automatically stop.<br><br>You will also be able to sort items by various playtime metrics in <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest" class="bb_apilink">ISteamUGC::CreateQueryAllUGCRequest</a> queries. Here are the playtime based query types you can use:<br><ul class="bb_ul ">	<li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByPlaytimeTrend" class="bb_apilink">k_EUGCQuery_RankedByPlaytimeTrend</a> - Sort by total playtime in the "trend" period descending (set with <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRankedByTrendDays" class="bb_apilink">ISteamUGC::SetRankedByTrendDays</a>)<br>	</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByTotalPlaytime" class="bb_apilink">k_EUGCQuery_RankedByTotalPlaytime</a> - Sort by total lifetime playtime descending.<br>	</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByAveragePlaytimeTrend" class="bb_apilink">k_EUGCQuery_RankedByAveragePlaytimeTrend</a> - Sort by average playtime in the "trend" period descending (set with <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRankedByTrendDays" class="bb_apilink">ISteamUGC::SetRankedByTrendDays</a>)<br>	</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByLifetimeAveragePlaytime" class="bb_apilink">k_EUGCQuery_RankedByLifetimeAveragePlaytime</a> - Sort by lifetime average playtime descending<br>	</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByPlaytimeSessionsTrend" class="bb_apilink">k_EUGCQuery_RankedByPlaytimeSessionsTrend</a> - Sort by number of play sessions in the "trend" period descending (set in <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRankedByTrendDays" class="bb_apilink">ISteamUGC::SetRankedByTrendDays</a>)<br>	</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByLifetimePlaytimeSessions" class="bb_apilink">k_EUGCQuery_RankedByLifetimePlaytimeSessions</a> - Sort by number of lifetime play sessions descending</li></ul><h2 class="bb_section"><a name="DeletingContent"></a>Deleting Workshop Item Content</h2>To delete a Workshop item, you can call <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DeleteItem" class="bb_apilink">ISteamUGC::DeleteItem</a>.  Please note that this does not prompt the user and cannot be undone.<h2 class="bb_section"><a name="SteamworksExample"></a>Steamworks Example – SpaceWar Integration</h2>The <a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink">Steamworks API Example Application (SpaceWar)</a> that comes with the Steamworks SDK demonstrates a subset of the <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API.<br><ul class="bb_ul ">	<li> <code class="bb_code bb_code_inline nohighlight">CSpaceWarClient::LoadWorkshopItem</code> demonstrates checking if a workshop item is downloaded and installed on disk as well as requesting information about a workshop item by <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t" class="bb_apilink">ISteamRemoteStorage::PublishedFileId_t</a><br>	</li><li> <code class="bb_code bb_code_inline nohighlight">CSpaceWarClient::LoadWorkshopItems</code> demonstrates retrieving the list of subscribed workshop items for the current user for the SpaceWar application<br>	</li><li> <code class="bb_code bb_code_inline nohighlight">CSpaceWarClient::OnWorkshopItemInstalled</code> demonstrates a callback handler for <a href="https://partner.steamgames.com/doc/api/ISteamUGC#ItemInstalled_t" class="bb_apilink">ISteamUGC::ItemInstalled_t</a></li></ul><h2 class="bb_section"><a name="Legal"></a>Workshop Legal Agreement</h2>Workshop items will be hidden by default until the contributor agrees to the Steam Workshop Legal Agreement. In order to make it easy for the contributor to make the item publicly visible, please do the following.<br><ol class="bb_ol ">	<li> Include text next to the button that submits an item to the workshop, something to the effect of: "By submitting this item, you agree to the <a href="http://steamcommunity.com/sharedfiles/workshoplegalagreement" target="_blank" rel="noreferrer">workshop terms of service</a>" (including the link)<br>	</li><li> After a user submits an item, open a browser window to the Steam Workshop page for that item by calling <a href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToWebPage" class="bb_apilink">ISteamFriends::ActivateGameOverlayToWebPage</a> with <code class="bb_code bb_code_inline nohighlight">pchURL</code> set to <code class="bb_code bb_code_inline nohighlight">steam://url/CommunityFilePage/&lt;PublishedFileId_t&gt;</code> replacing &lt;PublishedFileId_t&gt; with the workshop item id.</li></ol>This has the benefit of directing the author to the workshop page so that they can see the item and configure it further if necessary and will make it easy for the user to read and accept the Steam Workshop Legal Agreement.<h2 class="bb_section"><a name="WebAPI"></a>Web API</h2>In addition to these methods, there are a set of Web API interface that provides similar functionality along with community-based filtering APIs to list all shared content. Please consult the documentation for the <a href="https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage" class="bb_apilink">ISteamRemoteStorage</a> interface in the Web API list.<h2 class="bb_section"><a name="DedicatedGameServers"></a>Dedicated Game Servers</h2>Game servers can also download and install items.<br><ul class="bb_ul ">	<li> The Game Server will need to know the <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t" class="bb_apilink">PublishedFileId_t</a> to request a workshop item, this could be supplied by the game clients or set by the server operator. Then call <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItem" class="bb_apilink">ISteamUGC::DownloadItem</a> to retrieve a temporary copy of the workshop item.<br>	</li><li> A call can then be made to <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo" class="bb_apilink">ISteamUGC::GetItemInstallInfo</a> to retrieve information to locate and use the workshop item.<br>	</li><li> See the <strong>Item Installation</strong> section above for more information on these API methods.</li></ul><h2 class="bb_section"><a name="SteamCmd"></a>SteamCmd Integration</h2>Along with the <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API, the steamcmd.exe command line tool can be used to create and update workshop items for testing purposes. This should only be used for testing purposes, as the tool requires the user to enter their Steam credentials (something we don't want customers to have to do).<br><br>To create a new Steam Workshop item using steamcmd.exe a VDF file must first be created. The VDF is a plain text file that should contain the following keys.<br><div class="bb_code cpp">"workshopitem"
-{
- "appid" "480"
- "publishedfileid" "5674"
- "contentfolder" "D:\\Content\\workshopitem"
- "previewfile" "D:\\Content\\preview.jpg"
- "visibility" "0"
- "title" "Team Fortress Green Hat"
- "description" "A green hat for Team Fortress"
- "changenote" "Version 1.2"
-}
-</div><br>Notes:<br><ul class="bb_ul ">	<li> The keys map to the various ISteamUGC::SetItem[...] methods. See the documentation above for more details.<br>	</li><li> The values shown are examples only and should be updated appropriately.<br>	</li><li> To create a new item, <code class="bb_code bb_code_inline nohighlight">appid</code> must be set and <code class="bb_code bb_code_inline nohighlight">publishedfileid</code> must be unset or set to <code class="bb_code bb_code_inline nohighlight">0</code>.<br>	</li><li> To update an existing item, <code class="bb_code bb_code_inline nohighlight">appid</code> and <code class="bb_code bb_code_inline nohighlight">publishedfileid</code> must both be set.<br>	</li><li> The remaining key/value pairs should be included in the VDF if the key should be updated.</li></ul>Once the VDF has been created, steamcmd.exe can be run with the <code class="bb_code bb_code_inline nohighlight">workshop_build_item &lt;build config filename&gt;</code> file parameter. For example:<br><div class="bb_code cpp">steamcmd.exe +login myLoginName myPassword +workshop_build_item workshop_green_hat.vdf +quit</div>If the command is successful, the <code class="bb_code bb_code_inline nohighlight">publishedfileid</code> value in the VDF will be automatically updated to contain the ID of the workshop item. In this way, subsequent calls with steamcmd.exe for the same VDF will result in	an update rather than creation of a new item.<h2 class="bb_section"><a name="ErrorsLogging"></a>Errors and Logging</h2>The majority of <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> methods return boolean values. For additional information on specific errors, there are a number of places to review:<br><ul class="bb_ul ">	<li> <code class="bb_code bb_code_inline nohighlight">Steam\logs\Workshop_log.txt</code> is a log for all transfers that occur during workshop item downloading<br>		and installation.<br>	</li><li> <code class="bb_code bb_code_inline nohighlight">Steam\workshopbuilds\depot_build_&lt;appid&gt;.log</code> is a log for all actions during the upload and update of a workshop item.<br>	</li><li> <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t" class="bb_apilink">ISteamUGC::SteamUGCQueryCompleted_t</a>, <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateItemResult_t" class="bb_apilink">ISteamUGC::CreateItemResult_t</a> and <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdateResult_t" class="bb_apilink">ISteamUGC::SubmitItemUpdateResult_t</a> contain <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink">EResult</a> variables that can be checked.</li></ul><h2 class="bb_section"><a name="FAQ"></a>Frequently Asked Questions</h2><h4>Q: Can a separate application publish content to my game's Workshop?</h4>Yes. A separate application for editing or publishing tools can be configured with base application's workshop to accept content from that editing application.<br><br>To configure this, go to the Workshop Configuration section for the base application and scroll to the bottom of the page. Enter the separate application's App ID in the field under "App Publish Permissions" and hit "Add".<br><br>Once the Steamworks settings are published, the editing application will be able to publish content to the base application's workshop.
+<h2 class="bb_section"><a name="1"></a>Introduction</h2>
+Steam Workshop is a system of back-end storage and front-end web pages that make it easy to store,
+organize, sort, rate, and download content for your game or application.<br /><br />This page
+contains technical details on implementing Steam Workshop with your title. For information and
+definitions of the various types of Workshop integration you can utilize and how to make the best
+out of the tools provided by Steam please see the
+<a href="https://partner.steamgames.com/doc/features/workshop" class="bb_doclink"
+    >Steam Workshop Overview</a
+>
+before getting started integrating the steam workshop with your game.<br /><br />In a typical
+set-up, customers of your game would use tools provided by you with purchase of your game to create
+modifications or entirely new content. Those customers would then submit that content through a form
+built into your tool to the Steam Workshop. Other customers would then be able to browse, sort,
+rate, and subscribe to items they wish to add to their game by going to the
+<a href="http://steamcommunity.com/workshop/" target="_blank" rel="noreferrer">Steam Workshop</a> in
+the Steam Community. Those items would then download through Steam. If you've registered for the
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#ItemInstalled_t" class="bb_apilink"
+    >ISteamUGC::ItemInstalled_t</a
+>
+callback within your game, you can then call
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo" class="bb_apilink"
+    >ISteamUGC::GetItemInstallInfo</a
+>
+to get the installed location and read the data directly from that folder. That new content would
+then be recognized by the game in whatever capacity makes sense for your game and the content
+created.
+<h2 class="bb_subsection">
+    <a name="2"></a>Steam Workshop Types, Monetization, &amp; Best Practices
+</h2>
+For more information and definitions of the various types of Workshop integration you can utilize
+and how to make the best out of the tools provided by Steam, please see the
+<a href="https://partner.steamgames.com/doc/features/workshop" class="bb_doclink">Steam Workshop</a>
+documentation.
+<h2 class="bb_subsection"><a name="WorkshopVisibility"></a>Managing Steam Workshop Visibility</h2>
+The Steam Workshop is the website hosted through Steam that enumerates shared content and allows
+users to vote and comment on the content visible through the community. By default, applications are
+not enabled to be publicly visible in the Workshop. This prevents content not intended to be shared
+through the Steam Workshop portal from being visible unless the workshop is set to public.<br />Set
+the visibility state of the workshop through the following steps:<br />
+<ol class="bb_ol">
+    <li>Browse to the application landing page on the Steamworks website<br /></li>
+    <li>Click <strong>Edit Steamworks Settings</strong><br /></li>
+    <li>From the <strong>Workshop</strong> Tab, select <strong>General</strong><br /></li>
+    <li>
+        On the right-hand side of the page, find the
+        <strong>Visibility State</strong> section.<br />
+    </li>
+    <li>
+        Use the radio buttons to select the desired level of visibility which can include Developers
+        Only, Developers &amp; Testers, Customers &amp; Developers and Everyone.<br />
+    </li>
+    <li>
+        From the <strong>Publish</strong> tab, click <strong>Prepare for Publishing</strong><br />
+    </li>
+    <li>Click <strong>Publish to Steam</strong> and complete the process to publish the change.</li>
+</ol>
+Note: To change the visibility state to Everyone, the Workshop checklist must be complete which
+includes branding, title, description and at least one item of content publicly visible.
+<h2 class="bb_section"><a name="TechOverview"></a>Tech Overview</h2>
+The process to share and consume User Generated Content is by using the
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API
+which can be found in the
+<a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a>. The methods
+exposed provide a way to share workshop item content which can then be discovered through the Steam
+Workshop or an in-app experience.<br /><br />The Workshop API must be accessed through the pointer
+that is returned from
+<code class="bb_code bb_code_inline nohighlight">SteamUGC()</code>.<br /><br />For example:<br />
+<div class="bb_code">
+    SteamAPICall_t hSteamAPICall = SteamUGC()-&gt;CreateItem( SteamUtils()-&gt;GetAppID(),
+    k_EWorkshopFileTypeMicrotransaction );
+</div>
+<h2 class="bb_subsection">
+    <a name="EnableISteamUGC"></a>Enabling ISteamUGC for a Game or Application
+</h2>
+Before workshop items can be uploaded to the Steamworks backend there are two configuration settings
+that must be made, Configuring Steam Cloud Quotas and Enabling the
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a>
+API.<br /><br />The Steam Cloud feature is used to store the preview images associated to workshop
+items. The Steam Cloud Quota can be configured with the following steps:<br />
+<ol class="bb_ol">
+    <li>
+        Navigate to the
+        <a href="https://partner.steamgames.com/apps/cloud/" target="_blank" rel="noreferrer"
+            >Steam Cloud Settings</a
+        >
+        page in the App Admin panel.<br />
+    </li>
+    <li>
+        Set the <strong>Byte quota per user</strong> and
+        <strong>Number of files allowed per user</strong> to appropriate values for preview image
+        storage<br />
+    </li>
+    <li>Click Save<br /></li>
+    <li>
+        From the <strong>Publish</strong> tab, click <strong>Prepare for Publishing</strong><br />
+    </li>
+    <li>Click <strong>Publish to Steam</strong> and complete the process to publish the change.</li>
+</ol>
+<br />Enabling the
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API can
+be accomplished with the following steps:<br />
+<ol class="bb_ol">
+    <li>
+        Navigate to the
+        <a href="https://partner.steamgames.com/apps/workshop/" target="_blank" rel="noreferrer"
+            >Steam Workshop Configuration</a
+        >
+        page in the App Admin panel.<br />
+    </li>
+    <li>Find the <strong>Additional Configuration Options</strong> section.<br /></li>
+    <li>Check <strong>Enable ISteamUGC for file transfer</strong>.<br /></li>
+    <li>Click <strong>Save</strong>.<br /></li>
+    <li>
+        From the <strong>Publish</strong> tab, click <strong>Prepare for Publishing</strong>.<br />
+    </li>
+    <li>Click <strong>Publish to Steam</strong> and complete the process to publish the change.</li>
+</ol>
+Once these settings are in place workshop content can be uploaded via the API.
+<h2 class="bb_section"><a name="CreateUploadContent"></a>Creating and Uploading Content</h2>
+The process of creating and uploading workshop content is a simple and repeatable process as shown
+in the flow chart below.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/ISteamUGCFlow-CreateUpload-Web2.png"
+    alt="ISteamUGCFlow-CreateUpload-Web2.png"
+    title="ISteamUGCFlow-CreateUpload-Web2.png"
+/>
+<h2 class="bb_subsection"><a name="creating_a_workshop_item"></a>Creating a Workshop Item</h2>
+<ol class="bb_ol">
+    <li>
+        All workshop items begin their existence with a call to
+        <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateItem" class="bb_apilink"
+            >ISteamUGC::CreateItem</a
+        ><br />
+        <ul class="bb_ul">
+            <li>
+                The <code class="bb_code bb_code_inline nohighlight">nConsumerAppId</code> variable
+                should contain the App ID for the game or application. Do not pass the App ID of the
+                workshop item creation tool if that is a separate App ID.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EWorkshopFileType"
+                    class="bb_apilink"
+                    >EWorkshopFileType</a
+                >
+                is an enumeration type that defines how the shared file will be shared with the
+                community. The valid values are:<br />
+                <ul class="bb_ul">
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_EWorkshopFileTypeCommunity"
+                            class="bb_apilink"
+                            >k_EWorkshopFileTypeCommunity</a
+                        >
+                        - This file type is used to describe files that will be uploaded by users
+                        and made available to download by anyone in the community. Common usage of
+                        this would be to share user created mods.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_EWorkshopFileTypeMicrotransaction"
+                            class="bb_apilink"
+                            >k_EWorkshopFileTypeMicrotransaction</a
+                        >
+                        - This file type is used to describe files that are uploaded by users, but
+                        intended only for the game to consider adding as official content. These
+                        files will not be downloaded by users through the Workshop, but will be
+                        viewable by the community to rate.<br />
+                        This is the implementation that Team Fortress 2 uses.<br />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        Register a call result handler for
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateItemResult_t"
+            class="bb_apilink"
+            >CreateItemResult_t</a
+        ><br />
+    </li>
+    <li>
+        First check the <code class="bb_code bb_code_inline nohighlight">m_eResult</code> to ensure
+        that the item was created successfully.<br />
+    </li>
+    <li>
+        When the call result handler is executed, read the
+        <code class="bb_code bb_code_inline nohighlight">m_nPublishedFileId</code> value and store
+        for future updates to the workshop item (e.g. in a project file associated with the creation
+        tool).<br />
+    </li>
+    <li>
+        The
+        <code class="bb_code bb_code_inline nohighlight"
+            >m_bUserNeedsToAcceptWorkshopLegalAgreement</code
+        >
+        variable should also be checked and if it's <strong>true</strong>, the user should be
+        redirected to accept the legal agreement. See the
+        <a href="#Legal" class="bb_doclink">Workshop Legal Agreement</a> section for more details.
+    </li>
+</ol>
+<h2 class="bb_subsection"><a name="uploading_a_workshop_item"></a>Uploading a Workshop Item</h2>
+<ol class="bb_ol">
+    <li>
+        Once a workshop item has been created and a
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t"
+            class="bb_apilink"
+            >PublishedFileId_t</a
+        >
+        value has been returned, the content of the workshop item can be populated and uploaded to
+        the Steam Workshop.<br />
+    </li>
+    <li>
+        An item update begins with a call to
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#StartItemUpdate"
+            class="bb_apilink"
+            >ISteamUGC::StartItemUpdate</a
+        ><br />
+    </li>
+    <li>
+        Using the
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCUpdateHandle_t"
+            class="bb_apilink"
+            >UGCUpdateHandle_t</a
+        >
+        that is returned from
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#StartItemUpdate"
+            class="bb_apilink"
+            >ISteamUGC::StartItemUpdate</a
+        >, calls can be made to update the Title, Description, Visibility, Tags, Item Content and
+        Item Preview Image through the various ISteamUGC::SetItem[...] methods.<br />
+        <ul class="bb_ul">
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemTitle"
+                    class="bb_apilink"
+                    >ISteamUGC::SetItemTitle</a
+                >
+                - Sets a new title for an item.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemDescription"
+                    class="bb_apilink"
+                    >ISteamUGC::SetItemDescription</a
+                >
+                - Sets a new description for an item.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemUpdateLanguage"
+                    class="bb_apilink"
+                    >ISteamUGC::SetItemUpdateLanguage</a
+                >
+                - Sets the language of the title and description that will be set in this item
+                update.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemMetadata"
+                    class="bb_apilink"
+                    >ISteamUGC::SetItemMetadata</a
+                >
+                - Sets arbitrary metadata for an item. This metadata can be returned from queries
+                without having to download and install the actual content.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemVisibility"
+                    class="bb_apilink"
+                    >ISteamUGC::SetItemVisibility</a
+                >
+                - Sets the visibility of an item.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemTags"
+                    class="bb_apilink"
+                    >ISteamUGC::SetItemTags</a
+                >
+                - Sets arbitrary developer specified tags on an item.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#AddItemKeyValueTag"
+                    class="bb_apilink"
+                    >ISteamUGC::AddItemKeyValueTag</a
+                >
+                - Adds a key-value tag pair to an item. Keys can map to multiple different values
+                (1-to-many relationship).<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveItemKeyValueTags"
+                    class="bb_apilink"
+                    >ISteamUGC::RemoveItemKeyValueTags</a
+                >
+                - Removes an existing key value tag from an item.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemContent"
+                    class="bb_apilink"
+                    >ISteamUGC::SetItemContent</a
+                >
+                - Sets the folder that will be stored as the content for an item.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemPreview"
+                    class="bb_apilink"
+                    >ISteamUGC::SetItemPreview</a
+                >
+                -Sets the primary preview image for the item.
+            </li>
+        </ul>
+    </li>
+    <li>
+        Once the update calls have been completed, calling
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate"
+            class="bb_apilink"
+            >ISteamUGC::SubmitItemUpdate</a
+        >
+        will initiate the upload process to the Steam Workshop.<br />
+        <ul class="bb_ul">
+            <li>
+                Register a call result handler for
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdateResult_t"
+                    class="bb_apilink"
+                    >SubmitItemUpdateResult_t</a
+                ><br />
+            </li>
+            <li>
+                When the call result handler is executed, check the
+                <code class="bb_code bb_code_inline nohighlight">m_eResult</code> to confirm the
+                upload completed successfully.<br />
+            </li>
+            <li>
+                Note: There is no method to cancel the item update and upload once it's been called.
+            </li>
+        </ul>
+    </li>
+    <li>
+        If desired, the progress of the upload can be tracked using
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemUpdateProgress"
+            class="bb_apilink"
+            >ISteamUGC::GetItemUpdateProgress</a
+        ><br />
+        <ul class="bb_ul">
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#EItemUpdateStatus"
+                    class="bb_apilink"
+                    >EItemUpdateStatus</a
+                >
+                defines the upload and update progress.<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">punBytesProcessed</code> and
+                <code class="bb_code bb_code_inline nohighlight">punBytesTotal</code> can be used to
+                provide input for a user interface control such as a progress bar to indicate
+                progress of the upload.<br />
+            </li>
+            <li>
+                <code class="bb_code bb_code_inline nohighlight">punBytesTotal</code> may update
+                during the upload process based upon the stage of the item update.
+            </li>
+        </ul>
+    </li>
+    <li>
+        In the same way as Creating a Workshop Item, confirm the user has accepted the legal
+        agreement. This is necessary in case where the user didn't initially create the item but is
+        editing an existing item.
+    </li>
+</ol>
+<h4>Additional Notes</h4>
+<ul class="bb_ul">
+    <li>
+        Workshop items were previously designated as single files. With
+        <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a>,
+        a workshop item is a representation of a folder of files.<br />
+    </li>
+    <li>
+        If a workshop item requires additional metadata for use by the consuming application, you
+        can attach metadata to your item using the
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemMetadata"
+            class="bb_apilink"
+            >ISteamUGC::SetItemMetadata</a
+        >
+        call. This metadata can be returned in queries without having to download and install the
+        item content.<br />
+        Previously we suggested that you save this metadata to a file inside the workshop item
+        folder, which of course you can still do.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="ConsumeContent"></a>Consuming Content</h2>
+Consuming workshop content falls into two categories, Item Subscription and Item Installation.
+<h2 class="bb_subsection"><a name="item_subscription"></a>Item Subscription</h2>
+The majority of subscriptions to a workshop item will happen through the Steam Workshop portal. It
+is a known location, common to all games and applications, and as such, users are likely to find and
+subscribe to items regularly on the workshop site.<br /><br />However, ISteamUGC provides two
+methods for programmatically subscribing and unsubscribing to workshop items to support in-game item
+subscription management.<br />
+<ul class="bb_ul">
+    <li>
+        <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubscribeItem" class="bb_apilink"
+            >ISteamUGC::SubscribeItem</a
+        >
+        - Subscribe to a workshop item. It will be downloaded and installed as soon as possible.<br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#UnsubscribeItem"
+            class="bb_apilink"
+            >ISteamUGC::UnsubscribeItem</a
+        >
+        - Unsubscribe from a workshop item. This will result in the item being removed after the
+        game quits.
+    </li>
+</ul>
+<br />Two additional methods exist for enumerating through a user's subscribed items.<br />
+<ul class="bb_ul">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetNumSubscribedItems"
+            class="bb_apilink"
+            >ISteamUGC::GetNumSubscribedItems</a
+        >
+        - Gets the total number of items the current user is subscribed to for the game or
+        application.<br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetSubscribedItems"
+            class="bb_apilink"
+            >ISteamUGC::GetSubscribedItems</a
+        >
+        - Gets a list of all of the items the current user is subscribed to for the current game.
+    </li>
+</ul>
+<h4>Receiving Notifications for External Subscription Actions</h4>
+In-game notifications can be received when a user has subscribed or unsubscribed from a file through
+any mechanism (e.g. ISteamUGC, Steam Workshop Website):<br />
+<ul class="bb_ul">
+    <li>
+        Register a callback handler for
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStoragePublishedFileSubscribed_t"
+            class="bb_apilink"
+            >RemoteStoragePublishedFileSubscribed_t</a
+        >
+        and
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStoragePublishedFileUnsubscribed_t"
+            class="bb_apilink"
+            >RemoteStoragePublishedFileUnsubscribed_t</a
+        ><br />
+    </li>
+    <li>
+        The structs will be populated with the
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t"
+            class="bb_apilink"
+            >ISteamRemoteStorage::PublishedFileId_t</a
+        >
+        which can then be used to access the information about the workshop item.<br />
+    </li>
+    <li>
+        The structs also contain the application ID (<code
+            class="bb_code bb_code_inline nohighlight"
+            >m_unAppID</code
+        >) associated with the workshop item. It should be compared against the running application
+        ID as the handler will be called for all item subscriptions regardless of the running
+        application.
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="item_installation"></a>Item Installation</h2>
+Once Item Subscription information is known, the remaining consumption methods can be utilized.
+These methods provide information back to the game about the state of the item download and
+installation. Workshop item downloads are executed via the Steam Client and happen automatically,
+based on the following rules:<br />
+<ol class="bb_ol">
+    <li>
+        When the Steam Client indicates a game or application is to launch, all app depots that have
+        been updated will be downloaded and installed.<br />
+    </li>
+    <li>Any existing installed workshop items are updated if needed<br /></li>
+    <li>Game or application then launches<br /></li>
+    <li>
+        Newly subscribed workshop items that are not downloaded will then download and be installed
+        in the background.<br />
+        <ul class="bb_ul">
+            <li>
+                Subscribed files will be downloaded to the client in the order they were subscribed
+                in.<br />
+            </li>
+            <li>
+                The Steam download page will show workshop item downloads with a specific banner to
+                indicate a workshop item download is occurring.
+            </li>
+        </ul>
+    </li>
+</ol>
+Note: Using the "Verify Integrity of Game Files" feature in the Steam Client will also cause
+workshop items to be downloaded.<br /><br />As the game will start before newly subscribed content
+is downloaded and installed, the remaining consumption methods exist to aid in monitoring and
+managing the install progress. They can also be used when items are subscribed in-game to provide
+status of installation in real time.
+<h4>Status of a Workshop Item</h4>
+<ul class="bb_ul">
+    <li>
+        <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemState" class="bb_apilink"
+            >ISteamUGC::GetItemState</a
+        >
+        - Gets the current state of a workshop item on this client.
+    </li>
+</ul>
+<h4>Download Progress of a Workshop Item</h4>
+<ul class="bb_ul">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemDownloadInfo"
+            class="bb_apilink"
+            >ISteamUGC::GetItemDownloadInfo</a
+        >
+        - Get info about a pending download of a workshop item that has
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EItemStateNeedsUpdate"
+            class="bb_apilink"
+            >k_EItemStateNeedsUpdate</a
+        >
+        set.
+    </li>
+</ul>
+<h4>Initiate or Increase the Priority of Downloading a Workshop Item</h4>
+<ul class="bb_ul">
+    <li>
+        <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItem" class="bb_apilink"
+            >ISteamUGC::DownloadItem</a
+        ><br />
+        <ul class="bb_ul">
+            <li>
+                Set <code class="bb_code bb_code_inline nohighlight">bHighPriority</code> to
+                <code class="bb_code bb_code_inline nohighlight">true</code> to pause any existing
+                in-progress downloads and immediately begin downloading this workshop item.<br />
+            </li>
+            <li>
+                If the return value is
+                <code class="bb_code bb_code_inline nohighlight">true</code> then register and wait
+                for the callback
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t"
+                    class="bb_apilink"
+                    >ISteamUGC::DownloadItemResult_t</a
+                >
+                before calling
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo"
+                    class="bb_apilink"
+                    >ISteamUGC::GetItemInstallInfo</a
+                >
+                or accessing the workshop item on disk.<br />
+            </li>
+            <li>
+                If the user is not subscribed to the item (e.g. a Game Server using anonymous
+                login), the workshop item will be downloaded and cached temporarily.<br />
+            </li>
+            <li>
+                If the workshop item has an
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#EItemState"
+                    class="bb_apilink"
+                    >ISteamUGC::EItemState</a
+                >
+                of <code class="bb_code bb_code_inline nohighlight">k_EItemStateNeedsUpdate</code>,
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItem"
+                    class="bb_apilink"
+                    >ISteamUGC::DownloadItem</a
+                >
+                can be called to initiate the update. Do not access the workshop item on disk until
+                the callback
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t"
+                    class="bb_apilink"
+                    >ISteamUGC::DownloadItemResult_t</a
+                >
+                is called.<br />
+            </li>
+            <li>
+                This method only works with
+                <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink"
+                    >ISteamUGC</a
+                >
+                created workshop items. It will not work with legacy
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage"
+                    class="bb_apilink"
+                    >ISteamRemoteStorage</a
+                >
+                workshop items.<br />
+            </li>
+            <li>
+                The
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t"
+                    class="bb_apilink"
+                    >ISteamUGC::DownloadItemResult_t</a
+                >
+                callback struct contains the application ID (<code
+                    class="bb_code bb_code_inline nohighlight"
+                    >m_unAppID</code
+                >) associated with the workshop item. It should be compared against the running
+                application ID as the handler will be called for all item downloads regardless of
+                the running application.
+            </li>
+        </ul>
+    </li>
+</ul>
+<h4>Retrieving information about the local copy of the Workshop Item</h4>
+<ul class="bb_ul">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo"
+            class="bb_apilink"
+            >ISteamUGC::GetItemInstallInfo</a
+        >
+        - Gets info about currently installed content on the disc for workshop items that have
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EItemStateInstalled"
+            class="bb_apilink"
+            >k_EItemStateInstalled</a
+        >
+        set.
+    </li>
+</ul>
+<h4>Notification when a Workshop Item is Installed or Updated</h4>
+<ul class="bb_ul">
+    <li>
+        Register a callback handler for
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#ItemInstalled_t"
+            class="bb_apilink"
+            >ISteamUGC::ItemInstalled_t</a
+        >.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="QueryContent"></a>Querying Content</h2>
+The
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a>
+interface provides a flexible way to enumerate the various kinds of UGC in Steam (e.g. Workshop
+items, screenshots, videos, etc.).<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/ISteamUGCFlows-QueryingContent-web2.png"
+    alt="ISteamUGCFlows-QueryingContent-web2.png"
+    title="ISteamUGCFlows-QueryingContent-web2.png"
+/><br /><br />
+<ol class="bb_ol">
+    <li>
+        Register a call result handler for
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+            class="bb_apilink"
+            >SteamUGCQueryCompleted_t</a
+        >.<br />
+    </li>
+    <li>
+        There are a few methods available for creating the query depending upon the required
+        scenario, Querying by Content Associated to a User or Querying All Content or getting the
+        details of content you have ids for.<br />
+        <ul class="bb_ul">
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUserUGCRequest"
+                    class="bb_apilink"
+                    >ISteamUGC::CreateQueryUserUGCRequest</a
+                >
+                - Query UGC associated with a user. You can use this to list the UGC the user is
+                subscribed to amongst other things.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
+                    class="bb_apilink"
+                    >ISteamUGC::CreateQueryAllUGCRequest</a
+                >
+                - Query for all matching UGC. You can use this to list all of the available UGC for
+                your app.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUGCDetailsRequest"
+                    class="bb_apilink"
+                    >ISteamUGC::CreateQueryUGCDetailsRequest</a
+                >
+                - Query for the details of specific workshop items.<br />
+            </li>
+        </ul>
+    </li>
+    <li>
+        Customize the query as appropriate by calling the option setting methods:<br />
+        <ul class="bb_ul">
+            <li>
+                When querying for User UGC<br />
+                <ul class="bb_ul">
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetCloudFileNameFilter"
+                            class="bb_apilink"
+                            >ISteamUGC::SetCloudFileNameFilter</a
+                        >
+                        - Sets to only return items that have a specific filename on a pending UGC
+                        Query.<br />
+                    </li>
+                </ul>
+            </li>
+            <li>
+                When querying for All UGC<br />
+                <ul class="bb_ul">
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetMatchAnyTag"
+                            class="bb_apilink"
+                            >ISteamUGC::SetMatchAnyTag</a
+                        >
+                        - Sets whether workshop items will be returned if they have one or more
+                        matching tag, or if all tags need to match on a pending UGC Query.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetSearchText"
+                            class="bb_apilink"
+                            >ISteamUGC::SetSearchText</a
+                        >
+                        - Sets a string to that items need to match in either the title or the
+                        description on a pending UGC Query.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRankedByTrendDays"
+                            class="bb_apilink"
+                            >ISteamUGC::SetRankedByTrendDays</a
+                        >
+                        - Sets whether the order of the results will be updated based on the rank of
+                        items over a number of days on a pending UGC Query.<br />
+                    </li>
+                </ul>
+            </li>
+            <li>
+                When querying for either type of UGC<br />
+                <ul class="bb_ul">
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredTag"
+                            class="bb_apilink"
+                            >ISteamUGC::AddRequiredTag</a
+                        >
+                        - Adds a required tag to a pending UGC Query. This will only return UGC with
+                        the specified tag.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#AddExcludedTag"
+                            class="bb_apilink"
+                            >ISteamUGC::AddExcludedTag</a
+                        >
+                        - Adds a excluded tag to a pending UGC Query. This will only return UGC
+                        without the specified tag.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredKeyValueTag"
+                            class="bb_apilink"
+                            >ISteamUGC::AddRequiredKeyValueTag</a
+                        >
+                        - Adds a required key-value tag to a pending UGC Query. This will only
+                        return workshop items that have a key = [param]pKey[/param] and a value =
+                        [param]pValue[/param].<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnOnlyIDs"
+                            class="bb_apilink"
+                            >ISteamUGC::SetReturnOnlyIDs</a
+                        >
+                        - Sets whether to only return IDs instead of all the details on a pending
+                        UGC Query. This is useful for when you don't need all the information (e.g.
+                        you just want to get the IDs of the items a user has in their favorites
+                        list.)<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnKeyValueTags"
+                            class="bb_apilink"
+                            >ISteamUGC::SetReturnKeyValueTags</a
+                        >
+                        - Sets whether to return any key-value tags for the items on a pending UGC
+                        Query.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnLongDescription"
+                            class="bb_apilink"
+                            >ISteamUGC::SetReturnLongDescription</a
+                        >
+                        - Sets whether to return the full description for the items on a pending UGC
+                        Query.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnMetadata"
+                            class="bb_apilink"
+                            >ISteamUGC::SetReturnMetadata</a
+                        >
+                        - Sets whether to return the developer specified metadata for the items on a
+                        pending UGC Query.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnChildren"
+                            class="bb_apilink"
+                            >ISteamUGC::SetReturnChildren</a
+                        >
+                        - Sets whether to return the IDs of the child items of the items on a
+                        pending UGC Query.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnAdditionalPreviews"
+                            class="bb_apilink"
+                            >ISteamUGC::SetReturnAdditionalPreviews</a
+                        >
+                        - Sets whether to return any additional images/videos attached to the items
+                        on a pending UGC Query.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnTotalOnly"
+                            class="bb_apilink"
+                            >ISteamUGC::SetReturnTotalOnly</a
+                        >
+                        - Sets whether to only return the total number of matching items on a
+                        pending UGC Query. -- The actual items will not be returned when
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+                            class="bb_apilink"
+                            >ISteamUGC::SteamUGCQueryCompleted_t</a
+                        >
+                        is called.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetLanguage"
+                            class="bb_apilink"
+                            >ISteamUGC::SetLanguage</a
+                        >
+                        - Sets the language to return the title and description in for the items on
+                        a pending UGC Query.<br />
+                    </li>
+                    <li>
+                        <a
+                            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetAllowCachedResponse"
+                            class="bb_apilink"
+                            >ISteamUGC::SetAllowCachedResponse</a
+                        >
+                        - Sets whether results to be will be returned from the cache for the
+                        specific period of time on a pending UGC Query.<br />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        Send the query to Steam using
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest"
+            class="bb_apilink"
+            >ISteamUGC::SendQueryUGCRequest</a
+        >
+        which will invoke the
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+            class="bb_apilink"
+            >ISteamUGC::SteamUGCQueryCompleted_t</a
+        >
+        call result handler registered in step 1.<br />
+    </li>
+    <li>
+        In the call result handler for
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+            class="bb_apilink"
+            >ISteamUGC::SteamUGCQueryCompleted_t</a
+        >, call
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCResult"
+            class="bb_apilink"
+            >ISteamUGC::GetQueryUGCResult</a
+        >
+        to retrieve the details for each item returned.<br /><br />
+    </li>
+    <li>
+        You can also call these functions to retrieve additional information for each item (some of
+        this data is not returned by default, so you need to configure your query appropriately):<br />
+        <ul class="bb_ul">
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCPreviewURL"
+                    class="bb_apilink"
+                    >ISteamUGC::GetQueryUGCPreviewURL</a
+                >
+                - Retrieve the URL to the preview image of an individual workshop item after
+                receiving a querying UGC call result.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCMetadata"
+                    class="bb_apilink"
+                    >ISteamUGC::GetQueryUGCMetadata</a
+                >
+                - Retrieve the developer set metadata of an individual workshop item after receiving
+                a querying UGC call result.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCChildren"
+                    class="bb_apilink"
+                    >ISteamUGC::GetQueryUGCChildren</a
+                >
+                - Retrieve the ids of any child items of an individual workshop item after receiving
+                a querying UGC call result.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCStatistic"
+                    class="bb_apilink"
+                    >ISteamUGC::GetQueryUGCStatistic</a
+                >
+                - Retrieve various statistics of an individual workshop item after receiving a
+                querying UGC call result.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumAdditionalPreviews"
+                    class="bb_apilink"
+                    >ISteamUGC::GetQueryUGCNumAdditionalPreviews</a
+                >
+                and
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCAdditionalPreview"
+                    class="bb_apilink"
+                    >ISteamUGC::GetQueryUGCAdditionalPreview</a
+                >
+                - Retrieve the details of an additional preview associated with an individual
+                workshop item after receiving a querying UGC call result.<br />
+            </li>
+            <li>
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumKeyValueTags"
+                    class="bb_apilink"
+                    >ISteamUGC::GetQueryUGCNumKeyValueTags</a
+                >
+                and
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCKeyValueTag"
+                    class="bb_apilink"
+                    >ISteamUGC::GetQueryUGCKeyValueTag</a
+                >
+                - Retrieve the details of a key-value tag associated with an individual workshop
+                item after receiving a querying UGC call result.<br />
+            </li>
+        </ul>
+    </li>
+    <li>
+        Call
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#ReleaseQueryUGCRequest"
+            class="bb_apilink"
+            >ISteamUGC::ReleaseQueryUGCRequest</a
+        >
+        to free up any memory allocated while querying or retrieving the results.
+    </li>
+</ol>
+<h4>Paging Results</h4>
+Up to 50 results will be returned from each query. Paging through more results can be achieved by
+creating a query that increments the
+<code class="bb_code bb_code_inline nohighlight">unPage</code> parameter (which should start at 1).
+<h2 class="bb_section"><a name="PlaytimeTracking"></a>Playtime Tracking</h2>
+To track the playtime of Workshop items simply call
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#StartPlaytimeTracking" class="bb_apilink"
+    >ISteamUGC::StartPlaytimeTracking</a
+>
+with the ids of the items you want to track. Then when the items are removed from play call
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#StopPlaytimeTracking" class="bb_apilink"
+    >ISteamUGC::StopPlaytimeTracking</a
+>
+with the ids you want to stop tracking or call
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#StopPlaytimeTrackingForAllItems"
+    class="bb_apilink"
+    >ISteamUGC::StopPlaytimeTrackingForAllItems</a
+>
+to stop tracking playtime for all items at once.<br />When your app shuts down, playtime tracking
+will automatically stop.<br /><br />You will also be able to sort items by various playtime metrics
+in
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
+    class="bb_apilink"
+    >ISteamUGC::CreateQueryAllUGCRequest</a
+>
+queries. Here are the playtime based query types you can use:<br />
+<ul class="bb_ul">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByPlaytimeTrend"
+            class="bb_apilink"
+            >k_EUGCQuery_RankedByPlaytimeTrend</a
+        >
+        - Sort by total playtime in the "trend" period descending (set with
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRankedByTrendDays"
+            class="bb_apilink"
+            >ISteamUGC::SetRankedByTrendDays</a
+        >)<br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByTotalPlaytime"
+            class="bb_apilink"
+            >k_EUGCQuery_RankedByTotalPlaytime</a
+        >
+        - Sort by total lifetime playtime descending.<br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByAveragePlaytimeTrend"
+            class="bb_apilink"
+            >k_EUGCQuery_RankedByAveragePlaytimeTrend</a
+        >
+        - Sort by average playtime in the "trend" period descending (set with
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRankedByTrendDays"
+            class="bb_apilink"
+            >ISteamUGC::SetRankedByTrendDays</a
+        >)<br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByLifetimeAveragePlaytime"
+            class="bb_apilink"
+            >k_EUGCQuery_RankedByLifetimeAveragePlaytime</a
+        >
+        - Sort by lifetime average playtime descending<br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByPlaytimeSessionsTrend"
+            class="bb_apilink"
+            >k_EUGCQuery_RankedByPlaytimeSessionsTrend</a
+        >
+        - Sort by number of play sessions in the "trend" period descending (set in
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRankedByTrendDays"
+            class="bb_apilink"
+            >ISteamUGC::SetRankedByTrendDays</a
+        >)<br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUGCQuery_RankedByLifetimePlaytimeSessions"
+            class="bb_apilink"
+            >k_EUGCQuery_RankedByLifetimePlaytimeSessions</a
+        >
+        - Sort by number of lifetime play sessions descending
+    </li>
+</ul>
+<h2 class="bb_section"><a name="DeletingContent"></a>Deleting Workshop Item Content</h2>
+To delete a Workshop item, you can call
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#DeleteItem" class="bb_apilink"
+    >ISteamUGC::DeleteItem</a
+>. Please note that this does not prompt the user and cannot be undone.
+<h2 class="bb_section">
+    <a name="SteamworksExample"></a>Steamworks Example – SpaceWar Integration
+</h2>
+The
+<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
+    >Steamworks API Example Application (SpaceWar)</a
+>
+that comes with the Steamworks SDK demonstrates a subset of the
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a>
+API.<br />
+<ul class="bb_ul">
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">CSpaceWarClient::LoadWorkshopItem</code>
+        demonstrates checking if a workshop item is downloaded and installed on disk as well as
+        requesting information about a workshop item by
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t"
+            class="bb_apilink"
+            >ISteamRemoteStorage::PublishedFileId_t</a
+        ><br />
+    </li>
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">CSpaceWarClient::LoadWorkshopItems</code>
+        demonstrates retrieving the list of subscribed workshop items for the current user for the
+        SpaceWar application<br />
+    </li>
+    <li>
+        <code class="bb_code bb_code_inline nohighlight"
+            >CSpaceWarClient::OnWorkshopItemInstalled</code
+        >
+        demonstrates a callback handler for
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#ItemInstalled_t"
+            class="bb_apilink"
+            >ISteamUGC::ItemInstalled_t</a
+        >
+    </li>
+</ul>
+<h2 class="bb_section"><a name="Legal"></a>Workshop Legal Agreement</h2>
+Workshop items will be hidden by default until the contributor agrees to the Steam Workshop Legal
+Agreement. In order to make it easy for the contributor to make the item publicly visible, please do
+the following.<br />
+<ol class="bb_ol">
+    <li>
+        Include text next to the button that submits an item to the workshop, something to the
+        effect of: "By submitting this item, you agree to the
+        <a
+            href="http://steamcommunity.com/sharedfiles/workshoplegalagreement"
+            target="_blank"
+            rel="noreferrer"
+            >workshop terms of service</a
+        >" (including the link)<br />
+    </li>
+    <li>
+        After a user submits an item, open a browser window to the Steam Workshop page for that item
+        by calling
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToWebPage"
+            class="bb_apilink"
+            >ISteamFriends::ActivateGameOverlayToWebPage</a
+        >
+        with <code class="bb_code bb_code_inline nohighlight">pchURL</code> set to
+        <code class="bb_code bb_code_inline nohighlight"
+            >steam://url/CommunityFilePage/&lt;PublishedFileId_t&gt;</code
+        >
+        replacing &lt;PublishedFileId_t&gt; with the workshop item id.
+    </li>
+</ol>
+This has the benefit of directing the author to the workshop page so that they can see the item and
+configure it further if necessary and will make it easy for the user to read and accept the Steam
+Workshop Legal Agreement.
+<h2 class="bb_section"><a name="WebAPI"></a>Web API</h2>
+In addition to these methods, there are a set of Web API interface that provides similar
+functionality along with community-based filtering APIs to list all shared content. Please consult
+the documentation for the
+<a href="https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage" class="bb_apilink"
+    >ISteamRemoteStorage</a
+>
+interface in the Web API list.
+<h2 class="bb_section"><a name="DedicatedGameServers"></a>Dedicated Game Servers</h2>
+Game servers can also download and install items.<br />
+<ul class="bb_ul">
+    <li>
+        The Game Server will need to know the
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t"
+            class="bb_apilink"
+            >PublishedFileId_t</a
+        >
+        to request a workshop item, this could be supplied by the game clients or set by the server
+        operator. Then call
+        <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItem" class="bb_apilink"
+            >ISteamUGC::DownloadItem</a
+        >
+        to retrieve a temporary copy of the workshop item.<br />
+    </li>
+    <li>
+        A call can then be made to
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo"
+            class="bb_apilink"
+            >ISteamUGC::GetItemInstallInfo</a
+        >
+        to retrieve information to locate and use the workshop item.<br />
+    </li>
+    <li>
+        See the <strong>Item Installation</strong> section above for more information on these API
+        methods.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="SteamCmd"></a>SteamCmd Integration</h2>
+Along with the
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API, the
+steamcmd.exe command line tool can be used to create and update workshop items for testing purposes.
+This should only be used for testing purposes, as the tool requires the user to enter their Steam
+credentials (something we don't want customers to have to do).<br /><br />To create a new Steam
+Workshop item using steamcmd.exe a VDF file must first be created. The VDF is a plain text file that
+should contain the following keys.<br />
+<div class="bb_code cpp">
+    "workshopitem" { "appid" "480" "publishedfileid" "5674" "contentfolder"
+    "D:\\Content\\workshopitem" "previewfile" "D:\\Content\\preview.jpg" "visibility" "0" "title"
+    "Team Fortress Green Hat" "description" "A green hat for Team Fortress" "changenote" "Version
+    1.2" }
+</div>
+<br />Notes:<br />
+<ul class="bb_ul">
+    <li>
+        The keys map to the various ISteamUGC::SetItem[...] methods. See the documentation above for
+        more details.<br />
+    </li>
+    <li>The values shown are examples only and should be updated appropriately.<br /></li>
+    <li>
+        To create a new item, <code class="bb_code bb_code_inline nohighlight">appid</code> must be
+        set and <code class="bb_code bb_code_inline nohighlight">publishedfileid</code> must be
+        unset or set to <code class="bb_code bb_code_inline nohighlight">0</code>.<br />
+    </li>
+    <li>
+        To update an existing item,
+        <code class="bb_code bb_code_inline nohighlight">appid</code> and
+        <code class="bb_code bb_code_inline nohighlight">publishedfileid</code> must both be set.<br />
+    </li>
+    <li>
+        The remaining key/value pairs should be included in the VDF if the key should be updated.
+    </li>
+</ul>
+Once the VDF has been created, steamcmd.exe can be run with the
+<code class="bb_code bb_code_inline nohighlight"
+    >workshop_build_item &lt;build config filename&gt;</code
+>
+file parameter. For example:<br />
+<div class="bb_code cpp">
+    steamcmd.exe +login myLoginName myPassword +workshop_build_item workshop_green_hat.vdf +quit
+</div>
+If the command is successful, the
+<code class="bb_code bb_code_inline nohighlight">publishedfileid</code> value in the VDF will be
+automatically updated to contain the ID of the workshop item. In this way, subsequent calls with
+steamcmd.exe for the same VDF will result in an update rather than creation of a new item.
+<h2 class="bb_section"><a name="ErrorsLogging"></a>Errors and Logging</h2>
+The majority of
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> methods
+return boolean values. For additional information on specific errors, there are a number of places
+to review:<br />
+<ul class="bb_ul">
+    <li>
+        <code class="bb_code bb_code_inline nohighlight">Steam\logs\Workshop_log.txt</code> is a log
+        for all transfers that occur during workshop item downloading<br />
+        and installation.<br />
+    </li>
+    <li>
+        <code class="bb_code bb_code_inline nohighlight"
+            >Steam\workshopbuilds\depot_build_&lt;appid&gt;.log</code
+        >
+        is a log for all actions during the upload and update of a workshop item.<br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+            class="bb_apilink"
+            >ISteamUGC::SteamUGCQueryCompleted_t</a
+        >,
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateItemResult_t"
+            class="bb_apilink"
+            >ISteamUGC::CreateItemResult_t</a
+        >
+        and
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdateResult_t"
+            class="bb_apilink"
+            >ISteamUGC::SubmitItemUpdateResult_t</a
+        >
+        contain
+        <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
+            >EResult</a
+        >
+        variables that can be checked.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="FAQ"></a>Frequently Asked Questions</h2>
+<h4>Q: Can a separate application publish content to my game's Workshop?</h4>
+Yes. A separate application for editing or publishing tools can be configured with base
+application's workshop to accept content from that editing application.<br /><br />To configure
+this, go to the Workshop Configuration section for the base application and scroll to the bottom of
+the page. Enter the separate application's App ID in the field under "App Publish Permissions" and
+hit "Add".<br /><br />Once the Steamworks settings are published, the editing application will be
+able to publish content to the base application's workshop.

@@ -1,2 +1,57 @@
 <h1>Distributing Your Dedicated Game Server</h1>
-<h2 class="bb_section"><a name="1"></a>Overview</h2>If your game clients need to connect to dedicated servers, you may use Steam to distribute your dedicated server as well. This makes it easy for you to deploy your servers and keep them up to date.<h2 class="bb_section"><a name="2"></a>Creating</h2>To distribute your dedicated game server through Steam, there are a few necessary configurations to be made.<br><ol class="bb_ol ">	<li> Create a new App ID of type TOOL that will be used solely for the dedicated server for the game. You can do this yourself by visiting the "Associated Packages and DLC" section for your app and clicking "Create new Tool" button. Make sure you click the checkbox to make this tool a dedicated server.<br>	</li><li> Inside that new App, click Edit Steamworks Settings. Go to Installation -&gt; Redistributables and turn on Dedicated Server Redistributables. This will add the various Steam SDK Redist depots to the application.<br>	</li><li> Switch to the publish tab and publish the change.</li></ol>You can now upload a new depot to the dedicated server app containing just your dedicated server binaries.<br><br>You also need to create a <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file, which contains only your game's AppID. Include that file with your dedicated server package so that the dedicated server can run as your base appID.<h2 class="bb_section"><a name="3"></a>Releasing</h2>Your dedicated server has a release checklist similar to other types of products in Steamworks. You'll need to complete the required items listed on the right-hand side of your app landing page for the tool. When you're ready to release, you can use the controls to do so yourself.<br><br>Here's what happens when you hit the release button for your Dedicated Server:<br><ol class="bb_ol ">	<li> In most cases, you'll want your dedicated server to be able to run in anonymous mode so that you don't need the Steam Client or a specific Steam user to be signed in to run it. So, when you use the controls to release your tool, the dedicated server appID and associated depot(s) will automatically be added to the anonymous steamcmd package (pkg 17906) to be downloadable using SteamCMD in anonymous mode.<br>	</li><li> The appID will get marked as 'released' so that you can actually run the server via SteamCMD.</li></ol><br>If you don't have the controls to release your own tool (typically if Valve manually created your tool sometime in the past) then you'll need this to be done by a Valve representative. You can <a href="https://help.steampowered.com/en/wizard/HelpWithPublishing" target="_blank" rel="noreferrer">contact Valve here</a>.<br><br>You should then test that the dedicated server is downloadable and can run following the instructions on the <a href="https://developer.valvesoftware.com/wiki/SteamCMD" target="_blank" rel="noreferrer">SteamCMD page</a>.
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+If your game clients need to connect to dedicated servers, you may use Steam to distribute your
+dedicated server as well. This makes it easy for you to deploy your servers and keep them up to
+date.
+<h2 class="bb_section"><a name="2"></a>Creating</h2>
+To distribute your dedicated game server through Steam, there are a few necessary configurations to
+be made.<br />
+<ol class="bb_ol">
+    <li>
+        Create a new App ID of type TOOL that will be used solely for the dedicated server for the
+        game. You can do this yourself by visiting the "Associated Packages and DLC" section for
+        your app and clicking "Create new Tool" button. Make sure you click the checkbox to make
+        this tool a dedicated server.<br />
+    </li>
+    <li>
+        Inside that new App, click Edit Steamworks Settings. Go to Installation -&gt;
+        Redistributables and turn on Dedicated Server Redistributables. This will add the various
+        Steam SDK Redist depots to the application.<br />
+    </li>
+    <li>Switch to the publish tab and publish the change.</li>
+</ol>
+You can now upload a new depot to the dedicated server app containing just your dedicated server
+binaries.<br /><br />You also need to create a
+<code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file, which contains only
+your game's AppID. Include that file with your dedicated server package so that the dedicated server
+can run as your base appID.
+<h2 class="bb_section"><a name="3"></a>Releasing</h2>
+Your dedicated server has a release checklist similar to other types of products in Steamworks.
+You'll need to complete the required items listed on the right-hand side of your app landing page
+for the tool. When you're ready to release, you can use the controls to do so yourself.<br /><br />Here's
+what happens when you hit the release button for your Dedicated Server:<br />
+<ol class="bb_ol">
+    <li>
+        In most cases, you'll want your dedicated server to be able to run in anonymous mode so that
+        you don't need the Steam Client or a specific Steam user to be signed in to run it. So, when
+        you use the controls to release your tool, the dedicated server appID and associated
+        depot(s) will automatically be added to the anonymous steamcmd package (pkg 17906) to be
+        downloadable using SteamCMD in anonymous mode.<br />
+    </li>
+    <li>
+        The appID will get marked as 'released' so that you can actually run the server via
+        SteamCMD.
+    </li>
+</ol>
+<br />If you don't have the controls to release your own tool (typically if Valve manually created
+your tool sometime in the past) then you'll need this to be done by a Valve representative. You can
+<a
+    href="https://help.steampowered.com/en/wizard/HelpWithPublishing"
+    target="_blank"
+    rel="noreferrer"
+    >contact Valve here</a
+>.<br /><br />You should then test that the dedicated server is downloadable and can run following
+the instructions on the
+<a href="https://developer.valvesoftware.com/wiki/SteamCMD" target="_blank" rel="noreferrer"
+    >SteamCMD page</a
+>.

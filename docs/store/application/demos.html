@@ -1,2 +1,207 @@
 <h1>Demos</h1>
-<div class="bb_introblock"><div class="left"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/GameNotifications_1_static.png"></div><div class="introtext"><h5>In Brief</h5>Steam can host and distribute a demo version of your game that you can use to demonstrate part of your gaming experience.<h5>Level of integration</h5>Demos can range in size and scope, but generally are a small playable portion of your game that show some of the core mechanics and leave the player excited for more.</div></div><h2 class="bb_section"><a name="1"></a>Overview</h2>Steam has the ability to provide free demos for your customers so that they can try before they buy.<br><br>It's up to you whether or not a demo will be beneficial for your title, but there are a couple of useful things to consider:<br><br><ol class="bb_ol ">	<li> Quality – Customers are generally using the demo to make a purchase decision on your game. Make sure that what you put out there is high quality and measures up to the real experience.<br>	</li><li> Timing – When you release your demo is also important. We generally recommend waiting until launch, but there are circumstances where putting a demo out prior to release is effective. If, for instance, you feel like customers need to touch the game to really understand it, then a quality demo prior to release can be useful.<br>	</li><li> Length – You need to balance giving the customer enough content to get them excited, without giving away so much that they feel like they've experienced everything the game has to offer.</li></ol><h2 class="bb_section"><a name="2"></a>Configuration</h2>Demos are created as a separate App ID as the base app.<br><br>The demo will need to be configured with depots, and builds must be created just like a full app. The demo will live on the base game's store page as a button where users can download and try out the game for free.<h2 class="bb_subsection"><a name="3"></a>To create your demo App ID:</h2><ol class="bb_ol ">	<li> From the App Landing Page, click on "All associated packages, DLC, demos and tools."<br>	</li><li> At the top of this page, click the "Add Demo" button.<br>	</li><li> The demo you created has its own release checklist and configuration, similar to your base product.</li></ol><h2 class="bb_section"><a name="4"></a>Testing</h2>To work properly for customers, your application type must be set as 'Demo' and the App ID of your base game entered in the <a href="https://partner.steamgames.com/apps/view/" target="_blank" rel="noreferrer">General Application Settings</a> section of the Steamworks website for your demo. However, this means your primary account will own both the demo and the base game, thus only letting you launch the base game (this is default behavior for customers too, as there's little reason to let a customer launch a demo once they own the base game).<br><br>To get around this and test your demo, you will need to request keys for your demo and activate them on test accounts that do not own the full product.<h2 class="bb_section"><a name="5"></a>Minimizing Upgrade Impact</h2>There are a few things you can do to minimize the friction to upgrade from the demo to the full game.<br><ol class="bb_ol ">	<li> Share depots with the full app: For any content that's shared between the full app and the demo, put it into its own depot and mount the shared depot from the base app into the demo app. See the <a href="https://partner.steamgames.com/doc/store/application/depots#shared_content_depots" class="bb_doclink">Shared Content Depots</a> documentation for more info.<br>	</li><li> Share cloud storage with the full app: The saved game from the demo can be stored to the full game's cloud storage so that users can pick up where they left off in the demo once they buy the full game. See the <a href="https://partner.steamgames.com/doc/features/cloud" class="bb_doclink">Steam Cloud</a> documentation for more info.</li></ol><h2 class="bb_section"><a name="6"></a>Marketing the Full App</h2>You can direct customers to the full app from your demo by utilizing the Steam Overlay. The in-app overlay allows you to put a link to the store page right in your app. See the <a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">Steam Overlay</a> documentation and <a href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToStore" class="bb_apilink">ISteamFriends::ActivateGameOverlayToStore</a> for more details.<br><br>Players of your demo will also see a prominent link from the demo in their library to the full game's store page.<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/DemoUpsell.jpg" alt="DemoUpsell.jpg" title="DemoUpsell.jpg"><h2 class="bb_section"><a name="7"></a>Using Achievements in Demos</h2>We recommend that you disable achievements in demos. Instead, store the saved game in the shared Steam Cloud as described in the <a href="https://partner.steamgames.com/doc/features/cloud" class="bb_doclink">Cloud documentation</a>. Then grant those achievements on loading the game in the full game after the user has purchased.<h2 class="bb_section"><a name="8"></a>Releasing Your Demo</h2>To prepare for release, please make sure to complete the checklists found on the right-hand side of the landing page for your demo. Once completed, you can mark your demo page and build as ready for review.<br><br>If you are releasing your demo prior to your base product being available, you will need to prepare your base game's store page and make sure it is visible as 'coming soon' so users can add the full game to their wishlist (also see: <a href="https://partner.steamgames.com/doc/marketing/wishlist" class="bb_doclink">Steam Wishlists</a>). <br><br>Once released, the demo can show up as new in the demo section. Clicking on the demo capsule in the store will take users to the main game's store page where there's a demo button on the side or above the purchase options (configurable by you).<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/DemoStorePg.jpg" alt="DemoStorePg.jpg" title="DemoStorePg.jpg"><br><br>Please see the <a href="https://partner.steamgames.com/doc/store/releasing" class="bb_doclink">Preparing for Your Release</a> documentation for general information about preparing any app for release.<h2 class="bb_section"><a name="disabling"></a>Disabling Your Demo</h2>If you wish for your demo to only be available for a limited time, such as during a game conference or festival, you can deactivate and re-active it once it has been released. Deactivating a demo will prevent players from downloading or launching your demo. Players that already have your demo in their library will continue to see the demo (so they may uninstall it) but cannot launch it again.<br><br>To Deactivate or re-activate a demo, find the option under 'Technical Tools' on your demo's app landing page and click "Deactivate Demo"<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/DemoDisable.jpg" alt="DemoDisable.jpg" title="DemoDisable.jpg"><div class="bb_callout "><div>Note: Once your demo is disabled, customers may still be able to launch it outside of Steam unless your demo requires Steam to launch and checks to see if the user has a current license to it. You can learn more here: <a href="https://partner.steamgames.com/doc/api/ISteamApps#BIsSubscribedApp" class="bb_apilink">ISteamApps::BIsSubscribedApp</a>.</div></div><h2 class="bb_section"><a name="9"></a>Frequently Asked Questions</h2><strong>Q: Can I put a demo up on my Coming Soon page before my game releases?</strong><br>A: Yes, your demo can be made available to players on a Coming Soon page before your game releases.<br><br><strong>Q: Can my demo users play Steam multiplayer with my full game users?</strong><br>A: Steam currently doesn't support multiplayer matchmaking between the full game and the demo.<br><br><strong>Q: What if my demo consists of literally the same files as the full game?</strong><br>A: Use a shared depot as described in the <a href="https://partner.steamgames.com/doc/store/application/depots#shared_content_depots" class="bb_doclink">Shared Content Depots</a> documentation. Do the following to make sure the demo and full app both work correctly.<br><br><ol class="bb_ol ">	<li> If you use <a href="https://partner.steamgames.com/doc/features/drm" class="bb_doclink">Steam DRM</a>, re-submit the exe for signing on the demo Steamworks app admin. Package the demo exe into a depot specific to the demo app. Alternatively, you can skip Steam DRM and just call <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RestartAppIfNecessary" class="bb_apilink">SteamAPI_RestartAppIfNecessary</a>.<br>	</li><li> If there is behavior that is restricted to owners of the full app, gate it behind the <a href="https://partner.steamgames.com/doc/api/ISteamApps#BIsSubscribedApp" class="bb_apilink">ISteamApps::BIsSubscribedApp</a> Steamworks API call with the App ID of the full app.</li></ol><br><strong>Q: How to get the Demo to show up on the base application's store page?</strong><br>A: On the store page admin, go to the "Special Settings" tab and add the Demo's app ID in the "Associated Demos" section. Save &amp; Publish. The demo will need to be released for it to show upon the base application's store page.<br><br>By default, a demo button will appear in the right-hand column of your game's store page. You can also check a box in the "Special Settings" tab to have a larger callout for your demo appear above all your purchase options.<br><br><strong>Q: How do I remove a Demo from the base application's store page?</strong><br>A: On the store page admin for the base game, go to the "Special Settings" tab and remove the Demo's app ID in the "Associated Demos" section. Save &amp; Publish.<br><br><strong>Q: How do I remove a Demo entirely from the Steam store?</strong><br>A: <a href="https://help.steampowered.com/en/wizard/HelpWithPublishing?issueid=914" target="_blank" rel="noreferrer">Contact us here</a> and let us know the name of the demo you would like to remove from the store.
+<div class="bb_introblock">
+    <div class="left">
+        <img
+            src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/GameNotifications_1_static.png"
+        />
+    </div>
+    <div class="introtext">
+        <h5>In Brief</h5>
+        Steam can host and distribute a demo version of your game that you can use to demonstrate
+        part of your gaming experience.
+        <h5>Level of integration</h5>
+        Demos can range in size and scope, but generally are a small playable portion of your game
+        that show some of the core mechanics and leave the player excited for more.
+    </div>
+</div>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+Steam has the ability to provide free demos for your customers so that they can try before they
+buy.<br /><br />It's up to you whether or not a demo will be beneficial for your title, but there
+are a couple of useful things to consider:<br /><br />
+<ol class="bb_ol">
+    <li>
+        Quality – Customers are generally using the demo to make a purchase decision on your game.
+        Make sure that what you put out there is high quality and measures up to the real
+        experience.<br />
+    </li>
+    <li>
+        Timing – When you release your demo is also important. We generally recommend waiting until
+        launch, but there are circumstances where putting a demo out prior to release is effective.
+        If, for instance, you feel like customers need to touch the game to really understand it,
+        then a quality demo prior to release can be useful.<br />
+    </li>
+    <li>
+        Length – You need to balance giving the customer enough content to get them excited, without
+        giving away so much that they feel like they've experienced everything the game has to
+        offer.
+    </li>
+</ol>
+<h2 class="bb_section"><a name="2"></a>Configuration</h2>
+Demos are created as a separate App ID as the base app.<br /><br />The demo will need to be
+configured with depots, and builds must be created just like a full app. The demo will live on the
+base game's store page as a button where users can download and try out the game for free.
+<h2 class="bb_subsection"><a name="3"></a>To create your demo App ID:</h2>
+<ol class="bb_ol">
+    <li>
+        From the App Landing Page, click on "All associated packages, DLC, demos and tools."<br />
+    </li>
+    <li>At the top of this page, click the "Add Demo" button.<br /></li>
+    <li>
+        The demo you created has its own release checklist and configuration, similar to your base
+        product.
+    </li>
+</ol>
+<h2 class="bb_section"><a name="4"></a>Testing</h2>
+To work properly for customers, your application type must be set as 'Demo' and the App ID of your
+base game entered in the
+<a href="https://partner.steamgames.com/apps/view/" target="_blank" rel="noreferrer"
+    >General Application Settings</a
+>
+section of the Steamworks website for your demo. However, this means your primary account will own
+both the demo and the base game, thus only letting you launch the base game (this is default
+behavior for customers too, as there's little reason to let a customer launch a demo once they own
+the base game).<br /><br />To get around this and test your demo, you will need to request keys for
+your demo and activate them on test accounts that do not own the full product.
+<h2 class="bb_section"><a name="5"></a>Minimizing Upgrade Impact</h2>
+There are a few things you can do to minimize the friction to upgrade from the demo to the full
+game.<br />
+<ol class="bb_ol">
+    <li>
+        Share depots with the full app: For any content that's shared between the full app and the
+        demo, put it into its own depot and mount the shared depot from the base app into the demo
+        app. See the
+        <a
+            href="https://partner.steamgames.com/doc/store/application/depots#shared_content_depots"
+            class="bb_doclink"
+            >Shared Content Depots</a
+        >
+        documentation for more info.<br />
+    </li>
+    <li>
+        Share cloud storage with the full app: The saved game from the demo can be stored to the
+        full game's cloud storage so that users can pick up where they left off in the demo once
+        they buy the full game. See the
+        <a href="https://partner.steamgames.com/doc/features/cloud" class="bb_doclink"
+            >Steam Cloud</a
+        >
+        documentation for more info.
+    </li>
+</ol>
+<h2 class="bb_section"><a name="6"></a>Marketing the Full App</h2>
+You can direct customers to the full app from your demo by utilizing the Steam Overlay. The in-app
+overlay allows you to put a link to the store page right in your app. See the
+<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">Steam Overlay</a>
+documentation and
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToStore"
+    class="bb_apilink"
+    >ISteamFriends::ActivateGameOverlayToStore</a
+>
+for more details.<br /><br />Players of your demo will also see a prominent link from the demo in
+their library to the full game's store page.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/DemoUpsell.jpg"
+    alt="DemoUpsell.jpg"
+    title="DemoUpsell.jpg"
+/>
+<h2 class="bb_section"><a name="7"></a>Using Achievements in Demos</h2>
+We recommend that you disable achievements in demos. Instead, store the saved game in the shared
+Steam Cloud as described in the
+<a href="https://partner.steamgames.com/doc/features/cloud" class="bb_doclink"
+    >Cloud documentation</a
+>. Then grant those achievements on loading the game in the full game after the user has purchased.
+<h2 class="bb_section"><a name="8"></a>Releasing Your Demo</h2>
+To prepare for release, please make sure to complete the checklists found on the right-hand side of
+the landing page for your demo. Once completed, you can mark your demo page and build as ready for
+review.<br /><br />If you are releasing your demo prior to your base product being available, you
+will need to prepare your base game's store page and make sure it is visible as 'coming soon' so
+users can add the full game to their wishlist (also see:
+<a href="https://partner.steamgames.com/doc/marketing/wishlist" class="bb_doclink"
+    >Steam Wishlists</a
+>). <br /><br />Once released, the demo can show up as new in the demo section. Clicking on the demo
+capsule in the store will take users to the main game's store page where there's a demo button on
+the side or above the purchase options (configurable by you).<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/DemoStorePg.jpg"
+    alt="DemoStorePg.jpg"
+    title="DemoStorePg.jpg"
+/><br /><br />Please see the
+<a href="https://partner.steamgames.com/doc/store/releasing" class="bb_doclink"
+    >Preparing for Your Release</a
+>
+documentation for general information about preparing any app for release.
+<h2 class="bb_section"><a name="disabling"></a>Disabling Your Demo</h2>
+If you wish for your demo to only be available for a limited time, such as during a game conference
+or festival, you can deactivate and re-active it once it has been released. Deactivating a demo will
+prevent players from downloading or launching your demo. Players that already have your demo in
+their library will continue to see the demo (so they may uninstall it) but cannot launch it
+again.<br /><br />To Deactivate or re-activate a demo, find the option under 'Technical Tools' on
+your demo's app landing page and click "Deactivate Demo"<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/DemoDisable.jpg"
+    alt="DemoDisable.jpg"
+    title="DemoDisable.jpg"
+/>
+<div class="bb_callout">
+    <div>
+        Note: Once your demo is disabled, customers may still be able to launch it outside of Steam
+        unless your demo requires Steam to launch and checks to see if the user has a current
+        license to it. You can learn more here:
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamApps#BIsSubscribedApp"
+            class="bb_apilink"
+            >ISteamApps::BIsSubscribedApp</a
+        >.
+    </div>
+</div>
+<h2 class="bb_section"><a name="9"></a>Frequently Asked Questions</h2>
+<strong>Q: Can I put a demo up on my Coming Soon page before my game releases?</strong><br />A: Yes,
+your demo can be made available to players on a Coming Soon page before your game releases.<br /><br /><strong
+    >Q: Can my demo users play Steam multiplayer with my full game users?</strong
+><br />A: Steam currently doesn't support multiplayer matchmaking between the full game and the
+demo.<br /><br /><strong
+    >Q: What if my demo consists of literally the same files as the full game?</strong
+><br />A: Use a shared depot as described in the
+<a
+    href="https://partner.steamgames.com/doc/store/application/depots#shared_content_depots"
+    class="bb_doclink"
+    >Shared Content Depots</a
+>
+documentation. Do the following to make sure the demo and full app both work correctly.<br /><br />
+<ol class="bb_ol">
+    <li>
+        If you use
+        <a href="https://partner.steamgames.com/doc/features/drm" class="bb_doclink">Steam DRM</a>,
+        re-submit the exe for signing on the demo Steamworks app admin. Package the demo exe into a
+        depot specific to the demo app. Alternatively, you can skip Steam DRM and just call
+        <a
+            href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RestartAppIfNecessary"
+            class="bb_apilink"
+            >SteamAPI_RestartAppIfNecessary</a
+        >.<br />
+    </li>
+    <li>
+        If there is behavior that is restricted to owners of the full app, gate it behind the
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamApps#BIsSubscribedApp"
+            class="bb_apilink"
+            >ISteamApps::BIsSubscribedApp</a
+        >
+        Steamworks API call with the App ID of the full app.
+    </li>
+</ol>
+<br /><strong>Q: How to get the Demo to show up on the base application's store page?</strong
+><br />A: On the store page admin, go to the "Special Settings" tab and add the Demo's app ID in the
+"Associated Demos" section. Save &amp; Publish. The demo will need to be released for it to show
+upon the base application's store page.<br /><br />By default, a demo button will appear in the
+right-hand column of your game's store page. You can also check a box in the "Special Settings" tab
+to have a larger callout for your demo appear above all your purchase options.<br /><br /><strong
+    >Q: How do I remove a Demo from the base application's store page?</strong
+><br />A: On the store page admin for the base game, go to the "Special Settings" tab and remove the
+Demo's app ID in the "Associated Demos" section. Save &amp; Publish.<br /><br /><strong
+    >Q: How do I remove a Demo entirely from the Steam store?</strong
+><br />A:
+<a
+    href="https://help.steampowered.com/en/wizard/HelpWithPublishing?issueid=914"
+    target="_blank"
+    rel="noreferrer"
+    >Contact us here</a
+>
+and let us know the name of the demo you would like to remove from the store.

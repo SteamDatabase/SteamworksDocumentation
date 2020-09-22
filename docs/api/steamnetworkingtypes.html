@@ -8,7 +8,7 @@ Miscellaneous types and functions used by networking APIs.
 Different types of identities that a remote host can have. Most of the time on Steam, this will be a
 CSteamID. However, in some cases you can disable authentication, in which case a more generic
 identity will be used.<br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     enum ESteamNetworkingIdentityType { // Dummy/unknown/invalid
     k_ESteamNetworkingIdentityType_Invalid = 0, // // Basic platform-specific identifiers. //
     k_ESteamNetworkingIdentityType_SteamID = 16, // 64-bit CSteamID // // Special identifiers. // //
@@ -27,7 +27,7 @@ identity will be used.<br /><br />
 </div>
 <h2 class="bb_subsection"><a name="SteamNetworkingIdentity"></a>struct SteamNetworkingIdentity</h2>
 <br />An abstract way to represent the identity of a network host.<br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     struct SteamNetworkingIdentity { /// Type of identity. ESteamNetworkingIdentityType m_eType; //
     // Get/Set in various formats. // void Clear(); bool IsInvalid() const; // Return true if we are
     the invalid type. Does not make any other validity checks (e.g. is SteamID actually valid) void
@@ -60,7 +60,7 @@ addresses: IPv4 aa.bb.cc.dd =&gt; IPv6 ::ffff:aabb:ccdd. (See
     >RFC 4291</a
 >
 section 2.5.5.2.)<br />
-<div class="bb_code ">
+<div class="bb_code">
     struct SteamNetworkingIPAddr { void Clear(); // Set everything to zero. E.g. [::]:0 bool
     IsIPv6AllZeros() const; // Return true if the IP is ::0. (Doesn't check port.) void SetIPv6(
     const uint8 *ipv6, uint16 nPort ); // Set IPv6 address. IP is interpreted as bytes, so there are
@@ -100,7 +100,7 @@ These types are used to describe the status of a connection. See
     <a name="ESteamNetworkingConnectionState"></a>enum ESteamNetworkingState
 </h2>
 Enumerates high level connection states.<br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     enum ESteamNetworkingConnectionState { /// Dummy value used to indicate an error condition in
     the API. /// Specified connection doesn't exist or has already been closed.
     k_ESteamNetworkingConnectionState_None = 0, /// We are trying to establish whether peers can
@@ -164,7 +164,7 @@ Enumerates high level connection states.<br /><br />
 <h2 class="bb_subsection"><a name="ESteamNetConnectionEnd"></a>enum ESteamNetConnectionEnd</h2>
 <br />Enumerate various causes of connection termination. These are designed to work similar to HTTP
 error codes: the numeric range gives you a rough classification as to the source of the problem.<br />
-<div class="bb_code ">
+<div class="bb_code">
     enum ESteamNetConnectionEnd { // Invalid/sentinel value k_ESteamNetConnectionEnd_Invalid = 0, //
     // Application codes. These are the values you will pass to //
     ISteamNetworkingSockets::CloseConnection. You can use these codes if // you want to plumb
@@ -242,7 +242,7 @@ error codes: the numeric range gives you a rough classification as to the source
 </div>
 <h2 class="bb_subsection"><a name="SteamNetConnectionInfo_t"></a>SteamNetConnectionInfo_t</h2>
 <br />Describe the state of a connection.<br />
-<div class="bb_code ">
+<div class="bb_code">
     struct SteamNetConnectionInfo_t { /// Who is on the other end? Depending on the connection type
     and phase of the connection, we might not know SteamNetworkingIdentity m_identityRemote; ///
     Arbitrary user data set by the local application code int64 m_nUserData; /// Handle to listen
@@ -268,7 +268,7 @@ error codes: the numeric range gives you a rough classification as to the source
 </h2>
 Quick connection state, pared down to something you could call more frequently without it being too
 big of a perf hit.<br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     struct SteamNetworkingQuickConnectionStatus { /// High level state of the connection
     ESteamNetworkingConnectionState m_eState; /// Current ping (ms) int m_nPing; /// Connection
     quality measured locally, 0...1. (Percentage of packets delivered /// end-to-end in order).
@@ -305,12 +305,12 @@ big of a perf hit.<br /><br />
 </div>
 <h2 class="bb_section"><a name="messages"></a>Network messages</h2>
 <br />
-<div class="bb_code ">const int k_cbMaxSteamNetworkingSocketsMessageSizeSend = 512 * 1024;</div>
+<div class="bb_code">const int k_cbMaxSteamNetworkingSocketsMessageSizeSend = 512 * 1024;</div>
 Max size of a single message that we can SEND.<br />Note: We might be wiling to receive larger
 messages, and our peer might, too.
 <h2 class="bb_subsection"><a name="SteamNetworkingMessage_t"></a>SteamNetworkingMessage_t</h2>
 <br />A message that has been received<br />
-<div class="bb_code ">
+<div class="bb_code">
     struct SteamNetworkingMessage_t { /// Message payload void *m_pData; /// Size of the payload.
     int m_cbSize; /// For messages received on connections: what connection did this come from? ///
     For outgoing messages: what connection to send it to? /// Not used when using the
@@ -351,7 +351,7 @@ These values are used in bitmask parameters to functions such as
     class="bb_apilink"
     >ISteamNetworkingSockets::SendMessageToConnection</a
 ><br /><br />
-<div class="bb_code ">const int k_nSteamNetworkingSend_Unreliable = 0;</div>
+<div class="bb_code">const int k_nSteamNetworkingSend_Unreliable = 0;</div>
 <td>
     Send the message unreliably. Can be lost. Messages *can* be larger than a single MTU (UDP
     packet), but there is no retransmission, so if any piece of the message is lost, the entire
@@ -360,7 +360,7 @@ These values are used in bitmask parameters to functions such as
     happening on the connection, the packet will be batched until the connection is open again.<br /><br />Migration
     note: This is not exactly the same as k_EP2PSendUnreliable! You probably want
     k_ESteamNetworkingSendType_UnreliableNoNagle<br /><br />
-    <div class="bb_code ">const int k_nSteamNetworkingSend_NoNagle = 1;</div>
+    <div class="bb_code">const int k_nSteamNetworkingSend_NoNagle = 1;</div>
     Disable
     <a href="https://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank" rel="noreferrer"
         >Nagle's algorithm</a
@@ -384,7 +384,7 @@ These values are used in bitmask parameters to functions such as
     will be more efficient to leave Nagle enabled. A typical proper use of this flag is when you are
     sending what you know will be the last message sent for a while (e.g. the last in the server
     simulation tick to a particular client), and you use this flag to flush all messages.<br /><br />
-    <div class="bb_code ">
+    <div class="bb_code">
         const int k_nSteamNetworkingSend_UnreliableNoNagle =
         k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoNagle;
     </div>
@@ -403,18 +403,18 @@ These values are used in bitmask parameters to functions such as
         class="bb_apilink"
         >ISteamNetworkingMessages::FlushMessagesToUser</a
     >. (But using this flag is more efficient since you only make one API call.)<br /><br />
-    <div class="bb_code ">const int k_nSteamNetworkingSend_NoDelay = 4;</div>
+    <div class="bb_code">const int k_nSteamNetworkingSend_NoDelay = 4;</div>
     If the message cannot be sent very soon (because the connection is still doing some initial
     handshaking, route negotiations, etc), then just drop it. This is only applicable for unreliable
     messages. Using this flag on reliable messages is invalid.<br /><br /><br />
-    <div class="bb_code ">
+    <div class="bb_code">
         const int k_nSteamNetworkingSend_UnreliableNoDelay =
         k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoDelay|k_nSteamNetworkingSend_NoNagle;
     </div>
     Send an unreliable message, but if it cannot be sent relatively quickly, just drop it instead of
     queuing it. This is useful for messages that are not useful if they are excessively delayed,
     such as voice data.<br /><br />A message will be dropped under the following circumstances:<br />
-    <ul class="bb_ul ">
+    <ul class="bb_ul">
         <li>
             the connection is not fully connected. (E.g. the "Connecting" or "FindingRoute"
             states)<br />
@@ -427,7 +427,7 @@ These values are used in bitmask parameters to functions such as
     <br />If a message is dropped for these reasons, k_EResultIgnored will be returned.<br /><br />NOTE:
     The Nagle algorithm is not used, and if the message is not dropped, any messages waiting on the
     Nagle timer are immediately flushed.<br /><br />
-    <div class="bb_code ">const int k_nSteamNetworkingSend_Reliable = 8;</div>
+    <div class="bb_code">const int k_nSteamNetworkingSend_Reliable = 8;</div>
     Reliable message send. Can send up to k_cbMaxSteamNetworkingSocketsMessageSizeSend bytes in a
     single message. Does fragmentation/re-assembly of messages under the hood, as well as a sliding
     window for efficient sends of large chunks of data.<br /><br />The Nagle algorithm is used. See
@@ -444,7 +444,7 @@ These values are used in bitmask parameters to functions such as
         >ISteamNetworkingMessages::FlushMessagesToUser</a
     ><br /><br />Migration note: This is NOT the same as k_EP2PSendReliable, it's more like
     k_EP2PSendReliableWithBuffering<br /><br />
-    <div class="bb_code ">
+    <div class="bb_code">
         const int k_nSteamNetworkingSend_ReliableNoNagle =
         k_nSteamNetworkingSend_Reliable|k_nSteamNetworkingSend_NoNagle;
     </div>
@@ -460,7 +460,7 @@ These values are used in bitmask parameters to functions such as
         <a name="SteamNetworkPingLocation_t"></a>SteamNetworkingPingLocation_t
     </h2>
     <br />
-    <div class="bb_code ">struct SteamNetworkPingLocation_t { uint8 m_data[ 512 ]; }</div>
+    <div class="bb_code">struct SteamNetworkPingLocation_t { uint8 m_data[ 512 ]; }</div>
     Opaque object that describes a "location" on the Internet with sufficient detail that we can
     reasonably estimate an upper bound on the ping between the two hosts, even if a direct route
     between the hosts is not possible, and the connection must be routed through the Steam Datagram
@@ -478,7 +478,7 @@ These values are used in bitmask parameters to functions such as
         >k_cchMaxSteamNetworkingPingLocationString
     </h2>
     <br />
-    <div class="bb_code ">const int k_cchMaxSteamNetworkingPingLocationString = 1024;</div>
+    <div class="bb_code">const int k_cchMaxSteamNetworkingPingLocationString = 1024;</div>
     Max possible length of a ping location, in string format. This is an extremely conservative
     worst case value which leaves room for future syntax enhancements. Most strings in practice are
     a lot shorter. If you are storing many of these, you will very likely benefit from using dynamic
@@ -493,7 +493,7 @@ These values are used in bitmask parameters to functions such as
         <a name="ESteamNetworkingConfigScope"></a>ESteamNetworkingConfigScope
     </h2>
     <br />Configuration values can be applied to different types of objects.<br />
-    <div class="bb_code ">
+    <div class="bb_code">
         enum ESteamNetworkingConfigScope { /// Get/set global option, or defaults. Even options that
         apply to more specific scopes /// have global scope, and you may be able to just change the
         global defaults. If you /// need different settings per connection (for example), then you
@@ -513,7 +513,7 @@ These values are used in bitmask parameters to functions such as
         <a name="ESteamNetworkingConfigDataType"></a>ESteamNetworkingConfigDataType
     </h2>
     <br />Different configuration values have different data types<br />
-    <div class="bb_code ">
+    <div class="bb_code">
         enum ESteamNetworkingConfigDataType { k_ESteamNetworkingConfig_Int32 = 1,
         k_ESteamNetworkingConfig_Int64 = 2, k_ESteamNetworkingConfig_Float = 3,
         k_ESteamNetworkingConfig_String = 4, k_ESteamNetworkingConfig_FunctionPtr = 5, // NOTE: When
@@ -524,7 +524,7 @@ These values are used in bitmask parameters to functions such as
         <a name="ESteamNetworkingConfigValue"></a>ESteamNetworkingConfigValue
     </h2>
     <br />Configuration options<br />
-    <div class="bb_code ">
+    <div class="bb_code">
         enum ESteamNetworkingConfigValue { k_ESteamNetworkingConfig_Invalid = 0, /// [global float,
         0--100] Randomly discard N pct of packets instead of sending/recv /// This is a global
         option only, since it is applied at a low level /// where we don't have much context
@@ -604,7 +604,7 @@ These values are used in bitmask parameters to functions such as
         class="bb_apilink"
         >ISteamNetworkintgUtils::GetConfigValue</a
     ><br />
-    <div class="bb_code ">
+    <div class="bb_code">
         enum ESteamNetworkingGetConfigValueResult { k_ESteamNetworkingGetConfigValue_BadValue = -1,
         // No such configuration value k_ESteamNetworkingGetConfigValue_BadScopeObj = -2, // Bad
         connection handle, etc k_ESteamNetworkingGetConfigValue_BufferTooSmall = -3, // Couldn't fit
@@ -633,7 +633,7 @@ These values are used in bitmask parameters to functions such as
         class="bb_apilink"
         >ISteamNetworkingUtils::SetConfigValueStruct</a
     >, where the scope arguments are supplied by the object being created.<br />
-    <div class="bb_code ">
+    <div class="bb_code">
         struct SteamNetworkingConfigValue_t { /// Which option is being set
         ESteamNetworkingConfigValue m_eValue; /// Which field below did you fill in?
         ESteamNetworkingConfigDataType m_eDataType; /// Option value union { int32_t m_int32;
@@ -642,14 +642,14 @@ These values are used in bitmask parameters to functions such as
     </div>
     <h2 class="bb_section"><a name="valve_data_centers"></a>Valve data centers</h2>
     Used to describe the topology of the Valve network, identify data centers, etc.<br /><br />
-    <div class="bb_code ">typedef uint32 SteamNetworkingPOPID;</div>
+    <div class="bb_code">typedef uint32 SteamNetworkingPOPID;</div>
     Identifier used for a network location point of presence. (E.g. a Valve data center.)<br />Typically
     you won't need to directly manipulate these.<br /><br />
-    <div class="bb_code ">
+    <div class="bb_code">
         SteamNetworkingPOPID CalculateSteamNetworkingPOPIDFromString( const char *pszCode )
     </div>
     Convert 3- or 4-character ID to 32-bit int.<br /><br />
-    <div class="bb_code ">
+    <div class="bb_code">
         template &lt;int N&gt; inline void GetSteamNetworkingLocationPOPStringFromID(
         SteamNetworkingPOPID id, char (&amp;szCode)[N] )
     </div>

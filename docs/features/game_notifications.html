@@ -32,7 +32,7 @@ party accounts, use the instructions provided above but cache the user’s Steam
 <h2 class="bb_subsection"><a name="TechOverview"></a>Technical Overview</h2>
 The Game Notifications API is written and exposed through Web APIs and require 4 parameters passed
 in each method:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>appid (the application id for your game)<br /></li>
     <li>format (the format of the result. We recommend json as the return value)<br /></li>
     <li>input_json ( json encoding of all the parameters required for a method)<br /></li>
@@ -43,7 +43,7 @@ applicable).
 <h2 class="bb_subsection"><a name="ConstantValues"></a>Constant Values</h2>
 <h4>UserState</h4>
 A string value defined as one of below:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         <strong>waiting</strong> - The user is waiting for other players and not blocking any
         action. No notification will be sent to the user because he is waiting for something to
@@ -61,20 +61,20 @@ A string value defined as one of below:<br />
 <h2 class="bb_subsection"><a name="DataStructures"></a>Data Structures (JSON)</h2>
 All data structures are represented in JSON format.
 <h4>Variable</h4>
-<div class="bb_code ">{ "key": "key_name", // string "value": "value_of_key" // string }</div>
+<div class="bb_code">{ "key": "key_name", // string "value": "value_of_key" // string }</div>
 <h4>LocalizedText</h4>
-<div class="bb_code ">
+<div class="bb_code">
     { "token": "value", // string that maps to a localization token "variables": [ // Array of
     "Variable" (above) ] }
 </div>
 <h4>UserStatus</h4>
-<div class="bb_code ">
+<div class="bb_code">
     { "steamid": "76561197960265729", // uint64 "state": // One of the "UserState" constants
     (described above), "title": // A "LocalizedText" object (described above), "message": // A
     "LocalizedText" object (described above) }
 </div>
 <h4>Session</h4>
-<div class="bb_code ">
+<div class="bb_code">
     { "sessionid": "1", // uint64 "title": // A "LocalizedText" object (above), "time_created":
     "100000", // Unix epoch time (time since Jan 1st, 1970). "time_updated": "200000", // Unix epoch
     time (time since Jan 1st, 1970). // 64-bit value provided by the developer when the session is
@@ -83,14 +83,14 @@ All data structures are represented in JSON format.
     "context": "31415926", "user_status": [ // Array of "UserStatus" objects (described above) ] }
 </div>
 <h4>RequestedSession</h4>
-<div class="bb_code ">{ "sessionid": "1", // uint64 "include_all_user_messages": "0" // bool }</div>
+<div class="bb_code">{ "sessionid": "1", // uint64 "include_all_user_messages": "0" // bool }</div>
 <h2 class="bb_section"><a name="APIs"></a>Common APIs available.</h2>
 See
 <a href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService" class="bb_apilink"
     >IGameNotificationsService</a
 >
 for the full list.<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         <a
             href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#RequestNotifications"
@@ -142,7 +142,7 @@ parameters to define the game session. When a game is launched this way, a launc
 <a href="https://partner.steamgames.com/doc/api/ISteamApps#GetLaunchQueryParam" class="bb_apilink"
     >ISteamApps::GetLaunchQueryParam</a
 >.<br />Like so:<br />
-<div class="bb_code ">
+<div class="bb_code">
     const char *pchSessionID = ISteamApps()-&gt;GetLaunchQueryParam("_sessionid");
 </div>
 A game that supports launching directly into a game in this way should call this interface on game
@@ -154,16 +154,16 @@ application configuration. You are responsible for setting each language transla
 string entered into the localization tool. Any strings that are not translated to a player’s
 language will be rendered in English.<br />Game notification supports localization for the following
 properties:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         <a href="#DataStructures" class="bb_doclink">Session</a><br />
-        <ul class="bb_ul ">
+        <ul class="bb_ul">
             <li>Title</li>
         </ul>
     </li>
     <li>
         <a href="#DataStructures" class="bb_doclink">UserStatus</a><br />
-        <ul class="bb_ul ">
+        <ul class="bb_ul">
             <li>Title<br /></li>
             <li>Message</li>
         </ul>
@@ -171,7 +171,7 @@ properties:<br />
 </ul>
 <br />Each <a href="#DataStructures" class="bb_doclink">localized text</a> is comprised of two
 components:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>Token<br /></li>
     <li>List of <a href="#DataStructures" class="bb_doclink">Variables</a></li>
 </ul>
@@ -184,7 +184,7 @@ game when the text is to be generated. An example would be:<br /><code
 ><br /><br />In the above example, the English translation for #InvitationText contains a single
 variable called user. When you want to render this text message to a user when "SteamUserName"
 invites him to a game, you will update LocalizationText object with the following properties:<br />
-<div class="bb_code ">
+<div class="bb_code">
     "message": { "token": "#InvitationText", "variables": [ { "key": "user", "value": "Michael" } ]
     }
 </div>
@@ -192,13 +192,13 @@ invites him to a game, you will update LocalizationText object with the followin
 "Michael has invited you to play a game of Chess."<br />Localization tokens can be uploaded in the
 Async Localization section of the Community tab on the Steamworks Settings page for your app.<br />Each
 language can be uploaded individually in VDF files that look like this:<br />
-<div class="bb_code ">
+<div class="bb_code">
     "lang" { "Language" "english" "Tokens" { "TheNameOfTheToken" "The localized text associated with
     the token" "TheNameOfAnotherToken" "The localized text associated with the second token" } }
 </div>
 <br />Alternatively, the tokens for all languages can be uploaded in a single file that looks like
 this:<br />
-<div class="bb_code ">
+<div class="bb_code">
     "lang" { "english" { "Tokens" { "TheNameOfTheToken" "The localized text associated with the
     token" "TheNameOfAnotherToken" "The localized text associated with the second token" } }
     "spanish" { "Tokens" { "TheNameOfTheToken" "El texto localizado asociado con el token"

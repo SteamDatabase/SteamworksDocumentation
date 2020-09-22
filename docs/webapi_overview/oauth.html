@@ -34,7 +34,7 @@ represent the redirect URI.
 Steam's implementation is based upon
 <a href="http://oauth.net/2/" target="_blank" rel="noreferrer">OAuth 2.0</a>.<br />
 During your initial setup you will need to contact Valve with the following information:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         What permissions you need the user to obtain. The required permissions are listed below with
         each API call.<br />
@@ -46,7 +46,7 @@ During your initial setup you will need to contact Valve with the following info
 </ul>
 In return, Valve will assign a <strong>Client ID</strong> for your implementation.<br /><br />
 To authenticate a user, redirect the user to<br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     https://steamcommunity.com/oauth/login?response_type=token&amp;client_id=client_id_here&amp;state=whatever_you_want
 </div>
 <br />
@@ -56,7 +56,7 @@ that will not be relevant when the OAuth page is presented directly to a user wi
 If you include the state parameter, it will be passed back to the redirect URI after the user has
 confirmed or denied access.<br /><br />
 If the user grants access, they will be redirected back to you at <br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     http://redirect/uri/here#access_token=token_here&amp;token_type=steam&amp;state=whatever_you_want
 </div>
 <br />
@@ -70,18 +70,18 @@ must be ignored. Please check
 >
 below for how to retrieve the user's SteamID securely.<br /><br />
 If the user denies access, they will be redirected back to you at <br /><br />
-<div class="bb_code ">http://redirect/uri/here#error=access_denied&amp;state=whatever_you_want</div>
+<div class="bb_code">http://redirect/uri/here#error=access_denied&amp;state=whatever_you_want</div>
 <br />
 Note that the response (including the token) is provided in the URI fragment, so it will need to be
 accessed client-side and passed back to your server if you need to do server-side requests.<br /><br />
 Once you have the user's token, you can begin API requests as documented below.<br />
 Unless others noted below, requests should be HTTP POST requests presented as form data and should
 set this header:<br /><br />
-<div class="bb_code ">Content-Type: application/x-www-form-urlencoded</div>
+<div class="bb_code">Content-Type: application/x-www-form-urlencoded</div>
 <h2 class="bb_section"><a name="RetrieveSteamID"></a>Retrieving the User's SteamID</h2>
 Once you have an OAuth token for a user, you can make a server to server call to securely get the
 SteamID for the user associated with that token by calling:<br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     https://api.steampowered.com/ISteamUserOAuth/GetTokenDetails/v1/?access_token=token
 </div>
 <h2 class="bb_section"><a name="Cloud"></a>Accessing Steam Cloud</h2>

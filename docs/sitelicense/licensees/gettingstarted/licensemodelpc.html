@@ -1,2 +1,162 @@
 <h1>Setup instructions for the PC Café model (incl. PC Café Server and Content Cache)</h1>
-<div class="bb_callout "><div><strong>Steam PC Café Server</strong><br><br>The Steam PC Café Server allows licensees of the Steam PC Café Program to share commercial licenses in their local network. The following instructions will walk you through the setup of the Steam PC Café Server. Additional information about the program can be found <a href="https://support.steampowered.com/kb_article.php?ref=3303-QWRC-3436" target="_blank" rel="noreferrer">here</a>.</div></div><br><strong>Setup Instructions</strong><br><br><ul class="bb_ul "><li>Visit the <a href="https://partner.steamgames.com/" target="_blank" rel="noreferrer">Steamworks website</a> and login with your Steam master account credentials. That's the account you signed up with and registered as a licensee of the PC Café Program.<br></li><li>Download the Steam PC Café Server file by clicking the link located under the "Tools + Links" section on the right. Unzip the server files to your hard drive.<br></li><li>Create a new Steam account <a href="https://store.steampowered.com/about/" target="_blank" rel="noreferrer">here</a> that will be used at the individual location as a server account. If you have multiple physical locations, you will need one Steam Server account per location.<br></li><li>Once the account has been created, go back to the Steamworks website (make sure you're logged in with your Steam master account), navigate to the "Users &amp; Permissions" menu option and select "Manage Users". On this page click the "Add User" button and fill in the required information about the Steam server account you've just created. Don't give it any special permissions.<br></li><li>Go to the "Manage Sites" page and add a new Café location. The name you select here will also be displayed in the Steam client library of your patrons. Once the new location has been added, move the mouse cursor over the new location entry. You should see a key symbol appear under the "Server Account" section. Click on the key and select the Steam server account you just added. Repeat this step if you have multiple locations. <br></li><li><strong>Important:</strong> Ensure that the "Country" you select for your site location matches the actual country that your site server will operate in. We may reject Café Server logins from IP addresses that don't map to a matching country or region.<br><br>Once you have completed the above setup, it’s time to run the server in your local network.<br></li><li>Navigate to the folder that the server files have been extracted to and double click steamcmd.exe, enter the Steam account credentials of your Steam Server account for the location. You can double check what account has been assigned to the location <a href="https://partner.steamgames.com/sitelicense/editsites/" target="_blank" rel="noreferrer">here</a> by logging in with your master account.<br></li><li>The first time you're launching the server on a new machine, you will need to enter the Steam Guard code that will be sent to the email address associated with the Steam Server account.</li></ul> ‏‏‎<div class="bb_callout "><div><strong>Content Cache</strong><br><br>The content cache allows you to download game files once and then distribute them through your local network to the individual game stations. Patrons that bring their own computer or laptop can also access the game files instead of using your location's Internet bandwidth. Please note that the game files will be saved on your server machine and you may need to increase your hard drive space depending on the amount of games that you will offer.</div></div><br><strong>Configuration</strong><br><br>To enable the content cache or make any changes, go to "Settings" and select "Content Cache" from the drop down menu.<br><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/settings.png" alt="settings.png" title="settings.png"><br><br>When a game is launched for the first time in your network, the download request will be sent to the server machine. If the game files are not cached on the server yet, the server will download them automatically, cache them, and return them to the client machine. If the game content cache is already available on your server, the server will automatically send the files to the client machine.<br>   <br> ‏‏‎<div class="bb_callout "><div><h3>Frequently Asked Questions</h3></div></div><br><ul class="bb_ul "><li><i>Are there any special requirements for the type of hardware I use for the Steam PC Café Server?</i><br>  <br>To run a Steam PC Café Server, you just need a secure Windows 7 or Windows 10 PC connected to the location's network. You will also be able to run it on Windows Server 2012 R2 and 2016. If you are also using the PC Café Server as a content server cache we recommend that it has enough storage to support 1TB of content data.<br><br></li><li><i>Do the client machines have to be on the same network as the Steam PC Café Server?</i><br> <br> Yes, the feature will only be properly functioning if server and stations are on the same subnet. Packets are not forwarded to other subnets and only client machines that are in the same network will have access to the license pool and content cache feature.<br><br></li><li><i>Provider authentication FAILED: This account is not associated with any sites</i><br> <br>This error usually indicates that the account used to run the PC Café Server has not been added to the site location on the Steamworks partner page yet. Please navigate to Steamworks and make sure you log in with your master account. You can double check the account credentials under the "Sites" option at the top or by clicking <a href="https://partner.steamgames.com/sitelicense/editsites/" target="_blank" rel="noreferrer">here</a>. If no server account has been assigned yet, a server account must be added to the license agreement first, by clicking the "Manage Users" option on the Steamworks page. Once added, you will be able to assign it to a site location. A server account is basically a Steam account that does not own anything.<br><br></li><li><i>What ports are being used by the Steam PC Café Server?</i><br> <br> The Steam PC Café Server uses UDP broadcast packets over port 27036 to announce itself to Steam clients on the network. The client machine must be able to receive those packets to know about the PC Café Server. Then, the Steam client will connect to the server using a TCP connection on port 27037. The server machine must allow TCP connections on that port. For a full list of other required ports and protocols for Steam see <a href="https://support.steampowered.com/kb_article.php?ref=8571-GLVN-8711" target="_blank" rel="noreferrer">here</a>.<br><br></li><li><i>Can I turn off the auto logout feature in my network?</i><br><br>The Steam PC Café Server will make sure that inactive Steam accounts will be logged off automatically after a certain time has passed. We strongly recommend that you do not turn off this feature, as it is very valuable for customers that have left the PC without logging out of their Steam account. If you do choose to deactivate this feature, we recommend that you let your customers know. To deactivate the feature, you will need to navigate to the server file location and open <i>steamconsole.cfg</i> with a text editor. Adding the following command line will deactivate the auto log off within your network, when the server is active: <strong>@bSiteLicenseAllowCachedClientCredentials 1</strong></li></ul>
+<div class="bb_callout">
+    <div>
+        <strong>Steam PC Café Server</strong><br /><br />The Steam PC Café Server allows licensees
+        of the Steam PC Café Program to share commercial licenses in their local network. The
+        following instructions will walk you through the setup of the Steam PC Café Server.
+        Additional information about the program can be found
+        <a
+            href="https://support.steampowered.com/kb_article.php?ref=3303-QWRC-3436"
+            target="_blank"
+            rel="noreferrer"
+            >here</a
+        >.
+    </div>
+</div>
+<br /><strong>Setup Instructions</strong><br /><br />
+<ul class="bb_ul">
+    <li>
+        Visit the
+        <a href="https://partner.steamgames.com/" target="_blank" rel="noreferrer"
+            >Steamworks website</a
+        >
+        and login with your Steam master account credentials. That's the account you signed up with
+        and registered as a licensee of the PC Café Program.<br />
+    </li>
+    <li>
+        Download the Steam PC Café Server file by clicking the link located under the "Tools +
+        Links" section on the right. Unzip the server files to your hard drive.<br />
+    </li>
+    <li>
+        Create a new Steam account
+        <a href="https://store.steampowered.com/about/" target="_blank" rel="noreferrer">here</a>
+        that will be used at the individual location as a server account. If you have multiple
+        physical locations, you will need one Steam Server account per location.<br />
+    </li>
+    <li>
+        Once the account has been created, go back to the Steamworks website (make sure you're
+        logged in with your Steam master account), navigate to the "Users &amp; Permissions" menu
+        option and select "Manage Users". On this page click the "Add User" button and fill in the
+        required information about the Steam server account you've just created. Don't give it any
+        special permissions.<br />
+    </li>
+    <li>
+        Go to the "Manage Sites" page and add a new Café location. The name you select here will
+        also be displayed in the Steam client library of your patrons. Once the new location has
+        been added, move the mouse cursor over the new location entry. You should see a key symbol
+        appear under the "Server Account" section. Click on the key and select the Steam server
+        account you just added. Repeat this step if you have multiple locations. <br />
+    </li>
+    <li>
+        <strong>Important:</strong> Ensure that the "Country" you select for your site location
+        matches the actual country that your site server will operate in. We may reject Café Server
+        logins from IP addresses that don't map to a matching country or region.<br /><br />Once you
+        have completed the above setup, it’s time to run the server in your local network.<br />
+    </li>
+    <li>
+        Navigate to the folder that the server files have been extracted to and double click
+        steamcmd.exe, enter the Steam account credentials of your Steam Server account for the
+        location. You can double check what account has been assigned to the location
+        <a
+            href="https://partner.steamgames.com/sitelicense/editsites/"
+            target="_blank"
+            rel="noreferrer"
+            >here</a
+        >
+        by logging in with your master account.<br />
+    </li>
+    <li>
+        The first time you're launching the server on a new machine, you will need to enter the
+        Steam Guard code that will be sent to the email address associated with the Steam Server
+        account.
+    </li>
+</ul>
+‏‏‎
+<div class="bb_callout">
+    <div>
+        <strong>Content Cache</strong><br /><br />The content cache allows you to download game
+        files once and then distribute them through your local network to the individual game
+        stations. Patrons that bring their own computer or laptop can also access the game files
+        instead of using your location's Internet bandwidth. Please note that the game files will be
+        saved on your server machine and you may need to increase your hard drive space depending on
+        the amount of games that you will offer.
+    </div>
+</div>
+<br /><strong>Configuration</strong><br /><br />To enable the content cache or make any changes, go
+to "Settings" and select "Content Cache" from the drop down menu.<br /><br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/settings.png"
+    alt="settings.png"
+    title="settings.png"
+/><br /><br />When a game is launched for the first time in your network, the download request will
+be sent to the server machine. If the game files are not cached on the server yet, the server will
+download them automatically, cache them, and return them to the client machine. If the game content
+cache is already available on your server, the server will automatically send the files to the
+client machine.<br />
+<br />
+‏‏‎
+<div class="bb_callout">
+    <div><h3>Frequently Asked Questions</h3></div>
+</div>
+<br />
+<ul class="bb_ul">
+    <li>
+        <i
+            >Are there any special requirements for the type of hardware I use for the Steam PC Café
+            Server?</i
+        ><br />
+        <br />To run a Steam PC Café Server, you just need a secure Windows 7 or Windows 10 PC
+        connected to the location's network. You will also be able to run it on Windows Server 2012
+        R2 and 2016. If you are also using the PC Café Server as a content server cache we recommend
+        that it has enough storage to support 1TB of content data.<br /><br />
+    </li>
+    <li>
+        <i>Do the client machines have to be on the same network as the Steam PC Café Server?</i
+        ><br />
+        <br />
+        Yes, the feature will only be properly functioning if server and stations are on the same
+        subnet. Packets are not forwarded to other subnets and only client machines that are in the
+        same network will have access to the license pool and content cache feature.<br /><br />
+    </li>
+    <li>
+        <i>Provider authentication FAILED: This account is not associated with any sites</i><br />
+        <br />This error usually indicates that the account used to run the PC Café Server has not
+        been added to the site location on the Steamworks partner page yet. Please navigate to
+        Steamworks and make sure you log in with your master account. You can double check the
+        account credentials under the "Sites" option at the top or by clicking
+        <a
+            href="https://partner.steamgames.com/sitelicense/editsites/"
+            target="_blank"
+            rel="noreferrer"
+            >here</a
+        >. If no server account has been assigned yet, a server account must be added to the license
+        agreement first, by clicking the "Manage Users" option on the Steamworks page. Once added,
+        you will be able to assign it to a site location. A server account is basically a Steam
+        account that does not own anything.<br /><br />
+    </li>
+    <li>
+        <i>What ports are being used by the Steam PC Café Server?</i><br />
+        <br />
+        The Steam PC Café Server uses UDP broadcast packets over port 27036 to announce itself to
+        Steam clients on the network. The client machine must be able to receive those packets to
+        know about the PC Café Server. Then, the Steam client will connect to the server using a TCP
+        connection on port 27037. The server machine must allow TCP connections on that port. For a
+        full list of other required ports and protocols for Steam see
+        <a
+            href="https://support.steampowered.com/kb_article.php?ref=8571-GLVN-8711"
+            target="_blank"
+            rel="noreferrer"
+            >here</a
+        >.<br /><br />
+    </li>
+    <li>
+        <i>Can I turn off the auto logout feature in my network?</i><br /><br />The Steam PC Café
+        Server will make sure that inactive Steam accounts will be logged off automatically after a
+        certain time has passed. We strongly recommend that you do not turn off this feature, as it
+        is very valuable for customers that have left the PC without logging out of their Steam
+        account. If you do choose to deactivate this feature, we recommend that you let your
+        customers know. To deactivate the feature, you will need to navigate to the server file
+        location and open <i>steamconsole.cfg</i> with a text editor. Adding the following command
+        line will deactivate the auto log off within your network, when the server is active:
+        <strong>@bSiteLicenseAllowCachedClientCredentials 1</strong>
+    </li>
+</ul>

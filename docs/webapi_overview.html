@@ -1,6 +1,136 @@
 <h1>Web API Overview</h1>
-<h2 class="bb_section"><a name="1"></a>Introduction</h2>Steam exposes an HTTP based Web API which can be used to access many Steamworks features. The API contains public methods that can be accessed from any application capable of making an HTTP request, such as game client or server. The API also contains protected methods that require authentication and are intended to be accessed from trusted back-end applications.<br><br>As an example, Web API methods are commonly used by a secure publisher server to:<br><ul class="bb_ul ">	<li> Verify a Steam user's credentials with that server<br>	</li><li> Check if a user owns a particular application<br>	</li><li> Set or retrieve a user's stats, achievements or leaderboard scores<br>	</li><li> Execute an in-game purchase</li></ul><br>You can find a complete list of everything offered by the Steamworks Web API in the <a href="https://partner.steamgames.com/doc/webapi" class="bb_doclink">Steamworks Web API Reference</a>.<h2 class="bb_section"><a name="2"></a>Request Format</h2>The public Steamworks Web API is accessed by making HTTP (port 80) or HTTPS (port 443) requests to <code class="bb_code bb_code_inline nohighlight">api.steampowered.com</code>.<br>If you're a publisher, then Steam also provides a partner-only Web API server hosted at <code class="bb_code bb_code_inline nohighlight">https://partner.steam-api.com</code>. The intent of this service is to have higher availability than the public host; you should use this service for all requests made from your secure servers. See <a href="#addresses" class="bb_doclink">Web API Host Addresses, Firewall Considerations</a> for more information.<br><br>Similar to the Steamworks C++ API, the Web API has been divided into multiple interfaces that contain related methods. The URI format of each API request is: <div class="bb_code ">https://api.steampowered.com/&lt;interface&gt;/&lt;method&gt;/v&lt;version&gt;/</div><br>Most methods support a list of required and optional parameters. Depending on the method, these parameters must be passed in as GET or POST params in the request.<br><br>All requests should be sent using HTTP 1.1 and use SSL v3, 128 bit encryption when possible. The Content-Type must be <code class="bb_code bb_code_inline nohighlight">application/x-www-form-urlencoded</code> and the POST parameters must be in the body of the request in standard form urlencoding format. Text must be transmitted as UTF-8.<h4>Authentication</h4>Many Web API methods have access restrictions which require a unique key, see <a href="https://partner.steamgames.com/doc/webapi_overview/auth" class="bb_doclink">Authentication using Web API Keys</a> for more information.<h4>Array Parameters</h4>Some methods are expecting an array of parameters. This is specified by a <code class="bb_code bb_code_inline nohighlight">[0]</code> postfix on the parameter name. When passing arrays there will always be a <code class="bb_code bb_code_inline nohighlight">count</code> parameter that specifies the number of parameters in the array. For example:<br><div class="bb_code ">?count=2&amp;name[0]=SomeNameHere&amp;name[1]=SomeOtherName
-</div><h2 class="bb_section"><a name="3"></a>Service Interfaces</h2>In addition to the regular web api calls are the service interfaces. These interfaces function very similarly to the regular interfaces, the primary difference being that all service APIs will accept their arguments as a single JSON blob in addition to taking them as GET or POST parameters. To pass in data as JSON, invoke the web API method with the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter set like:<br><div class="bb_code ">?key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&amp;input_json={"steamid":76561197972495328}</div><br>Note that the JSON will need to be URL-encoded. The "key" and "format" fields should still be passed as separate parameters, as before. POST requests are supported as well.<br><br>You can identify if a WebAPI is a "Service" by the name of the interface; if it ends in "Service" like <a href="https://partner.steamgames.com/doc/webapi/IPlayerService" class="bb_apilink">IPlayerService</a>, then it supports this additional method of passing parameter data. Some Service methods have parameters that have more complex structures and require this alternative input format.<h2 class="bb_section"><a name="4"></a>Example Query</h2>The following example retrieves the 3 most recent news entries for Team Fortress 2.<br>The request specifies that the response should be returned as JSON and includes: a required appid parameter (Team Fortress 2's AppID is 440), and an optional count parameter to limit the number of results returned.<br><br><div class="bb_code ">GET /ISteamNews/GetNewsForApp/v2/?appid=440&amp;count=3\r\n
-Host: api.steampowered.com/r/n
-Content-Length: 0\r\n\r\n
-</div><br>You can execute and view the results of this query with this link:<br><a href="https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=440&amp;count=3" target="_blank" rel="noreferrer">https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=440&amp;count=3</a><br><br>You can read more about this specific call here: <a href="https://partner.steamgames.com/doc/webapi/ISteamNews#GetNewsForApp" class="bb_apilink">ISteamNews/GetNewsForApp</a><h2 class="bb_section"><a name="5"></a>Obtaining the User's SteamID</h2>The Steamworks Web API identifies individual users by using the their unique 64-bit Steam ID. To learn how to securely obtain the user's Steam ID, see <a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink">User Authentication and Ownership</a>.<h2 class="bb_section"><a name="addresses"></a>Web API Host Addresses, Firewall Considerations</h2>The public Web API (<code class="bb_code bb_code_inline nohighlight">api.steampowered.com</code>) is behind Akamai's edge cache, so the actual IP addresses you will see for the name will vary based on your location and on ongoing service changes. The IPs can change rapidly and fluidly, so if your Web API calls are made through a firewall on outbound requests, read on.<br><br>You should be using the partner-only node (<code class="bb_code bb_code_inline nohighlight">https://partner.steam-api.com</code>) for all requests made from your secure servers. This host has some different properties than the public host:<br><ul class="bb_ul ">	<li> This host is only accessible via HTTPS.<br>	</li><li> This host is not behind Akamai's edge cache.<br>	</li><li> Every request to this host must be made with your publisher Web API key, even requests which would ordinarily not need any key. Requests made without a valid publisher key will return a 403 error code.<br>	</li><li> Requests generating 403 status codes, which typically happens when using a regular Web API key instead of your publisher key, will incur strict rate limits for the connecting IP. This is in an effort to ensure high availability.<br>	</li><li> If you will be making requests to this API service from a host that has a firewall filter applied to outgoing requests, you should add the DNS name <a href="http://'partner.steam-api.com'" target="_blank" rel="noreferrer">'partner.steam-api.com'</a> to your allow list. If your firewall only supports numeric addresses, add the following CIDR block to the allow list: <code class="bb_code bb_code_inline nohighlight">208.64.200.0/22</code>.<br>		<strong>NOTE:</strong> You should not connect to the Web API servers by IP; please use the DNS name. These addresses are provided only for those clients who need to whitelist these addresses in their firewalls.</li></ul><h2 class="bb_section"><a name="6"></a>IP Address Whitelisting</h2>We allow whitelisting of IP addresses for WebAPI calls. This is an added layer of security in the event that your WebAPI key is compromised, because it ensures that only WebAPI calls from whitelisted IP addresses will be successful. Once any IP is set to be whitelisted, all other requests from non-whitelisted addresses will be blocked and return a 403 - Forbidden response.<br><br>Adding IP addresses to the whitelist is easy. From any Group page that has a WebAPI key, click the "Manage WebAPI Key" button and follow the instructions. <br><br>Each WebAPI key has its own whitelist, and adding ip addresses to the whitelist is <i>not </i>required. <br><br><strong>Note</strong>: Whitelisting does not guarantee WebAPI key security. Protect your key, do not share it, and change it immediately if it is compromised. <br>
+<h2 class="bb_section"><a name="1"></a>Introduction</h2>
+Steam exposes an HTTP based Web API which can be used to access many Steamworks features. The API
+contains public methods that can be accessed from any application capable of making an HTTP request,
+such as game client or server. The API also contains protected methods that require authentication
+and are intended to be accessed from trusted back-end applications.<br /><br />As an example, Web
+API methods are commonly used by a secure publisher server to:<br />
+<ul class="bb_ul">
+    <li>Verify a Steam user's credentials with that server<br /></li>
+    <li>Check if a user owns a particular application<br /></li>
+    <li>Set or retrieve a user's stats, achievements or leaderboard scores<br /></li>
+    <li>Execute an in-game purchase</li>
+</ul>
+<br />You can find a complete list of everything offered by the Steamworks Web API in the
+<a href="https://partner.steamgames.com/doc/webapi" class="bb_doclink"
+    >Steamworks Web API Reference</a
+>.
+<h2 class="bb_section"><a name="2"></a>Request Format</h2>
+The public Steamworks Web API is accessed by making HTTP (port 80) or HTTPS (port 443) requests to
+<code class="bb_code bb_code_inline nohighlight">api.steampowered.com</code>.<br />If you're a
+publisher, then Steam also provides a partner-only Web API server hosted at
+<code class="bb_code bb_code_inline nohighlight">https://partner.steam-api.com</code>. The intent of
+this service is to have higher availability than the public host; you should use this service for
+all requests made from your secure servers. See
+<a href="#addresses" class="bb_doclink">Web API Host Addresses, Firewall Considerations</a> for more
+information.<br /><br />Similar to the Steamworks C++ API, the Web API has been divided into
+multiple interfaces that contain related methods. The URI format of each API request is:
+<div class="bb_code">
+    https://api.steampowered.com/&lt;interface&gt;/&lt;method&gt;/v&lt;version&gt;/
+</div>
+<br />Most methods support a list of required and optional parameters. Depending on the method,
+these parameters must be passed in as GET or POST params in the request.<br /><br />All requests
+should be sent using HTTP 1.1 and use SSL v3, 128 bit encryption when possible. The Content-Type
+must be
+<code class="bb_code bb_code_inline nohighlight">application/x-www-form-urlencoded</code> and the
+POST parameters must be in the body of the request in standard form urlencoding format. Text must be
+transmitted as UTF-8.
+<h4>Authentication</h4>
+Many Web API methods have access restrictions which require a unique key, see
+<a href="https://partner.steamgames.com/doc/webapi_overview/auth" class="bb_doclink"
+    >Authentication using Web API Keys</a
+>
+for more information.
+<h4>Array Parameters</h4>
+Some methods are expecting an array of parameters. This is specified by a
+<code class="bb_code bb_code_inline nohighlight">[0]</code> postfix on the parameter name. When
+passing arrays there will always be a
+<code class="bb_code bb_code_inline nohighlight">count</code> parameter that specifies the number of
+parameters in the array. For example:<br />
+<div class="bb_code">?count=2&amp;name[0]=SomeNameHere&amp;name[1]=SomeOtherName</div>
+<h2 class="bb_section"><a name="3"></a>Service Interfaces</h2>
+In addition to the regular web api calls are the service interfaces. These interfaces function very
+similarly to the regular interfaces, the primary difference being that all service APIs will accept
+their arguments as a single JSON blob in addition to taking them as GET or POST parameters. To pass
+in data as JSON, invoke the web API method with the
+<code class="bb_code bb_code_inline nohighlight">input_json</code> parameter set like:<br />
+<div class="bb_code">
+    ?key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&amp;input_json={"steamid":76561197972495328}
+</div>
+<br />Note that the JSON will need to be URL-encoded. The "key" and "format" fields should still be
+passed as separate parameters, as before. POST requests are supported as well.<br /><br />You can
+identify if a WebAPI is a "Service" by the name of the interface; if it ends in "Service" like
+<a href="https://partner.steamgames.com/doc/webapi/IPlayerService" class="bb_apilink"
+    >IPlayerService</a
+>, then it supports this additional method of passing parameter data. Some Service methods have
+parameters that have more complex structures and require this alternative input format.
+<h2 class="bb_section"><a name="4"></a>Example Query</h2>
+The following example retrieves the 3 most recent news entries for Team Fortress 2.<br />The request
+specifies that the response should be returned as JSON and includes: a required appid parameter
+(Team Fortress 2's AppID is 440), and an optional count parameter to limit the number of results
+returned.<br /><br />
+<div class="bb_code">
+    GET /ISteamNews/GetNewsForApp/v2/?appid=440&amp;count=3\r\n Host: api.steampowered.com/r/n
+    Content-Length: 0\r\n\r\n
+</div>
+<br />You can execute and view the results of this query with this link:<br /><a
+    href="https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=440&amp;count=3"
+    target="_blank"
+    rel="noreferrer"
+    >https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=440&amp;count=3</a
+><br /><br />You can read more about this specific call here:
+<a href="https://partner.steamgames.com/doc/webapi/ISteamNews#GetNewsForApp" class="bb_apilink"
+    >ISteamNews/GetNewsForApp</a
+>
+<h2 class="bb_section"><a name="5"></a>Obtaining the User's SteamID</h2>
+The Steamworks Web API identifies individual users by using the their unique 64-bit Steam ID. To
+learn how to securely obtain the user's Steam ID, see
+<a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
+    >User Authentication and Ownership</a
+>.
+<h2 class="bb_section"><a name="addresses"></a>Web API Host Addresses, Firewall Considerations</h2>
+The public Web API (<code class="bb_code bb_code_inline nohighlight">api.steampowered.com</code>) is
+behind Akamai's edge cache, so the actual IP addresses you will see for the name will vary based on
+your location and on ongoing service changes. The IPs can change rapidly and fluidly, so if your Web
+API calls are made through a firewall on outbound requests, read on.<br /><br />You should be using
+the partner-only node (<code class="bb_code bb_code_inline nohighlight"
+    >https://partner.steam-api.com</code
+>) for all requests made from your secure servers. This host has some different properties than the
+public host:<br />
+<ul class="bb_ul">
+    <li>This host is only accessible via HTTPS.<br /></li>
+    <li>This host is not behind Akamai's edge cache.<br /></li>
+    <li>
+        Every request to this host must be made with your publisher Web API key, even requests which
+        would ordinarily not need any key. Requests made without a valid publisher key will return a
+        403 error code.<br />
+    </li>
+    <li>
+        Requests generating 403 status codes, which typically happens when using a regular Web API
+        key instead of your publisher key, will incur strict rate limits for the connecting IP. This
+        is in an effort to ensure high availability.<br />
+    </li>
+    <li>
+        If you will be making requests to this API service from a host that has a firewall filter
+        applied to outgoing requests, you should add the DNS name
+        <a href="http://'partner.steam-api.com'" target="_blank" rel="noreferrer"
+            >'partner.steam-api.com'</a
+        >
+        to your allow list. If your firewall only supports numeric addresses, add the following CIDR
+        block to the allow list:
+        <code class="bb_code bb_code_inline nohighlight">208.64.200.0/22</code>.<br />
+        <strong>NOTE:</strong> You should not connect to the Web API servers by IP; please use the
+        DNS name. These addresses are provided only for those clients who need to whitelist these
+        addresses in their firewalls.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="6"></a>IP Address Whitelisting</h2>
+We allow whitelisting of IP addresses for WebAPI calls. This is an added layer of security in the
+event that your WebAPI key is compromised, because it ensures that only WebAPI calls from
+whitelisted IP addresses will be successful. Once any IP is set to be whitelisted, all other
+requests from non-whitelisted addresses will be blocked and return a 403 - Forbidden response.<br /><br />Adding
+IP addresses to the whitelist is easy. From any Group page that has a WebAPI key, click the "Manage
+WebAPI Key" button and follow the instructions. <br /><br />Each WebAPI key has its own whitelist,
+and adding ip addresses to the whitelist is <i>not </i>required. <br /><br /><strong>Note</strong>:
+Whitelisting does not guarantee WebAPI key security. Protect your key, do not share it, and change
+it immediately if it is compromised. <br />

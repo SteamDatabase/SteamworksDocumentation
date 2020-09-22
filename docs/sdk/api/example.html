@@ -1,2 +1,372 @@
 <h1>Steamworks API Example Application (SpaceWar)</h1>
-<h2 class="bb_section"><a name="1"></a>Overview</h2>In order to help developers understand the usage of the Steamworks API we have included source code for a fully functional version of the classic <strong>Spacewar!</strong> multi-player shooter game. It is a simple 2D game with support for up to 4 players and provides a perfect opportunity to showcase many of the APIs available in the Steamworks SDK.<br><br>As you look through the code keep in mind that our goal was to write a simple, stripped-down game so we could showcase the Steamworks API as clearly as possible. You won't find any magnificent new graphics tech here; instead we hope you'll find clear examples of how deeply to integrate Steamworks functionality into your own projects.<br><br>The APIs and Steamworks features demonstrated in the example code include:<br><ul class="bb_ul ">	<li> Cloud<br>	</li><li> Community Integration (avatars, friends names, etc)<br>	</li><li> Crash Reporting<br>	</li><li> Friends<br>	</li><li> HTML Surface<br>	</li><li> Inventory<br>	</li><li> Leaderboards<br>	</li><li> Matchmaking (Both lobbies and server browser)<br>	</li><li> Multi-Player Authentication (4 players supported in-game)<br>	</li><li> Networking<br>	</li><li> Stats &amp; Achievements<br>	</li><li> Voice Chat</li></ul><br><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/spacewar.png" alt="spacewar.png" title="spacewar.png"><h2 class="bb_section"><a name="2"></a>Building &amp; running the example</h2>Requirements:<br><ul class="bb_ul ">	<li> Visual Studio 2005 or newer.<br>	</li><li> DirectX SDK from June 2010 (Available from the <a href="http://go.microsoft.com/fwlink/p/?linkid=226640" target="_blank" rel="noreferrer">Microsoft Download Center</a>.)<br>	</li><li> Steamworks SDK. (<a href="https://partner.steamgames.com/downloads/steamworks_sdk.zip" target="_blank" rel="noreferrer">Download</a> the latest release.)</li></ul><br>Once you have downloaded and extracted the Steamworks SDK package, find the sub-directory named <code class="bb_code bb_code_inline nohighlight">SteamworksExample</code>. Inside of this directory you'll find <code class="bb_code bb_code_inline nohighlight">SteamworksExample.sln</code>, which can be opened in Visual Studio. Open the solution and compile the project. If compilation succeeds then you're ready to go and can run the project directly from Visual Studio (you'll need to have Steam running in the background). If the build or execution fails try one of the tips below.<h2 class="bb_subsection"><a name="3"></a>Common Build Problems</h2><ul class="bb_ul ">	<li> <strong>Cannot open include file: 'd3d9.h'</strong><br>		If you encounter this error it means that your systems include path does not include the D3D include path, or that you have not installed the D3D SDK. First, make sure you have downloaded and installed the DirectX SDK. (You can get the SDK from the <a href="http://go.microsoft.com/fwlink/p/?linkid=226640" target="_blank" rel="noreferrer">Microsoft Download Center</a>.) Once the SDK is installed you need to setup the include path. You can do this system wide via the standard Visual Studio environment variables, or you can set them up just for the SteamworksExample project by editing the project properties.<br>	</li><li> <strong>Fatal error LNK1104: cannot open file 'd3d9.lib'</strong><br>		If you encounter this error it means that your systems library path does not include the D3D library directory. See the instructions above, except you need to update the library path instead of the include path.<br>	</li><li> <strong>Steam must be running to play this game (<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink">SteamAPI_Init</a> failed).</strong><br>		If you encounter this error when running the game, make sure that Steam is running. If Steam is running, ensure there is a <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file in the directory with the game executable. This file ships with the SDK example and should be present if you run from within Visual Studio or directly from the Debug or Release sub directories.<br><br>		When you are launching the game from the exe directly, outside of the Steam UI this file must be present and must contain a single line with the game's AppID (for your games, Valve will assign each an AppID, the example game's AppID is 480). When you ship your own game through Steam this file will not be needed as Steam will auto-detect your AppID when the game is launched.<br>	</li><li> <strong>The application has failed to start because steam_api.dll was not found. Re-installing the application may fix this problem.</strong><br>		In order to run successfully <code class="bb_code bb_code_inline nohighlight">steam_api.dll</code> must be located in the same directory as the example game executable. This will also be true for your own games which utilize Steamworks. The Visual Studio project file should place the executable in the appropriate directory when building, but if you are using a different compiler or have modified the solution or project files you may need to copy it yourself. You can redistribute <code class="bb_code bb_code_inline nohighlight">steam_api.dll</code> with your own Steamworks games when shipping them.<br>	</li><li> <strong>The application has failed to start because d3dx_??.dll was not found. Re-installing the application may fix this problem.</strong><br>		The example relies on the D3D9X helper library which ships with the DirectX SDK. If you run the example on the same machine you have built it on the library should be found automatically. If you copy your compiled binary to another machine you may need to install the D3D redistributables to obtain the same version of D3D9X that you compiled against on your development machine.</li></ul><h2 class="bb_section"><a name="4"></a>Code Overview</h2>Once you have the <strong>Spacewar!</strong> example project compiling and running you'll want to start looking at the code. If you browse the files within the Visual Studio solution explorer you'll see that the code has been broken up into Game and Engine code. You can ignore the code in the Engine folder - it supports basic 2D rendering via D3D and basic keyboard input. All of the important code documenting Steamworks API usage is files in the Game folder.<br><br>The most interesting areas to begin looking at the code are described briefly below:<br><ul class="bb_ul ">	<li> <strong><code class="bb_code bb_code_inline nohighlight">Main.cpp</code> -- Main entry point for the example game.</strong><br>		API Usage shown:<br>		<ul class="bb_ul ">			<li> <strong>Client API Initialization</strong> -- You'll need to initialize the API early during app startup, and you'll see how this is done inside of the <code class="bb_code bb_code_inline nohighlight">RealMain()</code> function in <code class="bb_code bb_code_inline nohighlight">Main.cpp</code>.<br>			</li><li> <strong>API Error/Warning logging</strong> -- During development you may want to get some logging output from the Steam APIs in order to help debug problems. You can see an example of setting up debug logging inside the <code class="bb_code bb_code_inline nohighlight">RealMain()</code> function where <a href="https://partner.steamgames.com/doc/api/ISteamClient#SetWarningMessageHook" class="bb_apilink">ISteamClient::SetWarningMessageHook</a> is called.<br>			</li><li> <strong>Crash reporting</strong> -- You may wish to use Steam's built in minidump crash reporting in your games. If you do you'll find an example of installing the exception handler and setting up minidump writing in <code class="bb_code bb_code_inline nohighlight">WinMain()</code> and <code class="bb_code bb_code_inline nohighlight">MiniDumpFunction()</code> within <code class="bb_code bb_code_inline nohighlight">Main.cpp</code>.<br>		</li></ul>	</li><li> <strong><code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp/h</code> -- Server code for the example game.</strong><br>		API Usage shown:<br>		<ul class="bb_ul ">			<li> <strong>Gameserver API Initialization</strong> -- Inside game servers you'll want to initialize a stripped down version of the API that doesn't have the individual user interfaces exposed. You'll find this done in the constructor for <code class="bb_code bb_code_inline nohighlight">CSpaceWarServer</code> in <code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp</code>.<br>			</li><li> <strong>Running API Callbacks</strong> -- In your games you'll want to periodically run Steam callbacks to process results from Steam's asynchronous API calls. You'll find an example of running callbacks in a game server via <a href="https://partner.steamgames.com/doc/api/steam_gameserver#SteamGameServer_RunCallbacks" class="bb_apilink">SteamGameServer_RunCallbacks</a> in the <code class="bb_code bb_code_inline nohighlight">CSpaceWarServer::RunFrame()</code> function, and you'll find examples of handling individual callbacks and registering them inside the <code class="bb_code bb_code_inline nohighlight">CSpaceWarServer</code> constructor code and header file.<br>			</li><li> <strong>Multi-Player Authentication (VAC Ban handling)</strong> -- If your game is an online multi-player game then you'll want to confirm that users own the game before you let them join an online server. You'll find callback handlers and calls to the <a href="https://partner.steamgames.com/doc/api/ISteamGameServer" class="bb_apilink">ISteamGameServer</a> API used within <code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp</code> for these purposes. You'll also see how to handle deny and kick responses that Steam may send you due to users not owning your product, or due to users being banned or needing to be kicked for cheating.<br>			</li><li> <strong>Networking API</strong> -- If you are building an online game you may want to utilize Steam's built in networking APIs. You'll find examples of their usage server side in game servers via <a href="https://partner.steamgames.com/doc/api/ISteamNetworking" class="bb_apilink">ISteamNetworking</a> API calls using the <code class="bb_code bb_code_inline nohighlight">SteamGameServerNetworking()</code> accessor and callbacks within <code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp</code>.<br>			</li><li> <strong>Matchmaking and Master Server communication</strong> -- If you are building a multi-player game and wish to utilize the Steam server browser, then your game server will need to communicate with the Steam Master Servers. You'll find examples of doing this in the <code class="bb_code bb_code_inline nohighlight">CSpaceWarServer</code> constructor and in the <code class="bb_code bb_code_inline nohighlight">CSpaceWarServer::SendUpdatedServerDetailsToSteam()</code> method.<br>		</li></ul>	</li><li> <strong><code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp/h</code> -- Client side code for the example game.</strong><br>		API Usage shown:<br>		<ul class="bb_ul ">			<li> <strong>Matchmaking via Lobbies</strong> -- In your online games you may wish to include matchmaking via lobbies in addition to, or instead of, the Server Browser. You'll find examples of using the lobby code and callbacks via the <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking" class="bb_apilink">ISteamMatchmaking</a> interface inside of <code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp</code>. You'll also want to look at <code class="bb_code bb_code_inline nohighlight">Lobby.cpp/h</code> which include some of the code for handling state and callbacks once inside a given lobby.<br>			</li><li> <strong>Friends &amp; Community Integration</strong> -- Steam allows you to use rich identity information for players, including their persona name and personal avatar, within your game. You'll find an example of integrating persona names and avatars into scoreboards via the <a href="https://partner.steamgames.com/doc/api/ISteamFriends" class="bb_apilink">ISteamFriends</a> interface inside of <code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp</code><br>			</li><li> <strong>Networking API</strong> -- You'll find an example of client side usage of the Steam Networking API inside of <code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp</code> (see <code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp</code> for the server side implementation).<br>		</li></ul>	</li><li> <strong><code class="bb_code bb_code_inline nohighlight">StatsAndAchievements.cpp/h</code> -- Stats and Achievement handling for the example game.</strong><br>		API Usage shown:<br>		<ul class="bb_ul ">			<li> <strong>Stats &amp; Achievements</strong> -- You'll find an implementation of both Stats and Achievements handling within <code class="bb_code bb_code_inline nohighlight">StatsAndAchievements.cpp</code>. The file contains the <code class="bb_code bb_code_inline nohighlight">CStatsAndAchievements</code> class, which is called with updated state information from <code class="bb_code bb_code_inline nohighlight">CSpaceWarClient</code>. Once <code class="bb_code bb_code_inline nohighlight">CStatsAndAchievements</code> has received state change information from the game client, it handles notifying Steam of changes to user stats or achievements obtained via the <a href="https://partner.steamgames.com/doc/api/ISteamUserStats" class="bb_apilink">ISteamUserStats</a> interface.<br>		</li></ul>	</li><li> <strong><code class="bb_code bb_code_inline nohighlight">Lobby.cpp/h</code> -- Matchmaking via Lobbies</strong><br>	    API Usage shown:<br>   		<ul class="bb_ul ">	 		<li> <strong>Matchmaking via Lobbies</strong> -- You'll find part of the example game's lobby-based matchmaking implementation in <code class="bb_code bb_code_inline nohighlight">Lobby.cpp</code>. <code class="bb_code bb_code_inline nohighlight">Lobby.cpp</code> works closely with <code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp</code> to handle matchmaking so you'll want to look at both of them. When examining the lobby code, take special note of the callbacks and calls to <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking" class="bb_apilink">ISteamMatchmaking</a> interface methods.<br>	 	</li></ul>	</li><li> <strong><code class="bb_code bb_code_inline nohighlight">ServerBrowser.cpp/h</code> -- In-game Server Browser</strong><br>		API Usage shown:<br>		<ul class="bb_ul ">			<li> <strong>Matchmaking via ServerBrowser</strong> -- If you support matchmaking via the Server Browser then you'll probably want to provide a server browser listing directly inside your game to supplement the listing provided by the Steam UI. You'll find an example of getting the list of Internet servers for your game and displaying it to the user inside <code class="bb_code bb_code_inline nohighlight">ServerBrowser.cpp.</code><br>		</li></ul>	</li><li> <strong><code class="bb_code bb_code_inline nohighlight">Inventory.cpp/h</code> -- Steam Inventory Service</strong><br>		API Usage shown:<br>		<ul class="bb_ul ">			<li> <strong>Steam Inventory</strong> -- Integrates with the <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink">Steam Inventory</a> which provides access to the <a href="https://partner.steamgames.com/doc/features/inventory/economy" class="bb_doclink">Steam Economy</a>. This allows you to easily integrate items into your game.<br>		</li></ul></li></ul><br>If your game has an existing authentication and matchmaking engine that you will keep using then you may want to remove the <code class="bb_code bb_code_inline nohighlight">USE_GS_AUTH_API</code> define from <code class="bb_code bb_code_inline nohighlight">Spacewars.h</code>. When you remove this define it will cause the sample to NOT use Steam authentication or matchmaking but you will still be able to access other Steam functionality such as achievements and friends information, look at the code for details.
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+In order to help developers understand the usage of the Steamworks API we have included source code
+for a fully functional version of the classic <strong>Spacewar!</strong> multi-player shooter game.
+It is a simple 2D game with support for up to 4 players and provides a perfect opportunity to
+showcase many of the APIs available in the Steamworks SDK.<br /><br />As you look through the code
+keep in mind that our goal was to write a simple, stripped-down game so we could showcase the
+Steamworks API as clearly as possible. You won't find any magnificent new graphics tech here;
+instead we hope you'll find clear examples of how deeply to integrate Steamworks functionality into
+your own projects.<br /><br />The APIs and Steamworks features demonstrated in the example code
+include:<br />
+<ul class="bb_ul">
+    <li>Cloud<br /></li>
+    <li>Community Integration (avatars, friends names, etc)<br /></li>
+    <li>Crash Reporting<br /></li>
+    <li>Friends<br /></li>
+    <li>HTML Surface<br /></li>
+    <li>Inventory<br /></li>
+    <li>Leaderboards<br /></li>
+    <li>Matchmaking (Both lobbies and server browser)<br /></li>
+    <li>Multi-Player Authentication (4 players supported in-game)<br /></li>
+    <li>Networking<br /></li>
+    <li>Stats &amp; Achievements<br /></li>
+    <li>Voice Chat</li>
+</ul>
+<br /><img
+    src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/spacewar.png"
+    alt="spacewar.png"
+    title="spacewar.png"
+/>
+<h2 class="bb_section"><a name="2"></a>Building &amp; running the example</h2>
+Requirements:<br />
+<ul class="bb_ul">
+    <li>Visual Studio 2005 or newer.<br /></li>
+    <li>
+        DirectX SDK from June 2010 (Available from the
+        <a href="http://go.microsoft.com/fwlink/p/?linkid=226640" target="_blank" rel="noreferrer"
+            >Microsoft Download Center</a
+        >.)<br />
+    </li>
+    <li>
+        Steamworks SDK. (<a
+            href="https://partner.steamgames.com/downloads/steamworks_sdk.zip"
+            target="_blank"
+            rel="noreferrer"
+            >Download</a
+        >
+        the latest release.)
+    </li>
+</ul>
+<br />Once you have downloaded and extracted the Steamworks SDK package, find the sub-directory
+named <code class="bb_code bb_code_inline nohighlight">SteamworksExample</code>. Inside of this
+directory you'll find <code class="bb_code bb_code_inline nohighlight">SteamworksExample.sln</code>,
+which can be opened in Visual Studio. Open the solution and compile the project. If compilation
+succeeds then you're ready to go and can run the project directly from Visual Studio (you'll need to
+have Steam running in the background). If the build or execution fails try one of the tips below.
+<h2 class="bb_subsection"><a name="3"></a>Common Build Problems</h2>
+<ul class="bb_ul">
+    <li>
+        <strong>Cannot open include file: 'd3d9.h'</strong><br />
+        If you encounter this error it means that your systems include path does not include the D3D
+        include path, or that you have not installed the D3D SDK. First, make sure you have
+        downloaded and installed the DirectX SDK. (You can get the SDK from the
+        <a href="http://go.microsoft.com/fwlink/p/?linkid=226640" target="_blank" rel="noreferrer"
+            >Microsoft Download Center</a
+        >.) Once the SDK is installed you need to setup the include path. You can do this system
+        wide via the standard Visual Studio environment variables, or you can set them up just for
+        the SteamworksExample project by editing the project properties.<br />
+    </li>
+    <li>
+        <strong>Fatal error LNK1104: cannot open file 'd3d9.lib'</strong><br />
+        If you encounter this error it means that your systems library path does not include the D3D
+        library directory. See the instructions above, except you need to update the library path
+        instead of the include path.<br />
+    </li>
+    <li>
+        <strong
+            >Steam must be running to play this game (<a
+                href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init"
+                class="bb_apilink"
+                >SteamAPI_Init</a
+            >
+            failed).</strong
+        ><br />
+        If you encounter this error when running the game, make sure that Steam is running. If Steam
+        is running, ensure there is a
+        <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file in the
+        directory with the game executable. This file ships with the SDK example and should be
+        present if you run from within Visual Studio or directly from the Debug or Release sub
+        directories.<br /><br />
+        When you are launching the game from the exe directly, outside of the Steam UI this file
+        must be present and must contain a single line with the game's AppID (for your games, Valve
+        will assign each an AppID, the example game's AppID is 480). When you ship your own game
+        through Steam this file will not be needed as Steam will auto-detect your AppID when the
+        game is launched.<br />
+    </li>
+    <li>
+        <strong
+            >The application has failed to start because steam_api.dll was not found. Re-installing
+            the application may fix this problem.</strong
+        ><br />
+        In order to run successfully
+        <code class="bb_code bb_code_inline nohighlight">steam_api.dll</code> must be located in the
+        same directory as the example game executable. This will also be true for your own games
+        which utilize Steamworks. The Visual Studio project file should place the executable in the
+        appropriate directory when building, but if you are using a different compiler or have
+        modified the solution or project files you may need to copy it yourself. You can
+        redistribute <code class="bb_code bb_code_inline nohighlight">steam_api.dll</code> with your
+        own Steamworks games when shipping them.<br />
+    </li>
+    <li>
+        <strong
+            >The application has failed to start because d3dx_??.dll was not found. Re-installing
+            the application may fix this problem.</strong
+        ><br />
+        The example relies on the D3D9X helper library which ships with the DirectX SDK. If you run
+        the example on the same machine you have built it on the library should be found
+        automatically. If you copy your compiled binary to another machine you may need to install
+        the D3D redistributables to obtain the same version of D3D9X that you compiled against on
+        your development machine.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="4"></a>Code Overview</h2>
+Once you have the <strong>Spacewar!</strong> example project compiling and running you'll want to
+start looking at the code. If you browse the files within the Visual Studio solution explorer you'll
+see that the code has been broken up into Game and Engine code. You can ignore the code in the
+Engine folder - it supports basic 2D rendering via D3D and basic keyboard input. All of the
+important code documenting Steamworks API usage is files in the Game folder.<br /><br />The most
+interesting areas to begin looking at the code are described briefly below:<br />
+<ul class="bb_ul">
+    <li>
+        <strong
+            ><code class="bb_code bb_code_inline nohighlight">Main.cpp</code> -- Main entry point
+            for the example game.</strong
+        ><br />
+        API Usage shown:<br />
+        <ul class="bb_ul">
+            <li>
+                <strong>Client API Initialization</strong> -- You'll need to initialize the API
+                early during app startup, and you'll see how this is done inside of the
+                <code class="bb_code bb_code_inline nohighlight">RealMain()</code> function in
+                <code class="bb_code bb_code_inline nohighlight">Main.cpp</code>.<br />
+            </li>
+            <li>
+                <strong>API Error/Warning logging</strong> -- During development you may want to get
+                some logging output from the Steam APIs in order to help debug problems. You can see
+                an example of setting up debug logging inside the
+                <code class="bb_code bb_code_inline nohighlight">RealMain()</code> function where
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamClient#SetWarningMessageHook"
+                    class="bb_apilink"
+                    >ISteamClient::SetWarningMessageHook</a
+                >
+                is called.<br />
+            </li>
+            <li>
+                <strong>Crash reporting</strong> -- You may wish to use Steam's built in minidump
+                crash reporting in your games. If you do you'll find an example of installing the
+                exception handler and setting up minidump writing in
+                <code class="bb_code bb_code_inline nohighlight">WinMain()</code> and
+                <code class="bb_code bb_code_inline nohighlight">MiniDumpFunction()</code> within
+                <code class="bb_code bb_code_inline nohighlight">Main.cpp</code>.<br />
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong
+            ><code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp/h</code> -- Server
+            code for the example game.</strong
+        ><br />
+        API Usage shown:<br />
+        <ul class="bb_ul">
+            <li>
+                <strong>Gameserver API Initialization</strong> -- Inside game servers you'll want to
+                initialize a stripped down version of the API that doesn't have the individual user
+                interfaces exposed. You'll find this done in the constructor for
+                <code class="bb_code bb_code_inline nohighlight">CSpaceWarServer</code> in
+                <code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp</code>.<br />
+            </li>
+            <li>
+                <strong>Running API Callbacks</strong> -- In your games you'll want to periodically
+                run Steam callbacks to process results from Steam's asynchronous API calls. You'll
+                find an example of running callbacks in a game server via
+                <a
+                    href="https://partner.steamgames.com/doc/api/steam_gameserver#SteamGameServer_RunCallbacks"
+                    class="bb_apilink"
+                    >SteamGameServer_RunCallbacks</a
+                >
+                in the
+                <code class="bb_code bb_code_inline nohighlight">CSpaceWarServer::RunFrame()</code>
+                function, and you'll find examples of handling individual callbacks and registering
+                them inside the
+                <code class="bb_code bb_code_inline nohighlight">CSpaceWarServer</code> constructor
+                code and header file.<br />
+            </li>
+            <li>
+                <strong>Multi-Player Authentication (VAC Ban handling)</strong> -- If your game is
+                an online multi-player game then you'll want to confirm that users own the game
+                before you let them join an online server. You'll find callback handlers and calls
+                to the
+                <a href="https://partner.steamgames.com/doc/api/ISteamGameServer" class="bb_apilink"
+                    >ISteamGameServer</a
+                >
+                API used within
+                <code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp</code> for these
+                purposes. You'll also see how to handle deny and kick responses that Steam may send
+                you due to users not owning your product, or due to users being banned or needing to
+                be kicked for cheating.<br />
+            </li>
+            <li>
+                <strong>Networking API</strong> -- If you are building an online game you may want
+                to utilize Steam's built in networking APIs. You'll find examples of their usage
+                server side in game servers via
+                <a href="https://partner.steamgames.com/doc/api/ISteamNetworking" class="bb_apilink"
+                    >ISteamNetworking</a
+                >
+                API calls using the
+                <code class="bb_code bb_code_inline nohighlight">SteamGameServerNetworking()</code>
+                accessor and callbacks within
+                <code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp</code>.<br />
+            </li>
+            <li>
+                <strong>Matchmaking and Master Server communication</strong> -- If you are building
+                a multi-player game and wish to utilize the Steam server browser, then your game
+                server will need to communicate with the Steam Master Servers. You'll find examples
+                of doing this in the
+                <code class="bb_code bb_code_inline nohighlight">CSpaceWarServer</code> constructor
+                and in the
+                <code class="bb_code bb_code_inline nohighlight"
+                    >CSpaceWarServer::SendUpdatedServerDetailsToSteam()</code
+                >
+                method.<br />
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong
+            ><code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp/h</code> -- Client
+            side code for the example game.</strong
+        ><br />
+        API Usage shown:<br />
+        <ul class="bb_ul">
+            <li>
+                <strong>Matchmaking via Lobbies</strong> -- In your online games you may wish to
+                include matchmaking via lobbies in addition to, or instead of, the Server Browser.
+                You'll find examples of using the lobby code and callbacks via the
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamMatchmaking"
+                    class="bb_apilink"
+                    >ISteamMatchmaking</a
+                >
+                interface inside of
+                <code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp</code>. You'll
+                also want to look at
+                <code class="bb_code bb_code_inline nohighlight">Lobby.cpp/h</code> which include
+                some of the code for handling state and callbacks once inside a given lobby.<br />
+            </li>
+            <li>
+                <strong>Friends &amp; Community Integration</strong> -- Steam allows you to use rich
+                identity information for players, including their persona name and personal avatar,
+                within your game. You'll find an example of integrating persona names and avatars
+                into scoreboards via the
+                <a href="https://partner.steamgames.com/doc/api/ISteamFriends" class="bb_apilink"
+                    >ISteamFriends</a
+                >
+                interface inside of
+                <code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp</code><br />
+            </li>
+            <li>
+                <strong>Networking API</strong> -- You'll find an example of client side usage of
+                the Steam Networking API inside of
+                <code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp</code> (see
+                <code class="bb_code bb_code_inline nohighlight">SpaceWarServer.cpp</code> for the
+                server side implementation).<br />
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong
+            ><code class="bb_code bb_code_inline nohighlight">StatsAndAchievements.cpp/h</code> --
+            Stats and Achievement handling for the example game.</strong
+        ><br />
+        API Usage shown:<br />
+        <ul class="bb_ul">
+            <li>
+                <strong>Stats &amp; Achievements</strong> -- You'll find an implementation of both
+                Stats and Achievements handling within
+                <code class="bb_code bb_code_inline nohighlight">StatsAndAchievements.cpp</code>.
+                The file contains the
+                <code class="bb_code bb_code_inline nohighlight">CStatsAndAchievements</code> class,
+                which is called with updated state information from
+                <code class="bb_code bb_code_inline nohighlight">CSpaceWarClient</code>. Once
+                <code class="bb_code bb_code_inline nohighlight">CStatsAndAchievements</code> has
+                received state change information from the game client, it handles notifying Steam
+                of changes to user stats or achievements obtained via the
+                <a href="https://partner.steamgames.com/doc/api/ISteamUserStats" class="bb_apilink"
+                    >ISteamUserStats</a
+                >
+                interface.<br />
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong
+            ><code class="bb_code bb_code_inline nohighlight">Lobby.cpp/h</code> -- Matchmaking via
+            Lobbies</strong
+        ><br />
+        API Usage shown:<br />
+        <ul class="bb_ul">
+            <li>
+                <strong>Matchmaking via Lobbies</strong> -- You'll find part of the example game's
+                lobby-based matchmaking implementation in
+                <code class="bb_code bb_code_inline nohighlight">Lobby.cpp</code>.
+                <code class="bb_code bb_code_inline nohighlight">Lobby.cpp</code> works closely with
+                <code class="bb_code bb_code_inline nohighlight">SpaceWarClient.cpp</code> to handle
+                matchmaking so you'll want to look at both of them. When examining the lobby code,
+                take special note of the callbacks and calls to
+                <a
+                    href="https://partner.steamgames.com/doc/api/ISteamMatchmaking"
+                    class="bb_apilink"
+                    >ISteamMatchmaking</a
+                >
+                interface methods.<br />
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong
+            ><code class="bb_code bb_code_inline nohighlight">ServerBrowser.cpp/h</code> -- In-game
+            Server Browser</strong
+        ><br />
+        API Usage shown:<br />
+        <ul class="bb_ul">
+            <li>
+                <strong>Matchmaking via ServerBrowser</strong> -- If you support matchmaking via the
+                Server Browser then you'll probably want to provide a server browser listing
+                directly inside your game to supplement the listing provided by the Steam UI. You'll
+                find an example of getting the list of Internet servers for your game and displaying
+                it to the user inside
+                <code class="bb_code bb_code_inline nohighlight">ServerBrowser.cpp.</code><br />
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong
+            ><code class="bb_code bb_code_inline nohighlight">Inventory.cpp/h</code> -- Steam
+            Inventory Service</strong
+        ><br />
+        API Usage shown:<br />
+        <ul class="bb_ul">
+            <li>
+                <strong>Steam Inventory</strong> -- Integrates with the
+                <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
+                    >Steam Inventory</a
+                >
+                which provides access to the
+                <a
+                    href="https://partner.steamgames.com/doc/features/inventory/economy"
+                    class="bb_doclink"
+                    >Steam Economy</a
+                >. This allows you to easily integrate items into your game.<br />
+            </li>
+        </ul>
+    </li>
+</ul>
+<br />If your game has an existing authentication and matchmaking engine that you will keep using
+then you may want to remove the
+<code class="bb_code bb_code_inline nohighlight">USE_GS_AUTH_API</code> define from
+<code class="bb_code bb_code_inline nohighlight">Spacewars.h</code>. When you remove this define it
+will cause the sample to NOT use Steam authentication or matchmaking but you will still be able to
+access other Steam functionality such as achievements and friends information, look at the code for
+details.

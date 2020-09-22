@@ -4,7 +4,7 @@ While Steam can automatically install many
 <a href="https://partner.steamgames.com/doc/features/common_redist" class="bb_doclink"
     >common redistributables</a
 >, your application may have other first-run requirements.
-<div class="bb_callout ">
+<div class="bb_callout">
     <div>
         NOTE: Install script functionality described below is primarily for Windows operating
         systems. MacOS support is limited to file permissions and symlinks. There is no
@@ -18,7 +18,7 @@ have any number of install scripts. For a SteamPlay app, it's recommended that y
 OS-specific depots to contain your install scripts.
 <h4>Example</h4>
 A basic one will look like this:<br />
-<div class="bb_code ">
+<div class="bb_code">
     "InstallScript" { "Registry" { "HKEY_LOCAL_MACHINE\\SOFTWARE\\Foo\\Bar" { "string" {
     "Install_Path" "%INSTALLDIR%" "Exe_Path" "%INSTALLDIR%\\foobar.exe" } "dword" { "PatchVersion"
     "12" } } } "Run Process" { "DirectX" { "HasRunKey"
@@ -41,7 +41,7 @@ script. You can see an example on the
     >Uploading to Steam - Advanced File Mapping Rules</a
 >
 page.<br /><br />During the build process, two things take place:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         The install script is uploaded to Steam and cryptographically signed. This signature is
         validated by Steam before executing any install script, and is required to perform certain
@@ -79,11 +79,11 @@ called. If the program's ExitCode is 0, then the install script assumes it was s
 your keyname as 1 in the registry.<br /><br />Steam customers love a quick and silent install. Add
 silent or quiet parameters to all run process commands and only add what you absolutely need for the
 game.<br />The required Run Process key/values are:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li><strong>Process 1</strong> - Path to the program you want to launch</li>
 </ul>
 The optional Run Process key/values are:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li><strong>Command 1</strong> - Optional command you want to pass to the program<br /></li>
     <li>
         <strong>HasRunKey</strong> - Optional registry key to check that the prereq is already
@@ -110,12 +110,12 @@ The optional Run Process key/values are:<br />
 <h2 class="bb_section"><a name="firewall_exceptions"></a>Firewall Exceptions</h2>
 If your game uses any networking, use the firewall exception to grant the firewall exception in
 windows automatically without forcing the user to accept the exception.<br />
-<div class="bb_code ">"Firewall" { "Space War Game" "%INSTALLDIR%\\SpaceWar.exe" }</div>
+<div class="bb_code">"Firewall" { "Space War Game" "%INSTALLDIR%\\SpaceWar.exe" }</div>
 <h2 class="bb_section"><a name="requirement_os"></a>OS Specific Redists</h2>
 The Requirement_OS value is available to run different installs on different OS versions / SKUs. It
 requires a new key group called Requirement_OS, then additional key value pairs inside. Available OS
 options are listed below.<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         <strong>Is64BitWindows</strong> - Specifies that the process will only run on a 64 bit
         version of the operating system. Values are 1 or 0.<br />
@@ -123,7 +123,7 @@ options are listed below.<br />
     <li>
         <strong>OSType</strong> - Specifies that the process will only run on a specific version of
         the operating system. Values are:<br />
-        <ul class="bb_ul ">
+        <ul class="bb_ul">
             <li>Windows 3.11<br /></li>
             <li>Windows 95<br /></li>
             <li>Windows 98<br /></li>
@@ -145,14 +145,14 @@ options are listed below.<br />
 </ul>
 <br /><strong>64 bit Example</strong><br />This example will run the appropriate installer for the
 32 or 64 bit installer.<br />
-<div class="bb_code ">
+<div class="bb_code">
     "Net32" { "Process 1" "%INSTALLDIR%\\redist\\Controller\\32bitInstaller.exe" "NoCleanUp" "1"
     "Requirement_OS" { "Is64BitWindows" "0" } } "Net64" { "Process 1"
     "%INSTALLDIR%\\redist\\Controller\\64bitInstaller.exe" "NoCleanUp" "1" "Requirement_OS" {
     "Is64BitWindows" "1" } }
 </div>
 <br /><strong>OS Type Example</strong><br />This example will only run on Windows XP<br /><br />
-<div class="bb_code ">
+<div class="bb_code">
     "Controller" { "Process 1" "%INSTALLDIR%\\redist\\WinXPInstaller.exe" "NoCleanUp" "1"
     "Requirement_OS" { "OSType" "Windows XP" } }
 </div>
@@ -165,7 +165,7 @@ Environment variables are supported in an install script. All of the
     >standard environment variables available on Windows</a
 >
 can be used, along with a few others specific to an install script. They are:<br />
-<ul class="bb_ul ">
+<ul class="bb_ul">
     <li>
         <strong>%INSTALLDIR%</strong> - The full path to where the application is installed, without
         a backslash.<br />
@@ -190,7 +190,7 @@ can be used, along with a few others specific to an install script. They are:<br
 Both string and DWORD values can be assigned different data depending on what language the user is
 running Steam in. To use, create a subkey in the "string" or "dword" key with the name of the
 language, then assign the names and values in there. For example:<br />
-<div class="bb_code ">
+<div class="bb_code">
     "InstallScript" { "Registry" { "HKEY_LOCAL_MACHINE\\SOFTWARE\\MonkeyDime Studios\\Killer Banana
     Peel" { "dword" { "english" { "Language" "1" } "french" { "Language" "2" } "german" { "Language"
     "3" } "italian" { "Language" "4" } "spanish" { "Language" "5" } } } } }
@@ -215,7 +215,7 @@ used by other games. This is only intended for game specific uninstall processes
 Run Process On Uninstall will also be called when a user verifies the app in Steam. Do not run a
 process that will delete all files, as this will cause Steam to redownload everything during a
 verify.<br />
-<div class="bb_code ">
+<div class="bb_code">
     "InstallScript" { "Run Process On Uninstall" { "Process_name" { "Process 1" "process.exe"
     "Command 1" "/command" } } }
 </div>

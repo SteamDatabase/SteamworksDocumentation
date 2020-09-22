@@ -1,21 +1,134 @@
 <h1>Debugging the Steamworks API</h1>
-<h2 class="bb_section"><a name="1"></a>Overview</h2>Steam has grown into a large application over the years and provides many separate modules and multiple different ways to debug. This page outlines as many of them as possible to help you get the most out of Steam and Steamworks while keeping headaches to a minimum.<br><br>Steam automatically outputs a number of debug to the <code class="bb_code bb_code_inline nohighlight">logs</code> folder, for others you may need to use <a href="#command_line_parameters" class="bb_doclink">Steam Command Line Parameters</a> or <a href="#console_commands" class="bb_doclink">Steam Console Commands</a> to enable them.<br><br>Using <a href="https://partner.steamgames.com/doc/api/ISteamUtils#SetWarningMessageHook" class="bb_apilink">ISteamUtils::SetWarningMessageHook</a> allows a Steamworks application to register a function that allows the Steamworks API to provide human-readable error messages to the application when something goes wrong. Most Steam APIs use it, so be sure to hook it up and look at it any time something goes wrong.<h2 class="bb_section"><a name="command_line_parameters"></a>Steam Command Line Parameters</h2>Steam uses command line parameters to expose developer details.<br><ul class="bb_ul ">	<li> <strong>-console</strong> - Enables the Steam console. The console provides additional debugging information and allows you to use <a href="#console_commands" class="bb_doclink">Steam Console Commands</a>. This can also be enabled by navigating to steam://open/console in a browser or through the Windows Run dialog.<br>	</li><li> <strong>-debug_steamapi</strong> - Enables Steamworks API debugging. This is required if you are wanting to use <a href="https://partner.steamgames.com/doc/api/ISteamUtils#SetWarningMessageHook" class="bb_apilink">ISteamUtils::SetWarningMessageHook</a>!<br>	</li><li> <strong>-lognetapi</strong> - Logs all P2P networking info to <code class="bb_code bb_code_inline nohighlight">log/netapi_log.txt</code>.<br>	</li><li> <strong>-log_voice</strong> - Writes voice chat data to the <code class="bb_code bb_code_inline nohighlight">logs/voice_log.txt</code> file<br>	</li><li> <strong>-installer_test</strong> - Changes installing a retail game to emit all files to the <code class="bb_code bb_code_inline nohighlight">install_validate/</code> folder instead of to the steam cache.</li></ul><h2 class="bb_section"><a name="console_commands"></a>Steam Console Commands</h2>In addition to providing additional output for error reporting or logging, the Steam console can also be used to issue commands to the steam client or servers. Here are a few commands which are useful for debugging purposes.<br><ul class="bb_ul ">	<li> <strong>find &lt;string&gt;</strong> - Lets you find other useful commands<br>	</li><li> <strong>set_spew_level</strong> - Enables you to set a higher level of output in the steam console as well as log files. ex: "set_spew_level 4 4" - provides the most verbose logging and is very useful for troubleshooting problems<br>	</li><li> <strong>app_info_print &lt;AppID&gt;</strong> - Displays all of the information the Steam servers provide about the game.<br>	</li><li> <strong>enable/disable_license &lt;PackageID&gt;</strong> - This allows testing of app ownership, typically DLC.<br>	</li><li> <strong>testappcloudpaths &lt;AppID&gt;</strong> - Allows testing of auto-cloud configuration before enabling auto-cloud for all customers. This command only works for one app ID at a time and needs to be run on each client that is being tested with.<br>	</li><li> <strong>log_callbacks &lt;first callbackID&gt; &lt;last callbackID&gt;</strong> - Logs all callbacks to the console.<br>	</li><li> <strong>log_matchmaking_callbacks &lt;0|1&gt;</strong> - Enables/disables logging matchmaking callbacks.<br>	</li><li> <strong>log_ipc &lt;counts|verbose&gt; &lt;filter&gt;</strong> - See <a href="#steamworks_api_logging" class="bb_doclink">Steamworks API Logging</a>.</li></ul><h2 class="bb_section"><a name="steamworks_api_logging"></a>Steamworks API Logging</h2>The log_ipc command (entered into the Steam console) dumps all of the IPC calls made to the Steam client's internal interfaces. The command takes a filter param, which can be the interface you are interested in monitoring or the name of the process. Note that the names provided do not always match 1:1 with the ISteam* version, but are usually very close. Specifying "counts" or "verbose" is optional, defaulting to counts.<br><br>The default stream usually looks something like:<br><div class="bb_code ">00000009 my_exe_name.exe:05 &gt; IClientUser::GetSteamID( ) = [U:2:172006],
-00000009 my_exe_name.exe:05 &gt; IClientUser::BLoggedOn( ) = 1,
-00000009 my_exe_name.exe:05 &gt; IClientNetworking::IsP2PPacketAvailable( 0, ) = 0, 0,
-00000009 my_exe_name.exe:05 &gt; IClientNetworking::IsP2PPacketAvailable( 1, ) = 0, 0,
-00000009 my_exe_name.exe:05 &gt; IClientFriends::GetPersonaName( ) = "user",
-00000009 my_exe_name.exe:05 &gt; IClientUser::GetSteamID( ) = [U:2:123456],
-</div><h2 class="bb_subsection"><a name="2"></a>Monitoring a specific interface</h2>If you are trying to track a specific issue, filter the log_ipc to the specific interface.<br><br>ex: <code class="bb_code bb_code_inline nohighlight">log_ipc IClientUser</code><br><br>Example output:<br><div class="bb_code ">00000009 my_exe_name.exe:05 &gt; IClientUser::GetSteamID( ) = [U:2:172006],
-00000009 my_exe_name.exe:05 &gt; IClientUser::BLoggedOn( ) = 1,
-00000009 my_exe_name.exe:05 &gt; IClientUser::GetSteamID( ) = [U:2:123456],
-</div><h2 class="bb_subsection"><a name="3"></a>IPC Report</h2>A rollup report is available to the log_ipc command in the Steam client.<br><br>The rollup report allows you to quickly see a summary of IPC calls. The example shown below reveals that it is calling GetSteamID/BLoggedOn/GetPersonaName too often. The report is output when logging has been disabled or restarted, so to get the report below you would:<br><br><ul class="bb_ul ">	<li> Enter "log_ipc my_exe_name.exe"<br>	</li><li> Wait/interact with the game to try to reproduce an issue/etc.<br>	</li><li> Enter "log_ipc 0"</li></ul><br>Example output:<br><div class="bb_code ">Calls over the last 42144 milliseconds:
-Process              Method                                   Calls      First      Last
--------------------- ---------------------------------------- ---------- ---------- -------
-my_exe_name.exe      IClientNetworking::IsP2PPacketAvailable  15272      9          42145
-my_exe_name.exe      IClientUser::GetSteamID                  42652      9          42145
-my_exe_name.exe      IClientUser::BLoggedOn                   42652      9          42145
-my_exe_name.exe      IClientFriends::GetPersonaName           3820       9          42145
-my_exe_name.exe      IClientUser::RequestEncryptedAppTicket   2          2103       2441
-my_exe_name.exe      IClientUtils::GetAPICallResult           2          2125       2441
-my_exe_name.exe      IClientUser::GetEncryptedAppTicket       1          2136       2136
-</div><h2 class="bb_subsection"><a name="4"></a>IPC Log Output</h2>The full IPC log is output to your Steam install directory: <code class="bb_code bb_code_inline nohighlight">logs\ipc_SteamClient.log</code>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+Steam has grown into a large application over the years and provides many separate modules and
+multiple different ways to debug. This page outlines as many of them as possible to help you get the
+most out of Steam and Steamworks while keeping headaches to a minimum.<br /><br />Steam
+automatically outputs a number of debug to the
+<code class="bb_code bb_code_inline nohighlight">logs</code> folder, for others you may need to use
+<a href="#command_line_parameters" class="bb_doclink">Steam Command Line Parameters</a> or
+<a href="#console_commands" class="bb_doclink">Steam Console Commands</a> to enable them.<br /><br />Using
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUtils#SetWarningMessageHook"
+    class="bb_apilink"
+    >ISteamUtils::SetWarningMessageHook</a
+>
+allows a Steamworks application to register a function that allows the Steamworks API to provide
+human-readable error messages to the application when something goes wrong. Most Steam APIs use it,
+so be sure to hook it up and look at it any time something goes wrong.
+<h2 class="bb_section"><a name="command_line_parameters"></a>Steam Command Line Parameters</h2>
+Steam uses command line parameters to expose developer details.<br />
+<ul class="bb_ul">
+    <li>
+        <strong>-console</strong> - Enables the Steam console. The console provides additional
+        debugging information and allows you to use
+        <a href="#console_commands" class="bb_doclink">Steam Console Commands</a>. This can also be
+        enabled by navigating to steam://open/console in a browser or through the Windows Run
+        dialog.<br />
+    </li>
+    <li>
+        <strong>-debug_steamapi</strong> - Enables Steamworks API debugging. This is required if you
+        are wanting to use
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUtils#SetWarningMessageHook"
+            class="bb_apilink"
+            >ISteamUtils::SetWarningMessageHook</a
+        >!<br />
+    </li>
+    <li>
+        <strong>-lognetapi</strong> - Logs all P2P networking info to
+        <code class="bb_code bb_code_inline nohighlight">log/netapi_log.txt</code>.<br />
+    </li>
+    <li>
+        <strong>-log_voice</strong> - Writes voice chat data to the
+        <code class="bb_code bb_code_inline nohighlight">logs/voice_log.txt</code> file<br />
+    </li>
+    <li>
+        <strong>-installer_test</strong> - Changes installing a retail game to emit all files to the
+        <code class="bb_code bb_code_inline nohighlight">install_validate/</code> folder instead of
+        to the steam cache.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="console_commands"></a>Steam Console Commands</h2>
+In addition to providing additional output for error reporting or logging, the Steam console can
+also be used to issue commands to the steam client or servers. Here are a few commands which are
+useful for debugging purposes.<br />
+<ul class="bb_ul">
+    <li><strong>find &lt;string&gt;</strong> - Lets you find other useful commands<br /></li>
+    <li>
+        <strong>set_spew_level</strong> - Enables you to set a higher level of output in the steam
+        console as well as log files. ex: "set_spew_level 4 4" - provides the most verbose logging
+        and is very useful for troubleshooting problems<br />
+    </li>
+    <li>
+        <strong>app_info_print &lt;AppID&gt;</strong> - Displays all of the information the Steam
+        servers provide about the game.<br />
+    </li>
+    <li>
+        <strong>enable/disable_license &lt;PackageID&gt;</strong> - This allows testing of app
+        ownership, typically DLC.<br />
+    </li>
+    <li>
+        <strong>testappcloudpaths &lt;AppID&gt;</strong> - Allows testing of auto-cloud
+        configuration before enabling auto-cloud for all customers. This command only works for one
+        app ID at a time and needs to be run on each client that is being tested with.<br />
+    </li>
+    <li>
+        <strong>log_callbacks &lt;first callbackID&gt; &lt;last callbackID&gt;</strong> - Logs all
+        callbacks to the console.<br />
+    </li>
+    <li>
+        <strong>log_matchmaking_callbacks &lt;0|1&gt;</strong> - Enables/disables logging
+        matchmaking callbacks.<br />
+    </li>
+    <li>
+        <strong>log_ipc &lt;counts|verbose&gt; &lt;filter&gt;</strong> - See
+        <a href="#steamworks_api_logging" class="bb_doclink">Steamworks API Logging</a>.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="steamworks_api_logging"></a>Steamworks API Logging</h2>
+The log_ipc command (entered into the Steam console) dumps all of the IPC calls made to the Steam
+client's internal interfaces. The command takes a filter param, which can be the interface you are
+interested in monitoring or the name of the process. Note that the names provided do not always
+match 1:1 with the ISteam* version, but are usually very close. Specifying "counts" or "verbose" is
+optional, defaulting to counts.<br /><br />The default stream usually looks something like:<br />
+<div class="bb_code">
+    00000009 my_exe_name.exe:05 &gt; IClientUser::GetSteamID( ) = [U:2:172006], 00000009
+    my_exe_name.exe:05 &gt; IClientUser::BLoggedOn( ) = 1, 00000009 my_exe_name.exe:05 &gt;
+    IClientNetworking::IsP2PPacketAvailable( 0, ) = 0, 0, 00000009 my_exe_name.exe:05 &gt;
+    IClientNetworking::IsP2PPacketAvailable( 1, ) = 0, 0, 00000009 my_exe_name.exe:05 &gt;
+    IClientFriends::GetPersonaName( ) = "user", 00000009 my_exe_name.exe:05 &gt;
+    IClientUser::GetSteamID( ) = [U:2:123456],
+</div>
+<h2 class="bb_subsection"><a name="2"></a>Monitoring a specific interface</h2>
+If you are trying to track a specific issue, filter the log_ipc to the specific interface.<br /><br />ex:
+<code class="bb_code bb_code_inline nohighlight">log_ipc IClientUser</code><br /><br />Example
+output:<br />
+<div class="bb_code">
+    00000009 my_exe_name.exe:05 &gt; IClientUser::GetSteamID( ) = [U:2:172006], 00000009
+    my_exe_name.exe:05 &gt; IClientUser::BLoggedOn( ) = 1, 00000009 my_exe_name.exe:05 &gt;
+    IClientUser::GetSteamID( ) = [U:2:123456],
+</div>
+<h2 class="bb_subsection"><a name="3"></a>IPC Report</h2>
+A rollup report is available to the log_ipc command in the Steam client.<br /><br />The rollup
+report allows you to quickly see a summary of IPC calls. The example shown below reveals that it is
+calling GetSteamID/BLoggedOn/GetPersonaName too often. The report is output when logging has been
+disabled or restarted, so to get the report below you would:<br /><br />
+<ul class="bb_ul">
+    <li>Enter "log_ipc my_exe_name.exe"<br /></li>
+    <li>Wait/interact with the game to try to reproduce an issue/etc.<br /></li>
+    <li>Enter "log_ipc 0"</li>
+</ul>
+<br />Example output:<br />
+<div class="bb_code">
+    Calls over the last 42144 milliseconds: Process Method Calls First Last --------------------
+    ---------------------------------------- ---------- ---------- ------- my_exe_name.exe
+    IClientNetworking::IsP2PPacketAvailable 15272 9 42145 my_exe_name.exe IClientUser::GetSteamID
+    42652 9 42145 my_exe_name.exe IClientUser::BLoggedOn 42652 9 42145 my_exe_name.exe
+    IClientFriends::GetPersonaName 3820 9 42145 my_exe_name.exe
+    IClientUser::RequestEncryptedAppTicket 2 2103 2441 my_exe_name.exe
+    IClientUtils::GetAPICallResult 2 2125 2441 my_exe_name.exe IClientUser::GetEncryptedAppTicket 1
+    2136 2136
+</div>
+<h2 class="bb_subsection"><a name="4"></a>IPC Log Output</h2>
+The full IPC log is output to your Steam install directory:
+<code class="bb_code bb_code_inline nohighlight">logs\ipc_SteamClient.log</code>
