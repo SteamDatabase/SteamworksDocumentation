@@ -6,8 +6,6 @@ libxml_use_internal_errors( true );
 $Crawler = new Crawler();
 $Crawler->Crawl();
 
-system( 'yarn format-docs' );
-
 class Crawler
 {
 	/* @var resource */
