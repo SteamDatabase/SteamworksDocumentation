@@ -194,5 +194,49 @@ that needs to be communicated to users in the client.<br /><br /><strong>Example
     </tr>
 </table>
 <br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
-API <strong>MUST</strong> be called from a secure server, and can never be used directly by
-clients!<br />
+API <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="GetLobbyData"></a>GetLobbyData</h2>
+<div class="bb_code http">
+    GET https://partner.steam-api.com/ILobbyMatchmakingService/GetLobbyData/v1/
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API user authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>The ID of the application associated with the lobby.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid_lobby</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>Lobby ID.</td>
+    </tr>
+</table>
+<br />GetLobbyData will return any lobby data and member list for the lobby ID.<br /><br /><strong
+    >NOTE:</strong
+>
+This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
+called from a secure server, and can never be used directly by clients!<br /><br /><strong
+    >Example Response:</strong
+><br />
+<div class="bb_code json">
+    { "response": { "appid": 480, "lobby_type": 2, "steamid_owner": "76561197984069643",
+    "lobby_metadata": [ { "key_name": "name", "key_value": "Olive's lobby" }, { "key_name" : "motd",
+    "key_value" : "Raid at 5 PM" } ], "members": [ { "steamid": "76561197984069643",
+    "member_metadata": [ { "key_name": "ready", "key_value": "1" }, { "key_name": "role",
+    "key_value": "captain" } ] }, { "steamid": "76561197985812219", "member_metadata": [ {
+    "key_name": "role", "key_value": "weapons" } ] } ] } }
+</div>
