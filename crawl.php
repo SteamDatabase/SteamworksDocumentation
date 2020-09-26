@@ -24,7 +24,7 @@ class Crawler
 		$this->CurlHandle = curl_init( );
 
 		curl_setopt_array( $this->CurlHandle, [
-			CURLOPT_USERAGENT      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36',
+			CURLOPT_USERAGENT      => 'Mozilla/5.0 (compatible; SteamDocsScraper; +https://github.com/xPaw/SteamDocsScraper/)',
 			CURLOPT_ENCODING       => 'gzip',
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_CONNECTTIMEOUT => 30,
