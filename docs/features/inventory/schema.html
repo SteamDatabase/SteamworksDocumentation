@@ -1,6 +1,6 @@
 <h1>Steam Inventory Schema</h1>
 <h2 class="bb_section"><a name="Overview"></a>ItemDef Schema Overview</h2>
-<h2 class="bb_subsection"><a name="CoreSchema"></a>Core Schema</h2>
+<h4>Core Schema and Item Types</h4>
 These are the core properties that are understood &amp; interpreted by Steam and are necessary for
 the correct operation of economy, trading and inventory display. Many of these properties are the
 same as those returned by the
@@ -10,7 +10,7 @@ same as those returned by the
     >ISteamEconomy/GetAssetClassInfo</a
 >
 Web API.
-<h4>An itemdef must be one of the following types</h4>
+<h4>An ItemDef must be one of the following types:</h4>
 <table>
     <tr>
         <th>Name</th>
@@ -71,7 +71,7 @@ See
     >below</a
 >
 for detail on specifying complex item types.
-<h2 class="bb_subsection"><a name="ItemDefProperties"></a>ItemDef Properties</h2>
+<h4>ItemDef Properties</h4>
 <table>
     <tr>
         <th>Name</th>
@@ -429,28 +429,9 @@ for detail on specifying complex item types.
         </td>
     </tr>
 </table>
-<h4>Common Schema</h4>
-These are additional properties that we have defined that should be followed by any game that needs
-the given concept. You aren't required to follow the common properties but doing so will make
-various forms of integration / consistent tools easier in the future.<br /><br />
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td>item_slot</td>
-        <td>What use does this item have in the game. Weapon? Hat? Decoration?</td>
-    </tr>
-    <tr>
-        <td>item_quality</td>
-        <td>integer. 0- junk, 1- common, 2- uncommon, 3-rare, 4-[...]</td>
-    </tr>
-</table>
 <h4>Extended Schema</h4>
-You can also define any additional properties that you need that are specific to your game. We
-require only that you document your extended properties for us so we can prevent conflicts and move
-appropriate properties into the common schema.
+You can also define any additional properties that you need that are specific to your game.
+<h2 class="bb_section"><a name="ItemDefTypes"></a>Using Complex Item Definitions</h2>
 <h2 class="bb_subsection"><a name="SpecifyBundles"></a>Bundle and Generator item types</h2>
 Bundle, generator, and playtimegenerator rules are defined with
 <code class="bb_code bb_code_inline nohighlight">bundle</code> field.<br /><br />In the case of
@@ -490,73 +471,148 @@ supplied explicitly, "1" is used as a default.
 </ul>
 <br />Note that - as in the last example - bundle and generator definitions can be chained. At grant
 time, any complex item types are expanded repeatedly until only simple itemdefs remain.
-<h2 class="bb_subsection"><a name="SellingItems"></a>Selling Items</h2>
+<h2 class="bb_subsection"><a name="ExchangeFormat"></a>Exchange Formulas</h2>
+The ExchangeItems API allows you to define item crafting/transformation recipes that can be securely
+called from the client. Steam servers will check the player inventory and atomically consume the
+given materials and grant a target item if the requirements are met.<br /><br />The target item may
+be a bundle or generator type.<br /><br />The formula is provided in the
+<code class="bb_code bb_code_inline nohighlight">exchange</code> field of the target item. The
+formula is specified as a set of one or more <i>recipes </i> separated by semicolons.
+<br /><br />Each recipe is a set of required <i>material</i> items, separated by commas.<br /><br />Required
+materials can be given explicitly by itemdefid, or by tag. If quantity is not given, 1 is
+assumed.<br /><br />When using ExchangeItems, the caller provides a list of material items to be
+exchanged for the target item. The server will check each recipe, and choose the first recipe that
+is satisfied by the materials given.<br /><br />Exchanges are flexible - using a key to open a
+crate, building a fancy item out of component parts, item recycling, and item upgrades can all be
+achieved with these formulas.
+<h4>Exchange Format</h4>
+<div class="bb_code">
+    &lt;exchange&gt;: &lt;recipe&gt; { ";" &lt;recipe&gt; } &lt;recipe&gt;: &lt;material&gt; { ","
+    &lt;material&gt; } &lt;material&gt;: &lt;item_def_descriptor&gt; / &lt;item_tag_descriptor&gt;
+    &lt;item_def_descriptor&gt;: &lt;itemdefid&gt; [ "x" &lt;quantity&gt; ]
+    &lt;item_tag_descriptor&gt;: &lt;tag_name&gt; ":" &lt;tag_value&gt; [ "*" &lt;quantity&gt; ]
+</div>
+If not explicitly given, required quantity is 1.
+<h4>Exchange Example</h4>
+<div class="bb_code">
+    // require one of: // - one item#100 and one item#101; or, // - five of item#102; or, // - 3 of
+    item#103 and three of item#104. "exchange":"100,101;102x5;103x3,104x3" // requires one left
+    glove and one right glove: "exchange":"handed:left,handed:right" // require three trees plus
+    something fancy: "exchange":"type:tree*3,quality:fancy" // require either: // - item#201 and
+    item#202; or, // - a banana-flavored item and a heavy object
+    "exchange":"201x1,202x1;flavor:banana,mass:heavy" // recycle five "common" artifacts into one
+    "special" artifact: { "name":"special_generator", "type":"generator", "tags":"rarity:special",
+    "bundle":...., "exchange":"rarity:common*5", ... }
+</div>
+<h2 class="bb_subsection"><a name="PromoItems"></a>Promo Items</h2>
+Promotional items can be granted to players based on a few different criteria:<br /><br />
+<ul class="bb_ul">
+    <li>Ownership of an appid (including a DLC appid)<br /></li>
+    <li>An achievement<br /></li>
+    <li>Playtime in an appid<br /></li>
+    <li>Manually granted - client needs to call AddPromoItem with the specific item def id.</li>
+</ul>
+<br />The promotional item checks are done by Steam - so these items can be requested safely from
+the client; see
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem" class="bb_apilink"
+    >ISteamInventory::AddPromoItem</a
+>. To define a promotional item, set one or more rules for granting the item in the "promo" property
+of the item definition.<br /><br />Note that a promotional item may also be a bundle.<br /><br />Promotional
+items that are manually granted can also have drop intervals. As an example, using this you could
+grant a few items each week based on the player completing some task (e.g. in-game quest). To use
+this feature, set the <code class="bb_code bb_code_inline nohighlight">drop_start_time</code> and
+<code class="bb_code bb_code_inline nohighlight">drop_interval</code> values in the itemdef.<br /><br />Promo
+items are not granted for ownership of a free title (including free weekend, borrowed titles, etc.).
+<h4>Promo rule Format</h4>
+<div class="bb_code">
+    &lt;promo&gt;: &lt;rule&gt; { ";" &lt;rule&gt; } &lt;rule&gt;: app_rule / ach_rule / played_rule
+    / manual_rule &lt;app_rule&gt;: "owns:" &lt;appid&gt; &lt;ach_rule&gt;: "ach:" &lt;achievement
+    name&gt; &lt;played_rule&gt;: "played:" &lt;appid&gt;/&lt;minutes played, defaults to 1&gt;
+    &lt;manual&gt;: "manual"
+</div>
+<h4>Promo Examples</h4>
+<div class="bb_code">
+    // simple promo rule definitions: "promo":"owns:440;owns:480" // has played at least 15 minutes
+    on appid 570: "promo":"played:570/15" // consumable item that can be granted once each week:
+    "itemdefid": 404, "type": "item", "name": "Weekly Quest Item", "promo": "manual",
+    "drop_start_time": "20170801T120000Z", "drop_interval": 10080, ...
+</div>
+<h4>Drop Start Time</h4>
+By setting the promo item's drop start time, it will prevents the item for being granted before this
+time. This allows you to deploy the code which grants it in advance of the start time for the item.
+The timestamp needs to be specified in the ISO 8601 format in the UTC time zone:
+<code class="bb_code bb_code_inline nohighlight">YYYYMMDDTHHMMSSZ</code>. For example:
+<code class="bb_code bb_code_inline nohighlight">20050515T171151Z</code>.
+<h2 class="bb_subsection"><a name="PlaytimeDrops"></a>Playtime Item Drops</h2>
+The playtime item drops feature allows the steam servers to track and to manage item drops based on
+the user's playtime. Your game only needs to call the function
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#TriggerItemDrop" class="bb_apilink"
+    >ISteamInventory::TriggerItemDrop</a
+>
+when you believe a grant should occur. You need to create items of type "playtimegenerator" to
+perform the drop.<br />The playtime grant is controlled by your application. There is no support for
+automatic grants based entirely on the users playtime. In other words, playtime is a condition for
+granting, while your application is the trigger for the grant evaluation.<br /><br />The item drop
+frequency can be controlled at the application level via the Community-&gt;Inventory
+Service-&gt;Playtime Item Grants section. There are three controls that will allow the following
+customization:<br />
+(1) How long before a item drop?<br />
+(2) How many items drops in a window? And,<br />
+(3) How long is the cool-down window before we can grant another item drop?<br /><br />The same
+control exists per itemdef. Values set at the item will override any settings at the application for
+that specific item. This allows each item to have their own drop rate, max-per-window and cool-down
+window.<br /><br />Each playtime generator grant will be tracked separately if any of the drop
+settings are specified ('drop_interval', 'use_drop_window', 'drop_window', 'drop_max_per_window' ).
+In other words, if the itemdef does <strong>NOT</strong> any drop settings, then it shares drops
+with all other playtime generators without drop settings and they are all limited by the
+application's drop interval. Otherwise, if the itemdef <strong>does</strong> explicitly specify any
+drop setting, then its drops are granted/tracked separately at the generator level, independent of
+the application or other itemdef playtime generators.
+<h4>Playtime ItemDef Grant Example</h4>
+<ol class="bb_ol">
+    <li>
+        Allow the user to be granted an item after 30 minutes of playtime. A downside of this
+        setting alone is that it allows<br />
+        farming for that item, as every 30 minutes will allow them be eligible for a playtime grant.
+        We strongly suggest adding a drop window setting:<br />
+        <code class="bb_code bb_code_inline nohighlight">"drop_interval" : 30</code><br />
+    </li>
+    <li>
+        Limit to a single drop per day after 30 minutes of playtime. This rewards your players
+        everyday when they return to play your title.<br />
+        <code class="bb_code bb_code_inline nohighlight"
+            >"drop_interval" : 30,<br />
+            "use_drop_window" : "true",<br />
+            "drop_window" : "1440"</code
+        ><br />
+    </li>
+    <li>
+        Allows the user to gain three items each day by playing for at least 90 minutes. These
+        minutes do not need to be contiguous. This reward longer game play.<br />
+        <code class="bb_code bb_code_inline nohighlight"
+            >"drop_interval" : 30,<br />
+            "use_drop_window" : "true",<br />
+            "drop_window" : "1440",<br />
+            "drop_max_per_window" : "3"</code
+        >
+    </li>
+</ol>
+If a particular itemdef setting is missing then it will default to the setting defined at the
+application.
+<h4>Drop Limits</h4>
+The <code class="bb_code bb_code_inline nohighlight">drop_limit</code> variable allows a maximum
+playtime grants for a specific generator.<br />You can use to limit the times an item is generated
+(for example: Only the first time they beat the game on
+<strong>Legendary difficulty</strong>).<br />Alternatively it can be used to prevent any future
+drops of a deprecated item if the value is set to zero. We will only acknowledge this setting if the
+<code class="bb_code bb_code_inline nohighlight">use_drop_limit</code> is assigned to "true".
+<h2 class="bb_section"><a name="SellingItems"></a>Selling Items</h2>
 To make certain game items available for sale, simply define prices or price categories in the
 appropriate itemdefs.<br />See the Steam
 <a href="https://partner.steamgames.com/doc/features/inventory/itemstore" class="bb_doclink"
     >Item Store</a
 >
 documentation for more information on enabling and customizing your store page.
-<h2 class="bb_subsection"><a name="SellingBundles"></a>Selling Bundles</h2>
-<br />Bundled items can be listed for sale in the Item Store. The bundle will be expanded in the
-checkout process, so the user will see the list of granted items. The Steam Refund Policy allows
-refunding the purchase within certain time limits - but all the enclosed items must still be found
-in the player's inventory, and unmodified.
-<h4>Bundle Prices</h4>
-When pricing a bundle, there are a few additional steps to consider. Steam uses the prices of the
-individual item within the bundle to determine the bundle price, and to allocate the bundle revenue
-proportionately. This allocation will determine the value of Workshop contributor payouts. One
-bundle can easily mix content from different Workshop contributors, or include Workshop content with
-your own first-party content.<br /><br />To price a bundled item:<br />
-<ul class="bb_ul">
-    <li>Specify price information for each item within the bundle.<br /></li>
-    <li>
-        If any of the contained items should not be available for individual sale, set
-        <code class="bb_code bb_code_inline nohighlight">store_hidden</code><br />
-        to "true" for those items.<br />
-    </li>
-    <li>
-        Set the <code class="bb_code bb_code_inline nohighlight">price</code> or
-        <code class="bb_code bb_code_inline nohighlight">price_category</code> field of the bundle
-        to a simple price (such as VLV0).<br />
-        This price will not be used in the store, but it is necessary to signal to the Item Store
-        that this is a sellable item.<br />
-    </li>
-    <li>
-        Optionally set the
-        <code class="bb_code bb_code_inline nohighlight">purchase_bundle_discount</code> to a
-        percentage discount for the bundle.
-    </li>
-</ul>
-<br />If you prefer, you can specify an exact bundle price in each currency. The bundle price
-override will ignore any
-<code class="bb_code bb_code_inline nohighlight">purchase_bundle_discount</code> you specify.
-However, the individual item prices are still used to proportionately allocate the bundle revenue,
-so they must be provided.<br /><br />To override the automatic bundle price:<br />
-<ul class="bb_ul">
-    <li>
-        Specify your desired price in the
-        <code class="bb_code bb_code_inline nohighlight">price</code> or
-        <code class="bb_code bb_code_inline nohighlight">price_category</code> field of the
-        bundle.<br />
-    </li>
-    <li>
-        Set the <code class="bb_code bb_code_inline nohighlight">use_bundle_price</code> to
-        <code class="bb_code bb_code_inline nohighlight">true</code> for the bundle item.
-    </li>
-</ul>
-<h4>Selling Generator items</h4>
-Do not attempt to sell items of type
-<code class="bb_code bb_code_inline nohighlight">generator</code> directly in the Item Store.<br /><br />To
-sell an item with a random component (a chest), you should define the chest item as a simple
-<code class="bb_code bb_code_inline nohighlight">item</code> type. Then create a generator item that
-accepts the chest as input for an exchange recipe.<br /><br />After purchase, the player can choose
-to "open" the chest, at which time you can call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
-    >ISteamInventory::ExchangeItems</a
->
-to execute the generator. The chest purchase will no longer be refundable once the chest has been
-opened.
 <h2 class="bb_subsection"><a name="SpecifyPrices"></a>Specifying Prices</h2>
 Item prices can be defined in either of the following fields, but not both.<br />
 <table>
@@ -624,7 +680,67 @@ characters.<br /><br />The list of dateranges must be in descending order (futur
         reduced to $0.50 / 0.40)
     </li>
 </ul>
-<h4>Preset Pricing Table</h4>
+<h2 class="bb_subsection"><a name="SellingBundles"></a>Selling Bundles</h2>
+<br />Bundled items can be listed for sale in the Item Store. The bundle will be expanded in the
+checkout process, so the user will see the list of granted items. The Steam Refund Policy allows
+refunding the purchase within certain time limits - but all the enclosed items must still be found
+in the player's inventory, and unmodified.
+<h4>Bundle Prices</h4>
+When pricing a bundle, there are a few additional steps to consider. Steam uses the prices of the
+individual item within the bundle to determine the bundle price, and to allocate the bundle revenue
+proportionately. This allocation will determine the value of Workshop contributor payouts. One
+bundle can easily mix content from different Workshop contributors, or include Workshop content with
+your own first-party content.<br /><br />To price a bundled item:<br />
+<ul class="bb_ul">
+    <li>Specify price information for each item within the bundle.<br /></li>
+    <li>
+        If any of the contained items should not be available for individual sale, set
+        <code class="bb_code bb_code_inline nohighlight">store_hidden</code><br />
+        to "true" for those items.<br />
+    </li>
+    <li>
+        Set the <code class="bb_code bb_code_inline nohighlight">price</code> or
+        <code class="bb_code bb_code_inline nohighlight">price_category</code> field of the bundle
+        to a simple price (such as VLV0).<br />
+        This price will not be used in the store, but it is necessary to signal to the Item Store
+        that this is a sellable item.<br />
+    </li>
+    <li>
+        Optionally set the
+        <code class="bb_code bb_code_inline nohighlight">purchase_bundle_discount</code> to a
+        percentage discount for the bundle.
+    </li>
+</ul>
+<br />If you prefer, you can specify an exact bundle price in each currency. The bundle price
+override will ignore any
+<code class="bb_code bb_code_inline nohighlight">purchase_bundle_discount</code> you specify.
+However, the individual item prices are still used to proportionately allocate the bundle revenue,
+so they must be provided.<br /><br />To override the automatic bundle price:<br />
+<ul class="bb_ul">
+    <li>
+        Specify your desired price in the
+        <code class="bb_code bb_code_inline nohighlight">price</code> or
+        <code class="bb_code bb_code_inline nohighlight">price_category</code> field of the
+        bundle.<br />
+    </li>
+    <li>
+        Set the <code class="bb_code bb_code_inline nohighlight">use_bundle_price</code> to
+        <code class="bb_code bb_code_inline nohighlight">true</code> for the bundle item.
+    </li>
+</ul>
+<h4>Selling Generator items</h4>
+Do not attempt to sell items of type
+<code class="bb_code bb_code_inline nohighlight">generator</code> directly in the Item Store.<br /><br />To
+sell an item with a random component (a chest), you should define the chest item as a simple
+<code class="bb_code bb_code_inline nohighlight">item</code> type. Then create a generator item that
+accepts the chest as input for an exchange recipe.<br /><br />After purchase, the player can choose
+to "open" the chest, at which time you can call
+<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
+    >ISteamInventory::ExchangeItems</a
+>
+to execute the generator. The chest purchase will no longer be refundable once the chest has been
+opened.
+<h2 class="bb_subsection"><a name="VlvPricing"></a>VLV Preset Pricing Table</h2>
 Here are the current possible values you can use to specify a price_category for your item.<br />
 <table>
     <tr>
@@ -804,206 +920,7 @@ Here are the current possible values you can use to specify a price_category for
         <td>$99.99 USD</td>
     </tr>
 </table>
-<h2 class="bb_subsection"><a name="PromoItems"></a>Promo Items</h2>
-Promotional items can be granted to players based on a few different criteria:<br /><br />
-<ul class="bb_ul">
-    <li>Ownership of an appid (including a DLC appid)<br /></li>
-    <li>An achievement<br /></li>
-    <li>Playtime in an appid<br /></li>
-    <li>Manually granted - client needs to call AddPromoItem with the specific item def id.</li>
-</ul>
-<br />The promotional item checks are done by Steam - so these items can be requested safely from
-the client; see
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem" class="bb_apilink"
-    >ISteamInventory::AddPromoItem</a
->. To define a promotional item, set one or more rules for granting the item in the "promo" property
-of the item definition.<br /><br />Note that a promotional item may also be a bundle.<br /><br />Promotional
-items that are manually granted can also have drop intervals. As an example, using this you could
-grant a few items each week based on the player completing some task (e.g. in-game quest). To use
-this feature, set the <code class="bb_code bb_code_inline nohighlight">drop_start_time</code> and
-<code class="bb_code bb_code_inline nohighlight">drop_interval</code> values in the itemdef.<br /><br />Promo
-items are not granted for ownership of a free title (including free weekend, borrowed titles, etc.).
-<h4>Promo rule Format</h4>
-<div class="bb_code">
-    &lt;promo&gt;: &lt;rule&gt; { ";" &lt;rule&gt; } &lt;rule&gt;: app_rule / ach_rule / played_rule
-    / manual_rule &lt;app_rule&gt;: "owns:" &lt;appid&gt; &lt;ach_rule&gt;: "ach:" &lt;achievement
-    name&gt; &lt;played_rule&gt;: "played:" &lt;appid&gt;/&lt;minutes played, defaults to 1&gt;
-    &lt;manual&gt;: "manual"
-</div>
-<h4>Promo Examples</h4>
-<div class="bb_code">
-    // simple promo rule definitions: "promo":"owns:440;owns:480" // has played at least 15 minutes
-    on appid 570: "promo":"played:570/15" // consumable item that can be granted once each week:
-    "itemdefid": 404, "type": "item", "name": "Weekly Quest Item", "promo": "manual",
-    "drop_start_time": "20170801T120000Z", "drop_interval": 10080, ...
-</div>
-<h4>Drop Start Time</h4>
-By setting the promo item's drop start time, it will prevents the item for being granted before this
-time. This allows you to deploy the code which grants it in advance of the start time for the item.
-The timestamp needs to be specified in the ISO 8601 format in the UTC time zone:
-<code class="bb_code bb_code_inline nohighlight">YYYYMMDDTHHMMSSZ</code>. For example:
-<code class="bb_code bb_code_inline nohighlight">20050515T171151Z</code>.
-<h2 class="bb_subsection"><a name="ExchangeFormat"></a>Exchange Formulas</h2>
-Exchange formulas are used by the ExchangeItems API and are specified as a set of one or more
-recipes separated by semicolons.<br />Each recipe is a set of required ingredients, separated by
-commas. Each ingredient consists of an itemdefid number and an optional quantity specified after the
-x character.<br /><br />When using ExchangeItems, the caller provides a list of items to be
-exchanged for the target item.<br />The server will check each recipe, and choose the first recipe
-that is satisfied by the item list given.<br /><br />Note that an item with an Exchange formula may
-also be a bundle.
-<h4>Exchange Format</h4>
-<div class="bb_code">
-    &lt;exchange&gt;: &lt;recipe&gt; { ";" &lt;recipe&gt; } &lt;recipe&gt;: &lt;component&gt; { ","
-    &lt;component&gt; } &lt;component&gt;: &lt;itemdefid&gt; [ "x" &lt;quantity&gt; ]
-</div>
-<h4>Exchange Example</h4>
-<div class="bb_code">"exchange":"100,101;102x5;103x3,104x3"</div>
-<h2 class="bb_section"><a name="ItemSchema"></a>Item Schema</h2>
-Instances of items that a user has in their inventory follow the following basic schema.
-<h2 class="bb_subsection"><a name="1"></a>Core Schema</h2>
-These are the core properties that are understood &amp; interpreted by Steam and are necessary for
-the correct operation of economy, trading and inventory display. Many of these properties are the
-same as those returned by the
-<a
-    href="https://partner.steamgames.com/doc/webapi/ISteamEconomy#GetAssetClassInfo"
-    class="bb_apilink"
-    >ISteamEconomy/GetAssetClassInfo</a
->
-Web API. <br /><br />All properties are effectively read-only, although quantity may change if the
-user is granted or consumes an item.<br /><br />
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td>accountid</td>
-        <td>The ID of the user (64-bit steam ID) that owns the item</td>
-    </tr>
-    <tr>
-        <td>itemid</td>
-        <td>Unique ID assigned by steam. 64-bit unsigned integer</td>
-    </tr>
-    <tr>
-        <td>itemdefid</td>
-        <td>The itemdef id as described above</td>
-    </tr>
-    <tr>
-        <td>appid</td>
-        <td>The ID of your application</td>
-    </tr>
-    <tr>
-        <td>quantity</td>
-        <td>Not supported in Steam Inventory Service yet</td>
-    </tr>
-    <tr>
-        <td>acquired</td>
-        <td>date when this was purchased / acquired</td>
-    </tr>
-    <tr>
-        <td>price</td>
-        <td>price paid for it at acquisition (eg USD49)</td>
-    </tr>
-    <tr>
-        <td>state</td>
-        <td>'','traded','revoked','removed','refunded','chargedback'</td>
-    </tr>
-    <tr>
-        <td>transid</td>
-        <td>
-            transaction id that created this item. For a traded item it’s the auditid associated
-            with the trade request
-        </td>
-    </tr>
-    <tr>
-        <td>origin</td>
-        <td>'purchase','trade','promo','gametime','exchange','support','external','market'</td>
-    </tr>
-    <tr>
-        <td>originalitemid</td>
-        <td>
-            for an item that wasn't granted new, the ID of the original item. If an item has been
-            traded multiple times this will still point to the first instance. Will point to itself
-            if the item is original.
-        </td>
-    </tr>
-    <tr>
-        <td>position</td>
-        <td>Where is this item in the user's backpack.</td>
-    </tr>
-    <tr>
-        <td>tradable_after_timestamp</td>
-        <td>Date where the item becomes tradable.</td>
-    </tr>
-    <tr>
-        <td>marketable_after_timestamp</td>
-        <td>Date where the item becomes marketable.</td>
-    </tr>
-</table>
-<h2 class="bb_subsection"><a name="PlaytimeDrops"></a>Playtime Item Drops</h2>
-The playtime item drops feature allows the steam servers to track and to manage item drops based on
-the user's playtime. Your game only needs to call the function
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#TriggerItemDrop" class="bb_apilink"
-    >ISteamInventory::TriggerItemDrop</a
->
-when you believe a grant should occur. You need to create items of type "playtimegenerator" to
-perform the drop.<br />The playtime grant is controlled by your application. There is no support for
-automatic grants based entirely on the users playtime. In other words, playtime is a condition for
-granting, while your application is the trigger for the grant evaluation.<br /><br />The item drop
-frequency can be controlled at the application level via the Community-&gt;Inventory
-Service-&gt;Playtime Item Grants section. There are three controls that will allow the following
-customization:<br />
-(1) How long before a item drop?<br />
-(2) How many items drops in a window? And,<br />
-(3) How long is the cool-down window before we can grant another item drop?<br /><br />The same
-control exists per itemdef. Values set at the item will override any settings at the application for
-that specific item. This allows each item to have their own drop rate, max-per-window and cool-down
-window.<br /><br />Each playtime generator grant will be tracked separately if any of the drop
-settings are specified ('drop_interval', 'use_drop_window', 'drop_window', 'drop_max_per_window' ).
-In other words, if the itemdef does <strong>NOT</strong> any drop settings, then it shares drops
-with all other playtime generators without drop settings and they are all limited by the
-application's drop interval. Otherwise, if the itemdef <strong>does</strong> explicitly specify any
-drop setting, then its drops are granted/tracked separately at the generator level, independent of
-the application or other itemdef playtime generators.
-<h4>Playtime ItemDef Grant Example</h4>
-<ol class="bb_ol">
-    <li>
-        Allow the user to be granted an item after 30 minutes of playtime. A downside of this
-        setting alone is that it allows<br />
-        farming for that item, as every 30 minutes will allow them be eligible for a playtime grant.
-        We strongly suggest adding a drop window setting:<br />
-        <code class="bb_code bb_code_inline nohighlight">"drop_interval" : 30</code><br />
-    </li>
-    <li>
-        Limit to a single drop per day after 30 minutes of playtime. This rewards your players
-        everyday when they return to play your title.<br />
-        <code class="bb_code bb_code_inline nohighlight"
-            >"drop_interval" : 30,<br />
-            "use_drop_window" : "true",<br />
-            "drop_window" : "1440"</code
-        ><br />
-    </li>
-    <li>
-        Allows the user to gain three items each day by playing for at least 90 minutes. These
-        minutes do not need to be contiguous. This reward longer game play.<br />
-        <code class="bb_code bb_code_inline nohighlight"
-            >"drop_interval" : 30,<br />
-            "use_drop_window" : "true",<br />
-            "drop_window" : "1440",<br />
-            "drop_max_per_window" : "3"</code
-        >
-    </li>
-</ol>
-If a particular itemdef setting is missing then it will default to the setting defined at the
-application.
-<h4>Drop Limits</h4>
-The <code class="bb_code bb_code_inline nohighlight">drop_limit</code> variable allows a maximum
-playtime grants for a specific generator.<br />You can use to limit the times an item is generated
-(for example: Only the first time they beat the game on
-<strong>Legendary difficulty</strong>).<br />Alternatively it can be used to prevent any future
-drops of a deprecated item if the value is set to zero. We will only acknowledge this setting if the
-<code class="bb_code bb_code_inline nohighlight">use_drop_limit</code> is assigned to "true".
-<h2 class="bb_subsection"><a name="Example"></a>ItemDef Schema Example:</h2>
+<h2 class="bb_section"><a name="Example"></a>ItemDef Schema Example:</h2>
 <div class="bb_code json">
     { "appid": 480, "items": [ { "itemdefid": 10, "type": "playtimegenerator", "bundle":
     "100x100;101x50;102x25;103x2;110x20;111x20;120x5;121x3", "name": "Drop Generator", "name_color":
