@@ -14,7 +14,7 @@ Below is a guide to using SteamPipe, Valve's tool for delivering content to Stea
 	// Include all files recursively
 	"FileMapping"
 	{
-		// This can be a full path, or a path relative to ContentRoot
+		// This is a path relative to ContentRoot
 		"LocalPath" "*"
 
 		// This is a path relative to the install folder of your game
@@ -27,7 +27,7 @@ Below is a guide to using SteamPipe, Valve's tool for delivering content to Stea
 	}
 
 	// Exclude all symbol files
-	// This can be a full path, or a path relative to ContentRoot
+	// This is a path relative to ContentRoot
 	"FileExclusion" "*.pdb"
 }
 </div><br><strong>NOTE:</strong> Setting a "ContentRoot" in the depot build script will override the "ContentRoot" in the app build script.<h2 class="bb_subsection"><a name="5"></a>App Build Script</h2>After setting up your Depot build scripts you will need an App build script which describes the details of the build. Start by duplicating the <code class="bb_code bb_code_inline nohighlight">app_build_1000.vdf</code> script and renaming it with the app ID that it will be building.<br><br>The following types of builds supported by SteamPipe:<br><ul class="bb_ul ">	<li> Preview - This type of build only outputs logs and a file manifest. Building preview builds is a good way to iterate on your upload scripts.<br>	</li><li> Local - Builds for the <a href="https://partner.steamgames.com/doc/sdk/uploading/local_content_server" class="bb_doclink">SteamPipe Local Content Server</a>. LCS builds upload to your own LCS and allow you to test the installation of your game using the Steam client.<br>	</li><li> SteamPipe - SteamPipe builds result in your depots actually being uploaded to Steam. This is always safe to do, even for games that are already released, as you will need to set it public before customers can download it.</li></ul><br>Example app build script:<br><div class="bb_code ">"appbuild"
