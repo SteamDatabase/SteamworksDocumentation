@@ -106,7 +106,7 @@ class Crawler
 
 		if( $Content->length === 0 )
 		{
-			echo 'Did not find content tag on ' . $Doc . PHP_EOL;
+			fwrite( STDERR, 'Did not find content tag on ' . $Doc . PHP_EOL );
 			return;
 		}
 
@@ -152,7 +152,7 @@ class Crawler
 
 				if( strpos( $Doc, '%' ) !== false )
 				{
-					echo 'New link but its bad: ' . $Doc . PHP_EOL;
+					fwrite( STDERR, 'New link but its bad: ' . $Doc . PHP_EOL );
 					continue;
 				}
 
