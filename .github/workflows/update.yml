@@ -1,0 +1,18 @@
+name: Daily update
+
+on:
+  schedule:
+    - cron: '0 10 * * *'
+
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Git config
+      run: |-
+        git config user.name "Wendy"
+        git config user.email "freeman@steamdb.info"
+    - name: Run script
+      run: ./update.sh
