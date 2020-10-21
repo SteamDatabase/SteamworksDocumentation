@@ -5,7 +5,7 @@ API please see the
 >.
 <h2 class="bb_section"><a name="AuthenticateUser"></a>AuthenticateUser</h2>
 <div class="bb_code http">
-    POST https://api.steampowered.com/ISteamUserAuth/AuthenticateUser/v1/
+    POST https://partner.steam-api.com/ISteamUserAuth/AuthenticateUser/v1/
 </div>
 <table>
     <tr>
@@ -38,7 +38,7 @@ API please see the
 </table>
 <h2 class="bb_section"><a name="AuthenticateUserTicket"></a>AuthenticateUserTicket</h2>
 <div class="bb_code http">
-    GET https://api.steampowered.com/ISteamUserAuth/AuthenticateUserTicket/v1/
+    GET https://partner.steam-api.com/ISteamUserAuth/AuthenticateUserTicket/v1/
 </div>
 <table>
     <tr>
@@ -51,7 +51,7 @@ API please see the
         <td><strong>key</strong></td>
         <td>string</td>
         <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
+        <td>Steamworks Web API publisher authentication key</td>
     </tr>
     <tr>
         <td><strong>appid</strong></td>
@@ -69,4 +69,12 @@ API please see the
         </td>
     </tr>
 </table>
-<br />
+<br /><strong>Returns</strong>: The user's 64-bit SteamID if the user's ticket is valid<br /><br /><strong
+    >NOTE</strong
+>: This call requires a publisher API key to use this method. As such this API MUST be called from a
+secure server, and can never be used directly by clients!<br /><br />AuthenticateUserTIcket is also
+available for games servers via the
+<a href="https://api.steampowered.com/" target="_blank" rel="noreferrer"
+    >https://api.steampowered.com/</a
+>
+domain using a Web API user authentication key. These requests are rate limited.
