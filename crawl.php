@@ -4,6 +4,7 @@ declare(strict_types=1);
 libxml_use_internal_errors( true );
 
 $Crawler = new Crawler();
+$Crawler->DiscoverFromSearch();
 $Crawler->Crawl();
 
 class Crawler
@@ -81,6 +82,47 @@ class Crawler
 			$Content = $this->Fetch( $Link );
 			$this->Process( $Link, $Content );
 		}
+	}
+
+	public function DiscoverFromSearch( ) : void
+	{
+		$Queries =
+		[
+			'Steam',
+		];
+
+		foreach( $Queries as $Query )
+		{
+			$this->DiscoverFromSearchQuery( $Query );
+		}
+	}
+
+	public function DiscoverFromSearchQuery( string $Query ) : void
+	{
+		$Query = 'Steam';
+		$Page = 1;
+
+		do
+		{
+			echo 'Fetching ' . $Query . ' offset ' . $Page . '... ';
+
+			curl_setopt( $this->CurlHandle, CURLOPT_URL, 'https://partner.steamgames.com/doc?q=' . urlencode( $Query ) . '&start=' . $Page );
+
+			$Content = (string)curl_exec( $this->CurlHandle );
+
+			echo curl_getinfo( $this->CurlHandle, CURLINFO_HTTP_CODE ) . PHP_EOL;
+
+			$XPath = $this->DataToXPath( $Content );
+			$this->DiscoverLinks( $XPath );
+
+			if( !$XPath->evaluate( 'boolean(//a[@class="docSearchResultLink"])', null, false ) )
+			{
+				break;
+			}
+
+			$Page += 20;
+		}
+		while( true );
 	}
 
 	public function Fetch( string $Doc ) : string
