@@ -64,14 +64,14 @@ Networking API similar to Berkeley sockets, but for games.<br /><br />
         from being revealed and in many cases improves ping times and connection quality.<br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamNetworking" class="bb_apilink"
-            >ISteamNetworking</a
+        <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages" class="bb_apilink"
+            >ISteamNetworkingMessages</a
         >
-        Previous version of this interface.<br />
-    </li>
-    <li>
-        Coming soon: ISteamNetworkingMessages is a UDP-style interface. Send and receive messages
-        using peer address/identity, instead of connection handles.
+        is a UDP-style interface. Send and receive messages by specifying the destination peer in
+        each send call, instead of establishing a connection first. The same connections are still
+        used under the hood, so you still get the same performance, but the connections are created
+        and idle timed out for you automatically, and you do not receive quite as much control over
+        the connection, or feedback about its state.
     </li>
 </ul>
 <br />An opensource version of this API is available on
@@ -565,7 +565,7 @@ invalid.
 <br />Returns local IP and port that a listen socket created using CreateListenSocketIP is bound
 to.<br /><br />Specific IPv6/IPv4 addresses may be returned if you bound the socket to a particular
 interface.<br />An IPv6 address of ::0 means "any IPv4 or IPv6"<br />An IPv6 address of
-::ffff:0000:0000 means "any IPv4"<br /><br />NOTE: This is not how you find our your public IP that
+::ffff:0000:0000 means "any IPv4"<br /><br />NOTE: This is not how you find out your public IP that
 clients can connect to.<br />Try
 <a href="https://partner.steamgames.com/doc/api/ISteamGameServer#GetPublicIP" class="bb_apilink"
     >ISteamGameServer::GetPublicIP</a
@@ -909,3 +909,11 @@ communication. In order to do this we need:<br />
     Non-localized English language status. For diagnostic/debugging /// purposes only. char
     m_debugMsg[ 256 ]; };
 </div>
+<h2 class="bb_section"><a name="custom_signaling"></a>Custom P2P signaling</h2>
+<i>Signaling</i> refers to rendezvous messages sent through a trusted channel that is low bandwidth
+and high latency, used by peers to negotiate a P2P connection. Steam provides a signaling service
+for you. However, in some situations you may wish to do your own signaling. (For example, if one or
+both of your peers are not on Steam.) You can use SteamNetworkingSockets to make P2P connections,
+with your own signaling. You can use ICE to pierce NAT and use standard STUN/TURN servers, or
+depending on our situation, SDR relay network and Valve backbone may not be available. Please let us
+know if you need more information about these APIs.<br /><br />

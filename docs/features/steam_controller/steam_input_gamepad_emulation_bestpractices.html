@@ -4,8 +4,8 @@ Steam Input Gamepad Emulation is a lightweight way for developers who already ha
 support to extend it. Over 800 games on Steam are using this for at least one controller type,
 including notable games such as Monster Hunter: World, Ace Combat 7, Dragon Quest XI, Into the
 Breach, and Middle Earth: Shadow of War though not all of them are following the full list of best
-practices. Here we'll highlight Into the Breach because they are do a great job of following each of
-these best practices.
+practices. Here we'll highlight Into the Breach because they are doing a great job of following each
+of these best practices.
 <h2 class="bb_section"><a name="2"></a>Showing device specific art</h2>
 We support two ways to get device specific glyphs with Steam Input Gamepad Emulation – one for games
 that can load images at run-time that is future-proofed (meaning that when Steam updates Steam Input
@@ -117,41 +117,56 @@ getting the controller type and keying off that:<br />
         >
     </li>
 </ul>
-<h2 class="bb_section"><a name="5"></a>Setting your configuration</h2>
+<h2 class="bb_section"><a name="5"></a>Setting the Steamworks Settings</h2>
+The first step is to setup which controllers will use Steam Input in the Opt-in dropdown on the
+Steamworks settings under Application-&gt;Steam Input. For a standard game w/ Xbox controller
+support we recommend checking all checkboxes other than Xbox:<br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_optin_settings.png"
+    alt="steamworks_steam_input_optin_settings.png"
+    title="steamworks_steam_input_optin_settings.png"
+/><br /><br />If your game has flight stick or racing wheel support you'll want to uncheck the box
+for Generic/Direct Input controllers because Steam doesn't support remapping those devices.
+<h2 class="bb_subsection"><a name="6"></a>Selecting a configuration</h2>
 You can choose to create your own configuration or pick from one of our premade templates. It is not
 necessary to create your own configuration unless you plan tweaking the configurations away from our
-defaults or labeling individual bindings with what they do in-game.
-<h2 class="bb_subsection"><a name="6"></a>Picking a template</h2>
+defaults or labeling individual bindings with what they do in-game. The built-in templates for Steam
+Input are localized into all Steam's languages so please make sure you also localize your
+configuration to avoid English being shown to non-English users.
+<h2 class="bb_subsection"><a name="7"></a>Picking a template</h2>
 Console controllers do not differentiate between the various gamepad template variants, but these
 settings are important for the Steam Controller. Here's an explanation of the templates and which
 type of games they are intended for:<br />
 <ul class="bb_ul">
     <li>
-        Gamepad - This emulates an Xbox controller with the right trackpad being turned into a raw
-        emulated joystick. Perfect for twin-stick, platformer, or sports games.<br />
+        <strong>Gamepad</strong> - This emulates an Xbox controller with the right trackpad being
+        turned into a raw emulated joystick. Perfect for twin-stick, platformer, or sports games.<br />
     </li>
     <li>
-        Gamepad With High Precision Camera/Aim - This configuration is the ideal configuration for
-        an FPS or any game using camera controls. Be careful to test that your game supports
-        simultaneous gamepad/mouse before selecting this, including any ancillary screens such as
-        inventory or map screens.<br />
+        <strong>Gamepad With High Precision Camera/Aim</strong> - This configuration is the ideal
+        configuration for an FPS or any game using camera controls. Be careful to test that your
+        game supports simultaneous gamepad/mouse before selecting this, including any ancillary
+        screens such as inventory or map screens.<br />
     </li>
     <li>
-        Gamepad with Camera Controls - This configuration takes mouse-style input from the trackpad
-        and translates it into flicks of an emulated joystick. If your game can be configured to
-        have very high joystick sensitivity, no deadzone, and a linear acceleration curve this
-        configuration can work well, otherwise please consider using a mouse/keyboard config
-        instead.
+        <strong>Gamepad with Camera Controls</strong> - This configuration takes mouse-style input
+        from the trackpad and translates it into flicks of an emulated joystick. If your game can be
+        configured to have very high joystick sensitivity, no deadzone, and a linear acceleration
+        curve this configuration can work well, otherwise please consider using a mouse/keyboard
+        config instead.
     </li>
 </ul>
-<br />Steps for setting the template live for your game in Steamworks can be found
+<br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steam_input_gamepad_templates.png"
+    alt="steam_input_gamepad_templates.png"
+    title="steam_input_gamepad_templates.png"
+/><br /><br />Steps for setting the template live for your game in Steamworks can be found
 <a
-    href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#22"
+    href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#23"
     target="_blank"
     rel="noreferrer"
     >here</a
 >
-<h2 class="bb_subsection"><a name="7"></a>Creating a custom configuration</h2>
+<h2 class="bb_subsection"><a name="8"></a>Creating a custom configuration</h2>
 Configurations can be auto-converted between most controller types, but you'll at a minimum want
 want to make a Steam Controller and Xbox controller configuration.
 <div class="bb_callout bb_green">
@@ -213,7 +228,7 @@ little bit more complicated when not using Steam Input API but it is still achie
             target="_blank"
             rel="noreferrer"
             >these instructions</a
-        >
+        >. You will want to set the "use action block" checkbox for one your configurations.
     </li>
 </ul>
 <br />The example configuration can be previewed in the steam client by entering this URL in your
@@ -223,4 +238,4 @@ browser: steam://controllerconfig/681280/1744110334 or you can find the VDF file
     href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/ExampleLocalizedConfiguration.vdf"
     target="_blank"
     >here</a
-><br /><br />
+>
