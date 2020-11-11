@@ -486,12 +486,13 @@ Emulation.<br /><br /><strong>Returns:</strong>
 <div class="bb_code cpp">
     InputHandle_t inputHandle = SteamInput()-&gt;GetControllerForGamepadIndex( gamepadIndex ); if (
     inputHandle == 0 ) { // This is a normal Xbox controller. } else { ESteamInputType inputType =
-    SteamInput()-&gt;GetInputTypeForHandle(controller1Handle); switch(inputType) { case
-    k_ESteamInputType_Unknown: printf("unknown\n!"); break; case k_ESteamInputType_SteamController:
-    printf("Steam controller\n!"); break; case k_ESteamInputType_XBox360Controller: printf("XBox 360
-    controller\n!"); break; case k_ESteamInputType_XBoxOneController: printf("XBox One
-    controller\n!"); break; case k_ESteamInputType_GenericXInput: printf("Generic XInput\n!");
-    break; case k_ESteamInputType_PS4Controller: printf("PS4 controller\n!"); break; } }
+    SteamInput()-&gt;GetInputTypeForHandle( inputHandle ); switch( inputType ) { case
+    k_ESteamInputType_Unknown: printf( "unknown\n!" ); break; case
+    k_ESteamInputType_SteamController: printf( "Steam controller\n!" ); break; case
+    k_ESteamInputType_XBox360Controller: printf( "XBox 360 controller\n!" ); break; case
+    k_ESteamInputType_XBoxOneController: printf( "XBox One controller\n!" ); break; case
+    k_ESteamInputType_GenericXInput: printf( "Generic XInput\n!" ); break; case
+    k_ESteamInputType_PS4Controller: printf( "PS4 controller\n!" ); break; } }
 </div>
 <h2 class="bb_subsection"><a name="GetCurrentActionSet"></a>GetCurrentActionSet</h2>
 <div class="bb_code cpp">
@@ -1428,26 +1429,27 @@ look up table or passed into GetGlyphForActionOrigin or GetStringForActionOrigin
 </table>
 <br /><strong>Returns:</strong> bool - true if a device binding was successfully found and false if
 the binding is still loading.<br /><br />Gets the major and minor device binding revisions for Steam
-Input API configurations. Minor revisions are for small changes such as adding a new option action
-or updating localization in the configuration. When updating a Minor revision only one new
-configuration needs to be update with the "Use Action Block" flag set. Major revisions are to be
-used when changing the number of action sets or otherwise reworking configurations to the degree
-that older configurations are no longer usable. When a user's binding disagree's with the major
-revision of the current official configuration Steam will forcibly update the user to the new
-configuration. New configurations will need to be made for every controller when updating the Major
-revision.<br /><br /><strong>Example Code:</strong><br />
+Input API configurations. Major revisions are to be used when changing the number of action sets or
+otherwise reworking configurations to the degree that older configurations are no longer usable.
+When a user's binding disagrees with the major revision of the current official configuration Steam
+will forcibly update the user to the new configuration. New configurations will need to be made for
+every controller when updating the major revision. Minor revisions are for small changes such as
+adding a new optional action or updating localization in the configuration. When updating the minor
+revision you generally can update a single configuration and check the "Use Action Block" to apply
+the action block changes to the other configurations.<br /><br /><strong>Example Code:</strong
+><br />
 <div class="bb_code cpp">
-    int nMinor = -1; int nMinor = -1; const int nCurrentMajorRevision = 1; const int
-    nCurrentMinorRevision = 1; if ( GetDeviceBindingRevision( inputHandle, &amp;nMajor, &amp;nMinor
-    ) ) { if ( nMinorRevision != nCurrentMinorRevision ) { // The minor version out of date, but
-    that's ok // next time they edit their config this will get fixed } if ( nMajorRevision !=
-    nCurrentMajorRevision ) { // This should only happen briefly while Steam detects // and then
-    force-updates the user to the latest official config } } else { // The configuration isn't
-    loaded for this controller yet }
+    int nMajorRevision = -1; int nMinorRevision= -1; const int nCurrentMajorRevision = 1; const int
+    nCurrentMinorRevision = 1; if ( GetDeviceBindingRevision( inputHandle, &amp;nMajorRevision ,
+    &amp;nMinorRevision ) ) { if ( nMinorRevision != nCurrentMinorRevision ) { // The minor version
+    out of date, but that's ok // next time they edit their config this will get fixed } if (
+    nMajorRevision != nCurrentMajorRevision ) { // This should only happen briefly while Steam
+    detects // and then force-updates the user to the latest official config } } else { // The
+    configuration isn't loaded for this controller yet }
 </div>
 <br /><strong>Example In-game Action File Usage:</strong><br />
 <div class="bb_code">
-    "In Game Actions" { "major_revision" "0" “minor_revision” “1” "actions" { ...
+    "In Game Actions" { "major_revision" "0" "minor_revision" "1" "actions" { ...
 </div>
 <h2 class="bb_subsection"><a name="GetRemotePlaySessionID"></a>GetDeviceBindingRevision</h2>
 <div class="bb_code cpp">uint32 GetRemotePlaySessionID( InputHandle_t inputHandle );</div>
