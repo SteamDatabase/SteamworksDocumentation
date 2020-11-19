@@ -6,7 +6,7 @@ push "down" to scroll through a list of hundreds of items, one at a time?<br /><
 you define simple macros like, "If I hold DOWN for 1 second, repeat DOWN every 0.1 seconds
 thereafter until release." Ta-da! Now you can scroll through that list in a jiffy just by holding
 down the button, even though the developers never implemented it!<br /><br />So here we are in the
-configuration menu for said hypothetical RPG -- the DPAD is already properly bound, but we want to
+configuration menu for said hypothetical RPG -- the Dpad is already properly bound, but we want to
 add an activator to the "Dpad Down" input:<br /><br /><img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/activator_ddown.png"
     alt="activator_ddown.png"
@@ -32,14 +32,14 @@ we'll leave because that's what we want. We'll also leave "Long Press Time" on t
     alt="activator_turbo.png"
     title="activator_turbo.png"
 /><br /><br />We'll leave the "Repeat Rate" at it's default value, 0.9 seconds. Now, whenever Dpad
-Down is pressed and held for longer then 0.15 seconds, every 0.9 seconds therafter it will pulse an
-additional Dpad Down event until the input is released. These timings can of course be adjusted to
+down is pressed and held for longer than 0.15 seconds, every 0.9 seconds therafter it will pulse an
+additional Dpad down event until the input is released. These timings can of course be adjusted to
 taste.<br /><br />If you want to add several different activators, you can do that by selecting "Add
-Activator." You can remove an activator by selecting "None - Remove Activator" as the Activation
-Type. There doesn't seem to be a limit to how many activators you can add, but any more than five
+Activator." You can remove an activator by selecting "None - Remove Activator" as the activation
+type. There doesn't seem to be a limit to how many activators you can add, but any more than five
 will start to run off of the interface.
 <h2 class="bb_section"><a name="2"></a>Activator Settings</h2>
-<br />Let's break down all the settings available in the Activator system. These settings are always
+<br />Let's break down all the settings available in the activator system. These settings are always
 available regardless of activation type:<br /><br />
 <table>
     <tr>
@@ -50,8 +50,8 @@ available regardless of activation type:<br /><br />
     <tr>
         <td>Activation Type</td>
         <td>
-            Regular Press, Double Press, Long Press, Start Press, Release Press, None - Remove
-            Activator
+            Regular Press, Double Press, Long Press, Start Press, Release Press, Chorded Press, None
+            - Remove Activator
         </td>
         <td>
             Activators determine how the input responds to you. Is it a regular press, a long press,
@@ -104,10 +104,67 @@ available regardless of activation type:<br /><br />
         <td>Cycle Binding</td>
         <td>On, Off</td>
         <td>
-            Cycle Bindings will make this activator cycle through each of its bindings in order each
+            Cycle bindings will make this activator cycle through each of its bindings in order each
             time it is activated. Order is determined by the order they were selected in the button
             binding process.
         </td>
+    </tr>
+</table>
+<br />Here's a description of the various activation types:<br /><br />
+<table>
+    <tr>
+        <th>Activation Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Regular Press</td>
+        <td>
+            Regular Press Activator is the default type. When you press the button, it activates and
+            stays on until you release it.
+        </td>
+    </tr>
+    <tr>
+        <td>Double Press</td>
+        <td>
+            Double Press Activator requires a quick double tap of the input to activate. If held on
+            the second press, it will remain pressed. Any interruptable activators on the same
+            button will not fire if a double press is fired, and will be paused until the double
+            press time has passed.
+        </td>
+    </tr>
+    <tr>
+        <td>Long Press</td>
+        <td>
+            Long Press Activator requires the button to be held for a period of time to activate.
+            Once the long press time has passed, it will stay active until you release it. Any
+            interruptable activators on the same button will not fire if a long press is fired, and
+            will be paused until the button is released while under the long press time.
+        </td>
+    </tr>
+    <tr>
+        <td>Start Press</td>
+        <td>
+            Start Press Activator activates when the button is pressed. It immediately deactivates
+            even if the button continues to be held. This is useful, particularly when used with a
+            Release Press Activator, to convert a Toggle into a Hold, such as a Toggle Crouch
+            action.
+        </td>
+    </tr>
+    <tr>
+        <td>Release Press</td>
+        <td>Release Press Activator activates and deactivates when the button is released.</td>
+    </tr>
+    <tr>
+        <td>Chorded Press</td>
+        <td>
+            Like the regular press, but additionally, a specific button must be held down at the
+            same time that the regular activation input is pressed. Other bindings for the chorded
+            button will continue to fire.
+        </td>
+    </tr>
+    <tr>
+        <td>None - Remove Press</td>
+        <td>Selecting this option will remove the activator and any bindings it contains.</td>
     </tr>
 </table>
 <br />These settings are specific to certain activation types:<br /><br />
@@ -124,8 +181,8 @@ available regardless of activation type:<br /><br />
         <td>Regular Press, Release Press</td>
         <td>
             Interruptable activators can be paused or stopped by other activators. For example, a
-            Long Press activator can interrupt a Full Press activator so the Full Press only fires
-            if the Long Press doesn't. If not interruptable, it ignores the other activator in
+            long press activator can interrupt a full press activator so the full press only fires
+            if the long press doesn't. If not interruptable, it ignores the other activator in
             regards to behavior.
         </td>
     </tr>
@@ -162,6 +219,6 @@ available regardless of activation type:<br /><br />
         <td>Repeat Rate</td>
         <td>0.0-1.0</td>
         <td>Regular Press, Double Press, Long Press</td>
-        <td>The speed of Turbo will be set by this slider.</td>
+        <td>The speed of turbo will be set by this slider.</td>
     </tr>
 </table>
