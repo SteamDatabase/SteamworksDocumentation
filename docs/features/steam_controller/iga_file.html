@@ -1,124 +1,259 @@
 <h1>In-Game Actions File</h1>
-<h2 class="bb_section"><a name="1"></a>Overview</h2><br>Developers must supply an in-game actions (IGA) file that defines the actions, action sets, and basic structure of their game's input configuration. This article describes the overall structure of this file and provides several concrete examples from various games.<h2 class="bb_subsection"><a name="2"></a>Example Files</h2><br><ul class="bb_ul "><li><a class="bb_docfile" href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/portal2_actions.vdf" target="_blank">portal2_actions.vdf</a> for <a href="http://store.steampowered.com/app/620/Portal_2/" target="_blank" rel="noreferrer">Portal 2</a><br></li><li><a class="bb_docfile" href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/defenders_quest_actions.vdf" target="_blank">defenders_quest_actions.vdf</a> for <a href="http://store.steampowered.com/app/218410" target="_blank" rel="noreferrer">Defender's Quest: Valley of the Forgotten</a><br></li><li><a href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples" class="bb_doclink">IGA template files</a> (not from any actual game, but meant as starting material for various genres).</li></ul><h2 class="bb_subsection"><a name="3"></a>Authoring an In-Game Actions File by hand </h2>Start by downloading the starting one of the in-game actions (IGA) files linked in the examples above. Next, create a "controller_config" directory inside the Steam folder, usually C:/Program Files (x86)/Steam/controller_config, and place the file in the directory. Rename the file to the following: "game_actions_X.vdf", where X is your game's Steam AppID. If you don't know what your game's Steam AppID is, it can be found by logging into your Steam partner site.<br><br>Now open up the file in your favorite text editor. The file is in a standard Valve format called KeyValues, which is a simple &amp; easily read format. You might also find it useful to download one of our In-Game Actions File Templates or the Portal 2 IGA for a reference.<h2 class="bb_subsection"><a name="4"></a>Generating an IGA file from an existing game that uses Steam Input API</h2><br>If you save a configuration for any game on steam as a "local" configuration, you can then find a corresponding file in:<br> <code class="bb_code bb_code_inline nohighlight">[SteamDirectory]\UserData\[youruserid]\241100\remote\controller_config\[appid]\[savename].vdf</code><br><br>Here's an example of where my local configurations for <i>Defender's Quest</i> are stored on a typical Windows 10 machine:<br><br><img src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/whereisvgf.png" alt="whereisvgf.png" title="whereisvgf.png"><br><br>Note that these files are not exact replicas of the master IGA file uploaded by the developer, but you can get an idea for the original structure by looking at the "actions" and "localization" blocks, which are drawn directly from the master file.<br><br>Here's a download link for the <a class="bb_docfile" href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/#library_controllersavedefaulttitle_0.vdf" target="_blank">#library_controllersavedefaulttitle_0.vdf</a> file shown in the above screenshot, you might find it useful to compare that to the master <i>Defender's Quest</i> IGA.<h2 class="bb_section"><a name="5"></a>IGA Format</h2><br>The IGA file takes the form of a VDF document, which is Valve's own data format for creating structured object data with key/value string pairs.<h2 class="bb_subsection"><a name="6"></a>Skeleton</h2><br>The basic structure of the file is a wrapper object with the name "In Game Actions", and two sub objects, named "actions", and "localization", respectively:<br><br><div class="bb_code ">"In Game Actions"
-{
-	"actions"
-	{
-	}
-	"localization"
-	{
-	}
-}
-</div><h2 class="bb_subsection"><a name="7"></a>Action Sets</h2>Let's zoom into the "actions" object. This object will contain your action sets. The structure of an "actions" object looks like this:<br><div class="bb_code ">"actions"
-{
-    "ActionSetNameGoesHere"
-    {
-        "title"                    "#TitleGoesHere"
-        "StickPadGyro"
-        {
-        }
-        "AnalogTrigger"
-        {
-        }
-        "Button"
-        {
-        }
-    }
-}
-</div><br>The strings <code class="bb_code bb_code_inline nohighlight">"ActionSetNameGoesHere"</code> and <code class="bb_code bb_code_inline nohighlight">"#TitleGoesHere"</code> are the only strings in the above example the user should replace, the rest are reserved key words.<br><br>The value you replace <code class="bb_code bb_code_inline nohighlight">"ActionSetNameGoesHere"</code> with will be the name of the action set that you use in the steam controller API. And the value you replace <code class="bb_code bb_code_inline nohighlight">"#TitleGoesHere"</code> with will be the localization token you use in the <code class="bb_code bb_code_inline nohighlight">"localization"</code> section later in the file. Note that the # sign is required here.<br><br>Each action set should have a unique string name, and you add more just by creating more objects within the scope of the "actions" container object. No commas or square brackets are necessary -- this is VDF, not JSON.<br><br>There are three possible sub-objects for each action set object. They are <code class="bb_code bb_code_inline nohighlight">"StickPadGyro"</code>, <code class="bb_code bb_code_inline nohighlight">"AnalogTrigger"</code>, and <code class="bb_code bb_code_inline nohighlight">"Button"</code>. These are the only possible objects you can define, and they are the containers that will house your individual action definitions. You do not have to provide all three categories, however.<br><br>This structure is perfectly valid, for instance:<br><div class="bb_code ">"actions"
-{
-    "ActionSetName1"
-    {
-        "title"                    "#Title1"
-        "AnalogTrigger"
-        {
-        }
-        "Button"
-        {
-        }
-    }
-    "ActionSetName2"
-    {
-        "title"                    "#Title2"
-        "StickPadGyro"
-        {
-        }
-    }
-   "ActionSetName3"
-    {
-        "title"                    "#Title3"
-        "Button"
-        {
-        }
-    }
-}
-</div><br><strong>StickPadGyro</strong><br><br>This action set block is for analog actions that will have up to two axes of motion, the sort of thing you might want to bind to a joy<strong>stick</strong>, a track<strong>pad</strong>, or a <strong>gyro</strong>scope. Also, anything you might want to control with a mouse or anything else like that should go in here.<br><br><strong>AnalogTrigger</strong><br><br>This action set block is for analog actions that will have only one axis of motion, the sort of thing you might want to bind to an analog trigger.<br><br><strong>Button</strong><br><br>This action set block is for purely digital actions, which only report an on/off state. Despite the name of this block being "button," digital actions can be bound to just about any physical inputs -- including ones originally designed to output analog data (such as joysticks, trackpads, etc).<h2 class="bb_subsection"><a name="8"></a>Actions</h2><br>An IGA file won't actually do anything until it's got some actions defined, so let's add some!<br><br><strong>StickPadGyro Actions</strong><br><br>Let's start by adding some <code class="bb_code bb_code_inline nohighlight">StickPadGyro</code> (2-axis analog) actions. How about something to move the character around -- we'll call it "Move", and something to control the camera -- we'll call it "Camera."<br><br><div class="bb_code ">"actions"
-{
-    "FPSControls"
-    {
-        "title"                    "#Set_FPSControls"
-        "StickPadGyro"
-        {
-            "Move"
-            {
-                "title"            "#Action_Move"
-                "input_mode"       "joystick_move"
-            }
-            "Camera"
-            {
-                "title"            "#Action_Camera"
-                "input_mode"       "absolute_mouse"
-            }
-        }
-    }
-}
-</div><br>As you can see the abstract structure for a <code class="bb_code bb_code_inline nohighlight">StickPadGyro</code> action is:<br><div class="bb_code ">"ActionNameHere"
-{
-    "title"                "#ActionTitleHere"
-    "input_mode"           "&lt;analog_mode&gt;"
-}
-</div><br>The only user-editable values in this structure are the ones I've marked "ActionNameHere", "#ActionTitleHere",  and "&lt;analog_mode&gt;". Respectively, they correspond to the action's string name for use in the steam controller API, the localization key for use in this file's localization section, respectively, and the Input Source Mode that governs how the analog data is processed and interpreted.<br><br>The <code class="bb_code bb_code_inline nohighlight">"input_mode"</code> property has two possible values for <code class="bb_code bb_code_inline nohighlight">StickPadGyro</code> actions:<br><br><ul class="bb_ul "><li><code class="bb_code bb_code_inline nohighlight">"joystick_move"</code><br></li><li><code class="bb_code bb_code_inline nohighlight">"absolute_mouse"</code></li></ul><br>You should use <code class="bb_code bb_code_inline nohighlight">"joystick_move"</code> for an action whose values are interpreted as a joystick (constant deflection from a central point), and you should use <code class="bb_code bb_code_inline nohighlight">"absolute_mouse"</code> for a more flexible general purpose analog action. When in doubt, use <code class="bb_code bb_code_inline nohighlight">"absolute_mouse"</code>.<div class="bb_callout bb_red"><div><h3><strong>"joystick_move"</strong> vs. <strong>"absolute_mouse"</strong></h3>We can’t stress enough that when creating a camera input for your first/third person game or anything cursor driven, you should always use the <strong>"absolute_mouse"</strong> type and react to deltas as if it’s a mouse.<br><br>The API will automagically do the right thing here for stick based input, so you'll still get a tune-able stick input if your camera is applied to an analog stick (PS4/Xbox style) with full dead zones/response curves/etc. that you can specify in your default configuration. This same input will then work across joysticks, track pads, or motion control gyros (steam controller/ps4) as well as future support for mice.<br><br>You should not use the <strong>"joystick_move"</strong> based input method for your camera, as mapping the opposite direction to get useful 1:1 data for pad/gyro/mouse/motion controls isn't possible.<br><br>This also applies to cursor based input - <strong>"absolute_mouse"</strong> as a cursor will work just fine on stick based inputs, so you don't have to worry about creating your own stick based cursor, should you need one.</div></div><br>You can optionally send low-level mouse events  along with your analog data. Your game will not be able to distinguish these mouse events from those generated by your operating system. You do this by adding the value <code class="bb_code bb_code_inline nohighlight">"os_mouse"</code> and assign it a value of 1.<br><br>Here's an example:<br><div class="bb_code ">"StickPadGyro"
-{
-	"Mouse"
-	{
-		"title"		"#Action_Mouse"
-		"input_mode"	"absolute_mouse"
-		"os_mouse"	"1"
-	}
-}
-</div><br><br><br><strong>AnalogTrigger Actions</strong><br><br>(coming soon)<br><br><strong>Button Actions</strong><br><br>Button actions are the simplest to define. You simply add two strings on the same line -- the name of the action, and the localization key. Like this:<br><br><div class="bb_code ">"Button"
-{
-	"digital_action_1_name_here"	"#DigitalAction1TitleHere"
-	"digital_action_2_name_here"	"#DigitalAction2TitleHere"
-}
-</div><br>If necessary, you can define a native low-level input hardware event (like a native mouse click) that fires alongside the action. This is useful in some edge cases where your game relies on e.g. a finicky input stack seven layers deep that never <i>quite</i> treats simulated mouse events from your application layer the same as those directly generated by the operating system.<br><br><div class="bb_code ">"Button"
-{
-	"simple_click"       "#simple_click"
-	"fancy_click"        "#fancy_click, mouse_button LEFT"
-}
-</div><br>This causes the game to emit a true, operating-system-level left mouse button event every time the "fancy_click" action is fired.<div class="bb_callout bb_red"><div><h3><strong>Warning! </strong></h3>You should never use this trick as a crutch for forcing specific fixed input bindings for your actions. That defeats the entire purpose of the "actions, not inputs" paradigm and giving the user full control over their configuration. If you find yourself using this feature for more than just fixing a few rare edge cases, you're probably overusing it.</div></div><h2 class="bb_section"><a name="9"></a>Localization</h2><br>The master IGA file should include a localization section alongside the action set definitions. The individual child objects of the localization object will be any one of the language strings that Steam supports. Make sure you include at least one block that contains English action titles.<br><br><div class="bb_code ">"localization"
-{
-	"english"
-	{
-		"move"		"Move"
-		"camera"	"Camera"
-	}
-}
-</div><br>Note that the names of the properties should correspond to the localization keys you specified in the earlier sections, except without the "#" character.<br><br>To add additional languages, simply add more language blocks with localized text for each entry:<br><br><div class="bb_code ">"localization"
-{
-	"english"
-	{
-		"move"		"Move"
-		"camera"	"Camera"
-	}
-	"spanish"
-	{
-		"move"		"Mover"
-		"camera"	"Cámara"
-	}
-	"norwegian"
-	{
-		"move"		"Bevege"
-		"camera"	"Kamera"
-	} 
-}
-</div><br>The full list of languages supported by Steam is:<br><br><ul class="bb_ul "><li> brazilian (Brazilian Portuguese)<br></li><li> bulgarian<br></li><li> czech<br></li><li> danish<br></li><li> dutch<br></li><li> english<br></li><li> finnish<br></li><li> french<br></li><li> german<br></li><li> greek<br></li><li> hungarian<br></li><li> italian<br></li><li> japanese<br></li><li> koreana (Korean)<br></li><li> norwegian<br></li><li> polish<br></li><li> portuguese<br></li><li> romanian<br></li><li> russian<br></li><li> schinese (Simplified Chinese)<br></li><li> spanish<br></li><li> swedish<br></li><li> tchinese (Traditional Chinese)<br></li><li> thai<br></li><li> turkish<br></li><li> ukrainian</li></ul><h2 class="bb_section"><a name="10"></a>How Steam uses your IGA file</h2><br>The master IGA file you create will only ever be during development (but it should still be saved, maintained, and stored in your version control, etc).  When you <a href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#iga" class="bb_doclink">create an official input configuration</a> for your game during development, the steam client uses your master IGA file to generate a starting template.
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+<br />Developers must supply an in-game actions (IGA) file that defines the actions, action sets,
+and basic structure of their game's input configuration. This article describes the overall
+structure of this file and provides several concrete examples from various games.
+<h2 class="bb_subsection"><a name="2"></a>Example Files</h2>
+<br />
+<ul class="bb_ul">
+    <li>
+        <a
+            class="bb_docfile"
+            href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/portal2_actions.vdf"
+            target="_blank"
+            >portal2_actions.vdf</a
+        >
+        for
+        <a href="http://store.steampowered.com/app/620/Portal_2/" target="_blank" rel="noreferrer"
+            >Portal 2</a
+        ><br />
+    </li>
+    <li>
+        <a
+            class="bb_docfile"
+            href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/defenders_quest_actions.vdf"
+            target="_blank"
+            >defenders_quest_actions.vdf</a
+        >
+        for
+        <a href="http://store.steampowered.com/app/218410" target="_blank" rel="noreferrer"
+            >Defender's Quest: Valley of the Forgotten</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples"
+            class="bb_doclink"
+            >IGA template files</a
+        >
+        (not from any actual game, but meant as starting material for various genres).
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="3"></a>Authoring an In-Game Actions File by hand</h2>
+Start by downloading the starting one of the in-game actions (IGA) files linked in the examples
+above. Next, create a "controller_config" directory inside the Steam folder, usually C:/Program
+Files (x86)/Steam/controller_config, and place the file in the directory. Rename the file to the
+following: "game_actions_X.vdf", where X is your game's Steam AppID. If you don't know what your
+game's Steam AppID is, it can be found by logging into your Steam partner site.<br /><br />Now open
+up the file in your favorite text editor. The file is in a standard Valve format called KeyValues,
+which is a simple &amp; easily read format. You might also find it useful to download one of our
+In-Game Actions File Templates or the Portal 2 IGA for a reference.
+<h2 class="bb_subsection">
+    <a name="4"></a>Generating an IGA file from an existing game that uses Steam Input API
+</h2>
+<br />If you save a configuration for any game on steam as a "local" configuration, you can then
+find a corresponding file in:<br />
+<code class="bb_code bb_code_inline nohighlight"
+    >[SteamDirectory]\UserData\[youruserid]\241100\remote\controller_config\[appid]\[savename].vdf</code
+><br /><br />Here's an example of where my local configurations for <i>Defender's Quest</i> are
+stored on a typical Windows 10 machine:<br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/whereisvgf.png"
+    alt="whereisvgf.png"
+    title="whereisvgf.png"
+/><br /><br />Note that these files are not exact replicas of the master IGA file uploaded by the
+developer, but you can get an idea for the original structure by looking at the "actions" and
+"localization" blocks, which are drawn directly from the master file.<br /><br />Here's a download
+link for the
+<a
+    class="bb_docfile"
+    href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/#library_controllersavedefaulttitle_0.vdf"
+    target="_blank"
+    >#library_controllersavedefaulttitle_0.vdf</a
+>
+file shown in the above screenshot, you might find it useful to compare that to the master
+<i>Defender's Quest</i> IGA.
+<h2 class="bb_section"><a name="5"></a>IGA Format</h2>
+<br />The IGA file takes the form of a VDF document, which is Valve's own data format for creating
+structured object data with key/value string pairs.
+<h2 class="bb_subsection"><a name="6"></a>Skeleton</h2>
+<br />The basic structure of the file is a wrapper object with the name "In Game Actions", and two
+sub objects, named "actions", and "localization", respectively:<br /><br />
+<div class="bb_code">"In Game Actions" { "actions" { } "localization" { } }</div>
+<h2 class="bb_subsection"><a name="7"></a>Action Sets</h2>
+Let's zoom into the "actions" object. This object will contain your action sets. The structure of an
+"actions" object looks like this:<br />
+<div class="bb_code">
+    "actions" { "ActionSetNameGoesHere" { "title" "#TitleGoesHere" "StickPadGyro" { }
+    "AnalogTrigger" { } "Button" { } } }
+</div>
+<br />The strings
+<code class="bb_code bb_code_inline nohighlight">"ActionSetNameGoesHere"</code> and
+<code class="bb_code bb_code_inline nohighlight">"#TitleGoesHere"</code> are the only strings in the
+above example the user should replace, the rest are reserved key words.<br /><br />The value you
+replace <code class="bb_code bb_code_inline nohighlight">"ActionSetNameGoesHere"</code> with will be
+the name of the action set that you use in the steam controller API. And the value you replace
+<code class="bb_code bb_code_inline nohighlight">"#TitleGoesHere"</code> with will be the
+localization token you use in the
+<code class="bb_code bb_code_inline nohighlight">"localization"</code> section later in the file.
+Note that the # sign is required here.<br /><br />Each action set should have a unique string name,
+and you add more just by creating more objects within the scope of the "actions" container object.
+No commas or square brackets are necessary -- this is VDF, not JSON.<br /><br />There are three
+possible sub-objects for each action set object. They are
+<code class="bb_code bb_code_inline nohighlight">"StickPadGyro"</code>,
+<code class="bb_code bb_code_inline nohighlight">"AnalogTrigger"</code>, and
+<code class="bb_code bb_code_inline nohighlight">"Button"</code>. These are the only possible
+objects you can define, and they are the containers that will house your individual action
+definitions. You do not have to provide all three categories, however.<br /><br />This structure is
+perfectly valid, for instance:<br />
+<div class="bb_code">
+    "actions" { "ActionSetName1" { "title" "#Title1" "AnalogTrigger" { } "Button" { } }
+    "ActionSetName2" { "title" "#Title2" "StickPadGyro" { } } "ActionSetName3" { "title" "#Title3"
+    "Button" { } } }
+</div>
+<br /><strong>StickPadGyro</strong><br /><br />This action set block is for analog actions that will
+have up to two axes of motion, the sort of thing you might want to bind to a
+joy<strong>stick</strong>, a track<strong>pad</strong>, or a <strong>gyro</strong>scope. Also,
+anything you might want to control with a mouse or anything else like that should go in here.<br /><br /><strong
+    >AnalogTrigger</strong
+><br /><br />This action set block is for analog actions that will have only one axis of motion, the
+sort of thing you might want to bind to an analog trigger.<br /><br /><strong>Button</strong
+><br /><br />This action set block is for purely digital actions, which only report an on/off state.
+Despite the name of this block being "button," digital actions can be bound to just about any
+physical inputs -- including ones originally designed to output analog data (such as joysticks,
+trackpads, etc).
+<h2 class="bb_subsection"><a name="8"></a>Actions</h2>
+<br />An IGA file won't actually do anything until it's got some actions defined, so let's add
+some!<br /><br /><strong>StickPadGyro Actions</strong><br /><br />Let's start by adding some
+<code class="bb_code bb_code_inline nohighlight">StickPadGyro</code> (2-axis analog) actions. How
+about something to move the character around -- we'll call it "Move", and something to control the
+camera -- we'll call it "Camera."<br /><br />
+<div class="bb_code">
+    "actions" { "FPSControls" { "title" "#Set_FPSControls" "StickPadGyro" { "Move" { "title"
+    "#Action_Move" "input_mode" "joystick_move" } "Camera" { "title" "#Action_Camera" "input_mode"
+    "absolute_mouse" } } } }
+</div>
+<br />As you can see the abstract structure for a
+<code class="bb_code bb_code_inline nohighlight">StickPadGyro</code> action is:<br />
+<div class="bb_code">
+    "ActionNameHere" { "title" "#ActionTitleHere" "input_mode" "&lt;analog_mode&gt;" }
+</div>
+<br />The only user-editable values in this structure are the ones I've marked "ActionNameHere",
+"#ActionTitleHere", and "&lt;analog_mode&gt;". Respectively, they correspond to the action's string
+name for use in the steam controller API, the localization key for use in this file's localization
+section, respectively, and the Input Source Mode that governs how the analog data is processed and
+interpreted.<br /><br />The
+<code class="bb_code bb_code_inline nohighlight">"input_mode"</code> property has two possible
+values for <code class="bb_code bb_code_inline nohighlight">StickPadGyro</code> actions:<br /><br />
+<ul class="bb_ul">
+    <li><code class="bb_code bb_code_inline nohighlight">"joystick_move"</code><br /></li>
+    <li><code class="bb_code bb_code_inline nohighlight">"absolute_mouse"</code></li>
+</ul>
+<br />You should use <code class="bb_code bb_code_inline nohighlight">"joystick_move"</code> for an
+action whose values are interpreted as a joystick (constant deflection from a central point), and
+you should use <code class="bb_code bb_code_inline nohighlight">"absolute_mouse"</code> for a more
+flexible general purpose analog action. When in doubt, use
+<code class="bb_code bb_code_inline nohighlight">"absolute_mouse"</code>.
+<div class="bb_callout bb_red">
+    <div>
+        <h3><strong>"joystick_move"</strong> vs. <strong>"absolute_mouse"</strong></h3>
+        We can’t stress enough that when creating a camera input for your first/third person game or
+        anything cursor driven, you should always use the <strong>"absolute_mouse"</strong> type and
+        react to deltas as if it’s a mouse.<br /><br />The API will automagically do the right thing
+        here for stick based input, so you'll still get a tune-able stick input if your camera is
+        applied to an analog stick (PS4/Xbox style) with full dead zones/response curves/etc. that
+        you can specify in your default configuration. This same input will then work across
+        joysticks, track pads, or motion control gyros (steam controller/ps4) as well as future
+        support for mice.<br /><br />You should not use the <strong>"joystick_move"</strong> based
+        input method for your camera, as mapping the opposite direction to get useful 1:1 data for
+        pad/gyro/mouse/motion controls isn't possible.<br /><br />This also applies to cursor based
+        input - <strong>"absolute_mouse"</strong> as a cursor will work just fine on stick based
+        inputs, so you don't have to worry about creating your own stick based cursor, should you
+        need one.
+    </div>
+</div>
+<br />You can optionally send low-level mouse events along with your analog data. Your game will not
+be able to distinguish these mouse events from those generated by your operating system. You do this
+by adding the value <code class="bb_code bb_code_inline nohighlight">"os_mouse"</code> and assign it
+a value of 1.<br /><br />Here's an example:<br />
+<div class="bb_code">
+    "StickPadGyro" { "Mouse" { "title" "#Action_Mouse" "input_mode" "absolute_mouse" "os_mouse" "1"
+    } }
+</div>
+<br /><br /><br /><strong>AnalogTrigger Actions</strong><br /><br />(coming soon)<br /><br /><strong
+    >Button Actions</strong
+><br /><br />Button actions are the simplest to define. You simply add two strings on the same line
+-- the name of the action, and the localization key. Like this:<br /><br />
+<div class="bb_code">
+    "Button" { "digital_action_1_name_here" "#DigitalAction1TitleHere" "digital_action_2_name_here"
+    "#DigitalAction2TitleHere" }
+</div>
+<br />If necessary, you can define a native low-level input hardware event (like a native mouse
+click) that fires alongside the action. This is useful in some edge cases where your game relies on
+e.g. a finicky input stack seven layers deep that never <i>quite</i> treats simulated mouse events
+from your application layer the same as those directly generated by the operating system.<br /><br />
+<div class="bb_code">
+    "Button" { "simple_click" "#simple_click" "fancy_click" "#fancy_click, mouse_button LEFT" }
+</div>
+<br />This causes the game to emit a true, operating-system-level left mouse button event every time
+the "fancy_click" action is fired.
+<div class="bb_callout bb_red">
+    <div>
+        <h3><strong>Warning! </strong></h3>
+        You should never use this trick as a crutch for forcing specific fixed input bindings for
+        your actions. That defeats the entire purpose of the "actions, not inputs" paradigm and
+        giving the user full control over their configuration. If you find yourself using this
+        feature for more than just fixing a few rare edge cases, you're probably overusing it.
+    </div>
+</div>
+<h2 class="bb_section"><a name="9"></a>Localization</h2>
+<br />The master IGA file should include a localization section alongside the action set
+definitions. The individual child objects of the localization object will be any one of the language
+strings that Steam supports. Make sure you include at least one block that contains English action
+titles.<br /><br />
+<div class="bb_code">"localization" { "english" { "move" "Move" "camera" "Camera" } }</div>
+<br />Note that the names of the properties should correspond to the localization keys you specified
+in the earlier sections, except without the "#" character.<br /><br />To add additional languages,
+simply add more language blocks with localized text for each entry:<br /><br />
+<div class="bb_code">
+    "localization" { "english" { "move" "Move" "camera" "Camera" } "spanish" { "move" "Mover"
+    "camera" "Cámara" } "norwegian" { "move" "Bevege" "camera" "Kamera" } }
+</div>
+<br />The full list of languages supported by Steam is:<br /><br />
+<ul class="bb_ul">
+    <li>brazilian (Brazilian Portuguese)<br /></li>
+    <li>bulgarian<br /></li>
+    <li>czech<br /></li>
+    <li>danish<br /></li>
+    <li>dutch<br /></li>
+    <li>english<br /></li>
+    <li>finnish<br /></li>
+    <li>french<br /></li>
+    <li>german<br /></li>
+    <li>greek<br /></li>
+    <li>hungarian<br /></li>
+    <li>italian<br /></li>
+    <li>japanese<br /></li>
+    <li>koreana (Korean)<br /></li>
+    <li>norwegian<br /></li>
+    <li>polish<br /></li>
+    <li>portuguese<br /></li>
+    <li>romanian<br /></li>
+    <li>russian<br /></li>
+    <li>schinese (Simplified Chinese)<br /></li>
+    <li>spanish<br /></li>
+    <li>swedish<br /></li>
+    <li>tchinese (Traditional Chinese)<br /></li>
+    <li>thai<br /></li>
+    <li>turkish<br /></li>
+    <li>ukrainian</li>
+</ul>
+<h2 class="bb_section"><a name="10"></a>How Steam uses your IGA file</h2>
+<br />The master IGA file you create will only ever be during development (but it should still be
+saved, maintained, and stored in your version control, etc). When you
+<a
+    href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#iga"
+    class="bb_doclink"
+    >create an official input configuration</a
+>
+for your game during development, the steam client uses your master IGA file to generate a starting
+template.
