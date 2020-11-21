@@ -18,7 +18,7 @@ Input devices in your game. We define full support as the follows:<br /><br />
     <li>
         When your game wants keyboard input (e.g. when naming avatars), you
         <a
-            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#7"
+            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#6"
             class="bb_doclink"
             >use the API</a
         >
@@ -46,14 +46,7 @@ Input devices in your game. We define full support as the follows:<br /><br />
 </ul>
 <h2 class="bb_section"><a name="2"></a>Common Use Cases</h2>
 <h2 class="bb_subsection">
-    <a name="3"></a>I'm Adding Touch Controller Configuration for Steam Link
-</h2>
-<br />Great! Follow the steps outlined in the
-<a href="https://partner.steamgames.com/doc/features/remoteplay" class="bb_doclink"
-    >Steam Remote Play documentation</a
->.
-<h2 class="bb_subsection">
-    <a name="4"></a>I'm Adding Steam Input API support <i>before</i> shipping my game
+    <a name="3"></a>I'm Adding Steam Input API support <i>before</i> shipping my game
 </h2>
 <br />Great! Follow the technical directions in
 <a
@@ -62,14 +55,19 @@ Input devices in your game. We define full support as the follows:<br /><br />
     >Implementing Steam Input API support</a
 >.
 <h2 class="bb_subsection">
-    <a name="5"></a>I'm Adding Steam Input API support alongside other input libraries
+    <a name="4"></a>I'm Adding Steam Input API support alongside other input libraries
 </h2>
 <br />It's perfectly acceptable to ship conventional gamepad input as well as Steam Input, and if
-you're adding Steam Input API support after initial launch, or shipping your game on stores other
-than Steam, you could easily find yourself in this situation. There's a few things to keep in
-mind:<br /><br /><strong> 1. Be deliberate with your analog action choices</strong><br />There's a
-lot to this one, so let's break it down:<br />
+you're adding Steam Input API support after initial launch or shipping your game on multiple
+platforms, you could easily find yourself in this situation. There's a few things to keep in
+mind:<br /><br /><strong> 1. Be deliberate with your analog action choices</strong><br />We'll be
+going into further detail on this topic later but the quick summary is:<br />
 <ul class="bb_ul">
+    <li>
+        You should always include a mouse-style action for cursor or precision camera controls. It
+        may be acceptable to skip mouse-like input in Twin Stick or Sports titles where the joystick
+        position is used for directional aim. <br />
+    </li>
     <li>
         Avoid using the the system mouse ("os_mouse" option) unless you have a good reason to need
         it. Being able to determine if input comes from a real mouse vs a controller is an important
@@ -78,12 +76,7 @@ lot to this one, so let's break it down:<br />
     <li>
         You should <i>either</i> rely on the configurator to provide sensitivity (ie you don't
         filter incoming Steam Input data), <i>or</i> you should use a dedicated sensitivity option
-        for Steam Input that's distinct from the system mouse.<br />
-    </li>
-    <li>
-        You should always be using mouse-like input for cursor or camera controls. Joystick style
-        analog actions should be reserved for directional input like aim in a twin stick shooter or
-        performing tricks in a snowboarding game.
+        for Steam Input that's distinct from the system mouse.
     </li>
 </ul>
 <br /><strong> 2. Be consistent with auto-aim on joysticks </strong><br />If you have any auto-aim
@@ -94,24 +87,21 @@ well, at least for traditional controller models configured through Steam Input.
     class="bb_apilink"
     >GetInputTypeForHandle</a
 >
-to determine an individual controller's model type.<br /><br /><strong>
+to determine an individual controller's model type or implement separate mouse-style and
+joystick-style camera actions.<br /><br /><strong>
     3. Use SDL version 2.0.6 or above, if possible</strong
 ><br />If you're using
 <a href="https://www.libsdl.org/" target="_blank" rel="noreferrer">SDL</a> (Simple DirectMedia
 Layer), one of the most popular cross-platform game libraries for handling things like input, make
-sure you're using the latest version, or at least version 2.0.6 or above. This version allows Steam
+sure you're using the latest version, or at least version 2.0.8 or above. This version allows Steam
 to tell SDL to ignore input for controllers configured by Steam Input, which avoids double-input
-bugs.<br /><br /><strong> 4. Careful with XInput opt-in</strong><br />If you're keeping raw XInput
-support in your game, don't use the partner site to opt all Xbox controllers into Steam Input. Users
-who want to opt in themselves still can, but users who are happy with using raw XInput for their
-controllers might get annoyed at being forced to reconfigure their device in the Steam Input
-configurator.<br /><br /><strong> 5. Keep external configuration tools organized</strong><br />If
-you're not relying on a library, but instead on a third-party tool like Joy2Key for gamepad input,
-you should take special care and make it very clear to the player (and yourself) when it's active
-and when it's not, so that you don't "cross the streams" with Steam Input and cause double-input
-bugs.
+bugs.<br /><br /><strong> 4. Have a plan for Xbox controllers </strong><br />If your game has
+already shipped and has Xinput support that you're leaving in place, you may want to leave Xbox
+controllers in the XInput path by default. If you're a local multiplayer game you'll want to make
+sure that you can either accept input from both paths at the same time or opt all controller into
+Steam Input though.
 <h2 class="bb_subsection">
-    <a name="6"></a>I Want my Non-Steam Input API Games to Play Nicely with Steam Input
+    <a name="5"></a>I Want my Non-Steam Input API Games to Play Nicely with Steam Input
 </h2>
 <br />First of all, I highly recommend reading Zach Burke's
 <a
@@ -167,112 +157,23 @@ is the chief cause of compatibility issues with the Steam Input system.
         <strong
             >Allow users to select from Xbox or PS4 glyphs via the menu or detect the device type
             via our API</strong
-        ><br />Since Steam Input can send emulated / reconfigured input, a conventional input system
-        might detect the player's device as something other than what they're actually using.
-        Allowing them to manually change the on screen glyphs to compensate is a nice touch. To set
-        a nice default in the absence of information from the player, you can use the API to
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetConnectedControllers"
-            class="bb_doclink"
-            >get a controller handle</a
-        >
-        for any given XInput slot and
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetInputTypeForHandle"
-            class="bb_doclink"
-            >query what its controller model is</a
-        >
-        -- even if you're not using the full Steam Input API
+        ><br />When Steam is sending gamepad input it will appear in your game as regular Xbox
+        controller input, rather than the normal device. This is useful since it allows the player
+        to use devices that would not normally work, but it also means that normal check for USB
+        device ID's, etc will not work and you'll need to call a helper function from Steam. It's
+        important to note here that even controllers which you have built-in support may appear in
+        your game through Steam Input either because the user is streaming the game via Steam Remote
+        Play or because the user has opted into Steam Input to reconfigure their devices.
     </li>
 </ol>
-<br />If your game doesn't use Steam Input natively, that means players will rely on legacy
-configurations. That said, you can set the tone for your game with a good default configuration.
-<h2 class="bb_subsection">
-    <a name="7"></a>Selecting a configuration for my non-Steam Input API Game
-</h2>
-Ideally developers would play their game with each type of controller and develop a config that
-plays well with their game. However, for your convenience we've also make a series of templates
-which are intended for specific game genres, To set one of these templates as a recommended config
-please follow the instructions in
+<br />You can read more about this on the
 <a
-    href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#21"
+    href="https://partner.steamgames.com/doc/features/steam_controller/steam_input_gamepad_emulation_bestpractice"
     class="bb_doclink"
-    >this section</a
->, but when you get to the configuration drop down select the desired template instead of the
-"Custom Configuration" option.<br /><br /><strong>Steam Controller Templates</strong><br />
-<ul class="bb_ul">
-    <li>
-        Gamepad With High Precision Camera/Aim - This configuration is the ideal configuration for
-        an FPS or any game using camera controls. Be careful to test that your game supports
-        simultaneous gamepad/mouse before selecting this, including any ancillary screens such as
-        inventory or map screens.<br />
-    </li>
-    <li>
-        Gamepad With Mouse and Gyro - We feel that Motion Controls are great for aiming, but not all
-        users will be used to them. As with the "Gamepad With High Precision Camera/Aim" template,
-        make sure your game fully supports simultaneous gamepad/mouse before selecting. <br />
-    </li>
-    <li>
-        Gamepad with Camera Controls - This configuration takes mouse-style input from the trackpad
-        and translates it into flicks of an emulated joystick. If your game can be configured to
-        have very high joystick sensitivity, no deadzone, and a linear acceleration curve this
-        configuration can work well, otherwise please consider using a mouse/keyboard config
-        instead.<br />
-    </li>
-    <li>
-        Keyboard (WASD) and Mouse - Maps the standard FPS control scheme onto a controller. Note
-        that this config assume your use/pickup action will be bound to "E" and not "F".<br />
-    </li>
-    <li>
-        Gamepad - This emulates an Xbox controller with the right trackpad being turned into a raw
-        emulated joystick. Perfect for twin-stick, platformer, or sports games.
-    </li>
-</ul>
-<br /><strong>Playstation 4 Controller Templates</strong><br />
-<ul class="bb_ul">
-    <li>
-        Gamepad With High Precision Camera/Aim - This configuration emulates mouse input with the
-        trackpad and right joystick. Be careful to test that your game supports simultaneous
-        gamepad/mouse before selecting this, including any ancillary screens such as inventory or
-        map screens.<br />
-    </li>
-    <li>
-        Gamepad With Mouse and Gyro - We feel that Motion Controls are great for aiming, but not all
-        users will be used to them. As with the "Gamepad With High Precision Camera/Aim" template,
-        make sure your game fully supports simultaneous gamepad/mouse before selecting.<br />
-    </li>
-    <li>
-        Keyboard (WASD) and Mouse - Maps the standard FPS control scheme onto a controller. Note
-        that this config assume your use/pickup action will be bound to "E" and not "F".<br />
-    </li>
-    <li>
-        Gamepad - This emulates a standard Xbox controller with the addition of the trackpad
-        emulating right joystick. Perfect for twin-stick, platformer, or sports games.
-    </li>
-</ul>
-<br /><strong> Xbox Controller and Generic Gamepad Templates</strong><br />
-<ul class="bb_ul">
-    <li>
-        Keyboard (WASD) and Mouse - Maps the standard FPS control scheme onto a controller. Note
-        that this config assume your use/pickup action will be bound to "E" and not "F".<br />
-    </li>
-    <li>
-        Gamepad - This passes through the gamepad controls without remapping. Perfect for any game
-        that already supports Xbox controllers.
-    </li>
-</ul>
-<br /><strong>Automatic Action Set Switching</strong><br /><br />Normally, legacy mode action sets
-must be activated by the player, as the game has no knowledge of Steam Input. However, the
-configurator is able to detect when the mouse cursor appears and disappears, and you are able to use
-this as an event to drive action set changes.<br /><br />To configure this, first select an action
-set in your configuration, then select "Manage Action Set" at the bottom of the configuration
-screen. This screen should pop up:<br /><br /><img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/manage_action_sets.png"
-    alt="manage_action_sets.png"
-    title="manage_action_sets.png"
-/><br /><br />This is another tool in your belt for properly differentiating between mouse-like
-input and gamepad-like input, even if you aren't using the native Steam Input API.
-<h2 class="bb_section"><a name="8"></a>Text Input</h2>
+    >Steam Input Gamepad Emulation Best Practices</a
+>
+page.
+<h2 class="bb_section"><a name="6"></a>Text Input</h2>
 <br />On-screen text input is not technically part of the
 <a href="https://partner.steamgames.com/doc/api/ISteamController" class="bb_apilink"
     >ISteamController</a
@@ -353,7 +254,7 @@ for a reference.<br /><br />For more details see:
 <a href="https://partner.steamgames.com/doc/features/steam_controller/iga_file" class="bb_doclink"
     >In-Game Actions File</a
 >
-<h2 class="bb_subsection"><a name="9"></a>File Format</h2>
+<h2 class="bb_subsection"><a name="7"></a>File Format</h2>
 <br />IGA files contain an "actions" section, which should list all the in-game action sets (IGAS)
 in your game. An IGAS describes all the actions a player can take within some game context - such as
 when the player is in a vehicle, or on foot, or navigating the menu system. For each IGAS, the Steam
@@ -364,7 +265,7 @@ value, and the following subsections: "StickPadGyro", "AnalogTrigger", and "Butt
 assign to the stick/pad/gyro and analog triggers respectively. The "Buttons" section contains IGAs
 that can only be bound to digital inputs (like the physical ABXY buttons, or a trackpad that's in
 ABXY mode, or a trigger that's not being used as an AnalogTrigger action).
-<h2 class="bb_subsection"><a name="10"></a>Designing your IGA</h2>
+<h2 class="bb_subsection"><a name="8"></a>Designing your IGA</h2>
 Take a minute to think about the functionality of your game - how many distinct modes does it
 contain? For each place where you want to have distinct controls you'll want to make an action set.
 Most games will have at least a distinct "Menu" and "In-game" action set, but many will need more.
@@ -390,7 +291,7 @@ action set layers see:
         you've got a good reason for needing more, please let us know.
     </div>
 </div>
-<h2 class="bb_subsection"><a name="11"></a>Button Actions</h2>
+<h2 class="bb_subsection"><a name="9"></a>Button Actions</h2>
 <br />The format for "Button" actions is as follows: <br /><br />
 <div class="bb_code">"&lt;action name&gt;" "#&lt;localization key&gt;"</div>
 <br />The <code class="bb_code bb_code_inline nohighlight">&lt;action name&gt;</code> is the
@@ -398,13 +299,13 @@ internal name you want to refer to this action by in your game code, when talkin
 API. The <code class="bb_code bb_code_inline nohighlight">&lt;localization key&gt;</code> should be
 the name of an entry in your localization section (see Adding Localization). Make sure to include
 the '#' character at the start of your localization key.
-<h2 class="bb_subsection"><a name="12"></a>Analog Trigger Actions</h2>
+<h2 class="bb_subsection"><a name="10"></a>Analog Trigger Actions</h2>
 <br />The format for "AnalogTrigger" actions is the same as for "Button". "AnalogTrigger" actions
 should be actions that your game will be interpreting as full analog inputs, like vehicle
 acceleration. If you don't have any of that kind of input, just leave the section empty. The Steam
 Input configurator UI will allow players to assign any "Button" action to the physical triggers if
 they're not being used as an "AnalogTrigger" action.
-<h2 class="bb_subsection"><a name="13"></a>StickPadGyro Actions</h2>
+<h2 class="bb_subsection"><a name="11"></a>StickPadGyro Actions</h2>
 <br />The format for "StickPadGyro" actions is as follows: <br /><br />
 <div class="bb_code">
     "&lt;action name&gt;" { "title" "#&lt;localization key&gt;" "input_mode" "&lt;analog mode&gt;" }
@@ -431,18 +332,19 @@ input API.<br /><br />Valid
     <div>
         <h3><strong>"absolute_mouse"</strong> vs. <strong>"joystick_move"</strong></h3>
         We can’t stress enough that when creating a camera input for your first/third person game or
-        anything cursor driven, you should always use the <strong>"absolute_mouse"</strong> type and
-        react to deltas as if it’s a mouse.<br /><br />The API will automagically do the right thing
-        here for stick based input, so you'll still get a tune-able stick input if your camera is
-        applied to an analog stick (PS4/Xbox style) with full dead zones/response curves/etc. that
-        you can specify in your default configuration. This same input will then work across
-        joysticks, trackpads, or motion control gyros (Steam/PS4 controller) as well as future
-        support for mice.<br /><br />You should not use the <strong>"joystick_move"</strong> based
-        input method for your camera, as mapping the opposite direction to get useful 1:1 data for
-        pad/gyro/mouse/motion controls isn't possible.<br /><br />This also applies to cursor based
-        input - <strong>"absolute_mouse"</strong> as a cursor will work just fine on stick based
-        inputs, so you don't have to worry about creating your own stick based cursor, should you
-        need one.
+        anything cursor driven, you should always include an <strong>"absolute_mouse"</strong> type
+        action and react to deltas as if it’s a mouse as the 1:1 data is required for implementing
+        good quality Gyro aim or trackpad input. Steam Input is able to convert joystick input from
+        gamepads into "absolute_mouse" style input for you but due to the acceleration curves and
+        deadzones applied in-game it's not possible to convert the other direction. <br /><br />It's
+        fine to include a <strong>"joystick_move"</strong> style action if you want exact parity for
+        joystick aim with your console builds but please test that you can accept input from both
+        <strong>"absolute_mouse"</strong> and <strong>"joystick_move"</strong> at the same time so
+        Playstation and Switch controllers can use Gyro aim along side the joystick. You may also
+        want to implement a digital action for "Reset Camera" to re-center the vertical position of
+        the camera. If you have auto aim enabled for Xinput controllers please apply the same logic
+        to joystick input through Steam Input API and consider applying a lighter amount of auto aim
+        for trackpad/gyro aim.
     </div>
 </div>
 <br />There is one optional setting for StickPadGyro actions that are using
@@ -466,12 +368,12 @@ be controlled by this action. <br /><br />Here's an example: <br /><br />
             </li>
             <li>
                 Using "os_mouse" will cause your controller inputs to be controlled by the in-game
-                mouse sensitivities.
+                mouse sensitivities and will only work for a single local player.
             </li>
         </ol>
     </div>
 </div>
-<h2 class="bb_subsection"><a name="14"></a>Step 1.1 - Adding Localization</h2>
+<h2 class="bb_subsection"><a name="12"></a>Step 1.1 - Adding Localization</h2>
 <br />The "localization" section in your IGA file contains a list of languages, each of which is a
 section containing localization keys &amp; values. For example: <br /><br />
 <div class="bb_code">
@@ -516,7 +418,7 @@ languages are as follows: <br /><br />
     <li>turkish<br /></li>
     <li>ukrainian</li>
 </ul>
-<h2 class="bb_subsection"><a name="15"></a>Step 1.2 - Titles &amp; Descriptions</h2>
+<h2 class="bb_subsection"><a name="13"></a>Step 1.2 - Titles &amp; Descriptions</h2>
 <br />Configurations also need a localized title and description. If you're only making a single
 official configuration for your game, you don't need to worry about this - we'll provide a default
 title and description, and you can skip this step entirely. But if you want to have multiple
@@ -535,7 +437,7 @@ with <code class="bb_code bb_code_inline nohighlight">"Description_"</code>. Her
 <br />When you publish a configuration (see
 <a href="#publishing" class="bb_doclink">Step 4 - Publishing</a>), you'll be able to select which of
 these localized titles and descriptions you want to use.
-<h2 class="bb_section"><a name="16"></a>Step 2 - Creating a Default Configuration</h2>
+<h2 class="bb_section"><a name="14"></a>Step 2 - Creating a Default Configuration</h2>
 <br />Once you've created your IGA file, and ensured it's in the right directory &amp; named to
 match your game's AppID, you're ready to create a configuration. <br /><br />Run Steam in Big
 Picture mode, and navigate to your game's game details page. <br /><br />Select "Manage Game," and
@@ -546,7 +448,7 @@ configuration for your game, and it should be fully aware of your in-game action
 create a default configuration. Make sure you set defaults for all your in-game action sets, not
 just the first one.<br /><br />Once you've got a configuration, save it privately. Don't publish it,
 because your game is not yet ready to receive IGAs.
-<h2 class="bb_section"><a name="17"></a>Step 3 - The Steam Input API</h2>
+<h2 class="bb_section"><a name="15"></a>Step 3 - The Steam Input API</h2>
 <br />Make sure you have the latest version of the Steamworks API - Grab it from the
 <a
     href="https://partner.steamgames.com/documentation/getting_started"
@@ -593,7 +495,7 @@ Otherwise, you can just
 >
 to get a direct file path to appropriate art for any controller input (the image files are shipped
 with the Steam client itself).
-<h2 class="bb_subsection"><a name="18"></a>Step 3.1 - API Overview</h2>
+<h2 class="bb_subsection"><a name="16"></a>Step 3.1 - API Overview</h2>
 <br />The Steam Input API is built around the in-game actions &amp; sets that you specified in your
 in-game actions file in Step 1. <br /><br />For a complete API reference, see
 <a href="https://partner.steamgames.com/doc/api/ISteamController" class="bb_doclink"
@@ -750,7 +652,7 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
         <div class="bb_code">VERSION_SAFE_STEAM_API_INTERFACES</div>
     </div>
 </div>
-<h2 class="bb_subsection"><a name="19"></a>Step 3.2 - Input Handling</h2>
+<h2 class="bb_subsection"><a name="17"></a>Step 3.2 - Input Handling</h2>
 <br />For digital actions, the data returned by
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#GetDigitalActionData"
@@ -778,7 +680,7 @@ is only slightly more complex:<br /><br />
 <br />While you're in your code, make sure you're not preventing the user from combining different
 kinds of input simultaneously. A common mistake we've seen is for games to start ignoring gamepad
 input when they see mouse &amp; KB, or vice versa.
-<h2 class="bb_subsection"><a name="20"></a>Step 3.3 - On-screen Glyphs</h2>
+<h2 class="bb_subsection"><a name="18"></a>Step 3.3 - On-screen Glyphs</h2>
 To display an on-screen prompt for your controller, you need to get the physical origins that are
 bound to an in-game action. The player may have bound more than one physical origin to the same
 action, so it's best to have your UI cycle through displaying each origin.
@@ -852,11 +754,11 @@ your new game update and make your configuration the official one. Official conf
 automatically loaded when a player launches your game for the first time. This allows users to
 simply fire up your game and play without needing to go into the configuration screen at all.<br /><br />Here's
 the recommended process:
-<h2 class="bb_subsection"><a name="21"></a>Step 4.1 - Update your game</h2>
+<h2 class="bb_subsection"><a name="19"></a>Step 4.1 - Update your game</h2>
 <ul class="bb_ul">
     <li>Update your Steam depot with your new version of the game</li>
 </ul>
-<h2 class="bb_subsection"><a name="22"></a>Step 4.2 - Publish your configuration</h2>
+<h2 class="bb_subsection"><a name="20"></a>Step 4.2 - Publish your configuration</h2>
 <ul class="bb_ul">
     <li>
         Run Steam in Big Picture mode and navigate to the default configuration you created in the
@@ -871,7 +773,7 @@ the recommended process:
         You will get a confirmation, and the file ID of the public configuration. Copy/save the ID.
     </li>
 </ul>
-<h2 class="bb_subsection"><a name="23"></a>Step 4.3 - Make the configuration official</h2>
+<h2 class="bb_subsection"><a name="21"></a>Step 4.3 - Make the configuration official</h2>
 <ul class="bb_ul">
     <li>Open up your game's page on the steam partner website.<br /></li>
     <li>
@@ -923,7 +825,7 @@ the "Custom Configuration" section:<br /><br /><img
 /><br /><br />For each configuration you can get a direct link, see what controller type it is for,
 control which beta branches it is available on, or remove it entirely. If you create a new official
 configuration, you can use the remove / add functions in this section to replace an existing one.
-<h2 class="bb_subsection"><a name="24"></a>Opting Controllers into Steam Input</h2>
+<h2 class="bb_subsection"><a name="22"></a>Opting Controllers into Steam Input</h2>
 <br />Next, you should setup what kind of controllers use Steam Input - if you are using Steam Input
 API you'll want to make sure to check the "Any Future Devices" option to make sure new controllers
 work by default without you having to adjust settings after support ships in Steam.<br /><br /><img
@@ -932,7 +834,7 @@ work by default without you having to adjust settings after support ships in Ste
     title="steamworks_steam_input_optin_settings.png"
 /><br /><br />Checking these boxes will cause those controller types to make use of Steam Input
 rather than their standard gamepad input protocols.
-<h2 class="bb_subsection"><a name="25"></a>Updating your official configurations</h2>
+<h2 class="bb_subsection"><a name="23"></a>Updating your official configurations</h2>
 There are two ways to update your configuration. <br />
 <ol class="bb_ol">
     <li>
@@ -956,13 +858,13 @@ There are two ways to update your configuration. <br />
         />
     </li>
 </ol>
-<h2 class="bb_section"><a name="26"></a>Tips</h2>
-<h2 class="bb_subsection"><a name="27"></a>Dedicated Menu Actions</h2>
+<h2 class="bb_section"><a name="24"></a>Tips</h2>
+<h2 class="bb_subsection"><a name="25"></a>Dedicated Menu Actions</h2>
 We recommend creating a separate in-game action set for your menu controls, instead of just re-using
 actions in your main game set. Most customers won't need to modify this menu controls set, but it's
 an easy way to provide the capability to players who actually need it (as can be the case for some
 disabled gamers, for example).
-<h2 class="bb_subsection"><a name="28"></a>Custom Icons</h2>
+<h2 class="bb_subsection"><a name="26"></a>Custom Icons</h2>
 The Steam Input system can also create several styles of on-screen menus. Putting your own .png
 icons in <strong>&lt;your base game directory&gt;/TouchMenuIcons/*.png</strong> will show them first
 in the list for your game's touch/radial menus. This will allow you to set up your own on-screen

@@ -1,12 +1,56 @@
 <h1>Steam Input Gamepad Emulation - Best Practices</h1>
-<h2 class="bb_section"><a name="1"></a>Overview</h2>
-Steam Input Gamepad Emulation is a lightweight way for developers who already have controllers
-support to extend it. Over 800 games on Steam are using this for at least one controller type,
-including notable games such as Monster Hunter: World, Ace Combat 7, Dragon Quest XI, Into the
-Breach, and Middle Earth: Shadow of War though not all of them are following the full list of best
-practices. Here we'll highlight Into the Breach because they are doing a great job of following each
-of these best practices.
-<h2 class="bb_section"><a name="2"></a>Showing device specific art</h2>
+Steam Input is a service of Steam allowing Steam users to play any controller-supported game with
+the device of their choice. Steam Input will translates the user's input into something the game
+understands through either Gamepad Emulation, Mouse and Keyboard Emulation, or Steam Input API. Here
+we will focus on how to best use Steam Input Gamepad Emulation to extend your game's existing
+controller support.<br /><br />What's Gamepad Emulation?<br />
+<ul class="bb_ul">
+    <li>
+        On Windows the Steam Overlay will hook traditional gamepad input API's such as Xinput,
+        DirectInput, RawInput, and Windows.Gaming.Input and inject an emulated Xbox controller
+        device. On MacOS and Linux emulated controller input is provided by a driver.<br />
+    </li>
+    <li>
+        The controller will show up in your game as an Xbox controller which means that controllers
+        with extra inputs will have some of them duplicated, ex: Playstation trackpad click and the
+        options button both mapping to Xinput's Start button.<br />
+    </li>
+    <li>
+        In addition to normal gamepad input it's possible to bind Switch, Playstation, and Steam
+        Controller gyro inputs to mouse emulation and provide motion controls. This only works in
+        games with a single local player because there is only one mouse input and also relies on
+        the game accepting simultaneous mouse and gamepad input. If you're interested in these
+        features without those caveats please consider adding
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_dev"
+            class="bb_doclink"
+            >Steam Input API</a
+        ><br />
+    </li>
+    <li>
+        You can query the type of controller currently from Steam in order to show device specific
+        glyphs but you are limited to the types supported by your current Steamworks SDK. If you're
+        interested in future-proof glyph support please integrate
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_dev"
+            class="bb_doclink"
+            >Steam Input API</a
+        ><br />
+    </li>
+    <li>
+        You may have users playing via Steam Input even for controllers you already support because
+        Steam Remote Play uses it to provide input while streaming and a sizable portion of users
+        have enabled Steam Input for their controllers across their whole Steam libraries. Overall
+        roughly a quarter of all controller sessions on Steam in 2020 used Steam Input, including
+        nearly half of all Playstation controller sessions.
+    </li>
+</ul>
+<br />Over 2000 games on Steam use Gamepad Emulation for at least one controller type, including
+notable games such as Monster Hunter: World, Ace Combat 7, Dragon Quest XI, Into the Breach, and
+Middle Earth: Shadow of War though not all of them are following the full list of best practices.
+Here we'll highlight Into the Breach because they are doing a great job of following each of these
+best practices.
+<h2 class="bb_section"><a name="1"></a>Showing device specific art</h2>
 We support two ways to get device specific glyphs with Steam Input Gamepad Emulation – one for games
 that can load images at run-time that is future-proofed (meaning that when Steam updates Steam Input
 it will work without any game updates) and one for games which need to bake the images into their
@@ -33,7 +77,7 @@ and Nintendo Switch controllers:<br />
         when your game was released so when future devices are added they have reasonable glyphs.
     </div>
 </div>
-<h2 class="bb_subsection"><a name="3"></a>Showing Steam's Future-Proofed Glyphs</h2>
+<h2 class="bb_subsection"><a name="2"></a>Showing Steam's Future-Proofed Glyphs</h2>
 You'll need to make use of the following functions:<br />
 <ul class="bb_ul">
     <li>
@@ -69,7 +113,7 @@ You'll need to make use of the following functions:<br />
     >ISteamController::GetAnalogActionOriginFromXboxOrigin</a
 >
 contains the relevant example code you'll need.
-<h2 class="bb_subsection"><a name="4"></a>Showing Your Own Art</h2>
+<h2 class="bb_subsection"><a name="3"></a>Showing Your Own Art</h2>
 If you're using your own look up tables with your own index system you can pick which one to use by
 getting the controller type and keying off that:<br />
 <ul class="bb_ul">
@@ -117,7 +161,7 @@ getting the controller type and keying off that:<br />
         >
     </li>
 </ul>
-<h2 class="bb_section"><a name="5"></a>Setting the Steamworks Settings</h2>
+<h2 class="bb_section"><a name="4"></a>Setting the Steamworks Settings</h2>
 The first step is to setup which controllers will use Steam Input in the Opt-in section on the
 Steamworks settings under Application-&gt;Steam Input. For a standard game w/ Xbox controller
 support we recommend checking all checkboxes other than Xbox:<br /><br /><img
@@ -126,13 +170,13 @@ support we recommend checking all checkboxes other than Xbox:<br /><br /><img
     title="steamworks_steam_input_optin_settings.png"
 /><br /><br />If your game has flight stick or racing wheel support you'll want to uncheck the box
 for Generic/Direct Input controllers because Steam doesn't support remapping those devices.
-<h2 class="bb_subsection"><a name="6"></a>Selecting a configuration</h2>
+<h2 class="bb_subsection"><a name="5"></a>Selecting a configuration</h2>
 You can choose to create your own configuration or pick from one of our premade templates. It is not
 necessary to create your own configuration unless you plan tweaking the configurations away from our
 defaults or labeling individual bindings with what they do in-game. The built-in templates for Steam
 Input are localized into all Steam's languages so please make sure you also localize your
 configuration to avoid English being shown to non-English users.
-<h2 class="bb_subsection"><a name="7"></a>Picking a template</h2>
+<h2 class="bb_subsection"><a name="6"></a>Picking a template</h2>
 Console controllers do not differentiate between the various gamepad template variants, but these
 settings are important for the Steam Controller. Here's an explanation of the templates and which
 type of games they are intended for:<br />
@@ -166,7 +210,7 @@ type of games they are intended for:<br />
     rel="noreferrer"
     >here</a
 >
-<h2 class="bb_subsection"><a name="8"></a>Creating a custom configuration</h2>
+<h2 class="bb_subsection"><a name="7"></a>Creating a custom configuration</h2>
 Configurations can be auto-converted between most controller types, but you'll at a minimum want
 want to make a Steam Controller and Xbox controller configuration.
 <div class="bb_callout bb_green">
@@ -175,8 +219,40 @@ want to make a Steam Controller and Xbox controller configuration.
         you'll want to also have one for PlayStation 4 or Nintendo Switch controllers.
     </div>
 </div>
-<br /><strong>Localizing your configuration</strong><br />Making a localized configuration is a
-little bit more complicated when not using Steam Input API but it is still achievable.<br />
+<h2 class="bb_section"><a name="8"></a>Text Input</h2>
+<br />On-screen text input is not technically part of the
+<a href="https://partner.steamgames.com/doc/api/ISteamController" class="bb_apilink"
+    >ISteamController</a
+>
+(Steam Input), but is found instead in
+<a href="https://partner.steamgames.com/doc/api/ISteamUtils" class="bb_apilink">ISteamUtils</a>.
+This is currently only implemented when the player launches the game through Big Picture Mode.<br /><br />Some
+quick references:<br />
+<ul class="bb_ul">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUtils#ShowGamepadTextInput"
+            class="bb_apilink"
+            >ShowGamepadTextInput</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUtils#GetEnteredGamepadTextLength"
+            class="bb_apilink"
+            >GetEnteredGamepadTextLength</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUtils#GetEnteredGamepadTextInput"
+            class="bb_apilink"
+            >GetEnteredGamepadTextInput</a
+        >
+    </li>
+</ul>
+<br /><br /><strong>Localizing your configuration</strong><br />Making a localized configuration is
+a little bit more complicated when not using Steam Input API but it is still achievable.<br />
 <ul class="bb_ul">
     <li>
         To start make sure you have not edited your configuration since the last time it was
