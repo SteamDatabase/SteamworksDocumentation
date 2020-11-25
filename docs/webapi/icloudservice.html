@@ -7,12 +7,32 @@ permission from the user to access their Steam Cloud files. This can be done via
 <a href="https://partner.steamgames.com/doc/webapi_overview/OAuth" class="bb_doclink">OAuth</a>.
 Note that you will most likely want to request both
 <code class="bb_code bb_code_inline nohighlight">read_cloud</code> and
-<code class="bb_code bb_code_inline nohighlight">write_cloud</code> permissions.
+<code class="bb_code bb_code_inline nohighlight">write_cloud</code> permissions.<br /><br />Please
+also see the general Steam
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
+    >WebAPI overview documentation</a
+>, specifically the section titled "Service Interfaces". GET requests can be done with parameters in
+the URL, however it is recommended for POST requests that all parameters are in the request body.
+The <code class="bb_code bb_code_inline nohighlight">access-token</code> parameter is directly
+form-encoded, and then the remaining parameters should be in a JSON structure set via the
+<code class="bb_code bb_code_inline nohighlight">input-json</code> field.<br /><br />Responses to
+well-formed and authenticated requests will usually be
+<code class="bb_code bb_code_inline nohighlight">200 OK</code>. However the request may have failed
+- the detailed Steam error code will be found in the
+<code class="bb_code bb_code_inline nohighlight">x-eresult</code> header. The value for "success" is
+1. All other values are likely to be errors; see the documentation for
+<a href="https://partner.steamgames.com/doc/api/steam_api" class="bb_doclink">steam_api.h</a> for
+details.
 <h2 class="bb_section"><a name="EnumerateUserFiles"></a>Enumerating Files</h2>
-Requires <code class="bb_code bb_code_inline nohighlight">read_cloud</code> OAuth access.<br />
-<div class="bb_code http">
-    GET https://api.steampowered.com/ICloudService/EnumerateUserFiles/v1/
+Requires <code class="bb_code bb_code_inline nohighlight">read_cloud</code> OAuth access.
+<h2 class="bb_subsection"><a name="1"></a>EnumerateUserFiles</h2>
+<br />Example:
+<div class="bb_code">
+    GET
+    https://api.steampowered.com/ICloudService/EnumerateUserFiles/v1/?access_token=&lt;token&gt;&amp;appid=1234&amp;extended_details=1
+    HTTP/1.1 Host: api.steampowered.com Content-Length: 0
 </div>
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -137,8 +157,17 @@ fields:<br />
 <h2 class="bb_section"><a name="UploadFile"></a>Uploading Files</h2>
 Requires <code class="bb_code bb_code_inline nohighlight">write_cloud</code> OAuth access.<br /><br />Uploading
 is done via a two-part API. You'll first call BeginHTTPUpload to get details on where to upload the
-file, then when that is complete, call CommitHTTPUpload.<br /><br />
-<div class="bb_code http">POST https://api.steampowered.com/ICloudService/BeginHTTPUpload/v1/</div>
+file, then when that is complete, call CommitHTTPUpload.
+<h2 class="bb_subsection"><a name="2"></a>BeginHTTPUpload</h2>
+<br />Example:
+<div class="bb_code">
+    POST https://api.steampowered.com/ICloudService/BeginHTTPUpload/v1/ HTTP/1.1 Host:
+    api.steampowered.com Content-Type: application/x-www-form-urlencoded Content-Length: &lt;body
+    length&gt; access_token=&lt;token&gt;&amp;input_json={ "appid": "1234", "file_size": "7448889",
+    "filename": "%25WinAppDataLocal%25Foobar%2FGamename%2Fcloud%2Fgames%2Fsave.sav", "file_sha":
+    "FDFE308499263F9361B472648E9F49DC0B8799C8", "is_public": "0", "platforms_to_sync": ["all"] }
+</div>
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -188,8 +217,11 @@ file, then when that is complete, call CommitHTTPUpload.<br /><br />
 </table>
 <br />Call this API to initiate uploading a new file (or new version of an existing file) to Steam
 Cloud for the user. New versions of existing files will overwrite the existing version.<br /><br />Note
-that for list parameters, such as "platforms_to_sync", the syntax is as follows:
+that for list parameters, such as "platforms_to_sync", the syntax when used as a GET param is as
+follows:
 <div class="bb_code http">&amp;platforms_to_sync[0]=macos&amp;platforms_to_sync[1]=windows</div>
+<br />In a JSON-encoded field in a POST param, it is as follows:<br />
+<div class="bb_code">"platforms_to_sync": ["macos", "windows"]</div>
 <br />The response data:<br />
 <table>
     <tr>
@@ -256,8 +288,24 @@ that for list parameters, such as "platforms_to_sync", the syntax is as follows:
     >https://&lt;url_host&gt;&lt;url_path&gt;</a
 >, where each of the above specified HTTP headers has the specified value. On success you may
 receive a 200 OK, 201 Created, or 204 No Content response, depending on the storage provider.
-<br /><br />When that completes (whether a success or a failure), call:<br /><br />
-<div class="bb_code http">POST https://api.steampowered.com/ICloudService/CommitHTTPUpload/v1/</div>
+<br /><br />This request may look like:<br />
+<div class="bb_code">
+    PUT
+    https://steamcloud-us-west1.storage.googleapis.com/00/00/00/00/1234/012_3_4A77D494_9D267_1464.dat?GoogleAccessId=numbersandletters@developer.gserviceaccount.com&amp;Expires=1595961837&amp;Signature=morestuffhere
+    HTTP/1.1 Host: steamcloud-us-west1.storage.googleapis.com Content-Type: application/octet-stream
+    Content-Length: &lt;body length&gt; Header-from-Steam1: value1 Header-from-Steam2: value2
+    &lt;file data&gt;
+</div>
+<br />When that completes (whether a success or a failure), call:
+<h2 class="bb_subsection"><a name="3"></a>CommitHTTPUpload</h2>
+<br />Example:
+<div class="bb_code">
+    POST https://api.steampowered.com/ICloudService/CommitHTTPUpload/v1/ HTTP/1.1 Host:
+    api.steampowered.com Content-Type: application/x-www-form-urlencoded Content-Length: &lt;body
+    length&gt; access_token=&lt;token&gt;&amp;input_json={ "appid": "1234", "transfer_succeeded":
+    "1", "filename": "%25WinAppDataLocal%25Foobar%2FGamename%2Fcloud%2Fgames%2Fsave.sav",
+    "file_sha": "FDFE308499263F9361B472648E9F49DC0B8799C8" }
+</div>
 <table>
     <tr>
         <th>Name</th>
@@ -301,8 +349,16 @@ Steam was able to fully commit the change. If false, then the upload has failed 
 not recorded, and if it was an update to an existing file, the existing file still exists and will
 be returned by future Enumerate/Download requests.
 <h2 class="bb_section"><a name="DeleteFile"></a>Deleting Files</h2>
-Requires <code class="bb_code bb_code_inline nohighlight">write_cloud</code> OAuth access.<br />
-<div class="bb_code http">POST https://api.steampowered.com/ICloudService/Delete/v1/</div>
+Requires <code class="bb_code bb_code_inline nohighlight">write_cloud</code> OAuth access.
+<h2 class="bb_subsection"><a name="4"></a>Delete</h2>
+<br />Example:
+<div class="bb_code">
+    POST https://api.steampowered.com/ICloudService/Delete/v1/ HTTP/1.1 Host: api.steampowered.com
+    Content-Type: application/x-www-form-urlencoded Content-Length: &lt;body length&gt;
+    access_token=&lt;token&gt;&amp;input_json={ "appid": "1234", "filename":
+    "%25WinAppDataLocal%25Foobar%2FGamename%2Fcloud%2Fgames%2Fsave.sav" }
+</div>
+<br />
 <table>
     <tr>
         <th>Name</th>

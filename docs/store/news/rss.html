@@ -101,9 +101,15 @@ Steam can make use of the following fields. Anything else will be ignored.<br />
     <li><strong>Title</strong><br /></li>
     <li><strong>Description</strong><br /></li>
     <li><strong>Link </strong>(used as the URL to redirect users to read more…)<br /></li>
-    <li><strong>Author </strong>(stored but not used)<br /></li>
-    <li><strong>Date </strong>(stored but not used)<br /></li>
-    <li><strong>PubDate</strong>( stored but not used)<br /></li>
+    <li><strong>Author </strong> (stored but not used)<br /></li>
+    <li>
+        <strong>Date </strong> used as the date of the article. The later of pubDate or Date field
+        found in the document will be used per post. See below for date format<br />
+    </li>
+    <li>
+        <strong>pubDate</strong> used as teh date of the article. Later of pubDate or Date field
+        found in the document will be used per post. See below for date format<br />
+    </li>
     <li>
         Optional: <strong>steam:appid</strong> to indicate which app specific hub we should surface
         the information about. To get the appid for a game, just visit the game's store page in your
@@ -115,6 +121,15 @@ Steam can make use of the following fields. Anything else will be ignored.<br />
         for the full game. Using the appID for DLC, demo, or soundtrack will have no effect)
     </li>
 </ul>
+<h2 class="bb_subsection"><a name="date"></a>Date Format Supported</h2>
+Steam will parse dates written in RFC 822 format or dates written in ISO-8601 format with the
+assumed GMT time zone. Note that the RSS standard indicates that the dates should be written in
+<a href="https://www.w3.org/Protocols/rfc822/#z28" target="_blank" rel="noreferrer">RFC-822</a>
+format. <br /><br />Date and time that are provided must be in the past. It is assumed that any post
+found within the RSS or Atom feed is immediately visible and publishable by Steam. We will reject
+articles with future date or times. Note that the date specified cannot be earlier than Sep 12,
+2003. <br /><br />Example RFC 822 Dates: <br />Tue, 26 May 2020 23:26:48 +0100<br />Tue, 26 May 2020
+23:26:48 PST<br /><br />Example of ISO-8601 with GMT Time zone:<br />2020-07-01T10:27:45Z
 <h2 class="bb_subsection"><a name="9"></a>Example item format:</h2>
 <div class="bb_code xml">
     &lt;?xml version="1.0" encoding="UTF-8" ?&gt; &lt;rss version="2.0"&gt; &lt;channel

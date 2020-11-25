@@ -501,10 +501,12 @@ Emulation.<br /><br /><strong>Returns:</strong>
     >ControllerHandle_t</a
 ><br /><br /><br /><strong>Example:</strong><br />
 <div class="bb_code cpp">
-    ControllerHandle_t controllerHandle = SteamController()-&gt;GetControllerForGamepadIndex(
-    gamepadIndex ); if ( controllerHandle == 0 ) { // This is a normal Xbox controller. } else {
-    ESteamInputType inputType = SteamController()-&gt;GetInputTypeForHandle(controllerHandle);
-    switch(inputType) { case k_ESteamInputType_Unknown: printf("unknown\n!"); break; case
+    // Replace with the Xinput Slot you are querying for. This number is between 0 and 3 int
+    nXinputSlotIndex = 0; ControllerHandle_t controllerHandle =
+    SteamController()-&gt;GetControllerForGamepadIndex( nXinputSlotIndex ); if ( controllerHandle ==
+    0 ) { // Valid handles are non-zero, this is a normal Xbox controller. } else { ESteamInputType
+    inputType = SteamController()-&gt;GetInputTypeForHandle(controllerHandle); switch(inputType) {
+    case k_ESteamInputType_Unknown: printf("unknown\n!"); break; case
     k_ESteamInputType_SteamController: printf("Steam controller\n!"); break; case
     k_ESteamInputType_XBox360Controller: printf("XBox 360 controller\n!"); break; case
     k_ESteamInputType_XBoxOneController: printf("XBox One controller\n!"); break; case
