@@ -1,19 +1,19 @@
 <h1>General Concepts</h1>
 <h2 class="bb_section"><a name="1"></a>Steam Input</h2>
 "Steam Input" is the umbrella term referring to the entire collection of software, hardware, and
-configuration utilities that steam uses to interface with games.
+configuration utilities that Steam uses to interface with games.
 <h2 class="bb_section"><a name="2"></a>Steam Input Configurator</h2>
-The steam input configurator (SIC) is built into the steam client and sits between the player and
+The Steam Input Configurator (SIC) is built into the Steam client and sits between the player and
 their game/application. The SIC receives input from your input device, and translates that data
 appropriately depending on the player's settings before passing it along to the game.<br /><br />The
 SIC can be used in two main ways: <strong>legacy</strong> mode and <strong>native</strong> mode.
 <h2 class="bb_subsection"><a name="3"></a>Legacy Mode</h2>
-Legacy mode is a compatibility mode designed for games that have not implemented the steam input
+Legacy mode is a compatibility mode designed for games that have not implemented the Steam Input
 API. In this case, the SIC just serves as a really fancy input mapper that <i>any</i> player can use
-for <i>any</i> game on steam. <br /><br />The player can remap any physical input to any other
+for <i>any</i> game on Steam. <br /><br />The player can remap any physical input to any other
 physical input -- such as making the "A" button simulate the keyboard "Enter" key, make a full pull
 of the left analog trigger simulate a mouse click, etc. This mode works with <i>any</i> supported
-input device, not just the steam controller.<br /><br />Legacy mode is great for working with games
+input device, not just the Steam Controller.<br /><br />Legacy mode is great for working with games
 that never supported the API, but there are limitations to it. For one, games programmed in such a
 way to assume that gamepad and mouse controls will never both be active simultaneously have been
 known to suffer from all manner of glitches when your configuration violates those assumptions.
@@ -24,13 +24,13 @@ will probably not match up.
 In Native mode, the game receives input data directly from the configurator in the form of
 "actions." The idea here is that the game itself has no knowledge of what actual inputs are driving
 said actions, simply that the actions are happening. All configuration and control settings are
-relegated to the steam input configurator. That said, the game can request information via a special
+relegated to the Steam input configurator. That said, the game can request information via a special
 API call about which physical controls are bound to which actions purely for the purpose of
 displaying appropriate on-screen glyphs.
 <h2 class="bb_subsection"><a name="5"></a>Steam Input API</h2>
-The steam input API is the application programming interface developers use to talk directly to the
-steam input configurator in Native mode. The API is not necessary in order to support Legacy
-mode.<br /><br />You can find full documentation for that here:
+The Steam Input API is the application programming interface developers use to talk directly to the
+SIC in Native mode. The API is not necessary in order to support Legacy mode.<br /><br />You can
+find full documentation for that here:
 <a href="https://partner.steamgames.com/doc/api/ISteamController" class="bb_apilink"
     >ISteamController</a
 >.
@@ -61,7 +61,7 @@ difference between a Dpad and four face buttons laid out in a diamond pattern?<b
     title="input_bpad.png"
 /><br /><br />They both have four digital "buttons", but most Dpads are physically engineered in
 such a way that it's impossible to press Up+Down or Left+Right at the same time, whereas each face
-button can be pressed independently. However, steam input lets you impose the restrictions of a Dpad
+button can be pressed independently. However, Steam Input lets you impose the restrictions of a Dpad
 on your face buttons.<br /><br />So although both the Dpad and the face button group are each
 composed of four individual "physical inputs," its convenient to think of the "Dpad" and the "face
 buttons" as their own units, so that we can change how the whole thing behaves.<br /><br />The full
@@ -150,7 +150,7 @@ joystick assembly, etc.<br /><br /><strong>Input Source Modes</strong>:<br />A s
 that you're forcing on an input source. Ex: "Make the face buttons act like a Dpad", "Make the left
 joystick act like four face buttons", etc.
 <h2 class="bb_section"><a name="9"></a>Actions</h2>
-Actions are the events that the steam input API uses to orchestrate everything. In native mode, your
+Actions are the events that the Steam Input API uses to orchestrate everything. In native mode, your
 game doesn't get a "Button A pressed" event, it simply gets a "Jump" event (or whatever), and what
 kind of input causes "Jump" is entirely in the hands of the player.
 <h2 class="bb_subsection"><a name="10"></a>Digital Actions</h2>
@@ -205,13 +205,13 @@ controllers. Unsupported devices will ignore API calls for haptics.
 <h2 class="bb_subsection"><a name="19"></a>Rumble</h2>
 A more traditional form of physical feedback, rumble is caused by vibrating internal motors that
 shake the device. This feature is supported on the PlayStation 4 controller and the Xbox controllers
-(as well as many Xinput compatible generic devices). The steam controller does not have true rumble,
-but it does emulate an approximation using its haptics (and will therefore respond to the API calls
-for rumble).
+(as well as many Xinput compatible generic devices). The Steam does not have true rumble, but it
+does emulate an approximation using its haptics (and will therefore respond to the API calls for
+rumble).
 <h2 class="bb_subsection"><a name="20"></a>LED</h2>
-The Steam controller and the PlayStation 4 controller both have a built in LED light on the
-controller. The Steam controller's light is always white, but the PlayStation 4 controller features
+The Steam Controller and the PlayStation 4 controller both have a built in LED light on the
+controller. The Steam Controller's light is always white, but the PlayStation 4 controller features
 a fully programmable colored LED. Both of these devices will respond to API calls for changing the
-light color, but the Steam controller will cast the color to monochrome and simply use it to control
+light color, but the Steam Controller will cast the color to monochrome and simply use it to control
 brightness, whereas on the PlayStation 4 controller it can be used to control both the color and the
 brightness. Unsupported devices will ignore API calls for the LED.
