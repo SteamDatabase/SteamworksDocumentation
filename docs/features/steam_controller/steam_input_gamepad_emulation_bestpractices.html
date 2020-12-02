@@ -6,9 +6,9 @@ focus on how to best use Steam Input Gamepad Emulation to extend your game's exi
 support.<br /><br />What's Gamepad Emulation?<br />
 <ul class="bb_ul">
     <li>
-        On Windows the Steam Overlay will hook traditional gamepad input API's such as Xinput,
+        On Windows the Steam Overlay will hook traditional gamepad input APIs such as Xinput,
         DirectInput, RawInput, and Windows.Gaming.Input and inject an emulated Xbox controller
-        device. On MacOS and Linux emulated controller input is provided by a driver.<br />
+        device. On macOS and Linux emulated controller input is provided by a driver.<br />
     </li>
     <li>
         The controller will show up in your game as an Xbox controller which means that controllers
@@ -40,9 +40,9 @@ support.<br /><br />What's Gamepad Emulation?<br />
     <li>
         You may have users playing via Steam Input even for controllers you already support because
         Steam Remote Play uses it to provide input while streaming and a sizable portion of users
-        have enabled Steam Input for their controllers across their whole Steam libraries. Overall
-        roughly a quarter of all controller sessions on Steam in 2020 used Steam Input, including
-        nearly half of all PlayStation controller sessions.
+        have also enabled Steam Input for reconfiguring their controllers across the Steam library.
+        Overall roughly a quarter of all controller sessions on Steam in 2020 used Steam Input,
+        including nearly half of all PlayStation controller sessions.
     </li>
 </ul>
 <br />Over 2000 games on Steam use Gamepad Emulation for at least one controller type, including
@@ -107,9 +107,13 @@ You'll need to make use of the following functions:<br />
 </ul>
 <br />Example code:<br /><br />
 <div class="bb_code">
-    // Replace with the Xinput slot you are querying for. This number is between 0 and 3 int
-    nXinputSlot = 0; // Replace with the button you are querying for EXboxOrigin
-    eXboxButtonToGetGlyphFor = k_EXboxOrigin_A; EInputActionOrigin buttonOrigin =
+    // Initialize the interface before using individual functions - this only needs to be called
+    once! SteamInput()-&gt;Init() // ... // SteamAPI_RunCallbacks() will call the RunFrame functions
+    for any initialized interfaces and most // games will already be calling this periodically. If
+    you aren't doing that you'll need to manually update // the Steam Input interface
+    SteamInput()-&gt;RunFrame(); // ... // Replace with the Xinput slot you are querying for. This
+    number is between 0 and 3 int nXinputSlot = 0; // Replace with the button you are querying for
+    EXboxOrigin eXboxButtonToGetGlyphFor = k_EXboxOrigin_A; EInputActionOrigin buttonOrigin =
     k_EInputActionOrigin_XBoxOne_A; // If the controller is configured through Steam Input -
     translate the button InputHandle_t controller1Handle =
     SteamInput()-&gt;GetControllerForGamepadIndex( nXinputSlot ); if ( controller1Handle &gt; 0 ) {
@@ -149,20 +153,27 @@ can ask Steam for this info by Xinput slot using:<br />
 </ul>
 <br />Example code:<br />
 <div class="bb_code cpp">
-    // Replace with the Xinput slot you are querying for. This number is between 0 and 3 int
-    nXinputSlotIndex = 0; InputHandle_t inputHandle = SteamInput()-&gt;GetControllerForGamepadIndex(
-    nXinputSlotIndex ); if ( inputHandle == 0 ) { // Valid Input handles are non-zero, this is a
-    normal Xbox controller. } else { // Steam will always return an enum value that was valid for
-    your SDK version. ESteamInputType inputType = SteamInput()-&gt;GetInputTypeForHandle(
-    inputHandle ); switch( inputType ) { case k_ESteamInputType_Unknown: printf( "unknown\n!" );
-    break; case k_ESteamInputType_SteamController: printf( "Steam controller\n!" ); break; case
+    // Initialize the interface before using individual functions - this only needs to be called
+    once! SteamInput()-&gt;Init() // ... // SteamAPI_RunCallbacks() will call the RunFrame functions
+    for any initialized interfaces and most // games will already be calling this periodically. If
+    you aren't doing that you'll need to manually update // the Steam Input interface
+    SteamInput()-&gt;RunFrame(); // ... // Replace with the Xinput slot you are querying for. This
+    number is between 0 and 3 int nXinputSlotIndex = 0; InputHandle_t inputHandle =
+    SteamInput()-&gt;GetControllerForGamepadIndex( nXinputSlotIndex ); if ( inputHandle == 0 ) { //
+    Valid Input handles are non-zero, this is a normal Xbox controller. } else { // Steam will
+    always return an enum value that was valid for your SDK version. ESteamInputType inputType =
+    SteamInput()-&gt;GetInputTypeForHandle( inputHandle ); switch( inputType ) { case
+    k_ESteamInputType_Unknown: printf( "unknown\n!" ); break; case
+    k_ESteamInputType_SteamController: printf( "Steam controller\n!" ); break; case
     k_ESteamInputType_XBox360Controller: printf( "XBox 360 controller\n!" ); break; case
     k_ESteamInputType_XBoxOneController: printf( "XBox One controller\n!" ); break; case
     k_ESteamInputType_GenericXInput: printf( "Generic XInput\n!" ); break; case
     k_ESteamInputType_PS4Controller: printf( "PS4 controller\n!" ); break; } }
 </div>
 <h2 class="bb_subsection"><a name="4"></a>Showing Your Own Art - Per Button Art</h2>
-If you're<br />
+If you're using a single look up table indexed by action origins you can use these functions to
+implement device specific glyphs and translate any unrecognized controllers to their closest
+equivalents.<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -191,9 +202,13 @@ If you're<br />
 </ul>
 <br />Example code:<br />
 <div class="bb_code">
-    // Replace with the Xinput slot you are querying for. This number is between 0 and 3 int
-    nXinputSlot = 0; // Replace with the button you are querying for EXboxOrigin
-    eXboxButtonToGetGlyphFor = k_EXboxOrigin_A; EInputActionOrigin buttonOrigin =
+    // Initialize the interface before using individual functions - this only needs to be called
+    once! SteamInput()-&gt;Init() // ... // SteamAPI_RunCallbacks() will call the RunFrame functions
+    for any initialized interfaces and most // games will already be calling this periodically. If
+    you aren't doing that you'll need to manually update // the Steam Input interface
+    SteamInput()-&gt;RunFrame(); // ... // Replace with the Xinput slot you are querying for. This
+    number is between 0 and 3 int nXinputSlot = 0; // Replace with the button you are querying for
+    EXboxOrigin eXboxButtonToGetGlyphFor = k_EXboxOrigin_A; EInputActionOrigin buttonOrigin =
     k_EInputActionOrigin_XBoxOne_A; // If the controller is configured through Steam Input -
     translate the button InputHandle_t controller1Handle =
     SteamInput()-&gt;GetControllerForGamepadIndex( nXinputSlot ); if ( controller1Handle &gt; 0 ) {

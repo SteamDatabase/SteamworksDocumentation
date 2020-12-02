@@ -104,9 +104,38 @@ never be used directly by clients!
         <td>Comma-delimited list of appids (max: 100)</td>
     </tr>
 </table>
-<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this method.
-As such this API <strong>MUST</strong> be called from a secure server, and can never be used
-directly by clients!
+<br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
+API <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="GetDeletedSteamIDs"></a>GetDeletedSteamIDs</h2>
+<div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/GetDeletedSteamIDs/v1/</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>rowversion</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>
+            An unsigned 64-bit value used to page through deleted accounts. Pass 0 when calling this
+            API for the first time, then pass the value returned from the previous call for each
+            additional request. This value will need to be stored on your server for future calls.
+        </td>
+    </tr>
+</table>
+<br />You can use GetDeletedSteamIDs to retrieve a list of deleted accounts that owned your game(s)
+before deletion. This API was created to allow for the deletion of user related data for GDPR and
+other personal information related purposes.<br /><br />The provided Steamworks Publisher Key is
+used for both authentication and to generate the list of appids to check against.
 <h2 class="bb_section"><a name="GetFriendList"></a>GetFriendList</h2>
 <div class="bb_code http">GET https://api.steampowered.com/ISteamUser/GetFriendList/v1/</div>
 <table>
