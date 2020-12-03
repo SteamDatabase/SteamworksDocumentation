@@ -931,13 +931,17 @@ clients!<br /><br /><strong>Response:</strong><br />
         <td><strong>description[0]</strong></td>
         <td>string</td>
         <td>✔</td>
-        <td>Description of item.</td>
+        <td>Description of item. Maximum length of 128 characters.</td>
     </tr>
     <tr>
         <td><strong>category[0]</strong></td>
         <td>string</td>
         <td></td>
-        <td>Optional category grouping for item.</td>
+        <td>
+            Optional text description of a category that this item should be grouped with. This
+            value is used for grouping sales data in backend Steam reporting and is never displayed
+            to the user. Maximum length of 64 characters
+        </td>
     </tr>
     <tr>
         <td><strong>associated_bundle[0]</strong></td>
@@ -949,7 +953,14 @@ clients!<br /><br /><strong>Response:</strong><br />
         <td><strong>billingtype[0]</strong></td>
         <td>string</td>
         <td></td>
-        <td>Optional recurring billing type.</td>
+        <td>
+            Optional recurring billing type. Valid options are: <strong>"Steam"</strong> or
+            <strong>"Game"</strong><br />
+            <ul class="bb_ul">
+                <li>Steam: Steam automatically re-bills</li>
+                <li>Game: Partner needs to call ProcessAgreement API to bill</li>
+            </ul>
+        </td>
     </tr>
     <tr>
         <td><strong>startdate[0]</strong></td>
@@ -967,13 +978,19 @@ clients!<br /><br /><strong>Response:</strong><br />
         <td><strong>period[0]</strong></td>
         <td>string</td>
         <td></td>
-        <td>Optional period for recurring billing.</td>
+        <td>
+            Optional period for recurring billing. Valid options are: <strong>"Day"</strong>,
+            <strong>"Week"</strong>, <strong>"Month"</strong>, <strong>"Year"</strong>
+        </td>
     </tr>
     <tr>
         <td><strong>frequency[0]</strong></td>
         <td>uint32</td>
         <td></td>
-        <td>Optional frequency for recurring billing.</td>
+        <td>
+            Optional frequency (in number of days) for recurring billing. Supported values:
+            <strong>1 - 255</strong>
+        </td>
     </tr>
     <tr>
         <td><strong>recurringamt[0]</strong></td>
@@ -1003,13 +1020,17 @@ clients!<br /><br /><strong>Response:</strong><br />
         <td><strong>bundle_desc[0]</strong></td>
         <td>string</td>
         <td></td>
-        <td>Description of bundle.</td>
+        <td>Description of bundle. Maximum length of 128 characters.</td>
     </tr>
     <tr>
         <td><strong>bundle_category[0]</strong></td>
         <td>string</td>
         <td></td>
-        <td>Optional category grouping for bundle.</td>
+        <td>
+            Optional text description of a bundle category that this item should be grouped with.
+            This value is used for grouping sales data in backend Steam reporting and is never
+            displayed to the user. Maximum length of 64 characters.
+        </td>
     </tr>
 </table>
 <br />Creates a new purchase. Send the order information along with the Steam ID to seed the
