@@ -522,6 +522,64 @@ UGC query handle is from
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemTags" class="bb_apilink"
     >ISteamUGC::SetItemTags</a
 >
+<h2 class="bb_subsection"><a name="AddRequiredTagGroup"></a>AddRequiredTagGroup</h2>
+<div class="bb_code cpp">
+    bool AddRequiredTagGroup( UGCQueryHandle_t handle, const SteamParamStringArray_t *pTags );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t"
+                class="bb_apilink"
+                >UGCQueryHandle_t</a
+            >
+        </td>
+        <td>The UGC query handle to customize.</td>
+    </tr>
+    <tr>
+        <td><strong>pTags</strong></td>
+        <td>
+            const
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#SteamParamStringArray_t"
+                class="bb_apilink"
+                >SteamParamStringArray_t</a
+            >
+            *
+        </td>
+        <td>A set of tags where at least one of the tags must attached to the UGC.</td>
+    </tr>
+</table>
+<br />Adds the requirement that the returned items from the pending UGC Query have at least one of
+the tags in the given set (logical "or"). For each tag group that is added, at least one tag from
+each group is required to be on the matching items.<br /><br /><strong>NOTE:</strong> This must be
+set before you send a UGC Query handle using
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
+    >ISteamUGC::SendQueryUGCRequest</a
+>.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
+    >false</strong
+>
+if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the
+UGC query handle is from
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUGCDetailsRequest"
+    class="bb_apilink"
+    >ISteamUGC::CreateQueryUGCDetailsRequest</a
+>, or <code class="bb_code bb_code_inline nohighlight">pTagName</code> was
+<strong>NULL</strong>.<br /><br /><strong>See Also:</strong>
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredTag" class="bb_apilink"
+    >ISteamUGC::AddRequiredTag</a
+>,
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddExcludedTag" class="bb_apilink"
+    >ISteamUGC::AddExcludedTag</a
+>
 <h2 class="bb_subsection"><a name="BInitWorkshopForGameServer"></a>BInitWorkshopForGameServer</h2>
 <div class="bb_code cpp">
     bool BInitWorkshopForGameServer( DepotId_t unWorkshopDepotID, const char *pszFolder );
@@ -1533,6 +1591,205 @@ after getting the UGC details with
 <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.
+<h2 class="bb_subsection"><a name="GetQueryUGCNumTags"></a>GetQueryUGCNumTags</h2>
+<div class="bb_code cpp">uint32 GetQueryUGCNumTags( UGCQueryHandle_t handle, uint32 index );</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t"
+                class="bb_apilink"
+                >UGCQueryHandle_t</a
+            >
+        </td>
+        <td>The UGC query handle to get the results from.</td>
+    </tr>
+    <tr>
+        <td><strong>index</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The index of the item to get the details of.</td>
+    </tr>
+</table>
+<br />Available in SDK v1.51.<br /><br />Retrieve the number of tags for an individual workshop item
+after receiving a querying UGC call result.<br /><br />You should call this in a loop to get the
+details of all the workshop items returned.<br /><br /><strong>NOTE:</strong> This must only be
+called with the handle obtained from a successful
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+    class="bb_apilink"
+    >SteamUGCQueryCompleted_t</a
+>
+call result.<br /><br />You can then call
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCTag" class="bb_apilink"
+    >ISteamUGC::GetQueryUGCTag</a
+>
+to get the tag name or
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCTagDisplayName"
+    class="bb_apilink"
+    >ISteamUGC::GetQueryUGCTagDisplayName</a
+>
+to ge the localized tag string (if any).<br /><br /><strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
+><br />The number of key-value tags associated with the specified workshop item.<br />Returns
+<strong>0</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or the
+<code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.
+<h2 class="bb_subsection"><a name="GetQueryUGCTag"></a>GetQueryUGCTag</h2>
+<div class="bb_code cpp">
+    bool GetQueryUGCTag( UGCQueryHandle_t handle, uint32 index, uint32 tagIndex, char *pchValue,
+    uint32 cchValueSize );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t"
+                class="bb_apilink"
+                >UGCQueryHandle_t</a
+            >
+        </td>
+        <td>The UGC query handle to get the results from.</td>
+    </tr>
+    <tr>
+        <td><strong>index</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The index of the item to get the details of.</td>
+    </tr>
+    <tr>
+        <td><strong>tagIndex</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The index of the tag.</td>
+    </tr>
+    <tr>
+        <td><strong>pchValue</strong></td>
+        <td>char *</td>
+        <td>Returns the value by copying it into this string.</td>
+    </tr>
+    <tr>
+        <td><strong>cchValueSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The size of <code class="bb_code bb_code_inline nohighlight">pchValue</code> in bytes
+            (allocate at least 64 bytes).
+        </td>
+    </tr>
+</table>
+<br />Available in SDK v1.51.<br /><br />Retrieve the "nth" tag associated with an individual
+workshop item after receiving a querying UGC call result.<br /><br />You should call this in a loop
+to get the details of all the workshop items returned.<br /><br /><strong>NOTE:</strong> This must
+only be called with the handle obtained from a successful
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+    class="bb_apilink"
+    >SteamUGCQueryCompleted_t</a
+>
+call result.<br /><br />Before calling this you should call
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumTags" class="bb_apilink"
+    >ISteamUGC::GetQueryUGCNumTags</a
+>
+to get number of tags.
+<h2 class="bb_subsection"><a name="GetQueryUGCTagDisplayName"></a>GetQueryUGCTagDisplayName</h2>
+<div class="bb_code cpp">
+    bool GetQueryUGCTagDisplayName( UGCQueryHandle_t handle, uint32 index, uint32 tagIndex, char
+    *pchValue, uint32 cchValueSize );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t"
+                class="bb_apilink"
+                >UGCQueryHandle_t</a
+            >
+        </td>
+        <td>The UGC query handle to get the results from.</td>
+    </tr>
+    <tr>
+        <td><strong>index</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The index of the item to get the details of.</td>
+    </tr>
+    <tr>
+        <td><strong>tagIndex</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The index of the tag.</td>
+    </tr>
+    <tr>
+        <td><strong>pchValue</strong></td>
+        <td>char *</td>
+        <td>Returns the value by copying it into this string.</td>
+    </tr>
+    <tr>
+        <td><strong>cchValueSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>
+            The size of <code class="bb_code bb_code_inline nohighlight">pchValue</code> in bytes
+            (allocate at least 256 bytes).
+        </td>
+    </tr>
+</table>
+<br />Available in SDK v1.51.<br /><br />Retrieve the "nth" display string (usually localized) for a
+tag, which is associated with an individual workshop item after receiving a querying UGC call
+result.<br /><br />You should call this in a loop to get the details of all the workshop items
+returned.<br /><br /><strong>NOTE:</strong> This must only be called with the handle obtained from a
+successful
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+    class="bb_apilink"
+    >SteamUGCQueryCompleted_t</a
+>
+call result.<br /><br />Before calling this you should call
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumTags" class="bb_apilink"
+    >ISteamUGC::GetQueryUGCNumTags</a
+>
+to get number of tags.
 <h2 class="bb_subsection"><a name="GetQueryUGCKeyValueTag"></a>GetQueryUGCKeyValueTag</h2>
 <div class="bb_code cpp">
     bool GetQueryUGCKeyValueTag( UGCQueryHandle_t handle, uint32 index, uint32 keyValueTagIndex,
@@ -5967,7 +6224,7 @@ These are constants which are defined for use with ISteamUGC.<br /><br />
     <tr id="STEAMUGC_INTERFACE_VERSION">
         <td><strong>STEAMUGC_INTERFACE_VERSION</strong></td>
         <td>const char *</td>
-        <td>"STEAMUGC_INTERFACE_VERSION010"</td>
+        <td>"STEAMUGC_INTERFACE_VERSION015"</td>
         <td></td>
     </tr>
 </table>
