@@ -134,7 +134,7 @@ for more information.<br /><br />When the multiplayer session terminates you mus
     class="bb_apilink"
     >ValidateAuthTicketResponse_t</a
 >
-callback.<br /><br /><br /><strong>See Also:</strong>
+callback.<br /><br /><br /><br /><strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
     >User Authentication and Ownership</a
 >
@@ -209,6 +209,26 @@ accessing APIs that do not need a live connection to Steam.<br /><br /><strong>R
 bool<br /><strong>true</strong> if the Steam client current has a live connection to the Steam
 servers; otherwise, <strong>false</strong> if there is no active connection due to either a
 networking issue on the local machine, or the Steam server is down/busy.
+<h2 class="bb_subsection">
+    <a name="BSetDurationControlOnlineState"></a>BSetDurationControlOnlineState
+</h2>
+<div class="bb_code cpp">
+    bool BSetDurationControlOnlineState( EDurationControlOnlineState eNewState );
+</div>
+Allows the game to specify the offline/online gameplay state for steam china duration control.<br /><br /><strong
+    >Parameters:</strong
+>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#EDurationControlOnlineState"
+    class="bb_apilink"
+    >EDurationControlOnlineState</a
+><br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the online state was set
+successfully; otherwise, <strong>false</strong>.<br /><br /><strong>Associated Functions:</strong
+><br /><a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#GetDurationControl"
+    class="bb_apilink"
+    >ISteamUser::GetDurationControl</a
+>
 <h2 class="bb_subsection"><a name="CancelAuthTicket"></a>CancelAuthTicket</h2>
 <div class="bb_code cpp">void CancelAuthTicket( HAuthTicket hAuthTicket );</div>
 <table>
@@ -533,7 +553,13 @@ call result.<br />Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
-if no connection to the Steam servers could be made.
+if no connection to the Steam servers could be made.<br /><br /><strong
+    >Associated Functions:</strong
+><br /><a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#BSetDurationControlOnlineState"
+    class="bb_apilink"
+    >ISteamUser::BSetDurationControlOnlineState</a
+>
 <h2 class="bb_subsection"><a name="GetEncryptedAppTicket"></a>GetEncryptedAppTicket</h2>
 <div class="bb_code cpp">
     bool GetEncryptedAppTicket( void *pTicket, int cbMaxTicket, uint32 *pcbTicket );
@@ -1243,9 +1269,9 @@ to play on the game server.<br /><br />
 </table>
 <h2 class="bb_subsection"><a name="DurationControl_t"></a>DurationControl_t</h2>
 <br />Sent for games with enabled anti indulgence / duration control, for enabled users. Lets the
-game know whether persistent rewards or XP should be granted at normal rate, half rate, or zero
-rate.<br /><br />This callback is fired asynchronously in response to timers triggering. It is also
-fired in response to calls to GetDurationControl().<br /><br />
+game know whether the feature applies to the user, whether the user needs to exit the game soon, and
+the remaining daily playtime for the user.<br /><br />This callback is fired asynchronously in
+response to timers triggering. It is also fired in response to calls to GetDurationControl().<br /><br />
 <table>
     <tr>
         <th>Name</th>
@@ -1289,7 +1315,7 @@ fired in response to calls to GetDurationControl().<br /><br />
                 >EDurationControlProgress</a
             >
         </td>
-        <td>recommended progress</td>
+        <td>Description of whether the game should exit</td>
     </tr>
     <tr>
         <td><strong>m_notification</strong></td>
@@ -1686,8 +1712,8 @@ Specifies what type of failure happened in
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EDurationControlProgress"></a>EDurationControlProgress</h2>
-Describes XP / progress restrictions to apply for games with duration control / anti-indulgence
-enabled for minor Steam China users.<br /><br />
+Describes playtime restrictions that apply for games with duration control / anti-indulgence enabled
+for minor Steam China users.<br /><br />
 <table>
     <tr>
         <th>Name</th>
@@ -1697,23 +1723,33 @@ enabled for minor Steam China users.<br /><br />
     <tr id="k_EDurationControlProgress_Full">
         <td><strong>k_EDurationControlProgress_Full</strong></td>
         <td>0</td>
-        <td>Full progress</td>
+        <td>Normal play</td>
     </tr>
     <tr id="k_EDurationControlProgress_Half">
         <td><strong>k_EDurationControlProgress_Half</strong></td>
         <td>1</td>
-        <td>XP or persistent rewards should be halved</td>
+        <td>(This value is deprecated)</td>
     </tr>
     <tr id="k_EDurationControlProgress_None">
         <td><strong>k_EDurationControlProgress_None</strong></td>
         <td>2</td>
-        <td>XP or persistent rewards should be stopped</td>
+        <td>User's playtime has run out. Steam will terminate the game soon</td>
     </tr>
 </table>
+<br /><strong>Associated Functions:</strong><br /><a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#GetDurationControl"
+    class="bb_apilink"
+    >ISteamUser::GetDurationControl</a
+><br /><a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#BSetDurationControlOnlineState"
+    class="bb_apilink"
+    >ISteamUser::BSetDurationControlOnlineState</a
+>
 <h2 class="bb_subsection">
     <a name="EDurationControlNotification"></a>EDurationControlNotification
 </h2>
-Describes which notification timer has expired, for steam china duration control feature.<br /><br />
+Describes which notification timer has expired, for steam china duration control feature. Some of
+these notifications are deprecated and are no longer sent.<br /><br />
 <table>
     <tr>
         <th>Name</th>
@@ -1728,24 +1764,87 @@ Describes which notification timer has expired, for steam china duration control
     <tr id="k_EDurationControlNotification_1Hour">
         <td><strong>k_EDurationControlNotification_1Hour</strong></td>
         <td>1</td>
-        <td>"you've been playing for an hour"</td>
+        <td>
+            player has been playing for an hour - game can show something at this time if desired
+        </td>
     </tr>
     <tr id="k_EDurationControlNotification_3Hours">
         <td><strong>k_EDurationControlNotification_3Hours</strong></td>
         <td>2</td>
-        <td>"you've been playing for 3 hours; take a break"</td>
+        <td>(deprecated)</td>
     </tr>
     <tr id="k_EDurationControlNotification_HalfProgress">
         <td><strong>k_EDurationControlNotification_HalfProgress</strong></td>
         <td>3</td>
-        <td>"your XP / progress is half normal"</td>
+        <td>(deprecated)</td>
     </tr>
-    <tr id="k_EDurationControlNotification_NoProgress">
-        <td><strong>k_EDurationControlNotification_NoProgress</strong></td>
+    <tr id="k_EDurationControlNotification_ExitSoon_3h">
+        <td><strong>k_EDurationControlNotification_ExitSoon_3h</strong></td>
         <td>4</td>
-        <td>"your XP / progress is zero"</td>
+        <td>player has been playing for the allowed time and should exit the game</td>
+    </tr>
+    <tr id="k_EDurationControlNotification_ExitSoon_5h">
+        <td><strong>k_EDurationControlNotification_ExitSoon_5h</strong></td>
+        <td>4</td>
+        <td>player has been playing for the allowed time and should exit the game</td>
+    </tr>
+    <tr id="k_EDurationControlNotification_ExitSoon_Night">
+        <td><strong>k_EDurationControlNotification_ExitSoon_Night</strong></td>
+        <td>4</td>
+        <td>
+            player has been playing until the locally allowed time of day (10PM) and should exit the
+            game
+        </td>
     </tr>
 </table>
+<br /><strong>Associated Functions:</strong><br /><a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#GetDurationControl"
+    class="bb_apilink"
+    >ISteamUser::GetDurationControl</a
+><br /><a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#BSetDurationControlOnlineState"
+    class="bb_apilink"
+    >ISteamUser::BSetDurationControlOnlineState</a
+>
+<h2 class="bb_subsection"><a name="EDurationControlOnlineState"></a>EDurationControlOnlineState</h2>
+Describes the online/offline play state of a game. Currently this is only used to support the game
+being able to prevent steam from exiting the game automatically when the user's playtime is
+consumed. If the game calls
+BSetDurationControlOnlineState(k_EDurationControlOnlineState_OnlineHighPri) then steam will not
+force exit the game - in this case it is up to the game to do so! Steam will continue to send
+DurationControl_t notifications to the game. If the game later calls BSetDurationControlOnlineState
+to remove the OnlineHighPri state, then steam will force exit the game soon thereafter.<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_EDurationControlOnlineState_Offline">
+        <td><strong>k_EDurationControlOnlineState_Offline</strong></td>
+        <td>1</td>
+        <td>Offline play</td>
+    </tr>
+    <tr id="k_EDurationControlOnlineState_Online">
+        <td><strong>k_EDurationControlOnlineState_Online</strong></td>
+        <td>2</td>
+        <td>Online play</td>
+    </tr>
+    <tr id="k_EDurationControlOnlineState_OnlineHighPri">
+        <td><strong>k_EDurationControlOnlineState_OnlineHighPri</strong></td>
+        <td>3</td>
+        <td>Online play - game requests that steam not force exit the game</td>
+    </tr>
+</table>
+<br /><strong>Associated Functions:</strong><br /><a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#GetDurationControl"
+    class="bb_apilink"
+    >ISteamUser::GetDurationControl</a
+><br /><a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#BSetDurationControlOnlineState"
+    class="bb_apilink"
+    >ISteamUser::BSetDurationControlOnlineState</a
+>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamUser.<br /><br />
 <table>
