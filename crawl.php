@@ -155,6 +155,7 @@ class Crawler
 		$Html = $this->DOMinnerHTML( $Content[ 0 ] );
 		$Html = str_replace( '</track>', '', $Html ); // bad html
 		$Html = str_replace( 'steamcdn-a.akamaihd.net', 'cdn.cloudflare.steamstatic.com', $Html ); // consistent cdn
+		$Html = str_replace( 'cdn.akamai.steamstatic.com', 'cdn.cloudflare.steamstatic.com', $Html ); // cool story
 		$Html = str_replace( 'media.st.dl.pinyuncloud.com', 'cdn.cloudflare.steamstatic.com', $Html ); // volvo pls
 		$Html .= "\n";
 
