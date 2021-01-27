@@ -3,8 +3,11 @@ Provides additional methods for interacting with Steam Workshop items.<br /><br 
 <a href="https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage" class="bb_apilink"
     >ISteamRemoteStorage</a
 >
-for the primary interface.<br /><br /><strong>NOTE:</strong> This is a Service interface, methods in
-this interface should be called with the
+for the primary interface, and also
+<a href="https://partner.steamgames.com/doc/webapi/ICloudService" class="bb_apilink"
+    >ICloudService</a
+>. <br /><br /><strong>NOTE:</strong> This is a Service interface, methods in this interface should
+be called with the
 <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br /><br />For more
 info on how to use the Steamworks Web API please see the
 <a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
@@ -263,6 +266,52 @@ info on how to use the Steamworks Web API please see the
 <br />Sets the metadata for a developer on the published file<br /><br /><strong>NOTE:</strong> This
 call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
 called from a secure server, and can never be used directly by clients!
+<h2 class="bb_section"><a name="UpdateAppUGCBan"></a>UpdateAppUGCBan</h2>
+<div class="bb_code http">
+    POST https://partner.steam-api.com/IPublishedFileService/UpdateAppUGCBan/v1/
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>string</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint64</td>
+        <td>✔</td>
+        <td>SteamID of the user</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>expiration_time</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>Unix timestamp when the ban expires, 0 to remove</td>
+    </tr>
+    <tr>
+        <td><strong>reason</strong></td>
+        <td>string</td>
+        <td></td>
+        <td>Reason the user was banned. Will be displayed to the user.</td>
+    </tr>
+</table>
+<br />Adds/updates/removes a user's UGC ban in the app. Set expiration_time = 0 to remove the
+ban.<br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As
+such this API <strong>MUST</strong> be called from a secure server, and can never be used directly
+by clients!
 <h2 class="bb_section"><a name="UpdateBanStatus"></a>UpdateBanStatus</h2>
 <div class="bb_code http">
     POST https://partner.steam-api.com/IPublishedFileService/UpdateBanStatus/v1/
@@ -305,7 +354,9 @@ called from a secure server, and can never be used directly by clients!
         <td>Reason why the item was banned. Only visible to admins.</td>
     </tr>
 </table>
-<br />Updates the ban status on the published file
+<br />Updates the ban status on the published file<br /><br /><strong>NOTE:</strong> This call
+requires a publisher API key to use this method. As such this API <strong>MUST</strong> be called
+from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="UpdateIncompatibleStatus"></a>UpdateIncompatibleStatus</h2>
 <div class="bb_code http">
     POST https://partner.steam-api.com/IPublishedFileService/UpdateIncompatibleStatus/v1/
