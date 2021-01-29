@@ -36,7 +36,7 @@ documentation for suggestions for in-game economies and best practices.
 <h2 class="bb_section"><a name="3"></a>How the Payment System Works</h2>
 The payment system is a combination of whatever purchase process you have in-game, the Steam billing
 web service, and a customer approval process.<br /><br />The purchase process occurs in the
-following sequence. Your customer always starts and completes his order in your game.<br />
+following sequence. Your user always starts and completes their order in your game.<br />
 <ol class="bb_ol">
     <li>
         When a user wishes to buy something in-game, your game sends a purchase request to your
@@ -49,18 +49,18 @@ following sequence. Your customer always starts and completes his order in your 
     <li>
         Your purchasing server then initiates a payment transaction on behalf of the client to the
         Steam web service. The request is a secure HTTP POST. The contents of this request include
-        the client metadata and a description and cost of each item that the user wishes to
+        the user's metadata and a description and cost of each item that the user wishes to
         purchase.<br />
     </li>
     <li>
-        Upon receiving this request, Steam will automatically activate the client's in- game overlay
-        and present a dialog to the user listing all of the items, their cost and a button to
-        confirm or authorize the transaction. If the user does not have enough funds in their Steam
-        account, the overlay will guide the user through a funding process. The Steam overlay
-        handles collecting all of the user's billing information. Upon completion, the client will
-        receive a notification that the purchase was either authorized or denied. Your game should
-        register to receive a callback for this notification and forward the result to your
-        purchasing server.<br />
+        Upon receiving this request, Steam will automatically activate the Steam overlay and present
+        a dialog to the user listing all of the items, their cost and a button to confirm or
+        authorize the transaction. If the user does not have enough funds in their Steam account,
+        the overlay will guide the user through a funding process. The Steam overlay handles
+        collecting all of the user's billing information. Upon completion, the user will receive a
+        notification that the purchase was either authorized or denied. Your game should register to
+        receive a callback for this notification and forward the result to your purchasing
+        server.<br />
     </li>
     <li>
         Your purchasing server receives the notification and posts a FinalizeTransaction call to
@@ -141,19 +141,19 @@ wallet.<br /><br />The sandbox is accessed through a different base URI:<br /><c
         been identified, your game needs to collect some metadata about the user:<br />
         <ul class="bb_ul">
             <li>
-                Steam ID - This 64-bit number uniquely identifies the client within the Steam
+                Steam ID - This 64-bit number uniquely identifies the user within the Steam
                 system.<br />
             </li>
             <li>
-                Country code - The ISO 3166 country code of the client indicates where the client is
+                Country code - The ISO 3166 country code of the user indicates where the user is
                 purchasing from. Use this to determine what price to apply for the purchase.<br />
             </li>
             <li>
-                Currency code - The ISO 4217 currency code that the client will be charged in.<br />
+                Currency code - The ISO 4217 currency code that the user will be charged in.<br />
             </li>
             <li>
-                Client game language code - The ISO 639-1 language code that the client game is
-                currently running.<br />
+                Client game language code - The ISO 639-1 language code that the Steam client game
+                is currently running.<br />
             </li>
         </ul>
         <br />
@@ -202,19 +202,19 @@ wallet.<br /><br />The sandbox is accessed through a different base URI:<br /><c
                 your key to the transaction. It is used to reference the transaction within the
                 Steam system.<br />
             </li>
-            <li>Steam ID - The ID received from the client in step 3.<br /></li>
+            <li>Steam ID - The user ID received from the Steam client in step 3.<br /></li>
             <li>App ID - The unique identifier of your Steam game.<br /></li>
             <li>Language - The ISO 639-1 language code that your item(s) are listed in.<br /></li>
             <li>
                 Currency - The ISO 4217 currency code that your price(s) are listed in. If this does
-                not match the client’s currency code provided in step 2 then an automatic currency
+                not match the users's currency code provided in step 2 then an automatic currency
                 conversion will be applied at the current market rate. Steam will present the
                 converted price to the user, in their local currency for approval. For the best
                 customer experience it is recommended that you provide specific pricing in each
                 currency you expect your customers to use.<br />
             </li>
             <li>
-                A list of one or more items that the client wishes to purchase. With each item you
+                A list of one or more items that the user wishes to purchase. With each item you
                 specify the following data:<br />
                 <ul class="bb_ul">
                     <li>Item ID - Your own 32-bit identifier for the item.<br /></li>
@@ -234,7 +234,7 @@ wallet.<br /><br />The sandbox is accessed through a different base URI:<br /><c
                     <li>
                         Item Description - A text description for the item. This will be displayed
                         to the user when they are prompted to authorize the transaction. You can
-                        choose to localize this description based upon the client's indicated
+                        choose to localize this description based upon the Steam client's indicated
                         language code.<br />
                     </li>
                     <li>
@@ -246,7 +246,7 @@ wallet.<br /><br />The sandbox is accessed through a different base URI:<br /><c
             </li>
         </ul>
         <br />
-        If the transaction is accepted by Steam, the client will automatically be notified to
+        If the transaction is accepted by Steam, the Steam client will automatically be notified to
         authorize the purchase. If an error is returned then the problem will need to be corrected
         and a new purchase transaction submitted.<br />
     </li>
