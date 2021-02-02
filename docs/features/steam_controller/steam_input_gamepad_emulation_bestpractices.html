@@ -112,20 +112,22 @@ You'll need to make use of the following functions:<br />
     for any initialized interfaces and most // games will already be calling this periodically. If
     you aren't doing that you'll need to manually update // the Steam Input interface
     SteamInput()-&gt;RunFrame(); // ... // Replace with the Xinput slot you are querying for. This
-    number is between 0 and 3 int nXinputSlot = 0; // Replace with the button you are querying for
-    EXboxOrigin eXboxButtonToGetGlyphFor = k_EXboxOrigin_A; EInputActionOrigin buttonOrigin =
-    k_EInputActionOrigin_XBoxOne_A; // If the controller is configured through Steam Input -
-    translate the button InputHandle_t controller1Handle =
-    SteamInput()-&gt;GetControllerForGamepadIndex( nXinputSlot ); if ( controller1Handle &gt; 0 ) {
-    // Valid handles are non-zero, this is a controller configured through Steam Input // Note:
-    controllers that are using Steam Input API will not return a handle through
-    GetControllerForGamepadIndex() buttonOrigin = SteamInput()-&gt;GetActionOriginFromXboxOrigin(
-    controller1Handle, k_EXboxOrigin_A ); } else { // Valid handles are non-zero, this is a normal
-    Xbox controller // Continue using the original button } // The EInputActionOrigin values will
-    continue to grow as Steam adds support, but that is OK because // in this example we will get
-    the device images from Steam which can also provide a new glyph image // Get the image from the
-    Steam client const char *localGlyphPath = SteamInput()-&gt;GetGlyphForActionOrigin( buttonOrigin
-    ); printf( "path = %s\n", localGlyphPath ); // "path = C:\Program Files
+    number is between 0 and 3 // If you're using RawInput for device detection before deciding which
+    API to use, please // see the "Using RawInput For Device Detection" section. int nXinputSlot =
+    0; // Replace with the button you are querying for EXboxOrigin eXboxButtonToGetGlyphFor =
+    k_EXboxOrigin_A; EInputActionOrigin buttonOrigin = k_EInputActionOrigin_XBoxOne_A; // If the
+    controller is configured through Steam Input - translate the button InputHandle_t
+    controller1Handle = SteamInput()-&gt;GetControllerForGamepadIndex( nXinputSlot ); if (
+    controller1Handle &gt; 0 ) { // Valid handles are non-zero, this is a controller configured
+    through Steam Input // Note: controllers that are using Steam Input API will not return a handle
+    through GetControllerForGamepadIndex() buttonOrigin =
+    SteamInput()-&gt;GetActionOriginFromXboxOrigin( controller1Handle, k_EXboxOrigin_A ); } else {
+    // Valid handles are non-zero, this is a normal Xbox controller // Continue using the original
+    button } // The EInputActionOrigin values will continue to grow as Steam adds support, but that
+    is OK because // in this example we will get the device images from Steam which can also provide
+    a new glyph image // Get the image from the Steam client const char *localGlyphPath =
+    SteamInput()-&gt;GetGlyphForActionOrigin( buttonOrigin ); printf( "path = %s\n", localGlyphPath
+    ); // "path = C:\Program Files
     (x86)\Steam\tenfoot\resource\images\library\controller\api\ps4_button_x.png" // Replace this
     with a function from the game that turns a file path into a usable game texture glyphTextureID =
     loadButtonGlyphTextureFromLocalPath( localGlyphPath );
@@ -158,17 +160,18 @@ can ask Steam for this info by Xinput slot using:<br />
     for any initialized interfaces and most // games will already be calling this periodically. If
     you aren't doing that you'll need to manually update // the Steam Input interface
     SteamInput()-&gt;RunFrame(); // ... // Replace with the Xinput slot you are querying for. This
-    number is between 0 and 3 int nXinputSlotIndex = 0; InputHandle_t inputHandle =
-    SteamInput()-&gt;GetControllerForGamepadIndex( nXinputSlotIndex ); if ( inputHandle == 0 ) { //
-    Valid Input handles are non-zero, this is a normal Xbox controller. } else { // Steam will
-    always return an enum value that was valid for your SDK version. ESteamInputType inputType =
-    SteamInput()-&gt;GetInputTypeForHandle( inputHandle ); switch( inputType ) { case
-    k_ESteamInputType_Unknown: printf( "unknown\n!" ); break; case
-    k_ESteamInputType_SteamController: printf( "Steam controller\n!" ); break; case
-    k_ESteamInputType_XBox360Controller: printf( "XBox 360 controller\n!" ); break; case
-    k_ESteamInputType_XBoxOneController: printf( "XBox One controller\n!" ); break; case
-    k_ESteamInputType_GenericXInput: printf( "Generic XInput\n!" ); break; case
-    k_ESteamInputType_PS4Controller: printf( "PS4 controller\n!" ); break; } }
+    number is between 0 and 3 // If you're using RawInput for device detection before deciding which
+    API to use, please // see the "Using RawInput For Device Detection" section. int
+    nXinputSlotIndex = 0; InputHandle_t inputHandle = SteamInput()-&gt;GetControllerForGamepadIndex(
+    nXinputSlotIndex ); if ( inputHandle == 0 ) { // Valid Input handles are non-zero, this is a
+    normal Xbox controller. } else { // Steam will always return an enum value that was valid for
+    your SDK version. ESteamInputType inputType = SteamInput()-&gt;GetInputTypeForHandle(
+    inputHandle ); switch( inputType ) { case k_ESteamInputType_Unknown: printf( "unknown!\n" );
+    break; case k_ESteamInputType_SteamController: printf( "Steam controller!\n" ); break; case
+    k_ESteamInputType_XBox360Controller: printf( "XBox 360 controller!\n" ); break; case
+    k_ESteamInputType_XBoxOneController: printf( "XBox One controller!\n" ); break; case
+    k_ESteamInputType_GenericXInput: printf( "Generic XInput!\n" ); break; case
+    k_ESteamInputType_PS4Controller: printf( "PS4 controller!\n" ); break; } }
 </div>
 <h2 class="bb_subsection"><a name="4"></a>Showing Your Own Art - Per Button Art</h2>
 If you're using a single look up table indexed by action origins you can use these functions to
@@ -207,27 +210,70 @@ equivalents.<br />
     for any initialized interfaces and most // games will already be calling this periodically. If
     you aren't doing that you'll need to manually update // the Steam Input interface
     SteamInput()-&gt;RunFrame(); // ... // Replace with the Xinput slot you are querying for. This
-    number is between 0 and 3 int nXinputSlot = 0; // Replace with the button you are querying for
-    EXboxOrigin eXboxButtonToGetGlyphFor = k_EXboxOrigin_A; EInputActionOrigin buttonOrigin =
-    k_EInputActionOrigin_XBoxOne_A; // If the controller is configured through Steam Input -
-    translate the button InputHandle_t controller1Handle =
-    SteamInput()-&gt;GetControllerForGamepadIndex( nXinputSlot ); if ( controller1Handle &gt; 0 ) {
-    // Valid handles are non-zero, this is a controller configured through Steam Input // Note:
-    controllers that are using Steam Input API will not return a handle through
-    GetControllerForGamepadIndex() buttonOrigin = SteamInput()-&gt;GetActionOriginFromXboxOrigin(
-    controller1Handle, k_EXboxOrigin_A ); //i.e, k_EInputActionOrigin_PS4_X } else { // Valid
-    handles are non-zero, this is a normal Xbox controller // Continue using the original button }
-    // Steam will continue to add action origins and future controllers will exceed the current
-    range // If you want to test you could fake that Switch/PS5 controllers don't exist and change
-    this to: // if ( buttonOrigin &gt;= k_EInputActionOrigin_XBox360_Reserved10 ) if ( buttonOrigin
-    &gt;= k_EInputActionOrigin_Count ) { // We didn't ship any art in our game for this origin! I
-    guess Steam has added support for // a new controller. Let's get the closest value that was
-    supported by the SDK we built against buttonOrigin = SteamInput()-&gt;TranslateActionOrigin(
-    k_ESteamInputType_Unknown, buttonOrigin ); } // Replace this with a function from the game that
-    returns your art for a button int glyphTextureID = getHardCodedButtonGlyphTexture( buttonOrigin
-    );
+    number is between 0 and 3 // If you're using RawInput for device detection before deciding which
+    API to use, please // see the "Using RawInput For Device Detection" section. int nXinputSlot =
+    0; // Replace with the button you are querying for EXboxOrigin eXboxButtonToGetGlyphFor =
+    k_EXboxOrigin_A; EInputActionOrigin buttonOrigin = k_EInputActionOrigin_XBoxOne_A; // If the
+    controller is configured through Steam Input - translate the button InputHandle_t
+    controller1Handle = SteamInput()-&gt;GetControllerForGamepadIndex( nXinputSlot ); if (
+    controller1Handle &gt; 0 ) { // Valid handles are non-zero, this is a controller configured
+    through Steam Input // Note: controllers that are using Steam Input API will not return a handle
+    through GetControllerForGamepadIndex() buttonOrigin =
+    SteamInput()-&gt;GetActionOriginFromXboxOrigin( controller1Handle, k_EXboxOrigin_A ); //i.e,
+    k_EInputActionOrigin_PS4_X } else { // Valid handles are non-zero, this is a normal Xbox
+    controller // Continue using the original button } // Steam will continue to add action origins
+    and future controllers will exceed the current range // If you want to test you could fake that
+    Switch/PS5 controllers don't exist and change this to: // if ( buttonOrigin &gt;=
+    k_EInputActionOrigin_XBox360_Reserved10 ) if ( buttonOrigin &gt;= k_EInputActionOrigin_Count ) {
+    // We didn't ship any art in our game for this origin! I guess Steam has added support for // a
+    new controller. Let's get the closest value that was supported by the SDK we built against
+    buttonOrigin = SteamInput()-&gt;TranslateActionOrigin( k_ESteamInputType_Unknown, buttonOrigin
+    ); } // Replace this with a function from the game that returns your art for a button int
+    glyphTextureID = getHardCodedButtonGlyphTexture( buttonOrigin );
 </div>
-<h2 class="bb_section"><a name="5"></a>Setting the Steamworks Settings</h2>
+<h2 class="bb_subsection"><a name="5"></a>Using RawInput For Device Detection</h2>
+Some games will use RawInput to support more than 4 controllers or will use it to determine if they
+have Playstation controllers connected. This API will also return other non-gamepad devices and
+doesn't have a reliable index to directly to map from Steam Input functions. Instead you can get
+this info by querying RIDI_DEVICENAME string from GetRawInputDeviceInfo() which is encoded with the
+USB VID/PID of real device, gamepad index, and Steam Input handle with the following format:<br />\\.\pipe\HID#VID_045E&amp;PID_028E&amp;IG_00#{Real
+device VID}&amp;{Real Device PID}&amp;{Steam Input API handle}#{Steam Input Gamepad
+Index}}#{ProcessID}<br />For example,
+\\.\pipe\HID#VID_045E&amp;PID_028E&amp;IG_00#045E&amp;0B00&amp;00045EB00704DAF3#0#20160 for an Xbox
+one controller with a VID/PID of 0x45e/0x0b00.<br /><br />Example code:<br />
+<div class="bb_code">
+    #define VALVE_DIRECTINPUT_GAMEPAD_VID 0x28DE #define VALVE_DIRECTINPUT_GAMEPAD_PID 0x11FF
+    #define STEAM_INPUT_VID_INDEX 37 #define STEAM_INPUT_PID_INDEX 42 #define
+    STEAM_INPUT_SIAPI_HANDLE_INDEX 47 #define STEAM_INPUT_GAMEPAD_INDEX 64 //... void YourFunction()
+    { PRAWINPUTDEVICELIST devices = NULL; UINT i, j, device_count = 0; if
+    ((GetRawInputDeviceList(NULL, &amp;device_count, sizeof(RAWINPUTDEVICELIST)) == -1) ||
+    (!device_count)) { return; /* oh well. */ } devices =
+    (PRAWINPUTDEVICELIST)malloc(sizeof(RAWINPUTDEVICELIST) * device_count); if (devices == NULL) {
+    return; } if (GetRawInputDeviceList(devices, &amp;device_count, sizeof(RAWINPUTDEVICELIST)) ==
+    -1) { free(devices); return; /* oh well. */ } for (i = 0; i &lt; device_count; i++) {
+    RID_DEVICE_INFO rdi; char devName[MAX_PATH]; UINT rdiSize = sizeof(rdi); UINT nameSize =
+    arraysize(devName); rdi.cbSize = sizeof(rdi); if ( devices[i].dwType == RIM_TYPEHID &amp;&amp;
+    GetRawInputDeviceInfoA( devices[i].hDevice, RIDI_DEVICEINFO, &amp;rdi, &amp;rdiSize ) !=
+    (UINT)-1 &amp;&amp; GetRawInputDeviceInfoA( devices[i].hDevice, RIDI_DEVICENAME, devName,
+    &amp;nameSize ) != (UINT)-1 ) { if ( rdi.hid.dwVendorId == VALVE_DIRECTINPUT_GAMEPAD_VID
+    &amp;&amp; rdi.hid.dwProductId == VALVE_DIRECTINPUT_GAMEPAD_PID ) { uint32 ulVID = strtoul(
+    &amp;devName[STEAM_INPUT_VID_INDEX], NULL, 16 ); uint32 ulPID = strtoul(
+    &amp;devName[STEAM_INPUT_PID_INDEX], NULL, 16 ); uint64 ulDeviceHandle = strtoull(
+    &amp;devName[STEAM_INPUT_SIAPI_HANDLE_INDEX], NULL, 16 ); uint32 unGamepadIndex = strtoul(
+    &amp;devName[STEAM_INPUT_GAMEPAD_INDEX], NULL, 16 ); Log( "Raw input device: VID = 0x%x, PID =
+    0x%x, handle = 0x%llx, index = 0x%x, %s\n", ulVID, ulPID, ulDeviceHandle, ulXinputIndex, devName
+    ); // You can now use either the VID/PID to identify the device directly or use ulDeviceHandle
+    with GetInputTypeForHandle ESteamInputType inputType = SteamInput()-&gt;GetInputTypeForHandle(
+    ulDeviceHandle ); switch( inputType ) { case k_ESteamInputType_Unknown: printf( "unknown!\n" );
+    break; case k_ESteamInputType_SteamController: printf( "Steam controller!\n" ); break; case
+    k_ESteamInputType_XBox360Controller: printf( "XBox 360 controller!\n" ); break; case
+    k_ESteamInputType_XBoxOneController: printf( "XBox One controller!\n" ); break; case
+    k_ESteamInputType_GenericXInput: printf( "Generic XInput!\n" ); break; case
+    k_ESteamInputType_PS4Controller: printf( "PS4 controller!\n" ); break; } } else { // Device is
+    not a controller through Steam Input - use your normal controller ID logic continue; } } }
+    free(devices); }
+</div>
+<h2 class="bb_section"><a name="6"></a>Setting the Steamworks Settings</h2>
 The first step is to setup which controllers will use Steam Input in the Opt-in section on the
 Steamworks settings under Application-&gt;Steam Input. For a standard game w/ Xbox controller
 support we recommend checking all checkboxes other than Xbox:<br /><br /><img
@@ -236,13 +282,13 @@ support we recommend checking all checkboxes other than Xbox:<br /><br /><img
     title="steamworks_steam_input_optin_settings.png"
 /><br /><br />If your game has flight stick or racing wheel support you'll want to uncheck the box
 for Generic/DirectInput controllers because Steam doesn't support remapping those devices.
-<h2 class="bb_subsection"><a name="6"></a>Selecting a configuration</h2>
+<h2 class="bb_subsection"><a name="7"></a>Selecting a configuration</h2>
 You can choose to create your own configuration or pick from one of our premade templates. It is not
 necessary to create your own configuration unless you plan tweaking the configurations away from our
 defaults or labeling individual bindings with what they do in-game. The built-in templates for Steam
 Input are localized into all Steam's languages so please make sure you also localize your
 configuration to avoid English being shown to non-English users.
-<h2 class="bb_subsection"><a name="7"></a>Picking a template</h2>
+<h2 class="bb_subsection"><a name="8"></a>Picking a template</h2>
 Console controllers do not differentiate between the various gamepad template variants, but these
 settings are important for the Steam Controller. Here's an explanation of the templates and which
 type of games they are intended for:<br />
@@ -276,7 +322,7 @@ type of games they are intended for:<br />
     rel="noreferrer"
     >here</a
 >
-<h2 class="bb_subsection"><a name="8"></a>Creating a custom configuration</h2>
+<h2 class="bb_subsection"><a name="9"></a>Creating a custom configuration</h2>
 Configurations can be auto-converted between most controller types, but you'll at a minimum want to
 make a Steam Controller and Xbox controller configuration.
 <div class="bb_callout bb_green">
@@ -285,7 +331,7 @@ make a Steam Controller and Xbox controller configuration.
         you'll want to also have one for PlayStation 4 or Nintendo Switch controllers.
     </div>
 </div>
-<h2 class="bb_section"><a name="9"></a>Text Input</h2>
+<h2 class="bb_section"><a name="10"></a>Text Input</h2>
 <br />On-screen text input is not technically part of the
 <a href="https://partner.steamgames.com/doc/api/ISteamInput" class="bb_apilink">ISteamInput</a>
 (Steam Input), but is found instead in
