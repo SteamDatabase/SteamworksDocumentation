@@ -23,7 +23,7 @@ too many layers in the configurator will be confusing for players.<br /><br /><s
     <li>
         Calling
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#ActivateActionSetLayer"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#ActivateActionSetLayer"
             class="bb_apilink"
             >ActivateActionSetLayer</a
         >
@@ -59,7 +59,7 @@ too many layers in the configurator will be confusing for players.<br /><br /><s
         /><br /><br />The code for this might look something like:<br /><br />
         <div class="bb_code cpp">
             void changeClass(EClassID myClass) { if(myClass == SNIPER) {
-            SteamController()-&gt;ActivateActionSetLayer( controllerHandle1, sniperLayerHandle ); }
+            SteamInput()-&gt;ActivateActionSetLayer( controllerHandle1, sniperLayerHandle ); }
             //logic for other classes }
         </div>
         <br />If the player enters or exits a vehicle, the controls for the vehicle layer are
@@ -70,14 +70,14 @@ too many layers in the configurator will be confusing for players.<br /><br /><s
             title="action_set_layers_vehicle_1.png"
         /><br /><br />
         <div class="bb_code cpp">
-            void changeVehicle(EVehicleID myVehicle, bool entering) { ControllerActionSetHandle_t
+            void changeVehicle(EVehicleID myVehicle, bool entering) { InputActionSetHandle_t
             layerHandle; if(myVehicle == AUTOMATIC) { layerHandle = automaticHandle; //automatic
             transmission -- steer, gas, brake } else if(myVehicle == STICK_SHIFT) { layerHandle =
             stickShiftHandle; //manual transmission -- steer, gas, brake, clutch, shift gears, etc.
-            } if(entering) { SteamController()-&gt;ActivateActionSetLayer( controllerHandle1,
-            layerHandle ); //apply the vehicle's action set layer when you get in it } else {
-            SteamController()-&gt;DeactivateActionSetLayer( controllerHandle1, layerHandle );
-            //remove the vehicle's action set layer when you get out of it } }
+            } if(entering) { SteamInput()&gt;ActivateActionSetLayer( controllerHandle1, layerHandle
+            ); //apply the vehicle's action set layer when you get in it } else {
+            SteamInput()&gt;DeactivateActionSetLayer( controllerHandle1, layerHandle ); //remove the
+            vehicle's action set layer when you get out of it } }
         </div>
         <br />In this game, players can use their weapon even when riding in a vehicle. So when the
         sniper uses the scope on the sniper rifle, this activates a third action set layer,
@@ -87,11 +87,10 @@ too many layers in the configurator will be confusing for players.<br /><br /><s
             title="action_set_layers_scope.png"
         /><br /><br />
         <div class="bb_code cpp">
-            void useScope(bool entering) { if(entering) {
-            SteamController()-&gt;ActivateActionSetLayer( controllerHandle1, scopeHandle ); //apply
-            the scoped-in layer when you scope in } else {
-            SteamController()-&gt;DeactivateActionSetLayer( controllerHandle1, scopeHandle );
-            //remove the scoped-in layer when you lower the scope } }
+            void useScope(bool entering) { if(entering) { SteamInput()-&gt;ActivateActionSetLayer(
+            controllerHandle1, scopeHandle ); //apply the scoped-in layer when you scope in } else {
+            SteamInput()-&gt;DeactivateActionSetLayer( controllerHandle1, scopeHandle ); //remove
+            the scoped-in layer when you lower the scope } }
         </div>
         <br />Here's how all the layers combine. <br /><br /><img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/action_set_layers_result_2.png"

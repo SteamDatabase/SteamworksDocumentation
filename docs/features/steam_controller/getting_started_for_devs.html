@@ -83,7 +83,7 @@ going into further detail on this topic later but the quick summary is:<br />
 or aim-assist applied to XInput analog sticks, consider applying that to Steam Input devices as
 well, at least for traditional controller models configured through Steam Input. You can call
 <a
-    href="https://partner.steamgames.com/doc/api/ISteamController#GetInputTypeForHandle"
+    href="https://partner.steamgames.com/doc/api/ISteamInput#GetInputTypeForHandle"
     class="bb_apilink"
     >GetInputTypeForHandle</a
 >
@@ -489,7 +489,7 @@ or their
 >. This is only really necessary if you want to use these as a starting point for your own art.
 Otherwise, you can just
 <a
-    href="https://partner.steamgames.com/doc/api/ISteamController#GetGlyphForActionOrigin"
+    href="https://partner.steamgames.com/doc/api/ISteamInput#GetGlyphForActionOrigin"
     class="bb_doclink"
     >use the API</a
 >
@@ -498,29 +498,29 @@ with the Steam client itself).
 <h2 class="bb_subsection"><a name="16"></a>Step 3.1 - API Overview</h2>
 <br />The Steam Input API is built around the in-game actions &amp; sets that you specified in your
 in-game actions file in Step 1. <br /><br />For a complete API reference, see
-<a href="https://partner.steamgames.com/doc/api/ISteamController" class="bb_doclink"
-    >ISteamController Interface (Deprecated)</a
+<a href="https://partner.steamgames.com/doc/api/ISteamInput" class="bb_doclink"
+    >ISteamInput Interface</a
 ><br /><br />The functionality overview is as follows: <br /><br />
 <ul class="bb_ul">
     <li>
         On game startup, initialize Steam Input with
-        <a href="https://partner.steamgames.com/doc/api/ISteamController#Init" class="bb_apilink"
-            >ISteamController::Init</a
+        <a href="https://partner.steamgames.com/doc/api/ISteamInput#Init" class="bb_apilink"
+            >ISteamInput::Init</a
         >, use the
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetActionSetHandle"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetActionSetHandle"
             class="bb_apilink"
-            >ISteamController::GetActionSetHandle</a
+            >ISteamInput::GetActionSetHandle</a
         >,
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetDigitalActionHandle"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionHandle"
             class="bb_apilink"
-            >ISteamController::GetDigitalActionHandle</a
+            >ISteamInput::GetDigitalActionHandle</a
         >, and
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetAnalogActionHandle"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionHandle"
             class="bb_apilink"
-            >ISteamController::GetAnalogActionHandle</a
+            >ISteamInput::GetAnalogActionHandle</a
         >
         functions to resolve the action &amp; set names into handles. Use these handles to identify
         actions &amp; sets throughout the rest of the API.<br />
@@ -528,9 +528,9 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
     <li>
         Use
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetConnectedControllers"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetConnectedControllers"
             class="bb_apilink"
-            >ISteamController::GetConnectedControllers</a
+            >ISteamInput::GetConnectedControllers</a
         >
         to detect when a controller exists. Use the handles it returns to identify controllers
         throughout the rest of the API.<br />
@@ -538,15 +538,15 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
     <li>
         Use
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#ActivateActionSet"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#ActivateActionSet"
             class="bb_apilink"
-            >ISteamController::ActivateActionSet</a
+            >ISteamInput::ActivateActionSet</a
         >
         /
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#DeactivateActionSet"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#DeactivateActionSet"
             class="bb_apilink"
-            >ISteamController::DeactivateActionSet</a
+            >ISteamInput::DeactivateActionSet</a
         >
         to control which controllers are bound to different action sets, and if you're using
         <a
@@ -555,35 +555,33 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
             >action set layers</a
         >, use
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#ActivateActionSetLayer"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#ActivateActionSetLayer"
             class="bb_apilink"
-            >ISteamController::ActivateActionSetLayer</a
+            >ISteamInput::ActivateActionSetLayer</a
         >
         /
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#DeactivateActionSetLayer"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#DeactivateActionSetLayer"
             class="bb_apilink"
-            >ISteamController::DeactivateActionSetLayer</a
+            >ISteamInput::DeactivateActionSetLayer</a
         >.<br />
     </li>
     <li>
         Use
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetDigitalActionData"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionData"
             class="bb_apilink"
-            >ISteamController::GetDigitalActionData</a
+            >ISteamInput::GetDigitalActionData</a
         >
         and
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetAnalogActionData"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionData"
             class="bb_apilink"
-            >ISteamController::GetAnalogActionData</a
+            >ISteamInput::GetAnalogActionData</a
         >
         to read the input state of all your in-game actions. You may call
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#RunFrame"
-            class="bb_apilink"
-            >ISteamController::RunFrame</a
+        <a href="https://partner.steamgames.com/doc/api/ISteamInput#RunFrame" class="bb_apilink"
+            >ISteamInput::RunFrame</a
         >
         right before to get the freshest data or you may rely on calling SteamAPI_RunCallbacks
         elsewhere in your game.<br />
@@ -591,15 +589,15 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
     <li>
         Use
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetDigitalActionOrigins"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionOrigins"
             class="bb_apilink"
-            >ISteamController::GetDigitalActionOrigins</a
+            >ISteamInput::GetDigitalActionOrigins</a
         >
         and
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetAnalogActionOrigins"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionOrigins"
             class="bb_apilink"
-            >ISteamController::GetAnalogActionOrigins</a
+            >ISteamInput::GetAnalogActionOrigins</a
         >
         to get the origin(s) that the player has assigned to your in-game actions, and show the
         appropriate glyphs in your onscreen UI.<br />
@@ -607,9 +605,9 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
     <li>
         Use
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#ShowBindingPanel"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#ShowBindingPanel"
             class="bb_apilink"
-            >ISteamController::ShowBindingPanel</a
+            >ISteamInput::ShowBindingPanel</a
         >
         to pop up the Steam overlay directly into the controller configuration for a specified
         controller. This means you won't need to make a customization UI.<br />
@@ -617,9 +615,9 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
     <li>
         Use
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetInputTypeForHandle"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetInputTypeForHandle"
             class="bb_apilink"
-            >ISteamController::GetInputTypeForHandle</a
+            >ISteamInput::GetInputTypeForHandle</a
         >
         if you want to identify each controller's device model so you can use matching art in game.
         This is useful for e.g. player seat selection screens as seen in couch co-op games, sports
@@ -630,10 +628,8 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
     <div>
         <h3>Safe Interfaces</h3>
         Controller data is gathered when
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#RunFrame"
-            class="bb_apilink"
-            >ISteamController::RunFrame</a
+        <a href="https://partner.steamgames.com/doc/api/ISteamInput#RunFrame" class="bb_apilink"
+            >ISteamInput::RunFrame</a
         >
         is called. This is normally done for you every frame by
         <a
@@ -642,10 +638,8 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
             >SteamAPI_RunCallbacks</a
         >. However, if you have version-safe interfaces enabled and find you're not getting good
         polling data you will need to call
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#RunFrame"
-            class="bb_apilink"
-            >ISteamController::RunFrame</a
+        <a href="https://partner.steamgames.com/doc/api/ISteamInput#RunFrame" class="bb_apilink"
+            >ISteamInput::RunFrame</a
         >
         every frame.<br /><br />You can tell if you have version-safe interfaces enabled by seeing
         if you have this #define in your code:<br />
@@ -654,10 +648,8 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
 </div>
 <h2 class="bb_subsection"><a name="17"></a>Step 3.2 - Input Handling</h2>
 <br />For digital actions, the data returned by
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamController#GetDigitalActionData"
-    class="bb_apilink"
-    >ISteamController::GetDigitalActionData</a
+<a href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionData" class="bb_apilink"
+    >ISteamInput::GetDigitalActionData</a
 >
 is straightforward:<br /><br />
 <div class="bb_code html">
@@ -665,10 +657,8 @@ is straightforward:<br /><br />
     pulled, etc)
 </div>
 <br />For analog actions, the data returned by
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamController#GetAnalogActionData"
-    class="bb_apilink"
-    >ISteamController::GetAnalogActionData</a
+<a href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionData" class="bb_apilink"
+    >ISteamInput::GetAnalogActionData</a
 >
 is only slightly more complex:<br /><br />
 <div class="bb_code html">
@@ -685,30 +675,30 @@ To display an on-screen prompt for your controller, you need to get the physical
 bound to an in-game action. The player may have bound more than one physical origin to the same
 action, so it's best to have your UI cycle through displaying each origin.
 <a
-    href="https://partner.steamgames.com/doc/api/ISteamController#GetDigitalActionOrigins"
+    href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionOrigins"
     class="bb_apilink"
-    >ISteamController::GetDigitalActionOrigins</a
+    >ISteamInput::GetDigitalActionOrigins</a
 >
 and
 <a
-    href="https://partner.steamgames.com/doc/api/ISteamController#GetAnalogActionOrigins"
+    href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionOrigins"
     class="bb_apilink"
-    >ISteamController::GetAnalogActionOrigins</a
+    >ISteamInput::GetAnalogActionOrigins</a
 >
 will return the count of origins for the specified action, and fill out the passed in
 <code class="bb_code bb_code_inline nohighlight">originsOut</code> array.<br /><br />For each
 origin, you can use the
 <a
-    href="https://partner.steamgames.com/doc/api/ISteamController#EControllerActionOrigin"
+    href="https://partner.steamgames.com/doc/api/ISteamInput#EControllerActionOrigin"
     class="bb_apilink"
-    >ISteamController::EControllerActionOrigin</a
+    >ISteamInput::EControllerActionOrigin</a
 >
 enum to remap the origin to a corresponding image. You may provide your own images for the
 controller glyphs, but we generally recommend that you use the
 <a
-    href="https://partner.steamgames.com/doc/api/ISteamController#GetGlyphForActionOrigin"
+    href="https://partner.steamgames.com/doc/api/ISteamInput#GetGlyphForActionOrigin"
     class="bb_apilink"
-    >ISteamController::GetGlyphForActionOrigin</a
+    >ISteamInput::GetGlyphForActionOrigin</a
 >
 API call. When you call this function with an origin enum, it will return a local filepath to a .png
 file for the corresponding controller glyph from Valve's official image set (located in the Steam
@@ -720,9 +710,9 @@ glyph assets. If you do decide to include your own custom glyph assets, you shou
 for the case where your asset set does not have a matching glyph for the provided enum value, and
 fall back to
 <a
-    href="https://partner.steamgames.com/doc/api/ISteamController#GetGlyphForActionOrigin"
+    href="https://partner.steamgames.com/doc/api/ISteamInput#GetGlyphForActionOrigin"
     class="bb_apilink"
-    >ISteamController::GetGlyphForActionOrigin</a
+    >ISteamInput::GetGlyphForActionOrigin</a
 >. This way the glyph will always have something displayable and won't simply be blank.
 <div class="bb_callout bb_green">
     <div>
@@ -730,15 +720,15 @@ fall back to
         Please note that the user can change their configuration at any time. To help with this,
         we've ensured the
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetDigitalActionOrigins"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionOrigins"
             class="bb_apilink"
-            >ISteamController::GetDigitalActionOrigins</a
+            >ISteamInput::GetDigitalActionOrigins</a
         >
         and
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamController#GetAnalogActionOrigins"
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionOrigins"
             class="bb_apilink"
-            >ISteamController::GetAnalogActionOrigins</a
+            >ISteamInput::GetAnalogActionOrigins</a
         >
         functions are extremely cheap to call. <br /><br />When you display an onscreen prompt,
         don't cache the origins and keep displaying the first results. Instead, we recommend you
