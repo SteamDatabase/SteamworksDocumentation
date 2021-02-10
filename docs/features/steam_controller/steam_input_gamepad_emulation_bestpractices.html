@@ -244,15 +244,15 @@ one controller with a VID/PID of 0x45e/0x0b00.<br /><br />Example code:<br />
 <div class="bb_code">
     #define VALVE_DIRECTINPUT_GAMEPAD_VID 0x28DE #define VALVE_DIRECTINPUT_GAMEPAD_PID 0x11FF
     #define STEAM_INPUT_VID_INDEX 37 #define STEAM_INPUT_PID_INDEX 42 #define
-    STEAM_INPUT_SIAPI_HANDLE_INDEX 47 #define STEAM_INPUT_GAMEPAD_INDEX 64 //... void YourFunction()
-    { PRAWINPUTDEVICELIST devices = NULL; UINT i, j, device_count = 0; if
+    STEAM_INPUT_SIAPI_HANDLE_INDEX 47 #define STEAM_INPUT_GAMEPAD_INDEX 64 #define MAX_PATH 260
+    //... void YourFunction() { PRAWINPUTDEVICELIST devices = NULL; UINT i, j, device_count = 0; if
     ((GetRawInputDeviceList(NULL, &amp;device_count, sizeof(RAWINPUTDEVICELIST)) == -1) ||
     (!device_count)) { return; /* oh well. */ } devices =
     (PRAWINPUTDEVICELIST)malloc(sizeof(RAWINPUTDEVICELIST) * device_count); if (devices == NULL) {
     return; } if (GetRawInputDeviceList(devices, &amp;device_count, sizeof(RAWINPUTDEVICELIST)) ==
     -1) { free(devices); return; /* oh well. */ } for (i = 0; i &lt; device_count; i++) {
     RID_DEVICE_INFO rdi; char devName[MAX_PATH]; UINT rdiSize = sizeof(rdi); UINT nameSize =
-    arraysize(devName); rdi.cbSize = sizeof(rdi); if ( devices[i].dwType == RIM_TYPEHID &amp;&amp;
+    MAX_PATH; rdi.cbSize = sizeof(rdi); if ( devices[i].dwType == RIM_TYPEHID &amp;&amp;
     GetRawInputDeviceInfoA( devices[i].hDevice, RIDI_DEVICEINFO, &amp;rdi, &amp;rdiSize ) !=
     (UINT)-1 &amp;&amp; GetRawInputDeviceInfoA( devices[i].hDevice, RIDI_DEVICENAME, devName,
     &amp;nameSize ) != (UINT)-1 ) { if ( rdi.hid.dwVendorId == VALVE_DIRECTINPUT_GAMEPAD_VID
@@ -261,17 +261,19 @@ one controller with a VID/PID of 0x45e/0x0b00.<br /><br />Example code:<br />
     &amp;devName[STEAM_INPUT_PID_INDEX], NULL, 16 ); uint64 ulDeviceHandle = strtoull(
     &amp;devName[STEAM_INPUT_SIAPI_HANDLE_INDEX], NULL, 16 ); uint32 unGamepadIndex = strtoul(
     &amp;devName[STEAM_INPUT_GAMEPAD_INDEX], NULL, 16 ); Log( "Raw input device: VID = 0x%x, PID =
-    0x%x, handle = 0x%llx, index = 0x%x, %s\n", ulVID, ulPID, ulDeviceHandle, ulXinputIndex, devName
-    ); // You can now use either the VID/PID to identify the device directly or use ulDeviceHandle
-    with GetInputTypeForHandle ESteamInputType inputType = SteamInput()-&gt;GetInputTypeForHandle(
-    ulDeviceHandle ); switch( inputType ) { case k_ESteamInputType_Unknown: printf( "unknown!\n" );
-    break; case k_ESteamInputType_SteamController: printf( "Steam controller!\n" ); break; case
+    0x%x, handle = 0x%llx, index = 0x%x, %s\n", ulVID, ulPID, ulDeviceHandle, unGamepadIndex,
+    devName ); // You can now use either the VID/PID to identify the device directly or use
+    ulDeviceHandle with GetInputTypeForHandle ESteamInputType inputType =
+    SteamInput()-&gt;GetInputTypeForHandle( ulDeviceHandle ); switch( inputType ) { case
+    k_ESteamInputType_Unknown: printf( "unknown!\n" ); break; case
+    k_ESteamInputType_SteamController: printf( "Steam controller!\n" ); break; case
     k_ESteamInputType_XBox360Controller: printf( "XBox 360 controller!\n" ); break; case
     k_ESteamInputType_XBoxOneController: printf( "XBox One controller!\n" ); break; case
-    k_ESteamInputType_GenericXInput: printf( "Generic XInput!\n" ); break; case
-    k_ESteamInputType_PS4Controller: printf( "PS4 controller!\n" ); break; } } else { // Device is
-    not a controller through Steam Input - use your normal controller ID logic continue; } } }
-    free(devices); }
+    k_ESteamInputType_GenericGamepad: printf( "Generic Gamepad(DirectInput)!\n" ); break; case
+    k_ESteamInputType_PS3Controller: case k_ESteamInputType_PS4Controller: case
+    k_ESteamInputType_PS5Controller: printf( "PlayStation controller!\n" ); break; } } else { //
+    Device is not a controller through Steam Input - use your normal controller ID logic continue; }
+    } } free(devices); }
 </div>
 <h2 class="bb_section"><a name="6"></a>Setting the Steamworks Settings</h2>
 The first step is to setup which controllers will use Steam Input in the Opt-in section on the
