@@ -21,7 +21,7 @@ through the global accessor function
     </tr>
 </table>
 <br />Creates a cookie container to store cookies during the lifetime of the process.<br /><br />This
-API is just for during process lifetime, after steam restarts no cookies are persisted and you have
+API is just for during process lifetime, after Steam restarts no cookies are persisted and you have
 no way to access the cookie container across repeat executions of your process.<br /><br />If
 <code class="bb_code bb_code_inline nohighlight">bAllowResponsesToModify</code> is
 <strong>true</strong> then any response to your requests using this cookie container may add new
@@ -1099,11 +1099,10 @@ which can bump everytime we get more data.<br /><br /><strong>Returns:</strong> 
     class="bb_apilink"
     >HTTPRequestCompleted_t</a
 >
-callback after sending the request.<br /><br />This is just so the caller can easily keep track of
-which callbacks go with which request data.<br /><br />Must be called before sending the request.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />Returns <strong>true</strong> upon successfully setting the context value.<br />Returns
+callback after sending the request.<br /><br />This allows the caller to set a context ID that can
+enable attribution of a particular callback to a particular request.<br /><br />Must be called
+before sending the request.<br /><br /><strong>Returns:</strong> bool<br />Returns
+<strong>true</strong> upon successfully setting the context value.<br />Returns
 <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
