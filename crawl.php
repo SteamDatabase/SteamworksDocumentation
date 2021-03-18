@@ -16,9 +16,11 @@ class Crawler
 	private array $Links = [];
 	private string $Directory = __DIR__ . '/docs/';
 	private string $LinksFile;
+	private bool $IsCI;
 
 	public function __construct()
 	{
+		$this->IsCI = \getenv( 'CI' ) !== false;
 		$this->LinksFile = $this->Directory . '/links.json';
 		$this->LoadLinks();
 
@@ -91,9 +93,19 @@ class Crawler
 			'Steam',
 		];
 
+		if( $this->IsCI )
+		{
+			echo "::group::DiscoverFromSearch" . PHP_EOL;
+		}
+
 		foreach( $Queries as $Query )
 		{
 			$this->DiscoverFromSearchQuery( $Query );
+		}
+
+		if( $this->IsCI )
+		{
+			echo "::endgroup::" . PHP_EOL;
 		}
 	}
 
@@ -104,7 +116,7 @@ class Crawler
 
 		do
 		{
-			echo 'Fetching ' . $Query . ' offset ' . $Page . '... ';
+			echo 'Searching "' . $Query . '" offset ' . $Page . '... ';
 
 			curl_setopt( $this->CurlHandle, CURLOPT_URL, 'https://partner.steamgames.com/doc?q=' . urlencode( $Query ) . '&start=' . $Page );
 
@@ -148,7 +160,7 @@ class Crawler
 
 		if( $Content->length === 0 )
 		{
-			fwrite( STDERR, 'Did not find content tag on ' . $Doc . PHP_EOL );
+			$this->Err( 'Did not find content tag on ' . $Doc );
 			return;
 		}
 
@@ -196,7 +208,7 @@ class Crawler
 
 				if( strpos( $Doc, '%' ) !== false )
 				{
-					fwrite( STDERR, 'New link but its bad: ' . $Doc . PHP_EOL );
+					$this->Err( 'New link but its bad: ' . $Doc );
 					continue;
 				}
 
@@ -206,7 +218,14 @@ class Crawler
 				{
 					$this->Links[ $Doc ] = false;
 
-					echo 'New link: ' . $Doc . PHP_EOL;
+					if( $this->IsCI )
+					{
+						echo '::warning::New link: ' . $Doc . PHP_EOL;
+					}
+					else
+					{
+						echo 'New link: ' . $Doc . PHP_EOL;
+					}
 				}
 			}
 		}
@@ -244,5 +263,17 @@ class Crawler
 		}
 
 		return $InnerHTML;
+	}
+
+	private function Err( string $Message ) : void
+	{
+		if( $this->IsCI )
+		{
+			echo "::error::" . $Message . PHP_EOL;
+		}
+		else
+		{
+			fwrite( STDERR, $Message . PHP_EOL );
+		}
 	}
 }
