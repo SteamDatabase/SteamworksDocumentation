@@ -111,7 +111,6 @@ class Crawler
 
 	public function DiscoverFromSearchQuery( string $Query ) : void
 	{
-		$Query = 'Steam';
 		$Page = 1;
 
 		do
