@@ -456,16 +456,16 @@ because your game is not yet ready to receive IGAs.
     rel="noreferrer"
     >Getting Started With SteamWorks</a
 >
-page.<br /><br />Add the following command line parameters to your Steam shortcut: <br /><br />
-<div class="bb_code">-forcecontrollerappid &lt;your_game's_AppID&gt;</div>
-<br />This will tell Steam to keep the controller locked to your game. Usually, the controller flips
-its configuration as focus shifts from your game to Steam or the desktop, because we use different
-configurations for each of those states. This can make it trickier to debug the controller while
-you're working on it, because the controller will change its configuration when you hit a breakpoint
-in your debugger. Setting this
-<code class="bb_code bb_code_inline nohighlight">-forcecontrollerappid</code> option will keep the
-controller locked to your game. This may have the side effect of making it less/non-functional in
-the desktop or steam overlay.
+page.<br /><br />Steam Input provides per-app mappings for controllers and to decide which mapping
+to run Steam will track the foreground window. This can make it trickier to debug the controller
+while you're working on it, because the controller will change its configuration when you hit a
+breakpoint in your debugger. There are two ways to make Steam lock onto your window for debugging,
+either run the following Steam URL:<br />
+<div class="bb_code">
+    steam://forceinputappid/&lt;your_game's_AppID or 0 to reset to normal operation&gt;
+</div>
+<br />or add the following command line parameters to your Steam shortcut: <br />
+<div class="bb_code">-forcecontrollerappid &lt;your_game's_AppID</div>
 <div class="bb_callout bb_red">
     <div>
         <h3>NOTE:</h3>
