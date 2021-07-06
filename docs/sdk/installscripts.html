@@ -174,9 +174,7 @@ can be used, along with a few others specific to an install script. They are:<br
         <strong>%ROOTDRIVE%</strong> - The drive letter to where the application is installed, like
         <code class="bb_code bb_code_inline nohighlight">C</code><br />
     </li>
-    <li>
-        <strong>%APPDATA%</strong> - The \Documents and Settings\username\Application Data folder<br />
-    </li>
+    <li><strong>%APPDATA%</strong> - The \Documents and \Users\username\AppData\ folder<br /></li>
     <li><strong>%USER_MYDOCS%</strong> - Get the user\My Documents folder<br /></li>
     <li><strong>%COMMON_MYDOCS%</strong> - Get the All Users\Documents folder<br /></li>
     <li>
@@ -204,12 +202,9 @@ If that value isn't found then "english" is the default.
 <h2 class="bb_section"><a name="uninstallation"></a>Uninstallation of an app</h2>
 When a user deletes or verifies your app from Steam, install scripts will be called to remove any
 registry values it created. The install script will also remove the value used to determine if a
-program should execute from
-<code class="bb_code bb_code_inline nohighlight"
-    >Run Process[code-inline], so that it can execute the next time your app runs (unless the
-    [code-inline]NoCleanUp</code
->
-flag is set).
+program should execute from <code class="bb_code bb_code_inline nohighlight">Run Process</code>, so
+that it can execute the next time your app runs (unless the
+<code class="bb_code bb_code_inline nohighlight">NoCleanUp</code> flag is set).
 <h2 class="bb_section"><a name="runOnUninstall"></a>Run Process on Uninstall</h2>
 If you need to run any process at the time your app is uninstalled, add this to the install script.
 Please do not uninstall common redists such as DirectX, msvc run time, etc, as they are likely to be

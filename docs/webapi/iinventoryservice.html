@@ -186,7 +186,12 @@ called from a secure server, and can never be used directly by clients!<br /><br
     <tr>
         <td><strong>requestid</strong></td>
         <td>uint64</td>
-        <td></td>
+        <td>
+            Clients may provide a unique identifier for a request to perform at most once execution.
+            When a requestid is resubmitted, it will not cause the work to be performed again; the
+            response message will be the current state of items affected by the original successful
+            execution.
+        </td>
         <td></td>
     </tr>
 </table>
@@ -238,7 +243,12 @@ from a secure server, and can never be used directly by clients!
         <td><strong>requestid</strong></td>
         <td>uint64</td>
         <td>✔</td>
-        <td></td>
+        <td>
+            Clients may provide a unique identifier for a request to perform at most once execution.
+            When a requestid is resubmitted, it will not cause the work to be performed again; the
+            response message will be the current state of items affected by the original successful
+            execution.
+        </td>
     </tr>
 </table>
 <br />Marks an item as wholly or partially consumed. This action cannot be reversed.<br /><br /><strong
