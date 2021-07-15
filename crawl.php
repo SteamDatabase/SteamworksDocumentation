@@ -9,11 +9,12 @@ $Crawler->Crawl();
 
 class Crawler
 {
-	/* @var resource */
+	/* @var \CurlHandle */
 	private $CurlHandle;
 
 	/* @var array<string, bool> */
 	private array $Links = [];
+	private \SplQueue $LinksQueue;
 	private string $Directory = __DIR__ . '/docs/';
 	private string $LinksFile;
 	private bool $IsCI;
@@ -21,6 +22,7 @@ class Crawler
 	public function __construct()
 	{
 		$this->IsCI = \getenv( 'CI' ) !== false;
+		$this->LinksQueue = new \SplQueue();
 		$this->LinksFile = $this->Directory . '/links.json';
 		$this->LoadLinks();
 
@@ -59,7 +61,14 @@ class Crawler
 		foreach( $Links as $Link )
 		{
 			$Link = strtolower( $Link );
+
+			if( isset( $this->Links[ $Link ] ) )
+			{
+				continue;
+			}
+
 			$this->Links[ $Link ] = false;
+			$this->LinksQueue->push( $Link );
 		}
 
 		echo 'Loaded ' . count( $this->Links ) . ' known links' . PHP_EOL;
@@ -77,10 +86,9 @@ class Crawler
 
 	public function Crawl() : void
 	{
-		$Links = new ArrayObject( $this->Links );
-
-		foreach( $Links as $Link => $Status )
+		while( !$this->LinksQueue->isEmpty() )
 		{
+			$Link = $this->LinksQueue->pop();
 			$Content = $this->Fetch( $Link );
 			$this->Process( $Link, $Content );
 		}
@@ -216,6 +224,7 @@ class Crawler
 				if( !isset( $this->Links[ $Doc ] ) )
 				{
 					$this->Links[ $Doc ] = false;
+					$this->LinksQueue->push( $Doc );
 
 					if( $this->IsCI )
 					{
