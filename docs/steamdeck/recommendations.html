@@ -1,0 +1,59 @@
+<h1>Developing for Steam Deck</h1>
+There are a few things you can do right now to make your game better on Steam Deck, without a
+developer kit.
+<h2 class="bb_subsection"><a name="1"></a>Input</h2>
+<ol class="bb_ol">
+    <li>
+        If your game is controller-enabled, plug a controller into your computer, and play your game
+        from startup. Take note when there are moments where you have to reach for your keyboard or
+        mouse (launchers, for instance).<br />
+    </li>
+    <li>
+        If your game is not controller-enabled, look into setting a Steam Input default
+        configuration with an intuitive control scheme.<br />
+    </li>
+    <li>Use ISteamUtils::ShowGamepadTextInput() for in-game text fields.<br /></li>
+    <li>
+        If your game has support for both mouse-style (1:1 movement without filtering) and
+        joystick-style camera movement, making sure they can work at the same time will provide a
+        better experience for trackpad and gyro users. Common problems include joystick input
+        getting locked out when mouse camera is used and vice versa, controller buttons not working
+        when mouse camera is being used, on-screen button prompts changing between controller and
+        keyboard/mouse icons. We recommend allowing mouse events to affect the camera as they
+        normally would without perturbing simultaneous controller functionality, and only switching
+        to mouse/keyboard mode if a mouse click event is received.<br />
+    </li>
+    <li>Fully integrate with the Steam Input API for best results.</li>
+</ol>
+<h2 class="bb_subsection"><a name="2"></a>Proton Compatibility and Performance</h2>
+<ol class="bb_ol">
+    <li>
+        Learn about common Proton compatibility issues
+        <a
+            href="https://partner.steamgames.com/doc/steamdeck/proton"
+            target="_blank"
+            rel="noreferrer"
+            >here</a
+        >. This document also details how to use a Linux system as a proxy for a Deck developer kit
+        to test Proton compatibility.<br />
+    </li>
+    <li>
+        We recommend targeting Vulkan as your primary graphics API for best performance and battery
+        life. If you use an engine like Unity or Unreal, enable Vulkan in your build for all users,
+        and report any performance of functional differences from the DirectX version to your engine
+        vendor. If your Vulkan build has similar performance as DirectX. Doing this work is not
+        typically worth it if Vulkan would be a secondary path with lower performance, as Proton
+        DirectX translation performance is likely to exceed untranslated Vulkan in this case.
+    </li>
+</ol>
+<h2 class="bb_subsection"><a name="3"></a>Steam Integration</h2>
+<ol class="bb_ol">
+    <li>
+        Support Steam Cloud. This feature will allow players to start a game on their PC and
+        continue it seamlessly on Steam Deck - or vice versa.<br />
+    </li>
+    <li>
+        Support Offline Mode: test your game without any online connectivity, including first run on
+        a new Steam account.
+    </li>
+</ol>
