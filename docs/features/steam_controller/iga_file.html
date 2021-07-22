@@ -204,7 +204,17 @@ the "fancy_click" action is fired.
         feature for more than just fixing a few rare edge cases, you're probably overusing it.
     </div>
 </div>
-<h2 class="bb_section"><a name="9"></a>Localization</h2>
+<h2 class="bb_subsection"><a name="9"></a>Action Set Layers</h2>
+In addition to Action Sets you can also overlay incremental changes to the active Action Set with an
+Action Set Layer. You can use this to handle specializations of a general mode like having a Sniper
+layer on top of your OnFoot controls or to handle cases when you have in-game UI that pops up over
+normal gameplay like voting screens. Layers are declared in their own section, ex: <br />
+<div class="bb_code">
+    "action_layers" { "IngameModalLayer" { "title" "#Layer_IngameModal" "legacy_set" "0" "set_layer"
+    "1" "parent_set_name" "InGame" "AnalogTrigger" { } "Button" { "Modal_Accept"
+    "#Action_Modal_Accept" "Modal_Decline" "#Action_Modal_Decline" } } }
+</div>
+<h2 class="bb_section"><a name="10"></a>Localization</h2>
 <br />The master IGA file should include a localization section alongside the action set
 definitions. The individual child objects of the localization object will be any one of the language
 strings that Steam supports. Make sure you include at least one block that contains English action
@@ -252,7 +262,7 @@ and listed below:<br /><br />
     <li>ukrainian<br /></li>
     <li>vietnamese</li>
 </ul>
-<h2 class="bb_section"><a name="10"></a>How Steam uses your IGA file</h2>
+<h2 class="bb_section"><a name="11"></a>How Steam uses your IGA file</h2>
 <br />The master IGA file you create will only ever be during development (but it should still be
 saved, maintained, and stored in your version control, etc). When you
 <a
