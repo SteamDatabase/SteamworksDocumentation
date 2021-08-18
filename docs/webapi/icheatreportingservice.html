@@ -440,34 +440,34 @@ the cheat and the game and then calling this webapi.
     method='GET', protocol='http', version='0001', timeout=120, **kwargs ): if not universe or not
     request or not interface: raise NameError( 'Need universe, interface, and request' ) if not
     g_bReadied: raise RuntimeError( 'call readyAPIRequest first to ensure the proxy is set' ) entry
-    = g_mapUniverseToWebapiServer[ universe ] server = entry[ 'host' ] port = entry[ 'port_' +
-    protocol ] url = '%s://%s:%s/%s/%s/v%s/' % ( protocol, server, port, interface, request, version
-    ) if method == 'GET': sep = '?' for kw in kwargs: url = url + sep + kw + '=' + str( kwargs[ kw ]
-    ) sep = '&amp;' rf = urllib2.urlopen( url, timeout=timeout ) else: rf = urllib2.urlopen( url,
-    urllib.urlencode( kwargs ), timeout=timeout ) return json.load( rf ) def sendcheatreport():
-    readyAPIRequest( 'public' ) print "Current time is ",int(time.time()) # fill in defaults #
-    steamid should look like 7XXXXXXXXXXXXXXX steamid = 0 # key should be a hex string key = '' #
-    fill in your appid gameappid = 0 # init vars cheatprocid = 0 timecheatran = 0 cheatterminated =
-    0 timecheatstopped = 0 if steamid == 0: steamid = raw_input( 'Input steam ID: ' ) if not key:
-    key = raw_input( 'Input web api key: ' ) if gameappid == 0: gameappid = raw_input( 'Input game
-    appid: ' ) cheatnamestring = raw_input( 'Input cheat descriptive name: ' ) cheatpathstring =
-    raw_input( 'Input full path to cheat file: ' ) webcheaturlstring = raw_input( 'Input full URL to
-    cheat download page (optional): ' ) cheatfiletype = int(raw_input( 'Input 1 if .exe or input 2
-    if other file type: ' )) if cheatfiletype == 1: cheatprocid = raw_input( 'Input cheat process id
-    (Input 0 if stopped or unsure): ' ) timecheatran = int(time.time()) cheatterminated =
-    int(raw_input( 'Input 1 if cheat is still running or input 0 if it has stopped: ' ))
-    timecheatstopped = int(time.time()) if cheatterminated == 1: timecheatstopped = 0 gameprocid =
-    raw_input( 'Input game process id: ' ) print "sending webapi data now " print "steamid: ",
-    steamid print "key: ", key print "gameappid: ", gameappid print "cheatnamestring: ",
-    cheatnamestring print "cheatpathstring: ", cheatpathstring print "webcheaturlstring: ",
-    webcheaturlstring print "cheatprocid: ", cheatprocid print "timecheatran: ", timecheatran print
-    "timecheatstopped: ", timecheatstopped print "gameprocid: ", gameprocid # ready to go! results =
-    issueWebAPIRequest( universe='public', interface='icheatreportingservice',
-    request='reportcheatdata', key=key, protocol='https', method='POST', cheatname=cheatnamestring,
-    appid=gameappid, game_process_id=gameprocid, cheat_process_id=cheatprocid,
-    pathandfilename=cheatpathstring, webcheaturl=webcheaturlstring, time_now=int(time.time()),
-    time_started=timecheatran, time_stopped=timecheatstopped, steamid=steamid ) print "webapi
-    results:", results # clean up def main(): sendcheatreport() if __name__ == '__main__': main()
+    = g_mapUniverseToWebapiServer[] server = entry[] port = entry[] url = '%s://%s:%s/%s/%s/v%s/' %
+    ( protocol, server, port, interface, request, version ) if method == 'GET': sep = '?' for kw in
+    kwargs: url = url + sep + kw + '=' + str( kwargs[] ) sep = '&amp;' rf = urllib2.urlopen( url,
+    timeout=timeout ) else: rf = urllib2.urlopen( url, urllib.urlencode( kwargs ), timeout=timeout )
+    return json.load( rf ) def sendcheatreport(): readyAPIRequest( 'public' ) print "Current time is
+    ",int(time.time()) # fill in defaults # steamid should look like 7XXXXXXXXXXXXXXX steamid = 0 #
+    key should be a hex string key = '' # fill in your appid gameappid = 0 # init vars cheatprocid =
+    0 timecheatran = 0 cheatterminated = 0 timecheatstopped = 0 if steamid == 0: steamid =
+    raw_input( 'Input steam ID: ' ) if not key: key = raw_input( 'Input web api key: ' ) if
+    gameappid == 0: gameappid = raw_input( 'Input game appid: ' ) cheatnamestring = raw_input(
+    'Input cheat descriptive name: ' ) cheatpathstring = raw_input( 'Input full path to cheat file:
+    ' ) webcheaturlstring = raw_input( 'Input full URL to cheat download page (optional): ' )
+    cheatfiletype = int(raw_input( 'Input 1 if .exe or input 2 if other file type: ' )) if
+    cheatfiletype == 1: cheatprocid = raw_input( 'Input cheat process id (Input 0 if stopped or
+    unsure): ' ) timecheatran = int(time.time()) cheatterminated = int(raw_input( 'Input 1 if cheat
+    is still running or input 0 if it has stopped: ' )) timecheatstopped = int(time.time()) if
+    cheatterminated == 1: timecheatstopped = 0 gameprocid = raw_input( 'Input game process id: ' )
+    print "sending webapi data now " print "steamid: ", steamid print "key: ", key print "gameappid:
+    ", gameappid print "cheatnamestring: ", cheatnamestring print "cheatpathstring: ",
+    cheatpathstring print "webcheaturlstring: ", webcheaturlstring print "cheatprocid: ",
+    cheatprocid print "timecheatran: ", timecheatran print "timecheatstopped: ", timecheatstopped
+    print "gameprocid: ", gameprocid # ready to go! results = issueWebAPIRequest( universe='public',
+    interface='icheatreportingservice', request='reportcheatdata', key=key, protocol='https',
+    method='POST', cheatname=cheatnamestring, appid=gameappid, game_process_id=gameprocid,
+    cheat_process_id=cheatprocid, pathandfilename=cheatpathstring, webcheaturl=webcheaturlstring,
+    time_now=int(time.time()), time_started=timecheatran, time_stopped=timecheatstopped,
+    steamid=steamid ) print "webapi results:", results # clean up def main(): sendcheatreport() if
+    __name__ == '__main__': main()
 </div>
 <h2 class="bb_section"><a name="RequestVacStatusForUser"></a>RequestVacStatusForUser</h2>
 <div class="bb_code http">

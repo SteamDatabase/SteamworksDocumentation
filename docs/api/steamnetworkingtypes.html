@@ -51,7 +51,7 @@ identity will be used.<br /><br />
     ParseString( const char *pszStr ); // Max sizes enum { k_cchMaxString = 128, // Max length of
     the buffer needed to hold any identity, formatted in string format by ToString
     k_cchMaxGenericString = 32, // Max length of the string for generic string identities. Including
-    terminating '\0' k_cbMaxGenericBytes = 32, }; // [ internal representation ] };
+    terminating '\0' k_cbMaxGenericBytes = 32, }; // [] };
 </div>
 <h2 class="bb_subsection"><a name="SteamNetworkingIPAddr"></a>struct SteamNetworkingIPAddr</h2>
 <br />Store an IP and port.<br /><br />IPv6 is always used; IPv4 is represented using "IPv4-mapped"
@@ -78,10 +78,10 @@ section 2.5.5.2.)<br />
     buffer should be at least k_cchMaxString bytes /// to avoid truncation inline void ToString(
     char *buf, size_t cbBuf, bool bWithPort ) const; /// Parse an IP address and optional port. If a
     port is not present, it is set to 0. /// (This means that you cannot tell if a zero port was
-    explicitly specified.) inline bool ParseString( const char *pszStr ); union { uint8 m_ipv6[ 16
-    ]; struct // IPv4 "mapped address" (rfc4038 section 4.2) { uint64 m_8zeros; uint16 m_0000;
-    uint16 m_ffff; uint8 m_ip[ 4 ]; // NOTE: As bytes, i.e. network byte order } m_ipv4; }; uint16
-    m_port; // Host byte order /// See if two addresses are identical bool operator==(const
+    explicitly specified.) inline bool ParseString( const char *pszStr ); union { uint8 m_ipv6[];
+    struct // IPv4 "mapped address" (rfc4038 section 4.2) { uint64 m_8zeros; uint16 m_0000; uint16
+    m_ffff; uint8 m_ip[]; // NOTE: As bytes, i.e. network byte order } m_ipv4; }; uint16 m_port; //
+    Host byte order /// See if two addresses are identical bool operator==(const
     SteamNetworkingIPAddr &amp;x ) const; };
 </div>
 <h2 class="bb_section"><a name="connection_status"></a>Connection status</h2>
@@ -256,12 +256,11 @@ error codes: the numeric range gives you a rough classification as to the source
     of the connection termination or problem. /// See ESteamNetConnectionEnd for the values used int
     m_eEndReason; /// Human-readable, but non-localized explanation for connection /// termination
     or problem. This is intended for debugging / /// diagnostic purposes only, not to display to
-    users. It might /// have some details specific to the issue. char m_szEndDebug[
-    k_cchSteamNetworkingMaxConnectionCloseReason ]; /// Debug description. This includes the
-    connection handle, /// connection type (and peer information), and the app name. /// This string
-    is used in various internal logging messages char m_szConnectionDescription[
-    k_cchSteamNetworkingMaxConnectionDescription ]; /// Internal stuff, room to change API easily
-    uint32 reserved[64]; };
+    users. It might /// have some details specific to the issue. char m_szEndDebug[]; /// Debug
+    description. This includes the connection handle, /// connection type (and peer information),
+    and the app name. /// This string is used in various internal logging messages char
+    m_szConnectionDescription[]; /// Internal stuff, room to change API easily uint32 reserved[64];
+    };
 </div>
 <h2 class="bb_subsection">
     <a name="SteamNetworkingQuickConnectionStatus"></a>SteamNetworkingQuickConnectionStatus
@@ -460,7 +459,7 @@ These values are used in bitmask parameters to functions such as
         <a name="SteamNetworkPingLocation_t"></a>SteamNetworkingPingLocation_t
     </h2>
     <br />
-    <div class="bb_code">struct SteamNetworkPingLocation_t { uint8 m_data[ 512 ]; }</div>
+    <div class="bb_code">struct SteamNetworkPingLocation_t { uint8 m_data[]; }</div>
     Opaque object that describes a "location" on the Internet with sufficient detail that we can
     reasonably estimate an upper bound on the ping between the two hosts, even if a direct route
     between the hosts is not possible, and the connection must be routed through the Steam Datagram

@@ -232,8 +232,8 @@ article for full details and an in-depth practical example.<br /><br /><strong>E
 <br />Fill an array with all of the currently active action set layers for a specified controller
 handle.<br /><br /><strong>Example:</strong><br />
 <div class="bb_code cpp">
-    InputHandle_t *handlesOut = new InputHandle_t [ STEAM_INPUT_MAX_COUNT ];
-    SteamInput()-&gt;GetActiveActionSetLayers( inputHandle1, &amp;handlesOut );
+    InputHandle_t *handlesOut = new InputHandle_t []; SteamInput()-&gt;GetActiveActionSetLayers(
+    inputHandle1, &amp;handlesOut );
 </div>
 <h2 class="bb_subsection"><a name="GetActionSetHandle"></a>GetActionSetHandle</h2>
 <div class="bb_code cpp">
@@ -417,9 +417,8 @@ int<br />The number of origins supplied in
     >Example:</strong
 ><br />
 <div class="bb_code cpp">
-    EInputActionOrigin *origins = new EInputActionOrigin[ STEAM_INPUT_MAX_ORIGINS ];
-    SteamInput()-&gt;GetAnalogActionOrigins( controller1Handle, walkingSetHandle, moveHandle,
-    origins );
+    EInputActionOrigin *origins = new EInputActionOrigin[]; SteamInput()-&gt;GetAnalogActionOrigins(
+    controller1Handle, walkingSetHandle, moveHandle, origins );
 </div>
 <h2 class="bb_subsection"><a name="GetConnectedControllers"></a>GetConnectedControllers</h2>
 <div class="bb_code cpp">int GetConnectedControllers( InputHandle_t *handlesOut );</div>
@@ -458,8 +457,8 @@ int<br />The number of handles written to
     >Example:</strong
 ><br />
 <div class="bb_code cpp">
-    InputHandle_t *inputHandles = new InputHandle_t[ STEAM_INPUT_MAX_COUNT ];
-    SteamInput()-&gt;GetConnectedControllers( inputHandles );
+    InputHandle_t *inputHandles = new InputHandle_t[]; SteamInput()-&gt;GetConnectedControllers(
+    inputHandles );
 </div>
 <h2 class="bb_subsection">
     <a name="GetControllerForGamepadIndex"></a>GetControllerForGamepadIndex
@@ -686,7 +685,7 @@ int<br />The number of origins supplied in
     >Example:</strong
 ><br />
 <div class="bb_code cpp">
-    EInputActionOrigin *origins = new EInputActionOrigin[ STEAM_INPUT_MAX_ORIGINS ];
+    EInputActionOrigin *origins = new EInputActionOrigin[];
     SteamInput()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle, punchHandle,
     origins );
 </div>
@@ -748,16 +747,16 @@ const char *<br />The path to the png file for the glyph.<br />E.g.
     (x86)\Steam\tenfoot\resource\images\library\controller\api\ps4_button_x.png"</code
 ><br /><br /><strong>Example:</strong><br />
 <div class="bb_code cpp">
-    // Get origins for "punch" EInputActionOrigin *origins = new EInputActionOrigin[
-    STEAM_INPUT_MAX_ORIGINS ]; SteamInput()-&gt;GetDigitalActionOrigins( controller1Handle,
-    fightingSetHandle, punchHandle, origins ); EInputActionOrigin firstOrigin = origins[0]; //i.e,
-    k_EInputActionOrigin_PS4_X // This is a function from the game itself that tries to get custom
-    glyph art int glyphTextureID = getHardCodedButtonGlyphTexture( firstOrigin ); // We didn't ship
-    any art in our game for this origin! I guess Steam has added support for // a new controller or
-    we just forgot to add this art! //(i.e, we only have Steam Controller glyphs, but it's a
-    PlasyStation 4 Controller) if( glyphTextureID == -1 ) { // Just get the image from the Steam
-    client instead. const char *localGlyphPath = SteamInput()-&gt;GetGlyphForActionOrigin(
-    firstOrigin ); printf( "path = %s\n", localGlyphPath ); // "path = C:\Program Files
+    // Get origins for "punch" EInputActionOrigin *origins = new EInputActionOrigin[];
+    SteamInput()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle, punchHandle,
+    origins ); EInputActionOrigin firstOrigin = origins[0]; //i.e, k_EInputActionOrigin_PS4_X //
+    This is a function from the game itself that tries to get custom glyph art int glyphTextureID =
+    getHardCodedButtonGlyphTexture( firstOrigin ); // We didn't ship any art in our game for this
+    origin! I guess Steam has added support for // a new controller or we just forgot to add this
+    art! //(i.e, we only have Steam Controller glyphs, but it's a PlasyStation 4 Controller) if(
+    glyphTextureID == -1 ) { // Just get the image from the Steam client instead. const char
+    *localGlyphPath = SteamInput()-&gt;GetGlyphForActionOrigin( firstOrigin ); printf( "path =
+    %s\n", localGlyphPath ); // "path = C:\Program Files
     (x86)\Steam\tenfoot\resource\images\library\controller\api\ps4_button_x.png" //a function from
     the game that turns a file path into a usable game texture glyphTextureID =
     loadButtonGlyphTextureFromLocalPath( localGlyphPath ); }
@@ -855,7 +854,7 @@ Steam's
 >
 const char *<br /><br /><br /><strong>Example:</strong><br />
 <div class="bb_code cpp">
-    EInputActionOrigin *origins = new EInputActionOrigin[ STEAM_INPUT_MAX_ORIGINS ];
+    EInputActionOrigin *origins = new EInputActionOrigin[];
     SteamInput()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle, punchHandle,
     origins ); const char * punchString = SteamInput()-&gt;GetStringForActionOrigin( origins[0] );
     printf("punch = %s\n",punchString);
