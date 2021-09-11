@@ -1,0 +1,139 @@
+<h1>How to load and run games on the Steam Deck Dev-Kit</h1>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+To help developers work with Steam Deck, we are providing the
+<strong>SteamOS Devkit Client Tool</strong> and the <strong>SteamOS Devkit Service</strong>. These
+tools allow you to load game builds directly from your development machine to your Steam Deck
+Dev-kit (or Linux machine), as well as perform other development activities.
+<div class="bb_callout">
+    <div>
+        <strong>Important: </strong><br />Before uploading and testing your own title using the
+        instructions below, we recommend installing and running another title from Steam that uses
+        Steam Play(Proton) on the Steam Deck dev-kit. This will ensure all Proton and its
+        dependencies are installed.
+    </div>
+</div>
+<h2 class="bb_section"><a name="2"></a>Install Tools</h2>
+<h2 class="bb_subsection"><a name="3"></a>Client Setup (Dev PC side)</h2>
+<ul class="bb_ul">
+    <li>
+        The <strong>SteamOS Devkit Client</strong> runs on your development PC and allows developers
+        to connect to a Steam Deck or Linux system to deploy / debug software. <br />
+    </li>
+    <li>
+        Install SteamOS Devkit Client from Steam. Check with your Valve contact for keys. <br />
+    </li>
+    <li>
+        The tool can be started from the Steam client interface, in the Software category. If you
+        prefer to run it from the command line:<br />
+        <ul class="bb_ul">
+            <li>
+                On Windows, run
+                <code class="bb_code bb_code_inline nohighlight">windows-client/devkit-gui.exe</code
+                ><br />
+            </li>
+            <li>
+                On Linux,
+                <code class="bb_code bb_code_inline nohighlight"
+                    >run python3.9 ./devkit-gui-cp39.pyz</code
+                >
+                in the
+                <code class="bb_code bb_code_inline nohighlight">linux-client</code> directory
+            </li>
+        </ul>
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="4"></a>Server Setup (Steam Deck side)</h2>
+<ul class="bb_ul">
+    <li>
+        The <strong>SteamOS Devkit Service</strong> runs on the target Steam Deck / Linux system,
+        and allows developers to connect from another PC and deploy / debug their software.<br />
+    </li>
+    <li>
+        If you have a Steam Deck dev-kit, the SteamOS Devkit Service is pre-installed and running -
+        no further action is needed.<br />
+    </li>
+    <li>
+        If you do not have a Steam Deck and are testing from your own Linux system, you will need to
+        install the SteamOS Devkit Service and launch it manually. Check with your Valve contact for
+        keys.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="5"></a>Connecting to Deck</h2>
+On your Dev PC, launch the SteamOS Dev-kit Client. The dev-kit needs to be on a local area network
+allowing Multicast DNS with the development host in order to be discovered and listed. This works
+over Wi-Fi or ethernet (via a USB-C hub).<br /><br />
+<ul class="bb_ul">
+    <li>
+        <strong>On your Steam Deck</strong>: Go to Settings &gt; System, and select
+        <strong>Pair new host </strong>under the Development Kit section<br />
+    </li>
+    <li>
+        <strong>On your Dev PC:</strong> In the Devkit tool, look for an item called callistoXXX -
+        this is your dev-kit. Click the <strong>Register</strong> button to the right to register
+        this devkit with the tool. (This sets up a ssh key on the device and grants full
+        control.)<br />
+    </li>
+    <li><strong>On your Steam Deck</strong>: Approve the pairing request from your PC.<br /></li>
+    <li>
+        If you don't see a dev-kit in the dev-kit tool UI, check to make sure your dev pc and
+        dev-kit are on the same LAN. Depending on your environment, you may have to use the
+        <strong>Add by IP</strong> field.
+    </li>
+</ul>
+<br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/dev-kit_landing.png"
+    alt="dev-kit_landing.png"
+    title="dev-kit_landing.png"
+/><br /><br /><i
+    >In the screenshot above, <code class="bb_code bb_code_inline nohighlight">callisto530</code> is
+    a registered devkit.
+</i>
+<h2 class="bb_section"><a name="6"></a>Uploading a game build to Steam Deck</h2>
+Click the <strong>Title Upload</strong> tab to configure a game for upload from your dev PC to the
+Steam Deck dev-kit. The screen looks something like this when filled out:<br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/dev-kit_upload_2.png"
+    alt="dev-kit_upload_2.png"
+    title="dev-kit_upload_2.png"
+/><br /><br />This screenshot is an example of uploading a Windows build of a test game to the
+devkit.<br />
+<ul class="bb_ul">
+    <li>
+        <strong>Local Folder</strong> - The base directory that contains all the files necessary for
+        your game to run..<br />
+    </li>
+    <li>
+        <strong>Exclude patterns</strong> - The upload process uses rsync over ssh, so to prevent
+        unneeded directories and files present in <strong>Local Folder</strong> from being
+        transferred, populate the <strong>Exclude patterns</strong> field (space separated--see
+        <a href="https://linux.die.net/man/1/rsync" target="_blank" rel="noreferrer"
+            >exclude patterns</a
+        >).<br />
+    </li>
+    <li>
+        <strong>Clean upload</strong> - Enable this to delete any files on the devkit that are not
+        present in the <strong>Local Folder</strong> once the exclude patterns are applied.<br />
+    </li>
+    <li>
+        <strong>Devkit Start Command</strong> - Set this to game's binary executable (and any
+        arguments you want to add).<br />
+    </li>
+    <li>
+        <strong>Steam Play</strong> - Check this if you are uploading Windows binaries that need to
+        be executed over Steam Play using Proton.<br />
+    </li>
+    <li>
+        <strong>Steam Play debug</strong> = The debugger service checkbox allows you to step through
+        your C++ build in Visual Studio.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="7"></a>Running uploaded game builds</h2>
+On your Steam Deck devkit, navigate the library to find a new title named 'Devkit Game:
+YourGameName' and select it to run.
+<div class="bb_callout">
+    <div>
+        As mentioned at the top of the article, before uploading and testing your own title
+        directly, we recommend installing another title from Steam that uses Steam Play (Proton) on
+        the Steam Deck devkit and running it first. This will ensure Proton and all its dependencies
+        are properly installed.
+    </div>
+</div>
