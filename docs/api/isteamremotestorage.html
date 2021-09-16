@@ -7,6 +7,28 @@ more information.
 Member functions for <code class="bb_code bb_code_inline nohighlight">ISteamRemoteStorage</code> are
 called through the global accessor function
 <code class="bb_code bb_code_inline nohighlight">SteamRemoteStorage()</code>.
+<h2 class="bb_subsection"><a name="BeginFileWriteBatch"></a>BeginFileWriteBatch</h2>
+<div class="bb_code cpp">bool BeginFileWriteBatch( );</div>
+<br />Use this along with
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EndFileWriteBatch"
+    class="bb_apilink"
+    >EndFileWriteBatch</a
+>
+to wrap a set of local file writes/deletes that should be considered part of one single state
+change. For example, if saving game progress requires updating both
+<code class="bb_code bb_code_inline nohighlight">savegame1.dat</code> and
+<code class="bb_code bb_code_inline nohighlight">maxprogress.dat</code>, wrap those operations with
+calls to <code class="bb_code bb_code_inline nohighlight">BeginFileWriteBatch</code> and
+<code class="bb_code bb_code_inline nohighlight">EndFileWriteBatch</code>.<br /><br />These
+functions provide a hint to Steam which will help it manage the app's Cloud files. Using these
+functions is optional, however it will provide better reliability.<br /><br />Note that the
+functions may be used whether the writes are done using the
+<code class="bb_code bb_code_inline nohighlight">ISteamRemoteStorage</code> API, or done directly to
+local disk (where AutoCloud is used). <br /><br /><strong>Returns:</strong> bool<br /><strong
+    >true</strong
+>
+if the write batch was begun, <strong>false</strong> if there was a batch already in progress.
 <h2 class="bb_subsection"><a name="CommitPublishedFileUpdate"></a>CommitPublishedFileUpdate</h2>
 <div class="bb_code cpp">
     SteamAPICall_t CommitPublishedFileUpdate( PublishedFileUpdateHandle_t updateHandle );
@@ -110,6 +132,18 @@ to be used with a
     >RemoteStorageDeletePublishedFileResult_t</a
 >
 call result.
+<h2 class="bb_subsection"><a name="EndFileWriteBatch"></a>EndFileWriteBatch</h2>
+<div class="bb_code cpp">bool EndFileWriteBatch( );</div>
+<br />Use this along with
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#BeginFileWriteBatch"
+    class="bb_apilink"
+    >BeginFileWriteBatch</a
+>
+- see that documentation for more details.<br /><br /><strong>Returns:</strong> bool<br /><strong
+    >true</strong
+>
+if the write batch was ended, <strong>false</strong> if there was no batch already in progress.
 <h2 class="bb_subsection">
     <a name="EnumeratePublishedFilesByUserAction"></a>EnumeratePublishedFilesByUserAction
 </h2>
@@ -1244,6 +1278,107 @@ exist.<br /><br /><strong>Example:</strong><br />
 1970).<br /><br /><strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#int64" class="bb_apilink">int64</a
 ><br />The last modified timestamp in Unix epoch format (seconds since Jan 1st 1970).
+<h2 class="bb_subsection"><a name="GetLocalFileChangeCount"></a>GetLocalFileChangeCount</h2>
+<div class="bb_code cpp">int32 GetLocalFileChangeCount( );</div>
+<br />Note: only applies to applications flagged as supporting dynamic Steam Cloud sync.<br /><br />When
+your application receives a
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStorageLocalFileChange_t"
+    class="bb_apilink"
+    >ISteamRemoteStorage::RemoteStorageLocalFileChange_t</a
+>, use this method to get the number of changes (file updates and file deletes) that have been made.
+You can then iterate the changes using
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChange</a
+>.<br /><br /><strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a
+><br />The number of local file changes that have occurred.
+<h2 class="bb_subsection"><a name="GetLocalFileChange"></a>GetLocalFileChange</h2>
+<div class="bb_code cpp">
+    const char *GetLocalFileChange( int iFile, ERemoteStorageLocalFileChange *pEChangeType,
+    ERemoteStorageFilePathType *pEFilePathType );
+</div>
+<br />Note: only applies to applications flagged as supporting dynamic Steam Cloud sync.<br /><br />After
+calling
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChangeCount"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChangeCount</a
+>, use this method to iterate over the changes. The changes described have already been made to
+local files. Your application should take appropriate action to reload state from disk, and possibly
+notify the user. <br /><br />For example: The local system had been suspended, during which time the
+user played elsewhere and uploaded changes to the Steam Cloud. On resume, Steam downloads those
+changes to the local system before resuming the application. The application receives an
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStorageLocalFileChange_t"
+    class="bb_apilink"
+    >ISteamRemoteStorage::RemoteStorageLocalFileChange_t</a
+>, and uses
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChangeCount"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChangeCount</a
+>
+and
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChange</a
+>
+to iterate those changes. Depending on the application structure and the nature of the changes, the
+application could:<br /><br />
+<ul class="bb_ul">
+    <li>
+        Re-load game progress to resume at exactly the point where the user was when they exited the
+        game on the other device<br />
+    </li>
+    <li>Notify the user of any synchronized changes that don't require reloading<br /></li>
+    <li>etc</li>
+</ul>
+<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>iFile</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink"
+                >int32</a
+            >
+        </td>
+        <td>Zero-based index of he change</td>
+    </tr>
+    <tr>
+        <td><strong>pEChangeType</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#ERemoteStorageLocalFileChange"
+                class="bb_apilink"
+                >ERemoteStorageLocalFileChange</a
+            >
+        </td>
+        <td>What happened to this file</td>
+    </tr>
+    <tr>
+        <td><strong>pEFilePathType</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#ERemoteStorageFilePathType"
+                class="bb_apilink"
+                >ERemoteStorageFilePathType</a
+            >
+        </td>
+        <td>Type of path to the file returned</td>
+    </tr>
+</table>
+<br /><strong>Returns:</strong> const char *<br />The file name or full path of the file affected by
+this change. See comments on
+<code class="bb_code bb_code_inline nohighlight">pEFilePathType</code> above for more detail.
 <h2 class="bb_subsection"><a name="GetPublishedFileDetails"></a>GetPublishedFileDetails</h2>
 <div class="bb_code cpp">
     SteamAPICall_t GetPublishedFileDetails( PublishedFileId_t unPublishedFileId, uint32
@@ -3449,6 +3584,23 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     >ISteamRemoteStorage::GetUserPublishedItemVoteDetails</a
 >
 <h2 class="bb_subsection">
+    <a name="RemoteStorageLocalFileChange_t"></a>RemoteStorageLocalFileChange_t
+</h2>
+If a Steam app is flagged for supporting dynamic Steam Cloud sync, and a sync occurs, this callback
+will be posted to the app if any local files changed.<br /><br /><strong
+    >Associated Functions:</strong
+>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChangeCount"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChangeCount</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChange</a
+>
+<h2 class="bb_subsection">
     <a name="RemoteStoragePublishedFileDeleted_t"></a>RemoteStoragePublishedFileDeleted_t
 </h2>
 Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
@@ -3927,6 +4079,72 @@ These are structs which functions in ISteamRemoteStorage may return and/or inter
 </table>
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamRemoteStorage.
+<h2 class="bb_subsection">
+    <a name="ERemoteStorageLocalFileChange"></a>ERemoteStorageLocalFileChange
+</h2>
+Ways in which a local file may be changed by Steam during the application session. See
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChange</a
+>.<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_ERemoteStorageLocalFileChange_Invalid">
+        <td><strong>k_ERemoteStorageLocalFileChange_Invalid</strong></td>
+        <td>0</td>
+        <td>Unused.</td>
+    </tr>
+    <tr id="k_ERemoteStorageLocalFileChange_FileUpdated">
+        <td><strong>k_ERemoteStorageLocalFileChange_FileUpdated</strong></td>
+        <td>1</td>
+        <td>The file contents changed.</td>
+    </tr>
+    <tr id="k_ERemoteStorageLocalFileChange_FileDeleted">
+        <td><strong>k_ERemoteStorageLocalFileChange_FileDeleted</strong></td>
+        <td>2</td>
+        <td>The file was deleted.</td>
+    </tr>
+</table>
+<h2 class="bb_subsection"><a name="ERemoteStorageFilePathType"></a>ERemoteStorageFilePathType</h2>
+For APIs that may return file paths in different forms. See
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChange</a
+>.<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_ERemoteStorageFilePathType_Invalid">
+        <td><strong>k_ERemoteStorageFilePathType_Invalid</strong></td>
+        <td>0</td>
+        <td>Unused.</td>
+    </tr>
+    <tr id="k_ERemoteStorageFilePathType_Absolute">
+        <td><strong>k_ERemoteStorageFilePathType_Absolute</strong></td>
+        <td>1</td>
+        <td>
+            An absolute disk path is provided. This type of path is used for files managed via
+            AutoCloud.
+        </td>
+    </tr>
+    <tr id="k_ERemoteStorageFilePathType_APIFilename">
+        <td><strong>k_ERemoteStorageFilePathType_APIFilename</strong></td>
+        <td>2</td>
+        <td>
+            An ISteamRemoteStorage API relative path is provided. This type of path is used for
+            files managed via the ISteamRemoteStorage API methods (FileWrite, FileRead, etc).
+        </td>
+    </tr>
+</table>
 <h2 class="bb_subsection"><a name="ERemoteStoragePlatform"></a>ERemoteStoragePlatform</h2>
 Sync Platforms flags. These can be used with
 <a

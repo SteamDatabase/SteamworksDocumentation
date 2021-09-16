@@ -4280,6 +4280,29 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddItemPreviewVideo" class="bb_apilink"
     >ISteamUGC::AddItemPreviewVideo</a
 >
+<h2 class="bb_subsection"><a name="ShowWorkshopEULA"></a>ShowWorkshopEULA</h2>
+<div class="bb_code cpp">bool ShowWorkshopEULA();</div>
+<br />Show the app's latest Workshop EULA to the user in an overlay window, where they can accept it
+or not<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
+    >false</strong
+>
+if the overlay cannot be shown.<br /><br /><strong>See Also:</strong>
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetWorkshopEULAStatus" class="bb_apilink"
+    >ISteamUGC::GetWorkshopEULAStatus</a
+>
+<h2 class="bb_subsection"><a name="GetWorkshopEULAStatus"></a>GetWorkshopEULAStatus</h2>
+<div class="bb_code cpp">SteamAPICall_t GetWorkshopEULAStatus();</div>
+<br />Asynchronously retrieves data about whether the user accepted the Workshop EULA for the
+current app.<br /><br /><strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
+    >SteamAPICall_t</a
+><br /><br /><strong>See Also:</strong>
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#WorkshopEULAStatus_t" class="bb_apilink"
+    >ISteamUGC::WorkshopEULAStatus_t</a
+>,
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#ShowWorkshopEULA" class="bb_apilink"
+    >ISteamUGC::ShowWorkshopEULA</a
+>
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
@@ -5192,6 +5215,97 @@ Called when the user has added or removed an item to/from their favorites.<br />
     class="bb_apilink"
     >ISteamUGC::RemoveItemFromFavorites</a
 >
+<h2 class="bb_subsection">
+    <a name="UserSubscribedItemsListChanged_t"></a>UserSubscribedItemsListChanged_t
+</h2>
+Called when the user has added or removed an item to/from their subscriptions for the returned
+appid.<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_nAppID</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/AppId_t" class="bb_apilink">AppId_t</a>
+        </td>
+        <td>The related appid.</td>
+    </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubscribeItem" class="bb_apilink"
+    >ISteamUGC::SubscribeItem</a
+>,
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#UnsubscribeItem" class="bb_apilink"
+    >ISteamUGC::UnsubscribeItem</a
+>
+<h2 class="bb_subsection"><a name="WorkshopEULAStatus_t"></a>WorkshopEULAStatus_t</h2>
+Callback returned
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetWorkshopEULAStatus" class="bb_apilink"
+    >ISteamUGC::GetWorkshopEULAStatus</a
+><br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_eResult</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
+                >EResult</a
+            >
+        </td>
+        <td>The result of the operation</td>
+    </tr>
+    <tr>
+        <td><strong>m_nAppID</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#AppId_t" class="bb_apilink"
+                >AppId_t</a
+            >
+        </td>
+        <td>The related appid.</td>
+    </tr>
+    <tr>
+        <td><strong>m_unVersion</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The version of the signed EULA, if applicable</td>
+    </tr>
+    <tr>
+        <td><strong>m_rtAction</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#RTime32" class="bb_apilink"
+                >RTime32</a
+            >
+        </td>
+        <td>Unix timestamp of when the user signed the EULA, if applicable.</td>
+    </tr>
+    <tr>
+        <td><strong>m_bAccepted</strong></td>
+        <td>boolean</td>
+        <td>
+            True if the user accepted the given version, false otherwise. Note that this can be true
+            if the user accepted an older version of the EULA.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>m_bNeedsAction</strong></td>
+        <td>boolean</td>
+        <td>True if the user needs to accept the latest Workshop EULA, false otherwise.</td>
+    </tr>
+</table>
+<br /><strong>Associated Functions:</strong>
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetWorkshopEULAStatus" class="bb_apilink"
+    >ISteamUGC::GetWorkshopEULAStatus</a
+>
 <h2 class="bb_section"><a name="structs"></a>Structs</h2>
 These are structs which functions in ISteamUGC may return and/or interact with.
 <h2 class="bb_subsection"><a name="SteamUGCDetails_t"></a>SteamUGCDetails_t</h2>
@@ -5960,6 +6074,11 @@ to specify the sorting and filtering for queries across all available UGC.<br />
         <td><strong>k_EUGCQuery_RankedByLifetimePlaytimeSessions</strong></td>
         <td>18</td>
         <td>Sort by number of lifetime play sessions descending.</td>
+    </tr>
+    <tr id="k_EUGCQuery_RankedByLastUpdatedDate">
+        <td><strong>k_EUGCQuery_RankedByLastUpdatedDate</strong></td>
+        <td>19</td>
+        <td>Sort by last updated time.</td>
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EUserUGCList"></a>EUserUGCList</h2>

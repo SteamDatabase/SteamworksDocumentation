@@ -333,7 +333,57 @@ you must complete some additional steps to test the functionality.<br />
     </li>
 </ol>
 <br />Don't forget to disable developers-only mode and publish the changes when you're done testing.
-<h2 class="bb_subsection"><a name="debugging"></a>Debugging</h2>
+<h2 class="bb_section"><a name="dyanamic_cloud_sync"></a>Dynamic Cloud Sync</h2>
+<br />Steam Cloud now supports dynamic sync - where changes appearing in the Cloud can be downloaded
+to the local machine during an application session. The current example is a suspended game session
+on the Steam Deck. For apps marked as supporting dynamic Cloud sync, Steam will synchronize files up
+to the Steam Cloud at the suspend time. Then, the user may run the game on another device, which
+will receive the updates from the Steam Deck session at launch. At exit, those changes will be
+uploaded to the Steam Cloud. Finally, when the Steam Deck device is awakened, Steam will synchronize
+the changes down to that device, and post a notification to the application that local files have
+changed. The application can then iterate those changes and take appropriate action. For instance,
+the game may be able to simply load the updated progress from disk and allow the user to pick up
+right where they left off on the other device. <br /><br />Currently, the ability to flag an
+application as supporting dynamic Cloud sync is only available to Valve admins. Get in touch with
+your Valve contacts for more detail.<br /><br />Note that this feature supports applications whether
+they use the
+<a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage" class="bb_apilink"
+    >ISteamRemoteStorage</a
+>
+API to manage files, or AutoCloud.<br /><br />For more details, see the
+<a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage" class="bb_apilink"
+    >ISteamRemoteStorage</a
+>
+documentation, specifically
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStorageLocalFileChange_t"
+    class="bb_apilink"
+    >ISteamRemoteStorage::RemoteStorageLocalFileChange_t</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChangeCount"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChangeCount</a
+>, and
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
+    class="bb_apilink"
+    >ISteamRemoteStorage::GetLocalFileChange</a
+>.<br /><br />See also
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#BeginFileWriteBatch"
+    class="bb_apilink"
+    >ISteamRemoteStorage::BeginFileWriteBatch</a
+>
+and
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EndFileWriteBatch"
+    class="bb_apilink"
+    >ISteamRemoteStorage::EndFileWriteBatch</a
+>
+- these wrappers should be used to provide hints to Steam which will help it safely sync up to the
+Steam Cloud at the time when the user initiates a system suspend.
+<h2 class="bb_section"><a name="debugging"></a>Debugging</h2>
 First, always ensure that you have published your changes on the Steam partner website and have
 waited up to 10 minutes or restarted your Steam client to receive the published changes.<br /><br />If
 you run into issues with Steam Cloud you should check the log file located at
