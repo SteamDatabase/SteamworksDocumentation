@@ -1,114 +1,128 @@
 <h1>Developing for Steam Deck</h1>
-There are a few things you can do right now to make your game better on Steam Deck, without a
-developer kit.
+While at its core, the Steam Deck is a PC, it comes in a new form factor, and with an additional set
+of customer hopes and expectations. In addition to the criteria used for
+<a href="https://partner.steamgames.com/doc/steamdeck/compat" target="_blank" rel="noreferrer"
+    >Steam Deck compatibility review process</a
+>, we have some additional recommendations, presented here.<br /><br />None of the recommendations
+on this page will affect the compatibility badge of your game. All recommendations here are targeted
+at meeting customer expectations around input and display, improving previous and battery life, and
+taking full advantage of the new opportunities provided by the Deck.<br /><br />While the
+recommendations here are disproportionately valuable to Deck customers, they are also all valuable
+for PC gamers in general, many of whom only play with controllers, only play in their living room,
+etc.
+<div class="bb_callout">
+    <div>
+        <strong>Steamworks SDK</strong>: Many of the APIs recommended on this page were added in
+        version 1.52 of the Steamworks SDK, released September 14, 2021.
+    </div>
+</div>
 <h2 class="bb_subsection"><a name="1"></a>Input</h2>
-<ol class="bb_ol">
-    <li>
-        If your game is controller-enabled, plug a controller into your computer, and play your game
-        from startup. Take note when there are moments where you have to reach for your keyboard or
-        mouse (launchers, for instance).<br />
-    </li>
-    <li>
-        If your game is not controller-enabled, look into setting a Steam Input default
-        configuration with an intuitive control scheme.<br />
-    </li>
-    <li>Use ISteamUtils::ShowGamepadTextInput() for in-game text fields.<br /></li>
-    <li>
-        If your game has support for both mouse-style (1:1 movement without filtering) and
-        joystick-style camera movement, making sure they can work at the same time will provide a
-        better experience for trackpad and gyro users. Common problems include joystick input
-        getting locked out when mouse camera is used and vice versa, controller buttons not working
-        when mouse camera is being used, on-screen button prompts changing between controller and
-        keyboard/mouse icons. We recommend allowing mouse events to affect the camera as they
-        normally would without perturbing simultaneous controller functionality, and only switching
-        to mouse/keyboard mode if a mouse click event is received.<br />
-    </li>
-    <li>Fully integrate with the Steam Input API for best results.</li>
-</ol>
-<h2 class="bb_subsection"><a name="2"></a>Proton Compatibility and Performance</h2>
-<ol class="bb_ol">
-    <li>
-        Learn about common Proton compatibility issues
-        <a
-            href="https://partner.steamgames.com/doc/steamdeck/proton"
-            target="_blank"
-            rel="noreferrer"
-            >here</a
-        >. This document also details how to use a Linux system as a proxy for a Deck developer kit
-        to test Proton compatibility.<br />
-    </li>
-    <li>
-        We recommend targeting Vulkan as your primary graphics API for best performance and battery
-        life. If you use an engine like Unity or Unreal, enable Vulkan in your build for all users,
-        and report any performance or functional differences from the DirectX version to your engine
-        vendor. However, if Vulkan would be a secondary path with lower performance, doing this work
-        is not typically worth it, as Proton DirectX translation performance is likely to exceed
-        untranslated Vulkan in this case.
-    </li>
-</ol>
-<h2 class="bb_subsection"><a name="3"></a>Steam Integration</h2>
-<ol class="bb_ol">
-    <li>
-        Support Steam Cloud. This feature will allow players to start a game on their PC and
-        continue it seamlessly on Steam Deck - or vice versa.<br />
-    </li>
-    <li>
-        Support Offline Mode: test your game without any online connectivity, including first run on
-        a new Steam account.
-    </li>
-</ol>
-<h2 class="bb_subsection"><a name="4"></a>Steamworks SDK 1.52</h2>
-As of September 14, 2021, the Steamworks SDK has been updated, including additions to ISteamInput
-and ISteamUtils that will help with Steam Deck development. A few of them are listed here:<br />
 <ul class="bb_ul">
     <li>
-        Added
+        <strong>Default Controller Configuration</strong>: We strongly recommend (and require for
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamUtils#IsSteamRunningOnSteamDeck"
+            href="https://partner.steamgames.com/doc/steamdeck/compat"
             target="_blank"
             rel="noreferrer"
-            >IsSteamRunningOnSteamDeck</a
-        >
-        - Can be used to optimize the experience of the game on Steam Deck, such as scaling the UI
-        appropriately, applying performance related settings, etc.<br />
+            >Verified on Deck badging</a
+        >) that the default controller configuration for your game enables access to all in-game
+        functionality. If your game doesn't natively support controllers, we recommend creating a
+        controller configuration to map to the appropriate mouse and keyboard inputs. Better yet,
+        implementing gamepad or native Steam Input support may open your game to a whole new set of
+        customers.<br />
     </li>
     <li>
-        Added SetGameLauncherMode - In game launchers that don't have controller support you can
-        call this to have Steam Input translate the controller input into mouse/kb to navigate the
-        launcher.<br />
-    </li>
-    <li>
-        Added AppResumingFromSuspend_t callback - Sent after the device returns from sleep/suspend
-        mode.<br />
-    </li>
-    <li>
-        Added
+        <strong>Text Input</strong>: We strongly recommend (and require for
+        <a
+            href="https://partner.steamgames.com/doc/steamdeck/compat"
+            target="_blank"
+            rel="noreferrer"
+            >Verified on Deck badging</a
+        >) that games automatically display an on-screen keyboard when requiring the user to input
+        text. We recommend using one of the two Steamworks SDK on-screen keyboard APIs, depending on
+        your use case:
         <a
             href="https://partner.steamgames.com/doc/api/ISteamUtils#ShowFloatingGamepadTextInput"
             target="_blank"
             rel="noreferrer"
             >ShowFloatingGamepadTextInput</a
         >
-        - Activates the modal gamepad input keyboard which pops up over game content and sends OS
-        keyboard keys directly to the game. Note: Currently this is only implemented in the Steam
-        Deck UI.<br />
-    </li>
-    <li>
-        Added
+        (sends direct key inputs) and
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamUtils#FloatingGamepadTextInputDismissed_t"
+            href="https://partner.steamgames.com/doc/api/ISteamUtils#ShowGamepadTextInput"
             target="_blank"
             rel="noreferrer"
-            >FloatingGamepadTextInputDismissed_t</a
+            >ShowGamepadTextInput</a
         >
-        callback - Sent after the floating gamepad input keyboard displayed via
-        ShowFloatingGamepadTextInput has been dismissed.
+        (callback-based).<br />
+    </li>
+    <li>
+        <strong>Gyro/Trackpad Friendliness</strong>: We recommend that games with support for both
+        mouse-style (1:1 movement) and joystick-style camera movement cleanly support both at the
+        same time. We recommend allowing mouse events to affect the camera as they normally would
+        without perturbing simultaneous controller functionality, and only switching to
+        mouse/keyboard mode if a mouse click event is received. Common problems include joystick
+        input getting locked out when mouse camera is used and vice versa, controller buttons not
+        working when mouse camera is being used, on-screen button prompts changing between
+        controller and keyboard/mouse icons, all of which make it more difficult for customers to
+        play with their preferred control scheme. (Note: this functionality is automatic when using
+        the
+        <a
+            href="https://partner.steamgames.com/doc/api/isteaminput"
+            target="_blank"
+            rel="noreferrer"
+            >Steam Input API</a
+        >.)
     </li>
 </ul>
-<br />Full SDK release notes
-<a
-    href="https://steamcommunity.com/groups/steamworks/announcements/detail/2984186817523157399"
-    target="_blank"
-    rel="noreferrer"
-    ><strong>can be found here.</strong></a
->
+<h2 class="bb_subsection"><a name="2"></a>Graphics</h2>
+<ul class="bb_ul">
+    <li>
+        <strong>Vulkan API</strong>: We recommend targeting Vulkan as your primary graphics API for
+        best performance and battery life. If you use an engine like Unity or Unreal, enabling
+        Vulkan in your build for all users will result in the highest performance/longevity. (Note:
+        Proton includes a DirectX-to-Vulkan translation layer. If your game or engine has
+        high-quality DirectX support but no Vulkan support, it's likely that this automated
+        translation layer will exceed the performance of doing a custom Vulkan implementation.)<br />
+    </li>
+    <li>
+        <strong>Video/Audio Codecs</strong>: We recommend using standalone codecs (eg., VP9) rather
+        than codecs that are tied to a specific vendor (eg., WMF).
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="3"></a>Game Features</h2>
+<ul class="bb_ul">
+    <li>
+        <strong>Clouded Saves</strong>: For games that allow saving, we recommend enabling automatic
+        clouding of saved games: users should be able to save their game on a Deck and resume on a
+        different PC, and vice versa, without manually transferring files. This means that games
+        should provide a form of cloud save via either Steam Cloud or an automatic third-party
+        service such as a game- or publisher-specific account with server-side save files. We highly
+        recommend using
+        <a href="https://partner.steamgames.com/doc/features/cloud" target="_blank" rel="noreferrer"
+            >Steam Cloud</a
+        >
+        for automatic transfers. We recommend against syncing game configuration settings, ie.,
+        display resolution, between different devices.<br />
+    </li>
+    <li>
+        <strong>Offline Mode</strong>: We strongly recommend all singleplayer content is accessible
+        without an Internet connection. You can test your game without any online connectivity,
+        including the first run on a new Steam account. This feature is especially valuable for Deck
+        customers, who may have more sporadic network access than a standard gaming PC.<br />
+    </li>
+    <li>
+        <strong>Launchers</strong>: We recommend putting all required functionality into your game
+        client rather than requiring users to navigate a launcher before running your game.
+        Launchers often rely on platform-specific frameworks (ie., .NET, WPF, etc.) that can turn
+        into difficult experiences for customers on a small screen using a controller for
+        navigation. When native UI launchers are required, you can use the
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUtils#SetGameLauncherMode"
+            target="_blank"
+            rel="noreferrer"
+            >SetGameLauncherMode</a
+        >
+        API to automatically translate controller input to keyboard/mouse events to assist the user.
+    </li>
+</ul>
