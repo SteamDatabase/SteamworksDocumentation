@@ -42,12 +42,14 @@ structure of this file and provides several concrete examples from various games
 <h2 class="bb_subsection"><a name="3"></a>Authoring an In-Game Actions File by hand</h2>
 Start by downloading the starting one of the in-game actions (IGA) files linked in the examples
 above. Next, create a "controller_config" directory inside the Steam folder, usually C:/Program
-Files (x86)/Steam/controller_config, and place the file in the directory. Rename the file to the
-following: "game_actions_X.vdf", where X is your game's Steam AppID. If you don't know what your
-game's Steam AppID is, it can be found by logging into your Steam partner site.<br /><br />Now open
-up the file in your favorite text editor. The file is in a standard Valve format called KeyValues,
-which is a simple &amp; easily read format. You might also find it useful to download one of our
-In-Game Actions File Templates or the Portal 2 IGA for a reference.
+Files (x86)/Steam/controller_config, and place the file in the directory. The Steam folder will
+already have a very similarly named folder so make sure you've put it in the "controller_config"
+folder and not the "controller_base" folder. Rename the file to the following: "game_actions_X.vdf",
+where X is your game's Steam AppID. If you don't know what your game's Steam AppID is, it can be
+found by logging into your Steam partner site.<br /><br />Now open up the file in your favorite text
+editor. The file is in a standard Valve format called KeyValues, which is a simple &amp; easily read
+format. You might also find it useful to download one of our In-Game Actions File Templates or the
+Portal 2 IGA for a reference.
 <h2 class="bb_subsection">
     <a name="4"></a>Generating an IGA file from an existing game that uses Steam Input API
 </h2>
@@ -178,10 +180,21 @@ a value of 1.<br /><br />Here's an example:<br />
     "StickPadGyro" { "Mouse" { "title" "#Action_Mouse" "input_mode" "absolute_mouse" "os_mouse" "1"
     } }
 </div>
-<br /><br /><br /><strong>AnalogTrigger Actions</strong><br /><br />(coming soon)<br /><br /><strong
-    >Button Actions</strong
-><br /><br />Button actions are the simplest to define. You simply add two strings on the same line
--- the name of the action, and the localization key. Like this:<br /><br />
+<br /><br /><strong>AnalogTrigger Actions</strong><br />AnalogTrigger actions are 1-D analog actions
+which can be bound on triggers. If you are using a simple threshold of the trigger for something
+like firing a gun or initiating "Aim Down Sights" mode you may want to use a Button Action instead
+of an AnalogTrigger action so that users have more flexibility in rebinding.<br /><br />The
+AnalogTrigger actions have a configurable deadzone in the rebinding UI and are rescaled from 0 -
+1.0f between those values. Controllers with digital trigger buttons like the Nintendo Switch Pro
+controller will send either 0 or 1.0 so you may want to check that you don't have any gameplay code
+that depends on gradual trigger changes over time.<br /><br />AnalogTrigger actions have a simple
+format, with the name of the action as the key and the localization token as the value. Like
+this:<br />
+<div class="bb_code">
+    "AnalogTrigger" { "AccelerationAxis" "#Action_Accelerate" "BreakingAxis" "#Action_Brake" }
+</div>
+<br /><strong>Button Actions</strong><br /><br />Button actions also have a similar format, using
+action name and localization token:<br />
 <div class="bb_code">
     "Button" { "digital_action_1_name_here" "#DigitalAction1TitleHere" "digital_action_2_name_here"
     "#DigitalAction2TitleHere" }

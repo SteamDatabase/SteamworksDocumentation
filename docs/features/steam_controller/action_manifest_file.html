@@ -1,0 +1,122 @@
+<h1>Action Manifest Files</h1>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+In addition to using the Steam Workshop for hosting configurations, game can also choose to bundle
+their configurations directly with the game depots. There's a number of benefits to bundling
+configuration in your game depots:<br />
+<ul class="bb_ul">
+    <li>
+        Official configurations can be checked into Perforce or other revision control tools<br />
+    </li>
+    <li>
+        Managing configurations between different branches of your game or between a public and
+        private AppID is easier<br />
+    </li>
+    <li>Updates are atomic rather than being done via two publishing steps in Steamworks</li>
+</ul>
+<h2 class="bb_section"><a name="2"></a>Format</h2>
+The action manifest file is an extension of the
+<a href="https://partner.steamgames.com/doc/features/steam_controller/iga_file" class="bb_doclink"
+    >In-Game Actions File</a
+>
+which includes an extra section containing a list of official configurations broken out by type:<br />
+<div class="bb_code">
+    "Action Manifest" { "configurations" { } "actions" { } "localization { } }
+</div>
+For information about the action and localization sections please see the
+<a href="https://partner.steamgames.com/doc/features/steam_controller/iga_file" class="bb_doclink"
+    >In-Game Actions File</a
+>
+documentation.
+<h2 class="bb_subsection"><a name="3"></a>Configuration List</h2>
+In the controller configuration section the configurations are listed by controller type, then by
+priority for loading. The "path" value is listed relative to the Action Manifest file's location
+on-disk.<br />
+<div class="bb_code">
+    "Action Manifest" { "configurations" { "controller_xboxone" { "0" { "path" "xbox_controller.vdf"
+    } } "controller_steamcontroller_gordon" { "0" { "path" "steam_controller.vdf" } "1" { "path"
+    "steam_controller_motion_controls.vdf" } } } "actions" { } "localization { } }
+</div>
+<br />Supported controller type strings:<br /><br />
+<table>
+    <tr>
+        <td>Steam Deck Controller</td>
+        <td>controller_neptune</td>
+    </tr>
+    <tr>
+        <td>Steam Controller</td>
+        <td>controller_steamcontroller_gordon</td>
+    </tr>
+    <tr>
+        <td>Xbox 360</td>
+        <td>controller_xbox360</td>
+    </tr>
+    <tr>
+        <td>Xbox One</td>
+        <td>controller_xboxone</td>
+    </tr>
+    <tr>
+        <td>Xbox One Elite Controller</td>
+        <td>controller_xboxelite</td>
+    </tr>
+    <tr>
+        <td>PlayStation 4 Controller</td>
+        <td>controller_ps4</td>
+    </tr>
+    <tr>
+        <td>PlayStation 5 Controller</td>
+        <td>controller_ps5</td>
+    </tr>
+    <tr>
+        <td>Nintendo Switch Pro Controller</td>
+        <td>controller_switch_pro</td>
+    </tr>
+    <tr>
+        <td>Generic Gamepads</td>
+        <td>controller_generic</td>
+    </tr>
+</table>
+<h2 class="bb_section"><a name="4"></a>Setting up an Action Manifest File</h2>
+There are two main ways to setup your action manifest file, either starting from scratch or using an
+existing IGA file.
+<h2 class="bb_subsection"><a name="5"></a>Starting with an In-Game Actions file</h2>
+<h2 class="bb_subsection"><a name="6"></a>Step 1 - Save a configuration</h2>
+If you have an existing IGA file you can save your current configuration out by going to the
+controller configuration screen-&gt;Export-&gt;"Save Personal Binding". If you've setup multiple
+localization tokens for titles/descriptions you'll be given a dropdown of options to pick from.
+<h2 class="bb_subsection"><a name="7"></a>Step 2 - Find your configuration</h2>
+Next you will run the following Steam URL to dump the configuration into your OS-specific documents
+folder, ex: My Documents on Windows. URL:<br />
+<div class="bb_code">steam://dumpcontrollerconfig?appid=X</div>
+<br />Copy both the configuration and your existing IGA file into the desired location inside the
+game folder.
+<h2 class="bb_subsection"><a name="8"></a>Step 3 - Convert the IGA file to Action Manifest file</h2>
+To convert your IGA file to an Action Manifest edit the file and add a "configuration" section
+including a listing for the controller configuration you just exported. This is an example from the
+Steamworks SDK:<br />
+<div class="bb_code">
+    "configurations" { "controller_xboxone" { "0" { "path" "xbox_controller.vdf" } }
+    "controller_steamcontroller_gordon" { "0" { "path" "steam_controller.vdf" } } }
+</div>
+<h2 class="bb_subsection"><a name="9"></a>Step 4 - Set the Steamworks settings</h2>
+To set upto your Steamworks settings in the partner site and navigate to the Steam Input settings.
+Next set the dropdown to "Custom Configuration (Bundled with game)" and enter the path where the
+action manifest is located:<br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/gamebundledconfigdropdown.PNG"
+    alt="gamebundledconfigdropdown.PNG"
+    title="gamebundledconfigdropdown.PNG"
+/>
+<h2 class="bb_section"><a name="10"></a>Debugging a game that uses an Action Manifest File</h2>
+When running the game through Steam the Action Manifest file will automatically be pulled from your
+game depots. If you're running via the IDE and have the game installed Steam will also use the
+Action Manifest file from your Steam depots. However if you're running without the game installed in
+Steam or have local changes you need to make then you can override the Action Manifest path with the
+SetInputActionManfiestPath API call. There's an example of it's use in the Steamworks SDK:<br />
+<div class="bb_code">
+    char rgchCWD[1024]; if ( !_getcwd( rgchCWD, sizeof( rgchCWD ) ) ) { strcpy( rgchCWD, "." ); }
+    char rgchFullPath[1024]; #if defined(_WIN32) _snprintf( rgchFullPath, sizeof( rgchFullPath ),
+    "%s\\%s", rgchCWD, "steam_input_manifest.vdf" ); #elif defined(OSX) _snprintf( rgchFullPath,
+    sizeof( rgchFullPath ), "%s/steamworksexample.app/Contents/Resources/%s", rgchCWD,
+    "steam_input_manifest.vdf" ); #else _snprintf( rgchFullPath, sizeof( rgchFullPath ), "%s/%s",
+    rgchCWD, "steam_input_manifest.vdf" ); #endif SteamInput()-&gt;SetInputActionManifestFilePath(
+    rgchFullPath );
+</div>
