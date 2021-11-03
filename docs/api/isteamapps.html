@@ -184,7 +184,7 @@ bool<br /><strong>true</strong> if the active user is subscribed to the specifie
 <h2 class="bb_subsection">
     <a name="BIsSubscribedFromFamilySharing"></a>BIsSubscribedFromFamilySharing
 </h2>
-<div class="bb_code cpp">bool BIsSubscribedFromFamilySharing ();</div>
+<div class="bb_code cpp">bool BIsSubscribedFromFamilySharing();</div>
 <br />Checks if the active user is accessing the current appID via a temporary Family Shared license
 owned by another user. <br /><br />If you need to determine the steamID of the permanent owner of
 the license, use
@@ -196,7 +196,7 @@ accessing the current appID via family sharing, otherwise <strong>false</strong>
     <a name="BIsSubscribedFromFreeWeekend"></a>BIsSubscribedFromFreeWeekend
 </h2>
 <div class="bb_code cpp">bool BIsSubscribedFromFreeWeekend();</div>
-Checks if the user is subscribed to the current App ID through a free weekend.<br /><br />Before
+<br />Checks if the user is subscribed to the current appID through a free weekend.<br /><br />Before
 using this please contact a Valve technical account manager via the
 <a href="http://steamcommunity.com/groups/steamworks/discussions" target="_blank" rel="noreferrer"
     >Steamworks Discussion Board</a
@@ -204,6 +204,45 @@ using this please contact a Valve technical account manager via the
 to properly package and secure your free weekend.<br /><br /><strong>Returns:</strong>
 bool<br /><strong>true</strong> if the active user is subscribed to the current App Id via a free
 weekend otherwise <strong>false</strong> any other type of license.
+<h2 class="bb_subsection"><a name="BIsTimedTrial"></a>BIsTimedTrial</h2>
+<div class="bb_code cpp">
+    bool BIsTimedTrial(uint32* punSecondsAllowed, uint32* punSecondsPlayed);
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>punSecondsAllowed</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td>Returns the number of seconds the timed trial will list.</td>
+    </tr>
+    <tr>
+        <td><strong>punSecondsPlayed</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+            *
+        </td>
+        <td>Returns the number of seconds that the user has played so far.</td>
+    </tr>
+</table>
+<br />Checks if the user is subscribed to the current appID through a timed trial. If so, returns
+true and gives back the total time the timed trial is allowed to play, along with the current amount
+of time the user has played.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if
+the active user is subscribed to the current appID via a timed trial otherwise
+<strong>false</strong> any other type of license.<br /><br /><strong>See Also:</strong>
+<a href="https://partner.steamgames.com/doc/api/ISteamApps#TimedTrialStatus_t" class="bb_apilink"
+    >ISteamApps::TimedTrialStatus_t</a
+>
 <h2 class="bb_subsection"><a name="BIsVACBanned"></a>BIsVACBanned</h2>
 <div class="bb_code cpp">bool BIsVACBanned();</div>
 Checks if the user has a VAC ban on their account<br /><br /><strong>Returns:</strong>
@@ -823,6 +862,58 @@ Only used internally in Steam.<br /><br />
         <td></td>
     </tr>
 </table>
+<h2 class="bb_subsection"><a name="TimedTrialStatus_t"></a>TimedTrialStatus_t</h2>
+Sent every minute when a appID is owned via a timed trial.<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_unAppID</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#AppId_t" class="bb_apilink"
+                >AppId_t</a
+            >
+        </td>
+        <td>AppID that is in a timed trial.</td>
+    </tr>
+    <tr>
+        <td><strong>m_bIsOffline</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#bool" class="bb_apilink"
+                >bool</a
+            >
+        </td>
+        <td>
+            If true, the user is currently offline. Time allowed / played refers to offline time,
+            not total time.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>m_unSecondsAllowed</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>How many seconds the app can be played in total.</td>
+    </tr>
+    <tr>
+        <td><strong>m_unSecondsPlayed</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>How many seconds the app was already played.</td>
+    </tr>
+</table>
+<br /><strong>See Also:</strong>
+<a href="https://partner.steamgames.com/doc/api/ISteamApps#BIsTimedTrial" class="bb_apilink"
+    >ISteamApps::BIsTimedTrial</a
+>
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamApps.
 <h2 class="bb_subsection">
