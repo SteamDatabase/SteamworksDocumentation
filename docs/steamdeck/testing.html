@@ -1,0 +1,203 @@
+<h1>Developing for Steam Deck without a Dev-Kit</h1>
+<br />At this point we’ve sent hundreds of dev-kits out to developers around the world, and are
+still shipping out more - but we unfortunately will be unable to serve the entire Steam developer
+community. There are ways around this though, and it is possible to develop for Steam Deck without a
+dev-kit, with the hardware you have available to you. <br /><br />As an aside, the dev-kits that we
+are sending out are just prototypes of retail units. There isn’t anything special or different about
+them, no extra hardware or software that make them easier to develop for. So you really can just use
+available hardware to get a pretty accurate idea of how your game will run on Steam Deck. So let’s
+go through testing methods point-by-point using the main items our Deck Verified testers will be
+looking for.
+<h2 class="bb_section"><a name="1"></a>Input</h2>
+Your title should have full controller support, use appropriate controller icons, and automatically
+bring up the on-screen keyboard if the player needs to enter text.<br /><br />Testing this is
+simple. Just plug a controller into your computer, and play your game from startup. Using a PS4 or
+PS5 controller will give you the best coverage for the kinds of input Steam Deck includes (as it has
+trackpad and gyro). That said, an Xbox controller, Steam controller, or Switch Pro controller will
+work as well. While playing your game, take note when there are moments where you have to reach for
+your keyboard or mouse (launchers, for instance). These are places where our testers will note that
+controllers are not fully supported.<br /><br />If you don't already have a default controller
+configuration, we recommend you make one. One good starting point is to look at the top community
+controller configurations for your game and try them out. You can use these as templates for setting
+up your own default configuration with intuitive controls. For more information about Steam Input,
+<a
+    href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs"
+    target="_blank"
+    rel="noreferrer"
+    >check out the documentation</a
+>.<br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/deck_post_3b.jpg"
+    alt="deck_post_3b.jpg"
+    title="deck_post_3b.jpg"
+/>
+<h2 class="bb_section"><a name="2"></a>Display</h2>
+Your game needs to support Steam Deck's default resolution (1280x800 or 1280x720 works) and have
+legible text on its 7-inch display. <br /><br />There are a couple very low-tech things you can do
+to test these bits. First, try setting your game to 1280 x 800 to make sure it works. Next, try
+resizing your game window down to 7” across on your monitor to see how legible the text is. Bonus
+points if you can figure out how to do both of these things at the same time on your monitor.<br /><br />Alternatively,
+you could (if you want) purchase a small monitor that has similar specifications to Steam Deck’s
+display. We were able to find this 7", 1280x800 baby monitor on the internet for $73 on Amazon.<br />
+<br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/deck_post_1.jpg"
+    alt="deck_post_1.jpg"
+    title="deck_post_1.jpg"
+/><br /><i>(we couldn't find a banana, so here's a can of pop for scale)</i><br /><br />Any monitor
+around this size that supports 720p will give you a good idea how your game will look at this size
+and resolution. And again, buying a monitor like this is not a requirement - just an option should
+you want to test your game this way.
+<h2 class="bb_section"><a name="3"></a>System Support</h2>
+This is the most involved part from the 'homemade' standpoint, because the best way to know how your
+game will run on Steam Deck's Linux based OS, is to test it in a Linux environment. <br /><br />At a
+high level, you'll need to install Linux on a machine, install Steam, and run your game using Proton
+(or not, if you have a native Linux build). You don't need to run out and get a new PC - it's
+possible to do this on a partition of your existing dev box. That said, it is easier if you do have
+a separate Linux system. If you use your existing dev box, you’ll have to boot back and forth
+between testing and developing.<br /><br />We’re going to be installing Manjaro, which is an Arch
+Linux distribution, similar to what’s on Steam Deck. This version comes with KDE Plasma, which is
+the same desktop environment that will ship on Steam Deck – all in all it’s very close to the Deck
+OS environment, and a great way to test for system support.<br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/deck_post_3.jpg"
+    alt="deck_post_3.jpg"
+    title="deck_post_3.jpg"
+/><br /><br /><br /><strong>Step 1: Create a boot disk</strong><br />
+<ol class="bb_ol">
+    <li>
+        First, we need to make a boot disk to install Manjaro. Go to
+        <a href="https://manjaro.org/downloads/official/kde/" target="_blank" rel="noreferrer"
+            >this website</a
+        >
+        and download the official KDE version of Manjaro (it’s free). The first download link works
+        great.<br />
+    </li>
+    <li>
+        Next, you’ll need a piece of software to create a boot disk. I used
+        <a href="https://rufus.ie/en/" target="_blank" rel="noreferrer">Rufus</a> (also free).<br />
+    </li>
+    <li>
+        Last, you’ll need a USB drive (4GB or larger). Plug it in, start up Rufus, and use the
+        Manjaro ISO file to create a boot disk.
+    </li>
+</ol>
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/deck_post_4.jpg"
+    alt="deck_post_4.jpg"
+    title="deck_post_4.jpg"
+/><br /><br /><br /><strong>Step 2: Install Manjaro</strong><br />
+<ol class="bb_ol">
+    <li>
+        Plug the boot disk in (to your dev machine or other PC) and restart the PC into boot
+        options. This will vary by system - on the PC I was using it was F7, but you'll have to look
+        it up for your system.<br />
+    </li>
+    <li>Boot from the Manjaro USB drive<br /></li>
+    <li>
+        Follow the instructions to install – it’s a pretty straight forward install wizard, and it
+        will give you options to partition your drive if you need to.<br />
+    </li>
+    <li>
+        Once that’s done, you'll drop into KDE desktop. It will look pretty familiar, with a
+        taskbar, a start menu, windowed applications, etc.
+    </li>
+</ol>
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/deck_post_5.jpg"
+    alt="deck_post_5.jpg"
+    title="deck_post_5.jpg"
+/><br /><br /><br /><strong>Step 3: Install Steam</strong><br />
+<ol class="bb_ol">
+    <li>
+        Almost there, just have to install Steam. One bonus of Manjaro is that Steam is
+        pre-installed. <br />
+    </li>
+    <li>Just open the Start menu and find Steam under Games.<br /></li>
+    <li>Run Steam, let it update, and log in</li>
+</ol>
+<br /><strong>Step 4: Turn on Proton for all games</strong><br />
+<ol class="bb_ol">
+    <li>We’ll need to turn on Proton, which is in a single switch in Settings<br /></li>
+    <li>
+        Go to Settings &gt; Steam Play and turn on Steam Play for all titles, and make sure it
+        defaults to Proton Experimental
+    </li>
+</ol>
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/deck_post_6.jpg"
+    alt="deck_post_6.jpg"
+    title="deck_post_6.jpg"
+/><br /><br /><br /><strong>Step 5: Test your game</strong><br />
+<ol class="bb_ol">
+    <li>Download your game from Steam, install it and play it.<br /></li>
+    <li>
+        If testing with a controller (which you should) you should go into Big Picture mode to get
+        access to the in-game overlay and configurator.<br />
+    </li>
+    <li>Play your game to test Proton support.</li>
+</ol>
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/deck_post_8b.jpg"
+    alt="deck_post_8.jpg"
+    title="deck_post_8.jpg"
+/>
+<h2 class="bb_section"><a name="4"></a>Development</h2>
+Updating and downloading builds from Steam is not a great way to iterate, so we’ve created some
+software to help with this. That said, to use this software you will need to have a Linux test
+machine that’s separate from your dev PC. <br /><br />What we’ve made available is the SteamOS Dev
+Kit Client and SteamOS Dev Kit Service. These tools are now free to download on Steam. With these
+tools you’ll be able to upload builds, grab logs and traces, debug your build, and overall iterate
+much quicker than trying to work entirely through the Steam Pipe. <br /><br />All you'll need to do
+is download the SteamOS Dev Kit Client to your development PC, download the SteamOS Dev-Kit Service
+to your Linux box, start them both up, and connect your PC to your Linux box. You can find links to
+download and learn how to use these tools
+<a
+    href="https://partner.steamgames.com/doc/steamdeck/devkits/loadgames"
+    target="_blank"
+    rel="noreferrer"
+    >here</a
+>.<br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steam_devkit.png"
+    alt="steam_devkit.png"
+    title="steam_devkit.png"
+/>
+<h2 class="bb_section"><a name="5"></a>Performance</h2>
+Last up is performance. If you are really interested in finding a PC for testing that will perform
+similarly to a Steam Deck (again, not required for testing), there are a few options out there. The
+team looked around and found this mini-pc on Amazon, which has similar specifications to a Steam
+Deck. It has:<br />
+<ul class="bb_ul">
+    <li>AMD Ryzen 7 3750H<br /></li>
+    <li>Radeon RX Vega 10 Graphics<br /></li>
+    <li>16GB of ram</li>
+</ul>
+<br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/deck_post_2.jpg"
+    alt="deck_post_2.jpg"
+    title="deck_post_2.jpg"
+/><br /><br />The team agreed that while the GPU is a little weaker, and the CPU is a little
+stronger, it's pretty comparable to the specs of a Steam Deck when running games at 1280 x 800. This
+one was $660 on Amazon, and there are definitely other options out there. Just look for ones with
+similar CPU / GPU specs, ideally using an AMD chip and Radeon graphics to be closest to Steam Deck.
+<h2 class="bb_section"><a name="6"></a>All Together</h2>
+Finally, if you’d really like to test everything at once, you can put everything we’ve talked about
+above into one package. Install Manjaro on a similarly spec’d PC, hook up a mini-monitor, plug in a
+controller, and you have yourself a little hackendeck. With a set up like this you’ll be able to
+test input, display, system compatibility and performance all in one shot.<br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/deck_post_9.jpg"
+    alt="deck_post_9.jpg"
+    title="deck_post_9.jpg"
+/><br /><i>(picture taken at a time when there were still bananas around for scale)</i
+><br /><br />Again, you don’t have to do all of this to test your title for Steam Deck – you can
+test just as well with hardware you have available without having to go buy new stuff. Just
+understand that there may be some differences with performance and display.
+<h2 class="bb_subsection"><a name="7"></a>One caveat about the Linux box</h2>
+Steam Deck is running a different OS than Manjaro - and with the setup we've just shared, things
+specific to Steam Deck’s OS like gamescope and gamepad-ui cannot be tested for. We will be following
+up soon with an image you can use with your test machines that will incorporate these things. Once
+this is released, you’ll have an even more accurate test environment as compared to a Steam Deck.<br /><br />That's
+it. You can let us know if you have any questions, and collaborate with other developers at the
+<a
+    href="https://steamcommunity.com/groups/steamworks/discussions/27/"
+    target="_blank"
+    rel="noreferrer"
+    >Steam Deck developer forums</a
+>.
