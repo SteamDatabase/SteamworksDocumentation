@@ -67,11 +67,14 @@ Python on your build host.<br /><br />This will create a
 <code class="bb_code bb_code_inline nohighlight">build/windows/bin/Debug</code> directory that
 contains the <code class="bb_code bb_code_inline nohighlight">imgui</code> executable, the required
 Windows debug DLLs and the data assets.<br /><br />At this point you can upload the resulting Debug
-directory.<br /><br />Be sure to select "Steam Play", because this is not a Linux native build, and
-also select "Steam Play debug" to enable a remote debugger.<br /><br /><img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Screenshot_2021-07-14_080334.png"
-    alt="Screenshot_2021-07-14_080334.png"
-    title="Screenshot_2021-07-14_080334.png"
+directory.<br /><br />Be sure to select "This title requires Steam Play", because this is not a
+Linux native build, and also select "Start Visual Studio C++ debugger service on launch" to enable a
+remote debugger.<br /><br />If attaching once your game is running is not adequate, and you wish to
+debug the startup and initialization of your title, use "Wait for a debug client to attach" and see
+the "early attach" section in this document.<br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/devkit-tool-remote-debug-20211207.png"
+    alt="devkit-tool-remote-debug-20211207.png"
+    title="devkit-tool-remote-debug-20211207.png"
 /><br /><br />Once the transfer completes, if for example you chose the name
 <code class="bb_code bb_code_inline nohighlight">vulkan_examples_debug</code>, you should find a new
 game called
@@ -142,3 +145,25 @@ detailed step-by-step guide you can follow the
     rel="noreferrer"
     >Microsoft debugging documentation</a
 >.
+<h2 class="bb_subsection">
+    <a name="8"></a>Remote debugging process startup: "early attach" support:
+</h2>
+<br />The remote debug service can be configured to wait for the user to attach before launching the
+title. This allows you to set a breakpoint in WinMain or other initialization code.<br /><br />This
+requires that you first install a Microsoft extension in Visual Studio on your development host:
+<a
+    href="https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool"
+    target="_blank"
+    rel="noreferrer"
+    >https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool</a
+><br /><br /><img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/child-process-debug-extension.png"
+    alt="child-process-debug-extension.pn"
+    title="child-process-debug-extension.pn"
+/><br /><br />Once the extension is installed, enable child process debugging per the documentation
+(Debug &gt; Other Debug Targets &gt; Child Process Debugging Settings)<br /><br />Check "Wait for a
+debug client to attach" in your devkit tool, and upload your title.<br /><br />Launch your title
+normally.<br /><br />When attaching to the remote process, attach to
+<code class="bb_code bb_code_inline nohighlight">steam.exe</code> - once you attach, Proton will
+immediately launch your title as a child process, the extension will kick in and start debugging
+your title from it's startup with your breakpoints activated.<br />
