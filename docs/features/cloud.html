@@ -395,6 +395,46 @@ and
 >
 - these wrappers should be used to provide hints to Steam which will help it safely sync up to the
 Steam Cloud at the time when the user initiates a system suspend.
+<h2 class="bb_subsection"><a name="dynamic_sync_testing"></a>Pre-release Testing</h2>
+<br />You can locally enable Dynamic Cloud Sync for your app to test your builds - this is
+recommended for a game that has already shipped, as enabling Dynamic Cloud Sync for all users could
+lead to data loss when running builds that do not handle the new API methods and callbacks.<br /><br />To
+test locally:<br /><br />
+<ol class="bb_ol">
+    <li>Sign in to Steam with an account that owns the app that you are testing.<br /></li>
+    <li>
+        Open the Steam Console by navigating to
+        <code class="bb_code bb_code_inline nohighlight">steam://open/console</code> in your
+        browser. (You can also run Steam with the command-line
+        <code class="bb_code bb_code_inline nohighlight">steam -console</code> and then navigate to
+        the Console section directly).<br />
+    </li>
+    <li>
+        Enter
+        <code class="bb_code bb_code_inline nohighlight"
+            >@cloud_testdymamicsyncapp &lt;AppId&gt;</code
+        >
+        into the console with the given App ID that you are testing. Ex:
+        <code class="bb_code bb_code_inline nohighlight">@cloud_testdymamicsyncapp 480</code><br />
+    </li>
+    <li>Launch your app from Steam.<br /></li>
+    <li>Progress through the game to a desired amount<br /></li>
+    <li>
+        In the Steam Console, enter
+        <code class="bb_code bb_code_inline nohighlight">prepare_for_suspend</code>. Steam will
+        suspend your game process and upload any changed files to the Steam Cloud.<br />
+    </li>
+    <li>
+        Optional: play the game on another device, creating further progress, and then exit and let
+        that Steam client upload progress to the Steam Cloud.<br />
+    </li>
+    <li>
+        Back on the original device, in the Steam Console, enter
+        <code class="bb_code bb_code_inline nohighlight">resume_suspended_games</code>. This will
+        sync down any necessary files from the Steam Cloud, post the relevant API calls to your
+        game, then un-suspend your game process.
+    </li>
+</ol>
 <h2 class="bb_section"><a name="debugging"></a>Debugging</h2>
 First, always ensure that you have published your changes on the Steam partner website and have
 waited up to 10 minutes or restarted your Steam client to receive the published changes.<br /><br />If
