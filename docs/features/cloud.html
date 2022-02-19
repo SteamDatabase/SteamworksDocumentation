@@ -399,7 +399,7 @@ Steam Cloud at the time when the user initiates a system suspend.
 <br />You can locally enable Dynamic Cloud Sync for your app to test your builds - this is
 recommended for a game that has already shipped, as enabling Dynamic Cloud Sync for all users could
 lead to data loss when running builds that do not handle the new API methods and callbacks.<br /><br />To
-test locally:<br /><br />
+test locally from a PC:<br /><br />
 <ol class="bb_ol">
     <li>Sign in to Steam with an account that owns the app that you are testing.<br /></li>
     <li>
@@ -412,10 +412,10 @@ test locally:<br /><br />
     <li>
         Enter
         <code class="bb_code bb_code_inline nohighlight"
-            >@cloud_testdymamicsyncapp &lt;AppId&gt;</code
+            >@cloud_testdynamicsyncapp &lt;AppId&gt;</code
         >
         into the console with the given App ID that you are testing. Ex:
-        <code class="bb_code bb_code_inline nohighlight">@cloud_testdymamicsyncapp 480</code><br />
+        <code class="bb_code bb_code_inline nohighlight">@cloud_testdynamicsyncapp 480</code><br />
     </li>
     <li>Launch your app from Steam.<br /></li>
     <li>Progress through the game to a desired amount<br /></li>
@@ -433,6 +433,34 @@ test locally:<br /><br />
         <code class="bb_code bb_code_inline nohighlight">resume_suspended_games</code>. This will
         sync down any necessary files from the Steam Cloud, post the relevant API calls to your
         game, then un-suspend your game process.
+    </li>
+</ol>
+<br />To test locally from a Steam Deck:<br /><br />
+<ol class="bb_ol">
+    <li>
+        Connect your Steam Deck with a
+        <a href="https://partner.steamgames.com/doc/steamdeck/devkits/loadgames" class="bb_doclink"
+            >Devkit</a
+        ><br />
+    </li>
+    <li>
+        To use the CEF Console, see
+        <a
+            href="https://partner.steamgames.com/doc/steamdeck/devkits/loadgames#client_console"
+            class="bb_doclink"
+            >here</a
+        ><br />
+    </li>
+    <li>
+        In the JS console, enter
+        <code class="bb_code bb_code_inline nohighlight"
+            >SteamClient.Console.ExecCommand(“@cloud_testdynamicsyncapp &lt;AppId&gt;”)</code
+        >
+        to enable testing. You can then enter
+        <code class="bb_code bb_code_inline nohighlight"
+            >SteamClient.Console.ExecCommand(“@cloud_testdynamicsyncapp 0”)</code
+        >
+        to disable it
     </li>
 </ol>
 <h2 class="bb_section"><a name="debugging"></a>Debugging</h2>
