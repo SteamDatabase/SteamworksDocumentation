@@ -70,6 +70,27 @@ user. If needed, you can get the user's unique Steam ID via
     >ISteamUser::GetSteamID</a
 >. From that, you can access their accountID from GetAccountID(), allowing you to have a unique
 variable when constructing your save path.
+<h2 class="bb_subsection"><a name="4"></a>Cross-Platform Saves</h2>
+<br />If your game is supported on multiple platforms - or even if you plan to support this in the
+future - you should consider this when setting up Steam Cloud for your game.<br /><br />If you plan
+to read/write files directly via the
+<code class="bb_code bb_code_inline nohighlight">ISteamRemoteStorage</code> interface, then you can
+control platform sync via
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#SetSyncPlatforms"
+    class="bb_apilink"
+    >ISteamRemoteStorage::SetSyncPlatforms</a
+>. The default for a new file is to sync to <strong>all</strong> platforms.<br /><br />If you plan
+to use <a href="#steam_auto-cloud" class="bb_doclink">Steam Auto-Cloud</a>, there are some key
+things to know. First, the default for new files is to sync to <strong>only</strong> the
+<code class="bb_code bb_code_inline nohighlight">OS</code> setting on the associated Auto Cloud Root
+path. This means that if you set up distinct roots for each OS, all files will be partitioned by
+platform, and hence there will be no cross-platform save functionality.<br /><br />To enable
+cross-platform saves, you should instead define a single Root path (likely for Windows), and then
+create <code class="bb_code bb_code_inline nohighlight">Root Overrides</code> for the other
+supported platforms. Files matching a given Root path which also has platform Root Overrides will
+sync to all platforms in both the origianal Root and all Overrides. See the
+<a href="#steam_auto-cloud" class="bb_doclink">Steam Auto-Cloud</a> documentation for more details.
 <h2 class="bb_section"><a name="initial-setup"></a>Initial Setup</h2>
 To set up Steam Cloud you must set the
 <code class="bb_code bb_code_inline nohighlight">Byte quota per user</code> and
@@ -94,7 +115,7 @@ app IDs by filling out the
 <code class="bb_code bb_code_inline nohighlight">Shared cloud APP ID</code> field. This is most
 commonly used to share saved games between a demo and a full game. A value of
 <strong>0</strong> disables this feature.
-<h2 class="bb_section"><a name="4"></a>Steam Cloud API and Steam Auto-Cloud</h2>
+<h2 class="bb_section"><a name="5"></a>Steam Cloud API and Steam Auto-Cloud</h2>
 Steam provides two different methods of utilizing the Steam Cloud, read up on how the two methods
 differ, and determine which would be the best for your application.<br /><br />First up is the Steam
 Cloud API.<br />The Cloud API provides a series of functions which allows you to directly integrate
