@@ -15,16 +15,40 @@ both cases, you will need to use the
 <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
     >ISteamNetworkingSockets</a
 >
-interface.<br /><br /><strong>This is a cross platform service</strong> A Networking API and DDoS
-solution for a cross-platform game is useless if it only works on one platform. As long as you ship
-your game on Steam and meet some other reasonable requirements, you can access the Steam Datagram
-Relay for players on other platforms or stores! Please contact us for the relevant SDKs and to talk
-about the fine print. And if you don't ship on Steam, feel free to use the
+interface.
+<h2 class="bb_section"><a name="1"></a>Using SDR on other platforms and stores</h2>
+<br />A Networking API and DDoS solution for a cross-platform game is useless if it only works on
+one platform. In most cases, your players on other platforms and stores can access the relay
+network, provided that your game meets some basic conditions.<br />
+<ul class="bb_ul">
+    <li>Have a version of your game shipping on Steam.<br /></li>
+    <li>
+        Agree to update your game within a reasonable time frame (say, a few months) when asked, if
+        we need to ship a bugfix or security patch.<br />
+    </li>
+    <li>
+        Understand that, unfortunately, we cannot promise that this service will always be available
+        to non-Steam players. In the unlikely event that we need to downgrade this service, we will
+        do everything possible to work with you to avoid disruption to your players, including
+        giving you time to make a plan. The SDK has built in mechanisms such that we can instruct
+        clients to fall back to direct UDP connectivity or attempt NAT punch, but you should also
+        keep this possibility in mind.<br />
+    </li>
+    <li>
+        Have some sort of matchmaking service (SDR refers to this as your "game coordinator") that
+        can issue some authentication credentials. We have a separate SDK for this. See below.
+    </li>
+</ul>
+<br />Please contact us for the relevant SDKs and to talk about the fine print. We're still working
+through the details of the best way to distribute the code to partners, please bear with us.<br /><br />If
+you don't meet the criteria above, feel free to use the
 <a href="https://github.com/ValveSoftware/GameNetworkingSockets" target="_blank" rel="noreferrer"
     >opensource</a
 >
-version of the API for whatever you want.<br /><br />For <strong>peer-to-peer</strong> traffic, all
-you need to do to take advantage of SDR is to use APIs such as
+version of the API for whatever you want.
+<h2 class="bb_section"><a name="2"></a>Peer-to-peer games</h2>
+<br />For peer-to-peer traffic on Steam, all you need to do to take advantage of SDR is to use APIs
+such as
 <a
     href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#CreateListenSocketP2P"
     class="bb_apilink"
@@ -35,9 +59,15 @@ and
     href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectP2P"
     class="bb_apilink"
     >ISteamNetworkingSockets::ConnectP2P</a
->. Steam will take care of everything else.<br /><br />The remainder of this document applies to
-dedicated servers.
-<h2 class="bb_section"><a name="1"></a>General Requirements for Dedicated Servers</h2>
+>. Steam will take care of everything else.<br /><br />On other platforms or stores, as mentioned
+above, there are some other technical requirements. Specifically, you must provide your own
+"signaling" service, by which we mean a low-bandwidth, non-latency-sensitive, best-effort-delivery
+channel capable of forwarding occasional rendezvous messages used to negotiate routing. This
+requires clients to have a persistent connection to your matchmaking service, such that you can push
+messages to them. (E.g. a websocket or TCP connection. If clients only talk to your game coordinator
+using request/response, e.g. http, that won't work.)<br /><br />The remainder of this document
+applies to dedicated servers.
+<h2 class="bb_section"><a name="3"></a>General Requirements for Dedicated Servers</h2>
 In order to run dedicated servers behind SDR, you'll need to do the following:<br />
 <ul class="bb_ul">
     <li>
@@ -76,7 +106,7 @@ one important catch: if your dedicated server is not near one of the data center
 running relays, then the relayed route might be slower than the ordinary IP route that players would
 get using plain UDP connectivity. (You will normally not enable NAT punch for dedicated servers,
 since that reveals the IP address of the server and opens it up to DDoS attack.)
-<h2 class="bb_section"><a name="2"></a>Dedicated Servers in Known Data Centers</h2>
+<h2 class="bb_section"><a name="4"></a>Dedicated Servers in Known Data Centers</h2>
 For the optimal dedicated server experience, the server should be run in a known data center that is
 part of the SDR network, where we make sure that relays are running nearby and the relayed route is
 never slower than the "direct" route. Servers running in these known data centers connect using a
@@ -92,7 +122,7 @@ Carrying this sort of traffic is a beta feature, and is not a Steamworks feature
 partners at this time. There may be technical or capacity issues that prevent us from offering it to
 all partners.
 <h2 class="bb_section">
-    <a name="3"></a>Simple Connection Flow to Dedicated Server Without Game Coordinator
+    <a name="5"></a>Simple Connection Flow to Dedicated Server Without Game Coordinator
 </h2>
 If you don't have your own central matchmaking / login service (we sometimes call this the "game
 coordinator") that assigns players to servers, or just want to keep things as simple as possible,
@@ -111,7 +141,7 @@ and
 Rendezvous messages are sent through Steam, so if the player or server loses their connection to
 Steam, the connection cannot be made. Also, Steam does not restrict who can attempt to connect,
 aside from verifying that the player is signed into Steam and owns the game.
-<h2 class="bb_section"><a name="4"></a>Ticket-Based Server Connection Flow</h2>
+<h2 class="bb_section"><a name="6"></a>Ticket-Based Server Connection Flow</h2>
 If you do have your own game coordinator service, it is recommended to use a ticket-based connection
 flow. This is slightly more complicated, but it offers several advantages over using simple
 P2P-style connection calls. First, you only issue tickets to players who should be allowed to
@@ -187,9 +217,9 @@ works like this:<br />
         for further details about how to send and receive messages.
     </li>
 </ul>
-<h2 class="bb_section"><a name="5"></a>Configurating servers in known data centers</h2>
+<h2 class="bb_section"><a name="7"></a>Configurating servers in known data centers</h2>
 <br />This section documents some technical details involved in configuring servers.
-<h2 class="bb_subsection"><a name="6"></a>Authentication</h2>
+<h2 class="bb_subsection"><a name="8"></a>Authentication</h2>
 SDR uses two authentication mechanisms:<br /><br />
 <ul class="bb_ul">
     <li>
@@ -216,7 +246,7 @@ certificates to your gameservers over a secure channel, passing it to your serve
 (see below).<br /><br />You'll also use your key to generate tickets, each time a player connects to
 a gameserver.<br /><br />Keep your CA private key and the private keys of your certificates safe! If
 your key leaks and needs to be revoked and replaced, it could lead to a disruption.
-<h2 class="bb_subsection"><a name="7"></a>Environment variables</h2>
+<h2 class="bb_subsection"><a name="9"></a>Environment variables</h2>
 The dedicated server gets its configuration from environment variables. Note that in Valve data
 centers, all of these values will be set automatically for you.<br />
 <ul class="bb_ul">
@@ -267,7 +297,7 @@ centers, all of these values will be set automatically for you.<br />
         servers are configured.
     </li>
 </ul>
-<h2 class="bb_subsection"><a name="8"></a>Running in a dev environment</h2>
+<h2 class="bb_subsection"><a name="10"></a>Running in a dev environment</h2>
 Because
 <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
     >ISteamNetworkingSockets</a
@@ -290,7 +320,7 @@ coordinator needs to be careful when it issues tickets to any servers claiming t
 server needs to be able to receive unsolicited public traffic, which means that if it doesn't have a
 public IP, you'll need to setup a port forward in your firewall. And you'll probably need to set
 SDR_IP with the proper public IP (and port, if it differs from SDR_LISTEN_PORT).
-<h2 class="bb_section"><a name="9"></a>Game Coordinator SDK</h2>
+<h2 class="bb_section"><a name="11"></a>Game Coordinator SDK</h2>
 "Game Coordinator" is the term we use to refer to backend / matchmaking services. There is a
 separate, small SDK that you can link with your game coordinator which can be used to:<br />
 <ul class="bb_ul">
