@@ -518,19 +518,23 @@ already done for in-flight downloads and retail discs by the Steam content syste
 it can reduce the effectiveness of delta patching. Compression and encryption are only advised if
 each individual asset within a package file is separately compressed and/or encrypted. Otherwise, a
 change to one asset will always require downloading several other potentially unchanged assets.<br /><br />If
-you package multiple assets in a single pack file, make sure that with each re-packaging, no
-unnecessary changes are made. One problematic practice is including the full name of the original
-source files on disk, because the names may change, depending on the build machine. Another bad
-pattern is including build time stamps for each file. If possible, always add new content to the end
-of your pack files and keep the order of existing files. Also, keep your pack file’s metadata
-(offset and sizes to individual assets) in one place and don’t intersperse it with the asset data.
-Use a binary difference tool like BeyondCompare to look at two builds of your pack files to make
-sure that hundreds of unwanted changes don’t show up.<br /><br />If you follow these rules you will
-minimize patch sizes and only new content will need to be downloaded. Your customers will thank you
-for that and you will be able to increase the quality of your product by shipping more updates.<br /><br />If
-you suspect that your game packaging is not interacting well with the SteamPipe update process,
-please contact your Valve representative and we can look into enabling advanced features to help
-with this.
+you package multiple assets in a pack file, make sure that with each re-packaging, no unnecessary
+changes are made. One problematic practice is including the full name of the original source files
+on disk, because the names may change, depending on the build machine. Another bad pattern is
+including build time stamps for each file. If possible, always add new content to the end of your
+pack files and keep the order of existing files. Also, keep your pack file’s metadata (offset and
+sizes to individual assets) in one place and don’t intersperse it with the asset data. Use a binary
+difference tool like BeyondCompare to look at two builds of your pack files to make sure that
+hundreds of unwanted changes don’t show up. <br /><br />Using pack files is especially useful to
+package lots of small files (&lt;1 MB) into a single larger file. This will improve download speed
+and disk IO performance. But you might also want to avoid to put all your assets in a single huge
+pack file since Steam needs to copy &amp; patch the whole file even if only a small subset of it
+changed. A good start would be to bundle resources of the same type together in pack files smaller
+than 4GB each.<br /><br />If you follow these rules you will minimize patch sizes and only new
+content will need to be downloaded. Your customers will thank you for that and you will be able to
+increase the quality of your product by shipping more updates.<br /><br />If you suspect that your
+game packaging is not interacting well with the SteamPipe update process, please contact your Valve
+representative and we can look into enabling advanced features to help with this.
 <h2 class="bb_section">
     <a name="Building_Retail_Install_Discs"></a>Building Retail Install Discs
 </h2>
