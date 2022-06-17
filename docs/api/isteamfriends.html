@@ -2880,6 +2880,209 @@ successfully.<br /><strong>false</strong> under the following conditions:<br />
         >.
     </li>
 </ul>
+<h2 class="bb_subsection"><a name="RequestEquippedProfileItems"></a>RequestEquippedProfileItems</h2>
+<div class="bb_code cpp">SteamAPICall_t RequestEquippedProfileItems( CSteamID steamID);</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamID</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The user that you want to retrieve equipped items for.</td>
+    </tr>
+</table>
+<br />Requests the list of equipped Steam Community profile items for the given user from Steam.<br /><br /><strong
+    >Returns:</strong
+>
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
+    >SteamAPICall_t</a
+>
+to be used with a
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#EquippedProfileItems_t"
+    class="bb_apilink"
+    >EquippedProfileItems_t</a
+>
+call result.
+<h2 class="bb_subsection"><a name="BHasEquippedProfileItem"></a>BHasEquippedProfileItem</h2>
+<div class="bb_code cpp">
+    bool BHasEquippedProfileItem( CSteamID steamID, ECommunityProfileItemType itemType);
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamID</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The user that you had already retrieved equipped items for</td>
+    </tr>
+    <tr>
+        <td><strong>itemType</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamFriends#ECommunityProfileItemType"
+                class="bb_apilink"
+                >ECommunityProfileItemType</a
+            >
+        </td>
+        <td>Type of item you want to see is equipped or not</td>
+    </tr>
+</table>
+<br />After calling
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestEquippedProfileItems"
+    class="bb_apilink"
+    >ISteamFriends::RequestEquippedProfileItems</a
+>, you can use this function to check if the user has a type of profile item equipped or not.<br /><br /><strong
+    >Returns:</strong
+>
+bool<br /><strong>true</strong> if the itemType is equipped for the user<br /><strong>false</strong>
+if the itemType is not equipped for the user<br /><br /><strong>See Also:</strong>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestEquippedProfileItems"
+    class="bb_apilink"
+    >ISteamFriends::RequestEquippedProfileItems</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#GetProfileItemPropertyString"
+    class="bb_apilink"
+    >ISteamFriends::GetProfileItemPropertyString</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#GetProfileItemPropertyUint"
+    class="bb_apilink"
+    >ISteamFriends::GetProfileItemPropertyUint</a
+>
+<h2 class="bb_subsection">
+    <a name="GetProfileItemPropertyString"></a>GetProfileItemPropertyString
+</h2>
+<div class="bb_code cpp">
+    bool GetProfileItemPropertyString( CSteamID steamID, ECommunityProfileItemType itemType,
+    ECommunityProfileItemProperty prop);
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamID</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The user that you had already retrieved equipped items for</td>
+    </tr>
+    <tr>
+        <td><strong>itemType</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamFriends#ECommunityProfileItemType"
+                class="bb_apilink"
+                >ECommunityProfileItemType</a
+            >
+        </td>
+        <td>Type of item you are retrieving the property for</td>
+    </tr>
+    <tr>
+        <td><strong>itemType</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamFriends#ECommunityProfileItemProperty%20"
+                class="bb_apilink"
+                >ECommunityProfileItemProperty
+            </a>
+        </td>
+        <td>The string property you want to retrieve</td>
+    </tr>
+</table>
+<br />Returns a string property for a user's equipped profile item.<br /><br /><strong
+    >Returns:</strong
+>
+const char *<br /><br /><strong>See Also:</strong>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestEquippedProfileItems"
+    class="bb_apilink"
+    >ISteamFriends::RequestEquippedProfileItems</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#GetProfileItemPropertyUint"
+    class="bb_apilink"
+    >ISteamFriends::GetProfileItemPropertyUint</a
+>
+<h2 class="bb_subsection"><a name="GetProfileItemPropertyUint"></a>GetProfileItemPropertyUint</h2>
+<div class="bb_code cpp">
+    bool GetProfileItemPropertyString( CSteamID steamID, ECommunityProfileItemType itemType,
+    ECommunityProfileItemProperty prop);
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>steamID</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td>The user that you had already retrieved equipped items for</td>
+    </tr>
+    <tr>
+        <td><strong>itemType</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamFriends#ECommunityProfileItemType"
+                class="bb_apilink"
+                >ECommunityProfileItemType</a
+            >
+        </td>
+        <td>Type of item you are retrieving the property for</td>
+    </tr>
+    <tr>
+        <td><strong>itemType</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamFriends#ECommunityProfileItemProperty%20"
+                class="bb_apilink"
+                >ECommunityProfileItemProperty
+            </a>
+        </td>
+        <td>The unsigned integer property you want to retrieve</td>
+    </tr>
+</table>
+<br />Returns an unsigned integer property for a user's equipped profile item.<br /><br /><strong
+    >Returns:</strong
+>
+uint32<br /><br /><strong>See Also:</strong>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestEquippedProfileItems"
+    class="bb_apilink"
+    >ISteamFriends::RequestEquippedProfileItems</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#GetProfileItemPropertyString"
+    class="bb_apilink"
+    >ISteamFriends::GetProfileItemPropertyString</a
+>
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
@@ -3676,6 +3879,82 @@ Information about user sessions. (Steam Internal usage only.)<br /><br />
         <td></td>
     </tr>
 </table>
+<h2 class="bb_subsection">
+    <a name="EquippedProfileItemsChanged_t"></a>EquippedProfileItemsChanged_t
+</h2>
+Callback for when a user's equipped Steam Commuity profile items have changed. This can be for the
+current user or their friends.<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_steamID</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td></td>
+    </tr>
+</table>
+<h2 class="bb_subsection"><a name="EquippedProfileItems_t"></a>EquippedProfileItems_t</h2>
+<a href="https://partner.steamgames.com/doc/sdk/api#callresults" class="bb_doclink">CallResult</a>
+from
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#RequestEquippedProfileItems"
+    class="bb_apilink"
+    >ISteamFriends::RequestEquippedProfileItems</a
+>. Also sent as a
+<a href="https://partner.steamgames.com/doc/sdk/api#callbacks" class="bb_doclink">Callback</a
+>.<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_eResult</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
+                >EResult</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>m_bHasAnimatedAvatar</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
+                >CSteamID</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>m_bHasAvatarFrame</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>m_bHasProfileModifier</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>m_bHasProfileBackground</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>m_bHasMiniProfileBackground</strong></td>
+        <td>bool</td>
+        <td></td>
+    </tr>
+</table>
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamFriends.
 <h2 class="bb_subsection"><a name="EFriendFlags"></a>EFriendFlags</h2>
@@ -4032,6 +4311,122 @@ User restriction flags. These are returned by
         <td><strong>k_nUserRestrictionTrading</strong></td>
         <td>64</td>
         <td>User cannot participate in trading, for example if they are on a console or mobile.</td>
+    </tr>
+</table>
+<h2 class="bb_subsection"><a name="ECommunityProfileItemType"></a>ECommunityProfileItemType</h2>
+Steam Community profile item types<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_ECommunityProfileItemType_AnimatedAvatar">
+        <td><strong>k_ECommunityProfileItemType_AnimatedAvatar</strong></td>
+        <td>0</td>
+        <td>Animated avatar image (GIF)</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemType_AvatarFrame">
+        <td><strong>k_ECommunityProfileItemType_AvatarFrame</strong></td>
+        <td>1</td>
+        <td>Avatar frame (may or may not be an animated PNG)</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemType_ProfileModifier">
+        <td><strong>k_ECommunityProfileItemType_ProfileModifier</strong></td>
+        <td>2</td>
+        <td>Special profile modifier item, like Seasonal Profile or Artist Profile</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemType_ProfileBackground">
+        <td><strong>k_ECommunityProfileItemType_ProfileBackground</strong></td>
+        <td>3</td>
+        <td>Profile background image or movie</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemType_MiniProfileBackground">
+        <td><strong>k_ECommunityProfileItemType_MiniProfileBackground</strong></td>
+        <td>4</td>
+        <td>Background image or movie for the hover flyout for a user</td>
+    </tr>
+</table>
+<h2 class="bb_subsection">
+    <a name="ECommunityProfileItemProperty"></a>ECommunityProfileItemProperty
+</h2>
+Properties on a Steam Community profile item. See
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#GetProfileItemPropertyString"
+    class="bb_apilink"
+    >ISteamFriends::GetProfileItemPropertyString</a
+>
+and
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#GetProfileItemPropertyUint"
+    class="bb_apilink"
+    >ISteamFriends::GetProfileItemPropertyUint</a
+>.<br /><br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_ImageSmall">
+        <td><strong>k_ECommunityProfileItemProperty_ImageSmall</strong></td>
+        <td>0</td>
+        <td>URL to the small or animated version of the image</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_ImageLarge">
+        <td><strong>k_ECommunityProfileItemProperty_ImageLarge</strong></td>
+        <td>1</td>
+        <td>URL to the large or static version of the image</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_InternalName">
+        <td><strong>k_ECommunityProfileItemProperty_InternalName</strong></td>
+        <td>2</td>
+        <td>Internal name entered on the partner site (for debugging)</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_Title">
+        <td><strong>k_ECommunityProfileItemProperty_Title</strong></td>
+        <td>3</td>
+        <td>Localized name of the item</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_Description">
+        <td><strong>k_ECommunityProfileItemProperty_Description</strong></td>
+        <td>4</td>
+        <td>Localized descript of the item</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_AppID">
+        <td><strong>k_ECommunityProfileItemProperty_AppID</strong></td>
+        <td>5</td>
+        <td>AppID of the item (unsigned integer)</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_TypeID">
+        <td><strong>k_ECommunityProfileItemProperty_TypeID</strong></td>
+        <td>6</td>
+        <td>Type id of the item, unique to the appid (unsigned integer)</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_Class">
+        <td><strong>k_ECommunityProfileItemProperty_Class</strong></td>
+        <td>7</td>
+        <td>"Class" or type of item (internal value, unsigned integer)</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_MovieWebM">
+        <td><strong>k_ECommunityProfileItemProperty_MovieWebM</strong></td>
+        <td>8</td>
+        <td>URL to the webm video file</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_MovieMP4">
+        <td><strong>k_ECommunityProfileItemProperty_MovieMP4</strong></td>
+        <td>9</td>
+        <td>URL to the mp4 video file</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_MovieWebMSmall">
+        <td><strong>k_ECommunityProfileItemProperty_MovieWebMSmall</strong></td>
+        <td>10</td>
+        <td>URL to the small webm video file</td>
+    </tr>
+    <tr id="k_ECommunityProfileItemProperty_MovieMP4Small">
+        <td><strong>k_ECommunityProfileItemProperty_MovieMP4Small</strong></td>
+        <td>11</td>
+        <td>URL to the small mp4 video file</td>
     </tr>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
