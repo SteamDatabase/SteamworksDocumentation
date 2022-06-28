@@ -11,11 +11,13 @@ class Crawler
 {
 	private const CDN = 'cdn.cloudflare.steamstatic.com';
 
-	/* @var \CurlHandle */
+	/** @var \CurlHandle */
 	private $CurlHandle;
 
-	/* @var array<string, bool> */
+	/** @var array<string, bool> */
 	private array $Links = [];
+
+	/** @var \SplQueue<string> */
 	private \SplQueue $LinksQueue;
 	private string $Directory = __DIR__ . '/docs/';
 	private string $LinksFile;
@@ -50,12 +52,19 @@ class Crawler
 	{
 		if( !file_exists( $this->LinksFile ) )
 		{
-			return;
+			throw new Exception( 'File does not exist: ' . $this->LinksFile );
 		}
 
-		$Links = json_decode( file_get_contents( $this->LinksFile ) );
+		$Data = file_get_contents( $this->LinksFile );
 
-		if( empty( $Links ) )
+		if( $Data === false )
+		{
+			throw new Exception( 'Failed to read ' . $this->LinksFile );
+		}
+
+		$Links = json_decode( $Data );
+
+		if( empty( $Links ) || !is_array( $Links ) )
 		{
 			$Links = [ 'home' ];
 		}
@@ -167,7 +176,7 @@ class Crawler
 
 		$Content = $XPath->query( '//div[@class="documentation_bbcode"]', null, false );
 
-		if( $Content->length === 0 )
+		if( $Content === false || $Content->length === 0 )
 		{
 			$this->Err( 'Did not find content tag on ' . $Doc );
 			return;
@@ -193,7 +202,7 @@ class Crawler
 		// Get title
 		$Content = $XPath->query( '//div[@class="docPageTitle"]', null, false );
 
-		if( $Content->length > 0 )
+		if( $Content !== false && $Content->length > 0 )
 		{
 			$Title = trim( $this->DOMinnerHTML( $Content[ 0 ] ) );
 
@@ -218,6 +227,12 @@ class Crawler
 	{
 		$Links = $XPath->query( '//a/@href', null, false );
 
+		if( $Links === false )
+		{
+			return;
+		}
+
+		/** @var \DOMAttr $Link */
 		foreach( $Links as $Link )
 		{
 			if( preg_match( "~/doc/(?<href>.+?)(?=#|\?|$)~S", $Link->value, $Match ) === 1 )
@@ -274,6 +289,11 @@ class Crawler
 
 	private function DOMinnerHTML( DOMNode $Element ) : string
 	{
+		if( $Element->ownerDocument === null )
+		{
+			return '';
+		}
+		
 		$InnerHTML = '';
 		$Children  = $Element->childNodes;
 
