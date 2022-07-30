@@ -867,6 +867,46 @@ Synchronize API state with the latest Steam Controller inputs available. This is
 automatically by SteamAPI_RunCallbacks, but for the absolute lowest possible latency, you can call
 this directly before reading controller state.<br /><br /><strong>Example:</strong><br />
 <div class="bb_code cpp">SteamInput()-&gt;RunFrame();</div>
+<h2 class="bb_subsection"><a name="SetDualSenseTriggerEffect"></a>SetDualSenseTriggerEffect</h2>
+<div class="bb_code cpp">
+    void SetDualSenseTriggerEffect( InputHandle_t inputHandle, const ScePadTriggerEffectParam
+    *pParam );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>inputHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamInput#InputHandle_t"
+                class="bb_apilink"
+                >InputHandle_t</a
+            >
+        </td>
+        <td>The handle of the controller to affect.</td>
+    </tr>
+    <tr>
+        <td><strong>pParam </strong></td>
+        <td>ScePadTriggerEffectParam</td>
+        <td>The trigger parameter, defined in isteamdualsense.h</td>
+    </tr>
+</table>
+<br />Set the trigger effect for a DualSense controller.<br /><br /><strong>Example:</strong><br />
+<div class="bb_code cpp">
+    ScePadTriggerEffectParam param; memset( &amp;param, 0, sizeof( param ) ); param.triggerMask =
+    SCE_PAD_TRIGGER_EFFECT_TRIGGER_MASK_R2;
+    param.command[SCE_PAD_TRIGGER_EFFECT_PARAM_INDEX_FOR_R2].mode =
+    SCE_PAD_TRIGGER_EFFECT_MODE_VIBRATION;
+    param.command[SCE_PAD_TRIGGER_EFFECT_PARAM_INDEX_FOR_R2].commandData.vibrationParam.position =
+    5; param.command[SCE_PAD_TRIGGER_EFFECT_PARAM_INDEX_FOR_R2].commandData.vibrationParam.amplitude
+    = 5;
+    param.command[SCE_PAD_TRIGGER_EFFECT_PARAM_INDEX_FOR_R2].commandData.vibrationParam.frequency =
+    8; SteamInput()-&gt;SetDualSenseTriggerEffect( controller1Handle, &amp;param );
+</div>
 <h2 class="bb_subsection"><a name="SetLEDColor"></a>SetLEDColor</h2>
 <div class="bb_code cpp">
     void SetLEDColor( InputHandle_t inputHandle, uint8 nColorR, uint8 nColorG, uint8 nColorB,
