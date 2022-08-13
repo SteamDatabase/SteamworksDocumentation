@@ -693,27 +693,37 @@ origin, you can use the
     class="bb_apilink"
     >ISteamInput::EControllerActionOrigin</a
 >
-enum to remap the origin to a corresponding image. You may provide your own images for the
-controller glyphs, but we generally recommend that you use the
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInput#GetGlyphForActionOrigin"
-    class="bb_apilink"
-    >ISteamInput::GetGlyphForActionOrigin</a
->
-API call. When you call this function with an origin enum, it will return a local filepath to a .png
-file for the corresponding controller glyph from Valve's official image set (located in the Steam
-client's install folder).<br /><br />This method supports all hardware devices recognized by Steam
-Input (so a PlayStation controller will show PlayStation buttons, and an Xbox controller will show
-Xbox buttons, etc). Even better, it's future proof -- when Valve adds support for new hardware, this
-function will automatically fetch updated glyphs without you needing to recompile your game with new
-glyph assets. If you do decide to include your own custom glyph assets, you should at least check
-for the case where your asset set does not have a matching glyph for the provided enum value, and
-fall back to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInput#GetGlyphForActionOrigin"
-    class="bb_apilink"
-    >ISteamInput::GetGlyphForActionOrigin</a
->. This way the glyph will always have something displayable and won't simply be blank.
+enum to remap the origin to a corresponding image. When you call this function with an origin enum,
+it will return a local filepath to a .png or .svg file for the corresponding controller glyph from
+Valve's official image set (located in the Steam client's install folder). This method supports all
+hardware devices recognized by Steam Input (so a PlayStation controller will show PlayStation
+buttons, and an Xbox controller will show Xbox buttons, etc). Even better, it's future proof -- when
+Valve adds support for new hardware, this function will automatically fetch updated glyphs without
+you needing to recompile your game with new glyph assets. <br /><br />You may provide your own
+images for the controller glyphs, but we strongly recommend making sure to do some future-proofing
+as Steam Input is always adding support for new devices and the only thing stopping them from
+working well with your game is if glyph images are broken or blank. You can either:<br />
+<ul class="bb_ul">
+    <li>
+        fall back to the image returned by
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamInput#GetGlyphForActionOrigin"
+            class="bb_apilink"
+            >ISteamInput::GetGlyphForActionOrigin</a
+        >
+        when you don't recognize an action origin<br />
+    </li>
+    <li>
+        call
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamInput#TranslateActionOrigin"
+            class="bb_apilink"
+            >ISteamInput::TranslateActionOrigin</a
+        >
+        to get the closest equivalent glyph that existed when the version of the Steamworks SDK
+        existed, ex: PS6 Cross Button translated into PS5 Cross Button
+    </li>
+</ul>
 <div class="bb_callout bb_green">
     <div>
         <h3>Poll continuously!</h3>
