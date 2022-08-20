@@ -47,6 +47,94 @@ features:<br />
     </div>
 </div>
 <h2 class="bb_section">
+    <a name="AppStructureBestPractices"></a>Game Content Structure - Best Practices
+</h2>
+<br />SteamPipe was designed for both efficient downloading of initial game installs and efficient
+patching of updates. In general, it works well for a wide variety of game content structures.
+However, there are some important things to know in terms of optimization and avoiding situations
+that can cause inefficiency.<br /><br />SteamPipe initially splits each file into roughly one
+megabyte (MB) chunks. Each chunk is then compressed and encrypted before being upload to the Steam
+content-delivery system. They remain compressed and encrypted until downloaded by each client, where
+they are decrypted and expanded and placed in the necessary file location(s). <br /><br />When
+SteamPipe is processing an update for an existing game, it searches to find any such chunks that
+match the previous build of the game. This way, ideally only the new or modified portions of any
+file are turned into "new" chunks, and those new chunks are the only pieces a client must download
+to update their game.<br /><br />Many game engines use "pack" files to coalesce game assets, and
+improve load times by allowing more efficient disk access. In general, this works well with
+SteamPipe. However, some pack file systems use or enable using behaviors that can cause problems.
+The effect of these problems is almost always that updates are much larger than necessary. They can
+also result in a quick download but a slow update process as large amounts of local disk IO are
+necessary.<br /><br />If your game uses pack files, here are some general guidelines.<br /><br />
+<ul class="bb_ul">
+    <li>
+        Ensure asset changes are <strong>localized</strong> within the pack file as much as
+        possible<br />
+    </li>
+    <li><strong>Avoid shuffling</strong> asset ordering with a pack file<br /></li>
+    <li><strong>limit</strong> pack file size <br /></li>
+    <li>
+        <strong>group</strong> assets by level / realm / feature into their own pack files, and
+        consider adding new pack files for updates instead of modifying existing ones<br />
+    </li>
+    <li>
+        do <strong>not</strong> include any original
+        <strong>filenames or file / build timestamps</strong> for each asset
+    </li>
+</ul>
+<br />The first point above refers to the scope of what bytes are changed within a file when a
+single asset is modified. If that asset's data is modified and/or grows or shrinks within the same
+location of the pack file, that is ideal. SteamPipe will only create new chunks for the portions of
+the file containing the asset data. However, all pack files need some sort of Table of Contents
+(TOC) as well so that the engine can locate the asset data. The structure of this TOC can have a
+large impact on the efficiency of SteamPipe patching. Ideally, there is one TOC or TOC tree near the
+beginning or end of the file. Because other assets may shift byte position within the file, their
+TOC entries will change as well. In this situation, SteamPipe will make new chunks for the modified
+asset data and the modified portions of the TOC.<br /><br />However, what we have seen in some game
+engines is that the TOC information is distributed throughout the file. Even worse, it uses absolute
+byte-offset values. So if an asset at byte 3450 increases in size by 8 bytes, then the offset values
+for all assets after this in the file change. Even though each offset value is only 4 or 8 bytes in
+size, a change to an 8-byte number will result in a new 1MB chunk being created by SteamPipe. This
+can have catastrophic effects where even changing a few small assets in a pack file results in
+clients needing to download over half the entire file to update. If you know or suspect that your
+pack file structure is causing this issue, please contact your Valve representative as soon as
+possible. We have an alternate build algorithm that can help mitigate this issue, though it has
+tradeoffs. <br /><br />Additionally, SteamPipe does not know about asset boundaries within a pack
+file. If sub-megabyte assets are shuffled, it will most likely not be able to detect this reordering
+as the previously determined 1-MB chunks will no longer be present within the file. So if, in the
+process of creating an update for your game, you wish to optimize load times by reordering assets
+within the pack file, be cognizant of the fact that it may result in a very large download for that
+update. We recommend only doing this if the performance improvements are significant.<br /><br />Next
+- to update the pack file on a client device, SteamPipe builds the new version alongside the old
+version. When all new files are built, it then "commits" the update by deleting old files and moving
+the new files in. What this means is that to update a 25 GB pack file, SteamPipe will always build a
+new, 25GB file. If the update only requires 10 bytes of changes to that file, SteamPipe will need to
+copy almost the entire 25GB from the old file to the new file. Depending on the client storage
+hardware, this can be a very slow process. For this reason, we recommend two things.<br /><br />First
+- limit the size of pack files. Probably one or two gigabytes (GB) is sufficiently large - more than
+enough to allow efficient disk reads when loading the game. <br /><br />Second - keep the scope of
+assets within a single pack file fairly limited. Perhaps to a single game level, or unlockable
+feature. This way, updates that are focused on specific parts of your game don't cause the data from
+other parts to be copied around on the client machine. Additionally, when adding new functionality /
+levels / etc, these can and likely should be placed in their own new pack files. Clients downloading
+this update will have a simple download of new files, avoiding any of the issues mentioned above
+with pack file modifications.<br /><br />When in doubt, you can use a local binary diff tool such as
+Beyond Compare to compare versions of your pack files. Verify that the differences shown are of the
+size you expect for the changed assets, and that there aren't perhaps dozens or hundreds of small
+changes spread out throughout the file. If what you see is unexpected, check your pack file tool
+settings. <br /><br /><strong>Compression</strong>: Because Steam will compress all data for upload
+/ storage / download, we generally don't recommend using general compression on pack files. However,
+if you are concerned about the on-disk size of your game, you may still want to use pack file
+compression. It will work OK with SteamPipe so long as the criteria listed above are met.
+Specifically, you should ensure that compression is per-asset as much as possible. Any compression
+that crosses asset boundaries will spread out changes and require clients to download more data than
+necessary.<br /><br /><strong>Encryption</strong>: This is similar to compression - most likely
+unnecessary, and with the same risks mentioned above.<br /><br />If you follow these rules you will
+minimize patch sizes and only new content will need to be downloaded. Your customers will thank you
+for that and you will be able to increase the quality of your product by shipping more updates.<br /><br />If
+you suspect that your game packaging is not interacting well with the SteamPipe update process,
+please contact your Valve representative and we can look into enabling advanced features to help
+with this.
+<h2 class="bb_section">
     <a name="BuildingYourGameTutorial"></a>Steamworks Video Tutorial - Building Your Game in
     Steampipe
 </h2>
@@ -496,45 +584,6 @@ files.<br />You can use these Steam client commands and client-side files to deb
         - Shows the current install state of this app (KeyValues).
     </li>
 </ul>
-<h2 class="bb_section">
-    <a name="Building_Efficient_Depots"></a>Building Efficient Depots for SteamPipe
-</h2>
-The old Steam content system would patch updates on a file level, which meant that if a single byte
-in a file changed, the entire new file would be downloaded by all users. This was especially
-inefficient if the game used pack files, which are collections of game content files in a single big
-file. Pack files can easily exceed 1 GB, so updates often led to unnecessarily large downloads. A
-common way to avoid these large downloads was to add new pack files that overrode content of already
-shipped pack files. That worked for updates, but it hurt new users long-term, since they ended up
-downloading unused, already-patched content.<br /><br />The new content system fixes this problem by
-splitting each file into roughly 1-MB chunks. Each chunk is then compressed and encrypted before
-being distributed by the Steam content system. If the game content has large redundant parts, these
-chunks are reused and the user only has to download each repeated chunk once. However, the real
-strength of this system is building efficient update patches. While the system is building a patch,
-the new content is scanned for already known chunks. If it finds them, it reuses them. This means if
-you change or inject a few bytes in a big file, the user only has to download the changes.<br /><br />This
-works well in most cases, but there are still a few pitfalls that need to be avoided when designing
-the content layout of a game. You may not want to compress or encrypt your game data. This is
-already done for in-flight downloads and retail discs by the Steam content system. If you do it too,
-it can reduce the effectiveness of delta patching. Compression and encryption are only advised if
-each individual asset within a package file is separately compressed and/or encrypted. Otherwise, a
-change to one asset will always require downloading several other potentially unchanged assets.<br /><br />If
-you package multiple assets in a pack file, make sure that with each re-packaging, no unnecessary
-changes are made. One problematic practice is including the full name of the original source files
-on disk, because the names may change, depending on the build machine. Another bad pattern is
-including build time stamps for each file. If possible, always add new content to the end of your
-pack files and keep the order of existing files. Also, keep your pack file’s metadata (offset and
-sizes to individual assets) in one place and don’t intersperse it with the asset data. Use a binary
-difference tool like BeyondCompare to look at two builds of your pack files to make sure that
-hundreds of unwanted changes don’t show up. <br /><br />Using pack files is especially useful to
-package lots of small files (&lt;1 MB) into a single larger file. This will improve download speed
-and disk IO performance. But you might also want to avoid to put all your assets in a single huge
-pack file since Steam needs to copy &amp; patch the whole file even if only a small subset of it
-changed. A good start would be to bundle resources of the same type together in pack files smaller
-than 4GB each.<br /><br />If you follow these rules you will minimize patch sizes and only new
-content will need to be downloaded. Your customers will thank you for that and you will be able to
-increase the quality of your product by shipping more updates.<br /><br />If you suspect that your
-game packaging is not interacting well with the SteamPipe update process, please contact your Valve
-representative and we can look into enabling advanced features to help with this.
 <h2 class="bb_section">
     <a name="Building_Retail_Install_Discs"></a>Building Retail Install Discs
 </h2>
