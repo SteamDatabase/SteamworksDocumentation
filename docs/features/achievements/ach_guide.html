@@ -37,7 +37,9 @@ Achievements are application specific and are setup on the
     >Achievement Configuration</a
 >
 page in the Steamworks App Admin backend. The following is the list of achievements from the
-Steamworks sample app Spacewar:<br /><br /><img
+Steamworks sample app Spacewar:<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/spacewar_achievement_examplescreenshot.jpg"
     alt="spacewar_achievement_examplescreenshot.jpg"
     title="spacewar_achievement_examplescreenshot.jpg"
@@ -59,8 +61,9 @@ page.<br />
     m_eAchievementID; const char *m_pchAchievementID; char m_rgchName[128]; char
     m_rgchDescription[256]; bool m_bAchieved; int m_iIconImage; };
 </div>
-<br />Next we define a helper class that will wrap all of the Steam Stats API calls as well as
-creating all of the
+<br />
+Next we define a helper class that will wrap all of the Steam Stats API calls as well as creating
+all of the
 <a href="https://partner.steamgames.com/doc/sdk/api#callbacks" class="bb_doclink">Steam callbacks</a
 >.<br />
 <div class="bb_code cpp">
@@ -77,12 +80,11 @@ creating all of the
 <h2 class="bb_subsection"><a name="6"></a>Code File</h2>
 <h4>Constructor</h4>
 <strong>Parameters</strong> - The constructor takes a pointer to an array of achievements along with
-the length of the array. The formating of that array will be covered in the main game code later.<br /><strong
-    >Returns</strong
->
-- N/A<br /><strong>What it does</strong> - The constructor initializes a number of members along
-with grabbing the AppID we are currently running as. In addition it hooks up the call back methods
-to handle asynchronous calls made to Steam. Finally it makes an initial call to
+the length of the array. The formating of that array will be covered in the main game code later.<br />
+<strong>Returns</strong> - N/A<br />
+<strong>What it does</strong> - The constructor initializes a number of members along with grabbing
+the AppID we are currently running as. In addition it hooks up the call back methods to handle
+asynchronous calls made to Steam. Finally it makes an initial call to
 <code class="bb_code bb_code_inline nohighlight">RequestStats()</code> to get stats and achievements
 for the current user.<br />
 <div class="bb_code cpp">
@@ -94,14 +96,15 @@ for the current user.<br />
     m_pAchievements = Achievements; m_iNumAchievements = NumAchievements; RequestStats(); }
 </div>
 <h4>RequestStats()</h4>
-<strong>Parameters</strong> - None<br /><strong>Returns</strong> - a bool representing if the call
-succeeded or not. If the call failed then most likely Steam is not initialized. Make sure you have a
-Steam client open when you try to make this call and that
+<strong>Parameters</strong> - None<br />
+<strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then
+most likely Steam is not initialized. Make sure you have a Steam client open when you try to make
+this call and that
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
     >SteamAPI_Init</a
 >
-has been called before it.<br /><strong>What it does</strong> - This method basically wraps a call
-to
+has been called before it.<br />
+<strong>What it does</strong> - This method basically wraps a call to
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
     class="bb_apilink"
@@ -119,15 +122,15 @@ updated stats or achievements.<br />
 </div>
 <h4>SetAchievement()</h4>
 <strong>Parameters</strong> - The string identifier of the Achievement that you want to set (ie.
-"ACH_WIN_ONE_GAME")<br /><strong>Returns</strong> - a bool representing if the call succeeded or
-not. If the call failed then either Steam is not initialized or you still haven't processed the
-callback from the initial call to
+"ACH_WIN_ONE_GAME")<br />
+<strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then
+either Steam is not initialized or you still haven't processed the callback from the initial call to
 <code class="bb_code bb_code_inline nohighlight">RequestStats</code>. You can't set any achievements
-until that callback has been received.<br /><strong>What it does</strong> - This method sets a given
-achievement to achieved and sends the results to Steam. You can set a given achievement multiple
-times so you don't need to worry about only setting achievements that aren't already set. This is an
-asynchronous call which will trigger two callbacks:
-<code class="bb_code bb_code_inline nohighlight">OnUserStatsStored()</code> and
+until that callback has been received.<br />
+<strong>What it does</strong> - This method sets a given achievement to achieved and sends the
+results to Steam. You can set a given achievement multiple times so you don't need to worry about
+only setting achievements that aren't already set. This is an asynchronous call which will trigger
+two callbacks: <code class="bb_code bb_code_inline nohighlight">OnUserStatsStored()</code> and
 <code class="bb_code bb_code_inline nohighlight">OnAchievementStored()</code>.<br />
 <div class="bb_code cpp">
     bool CSteamAchievements::SetAchievement(const char* ID) { // Have we received a call back from
@@ -136,11 +139,10 @@ asynchronous call which will trigger two callbacks:
     }
 </div>
 <h4>OnUserStatsReceived()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-    >What it does</strong
->
-- This method is a callback that is called anytime you attempt to request stats. Stats and
-achievements are requested by using
+<strong>Parameters</strong> - N/A<br />
+<strong>Returns</strong> - Nothing<br />
+<strong>What it does</strong> - This method is a callback that is called anytime you attempt to
+request stats. Stats and achievements are requested by using
 <code class="bb_code bb_code_inline nohighlight">RequestStats()</code>. The method updates the
 member variable m_pAchievements to reflect the latest stats and achievement data returned from
 Steam.<br />
@@ -159,10 +161,10 @@ Steam.<br />
     ); OutputDebugString( buffer ); } } }
 </div>
 <h4>OnUserStatsStored()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-    >What it does</strong
->
-- This method is a callback that is called anytime you attempt to store stats on Steam.<br />
+<strong>Parameters</strong> - N/A<br />
+<strong>Returns</strong> - Nothing<br />
+<strong>What it does</strong> - This method is a callback that is called anytime you attempt to
+store stats on Steam.<br />
 <div class="bb_code cpp">
     void CSteamAchievements::OnUserStatsStored( UserStatsStored_t *pCallback ) { // we may get
     callbacks for other games' stats arriving, ignore them if ( m_iAppID == pCallback-&gt;m_nGameID
@@ -171,10 +173,10 @@ Steam.<br />
     pCallback-&gt;m_eResult ); OutputDebugString( buffer ); } } }
 </div>
 <h4>OnAchievementStored()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-    >What it does</strong
->
-- This method is a callback that is called anytime Achievements are successfully stored on Steam.<br />
+<strong>Parameters</strong> - N/A<br />
+<strong>Returns</strong> - Nothing<br />
+<strong>What it does</strong> - This method is a callback that is called anytime Achievements are
+successfully stored on Steam.<br />
 <div class="bb_code cpp">
     void CSteamAchievements::OnAchievementStored( UserAchievementStored_t *pCallback ) { // we may
     get callbacks for other games' stats arriving, ignore them if ( m_iAppID ==
@@ -229,8 +231,9 @@ your application exits. Finally we delete the helper object we created.<br />
     (g_SteamAchievements) delete g_SteamAchievements; ...
 </div>
 <h2 class="bb_section"><a name="13"></a>Step 4 - Testing and Troubleshooting</h2>
-<br />To set or clear stats or an achievement without adding code to your game, you can use the
-Steam client console. Run with steam.exe -console, then:<br />
+<br />
+To set or clear stats or an achievement without adding code to your game, you can use the Steam
+client console. Run with steam.exe -console, then:<br />
 <ul class="bb_ul">
     <li>achievement_clear &lt;appid&gt; &lt;achievement name&gt;<br /></li>
     <li>reset_all_stats &lt;appid&gt;</li>

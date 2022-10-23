@@ -2,7 +2,9 @@
 This is the interface used to support
 <a href="https://partner.steamgames.com/doc/features/microtransactions" class="bb_doclink"
     >Microtransactions (In-Game Purchases)</a
->.<br /><br />See the
+>.<br />
+<br />
+See the
 <a
     href="https://partner.steamgames.com/doc/features/microtransactions/implementation"
     class="bb_doclink"
@@ -18,7 +20,8 @@ for more details.
         while testing!
     </div>
 </div>
-<br />For more info on how to use the Steamworks Web API please see the
+<br />
+For more info on how to use the Steamworks Web API please see the
 <a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
 >.
 <h2 class="bb_section"><a name="AdjustAgreement"></a>AdjustAgreement</h2>
@@ -61,21 +64,25 @@ for more details.
         <td>string</td>
         <td>✔</td>
         <td>
-            Date that next recurring payment should be initiated. Format is YYYYMMDD.<br />Date can
-            only be adjusted forward indicating you want to add time to the subscription. If the
-            date exceeds the end date of the subscription, the end date will be extended.
+            Date that next recurring payment should be initiated. Format is YYYYMMDD.<br />
+            Date can only be adjusted forward indicating you want to add time to the subscription.
+            If the date exceeds the end date of the subscription, the end date will be extended.
         </td>
     </tr>
 </table>
-<br />Add time to the payment schedule of an agreement with billing type "steam". The agreementid
-can be retrieved using
+<br />
+Add time to the payment schedule of an agreement with billing type "steam". The agreementid can be
+retrieved using
 <a
     href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo"
     class="bb_apilink"
     >ISteamMicroTxn/GetUserAgreementInfo</a
->.<br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As
-such this API <strong>MUST</strong> be called from a secure server, and can never be used directly
-by clients!<br /><br /><strong>Response:</strong><br />
+>.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -156,14 +163,18 @@ by clients!<br /><br /><strong>Response:</strong><br />
         <td>App ID of the game the agreement is for.</td>
     </tr>
 </table>
-<br />Cancels a recurring billing agreement (subscription). The agreementid can be retrieved using
+<br />
+Cancels a recurring billing agreement (subscription). The agreementid can be retrieved using
 <a
     href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo"
     class="bb_apilink"
     >ISteamMicroTxn/GetUserAgreementInfo</a
->.<br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As
-such this API <strong>MUST</strong> be called from a secure server, and can never be used directly
-by clients!<br /><br /><strong>Response:</strong><br />
+>.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -231,18 +242,22 @@ by clients!<br /><br /><strong>Response:</strong><br />
         <td>App ID for game.</td>
     </tr>
 </table>
-<br />Completes a purchase that was started by the
+<br />
+Completes a purchase that was started by the
 <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink"
     >ISteamMicroTxn/InitTxn</a
 >
-API.<br /><br />This command will capture funds for a transaction and should only be called after
-the user has authorized the transaction and you have received notification that the authorization
-was successful. Notification of authorization comes either through the Steam client (your game
-registers to receive notification) or through the user being redirected back to your web site
-(return URL specified when you redirect a user's web session to Steam). The usersession value
-specified in InitTxn determines the notification mechanism.<br /><br />A successful response to this
-command means payment has been completed and you can safely grant items to the user. In the event of
-a timeout or some other communication error, use either the
+API.<br />
+<br />
+This command will capture funds for a transaction and should only be called after the user has
+authorized the transaction and you have received notification that the authorization was successful.
+Notification of authorization comes either through the Steam client (your game registers to receive
+notification) or through the user being redirected back to your web site (return URL specified when
+you redirect a user's web session to Steam). The usersession value specified in InitTxn determines
+the notification mechanism.<br />
+<br />
+A successful response to this command means payment has been completed and you can safely grant
+items to the user. In the event of a timeout or some other communication error, use either the
 <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#QueryTxn" class="bb_apilink"
     >ISteamMicroTxn/QueryTxn</a
 >
@@ -250,15 +265,19 @@ or
 <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport" class="bb_apilink"
     >ISteamMicroTxn/GetReport</a
 >
-APIs to get status on the transaction.<br /><br />This method has previous versions which are no
-longer officially supported. They will continue to be usable but it's highly recommended that you
-use the latest version.<br />Change history:<br />
+APIs to get status on the transaction.<br />
+<br />
+This method has previous versions which are no longer officially supported. They will continue to be
+usable but it's highly recommended that you use the latest version.<br />
+Change history:<br />
 <ul class="bb_ul">
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.</li>
 </ul>
-<br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
-API <strong>MUST</strong> be called from a secure server, and can never be used directly by
-clients!<br /><br /><strong>Response:</strong><br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -302,7 +321,8 @@ clients!<br /><br /><strong>Response:</strong><br />
         </ul>
     </li>
 </ul>
-<br /><strong>Example Response:</strong><br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     &lt;response&gt; &lt;result&gt;OK&lt;/result&gt; &lt;params&gt;
     &lt;orderid&gt;938473&lt;/orderid&gt; &lt;transid&gt;374839&lt;/transid&gt; &lt;/params&gt;
@@ -354,13 +374,17 @@ clients!<br /><br /><strong>Response:</strong><br />
         <td>Maximum number of results to return in report. (Default is 1000 if no value is set)</td>
     </tr>
 </table>
-<br />Steam offers transaction reports that can be downloaded for reconciliation purposes. These
-reports show detailed information about each transaction that affects the settlement of funds into
-your accounts.<br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this
-method. As such this API <strong>MUST</strong> be called from a secure server, and can never be used
-directly by clients!<br /><br /><strong>NOTE:</strong> This method has previous versions which are
-no longer officially supported. They will continue to be usable but it's highly recommended that you
-use the latest version. Change history:<br />
+<br />
+Steam offers transaction reports that can be downloaded for reconciliation purposes. These reports
+show detailed information about each transaction that affects the settlement of funds into your
+accounts.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>NOTE:</strong> This method has previous versions which are no longer officially supported.
+They will continue to be usable but it's highly recommended that you use the latest version. Change
+history:<br />
 <ul class="bb_ul">
     <li><strong>Version 2</strong> - Changed result to returns arrays.<br /></li>
     <li><strong>Version 3</strong> - Changed to string formatted 64 bit numbers.<br /></li>
@@ -375,7 +399,8 @@ use the latest version. Change history:<br />
         suspected fraud or friendly fraud.
     </li>
 </ul>
-<br /><strong>Response:</strong><br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -516,7 +541,8 @@ use the latest version. Change history:<br />
         </ul>
     </li>
 </ul>
-<br /><strong>Example Response:</strong><br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     &lt;response&gt; &lt;result&gt;OK&lt;/result&gt; &lt;params&gt; &lt;count&gt;2&lt;/count&gt;
     &lt;orders&gt; &lt;order&gt; &lt;orderid&gt;938473&lt;/orderid&gt;
@@ -569,13 +595,13 @@ use the latest version. Change history:<br />
         <td>App ID of the game the agreement is for.</td>
     </tr>
 </table>
-<br />Get detailed information of all recurring billing agreements (subscriptions) for a user.<br /><br /><strong
-    >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!<br /><br /><strong
-    >Response:</strong
-><br />
+<br />
+Get detailed information of all recurring billing agreements (subscriptions) for a user.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -758,20 +784,27 @@ called from a secure server, and can never be used directly by clients!<br /><br
         </td>
     </tr>
 </table>
-<br />Retrieves details for a user's purchasing info.<br /><br />These details are based upon the
-user's Steam wallet.<br />For new accounts or accounts that do not yet have a Steam wallet, the
-information returned will be based off of the user's IP address. The IP will be taken from the
-user's Steam client session if they are logged in, otherwise from the ipaddress API parameter. If
-the user does not have a wallet, is not logged in through the Steam client, and you have not
-supplied an IP address, this call will return an error indicating the user is not logged in.<br /><br />This
-method has previous versions which are no longer officially supported. They will continue to be
-usable but it's highly recommended that you use the latest version.<br />Change history:<br />
+<br />
+Retrieves details for a user's purchasing info.<br />
+<br />
+These details are based upon the user's Steam wallet.<br />
+For new accounts or accounts that do not yet have a Steam wallet, the information returned will be
+based off of the user's IP address. The IP will be taken from the user's Steam client session if
+they are logged in, otherwise from the ipaddress API parameter. If the user does not have a wallet,
+is not logged in through the Steam client, and you have not supplied an IP address, this call will
+return an error indicating the user is not logged in.<br />
+<br />
+This method has previous versions which are no longer officially supported. They will continue to be
+usable but it's highly recommended that you use the latest version.<br />
+Change history:<br />
 <ul class="bb_ul">
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.</li>
 </ul>
-<br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
-API <strong>MUST</strong> be called from a secure server, and can never be used directly by
-clients!<br /><br /><strong>Response:</strong><br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -797,9 +830,12 @@ clients!<br /><br /><strong>Response:</strong><br />
                     </li>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">status</code> - Status of
-                        the account. Can be:<br />• Locked from purchasing - cannot make
-                        purchases<br />• Active - the default account state<br />• Trusted - an
-                        active account with a purchase older than 90 days without a chargeback<br /><br />
+                        the account. Can be:<br />
+                        • Locked from purchasing - cannot make purchases<br />
+                        • Active - the default account state<br />
+                        • Trusted - an active account with a purchase older than 90 days without a
+                        chargeback<br />
+                        <br />
                     </li>
                 </ul>
             </li>
@@ -825,7 +861,8 @@ clients!<br /><br /><strong>Response:</strong><br />
         </ul>
     </li>
 </ul>
-<br /><strong>Example Response:</strong><br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     &lt;response&gt; &lt;result&gt;OK&lt;/result&gt; &lt;params&gt; &lt;state&gt;WA&lt;/state&gt;
     &lt;country&gt;US&lt;/country&gt; &lt;currency&gt;USD&lt;/currency&gt; &lt;/params&gt;
@@ -1052,11 +1089,14 @@ clients!<br /><br /><strong>Response:</strong><br />
         </td>
     </tr>
 </table>
-<br />Creates a new purchase. Send the order information along with the Steam ID to seed the
-transaction on Steam.<br /><br />This command allows you to create a shopping cart of one or more
-items for a user. The cost and descriptions of these items will be displayed to the user for their
-approval. The purchase interface can be configured for either the Steam client or a web browser
-depending on if you are running a purchase in-game or from a web page.
+<br />
+Creates a new purchase. Send the order information along with the Steam ID to seed the transaction
+on Steam.<br />
+<br />
+This command allows you to create a shopping cart of one or more items for a user. The cost and
+descriptions of these items will be displayed to the user for their approval. The purchase interface
+can be configured for either the Steam client or a web browser depending on if you are running a
+purchase in-game or from a web page.
 <div class="bb_callout">
     <div>
         <h3>Currency/Amount formatting</h3>
@@ -1066,39 +1106,51 @@ depending on if you are running a purchase in-game or from a web page.
         of pricing requirements, see
         <a href="https://partner.steamgames.com/doc/store/pricing/currencies" class="bb_doclink"
             >Supported Currencies</a
-        ><br /><br />If you do not wish to price each transaction in the local user's currency,
-        Steam can convert any purchase to the local user's wallet currency automatically based on
-        current exchange rate. For example, if you pass
+        ><br />
+        <br />
+        If you do not wish to price each transaction in the local user's currency, Steam can convert
+        any purchase to the local user's wallet currency automatically based on current exchange
+        rate. For example, if you pass
         <code class="bb_code bb_code_inline nohighlight">currency</code> as "USD" and
         <code class="bb_code bb_code_inline nohighlight">amount</code> as "999", a user in Russia
         will be charged in Rubles at the current exchange rate for $9.99, which would be about
-        614.90 pуб as of this writing.<br /><br />Note that the
-        <code class="bb_code bb_code_inline nohighlight">amount</code> you pass needs to be in the
-        format that matches the
+        614.90 pуб as of this writing.<br />
+        <br />
+        Note that the <code class="bb_code bb_code_inline nohighlight">amount</code> you pass needs
+        to be in the format that matches the
         <code class="bb_code bb_code_inline nohighlight">currency</code> code you pass.
     </div>
 </div>
-<br />A successful response to this command means the transaction has been created. If the purchase
+<br />
+A successful response to this command means the transaction has been created. If the purchase
 interface is the Steam client, the user will automatically be presented with a dialog requesting
 authorization for the purchase. For a web interface, redirect the user to the steam URL returned in
 the response. In the event of a timeout or some other communication error, abandon the transaction
-and create a new one.<br /><br />When a "client" user session is indicated via
-[param]usersession[/param] the user will be required to approve the transaction from within the game
-overlay on the client. Web sessions will require the user to be logged into Steam via a browser
-where the transaction will be presented and an approval option displayed.<br /><br />This method has
-previous versions which are no longer officially supported. They will continue to be usable but it's
-highly recommended that you use the latest version.<br />Change history:<br />
+and create a new one.<br />
+<br />
+When a "client" user session is indicated via [param]usersession[/param] the user will be required
+to approve the transaction from within the game overlay on the client. Web sessions will require the
+user to be logged into Steam via a browser where the transaction will be presented and an approval
+option displayed.<br />
+<br />
+This method has previous versions which are no longer officially supported. They will continue to be
+usable but it's highly recommended that you use the latest version.<br />
+Change history:<br />
 <ul class="bb_ul">
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.</li>
 </ul>
-<br />This method has previous versions which are no longer officially supported. They will continue
-to be usable but it's highly recommended that you use the latest version.<br />Change history:<br />
+<br />
+This method has previous versions which are no longer officially supported. They will continue to be
+usable but it's highly recommended that you use the latest version.<br />
+Change history:<br />
 <ul class="bb_ul">
     <li><strong>Version 3</strong> - Enforced quantity amounts to be a 16 bit number.</li>
 </ul>
-<br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
-API <strong>MUST</strong> be called from a secure server, and can never be used directly by
-clients!<br /><br /><strong>Response:</strong><br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -1152,7 +1204,8 @@ clients!<br /><br /><strong>Response:</strong><br />
         </ul>
     </li>
 </ul>
-<br /><strong>Example Response:</strong><br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     &lt;response&gt; &lt;result&gt;OK&lt;/result&gt; &lt;params&gt;
     &lt;orderid&gt;938473&lt;/orderid&gt; &lt;transid&gt;374839&lt;/transid&gt; &lt;/params&gt;
@@ -1210,8 +1263,10 @@ clients!<br /><br /><strong>Response:</strong><br />
         <td>int32</td>
         <td>✔</td>
         <td>
-            Total cost (in cents).<br /><br />This value corresponds to an initial one-time amount
-            to be immediately charged to a user.
+            Total cost (in cents).<br />
+            <br />
+            This value corresponds to an initial one-time amount to be immediately charged to a
+            user.
         </td>
     </tr>
     <tr>
@@ -1221,9 +1276,11 @@ clients!<br /><br /><strong>Response:</strong><br />
         <td>ISO 4217 currency code of prices</td>
     </tr>
 </table>
-<br />Initiate a recurring payment (subscription) for the user.<br /><br />A successful response
-means that Steam will initiate a billing cycle for the user. It does not mean that the actual
-billing cycle was completed successfully. Use the
+<br />
+Initiate a recurring payment (subscription) for the user.<br />
+<br />
+A successful response means that Steam will initiate a billing cycle for the user. It does not mean
+that the actual billing cycle was completed successfully. Use the
 <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport" class="bb_apilink"
     >ISteamMicroTxn/GetReport</a
 >
@@ -1233,9 +1290,12 @@ or
     class="bb_apilink"
     >ISteamMicroTxn/GetUserAgreementInfo</a
 >
-APIs to check actual billing status.<br /><br /><strong>NOTE:</strong> This call requires a
-publisher API key to use this method. As such this API <strong>MUST</strong> be called from a secure
-server, and can never be used directly by clients!<br /><br /><strong>Response:</strong><br />
+APIs to check actual billing status.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -1317,12 +1377,15 @@ server, and can never be used directly by clients!<br /><br /><strong>Response:<
         <td>Unique 64-bit Steam transaction ID.</td>
     </tr>
 </table>
-<br />Query the status of an order that was previously created with
+<br />
+Query the status of an order that was previously created with
 <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink"
     >ISteamMicroTxn/InitTxn</a
->.<br /><br />This method has previous versions which are no longer officially supported. They will
-continue to be usable but it's highly recommended that you use the latest version.<br />Change
-history:<br />
+>.<br />
+<br />
+This method has previous versions which are no longer officially supported. They will continue to be
+usable but it's highly recommended that you use the latest version.<br />
+Change history:<br />
 <ul class="bb_ul">
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.<br /></li>
     <li>
@@ -1330,9 +1393,11 @@ history:<br />
         suspected fraud or friendly fraud.
     </li>
 </ul>
-<br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
-API <strong>MUST</strong> be called from a secure server, and can never be used directly by
-clients!<br /><br /><strong>Response:</strong><br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -1432,7 +1497,8 @@ clients!<br /><br /><strong>Response:</strong><br />
         </ul>
     </li>
 </ul>
-<br /><strong>Example Response:</strong><br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     &lt;response&gt; &lt;result&gt;OK&lt;/result&gt; &lt;params&gt;
     &lt;orderid&gt;938474&lt;/orderid&gt; &lt;transid&gt;374839&lt;/transid&gt;
@@ -1473,16 +1539,21 @@ clients!<br /><br /><strong>Response:</strong><br />
         <td>App ID of the game.</td>
     </tr>
 </table>
-<br />Tells Steam to refund a user for a purchase. Refunds can only be made for the full value of
-the original order.<br /><br />This method has previous versions which are no longer officially
-supported. They will continue to be usable but it's highly recommended that you use the latest
-version.<br />Change history:<br />
+<br />
+Tells Steam to refund a user for a purchase. Refunds can only be made for the full value of the
+original order.<br />
+<br />
+This method has previous versions which are no longer officially supported. They will continue to be
+usable but it's highly recommended that you use the latest version.<br />
+Change history:<br />
 <ul class="bb_ul">
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.</li>
 </ul>
-<br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
-API <strong>MUST</strong> be called from a secure server, and can never be used directly by
-clients!<br /><br /><strong>Response:</strong><br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -1526,7 +1597,8 @@ clients!<br /><br /><strong>Response:</strong><br />
         </ul>
     </li>
 </ul>
-<br /><strong>Example Response:</strong><br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     &lt;response&gt; &lt;result&gt;OK&lt;/result&gt; &lt;params&gt;
     &lt;orderid&gt;938474&lt;/orderid&gt; &lt;transid&gt;374839&lt;/transid&gt; &lt;/params&gt;

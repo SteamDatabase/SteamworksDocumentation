@@ -10,7 +10,8 @@ Before customizing a Steam gold master disk, first package your game files in on
 The Steamworks SDK includes a customizable installer that you can include on your gold master. The
 installer is designed to help users install Steam and begin loading your game as quickly as
 possible. The installer has also been designed to ensure compatibility with the installation portion
-of the Games for Windows certification.<br />To get started, copy all files from the
+of the Games for Windows certification.<br />
+To get started, copy all files from the
 <code class="bb_code bb_code_inline nohighlight">tools\goldmaster\disk_assets</code> folder in the
 SDK to your gold master's build output folder (See
 <a
@@ -24,10 +25,12 @@ the <code class="bb_code bb_code_inline nohighlight">resources</code> directory.
 configuration files: <code class="bb_code bb_code_inline nohighlight">setup.ini</code> (always
 loaded) and a localized configuration file (<code class="bb_code bb_code_inline nohighlight"
     >resources\setup_&lt;language&gt;.ini</code
->).<br /><br /><code class="bb_code bb_code_inline nohighlight">setup.ini</code> is the first
-configuration file loaded by the setup application. This file is used to configure all language
-independent settings. The values in this file can be overridden by language specific configuration
-files. The syntax is "parameter" "value". The following parameters are available:<br />
+>).<br />
+<br />
+<code class="bb_code bb_code_inline nohighlight">setup.ini</code> is the first configuration file
+loaded by the setup application. This file is used to configure all language independent settings.
+The values in this file can be overridden by language specific configuration files. The syntax is
+"parameter" "value". The following parameters are available:<br />
 <ol class="bb_ol">
     <li>
         <code class="bb_code bb_code_inline nohighlight">Game</code> - Game name that appears in the
@@ -75,8 +78,9 @@ files. The syntax is "parameter" "value". The following parameters are available
         when a mouse button is depressed over the text (ex: "0 0 0")
     </li>
 </ol>
-<br />Setup can also display a EULA before installing your game. The EULA must be an RTF file. Setup
-will try to load the EULA from
+<br />
+Setup can also display a EULA before installing your game. The EULA must be an RTF file. Setup will
+try to load the EULA from
 <code class="bb_code bb_code_inline nohighlight">resources\eula_&lt;language&gt;.rtf</code>. If a
 localized version is not available, it will try to load
 <code class="bb_code bb_code_inline nohighlight">resources\eula.rtf</code>. If both files do not
@@ -88,8 +92,9 @@ configuration file. The user will then be asked to select a language from a drop
 supported language. These localized configuration files can override any value defined in
 <code class="bb_code bb_code_inline nohighlight">setup.ini</code>, and also define the strings shown
 to a user for each language. If you do not support a language for which the SDK supplies a localized
-ini file, simply delete the ini file.<br />If you need to support a language that is currently not
-supported by Steam, please let us know in the
+ini file, simply delete the ini file.<br />
+If you need to support a language that is currently not supported by Steam, please let us know in
+the
 <a href="http://steamcommunity.com/groups/steamworks/discussions" target="_blank" rel="noreferrer"
     >Steamworks Development Discussions</a
 >
@@ -137,9 +142,9 @@ can be used to have the setup application install all 3rd-party applications you
 When installed from the setup application, users running Windows Vista will only need to authorize
 one UAC elevation for the entire installation process (a requirement for Games For Windows
 certification). If not installed through the setup application, Steam will need to ask for elevation
-a second time when executing your game's Installscript prior to launching your game.<br />There are
-some important differences between running Installscript from the setup application, and running it
-from Steam:<br />
+a second time when executing your game's Installscript prior to launching your game.<br />
+There are some important differences between running Installscript from the setup application, and
+running it from Steam:<br />
 <ol class="bb_ol">
     <li>
         The setup application can only run applications listed under the
@@ -161,13 +166,15 @@ from Steam:<br />
         media and you will not have access to the install path for your game.
     </li>
 </ol>
-<br />Because of these limitations, you should create a new version of your installscript that
-contains only applications that need to be run by an administrator (DirectX redist, MSVC++ redist,
-etc.). After creating and signing the new installscript vdf through the
+<br />
+Because of these limitations, you should create a new version of your installscript that contains
+only applications that need to be run by an administrator (DirectX redist, MSVC++ redist, etc.).
+After creating and signing the new installscript vdf through the
 <a href="https://partner.steamgames.com/apps/" target="_blank" rel="noreferrer">game admin</a>, move
 the file to
-<code class="bb_code bb_code_inline nohighlight">resources\installscript.vdf</code>.<br /><br />For
-more information about Installscript, see
+<code class="bb_code bb_code_inline nohighlight">resources\installscript.vdf</code>.<br />
+<br />
+For more information about Installscript, see
 <a href="https://partner.steamgames.com/doc/sdk/installscripts" class="bb_doclink"
     >Creating and using InstallScripts</a
 >.

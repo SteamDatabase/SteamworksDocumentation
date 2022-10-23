@@ -7,15 +7,18 @@ Community Profile.
 <h2 class="bb_section"><a name="2"></a>What they are good for</h2>
 In addition to providing highly-valued rewards to players of your games, achievements are useful for
 encouraging and rewarding teamwork and player interaction, providing extra dimensionality to the
-game objectives, and rewarding users for spending more of their time in-game.<br /><br />Statistics
-track fine-grained pieces of information, such as playtime, number of power-ups used, etc. You may
-choose to use them simply for tracking internal game data - so that, for instance, you can grant an
-achievement based on multi-session game play statistics collected from the user across multiple
-computers.
+game objectives, and rewarding users for spending more of their time in-game.<br />
+<br />
+Statistics track fine-grained pieces of information, such as playtime, number of power-ups used,
+etc. You may choose to use them simply for tracking internal game data - so that, for instance, you
+can grant an achievement based on multi-session game play statistics collected from the user across
+multiple computers.
 <h2 class="bb_section"><a name="3"></a>Implementation Overview</h2>
 <h2 class="bb_subsection"><a name="4"></a>Define Your Game's Stats and Achievements</h2>
 Achievements are application specific and are setup on the App Admin page of the Steamworks partner
-site.<br /><br />There are three types of statistics your game can store:<br />
+site.<br />
+<br />
+There are three types of statistics your game can store:<br />
 <ul class="bb_ul">
     <li><strong>INT</strong> - A 32-bit (signed) integer (e.g. number of games played)<br /></li>
     <li>
@@ -26,7 +29,8 @@ site.<br /><br />There are three types of statistics your game can store:<br />
         <a href="#AVGRATE" class="bb_doclink">The AVGRATE stat type</a>
     </li>
 </ul>
-<br />The Steamworks Partner Website provides an interface for defining and updating your game's
+<br />
+The Steamworks Partner Website provides an interface for defining and updating your game's
 statistics and achievements. Using it, you can:<br />
 <ul class="bb_ul">
     <li>Define the initial statistics and achievements<br /></li>
@@ -80,8 +84,9 @@ Stats have the following properties:<br />
     <li>Window - The size of the "sliding window" used to average your data.</li>
 </ul>
 An <strong>AVGRATE</strong> stat is one that is automatically averaged by Steam. See the
-<a href="#AVGRATE" class="bb_doclink">AVGRATE</a> section below for more information.<br /><br />Achievements
-have the following properties:<br />
+<a href="#AVGRATE" class="bb_doclink">AVGRATE</a> section below for more information.<br />
+<br />
+Achievements have the following properties:<br />
 <ul class="bb_ul">
     <li>
         <strong>ID</strong> - An automatically-generated numerical ID for each achievement.<br />
@@ -113,10 +118,12 @@ have the following properties:<br />
     <li><strong>Achieved Icon</strong> - The icon to display when it is achieved.<br /></li>
     <li><strong>Unachieved Icon</strong> - The icon to display when it is not yet achieved.</li>
 </ul>
-<br />The following is the list of achievements from the
+<br />
+The following is the list of achievements from the
 <a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
     >Steamworks API Example Application (SpaceWar)</a
->:<br /><img
+>:<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/achievements_spacewar.png"
     alt="achievements_spacewar.png"
     title="achievements_spacewar.png"
@@ -260,18 +267,24 @@ have the following properties:<br />
 </ul>
 <h2 class="bb_subsection"><a name="AVGRATE"></a>The AVGRATE stat type</h2>
 This type of stat provides some unique and very useful functionality, but it requires a little bit
-more detail to explain.<br /><br />Consider the case where you'd like to track an average statistic,
-such as "Points earned per hour". One approach would be to have two stats, an INT "TotalPoints" and
-a FLOAT "TotalPlayTimeHours", and then divide points by time to get Points per Hour.<br /><br />The
-downside to this implementation is that, once the player has accumulated a significant amount of
+more detail to explain.<br />
+<br />
+Consider the case where you'd like to track an average statistic, such as "Points earned per hour".
+One approach would be to have two stats, an INT "TotalPoints" and a FLOAT "TotalPlayTimeHours", and
+then divide points by time to get Points per Hour.<br />
+<br />
+The downside to this implementation is that, once the player has accumulated a significant amount of
 playtime, the calculated average will change extremely slowly. In fact, the more the user plays the
 game, the less responsive that average will be. If the user has spent 100 hours playing the game,
 the calculated average will "lag" by about 50 hours of that. If they increase their skill, they will
-not see the increase in Points Per Hour that they expect.<br /><br />The AVGRATE stat type lets you
-implement a "sliding window" effect on the average. For instance, you can utilize only the previous
-few hours of gameplay, so the statistic will more accurately reflect the player's current skill
-level.<br /><br />Let's set up an AVGRATE stat to implement "points per hour" where only the
-previous 20 hours of gameplay affect the value. To do this, you would:<br />
+not see the increase in Points Per Hour that they expect.<br />
+<br />
+The AVGRATE stat type lets you implement a "sliding window" effect on the average. For instance, you
+can utilize only the previous few hours of gameplay, so the statistic will more accurately reflect
+the player's current skill level.<br />
+<br />
+Let's set up an AVGRATE stat to implement "points per hour" where only the previous 20 hours of
+gameplay affect the value. To do this, you would:<br />
 <ul class="bb_ul">
     <li>
         Note that, because the average will be "per hour", the time units on all time parameters
@@ -315,9 +328,11 @@ previous 20 hours of gameplay affect the value. To do this, you would:<br />
 In the above example, Steam will take the current rounds average of 342.2 points per hour ( 77
 divided by 0.225 ) and blend it with the previous value. The result will reflect the total average
 over the player's last 20 hours of game time. If this were the first time the stat was updated for
-the current user, the current value would be 342.2.<br /><br />This example uses "hours" as the time
-unit, but you may use whatever time unit you wish. Just keep in mind that you must consistently use
-that unit as your base for "dSessionLength", as well as the Window property.
+the current user, the current value would be 342.2.<br />
+<br />
+This example uses "hours" as the time unit, but you may use whatever time unit you wish. Just keep
+in mind that you must consistently use that unit as your base for "dSessionLength", as well as the
+Window property.
 <h2 class="bb_subsection"><a name="7"></a>Getting stats for other users</h2>
 You can use
 <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats" class="bb_apilink"
@@ -342,8 +357,10 @@ stats, so to refresh the data just call
 <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestUserStats" class="bb_apilink"
     >ISteamUserStats::RequestUserStats</a
 >
-again.<br /><br />To keep from using too much memory, a Least Recently Used (LRU) cache is
-maintained and other user's stats will occasionally be unloaded. When this happens a
+again.<br />
+<br />
+To keep from using too much memory, a Least Recently Used (LRU) cache is maintained and other user's
+stats will occasionally be unloaded. When this happens a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#UserStatsUnloaded_t"
     class="bb_apilink"
@@ -380,15 +397,17 @@ enhanced security against cheating, as users may be able to modify their own gam
 being a game server. To define official game servers, enter the IP ranges of the servers
 <a href="https://partner.steamgames.com/apps/dedicatedservers/" target="_blank" rel="noreferrer"
     >here</a
->.<br /><br />Stats and achievements that are settable by game servers cannot be set by clients.
-Game servers can only set stats and achievements for users currently playing on the server. If the
-user leaves the server there is a short grace period to set any final stats, but then any new
-uploads will be denied. This is to help ensure consistency and to avoid making it possible for a
-malicious game server to set anyone's stats at any time. Given the restriction, it is important not
-to wait until the end of a round to set stats. Set them continuously so you can store them as a user
-quits.<br /><br />Clients will get automatic updates when a game server changes their stats.
-However, like clients, stats loaded by the server for other users are not refreshed automatically
-and can age out.
+>.<br />
+<br />
+Stats and achievements that are settable by game servers cannot be set by clients. Game servers can
+only set stats and achievements for users currently playing on the server. If the user leaves the
+server there is a short grace period to set any final stats, but then any new uploads will be
+denied. This is to help ensure consistency and to avoid making it possible for a malicious game
+server to set anyone's stats at any time. Given the restriction, it is important not to wait until
+the end of a round to set stats. Set them continuously so you can store them as a user quits.<br />
+<br />
+Clients will get automatic updates when a game server changes their stats. However, like clients,
+stats loaded by the server for other users are not refreshed automatically and can age out.
 <h2 class="bb_subsection"><a name="9"></a>Resetting stats</h2>
 During development, it is often the case that a complete wipe of stats and achievements on an
 account or all accounts is desirable for testing. To wipe stats for an account, call
@@ -437,7 +456,9 @@ stats are in the hands of users, this data is subject to being manipulated. Ther
 when using aggregated stats to set good bounds for min value, max value, increment only (if
 appropriate), and max change. Max change has a special meaning for aggregated stats. When a new
 value is uploaded, the global value will change no more than the max change value. This limits how
-quickly a cheater can influence the global totals.<br /><br />To access the global totals, call
+quickly a cheater can influence the global totals.<br />
+<br />
+To access the global totals, call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalStats"
     class="bb_apilink"
@@ -459,8 +480,9 @@ You can access that history with
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetGlobalStatHistory"
     class="bb_apilink"
     >ISteamUserStats::GetGlobalStatHistory</a
->.<br /><br />You can also request global achievement completion percentages from the client. To do
-so first call
+>.<br />
+<br />
+You can also request global achievement completion percentages from the client. To do so first call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
     class="bb_apilink"
@@ -483,10 +505,13 @@ and
     >ISteamUserStats::GetAchievementAchievedPercent</a
 >.
 <h2 class="bb_subsection"><a name="testing"></a>Testing</h2>
-<br />Before your app is released, you will not be able to see which achievements have been earned
-in the Steam Community or library. Your app will need a way to output what achievements have been
-earned for the user.<br /><br />To clear an achievement or stats without adding code to your game,
-you can use the Steam client console. Run with steam.exe -console, then:<br />
+<br />
+Before your app is released, you will not be able to see which achievements have been earned in the
+Steam Community or library. Your app will need a way to output what achievements have been earned
+for the user.<br />
+<br />
+To clear an achievement or stats without adding code to your game, you can use the Steam client
+console. Run with steam.exe -console, then:<br />
 <ul class="bb_ul">
     <li>achievement_clear &lt;appid&gt; &lt;achievement name&gt;<br /></li>
     <li>reset_all_stats &lt;appid&gt;</li>
@@ -501,14 +526,17 @@ that goes to a page showcasing what they have achieved, and which they have yet 
         visible to the community.
     </div>
 </div>
-<br />Each achievement is listed with the appropriate icon, and the name and description as set in
-the Steamworks control panel. If the achievement name and description have been localized into the
-language the user has selected, then they will display in that language.<br /><br />There will also
-be a link from this page, and one from your game's main Steam page, to a set of global achievement
-statistics for your game. It displays the percentage of Steam players of the game that have achieved
-each one, ordered from most common to the rarest achievement. This is fun for players to see, and
-also a great resource for you as a developer: are your special challenges hard enough? Or maybe too
-hard? (this information is also available on the Sales and Activations Reports site).
+<br />
+Each achievement is listed with the appropriate icon, and the name and description as set in the
+Steamworks control panel. If the achievement name and description have been localized into the
+language the user has selected, then they will display in that language.<br />
+<br />
+There will also be a link from this page, and one from your game's main Steam page, to a set of
+global achievement statistics for your game. It displays the percentage of Steam players of the game
+that have achieved each one, ordered from most common to the rarest achievement. This is fun for
+players to see, and also a great resource for you as a developer: are your special challenges hard
+enough? Or maybe too hard? (this information is also available on the Sales and Activations Reports
+site).
 <h2 class="bb_section"><a name="12"></a>More Questions?</h2>
 Ask questions on the
 <a

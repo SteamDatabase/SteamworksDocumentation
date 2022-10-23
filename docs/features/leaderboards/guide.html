@@ -18,8 +18,9 @@ Leaderboards are application specific and are setup on the
 <a href="https://partner.steamgames.com/apps/leaderboards/" target="_blank" rel="noreferrer"
     >Leaderboard Configuration</a
 >
-page in the Steamworks Partner Site.<br /><br />The following fields must be completed to define a
-leaderboard:<br />
+page in the Steamworks Partner Site.<br />
+<br />
+The following fields must be completed to define a leaderboard:<br />
 <ul class="bb_ul">
     <li>
         <strong>Name</strong> - Set this to be a name that makes sense as part of internal
@@ -47,7 +48,8 @@ leaderboard:<br />
         scores for friends of the user, all scores can always be read by WebAPI. Defaults to false.
     </li>
 </ul>
-<br /><img
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/spacewar_leaderboards"
     alt="spacewar_leaderboards"
     title="spacewar_leaderboards"
@@ -73,18 +75,18 @@ all of the Steam call result handlers.<br />
 </div>
 <h2 class="bb_subsection"><a name="5"></a>Code File</h2>
 <h4>Constructor</h4>
-<strong>Parameters</strong> - None<br /><strong>Returns</strong> - N/A<br /><strong
-    >What it does</strong
->
-- This constructor just initializes the member variables.<br />
+<strong>Parameters</strong> - None<br />
+<strong>Returns</strong> - N/A<br />
+<strong>What it does</strong> - This constructor just initializes the member variables.<br />
 <div class="bb_code cpp">
     CSteamLeaderboards::CSteamLeaderboards() : m_CurrentLeaderboard( NULL ), m_nLeaderboardEntries(
     0 ) { }
 </div>
 <h4>FindLeaderboard()</h4>
 <strong>Parameters</strong> - The string identifier of the leaderboard that you want to find (ie.
-"Feet Traveled")<br /><strong>Returns</strong> - Nothing<br /><strong>What it does</strong> - This
-method wraps a call to
+"Feet Traveled")<br />
+<strong>Returns</strong> - Nothing<br />
+<strong>What it does</strong> - This method wraps a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard" class="bb_apilink"
     >ISteamUserStats::FindLeaderboard</a
 >
@@ -99,11 +101,11 @@ return method to use.<br />
     &amp;CSteamLeaderboards::OnFindLeaderboard); }
 </div>
 <h4>OnFindLeaderboard()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-    >What it does</strong
->
-- This method is a callback that is called anytime we attempt to find a leaderboard on Steam. If the
-requested leaderboard was found then we set that leaderboard handle as our current leaderboard.<br />
+<strong>Parameters</strong> - N/A<br />
+<strong>Returns</strong> - Nothing<br />
+<strong>What it does</strong> - This method is a callback that is called anytime we attempt to find
+a leaderboard on Steam. If the requested leaderboard was found then we set that leaderboard handle
+as our current leaderboard.<br />
 <div class="bb_code cpp">
     void CSteamLeaderboards::OnFindLeaderboard( LeaderboardFindResult_t *pCallback, bool bIOFailure
     ) { // see if we encountered an error during the call if ( !pCallback-&gt;m_bLeaderboardFound ||
@@ -112,8 +114,10 @@ requested leaderboard was found then we set that leaderboard handle as our curre
 </div>
 <h4>UploadScore()</h4>
 <strong>Parameters</strong> - an int32 representing the value to store in the current
-leaderboard.<br /><strong>Returns</strong> - false if a leaderboard has not been selected yet,
-otherwise it returns true.<br /><strong>What it does</strong> - This method wraps a call to
+leaderboard.<br />
+<strong>Returns</strong> - false if a leaderboard has not been selected yet, otherwise it returns
+true.<br />
+<strong>What it does</strong> - This method wraps a call to
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
     class="bb_apilink"
@@ -131,20 +135,20 @@ made after you have selected a leaderboard using
     true; }
 </div>
 <h4>OnUploadScore()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-    >What it does</strong
->
-- This method is a callback that is called anytime we attempt to upload a score to a leaderboard on
-Steam.<br />
+<strong>Parameters</strong> - N/A<br />
+<strong>Returns</strong> - Nothing<br />
+<strong>What it does</strong> - This method is a callback that is called anytime we attempt to
+upload a score to a leaderboard on Steam.<br />
 <div class="bb_code cpp">
     void CSteamLeaderboards::OnUploadScore(LeaderboardScoreUploaded_t *pCallback, bool bIOFailure) {
     if ( !pCallback-&gt;m_bSuccess || bIOFailure ) { OutputDebugString( "Score could not be uploaded
     to Steam\n" ); } }
 </div>
 <h4>DownloadScores()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - false if a leaderboard has not
-been selected yet, otherwise it returns true.<br /><strong>What it does</strong> - This method wraps
-a call to
+<strong>Parameters</strong> - N/A<br />
+<strong>Returns</strong> - false if a leaderboard has not been selected yet, otherwise it returns
+true.<br />
+<strong>What it does</strong> - This method wraps a call to
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
     class="bb_apilink"
@@ -164,12 +168,11 @@ needs to be made after you have selected a leaderboard using
     this, &amp;CSteamLeaderboards::OnDownloadScore); return true; }
 </div>
 <h4>OnDownloadScore()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-    >What it does</strong
->
-- This method is a callback that is called anytime we attempt to download entries from a leaderboard
-on Steam. If the data was successfully downloaded then we copy the data into our array of entries.
-The number of entries downloaded is stored in
+<strong>Parameters</strong> - N/A<br />
+<strong>Returns</strong> - Nothing<br />
+<strong>What it does</strong> - This method is a callback that is called anytime we attempt to
+download entries from a leaderboard on Steam. If the data was successfully downloaded then we copy
+the data into our array of entries. The number of entries downloaded is stored in
 <code class="bb_code bb_code_inline nohighlight">m_nLeaderboardEntries</code>.<br />
 <div class="bb_code cpp">
     void CSteamLeaderboards::OnDownloadScore(LeaderboardScoresDownloaded_t *pCallback, bool
@@ -217,13 +220,20 @@ you application exits. Finally we delete the helper object we created.<br />
 </div>
 <h2 class="bb_section"><a name="11"></a>Step 4 - Testing and Troubleshooting</h2>
 This sample code outputs debug information to the debug console that can help you understand what
-calls are succeeding or failing. The following are some typical failure messages and fixes:<br /><br /><strong
+calls are succeeding or failing. The following are some typical failure messages and fixes:<br />
+<br />
+<strong
     >This application has failed to start because steam_api.dll was not found. Re-installing the
     application may fix this problem.</strong
-><br />Make sure steam_api.dll is in the same directory as the executable.<br /><br /><strong
+><br />
+Make sure steam_api.dll is in the same directory as the executable.<br />
+<br />
+<strong
     >[S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local
     steamclient.dll</strong
-><br />You most likely don't have a Steam client running. Start Steam and log in.<br /><br /><strong
-    >[S_API FAIL] SteamAPI_Init() failed; no appID found.</strong
-><br />You most likely don't have the steam_appid.txt file in place. Place it in your source folder
-and ensure that it has your appID number in it.
+><br />
+You most likely don't have a Steam client running. Start Steam and log in.<br />
+<br />
+<strong>[S_API FAIL] SteamAPI_Init() failed; no appID found.</strong><br />
+You most likely don't have the steam_appid.txt file in place. Place it in your source folder and
+ensure that it has your appID number in it.

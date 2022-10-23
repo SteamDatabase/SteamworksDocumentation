@@ -17,7 +17,8 @@ Stats are application specific and are setup on the
     >Stats Configuration</a
 >
 page in the Steamworks App Admin backend. The following is the list of stats from the Steamworks
-sample app Spacewar:<br /><img
+sample app Spacewar:<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/stats_spacewar.png"
     alt="stats_spacewar.png"
     title="stats_spacewar.png"
@@ -41,8 +42,9 @@ page.<br />
     char *m_pchStatName; int m_iValue; float m_flValue; float m_flAvgNumerator; float
     m_flAvgDenominator; };
 </div>
-<br />Next we define a helper class that will wrap all of the Steam Stats API calls as well as
-creating all of the
+<br />
+Next we define a helper class that will wrap all of the Steam Stats API calls as well as creating
+all of the
 <a href="https://partner.steamgames.com/doc/sdk/api#callbacks" class="bb_doclink">Steam callbacks</a
 >.<br />
 <div class="bb_code cpp">
@@ -56,12 +58,11 @@ creating all of the
 <h2 class="bb_subsection"><a name="5"></a>Code File</h2>
 <h4>Constructor</h4>
 <strong>Parameters</strong> - The constructor takes a pointer to an array of stats along with the
-length of the array. The formating of that array will be covered in the main game code later.<br /><strong
-    >Returns</strong
->
-- N/A<br /><strong>What it does</strong> - The constructor initializes a number of members along
-with grabbing the app ID we are currently running as. In addition it hooks up the call back methods
-to handle asynchronous calls made to Steam. Finally it makes an initial call to
+length of the array. The formating of that array will be covered in the main game code later.<br />
+<strong>Returns</strong> - N/A<br />
+<strong>What it does</strong> - The constructor initializes a number of members along with grabbing
+the app ID we are currently running as. In addition it hooks up the call back methods to handle
+asynchronous calls made to Steam. Finally it makes an initial call to
 <code class="bb_code bb_code_inline nohighlight">RequestStats()</code> to get stats and achievements
 for the current user.<br />
 <div class="bb_code cpp">
@@ -71,14 +72,15 @@ for the current user.<br />
     SteamUtils()-&gt;GetAppID(); m_pStats = Stats; m_iNumStats = NumStats; RequestStats(); }
 </div>
 <h4>RequestStats()</h4>
-<strong>Parameters</strong> - None<br /><strong>Returns</strong> - a bool representing if the call
-succeeded or not. If the call failed then most likely Steam is not initialized. Make sure you have a
-steam client open when you try to make this call and that
+<strong>Parameters</strong> - None<br />
+<strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then
+most likely Steam is not initialized. Make sure you have a steam client open when you try to make
+this call and that
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
     >SteamAPI_Init</a
 >
-has been called before it.<br /><strong>What it does</strong> - This method basically wraps a call
-to
+has been called before it.<br />
+<strong>What it does</strong> - This method basically wraps a call to
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
     class="bb_apilink"
@@ -95,14 +97,15 @@ achievements.<br />
     return SteamUserStats()-&gt;RequestCurrentStats(); }
 </div>
 <h4>StoreStats()</h4>
-<strong>Parameters</strong> - None<br /><strong>Returns</strong> - a bool representing if the call
-succeeded or not. If the call failed then most likely Steam is not initialized. Make sure you have a
-steam client open when you try to make this call and that
+<strong>Parameters</strong> - None<br />
+<strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then
+most likely Steam is not initialized. Make sure you have a steam client open when you try to make
+this call and that
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
     >SteamAPI_Init</a
 >
-has been called before it.<br /><strong>What it does</strong> - This method basically wraps a call
-to
+has been called before it.<br />
+<strong>What it does</strong> - This method basically wraps a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats" class="bb_apilink"
     >ISteamUserStats::StoreStats</a
 >
@@ -119,12 +122,12 @@ call needs to be made anytime you want to update the stats of the user.<br />
     } return SteamUserStats()-&gt;StoreStats(); } }
 </div>
 <h4>OnUserStatsReceived()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-    >What it does</strong
->
-- This method is a callback that is called anytime you attempt to request stats. Stats are requested
-by using <code class="bb_code bb_code_inline nohighlight">RequestStats()</code>. The method updates
-the member variable m_Stats to reflect the latest stats data returned from Steam.<br />
+<strong>Parameters</strong> - N/A<br />
+<strong>Returns</strong> - Nothing<br />
+<strong>What it does</strong> - This method is a callback that is called anytime you attempt to
+request stats. Stats are requested by using
+<code class="bb_code bb_code_inline nohighlight">RequestStats()</code>. The method updates the
+member variable m_Stats to reflect the latest stats data returned from Steam.<br />
 <div class="bb_code cpp">
     void CSteamStats::OnUserStatsReceived( UserStatsReceived_t *pCallback ) { // we may get
     callbacks for other games' stats arriving, ignore them if ( m_iAppID == pCallback-&gt;m_nGameID
@@ -137,12 +140,11 @@ the member variable m_Stats to reflect the latest stats data returned from Steam
     "RequestStats - failed, %d\n", pCallback-&gt;m_eResult ); OutputDebugString( buffer ); } } }
 </div>
 <h4>OnUserStatsStored()</h4>
-<strong>Parameters</strong> - N/A<br /><strong>Returns</strong> - Nothing<br /><strong
-    >What it does</strong
->
-- This method is a callback that is called anytime you attempt to store stats on Steam. If any of
-the stats that we tried to set broke a constraint they will be reverted to their old value so we
-reload their values.<br />
+<strong>Parameters</strong> - N/A<br />
+<strong>Returns</strong> - Nothing<br />
+<strong>What it does</strong> - This method is a callback that is called anytime you attempt to
+store stats on Steam. If any of the stats that we tried to set broke a constraint they will be
+reverted to their old value so we reload their values.<br />
 <div class="bb_code cpp">
     void CSteamStats::OnUserStatsStored( UserStatsStored_t *pCallback ) { // we may get callbacks
     for other games' stats arriving, ignore them if ( m_iAppID == pCallback-&gt;m_nGameID ) { if (
@@ -202,13 +204,20 @@ you application exits. Finally we delete the helper object we created.<br />
 </div>
 <h2 class="bb_section"><a name="12"></a>Step 4 - Testing and Troubleshooting</h2>
 This sample code outputs debug information to the debug console that can help you understand what
-calls are succeeding or failing. The following are some typical failure messages and fixes:<br /><br /><strong
+calls are succeeding or failing. The following are some typical failure messages and fixes:<br />
+<br />
+<strong
     >This application has failed to start because steam_api.dll was not found. Re-installing the
     application may fix this problem.</strong
-><br />Make sure steam_api.dll is in the same directory as the executable.<br /><br /><strong
+><br />
+Make sure steam_api.dll is in the same directory as the executable.<br />
+<br />
+<strong
     >[S_API FAIL] SteamAPI_Init() failed; unable to locate a running instance of Steam, or a local
     steamclient.dll</strong
-><br />You most likely don't have a Steam client running. Start Steam and log in.<br /><br /><strong
-    >[S_API FAIL] SteamAPI_Init() failed; no appID found.</strong
-><br />You most likely don't have the steam_appid.txt file in place. Place it in your source folder
-and ensure that it has your appID number in it.
+><br />
+You most likely don't have a Steam client running. Start Steam and log in.<br />
+<br />
+<strong>[S_API FAIL] SteamAPI_Init() failed; no appID found.</strong><br />
+You most likely don't have the steam_appid.txt file in place. Place it in your source folder and
+ensure that it has your appID number in it.

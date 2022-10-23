@@ -2,10 +2,12 @@
 This is the interface used to access the
 <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
     >Steam Inventory Service</a
->.<br /><br /><strong>NOTE:</strong> This is a Service interface, methods in this interface should
-be called with the
-<code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br /><br />For more
-info on how to use the Steamworks Web API please see the
+>.<br />
+<br />
+<strong>NOTE:</strong> This is a Service interface, methods in this interface should be called with
+the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br />
+<br />
+For more info on how to use the Steamworks Web API please see the
 <a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
 >.
 <h2 class="bb_section"><a name="AddItem"></a>AddItem</h2>
@@ -80,27 +82,34 @@ info on how to use the Steamworks Web API please see the
         </td>
     </tr>
 </table>
-<br />AddItem is used to add new items directly in a user's inventory. For each itemdef, an instance
-of that type is created and added to the target account.<br /><br />Items of type 'bundle' or
-'generator' are unpacked at the time they are added. The response message provides information about
-the item or items that were actually inserted in the inventory.<br /><br />This call will fail if
-the itemdef is not defined or cannot be unpacked; or if the target player does not have permission
-for the given appid.<br /><br />Player notification of a new item, if any, is best handled by the
-game client. Calls to AddItem that occur when the player is not in-game may optionally set
+<br />
+AddItem is used to add new items directly in a user's inventory. For each itemdef, an instance of
+that type is created and added to the target account.<br />
+<br />
+Items of type 'bundle' or 'generator' are unpacked at the time they are added. The response message
+provides information about the item or items that were actually inserted in the inventory.<br />
+<br />
+This call will fail if the itemdef is not defined or cannot be unpacked; or if the target player
+does not have permission for the given appid.<br />
+<br />
+Player notification of a new item, if any, is best handled by the game client. Calls to AddItem that
+occur when the player is not in-game may optionally set
 <code class="bb_code bb_code_inline nohighlight">notify=1</code> to notify the player via Steam.
-This may engage any of the player-notification mechanisms in Steam, including an overlay popup.<br /><br />The
-optional <code class="bb_code bb_code_inline nohighlight">requestid</code> parameter allows a client
-to make an idempotent call. If the client is unsure whether a request completed successfully on the
-server, it can replay the request, reusing the original request ID.<br />If the request is replayed,
-the response will include current state for the items that were affected by the original request,
-without making new changes.<br /><br />If the original request fails on the server, replaying the
-same request ID will re-attempt the work rather than reporting the prior error result.<br /><br /><strong
-    >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!<br /><br /><strong
-    >Response:</strong
-><br />
+This may engage any of the player-notification mechanisms in Steam, including an overlay popup.<br />
+<br />
+The optional <code class="bb_code bb_code_inline nohighlight">requestid</code> parameter allows a
+client to make an idempotent call. If the client is unsure whether a request completed successfully
+on the server, it can replay the request, reusing the original request ID.<br />
+If the request is replayed, the response will include current state for the items that were affected
+by the original request, without making new changes.<br />
+<br />
+If the original request fails on the server, replaying the same request ID will re-attempt the work
+rather than reporting the prior error result.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -130,13 +139,15 @@ called from a secure server, and can never be used directly by clients!<br /><br
         </ul>
     </li>
 </ul>
-<br /><strong>Example Response:</strong><br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     { "response": { "item_json": "[{
     \"accountid\":\"148618792083651397\",\"itemid\":\"17209346500926339\",\"Timestamp\":\"\",\"originalitemid\":\"17209346500926339\",\"itemdefid\":\"120\",\"appid\":480,\"position\":0,\"quantity\":1,\"transid\":\"\",\"state\":\"\",\"origin\":\"external\",\"price\":\"\",\"acquired\":\"20140912T195537Z\"}]"
     } }
 </div>
-<br /><strong>Calling Example:</strong><br />
+<br />
+<strong>Calling Example:</strong><br />
 <div class="bb_code">
     curl -X POST -H "Content-Type: application/x-www-form-urlencoded" \ -d appid=480 \ -d
     steamid=292733980074050545 \ -d itemdefid[0]=4111 \ -d itemdefid[1]=4112 \
@@ -195,10 +206,12 @@ called from a secure server, and can never be used directly by clients!<br /><br
         <td></td>
     </tr>
 </table>
-<br />Adds a promo item to a user's inventory. If called without the itemdefid parameter, checks for
-and grants available promo items for the given player.<br /><br /><strong>NOTE:</strong> This call
-requires a publisher API key to use this method. As such this API <strong>MUST</strong> be called
-from a secure server, and can never be used directly by clients!
+<br />
+Adds a promo item to a user's inventory. If called without the itemdefid parameter, checks for and
+grants available promo items for the given player.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="ConsumeItem"></a>ConsumeItem</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/ConsumeItem/v1/</div>
 <table>
@@ -251,12 +264,13 @@ from a secure server, and can never be used directly by clients!
         </td>
     </tr>
 </table>
-<br />Marks an item as wholly or partially consumed. This action cannot be reversed.<br /><br /><strong
-    >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!<br /><br />A client SDK
-version of this call is also available:
+<br />
+Marks an item as wholly or partially consumed. This action cannot be reversed.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+A client SDK version of this call is also available:
 <a href="https://partner.steamgames.com/doc/api/ISteamInventory#ConsumeItem" class="bb_apilink"
     >ISteamInventory::ConsumeItem</a
 >
@@ -317,33 +331,44 @@ version of this call is also available:
         <td>The ItemDef of the item to be created.</td>
     </tr>
 </table>
-<br />ExchangeItem is used for crafting - converting items using a predefined recipe. A successful
+<br />
+ExchangeItem is used for crafting - converting items using a predefined recipe. A successful
 exchange destroys the set of items required by the crafting recipe, and adds a new instance of the
-target itemdef to the player's inventory.<br /><br />The target item definition must have one or
-more crafting recipes declared in the
+target itemdef to the player's inventory.<br />
+<br />
+The target item definition must have one or more crafting recipes declared in the
 <code class="bb_code bb_code_inline nohighlight">exchange</code> attribute. Recipes declare the
 number and type of items required to create the target item. If the set of items provided in the
 ExchangeItems call does not satisfy any recipe, the call fails and no changes are made to the
-inventory.<br /><br />See the Inventory Service
+inventory.<br />
+<br />
+See the Inventory Service
 <a
     href="https://partner.steamgames.com/doc/features/inventory/schema#ExchangeFormat"
     class="bb_doclink"
     >Schema documentation</a
 >
-for more detail on crafting recipes.<br /><br />The crafting operation will take trade and market
-restrictions into account; the created item will have the latest trade restriction of any item used
-to create it.<br /><br />If successful, this call returns an encoded JSON blob that lists the items
-that were changed by this call - the consumed items and the newly created one.
+for more detail on crafting recipes.<br />
+<br />
+The crafting operation will take trade and market restrictions into account; the created item will
+have the latest trade restriction of any item used to create it.<br />
+<br />
+If successful, this call returns an encoded JSON blob that lists the items that were changed by this
+call - the consumed items and the newly created one.
 <div class="bb_callout bb_red bb_fixed">
     <div>
         <strong>NOTE:</strong> Never distribute your Steam API key with your game. This API must be
         called from a secure server, and cannot be used directly by clients.
     </div>
 </div>
-<br />A client SDK version of this call is also available:
+<br />
+A client SDK version of this call is also available:
 <a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
     >ISteamInventory::ExchangeItems</a
-><br /><br /><br /><strong>Response:</strong><br />
+><br />
+<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -357,13 +382,15 @@ that were changed by this call - the consumed items and the newly created one.
         </ul>
     </li>
 </ul>
-<br /><strong>Example Response:</strong><br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     { "response": { "item_json": "[{
     \"accountid\":\"292733980074050545\",\"itemid\":\"1503713096879725\",\"itemdefid\":\"4111\",\"state\":\"removed\"
     ... } }
 </div>
-<br /><strong>Calling Example:</strong><br />
+<br />
+<strong>Calling Example:</strong><br />
 <div class="bb_code">
     curl --request POST \ --header 'content-type: multipart/form-data' \ --form appid=30400 \ --form
     'materialsitemid[0]=1510699974025744' \ --form 'materialsitemid[1]=1510699974025745' \ --form
@@ -400,11 +427,13 @@ that were changed by this call - the consumed items and the newly created one.
         <td>64-bit Steam ID of the user whose inventory you are requesting.</td>
     </tr>
 </table>
-<br />GetInventory is used to retrieve a user's inventory.<br /><br /><strong>NOTE:</strong> This
-call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!<br /><br /><strong
-    >Response:</strong
-><br />
+<br />
+GetInventory is used to retrieve a user's inventory.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -428,11 +457,14 @@ called from a secure server, and can never be used directly by clients!<br /><br
         </ul>
     </li>
 </ul>
-<br />For detailed description on the output values, refer to the
+<br />
+For detailed description on the output values, refer to the
 <a href="https://partner.steamgames.com/doc/features/inventory/schema" class="bb_doclink"
     >Core Schema</a
 >
-documentation.<br /><br /><strong>Example Response:</strong><br />
+documentation.<br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     { "response": { "item_json": "[{
     \"accountid\":\"xxxxx\",\"itemid\":\"17212166272724458\",\"Timestamp\":\"2014-10-13T22:41:00.4928464Z\",\"originalitemid\":\"17212166272724458\",\"itemdefid\":\"120\",\"appid\":480,\"position\":0,\"quantity\":1,\"transid\":\"\",\"state\":\"\",\"origin\":\"external\",\"price\":\"\",\"acquired\":\"20141013T224100Z\"},
@@ -440,7 +472,8 @@ documentation.<br /><br /><strong>Example Response:</strong><br />
     \"accountid\":\"xxxxx\",\"itemid\":\"17212166272732706\",\"Timestamp\":\"2014-10-13T22:42:50.1328464Z\",\"originalitemid\":\"17212166272732706\",\"itemdefid\":\"121\",\"appid\":480,\"position\":0,\"quantity\":1,\"transid\":\"\",\"state\":\"\",\"origin\":\"external\",\"price\":\"\",\"acquired\":\"20141013T224250Z\"}
     ]" }}
 </div>
-<br /><strong>Calling Example:</strong><br />
+<br />
+<strong>Calling Example:</strong><br />
 <div class="bb_code">
     $fields = array( 'appid' &gt; '480', 'itemlist[0]' &gt; '120', 'itemorigin' &gt; '', 'steamid'
     &gt; 'xxxxx', 'key' &gt; 'xxxx' ); var_dump($fields); $ch = curl_init(); curl_setopt( $ch,
@@ -497,13 +530,13 @@ documentation.<br /><br /><strong>Example Response:</strong><br />
         <td>Allow stale data to be returned for the specified number of seconds.</td>
     </tr>
 </table>
-<br />GetItemDefs is used to retrieve the itemdefs for a given application.<br /><br /><strong
-    >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!<br /><br /><strong
-    >Response:</strong
-><br />
+<br />
+GetItemDefs is used to retrieve the itemdefs for a given application.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -527,7 +560,8 @@ called from a secure server, and can never be used directly by clients!<br /><br
         </ul>
     </li>
 </ul>
-<br /><strong>Example Response:</strong><br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code xml">
     { "response": { "itemdef_json":"[ {
     \"appid\":\"480\",\"itemdefid\":\"10\",\"Timestamp\":\"2014-09-12T01:29:10.4628321Z\",\"modified\":\"20140808T010203Z\",\"type\":\"generator\",\"name\":\"Drop
@@ -580,7 +614,8 @@ called from a secure server, and can never be used directly by clients!<br /><br
     generator\",\"name_color\":\"7D6D00\",\"workshopid\":\"0\",\"flags\":1,\"game_type\":\"power\",\"itemslot\":\"power\"}
     ]" } }
 </div>
-<br /><strong>Calling Example:</strong><br />
+<br />
+<strong>Calling Example:</strong><br />
 <div class="bb_code">
     $ch = curl_init(); curl_setopt( $ch, CURLOPT_URL,
     'https://api.steampowered.com/IInventoryService/GetItemDefs/v1?appid=480&amp;modifiedsince=&amp;itemdefids=&amp;workshopids=&amp;steamid=xxxx&amp;key=xxxxx'
@@ -610,7 +645,8 @@ called from a secure server, and can never be used directly by clients!<br /><br
         <td></td>
     </tr>
 </table>
-<br />Get the Inventory Service price sheet
+<br />
+Get the Inventory Service price sheet
 <h2 class="bb_section"><a name="Consolidate"></a>Consolidate</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/Consolidate/v1/</div>
 <table>
@@ -651,12 +687,15 @@ called from a secure server, and can never be used directly by clients!<br /><br
         <td></td>
     </tr>
 </table>
-<br />Consolidate items of the given type within an user's inventory.<br /><br />Whenever items are
-combined into a stack, the resulting stack takes the market and trade restriction values of the
-most-restricted item. The Consolidate action ignores any item with an active market or trade
-restriction, unless 'force' is set to true.<br /><br /><strong>NOTE:</strong> This call requires a
-publisher API key to use this method. As such this API <strong>MUST</strong> be called from a secure
-server, and can never be used directly by clients!
+<br />
+Consolidate items of the given type within an user's inventory.<br />
+<br />
+Whenever items are combined into a stack, the resulting stack takes the market and trade restriction
+values of the most-restricted item. The Consolidate action ignores any item with an active market or
+trade restriction, unless 'force' is set to true.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="GetQuantity"></a>GetQuantity</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/IInventoryService/GetQuantity/v1/</div>
 <table>
@@ -700,9 +739,11 @@ server, and can never be used directly by clients!
         <td></td>
     </tr>
 </table>
-<br />Get the total number of available items of the given type<br /><br /><strong>NOTE:</strong>
-This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!
+<br />
+Get the total number of available items of the given type<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="ModifyItems"></a>ModifyItems</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/ModifyItems/v1/</div>
 <table>
@@ -759,8 +800,8 @@ called from a secure server, and can never be used directly by clients!
         </td>
     </tr>
 </table>
-<br />Structure of the
-<code class="bb_code bb_code_inline nohighlight">updates</code> property:<br />
+<br />
+Structure of the <code class="bb_code bb_code_inline nohighlight">updates</code> property:<br />
 <table>
     <tr>
         <th>Name</th>
@@ -811,25 +852,30 @@ called from a secure server, and can never be used directly by clients!
         <td>Set to true if the property should be removed.</td>
     </tr>
 </table>
-<br />Modify the
+<br />
+Modify the
 <a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
     >dynamic properties</a
 >
 on items for the given user. This call is rate-limited per user and currently only 100 items can be
-modified in one call.<br /><br /><strong
-    >Example <code class="bb_code bb_code_inline nohighlight">input_json</code></strong
->:<br /><br />
+modified in one call.<br />
+<br />
+<strong>Example <code class="bb_code bb_code_inline nohighlight">input_json</code></strong
+>:<br />
+<br />
 <div class="bb_code">
     { "steamid": "76561197970323416", "timestamp": 1513274037, "updates": [ { "itemid": "1",
     "property_name": "fx", "property_value_string": "blue_flames" }, { "itemid": "1",
     "property_name": "quality", "property_value_string": "high" }, { "itemid": "1", "property_name":
     "color", "remove_property": true } ] }
 </div>
-<br /><strong>Calling Example:</strong><br />
+<br />
+<strong>Calling Example:</strong><br />
 <div class="bb_code">
     curl --request POST \ --header 'content-type: multipart/form-data' \ --form appid=30400 \ --form
     'input_json={ "steamid" : "76561197970323416", "timestamp" : 1513274037, "updates" : [] }' \
     https://api.steampowered.com/IInventoryService/ModifyItems/v1?key=xxxxxxxxxx'
 </div>
-<br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
-API <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!

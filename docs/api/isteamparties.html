@@ -3,33 +3,42 @@ This API can be used to selectively advertise your multiplayer game session in a
 group. Tell Steam the number of player spots that are available for your party, and a join-game
 string, and it will show a beacon in the selected group and allow that many users to “follow” the
 beacon to your party. Adjust the number of open slots if other players join through alternate
-matchmaking methods. <br /><br />For example, you can use ISteamParties in conjunction with a
-private lobby. Create a private lobby, and then use
+matchmaking methods. <br />
+<br />
+For example, you can use ISteamParties in conjunction with a private lobby. Create a private lobby,
+and then use
 <a href="https://partner.steamgames.com/doc/api/ISteamParties#CreateBeacon" class="bb_apilink"
     >ISteamParties::CreateBeacon</a
 >
 to create a party "beacon" for the number of players desired. The game connect string should
-indicate the ID of the private lobby. <br /><br />The beacon will appear in Steam in the specified
-location (e.g. a Chat Room Group), and also via the in-game ISteamParties API as described below.
-Steam creates "reservation" slots for the number of desired players. Whenever a user follows the
-beacon, Steam will hold a reservation slot for them and launch the game using the given connect
-string. <br /><br />The game session that created the beacon will be notified of this reservation,
-so the game can display the appropriate "User &lt;username&gt; is joining your party" or some other
-indicator. Once the user joins successfully, the game session should call
+indicate the ID of the private lobby. <br />
+<br />
+The beacon will appear in Steam in the specified location (e.g. a Chat Room Group), and also via the
+in-game ISteamParties API as described below. Steam creates "reservation" slots for the number of
+desired players. Whenever a user follows the beacon, Steam will hold a reservation slot for them and
+launch the game using the given connect string. <br />
+<br />
+The game session that created the beacon will be notified of this reservation, so the game can
+display the appropriate "User &lt;username&gt; is joining your party" or some other indicator. Once
+the user joins successfully, the game session should call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamParties#OnReservationCompleted"
     class="bb_apilink"
     >ISteamParties::OnReservationCompleted</a
 >
 to tell Steam that the user successfully joined (otherwise, Steam will eventually timeout their
-reservation and re-open the slot). <br /><br />When all of the beacon slots are occupied - either by
-reservations for users still launching the game, or completed slots for users in the party - Steam
-will hide and disable the beacon. <br /><br />To cancel the beacon - for instance when the party is
-full and the game begins - call
+reservation and re-open the slot). <br />
+<br />
+When all of the beacon slots are occupied - either by reservations for users still launching the
+game, or completed slots for users in the party - Steam will hide and disable the beacon. <br />
+<br />
+To cancel the beacon - for instance when the party is full and the game begins - call
 <a href="https://partner.steamgames.com/doc/api/ISteamParties#DestroyBeacon" class="bb_apilink"
     >ISteamParties::DestroyBeacon</a
->.<br /><br />The client side of this operation - seeing and following beacons - can also be managed
-by your game. Using
+>.<br />
+<br />
+The client side of this operation - seeing and following beacons - can also be managed by your game.
+Using
 <a
     href="https://partner.steamgames.com/doc/api/ISteamParties#GetNumActiveBeacons"
     class="bb_apilink"
@@ -67,13 +76,17 @@ header file <code class="bb_code bb_code_inline nohighlight">steam/ISteamMatchma
         <td>Address of variable to receive the response number.</td>
     </tr>
 </table>
-<br />Get the number of locations in which you are able to post a party beacon.<br /><br />Use this
-to size your result list for a call to
+<br />
+Get the number of locations in which you are able to post a party beacon.<br />
+<br />
+Use this to size your result list for a call to
 <a
     href="https://partner.steamgames.com/doc/api/ISteamParties#GetAvailableBeaconLocations"
     class="bb_apilink"
     >ISteamParties::GetAvailableBeaconLocations</a
->.<br /><br /><strong>Returns:</strong> bool
+>.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="GetAvailableBeaconLocations"></a>GetAvailableBeaconLocations</h2>
 <div class="bb_code cpp">
     bool GetAvailableBeaconLocations( SteamPartyBeaconLocation_t *pLocationList, uint32
@@ -107,14 +120,17 @@ to size your result list for a call to
         </td>
     </tr>
 </table>
-<br />Get the list of locations in which you can post a party beacon.<br /><br /><strong
-    >See Also:</strong
->
+<br />
+Get the list of locations in which you can post a party beacon.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamParties#GetNumAvailableBeaconLocations"
     class="bb_apilink"
     >ISteamParties::GetNumAvailableBeaconLocations</a
-><br /><br /><strong>Returns:</strong> bool
+><br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="CreateBeacon"></a>CreateBeacon</h2>
 <div class="bb_code cpp">
     SteamAPICall_t CreateBeacon( uint32 unOpenSlots, SteamPartyBeaconLocation_t *pBeaconLocation,
@@ -175,13 +191,16 @@ to size your result list for a call to
         </td>
     </tr>
 </table>
-<br />Create a beacon. You can only create one beacon at a time. Steam will display the beacon in
-the specified location, and let up to unOpenSlots users "follow" the beacon to your party.
-<br /><br />If users join your party through other matchmaking, adjust the number of remaining open
-slots using
+<br />
+Create a beacon. You can only create one beacon at a time. Steam will display the beacon in the
+specified location, and let up to unOpenSlots users "follow" the beacon to your party. <br />
+<br />
+If users join your party through other matchmaking, adjust the number of remaining open slots using
 <a href="https://partner.steamgames.com/doc/api/ISteamParties#ChangeNumOpenSlots" class="bb_apilink"
     >ISteamParties::ChangeNumOpenSlots</a
->.<br /><br /><strong>Returns:</strong>
+>.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -189,7 +208,8 @@ to be used with a
 <a href="https://partner.steamgames.com/doc/api/CreateBeaconCallback_t" class="bb_apilink"
     >CreateBeaconCallback_t</a
 >
-call result.<br />Returns
+call result.<br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
@@ -225,8 +245,9 @@ if the process already has an active beacon, or if the location information is i
         <td>SteamID of the user joining your party.</td>
     </tr>
 </table>
-<br />When a user follows your beacon, Steam will reserve one of the open party slots for them, and
-send your game a
+<br />
+When a user follows your beacon, Steam will reserve one of the open party slots for them, and send
+your game a
 <a
     href="https://partner.steamgames.com/doc/api/ReservationNotificationCallback_t"
     class="bb_apilink"
@@ -265,10 +286,10 @@ Steam that the user has joined successfully.
         <td>The new number of open slots in your party.</td>
     </tr>
 </table>
-<br />If a user joins your party through other matchmaking (perhaps a direct Steam friend, or your
-own matchmaking system), your game should reduce the number of open slots that Steam is managing
-through the party beacon. For example, if you created a beacon with five slots, and Steam sent you
-two
+<br />
+If a user joins your party through other matchmaking (perhaps a direct Steam friend, or your own
+matchmaking system), your game should reduce the number of open slots that Steam is managing through
+the party beacon. For example, if you created a beacon with five slots, and Steam sent you two
 <a
     href="https://partner.steamgames.com/doc/api/ReservationNotificationCallback_t"
     class="bb_apilink"
@@ -276,9 +297,9 @@ two
 >
 callbacks, and then a third user joined directly, you would want to call
 <strong>ChangeNumOpenSlots</strong> with a value of 2 for unOpenSlots. That value represents the
-total number of <i>new</i> users that you would like Steam to send to your party.<br /><br /><strong
-    >Returns:</strong
->
+total number of <i>new</i> users that you would like Steam to send to your party.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -286,7 +307,8 @@ to be used with a
 <a href="https://partner.steamgames.com/doc/api/ChangeNumOpenSlotsCallback_t" class="bb_apilink"
     >ChangeNumOpenSlotsCallback_t</a
 >
-call result.<br />Returns
+call result.<br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
@@ -311,20 +333,26 @@ if the beacon ID is invalid.
         <td>Beacon ID to be destroyed.</td>
     </tr>
 </table>
-<br />Call this method to destroy the Steam party beacon. This will immediately cause Steam to stop
+<br />
+Call this method to destroy the Steam party beacon. This will immediately cause Steam to stop
 showing the beacon in the target location. Note that any users currently in-flight may still arrive
-at your party expecting to join.<br /><br />Your game should call this method when either the party
-has been filled and the game is beginning, or the user has decided to abandon creating a party. The
-beacon will be destroyed automatically when your game exits, but the preferred behavior is for the
-game to call <strong>DestroyBeacon</strong> at the right time.<br /><br /><strong>Returns:</strong>
-bool
+at your party expecting to join.<br />
+<br />
+Your game should call this method when either the party has been filled and the game is beginning,
+or the user has decided to abandon creating a party. The beacon will be destroyed automatically when
+your game exits, but the preferred behavior is for the game to call
+<strong>DestroyBeacon</strong> at the right time.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="GetNumActiveBeacons"></a>GetNumActiveBeacons</h2>
 <div class="bb_code cpp">uint32 GetNumActiveBeacons();</div>
-<br />This method has no parameters.<br /><br />Get the number of active party beacons created by
-<i>other</i> users for your game, that are visible to the current user.<br /><br /><strong
-    >Returns:</strong
->
-uint32
+<br />
+This method has no parameters.<br />
+<br />
+Get the number of active party beacons created by <i>other</i> users for your game, that are visible
+to the current user.<br />
+<br />
+<strong>Returns:</strong> uint32
 <h2 class="bb_subsection"><a name="GetBeaconByIndex"></a>GetBeaconByIndex</h2>
 <div class="bb_code cpp">PartyBeaconID_t GetBeaconByIndex( uint32 unIndex );</div>
 <table>
@@ -341,7 +369,8 @@ uint32
         <td>Index of Beacon.</td>
     </tr>
 </table>
-<br />Use with
+<br />
+Use with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamParties#GetNumActiveBeacons"
     class="bb_apilink"
@@ -353,9 +382,9 @@ index, so iterate over the range [0, GetNumActiveBeacons() - 1]. The return is a
 <a href="https://partner.steamgames.com/doc/api/ISteamParties#GetBeaconDetails" class="bb_apilink"
     >ISteamParties::GetBeaconDetails</a
 >
-to get information about the beacons suitable for display to the user. <br /><br /><strong
-    >Returns:</strong
->
+to get information about the beacons suitable for display to the user. <br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamParties#PartyBeaconID_t" class="bb_apilink"
     >PartyBeaconID_t</a
 >
@@ -420,7 +449,8 @@ to get information about the beacons suitable for display to the user. <br /><br
         <td>Size of the above buffer.</td>
     </tr>
 </table>
-<br />Get details about the specified beacon. You can use the
+<br />
+Get details about the specified beacon. You can use the
 <a href="https://partner.steamgames.com/doc/api/ISteamFriends" class="bb_apilink">ISteamFriends</a>
 API to get further details about <strong>pSteamIDBeaconOwner</strong>, and
 <a
@@ -430,7 +460,9 @@ API to get further details about <strong>pSteamIDBeaconOwner</strong>, and
 >
 to get further details about <strong>pLocation</strong>. The <strong>pchMetadata</strong> contents
 are specific to your game, and will be whatever was set (if anything) by the game process that
-created the beacon.<br /><br /><strong>Returns:</strong> bool
+created the beacon.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="JoinParty"></a>JoinParty</h2>
 <div class="bb_code cpp">SteamAPICall_t JoinParty( PartyBeaconID_t ulBeaconID );</div>
 <table>
@@ -451,15 +483,19 @@ created the beacon.<br /><br /><strong>Returns:</strong> bool
         <td>Beacon ID for the party you wish to join.</td>
     </tr>
 </table>
-<br />When the user indicates they wish to join the party advertised by a given beacon, call this
-method. On success, Steam will reserve a slot for this user in the party and return the necessary
-"join game" string to use to complete the connection.<br /><br /><strong>Returns:</strong>
+<br />
+When the user indicates they wish to join the party advertised by a given beacon, call this method.
+On success, Steam will reserve a slot for this user in the party and return the necessary "join
+game" string to use to complete the connection.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
 to be used with a
 <a href="https://partner.steamgames.com/doc/api/JoinParty_t" class="bb_apilink">JoinParty_t</a> call
-result.<br />Returns
+result.<br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
@@ -508,11 +544,11 @@ if the beacon ID is invalid.
         <td>Size of buffer pointed to by pchDataStringOut.</td>
     </tr>
 </table>
-<br />Query general metadata for the given beacon location. For instance the Name, or the URL for an
-icon if the location type supports icons (for example, the icon for a Steam Chat Room Group).<br /><br /><strong
-    >Returns:</strong
->
-bool
+<br />
+Query general metadata for the given beacon location. For instance the Name, or the URL for an icon
+if the location type supports icons (for example, the icon for a Steam Chat Room Group).<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
@@ -524,7 +560,8 @@ This callback is used as a call response for
 <a href="https://partner.steamgames.com/doc/api/ISteamParties#JoinParty" class="bb_apilink"
     >ISteamParties::JoinParty</a
 >. On success, you will have reserved a slot in the beacon-owner's party, and should use
-<strong>m_rgchConnectString</strong> to connect to their game and complete the process.<br /><br />
+<strong>m_rgchConnectString</strong> to connect to their game and complete the process.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -579,7 +616,8 @@ This callback is used as a call response for
     class="bb_apilink"
     >ISteamParties::ReservationNotificationCallback_t</a
 >
-callbacks for users following the beacon. <br /><br />
+callbacks for users following the beacon. <br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -617,7 +655,8 @@ that you should be prepared for the user to join your game. When they do join, b
     class="bb_apilink"
     >ISteamParties::OnReservationCompleted</a
 >
-to let Steam know.<br /><br />
+to let Steam know.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -651,7 +690,8 @@ to let Steam know.<br /><br />
 Call result for
 <a href="https://partner.steamgames.com/doc/api/ISteamParties#ChangeNumOpenSlots" class="bb_apilink"
     >ISteamParties::ChangeNumOpenSlots</a
->. <br /><br />
+>. <br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -671,15 +711,18 @@ Call result for
 <h2 class="bb_subsection">
     <a name="AvailableBeaconLocationsUpdated_t"></a>AvailableBeaconLocationsUpdated_t
 </h2>
-Notification that the list of available locations for posting a beacon has been updated.
-<br /><br />This callback has no members.
+Notification that the list of available locations for posting a beacon has been updated. <br />
+<br />
+This callback has no members.
 <h2 class="bb_subsection"><a name="ActiveBeaconsUpdated_t"></a>ActiveBeaconsUpdated_t</h2>
-Notification that the list of active beacons visible to the current user has changed.
-<br /><br />This callback has no members.
+Notification that the list of active beacons visible to the current user has changed. <br />
+<br />
+This callback has no members.
 <h2 class="bb_section"><a name="structs"></a>Structs</h2>
 These are structs which functions in ISteamParties may return and/or interact with.
 <h2 class="bb_subsection"><a name="SteamPartyBeaconLocation_t"></a>SteamPartyBeaconLocation_t</h2>
-<br /><br />
+<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -712,7 +755,8 @@ These are enums which are defined for use with ISteamParties.
 <h2 class="bb_subsection">
     <a name="ESteamPartyBeaconLocationType"></a>ESteamPartyBeaconLocationType
 </h2>
-Types of locations where beacons can be posted.<br /><br />
+Types of locations where beacons can be posted.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -738,7 +782,8 @@ Types of locations where beacons can be posted.<br /><br />
 <h2 class="bb_subsection">
     <a name="ESteamPartyBeaconLocationData"></a>ESteamPartyBeaconLocationData
 </h2>
-Types of extended metadata for beacon locations.<br /><br />
+Types of extended metadata for beacon locations.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -779,7 +824,8 @@ Types of extended metadata for beacon locations.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
-These are typedefs which are defined for use with ISteamParties.<br /><br />
+These are typedefs which are defined for use with ISteamParties.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

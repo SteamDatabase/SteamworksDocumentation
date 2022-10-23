@@ -11,18 +11,22 @@ inviting friends to play, allowing players to unlock
 <a href="https://partner.steamgames.com/doc/features/leaderboards" class="bb_doclink"
     >Steam Leaderboards</a
 >
-and much more.<br /><br />The
+and much more.<br />
+<br />
+The
 <a href="https://partner.steamgames.com/doc/api" class="bb_doclink">Steamworks API Reference</a>
-catalogs and documents every interface, function, callback, and type supported in the API.<br /><br />Integration
-with the Steamworks API is never required to ship your product on Steam, but it is highly
-recommended as it allows you to accomplish many interactions that Steam users expect.
+catalogs and documents every interface, function, callback, and type supported in the API.<br />
+<br />
+Integration with the Steamworks API is never required to ship your product on Steam, but it is
+highly recommended as it allows you to accomplish many interactions that Steam users expect.
 <h2 class="bb_section"><a name="2"></a>Getting Started</h2>
 <strong>NOTE:</strong> The Steamworks API officially supports C++, using Microsoft Visual Studio
 2008+ on Microsoft Windows, GCC 4.6+ and Clang 3.0+ on macOS and SteamOS / Linux. If you're using a
 third party engine or a programming language other than C++ then you should first look at
 <a href="#thirdparty" class="bb_doclink">Commercial engine and non-C++ language support</a> to see
 if there are more specific instructions to get started with your engine or language of choice. In
-some cases you may be able to skip many of these steps.<br /><br />
+some cases you may be able to skip many of these steps.<br />
+<br />
 <ul class="bb_ul">
     <li>
         If you haven't already,
@@ -57,7 +61,8 @@ some cases you may be able to skip many of these steps.<br /><br />
                     target="_blank"
                     rel="noreferrer"
                     >Linking an Executable to a DLL (MSDN)</a
-                ><br /><br />
+                ><br />
+                <br />
                 You must also ship the
                 <code class="bb_code bb_code_inline nohighlight">steam_api[64].dll</code> in your
                 run-time directory (next to your programs executable, or in your dll search
@@ -93,15 +98,17 @@ After you have the Steamworks API set up within your project you can start using
 function to initialize the API. This will set up the global state and populate the interface
 pointers which are accessible via the global functions which match the name of the interface. This
 <strong>MUST</strong> be called and return successfully prior to accessing any of the
-<a href="#steamworks_interfaces" class="bb_doclink">Steamworks Interfaces</a>!<br /><br />The
-Steamworks API will not initialize if it does not know the App ID of your game. When you launch your
-app from Steam itself then it will automatically have the App ID available. While developing you
-will need to hint this to Steam with a text file. Create the a text file called
+<a href="#steamworks_interfaces" class="bb_doclink">Steamworks Interfaces</a>!<br />
+<br />
+The Steamworks API will not initialize if it does not know the App ID of your game. When you launch
+your app from Steam itself then it will automatically have the App ID available. While developing
+you will need to hint this to Steam with a text file. Create the a text file called
 <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> next to your executable
 containing just the App ID and nothing else. This overrides the value that Steam provides. You
 should not ship this with your builds. Example:<br />
 <div class="bb_code">480</div>
-<br />A return of <strong>false</strong> indicates one of the following conditions:<br />
+<br />
+A return of <strong>false</strong> indicates one of the following conditions:<br />
 <ul class="bb_ul">
     <li>
         The Steam client isn't running. A running Steam client is required to provide
@@ -144,62 +151,77 @@ documentation to learn about the various methods of debugging the Steamworks API
     >SteamAPI_RestartAppIfNecessary</a
 >
 checks if your executable was launched through Steam and relaunches it through Steam if it
-wasn't.<br /><br />This is optional but highly recommended as the Steam context associated with your
-application (including your App ID) will not be set up if the user launches the executable directly.
-If this occurs then <code class="bb_code bb_code_inline nohighlight">SteamAPI_Init</code> will fail
-and you will be unable to use the Steamworks API.<br />If you choose to use this then it should be
-the first Steamworks function call you make, right before
+wasn't.<br />
+<br />
+This is optional but highly recommended as the Steam context associated with your application
+(including your App ID) will not be set up if the user launches the executable directly. If this
+occurs then <code class="bb_code bb_code_inline nohighlight">SteamAPI_Init</code> will fail and you
+will be unable to use the Steamworks API.<br />
+If you choose to use this then it should be the first Steamworks function call you make, right
+before
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
     >SteamAPI_Init</a
->.<br /><br />If this returns <strong>true</strong> then it starts the Steam client if required and
-launches your game again through it, and you should quit your process as soon as possible. This
-effectively runs <code class="bb_code bb_code_inline http">steam://run/&lt;AppID&gt;</code> so it
-may not relaunch the exact executable that called this function (for example, if you were running
-from your debugger). It will always relaunch from the version installed in your Steam library
-folder.<br /><br />Otherwise, if it returns <strong>false</strong>, then your game was launched by
-the Steam client and no action needs to be taken. One exception is if a
+>.<br />
+<br />
+If this returns <strong>true</strong> then it starts the Steam client if required and launches your
+game again through it, and you should quit your process as soon as possible. This effectively runs
+<code class="bb_code bb_code_inline http">steam://run/&lt;AppID&gt;</code> so it may not relaunch
+the exact executable that called this function (for example, if you were running from your
+debugger). It will always relaunch from the version installed in your Steam library folder.<br />
+<br />
+Otherwise, if it returns <strong>false</strong>, then your game was launched by the Steam client and
+no action needs to be taken. One exception is if a
 <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file is present then this
 will return <strong>false</strong> regardless. This allows you to develop and test without launching
 your game through the Steam client. Make sure to remove the
 <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file when uploading the game
-to your Steam depot!<br /><br /><strong>NOTE:</strong> If you use the Steam DRM wrapper on your
-primary executable file, this check is unnecessary as the DRM wrapper will perform this internally.
+to your Steam depot!<br />
+<br />
+<strong>NOTE:</strong> If you use the Steam DRM wrapper on your primary executable file, this check
+is unnecessary as the DRM wrapper will perform this internally.
 <h2 class="bb_subsection"><a name="SteamAPI_Shutdown"></a>SteamAPI_Shutdown</h2>
 When you are done using the Steamworks API you should call
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink"
     >SteamAPI_Shutdown</a
 >
 to release the resources used by your application internally within Steam. You should call this
-during process shutdown if possible.<br /><br />This will not unhook the
+during process shutdown if possible.<br />
+<br />
+This will not unhook the
 <a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">Steam Overlay</a>
 from your game as there's no guarantee that your rendering API is done using it.
 <h2 class="bb_section"><a name="steamworks_interfaces"></a>Steamworks Interfaces</h2>
 The Steamworks API is composed of multiple interfaces which all expose a limited, specific amount of
-functionality.<br /><br />After Steamworks has successfully initialized you can then access the
-interfaces via their global functions. The functions always match the name of their interface. As
-such you can access
+functionality.<br />
+<br />
+After Steamworks has successfully initialized you can then access the interfaces via their global
+functions. The functions always match the name of their interface. As such you can access
 <a href="https://partner.steamgames.com/doc/api/ISteamApps" class="bb_apilink">ISteamApps</a>
 through the <code class="bb_code bb_code_inline nohighlight">SteamApps()</code> accessor and
 <a href="https://partner.steamgames.com/doc/api/ISteamFriends" class="bb_apilink">ISteamFriends</a>
-through <code class="bb_code bb_code_inline nohighlight">SteamFriends()</code>.<br /><br />You can
-use these interfaces to make calls like so:<br />
+through <code class="bb_code bb_code_inline nohighlight">SteamFriends()</code>.<br />
+<br />
+You can use these interfaces to make calls like so:<br />
 <div class="bb_code cpp">
     // Get the current users Steam name. const char *name = SteamFriends()-&gt;GetPersonaName();
 </div>
-<br />You can view the complete list of interfaces on the
+<br />
+You can view the complete list of interfaces on the
 <a href="https://partner.steamgames.com/doc/api" class="bb_doclink">Steamworks API Reference</a> or
 by diving into the Steamworks API header files.
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 Callbacks are one of the most important aspect of Steamworks, they allow you to retrieve data
 asynchronously from Steam without locking up your game. The goal of the callbacks are to provide a
 simple, light-weight, type-safe, thread-safe method of raising asynchronous events to any object
-registered as a listener.<br /><br />Callbacks are usually triggered via an event that happens from
-Steam such as when ever a friend logs on or off, or the asynchronous result of some API functions.
-Each callback consists of a struct containing a unique identifier and a small set of data. The
-callbacks are declared in the
+registered as a listener.<br />
+<br />
+Callbacks are usually triggered via an event that happens from Steam such as when ever a friend logs
+on or off, or the asynchronous result of some API functions. Each callback consists of a struct
+containing a unique identifier and a small set of data. The callbacks are declared in the
 <code class="bb_code bb_code_inline nohighlight">ISteam*.h</code> header files, grouped with the
-interface that it most closely belongs to.<br /><br />To listen for a callback, a struct or class
-must use the macro
+interface that it most closely belongs to.<br />
+<br />
+To listen for a callback, a struct or class must use the macro
 <code class="bb_code bb_code_inline nohighlight"
     >STEAM_CALLBACK( :classname, :functionname, :callbackname )</code
 >
@@ -225,11 +247,12 @@ This defines a local member function for that class which is automatically proto
 <code class="bb_code bb_code_inline nohighlight"
     >void :functionname( :callbackname *pCallback )</code
 >. Creating a new instance of the object will cause this member function to register itself as a
-listener with the Steamworks API; destruction of the object will cause it to de-register.<br /><br /><strong
-    >NOTE:</strong
->
-You should ensure that Steam has been initialized before creating objects that listen for
-callbacks.<br /><br />For callbacks to dispatch to registered listeners you must call the
+listener with the Steamworks API; destruction of the object will cause it to de-register.<br />
+<br />
+<strong>NOTE:</strong> You should ensure that Steam has been initialized before creating objects
+that listen for callbacks.<br />
+<br />
+For callbacks to dispatch to registered listeners you must call the
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
     >SteamAPI_RunCallbacks</a
 >. It's best to call this frequently, as the more time between calls, the more latency between
@@ -245,14 +268,16 @@ One callback that you will likely wish to use is
     >ISteamFriends::GameOverlayActivated_t</a
 >. As the name implies it sends you a callback every time the user activates or deactivates the
 <a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">Steam Overlay</a
->.<br /><br />
+>.<br />
+<br />
 <div class="bb_code cpp">
     class CGameManager { private: STEAM_CALLBACK( CGameManager, OnGameOverlayActivated,
     GameOverlayActivated_t ); }; void CGameManager::OnGameOverlayActivated( GameOverlayActivated_t*
     pCallback ) { if ( pCallback-&gt;m_bActive ) printf( "Steam overlay now active\n" ); else
     printf( "Steam overlay now inactive\n" ); }
 </div>
-<br />One popular and recommended use case for the
+<br />
+One popular and recommended use case for the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamFriends#GameOverlayActivated_t"
     class="bb_apilink"
@@ -267,17 +292,22 @@ will need to call
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
     >SteamAPI_RunCallbacks</a
 >
-to dispatch call results to their listener.<br /><br />You can identify a function that provides a
-call result by inspecting it's return value; if it returns a
+to dispatch call results to their listener.<br />
+<br />
+You can identify a function that provides a call result by inspecting it's return value; if it
+returns a
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
 and has a <code class="bb_code bb_code_inline nohighlight">CALL_RESULT()</code> attribute then you
-must register to receive the call result.<br /><br /><strong>NOTE:</strong> Callbacks and call
-results are not interchangeable. An event will only come through one or the other, not both. You
-must make sure that you are registering for the right type of event!<br /><br />Call results must be
-created as a member in a struct/class using the CCallResult type and you will also need to create
-the member function that will receive the callback.<br />
+must register to receive the call result.<br />
+<br />
+<strong>NOTE:</strong> Callbacks and call results are not interchangeable. An event will only come
+through one or the other, not both. You must make sure that you are registering for the right type
+of event!<br />
+<br />
+Call results must be created as a member in a struct/class using the CCallResult type and you will
+also need to create the member function that will receive the callback.<br />
 <div class="bb_code cpp">
     void func( :callresultname *pCallback, bool bIOFailure ); CCallResult&lt; :classname,
     :callresultname &gt; m_callresultname;
@@ -294,7 +324,8 @@ the member function that will receive the callback.<br />
         <code class="bb_code bb_code_inline nohighlight">NumberOfCurrentPlayers_t</code>)
     </li>
 </ul>
-<br />Feel free to name the function, function parameters, and CCallResult type anything you want.
+<br />
+Feel free to name the function, function parameters, and CCallResult type anything you want.
 <h4>Example</h4>
 Here's an example of how to use the
 <a
@@ -324,7 +355,8 @@ call result.<br />
     !pCallback-&gt;m_bSuccess ) { printf( "NumberOfCurrentPlayers_t failed!\n" ); return; } printf(
     "Number of players currently playing: %d\n", pCallback-&gt;m_cPlayers ); }
 </div>
-<br /><strong>NOTE:</strong> If you can't use the CCallResult system, then you may be able to use
+<br />
+<strong>NOTE:</strong> If you can't use the CCallResult system, then you may be able to use
 <a href="https://partner.steamgames.com/doc/api/ISteamUtils#IsAPICallCompleted" class="bb_apilink"
     >ISteamUtils::IsAPICallCompleted</a
 >,
@@ -352,11 +384,13 @@ The Steamworks API includes support for running game servers as well as regular 
 server, in Steamworks API terms, is an entity in the system that normal users connect to to play
 multi-player games. This can be connecting over the Internet to a remote game server, or connecting
 locally to a game server that's in the same process as the client. Game servers have their own set
-of API functions to use, and their own unique Steam ID for other users to refer to them by.<br /><br />To
-use the Steam Game Server API you must first include
+of API functions to use, and their own unique Steam ID for other users to refer to them by.<br />
+<br />
+To use the Steam Game Server API you must first include
 <code class="bb_code bb_code_inline nohighlight">steam_gameserver.h</code> instead of
-<code class="bb_code bb_code_inline nohighlight">steam_api.h</code>.<br /><br />Initializing and
-using the game server API is very similar to the normal API:<br />
+<code class="bb_code bb_code_inline nohighlight">steam_api.h</code>.<br />
+<br />
+Initializing and using the game server API is very similar to the normal API:<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -387,14 +421,17 @@ using the game server API is very similar to the normal API:<br />
         >
     </li>
 </ul>
-<br />After initializing a game server you have access to the two game server exclusive interfaces
+<br />
+After initializing a game server you have access to the two game server exclusive interfaces
 <a href="https://partner.steamgames.com/doc/api/ISteamGameServer" class="bb_apilink"
     >ISteamGameServer</a
 >
 and
 <a href="https://partner.steamgames.com/doc/api/ISteamGameServerStats" class="bb_apilink"
     >ISteamGameServerStats</a
->.<br /><br />You can also access the following regular interfaces from the game server:<br />
+>.<br />
+<br />
+You can also access the following regular interfaces from the game server:<br />
 <ul class="bb_ul">
     <li>
         <a href="https://partner.steamgames.com/doc/api/ISteamClient" class="bb_apilink"
@@ -437,43 +474,56 @@ and
         <code class="bb_code bb_code_inline nohighlight">SteamGameServerApps()</code>
     </li>
 </ul>
-<br />If you're running a dedicated game server (one which has no client component), you only have
-to initialize the game server API's, you don't have to initialize the normal user API.<br /><br />See
+<br />
+If you're running a dedicated game server (one which has no client component), you only have to
+initialize the game server API's, you don't have to initialize the normal user API.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
     >Steamworks API Example Application (SpaceWar)</a
 >
-for a fully loaded example of using the game server API.<br /><br />Unlike a game, a dedicated
-server will usually be run in an environment where there is no Steam Client installed to provide the
-latest steamworks binaries. In order for the dedicated server to have the latest steam binaries, you
-will need to include the Dedicated Server Redistributables with your app. Log into
+for a fully loaded example of using the game server API.<br />
+<br />
+Unlike a game, a dedicated server will usually be run in an environment where there is no Steam
+Client installed to provide the latest steamworks binaries. In order for the dedicated server to
+have the latest steam binaries, you will need to include the Dedicated Server Redistributables with
+your app. Log into
 <a href="http://partner.steamgames.com" target="_blank" rel="noreferrer">partner.steamgames.com</a>
 and navigate to the technical settings for your app. Then look under "Installation /
 Redistributables" and check "Dedicated Server Redistributables"
 <h2 class="bb_section"><a name="thirdparty"></a>Commercial engine and non-C++ language support</h2>
 If you're using a commercial game engine or a language other than C or C++ you will want to see what
-level of support for the Steamworks API is provided for it.<br />In some engines they provide native
-built-in support, for others you may need a third-party solution.<br /><br />If your engine does not
-have native support you can use the
+level of support for the Steamworks API is provided for it.<br />
+In some engines they provide native built-in support, for others you may need a third-party
+solution.<br />
+<br />
+If your engine does not have native support you can use the
 <a href="https://partner.steamgames.com/doc/webapi" class="bb_doclink">Steam Web API</a> to access
-many features that Steam supports.<br /><br />Regardless of how the Steamworks SDK is implemented in
-your engine you will need to have the latest Steamworks SDK to
+many features that Steam supports.<br />
+<br />
+Regardless of how the Steamworks SDK is implemented in your engine you will need to have the latest
+Steamworks SDK to
 <a href="https://partner.steamgames.com/doc/sdk/uploading" class="bb_doclink"
     >upload your application to Steam</a
->.<br /><br /><strong>NOTE:</strong> If some of the software you are shipping on steam is available
-under a restrictive open source license then please see
+>.<br />
+<br />
+<strong>NOTE:</strong> If some of the software you are shipping on steam is available under a
+restrictive open source license then please see
 <a
     href="https://partner.steamgames.com/doc/sdk/uploading/distributing_opensource"
     class="bb_doclink"
     >Distributing Open Source Applications on Steam</a
->.<br /><br />Here are some common engines that people routinely use to ship games on Steam and the
-relevant documentation on how to get started using the Steamworks SDK with them.<br /><br /><strong
-    >NOTE:</strong
->
-Valve does not in any way endorse any of these engines or the third-party solutions. This list is
-sorted exclusively by name, and is in no way comprehensive, it exists solely as a starting guide.
-Engines will only be listed if they include native support or have a third-party solution that fits
-the guidelines. Third-party solutions will only be listed if they are kept reasonably up to date
-with the Steamworks SDK, are freely available under a permissive license (See:
+>.<br />
+<br />
+Here are some common engines that people routinely use to ship games on Steam and the relevant
+documentation on how to get started using the Steamworks SDK with them.<br />
+<br />
+<strong>NOTE:</strong> Valve does not in any way endorse any of these engines or the third-party
+solutions. This list is sorted exclusively by name, and is in no way comprehensive, it exists solely
+as a starting guide. Engines will only be listed if they include native support or have a
+third-party solution that fits the guidelines. Third-party solutions will only be listed if they are
+kept reasonably up to date with the Steamworks SDK, are freely available under a permissive license
+(See:
 <a
     href="https://partner.steamgames.com/doc/sdk/uploading/distributing_opensource"
     class="bb_doclink"
@@ -862,7 +912,8 @@ setup.
 <h2 class="bb_section">
     <a name="flat_interface"></a>Flat interface for binding to other languages
 </h2>
-The SDK has a few features to facilitate the creation of binding layers for other languages.<br /><br />
+The SDK has a few features to facilitate the creation of binding layers for other languages.<br />
+<br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">steam_api_flat.h</code> declares a set of
@@ -883,7 +934,9 @@ The SDK has a few features to facilitate the creation of binding layers for othe
 <h2 class="bb_section"><a name="3"></a>Technical Details</h2>
 Steam uses a variety of techniques to expose functionality to your application. It's by no means
 critical to understand exactly how the Steamworks API works but it's fairly simple and can be useful
-in planning out how to code your game with Steam integration in mind.<br /><br />When you link to
+in planning out how to code your game with Steam integration in mind.<br />
+<br />
+When you link to
 <code class="bb_code bb_code_inline nohighlight">steam_api[64][.dll/.so/dylib]</code> it provides
 access to a
 <a href="https://partner.steamgames.com/doc/api/steam_api" class="bb_doclink"
@@ -894,8 +947,9 @@ these functions are all exposed in
 <code class="bb_code bb_code_inline nohighlight">steam_api.h</code> and
 <code class="bb_code bb_code_inline nohighlight">steam_gameserver.h</code>. The
 <code class="bb_code bb_code_inline nohighlight">steam_api</code> module itself is very small, it
-only exposes the base functionality to initialize and shutdown the Steamworks API.<br /><br />When
-the Steamworks API initializes it finds the actively running steam client process and loads
+only exposes the base functionality to initialize and shutdown the Steamworks API.<br />
+<br />
+When the Steamworks API initializes it finds the actively running steam client process and loads
 <code class="bb_code bb_code_inline nohighlight">steamclient.dll</code> from that path.
 <code class="bb_code bb_code_inline nohighlight">steamclient.dll</code> is essentially the core
 engine of the Steam client. It contains and maintains the information necessary to run Steam. The
@@ -905,16 +959,20 @@ Steam process, all Steam API calls are transparently marshaled and sent via an R
 cross-process pipe,
 <a href="https://partner.steamgames.com/doc/api/ISteamClient#HSteamPipe" class="bb_apilink"
     >ISteamClient::HSteamPipe</a
->).<br /><br />The Steam process, via
+>).<br />
+<br />
+The Steam process, via
 <code class="bb_code bb_code_inline nohighlight">steamclient.dll</code> maintains a constant
 connection to the Steam back-end servers. Through this connection all authentication, matchmaking,
 friends list and VAC communication occurs. This connection may drop if the user has a network issue,
 or if the Steam server they are connected to receives an update. Callbacks will be posted to any
 running app if the connection drops or re-establishes. The Steam client will automatically try to
 reconnect, and clients running an app receive priority, so the typical reconnect time is under 10
-seconds, although in some rare cases may be up to 5 minutes.<br /><br />The Steamworks API is
-versioned through a COM-like mechanism, where a string name and version of an interface are passed
-into <code class="bb_code bb_code_inline nohighlight">steamclient.dll</code> which then returns the
+seconds, although in some rare cases may be up to 5 minutes.<br />
+<br />
+The Steamworks API is versioned through a COM-like mechanism, where a string name and version of an
+interface are passed into
+<code class="bb_code bb_code_inline nohighlight">steamclient.dll</code> which then returns the
 correct version of the interface to the caller.
 <code class="bb_code bb_code_inline nohighlight">steamclient.dll</code> contains a set of adapters
 for all released versions of an interface which redirect or re-interpret the old calls in the

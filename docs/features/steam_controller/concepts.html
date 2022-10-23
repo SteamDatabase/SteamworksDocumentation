@@ -5,21 +5,25 @@ configuration utilities that Steam uses to interface with games.
 <h2 class="bb_section"><a name="2"></a>Steam Input Configurator</h2>
 The Steam Input Configurator (SIC) is built into the Steam client and sits between the player and
 their game/application. The SIC receives input from your input device, and translates that data
-appropriately depending on the player's settings before passing it along to the game.<br /><br />The
-SIC can be used in two main ways: <strong>legacy</strong> mode and <strong>native</strong> mode.
+appropriately depending on the player's settings before passing it along to the game.<br />
+<br />
+The SIC can be used in two main ways: <strong>legacy</strong> mode and <strong>native</strong> mode.
 <h2 class="bb_subsection"><a name="3"></a>Legacy Mode</h2>
 Legacy mode is a compatibility mode designed for games that have not implemented the Steam Input
 API. In this case, the SIC just serves as a really fancy input mapper that <i>any</i> player can use
-for <i>any</i> game on Steam. <br /><br />The player can remap any physical input to any other
-physical input -- such as making the "A" button simulate the keyboard "Enter" key, make a full pull
-of the left analog trigger simulate a mouse click, etc. This mode works with <i>any</i> supported
-input device, not just the Steam Controller.<br /><br />Legacy mode is great for working with games
-that never supported the API, but there are limitations to it. For one, games programmed in such a
-way to assume that gamepad and mouse controls will never both be active simultaneously have been
-known to suffer from all manner of glitches when your configuration violates those assumptions.
-Also, the game will have no idea you're even using the configurator (it's just receiving low-level
-hardware inputs that the configurator is spoofing) so the on-screen glyphs for controller inputs
-will probably not match up.
+for <i>any</i> game on Steam. <br />
+<br />
+The player can remap any physical input to any other physical input -- such as making the "A" button
+simulate the keyboard "Enter" key, make a full pull of the left analog trigger simulate a mouse
+click, etc. This mode works with <i>any</i> supported input device, not just the Steam
+Controller.<br />
+<br />
+Legacy mode is great for working with games that never supported the API, but there are limitations
+to it. For one, games programmed in such a way to assume that gamepad and mouse controls will never
+both be active simultaneously have been known to suffer from all manner of glitches when your
+configuration violates those assumptions. Also, the game will have no idea you're even using the
+configurator (it's just receiving low-level hardware inputs that the configurator is spoofing) so
+the on-screen glyphs for controller inputs will probably not match up.
 <h2 class="bb_subsection"><a name="4"></a>Native Mode</h2>
 In Native mode, the game receives input data directly from the configurator in the form of
 "actions." The idea here is that the game itself has no knowledge of what actual inputs are driving
@@ -29,8 +33,9 @@ API call about which physical controls are bound to which actions purely for the
 displaying appropriate on-screen glyphs.
 <h2 class="bb_subsection"><a name="5"></a>Steam Input API</h2>
 The Steam Input API is the application programming interface developers use to talk directly to the
-SIC in Native mode. The API is not necessary in order to support Legacy mode.<br /><br />You can
-find full documentation for that here:
+SIC in Native mode. The API is not necessary in order to support Legacy mode.<br />
+<br />
+You can find full documentation for that here:
 <a href="https://partner.steamgames.com/doc/api/ISteamInput" class="bb_apilink">ISteamInput</a>.
 <h2 class="bb_subsection"><a name="6"></a>Controller Configuration</h2>
 Players can set up fully customized input mappings for any game in their library, using native mode,
@@ -42,14 +47,21 @@ online.
 A "physical input" is an actual physical mechanism on any input device that the user interacts with
 to generate input data for their computer. These come in both digital and analog forms and examples
 include buttons, joysticks, Dpads, bumpers, triggers, switches, hats, trackballs, trackpads,
-gyroscopes, etc.<br /><br />We're going to get into more abstract concepts soon so just remember
-that "physical inputs" are the little bits on the input device you actually wiggle around with your
-fingers (or toes, if you're so inclined).
+gyroscopes, etc.<br />
+<br />
+We're going to get into more abstract concepts soon so just remember that "physical inputs" are the
+little bits on the input device you actually wiggle around with your fingers (or toes, if you're so
+inclined).
 <h2 class="bb_subsection"><a name="input_sources"></a>Input Sources</h2>
 An "input source" is a region of the device that can be thought of as a larger modular unit that can
-have any one of various different modes applied to it to change how it outputs data.<br /><br />See,
-I told you we were going to get all abstract!<br /><br />Let's bring it down to earth: what's the
-difference between a Dpad and four face buttons laid out in a diamond pattern?<br /><br /><img
+have any one of various different modes applied to it to change how it outputs data.<br />
+<br />
+See, I told you we were going to get all abstract!<br />
+<br />
+Let's bring it down to earth: what's the difference between a Dpad and four face buttons laid out in
+a diamond pattern?<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/input_dpad.png"
     alt="input_dpad.png"
     title="input_dpad.png"
@@ -57,13 +69,19 @@ difference between a Dpad and four face buttons laid out in a diamond pattern?<b
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/input_bpad.png"
     alt="input_bpad.png"
     title="input_bpad.png"
-/><br /><br />They both have four digital "buttons", but most Dpads are physically engineered in
-such a way that it's impossible to press Up+Down or Left+Right at the same time, whereas each face
-button can be pressed independently. However, Steam Input lets you impose the restrictions of a Dpad
-on your face buttons.<br /><br />So although both the Dpad and the face button group are each
-composed of four individual "physical inputs," its convenient to think of the "Dpad" and the "face
-buttons" as their own units, so that we can change how the whole thing behaves.<br /><br />The full
-list of recognized "input sources" is:<br /><br />
+/><br />
+<br />
+They both have four digital "buttons", but most Dpads are physically engineered in such a way that
+it's impossible to press Up+Down or Left+Right at the same time, whereas each face button can be
+pressed independently. However, Steam Input lets you impose the restrictions of a Dpad on your face
+buttons.<br />
+<br />
+So although both the Dpad and the face button group are each composed of four individual "physical
+inputs," its convenient to think of the "Dpad" and the "face buttons" as their own units, so that we
+can change how the whole thing behaves.<br />
+<br />
+The full list of recognized "input sources" is:<br />
+<br />
 <ul class="bb_ul">
     <li>Left Trackpad<br /></li>
     <li>Right Trackpad<br /></li>
@@ -84,7 +102,8 @@ list of recognized "input sources" is:<br /><br />
         shoulder buttons, and back paddle grips.
     </div>
 </div>
-<br />See also: <br />
+<br />
+See also: <br />
 <ul class="bb_ul">
     <li>
         <a
@@ -105,8 +124,10 @@ list of recognized "input sources" is:<br /><br />
 Input sources can have different modes imposed on them that change how they behave. These are called
 "input source modes." Although these are useful for digital inputs, the most frequent place you'll
 find yourself using input source modes is on analog controls, especially with trackpads, which can
-be configured in many different ways.<br /><br />The full list of recognized "Input Source Modes"
-is:<br /><br />
+be configured in many different ways.<br />
+<br />
+The full list of recognized "Input Source Modes" is:<br />
+<br />
 <ul class="bb_ul">
     <li>Dpad<br /></li>
     <li>Four Buttons<br /></li>
@@ -123,7 +144,8 @@ is:<br /><br />
     <li>Radial Menu<br /></li>
     <li>Switches</li>
 </ul>
-<br />See also: <br />
+<br />
+See also: <br />
 <ul class="bb_ul">
     <li>
         <a
@@ -140,13 +162,20 @@ is:<br /><br />
         >
     </li>
 </ul>
-<br />Just to quickly summarize:<br /><br /><strong>Physical Inputs</strong>: <br />The actual
-physical things you interact with on the device. Ex: the A button, the "up" input on the Dpad,
-etc.<br /><br /><strong>Input Sources</strong>:<br />A larger grouping of individual physical inputs
-that can be grouped into a modular unit. The entire Dpad, the four face buttons, the entire left
-joystick assembly, etc.<br /><br /><strong>Input Source Modes</strong>:<br />A specific behavior
-that you're forcing on an input source. Ex: "Make the face buttons act like a Dpad", "Make the left
-joystick act like four face buttons", etc.
+<br />
+Just to quickly summarize:<br />
+<br />
+<strong>Physical Inputs</strong>: <br />
+The actual physical things you interact with on the device. Ex: the A button, the "up" input on the
+Dpad, etc.<br />
+<br />
+<strong>Input Sources</strong>:<br />
+A larger grouping of individual physical inputs that can be grouped into a modular unit. The entire
+Dpad, the four face buttons, the entire left joystick assembly, etc.<br />
+<br />
+<strong>Input Source Modes</strong>:<br />
+A specific behavior that you're forcing on an input source. Ex: "Make the face buttons act like a
+Dpad", "Make the left joystick act like four face buttons", etc.
 <h2 class="bb_section"><a name="9"></a>Actions</h2>
 Actions are the events that the Steam Input API uses to orchestrate everything. In native mode, your
 game doesn't get a "Button A pressed" event, it simply gets a "Jump" event (or whatever), and what
@@ -185,8 +214,9 @@ Action Set Layers are optional sets of action bindings which can be overlaid upo
 controls. In contrast to Action Sets, layers draw their actions from the Action Set they exist
 within and do not wholesale replace what is already active when applied, but apply small
 modifications. These can consist of setting changes as well as adding or removing bindings from the
-base action set. More than one layer can be applied at a time and will be applied consecutively.<br /><br />For
-more details, see
+base action set. More than one layer can be applied at a time and will be applied consecutively.<br />
+<br />
+For more details, see
 <a
     href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
     class="bb_doclink"

@@ -2,8 +2,10 @@
 <h2 class="bb_section"><a name="overview"></a>Overview</h2>
 The Steam overlay is a piece of the Steam user interface that can be activated over the top of
 almost any game launched through Steam. It lets the user access the friends list, web browser, chat,
-and in-game DLC purchasing.<br /><br />The default key for a user to access the overlay while in a
-game is SHIFT+TAB, but they can change it in their Steam-&gt;Settings dialog.
+and in-game DLC purchasing.<br />
+<br />
+The default key for a user to access the overlay while in a game is SHIFT+TAB, but they can change
+it in their Steam-&gt;Settings dialog.
 <h2 class="bb_section"><a name="requirements"></a>Requirements</h2>
 Your game does not need to do anything special for the overlay to work, it automatically hooks into
 any game launched from Steam! While in development and running your game in a debugger, the overlay
@@ -15,10 +17,13 @@ is loaded when you call
     >SteamAPI_Init</a
 >
 prior to initializing the OpenGL/D3D device, otherwise it won't be able to hook the device
-creation.<br /><br />The overlay supports games that use DirectX 7 - 12, OpenGL, Metal, and Vulkan.
-The overlay will not be active in software-rasterized games.<br /><br />macOS: Overlay support for
-10.15 (Catalina) requires adding entitlements to your build configuration. Details are provided on
-the
+creation.<br />
+<br />
+The overlay supports games that use DirectX 7 - 12, OpenGL, Metal, and Vulkan. The overlay will not
+be active in software-rasterized games.<br />
+<br />
+macOS: Overlay support for 10.15 (Catalina) requires adding entitlements to your build
+configuration. Details are provided on the
 <a
     href="https://partner.steamgames.com/doc/store/application/platforms"
     target="_blank"
@@ -151,13 +156,15 @@ this topic:
 <strong>A.</strong> The Steam overlay is used in thousands of games and as such it has been very
 thoroughly tested and is rarely the cause of a crash. However, because of the way it injects itself
 into the game, it does often expose memory leaks or memory corruption in the usage of your rendering
-API that may not have impacted game play.<br /><br />To diagnose overlay crashes with DirectX for
-example, try to determine how D3D got into a bad state by using the d3d debug runtime with all
-(info/warning/error/notice) level spew turned on. It might give some hints to orphaned d3d
-resources. If you don’t find anything that way there may be a more general memory corruption issue.
-If these always occur on shutdown then it’s likely a shutdown ordering issue with the game not
-cleaning up as it shuts down.<br /><br />If after debugging the app is still crashing in the
-overlay, please notify us in the
+API that may not have impacted game play.<br />
+<br />
+To diagnose overlay crashes with DirectX for example, try to determine how D3D got into a bad state
+by using the d3d debug runtime with all (info/warning/error/notice) level spew turned on. It might
+give some hints to orphaned d3d resources. If you don’t find anything that way there may be a more
+general memory corruption issue. If these always occur on shutdown then it’s likely a shutdown
+ordering issue with the game not cleaning up as it shuts down.<br />
+<br />
+If after debugging the app is still crashing in the overlay, please notify us in the
 <a href="http://steamcommunity.com/groups/steamworks/discussion" target="_blank" rel="noreferrer"
     >Steamworks Development Group</a
 >.

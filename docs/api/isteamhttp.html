@@ -20,14 +20,18 @@ through the global accessor function
         <td>Set whether the server can set cookies in this container.</td>
     </tr>
 </table>
-<br />Creates a cookie container to store cookies during the lifetime of the process.<br /><br />This
-API is just for during process lifetime, after Steam restarts no cookies are persisted and you have
-no way to access the cookie container across repeat executions of your process.<br /><br />If
-<code class="bb_code bb_code_inline nohighlight">bAllowResponsesToModify</code> is
+<br />
+Creates a cookie container to store cookies during the lifetime of the process.<br />
+<br />
+This API is just for during process lifetime, after Steam restarts no cookies are persisted and you
+have no way to access the cookie container across repeat executions of your process.<br />
+<br />
+If <code class="bb_code bb_code_inline nohighlight">bAllowResponsesToModify</code> is
 <strong>true</strong> then any response to your requests using this cookie container may add new
 cookies to the container which may be transmitted with future requests. Otherwise, if it's
-<strong>false</strong> then only cookies you explicitly set will be sent.<br /><br />You can
-associate the cookie container with a http request by using
+<strong>false</strong> then only cookies you explicitly set will be sent.<br />
+<br />
+You can associate the cookie container with a http request by using
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#SetHTTPRequestCookieContainer"
     class="bb_apilink"
@@ -36,20 +40,24 @@ associate the cookie container with a http request by using
     >HTTP::SetHTTPRequestCookieContainer</a
 >, and you can set a cookie using
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#SetCookie" class="bb_apilink">ISteam</a
-><a href="HTTP::SetCookie" target="_blank" rel="noreferrer">HTTP::SetCookie</a>.<br /><br />Don't
-forget to free the container when you're done with it to prevent leaking memory by calling
+><a href="HTTP::SetCookie" target="_blank" rel="noreferrer">HTTP::SetCookie</a>.<br />
+<br />
+Don't forget to free the container when you're done with it to prevent leaking memory by calling
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#ReleaseCookieContainer"
     class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::ReleaseCookieContainer" target="_blank" rel="noreferrer"
     >HTTP::ReleaseCookieContainer</a
->!<br /><br /><strong>Returns:</strong>
+>!<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPCookieContainerHandle"
     class="bb_apilink"
     >HTTPCookieContainerHandle</a
-><br />Returns a new cookie container handle to be used with future calls to SteamHTTP functions.
+><br />
+Returns a new cookie container handle to be used with future calls to SteamHTTP functions.
 <h2 class="bb_subsection"><a name="CreateHTTPRequest"></a>CreateHTTPRequest</h2>
 <div class="bb_code cpp">
     HTTPRequestHandle CreateHTTPRequest( EHTTPMethod eHTTPRequestMethod, const char *pchAbsoluteURL
@@ -86,11 +94,11 @@ forget to free the container when you're done with it to prevent leaking memory 
         </td>
     </tr>
 </table>
-<br />Initializes a new HTTP request.<br /><br />Requires the method such as GET or POST and the
-absolute URL for the request. Both http and https are supported, so this string must start with "<a
-    href="http://%22"
-    target="_blank"
-    rel="noreferrer"
+<br />
+Initializes a new HTTP request.<br />
+<br />
+Requires the method such as GET or POST and the absolute URL for the request. Both http and https
+are supported, so this string must start with "<a href="http://%22" target="_blank" rel="noreferrer"
     >http://"</a
 >
 or "<a href="https://%22" target="_blank" rel="noreferrer">https://"</a> and should look like
@@ -108,15 +116,19 @@ the HTTP request with
     >ISteam</a
 ><a href="HTTP::SendHTTPRequestAndStreamResponse" target="_blank" rel="noreferrer"
     >HTTP::SendHTTPRequestAndStreamResponse</a
->.<br /><br />Don't forget to free the HTTP request when you're done with it to prevent leaking
-memory by calling
+>.<br />
+<br />
+Don't forget to free the HTTP request when you're done with it to prevent leaking memory by calling
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#ReleaseHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::ReleaseHTTPRequest" target="_blank" rel="noreferrer">HTTP::ReleaseHTTPRequest</a
->!<br /><br /><strong>Returns:</strong>
+>!<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestHandle" class="bb_apilink"
     >HTTPRequestHandle</a
-><br />Returns a new request handle to be used with future calls to SteamHTTP functions. Returns
+><br />
+Returns a new request handle to be used with future calls to SteamHTTP functions. Returns
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#INVALID_HTTPREQUEST_HANDLE"
     class="bb_apilink"
@@ -144,12 +156,15 @@ if <code class="bb_code bb_code_inline nohighlight">pchAbsoluteURL</code> is
         <td>The request handle to defer.</td>
     </tr>
 </table>
-<br />Defers a request which has already been sent by moving it at the back of the queue.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />Returns <strong>true</strong> if the request has been successfully defered. Otherwise
+<br />
+Defers a request which has already been sent by moving it at the back of the queue.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> if the request has been successfully defered. Otherwise
 <strong>false</strong> if <code class="bb_code bb_code_inline nohighlight">hRequest</code> is an
-invalid handle, or if the request has not been sent yet.<br /><br /><strong>See Also:</strong>
+invalid handle, or if the request has not been sent yet.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::SendHTTPRequest" target="_blank" rel="noreferrer">HTTP::SendHTTPRequest</a>,
@@ -187,12 +202,16 @@ invalid handle, or if the request has not been sent yet.<br /><br /><strong>See 
         <td>Returns the download percentage if the call was successful.</td>
     </tr>
 </table>
-<br />Gets progress on downloading the body for the request.<br /><br />This will be zero unless a
-response header has already been received which included a content-length field. For responses that
-contain no content-length it will report zero for the duration of the request as the size is unknown
-until the connection closes.<br /><br /><strong>Returns:</strong> bool<br />Returns
-<strong>true</strong> upon success if the download percentage was successfully returned. Otherwise,
-<strong>false</strong> if the handle is invalid or
+<br />
+Gets progress on downloading the body for the request.<br />
+<br />
+This will be zero unless a response header has already been received which included a content-length
+field. For responses that contain no content-length it will report zero for the duration of the
+request as the size is unknown until the connection closes.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon success if the download percentage was successfully returned.
+Otherwise, <strong>false</strong> if the handle is invalid or
 <code class="bb_code bb_code_inline nohighlight">pflPercentOut</code> is <strong>NULL</strong>.
 <h2 class="bb_subsection"><a name="GetHTTPRequestWasTimedOut"></a>GetHTTPRequestWasTimedOut</h2>
 <div class="bb_code cpp">
@@ -221,17 +240,22 @@ until the connection closes.<br /><br /><strong>Returns:</strong> bool<br />Retu
         <td>Returns whether the request was timed out or not.</td>
     </tr>
 </table>
-<br />Check if the reason the request failed was because we timed it out (rather than some harder
-failure).<br /><br />You'll want to call this within the context of
+<br />
+Check if the reason the request failed was because we timed it out (rather than some harder
+failure).<br />
+<br />
+You'll want to call this within the context of
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestCompleted_t"
     class="bb_apilink"
     >HTTPRequestCompleted_t</a
 >
 if <code class="bb_code bb_code_inline nohighlight">m_bRequestSuccessful</code> is
-<strong>false</strong>.<br /><br /><strong>Returns:</strong> bool<br />Returns
-<strong>true</strong> upon success if we successfully checked .<br />Returns
-<strong>false</strong> under the following conditions:<br />
+<strong>false</strong>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon success if we successfully checked .<br />
+Returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has not been sent or has not completed.</li>
@@ -281,8 +305,10 @@ if <code class="bb_code bb_code_inline nohighlight">m_bRequestSuccessful</code> 
         </td>
     </tr>
 </table>
-<br />Gets the body data from an HTTP response.<br /><br />This must be called after the HTTP
-request has completed and returned the HTTP response via the
+<br />
+Gets the body data from an HTTP response.<br />
+<br />
+This must be called after the HTTP request has completed and returned the HTTP response via the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestCompleted_t"
     class="bb_apilink"
@@ -297,8 +323,9 @@ call result associated with this request handle. You should first call
     >HTTP::GetHTTPResponseBodySize</a
 >
 or use the <code class="bb_code bb_code_inline nohighlight">m_unBodySize</code> variable provided in
-the call result, you can then allocate a buffer with that size to pass into this function.<br /><br />This
-is only for HTTP requests which were sent with
+the call result, you can then allocate a buffer with that size to pass into this function.<br />
+<br />
+This is only for HTTP requests which were sent with
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::SendHTTPRequest" target="_blank" rel="noreferrer">HTTP::SendHTTPRequest</a>. Use
@@ -316,10 +343,13 @@ if you're using streaming HTTP requests via
     >ISteam</a
 ><a href="HTTP::SendHTTPRequestAndStreamResponse" target="_blank" rel="noreferrer"
     >HTTP::SendHTTPRequestAndStreamResponse</a
->.<br /><br /><strong>Returns:</strong> bool<br />Returns <strong>true</strong> upon success
-indicating that <code class="bb_code bb_code_inline nohighlight">pBodyDataBuffer</code> has been
-filled with the body data.<br />Otherwise, returns <strong>false</strong> under the following
-conditions:<br />
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon success indicating that
+<code class="bb_code bb_code_inline nohighlight">pBodyDataBuffer</code> has been filled with the
+body data.<br />
+Otherwise, returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has not been sent or has not completed.<br /></li>
@@ -372,8 +402,10 @@ conditions:<br />
         <td>Returns the size of the response body.</td>
     </tr>
 </table>
-<br />Gets the size of the body data from an HTTP response.<br /><br />This must be called after the
-HTTP request has completed and returned the HTTP response via the
+<br />
+Gets the size of the body data from an HTTP response.<br />
+<br />
+This must be called after the HTTP request has completed and returned the HTTP response via the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestCompleted_t"
     class="bb_apilink"
@@ -401,9 +433,12 @@ or
     >ISteam</a
 ><a href="HTTP::GetHTTPStreamingResponseBodyData" target="_blank" rel="noreferrer"
     >HTTP::GetHTTPStreamingResponseBodyData</a
->.<br /><br /><strong>Returns:</strong> bool<br />Returns <strong>true</strong> upon success
-indicating that <code class="bb_code bb_code_inline nohighlight">unBodySize</code> has been filled
-with the size.<br />Otherwise, returns <strong>false</strong> under the following conditions:<br />
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon success indicating that
+<code class="bb_code bb_code_inline nohighlight">unBodySize</code> has been filled with the size.<br />
+Otherwise, returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has not been sent or has not completed.<br /></li>
@@ -449,8 +484,10 @@ with the size.<br />Otherwise, returns <strong>false</strong> under the followin
         <td>Returns the size of the response header, if it is present in the response.</td>
     </tr>
 </table>
-<br />Checks if a header is present in an HTTP response and returns its size.<br /><br />This must
-be called after the HTTP request has completed and returned the HTTP response via the
+<br />
+Checks if a header is present in an HTTP response and returns its size.<br />
+<br />
+This must be called after the HTTP request has completed and returned the HTTP response via the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestCompleted_t"
     class="bb_apilink"
@@ -464,16 +501,21 @@ you can allocate a correctly sized buffer to get the associated value with
     >ISteam</a
 ><a href="HTTP::GetHTTPResponseHeaderValue" target="_blank" rel="noreferrer"
     >HTTP::GetHTTPResponseHeaderValue</a
->.<br /><br />Here is a list of standard response header names on
+>.<br />
+<br />
+Here is a list of standard response header names on
 <a
     href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields#Response_fields"
     target="_blank"
     rel="noreferrer"
     >wikipedia</a
->.<br /><br /><strong>Returns:</strong> bool<br />Returns <strong>true</strong> if the header name
-is present in the response and
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> if the header name is present in the response and
 <code class="bb_code bb_code_inline nohighlight">unResponseHeaderSize</code> has been filled with
-the size of the header value.<br />Otherwise, returns <strong>false</strong> and sets
+the size of the header value.<br />
+Otherwise, returns <strong>false</strong> and sets
 <code class="bb_code bb_code_inline nohighlight">unResponseHeaderSize</code> to
 <strong>0</strong> under the following conditions:<br />
 <ul class="bb_ul">
@@ -539,8 +581,10 @@ the size of the header value.<br />Otherwise, returns <strong>false</strong> and
         </td>
     </tr>
 </table>
-<br />Gets a header value from an HTTP response.<br /><br />This must be called after the HTTP
-request has completed and returned the HTTP response via the
+<br />
+Gets a header value from an HTTP response.<br />
+<br />
+This must be called after the HTTP request has completed and returned the HTTP response via the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestCompleted_t"
     class="bb_apilink"
@@ -555,17 +599,21 @@ call result associated with this request handle. You should first call
     >HTTP::GetHTTPResponseHeaderSize</a
 >
 to check for the presence of the header and to get the size. You can then allocate a buffer with
-that size and pass it into this function.<br /><br />Here is a list of standard response header
-names on
+that size and pass it into this function.<br />
+<br />
+Here is a list of standard response header names on
 <a
     href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields#Response_fields"
     target="_blank"
     rel="noreferrer"
     >wikipedia</a
->.<br /><br /><strong>Returns:</strong> bool<br />Returns <strong>true</strong> upon success
-indicating that <code class="bb_code bb_code_inline nohighlight">pHeaderValueBuffer</code> has been
-filled with the header value.<br />Otherwise, returns <strong>false</strong> under the following
-conditions:<br />
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon success indicating that
+<code class="bb_code bb_code_inline nohighlight">pHeaderValueBuffer</code> has been filled with the
+header value.<br />
+Otherwise, returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has not been sent or has not completed.<br /></li>
@@ -650,8 +698,10 @@ conditions:<br />
         </td>
     </tr>
 </table>
-<br />Gets the body data from a streaming HTTP response.<br /><br />This must be called after data
-is received from a streaming HTTP request via the
+<br />
+Gets the body data from a streaming HTTP response.<br />
+<br />
+This must be called after data is received from a streaming HTTP request via the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestDataReceived_t"
     class="bb_apilink"
@@ -665,8 +715,9 @@ receive the total size of the data when you receive the header via
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestHeadersReceived_t"
     class="bb_apilink"
     >HTTPRequestHeadersReceived_t</a
->. You can then append data to that buffer as it comes in.<br /><br />This is only for streaming
-HTTP requests which were sent with
+>. You can then append data to that buffer as it comes in.<br />
+<br />
+This is only for streaming HTTP requests which were sent with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequestAndStreamResponse"
     class="bb_apilink"
@@ -684,11 +735,13 @@ HTTP requests which were sent with
 if you're using
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequest" class="bb_apilink"
     >ISteam</a
-><a href="HTTP::SendHTTPRequest" target="_blank" rel="noreferrer">HTTP::SendHTTPRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br />Returns <strong>true</strong> upon success
-indicating that <code class="bb_code bb_code_inline nohighlight">pBodyDataBuffer</code> has been
-filled with the body data.<br />Otherwise, returns <strong>false</strong> under the following
-conditions:<br />
+><a href="HTTP::SendHTTPRequest" target="_blank" rel="noreferrer">HTTP::SendHTTPRequest</a>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon success indicating that
+<code class="bb_code bb_code_inline nohighlight">pBodyDataBuffer</code> has been filled with the
+body data.<br />
+Otherwise, returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has not been sent or has not completed.<br /></li>
@@ -732,12 +785,15 @@ conditions:<br />
         <td>The request handle to prioritize.</td>
     </tr>
 </table>
-<br />Prioritizes a request which has already been sent by moving it at the front of the queue.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />Returns <strong>true</strong> if the request has been successfully prioritized. Otherwise
+<br />
+Prioritizes a request which has already been sent by moving it at the front of the queue.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> if the request has been successfully prioritized. Otherwise
 <strong>false</strong> if <code class="bb_code bb_code_inline nohighlight">hRequest</code> is an
-invalid handle, or if the request has not been sent yet.<br /><br /><strong>See Also:</strong>
+invalid handle, or if the request has not been sent yet.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::SendHTTPRequest" target="_blank" rel="noreferrer">HTTP::SendHTTPRequest</a>,
@@ -770,14 +826,19 @@ invalid handle, or if the request has not been sent yet.<br /><br /><strong>See 
         <td>The cookie container handle to release.</td>
     </tr>
 </table>
-<br />Releases a cookie container, freeing the memory allocated within Steam.<br /><br />You MUST
-call this when you are done using each HTTPCookieContainerHandle that you obtained via
+<br />
+Releases a cookie container, freeing the memory allocated within Steam.<br />
+<br />
+You MUST call this when you are done using each HTTPCookieContainerHandle that you obtained via
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#CreateCookieContainer" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::CreateCookieContainer" target="_blank" rel="noreferrer"
     >HTTP::CreateCookieContainer</a
->!<br /><br /><strong>Returns:</strong> bool<br />Returns <strong>true</strong> if the handle has
-been freed; otherwise, <strong>false</strong> if the handle was invalid.
+>!<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> if the handle has been freed; otherwise, <strong>false</strong> if the
+handle was invalid.
 <h2 class="bb_subsection"><a name="ReleaseHTTPRequest"></a>ReleaseHTTPRequest</h2>
 <div class="bb_code cpp">bool ReleaseHTTPRequest( HTTPRequestHandle hRequest );</div>
 <table>
@@ -798,13 +859,18 @@ been freed; otherwise, <strong>false</strong> if the handle was invalid.
         <td>The request handle to release.</td>
     </tr>
 </table>
-<br />Releases an HTTP request handle, freeing the memory allocated within Steam.<br /><br />You
-MUST call this when you are done using each HTTPRequestHandle that you obtained via
+<br />
+Releases an HTTP request handle, freeing the memory allocated within Steam.<br />
+<br />
+You MUST call this when you are done using each HTTPRequestHandle that you obtained via
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#CreateHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::CreateHTTPRequest" target="_blank" rel="noreferrer">HTTP::CreateHTTPRequest</a
->!<br /><br /><strong>Returns:</strong> bool<br />Returns <strong>true</strong> if the the handle
-was released successfully, <strong>false</strong> only if the handle is invalid.
+>!<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> if the the handle was released successfully,
+<strong>false</strong> only if the handle is invalid.
 <h2 class="bb_subsection"><a name="SendHTTPRequest"></a>SendHTTPRequest</h2>
 <div class="bb_code cpp">
     bool SendHTTPRequest( HTTPRequestHandle hRequest, SteamAPICall_t *pCallHandle );
@@ -839,9 +905,11 @@ was released successfully, <strong>false</strong> only if the handle is invalid.
         <td>Returns a call result handle to receive the response.</td>
     </tr>
 </table>
-<br />Sends an HTTP request.<br /><br />This call is asynchronous and provides a call result handle
-which you must use to track the call to its completion. If you have multiple requests in flight at
-the same time you can use
+<br />
+Sends an HTTP request.<br />
+<br />
+This call is asynchronous and provides a call result handle which you must use to track the call to
+its completion. If you have multiple requests in flight at the same time you can use
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#PrioritizeHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::PrioritizeHTTPRequest" target="_blank" rel="noreferrer"
@@ -851,9 +919,12 @@ or
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#DeferHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::DeferHTTPRequest" target="_blank" rel="noreferrer">HTTP::DeferHTTPRequest</a> to set
-the priority of the request.<br /><br />If the user is in offline mode in Steam, then this will add
-an only-if-cached cache-control header and only do a local cache lookup rather than sending any
-actual remote request.<br /><br />If the data you are expecting is large, you can use
+the priority of the request.<br />
+<br />
+If the user is in offline mode in Steam, then this will add an only-if-cached cache-control header
+and only do a local cache lookup rather than sending any actual remote request.<br />
+<br />
+If the data you are expecting is large, you can use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequestAndStreamResponse"
     class="bb_apilink"
@@ -861,14 +932,18 @@ actual remote request.<br /><br />If the data you are expecting is large, you ca
 ><a href="HTTP::SendHTTPRequestAndStreamResponse" target="_blank" rel="noreferrer"
     >HTTP::SendHTTPRequestAndStreamResponse</a
 >
-to stream the data in chunks.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
+to stream the data in chunks.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestCompleted_t"
     class="bb_apilink"
     >HTTPRequestCompleted_t</a
 >
-callback.<br />Returns <strong>true</strong> upon successfully setting the parameter.<br />Returns
-<strong>false</strong> under the following conditions:<br />
+callback.<br />
+Returns <strong>true</strong> upon successfully setting the parameter.<br />
+Returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has already been sent.<br /></li>
@@ -914,17 +989,20 @@ callback.<br />Returns <strong>true</strong> upon successfully setting the param
         <td>Returns a call result handle to receive the response.</td>
     </tr>
 </table>
-<br />Sends an HTTP request and streams the response back in chunks.<br /><br />This call is
-asynchronous and provides a call result handle which you must use to track the call to its
-completion. Typically you'll want to allocate a buffer associated with the request handle using the
-<code class="bb_code bb_code_inline nohighlight">Content-Length</code> HTTP response field to
+<br />
+Sends an HTTP request and streams the response back in chunks.<br />
+<br />
+This call is asynchronous and provides a call result handle which you must use to track the call to
+its completion. Typically you'll want to allocate a buffer associated with the request handle using
+the <code class="bb_code bb_code_inline nohighlight">Content-Length</code> HTTP response field to
 receive the total size of the data when you receive the header via
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestHeadersReceived_t"
     class="bb_apilink"
     >HTTPRequestHeadersReceived_t</a
->. You can then append data to that buffer as it comes in.<br /><br />If you have multiple requests
-in flight at the same time you can use
+>. You can then append data to that buffer as it comes in.<br />
+<br />
+If you have multiple requests in flight at the same time you can use
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#PrioritizeHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::PrioritizeHTTPRequest" target="_blank" rel="noreferrer"
@@ -934,33 +1012,41 @@ or
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#DeferHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::DeferHTTPRequest" target="_blank" rel="noreferrer">HTTP::DeferHTTPRequest</a> to set
-the priority of the request.<br /><br />If the user is in offline mode in Steam, then this will add
-an only-if-cached cache-control header and only do a local cache lookup rather than sending any
-actual remote request.<br /><br />If the data you are expecting is small (on the order of a few
-megabytes or less) then you'll likely want to use
+the priority of the request.<br />
+<br />
+If the user is in offline mode in Steam, then this will add an only-if-cached cache-control header
+and only do a local cache lookup rather than sending any actual remote request.<br />
+<br />
+If the data you are expecting is small (on the order of a few megabytes or less) then you'll likely
+want to use
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequest" class="bb_apilink"
     >ISteam</a
-><a href="HTTP::SendHTTPRequest" target="_blank" rel="noreferrer">HTTP::SendHTTPRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
+><a href="HTTP::SendHTTPRequest" target="_blank" rel="noreferrer">HTTP::SendHTTPRequest</a>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestDataReceived_t"
     class="bb_apilink"
     >HTTPRequestDataReceived_t</a
 >
-callback.<br />Triggers a
+callback.<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestHeadersReceived_t"
     class="bb_apilink"
     >HTTPRequestHeadersReceived_t</a
 >
-callback.<br />Triggers a
+callback.<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestCompleted_t"
     class="bb_apilink"
     >HTTPRequestCompleted_t</a
 >
-callback.<br />Returns <strong>true</strong> upon successfully setting the parameter.<br />Returns
-<strong>false</strong> under the following conditions:<br />
+callback.<br />
+Returns <strong>true</strong> upon successfully setting the parameter.<br />
+Returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has already been sent.<br /></li>
@@ -1007,10 +1093,11 @@ callback.<br />Returns <strong>true</strong> upon successfully setting the param
         <td>The cookie to set.</td>
     </tr>
 </table>
-<br />Adds a cookie to the specified cookie container that will be used with future requests.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />Returns <strong>true</strong> if the cookie was set successfully. Otherwise,
+<br />
+Adds a cookie to the specified cookie container that will be used with future requests.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> if the cookie was set successfully. Otherwise,
 <strong>false</strong> if the request handle was invalid or if there was a security issue parsing
 the cookie.
 <h2 class="bb_subsection">
@@ -1046,8 +1133,11 @@ the cookie.
         <td>The length of the timeout period in milliseconds.</td>
     </tr>
 </table>
-<br />Set an absolute timeout in milliseconds for the HTTP request.<br /><br />This is the total
-time timeout which is different than the network activity timeout which is set with
+<br />
+Set an absolute timeout in milliseconds for the HTTP request.<br />
+<br />
+This is the total time timeout which is different than the network activity timeout which is set
+with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#SetHTTPRequestNetworkActivityTimeout"
     class="bb_apilink"
@@ -1055,9 +1145,11 @@ time timeout which is different than the network activity timeout which is set w
 ><a href="HTTP::SetHTTPRequestNetworkActivityTimeout" target="_blank" rel="noreferrer"
     >HTTP::SetHTTPRequestNetworkActivityTimeout</a
 >
-which can bump everytime we get more data.<br /><br /><strong>Returns:</strong> bool<br />Returns
-<strong>true</strong> upon successfully setting the timeout.<br />Returns
-<strong>false</strong> under the following conditions:<br />
+which can bump everytime we get more data.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon successfully setting the timeout.<br />
+Returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has already been sent.</li>
@@ -1093,17 +1185,23 @@ which can bump everytime we get more data.<br /><br /><strong>Returns:</strong> 
         <td>The context value to set.</td>
     </tr>
 </table>
-<br />Set a context value for the request, which will be returned in the
+<br />
+Set a context value for the request, which will be returned in the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestCompleted_t"
     class="bb_apilink"
     >HTTPRequestCompleted_t</a
 >
-callback after sending the request.<br /><br />This allows the caller to set a context ID that can
-enable attribution of a particular callback to a particular request.<br /><br />Must be called
-before sending the request.<br /><br /><strong>Returns:</strong> bool<br />Returns
-<strong>true</strong> upon successfully setting the context value.<br />Returns
-<strong>false</strong> under the following conditions:<br />
+callback after sending the request.<br />
+<br />
+This allows the caller to set a context ID that can enable attribution of a particular callback to a
+particular request.<br />
+<br />
+Must be called before sending the request.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon successfully setting the context value.<br />
+Returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has already been sent.</li>
@@ -1144,9 +1242,12 @@ before sending the request.<br /><br /><strong>Returns:</strong> bool<br />Retur
         <td>The cookie container handle to associate with the request handle.</td>
     </tr>
 </table>
-<br />Associates a cookie container to use for an HTTP request.<br /><br /><strong>Returns:</strong>
-bool<br />Returns <strong>true</strong> upon successfully setting the cookie container.<br />Returns
-<strong>false</strong> under the following conditions:<br />
+<br />
+Associates a cookie container to use for an HTTP request.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon successfully setting the cookie container.<br />
+Returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li><code class="bb_code bb_code_inline nohighlight">hCookieContainer</code> was invalid.</li>
@@ -1186,10 +1287,14 @@ bool<br />Returns <strong>true</strong> upon successfully setting the cookie con
         <td>Value to associate with the name field.</td>
     </tr>
 </table>
-<br />Set a GET or POST parameter value on the HTTP request.<br /><br />Must be called prior to
-sending the request.<br /><br /><strong>Returns:</strong> bool<br />Returns
-<strong>true</strong> upon successfully setting the parameter.<br />Returns
-<strong>false</strong> under the following conditions:<br />
+<br />
+Set a GET or POST parameter value on the HTTP request.<br />
+<br />
+Must be called prior to sending the request.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon successfully setting the parameter.<br />
+Returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has already been sent.<br /></li>
@@ -1274,18 +1379,22 @@ sending the request.<br /><br /><strong>Returns:</strong> bool<br />Returns
         <td>Value to associate with the header name field.</td>
     </tr>
 </table>
-<br />Set a request header value for the HTTP request.<br /><br />Must be called before sending the
-request.<br /><br />A full list of standard request fields are available here on
+<br />
+Set a request header value for the HTTP request.<br />
+<br />
+Must be called before sending the request.<br />
+<br />
+A full list of standard request fields are available here on
 <a
     href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields#Request_fields"
     target="_blank"
     rel="noreferrer"
     >wikipedia</a
->. The User-Agent field is explicitly disallowed as it gets overwritten when the request is sent.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />Returns <strong>true</strong> upon successfully setting the header value.<br />Returns
-<strong>false</strong> under the following conditions:<br />
+>. The User-Agent field is explicitly disallowed as it gets overwritten when the request is sent.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon successfully setting the header value.<br />
+Returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has already been sent.<br /></li>
@@ -1333,8 +1442,11 @@ bool<br />Returns <strong>true</strong> upon successfully setting the header val
         <td>The length of the timeout period in seconds.</td>
     </tr>
 </table>
-<br />Set the timeout in seconds for the HTTP request.<br /><br />The default timeout is 60 seconds
-if you don't call this. This can get bumped everytime we get more data. Use
+<br />
+Set the timeout in seconds for the HTTP request.<br />
+<br />
+The default timeout is 60 seconds if you don't call this. This can get bumped everytime we get more
+data. Use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#SetHTTPRequestAbsoluteTimeoutMS"
     class="bb_apilink"
@@ -1342,9 +1454,11 @@ if you don't call this. This can get bumped everytime we get more data. Use
 ><a href="HTTP::SetHTTPRequestAbsoluteTimeoutMS" target="_blank" rel="noreferrer"
     >HTTP::SetHTTPRequestAbsoluteTimeoutMS</a
 >
-if you need a strict maximum timeout.<br /><br /><strong>Returns:</strong> bool<br />Returns
-<strong>true</strong> upon successfully setting the timeout.<br />Returns
-<strong>false</strong> under the following conditions:<br />
+if you need a strict maximum timeout.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon successfully setting the timeout.<br />
+Returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>The request has already been sent.</li>
@@ -1399,16 +1513,18 @@ if you need a strict maximum timeout.<br /><br /><strong>Returns:</strong> bool<
         </td>
     </tr>
 </table>
-<br />Sets the body for an HTTP Post request.<br /><br />Will fail and return false on a GET
-request, and will fail if POST params have already been set for the request. Setting this raw body
-makes it the only contents for the post, the
+<br />
+Sets the body for an HTTP Post request.<br />
+<br />
+Will fail and return false on a GET request, and will fail if POST params have already been set for
+the request. Setting this raw body makes it the only contents for the post, the
 <code class="bb_code bb_code_inline nohighlight">pchContentType</code> parameter will set the
-"content-type" header for the request to inform the server how to interpret the body.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />Returns <strong>true</strong> upon success indicating that the content-type field and the
-body data have been set.<br />Otherwise, returns <strong>false</strong> under the following
-conditions:<br />
+"content-type" header for the request to inform the server how to interpret the body.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon success indicating that the content-type field and the body data
+have been set.<br />
+Otherwise, returns <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">hRequest</code> was invalid.<br /></li>
     <li>
@@ -1479,12 +1595,15 @@ conditions:<br />
         <td>Turn on verified certificate?</td>
     </tr>
 </table>
-<br />Sets that the HTTPS request should require verified SSL certificate via machines certificate
-trust store.<br /><br />This currently only works Windows and macOS.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />Returns <strong>true</strong> upon success. Otherwise, <strong>false</strong> if the
-request handle is invalid.
+<br />
+Sets that the HTTPS request should require verified SSL certificate via machines certificate trust
+store.<br />
+<br />
+This currently only works Windows and macOS.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon success. Otherwise, <strong>false</strong> if the request handle
+is invalid.
 <h2 class="bb_subsection"><a name="SetHTTPRequestUserAgentInfo"></a>SetHTTPRequestUserAgentInfo</h2>
 <div class="bb_code cpp">
     bool SetHTTPRequestUserAgentInfo( HTTPRequestHandle hRequest, const char *pchUserAgentInfo );
@@ -1512,11 +1631,15 @@ request handle is invalid.
         <td>The string to append to the end of the user agent.</td>
     </tr>
 </table>
-<br />Set additional user agent info for a request.<br /><br />This doesn't clobber the normal user
-agent, it just adds the extra info on the end. Sending <strong>NULL</strong> or an empty string
-resets the user agent info to the default value.<br /><br /><strong>Returns:</strong>
-bool<br />Returns <strong>true</strong> upon success indicating that the user agent has been
-updated. Otherwise, <strong>false</strong> if the request handle is invalid.
+<br />
+Set additional user agent info for a request.<br />
+<br />
+This doesn't clobber the normal user agent, it just adds the extra info on the end. Sending
+<strong>NULL</strong> or an empty string resets the user agent info to the default value.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Returns <strong>true</strong> upon success indicating that the user agent has been updated.
+Otherwise, <strong>false</strong> if the request handle is invalid.
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
@@ -1524,7 +1647,8 @@ These are callbacks which can be fired by calling
 >. Many of these will be fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamHTTP</code>.
 <h2 class="bb_subsection"><a name="HTTPRequestCompleted_t"></a>HTTPRequestCompleted_t</h2>
-Result when an HTTP request completes.<br />If you're using
+Result when an HTTP request completes.<br />
+If you're using
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#GetHTTPStreamingResponseBodyData"
     class="bb_apilink"
@@ -1543,7 +1667,8 @@ or
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#HTTPRequestDataReceived_t"
     class="bb_apilink"
     >HTTPRequestDataReceived_t</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1588,8 +1713,8 @@ or
             ><a href="HTTP::SetHTTPRequestContextValue" target="_blank" rel="noreferrer"
                 >HTTP::SetHTTPRequestContextValue</a
             >
-            that this callback is associated with. <strong>0</strong> if<br />no context value was
-            set.
+            that this callback is associated with. <strong>0</strong> if<br />
+            no context value was set.
         </td>
     </tr>
     <tr>
@@ -1597,8 +1722,9 @@ or
         <td>bool</td>
         <td>
             This will be <strong>true</strong> if the request actually got any sort of response from
-            the server (even an error).<br />Otherwise it will be <strong>false</strong> if the
-            request failed due to an internal error or client side network failure.
+            the server (even an error).<br />
+            Otherwise it will be <strong>false</strong> if the request failed due to an internal
+            error or client side network failure.
         </td>
     </tr>
     <tr>
@@ -1611,7 +1737,8 @@ or
             >
         </td>
         <td>
-            Will be the HTTP status code value returned by the server.<br /><a
+            Will be the HTTP status code value returned by the server.<br />
+            <a
                 href="https://partner.steamgames.com/doc/api/ISteamHTTP#k_EHTTPStatusCode200OK"
                 class="bb_apilink"
                 >k_EHTTPStatusCode200OK</a
@@ -1639,7 +1766,8 @@ or
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::SendHTTPRequest" target="_blank" rel="noreferrer">HTTP::SendHTTPRequest</a>,
@@ -1651,7 +1779,8 @@ or
     >HTTP::SendHTTPRequestAndStreamResponse</a
 >
 <h2 class="bb_subsection"><a name="HTTPRequestDataReceived_t"></a>HTTPRequestDataReceived_t</h2>
-Triggered when a chunk of data is received from a streaming HTTP request.<br /><br />
+Triggered when a chunk of data is received from a streaming HTTP request.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1678,7 +1807,8 @@ Triggered when a chunk of data is received from a streaming HTTP request.<br /><
         </td>
         <td>
             Context value that the user defined on the request that this callback is associated
-            with, 0 if<br />no context value was set.
+            with, 0 if<br />
+            no context value was set.
         </td>
     </tr>
     <tr>
@@ -1720,7 +1850,8 @@ Triggered when a chunk of data is received from a streaming HTTP request.<br /><
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequestAndStreamResponse"
     class="bb_apilink"
@@ -1731,7 +1862,8 @@ Triggered when a chunk of data is received from a streaming HTTP request.<br /><
 <h2 class="bb_subsection">
     <a name="HTTPRequestHeadersReceived_t"></a>HTTPRequestHeadersReceived_t
 </h2>
-Triggered when HTTP headers are received from a streaming HTTP request.<br /><br />
+Triggered when HTTP headers are received from a streaming HTTP request.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1758,11 +1890,13 @@ Triggered when HTTP headers are received from a streaming HTTP request.<br /><br
         </td>
         <td>
             Context value that the user defined on the request that this callback is associated
-            with, 0 if<br />no context value was set.
+            with, 0 if<br />
+            no context value was set.
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTTP#SendHTTPRequestAndStreamResponse"
     class="bb_apilink"
@@ -1777,11 +1911,13 @@ Used to set the HTTP request method in
 <a href="https://partner.steamgames.com/doc/api/ISteamHTTP#CreateHTTPRequest" class="bb_apilink"
     >ISteam</a
 ><a href="HTTP::CreateHTTPRequest" target="_blank" rel="noreferrer">HTTP::CreateHTTPRequest</a>. For
-the most part you should only ever need GET or POST.<br /><br />You can read more about HTTP request
-methods on the
+the most part you should only ever need GET or POST.<br />
+<br />
+You can read more about HTTP request methods on the
 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods" target="_blank" rel="noreferrer"
     >Mozilla Developer Network</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1830,11 +1966,14 @@ methods on the
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EHTTPStatusCode"></a>EHTTPStatusCode</h2>
-HTTP response status codes that the server can send in response to a request.<br /><br />See the
+HTTP response status codes that the server can send in response to a request.<br />
+<br />
+See the
 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status" target="_blank" rel="noreferrer"
     >Mozilla Developer Network</a
 >
-or RFC2616 section 10.3 for detailed descriptions for each of these.<br /><br />
+or RFC2616 section 10.3 for detailed descriptions for each of these.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2068,7 +2207,8 @@ or RFC2616 section 10.3 for detailed descriptions for each of these.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
-These are typedefs which are defined for use with ISteamHTTP.<br /><br />
+These are typedefs which are defined for use with ISteamHTTP.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2095,7 +2235,8 @@ These are typedefs which are defined for use with ISteamHTTP.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with ISteamHTTP.<br /><br />
+These are constants which are defined for use with ISteamHTTP.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

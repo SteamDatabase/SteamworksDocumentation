@@ -1,8 +1,10 @@
 <h1>ILobbyMatchmakingService Interface</h1>
-Provides access to the Steam Lobby methods.<br /><br /><strong>NOTE:</strong> This is a Service
-interface, methods in this interface should be called with the
-<code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br /><br />For more
-info on how to use the Steamworks Web API please see the
+Provides access to the Steam Lobby methods.<br />
+<br />
+<strong>NOTE:</strong> This is a Service interface, methods in this interface should be called with
+the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br />
+<br />
+For more info on how to use the Steamworks Web API please see the
 <a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
 >.
 <h2 class="bb_section"><a name="CreateLobby"></a>CreateLobby</h2>
@@ -83,7 +85,8 @@ info on how to use the Steamworks Web API please see the
         </td>
     </tr>
 </table>
-<br />Structure of the
+<br />
+Structure of the
 <code class="bb_code bb_code_inline nohighlight">lobby_metadata</code> property:<br />
 <table>
     <tr>
@@ -105,24 +108,30 @@ info on how to use the Steamworks Web API please see the
         <td>Key value</td>
     </tr>
 </table>
-<br />When using the CreateLobby WebAPI, you'll probably want to set lobby_type to 4
+<br />
+When using the CreateLobby WebAPI, you'll probably want to set lobby_type to 4
 (k_ELobbyTypePrivateUnique). This lobby type is a private, unique lobby that does not get deleted
 when emptied, and only one will exist per unique appid/lobby_name. A private unique lobby can only
 be created by this WebAPI call. But you can also use CreateLobby to generate the more traditional
-and ephemeral lobbies when no lobby_name is used.<br /><br />Steamid_invited_members will be a json
-array of all the steamIDs that should be currently allowed into the lobby. You can update the list
-of members by calling CreateLobby with the same lobby_name and new complete set of steamIDs. Any
-steamIDs that were previously in the lobby and not included in the new call will be removed from the
-lobby.<br /><br />Lobby_metadata is completely optional, but can be used to send general lobby data
-that needs to be communicated to users in the client.<br /><br /><strong>Example Params:</strong
-><br />
+and ephemeral lobbies when no lobby_name is used.<br />
+<br />
+Steamid_invited_members will be a json array of all the steamIDs that should be currently allowed
+into the lobby. You can update the list of members by calling CreateLobby with the same lobby_name
+and new complete set of steamIDs. Any steamIDs that were previously in the lobby and not included in
+the new call will be removed from the lobby.<br />
+<br />
+Lobby_metadata is completely optional, but can be used to send general lobby data that needs to be
+communicated to users in the client.<br />
+<br />
+<strong>Example Params:</strong><br />
 <div class="bb_code json">
     { "max_members": 100, "appid": 480, "lobbytype": 4, "steamid_invited_members": [], "lobby_name"
     : "guild_chat_1138", "lobby_metadata": [ { "key_name" : "motd", "key_value" : "Raid at 5 PM" },
     { "key_name" : "clan_id", "key_value" : "1138" }, { "key_name" : "lobbyproperty", "key_value" :
     "otherproperty" } ] }
 </div>
-<br /><strong>Response:</strong><br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
@@ -192,8 +201,9 @@ that needs to be communicated to users in the client.<br /><br /><strong>Example
         </td>
     </tr>
 </table>
-<br /><strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this
-API <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="GetLobbyData"></a>GetLobbyData</h2>
 <div class="bb_code http">
     GET https://partner.steam-api.com/ILobbyMatchmakingService/GetLobbyData/v1/
@@ -224,13 +234,13 @@ API <strong>MUST</strong> be called from a secure server, and can never be used 
         <td>Lobby ID.</td>
     </tr>
 </table>
-<br />GetLobbyData will return any lobby data and member list for the lobby ID.<br /><br /><strong
-    >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!<br /><br /><strong
-    >Example Response:</strong
-><br />
+<br />
+GetLobbyData will return any lobby data and member list for the lobby ID.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Example Response:</strong><br />
 <div class="bb_code json">
     { "response": { "appid": 480, "lobby_type": 2, "steamid_owner": "76561197984069643",
     "lobby_metadata": [ { "key_name": "name", "key_value": "Olive's lobby" }, { "key_name" : "motd",

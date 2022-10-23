@@ -1,6 +1,8 @@
 <h1>ISteamRemoteStorage Interface</h1>
 Provides functions for reading, writing, and accessing files which can be stored remotely in the
-Steam Cloud.<br /><br />See
+Steam Cloud.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/features/cloud" class="bb_doclink">Steam Cloud</a> for
 more information.
 <h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
@@ -9,7 +11,8 @@ called through the global accessor function
 <code class="bb_code bb_code_inline nohighlight">SteamRemoteStorage()</code>.
 <h2 class="bb_subsection"><a name="BeginFileWriteBatch"></a>BeginFileWriteBatch</h2>
 <div class="bb_code cpp">bool BeginFileWriteBatch( );</div>
-<br />Use this along with
+<br />
+Use this along with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EndFileWriteBatch"
     class="bb_apilink"
@@ -20,15 +23,18 @@ change. For example, if saving game progress requires updating both
 <code class="bb_code bb_code_inline nohighlight">savegame1.dat</code> and
 <code class="bb_code bb_code_inline nohighlight">maxprogress.dat</code>, wrap those operations with
 calls to <code class="bb_code bb_code_inline nohighlight">BeginFileWriteBatch</code> and
-<code class="bb_code bb_code_inline nohighlight">EndFileWriteBatch</code>.<br /><br />These
-functions provide a hint to Steam which will help it manage the app's Cloud files. Using these
-functions is optional, however it will provide better reliability.<br /><br />Note that the
-functions may be used whether the writes are done using the
+<code class="bb_code bb_code_inline nohighlight">EndFileWriteBatch</code>.<br />
+<br />
+These functions provide a hint to Steam which will help it manage the app's Cloud files. Using these
+functions is optional, however it will provide better reliability.<br />
+<br />
+Note that the functions may be used whether the writes are done using the
 <code class="bb_code bb_code_inline nohighlight">ISteamRemoteStorage</code> API, or done directly to
-local disk (where AutoCloud is used). <br /><br /><strong>Returns:</strong> bool<br /><strong
-    >true</strong
->
-if the write batch was begun, <strong>false</strong> if there was a batch already in progress.
+local disk (where AutoCloud is used). <br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the write batch was begun, <strong>false</strong> if there was a batch
+already in progress.
 <h2 class="bb_subsection"><a name="CommitPublishedFileUpdate"></a>CommitPublishedFileUpdate</h2>
 <div class="bb_code cpp">
     SteamAPICall_t CommitPublishedFileUpdate( PublishedFileUpdateHandle_t updateHandle );
@@ -51,9 +57,10 @@ if the write batch was begun, <strong>false</strong> if there was a batch alread
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -89,9 +96,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileUpdateHandle_t"
     class="bb_apilink"
@@ -119,9 +127,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -134,16 +143,18 @@ to be used with a
 call result.
 <h2 class="bb_subsection"><a name="EndFileWriteBatch"></a>EndFileWriteBatch</h2>
 <div class="bb_code cpp">bool EndFileWriteBatch( );</div>
-<br />Use this along with
+<br />
+Use this along with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#BeginFileWriteBatch"
     class="bb_apilink"
     >BeginFileWriteBatch</a
 >
-- see that documentation for more details.<br /><br /><strong>Returns:</strong> bool<br /><strong
-    >true</strong
->
-if the write batch was ended, <strong>false</strong> if there was no batch already in progress.
+- see that documentation for more details.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the write batch was ended, <strong>false</strong> if there was no batch
+already in progress.
 <h2 class="bb_subsection">
     <a name="EnumeratePublishedFilesByUserAction"></a>EnumeratePublishedFilesByUserAction
 </h2>
@@ -178,9 +189,10 @@ if the write batch was ended, <strong>false</strong> if there was no batch alrea
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -268,9 +280,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -299,9 +312,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -368,9 +382,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -401,9 +416,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -428,21 +444,24 @@ call result.
         <td>The name of the file that will be deleted.</td>
     </tr>
 </table>
-<br />Deletes a file from the local disk, and propagates that delete to the cloud.<br /><br />This
-is meant to be used when a user actively deletes a file. Use
+<br />
+Deletes a file from the local disk, and propagates that delete to the cloud.<br />
+<br />
+This is meant to be used when a user actively deletes a file. Use
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileForget" class="bb_apilink"
     >ISteamRemoteStorage::FileForget</a
 >
-if you want to remove a file from the Steam Cloud but retain it on the users local disk.<br /><br />When
-a file has been deleted it can be re-written with
+if you want to remove a file from the Steam Cloud but retain it on the users local disk.<br />
+<br />
+When a file has been deleted it can be re-written with
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWrite" class="bb_apilink"
     >ISteamRemoteStorage::FileWrite</a
 >
-to reupload it to the Steam Cloud.<br /><br /><strong>Returns:</strong> bool<br /><strong
-    >true</strong
->
-if the file exists and has been successfully deleted; otherwise, <strong>false</strong> if the file
-did not exist.
+to reupload it to the Steam Cloud.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the file exists and has been successfully deleted; otherwise,
+<strong>false</strong> if the file did not exist.
 <h2 class="bb_subsection"><a name="FileExists"></a>FileExists</h2>
 <div class="bb_code cpp">bool FileExists( const char *pchFile );</div>
 <table>
@@ -457,8 +476,11 @@ did not exist.
         <td>The name of the file.</td>
     </tr>
 </table>
-<br />Checks whether the specified file exists.<br /><br /><strong>Returns:</strong>
-bool<br /><strong>true</strong> if the file exists; otherwise, <strong>false</strong>.
+<br />
+Checks whether the specified file exists.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the file exists; otherwise, <strong>false</strong>.
 <h2 class="bb_subsection"><a name="FileFetch"></a>FileFetch</h2>
 <div class="bb_code cpp">bool FileFetch( const char *pchFile );</div>
 <table>
@@ -473,7 +495,10 @@ bool<br /><strong>true</strong> if the file exists; otherwise, <strong>false</st
         <td></td>
     </tr>
 </table>
-<br />Deprecated - PS3 Only.<br /><br /><strong>Returns:</strong> bool
+<br />
+Deprecated - PS3 Only.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="FileForget"></a>FileForget</h2>
 <div class="bb_code cpp">bool FileForget( const char *pchFile );</div>
 <table>
@@ -488,23 +513,33 @@ bool<br /><strong>true</strong> if the file exists; otherwise, <strong>false</st
         <td>The name of the file that will be forgotten.</td>
     </tr>
 </table>
-<br />Deletes the file from remote storage, but leaves it on the local disk and remains accessible
-from the API.<br /><br />When you are out of Cloud space, this can be used to allow calls to
+<br />
+Deletes the file from remote storage, but leaves it on the local disk and remains accessible from
+the API.<br />
+<br />
+When you are out of Cloud space, this can be used to allow calls to
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWrite" class="bb_apilink"
     >ISteamRemoteStorage::FileWrite</a
 >
-to keep working without needing to make the user delete files.<br /><br />How you decide which files
-to forget are up to you. It could be a simple Least Recently Used (LRU) queue or something more
-complicated.<br /><br />Requiring the user to manage their Cloud-ized files for a game, while is
-possible to do, it is never recommended. For instance, "Which file would you like to delete so that
-you may store this new one?" removes a significant advantage of using the Cloud in the first place:
-its transparency.<br /><br />Once a file has been deleted or forgotten, calling
+to keep working without needing to make the user delete files.<br />
+<br />
+How you decide which files to forget are up to you. It could be a simple Least Recently Used (LRU)
+queue or something more complicated.<br />
+<br />
+Requiring the user to manage their Cloud-ized files for a game, while is possible to do, it is never
+recommended. For instance, "Which file would you like to delete so that you may store this new one?"
+removes a significant advantage of using the Cloud in the first place: its transparency.<br />
+<br />
+Once a file has been deleted or forgotten, calling
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWrite" class="bb_apilink"
     >ISteamRemoteStorage::FileWrite</a
 >
 will resynchronize it in the Cloud. Rewriting a forgotten file is the only way to make it persisted
-again.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the file exists and
-has been successfully forgotten; otherwise, <strong>false</strong>.
+again.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the file exists and has been successfully forgotten; otherwise,
+<strong>false</strong>.
 <h2 class="bb_subsection"><a name="FilePersist"></a>FilePersist</h2>
 <div class="bb_code cpp">bool FilePersist( const char *pchFile );</div>
 <table>
@@ -519,7 +554,10 @@ has been successfully forgotten; otherwise, <strong>false</strong>.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - PS3 Only.<br /><br /><strong>Returns:</strong> bool
+<br />
+Deprecated - PS3 Only.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="FilePersisted"></a>FilePersisted</h2>
 <div class="bb_code cpp">bool FilePersisted( const char *pchFile );</div>
 <table>
@@ -534,13 +572,12 @@ has been successfully forgotten; otherwise, <strong>false</strong>.
         <td>The name of the file.</td>
     </tr>
 </table>
-<br />Checks if a specific file is persisted in the steam cloud.<br /><br /><strong
-    >Returns:</strong
->
-bool<br /><strong>true</strong> if the file exists and the file is persisted in the Steam Cloud.<br /><strong
-    >false</strong
->
-if
+<br />
+Checks if a specific file is persisted in the steam cloud.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the file exists and the file is persisted in the Steam Cloud.<br />
+<strong>false</strong> if
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileForget" class="bb_apilink"
     >ISteamRemoteStorage::FileForget</a
 >
@@ -591,18 +628,23 @@ was called on it and is only available locally.
         </td>
     </tr>
 </table>
-<br />Opens a binary file, reads the contents of the file into a byte array, and then closes the
-file.<br /><br /><strong>NOTE:</strong> This is a synchronous call and as such is a will block your
-calling thread on the disk IO, and will also block the SteamAPI, which can cause other threads in
-your application to block. To avoid "hitching" due to a busy disk on the client machine using
+<br />
+Opens a binary file, reads the contents of the file into a byte array, and then closes the file.<br />
+<br />
+<strong>NOTE:</strong> This is a synchronous call and as such is a will block your calling thread on
+the disk IO, and will also block the SteamAPI, which can cause other threads in your application to
+block. To avoid "hitching" due to a busy disk on the client machine using
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileReadAsync"
     class="bb_apilink"
     >ISteamRemoteStorage::FileReadAsync</a
->, the asynchronous version of this API is recommended.<br /><br /><strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a
-><br />The number of bytes read.<br /><br />Returns <strong>0</strong> if the file doesn't exist or
-the read fails.
+>, the asynchronous version of this API is recommended.<br />
+<br />
+<strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a><br />
+The number of bytes read.<br />
+<br />
+Returns <strong>0</strong> if the file doesn't exist or the read fails.
 <h2 class="bb_subsection"><a name="FileReadAsync"></a>FileReadAsync</h2>
 <div class="bb_code cpp">
     SteamAPICall_t FileReadAsync( const char *pchFile, uint32 nOffset, uint32 cubToRead );
@@ -643,8 +685,10 @@ the read fails.
         </td>
     </tr>
 </table>
-<br />Starts an asynchronous read from a file.<br /><br />The offset and amount to read should be
-valid for the size of the file, as indicated by
+<br />
+Starts an asynchronous read from a file.<br />
+<br />
+The offset and amount to read should be valid for the size of the file, as indicated by
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetFileSize" class="bb_apilink"
     >ISteamRemoteStorage::GetFileSize</a
 >
@@ -653,7 +697,9 @@ or
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetFileTimestamp"
     class="bb_apilink"
     >ISteamRemoteStorage::GetFileTimestamp</a
->.<br /><br /><strong>Returns:</strong>
+>.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -663,7 +709,8 @@ to be used with a
     class="bb_apilink"
     >RemoteStorageFileReadAsyncComplete_t</a
 >
-call result.<br />Returns
+call result.<br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
@@ -692,7 +739,8 @@ under the following conditions:<br />
     </li>
     <li>You have an async read in progress on this file already.</li>
 </ul>
-<br />Upon completion of the read request you will receive the call result, if the value of
+<br />
+Upon completion of the read request you will receive the call result, if the value of
 <code class="bb_code bb_code_inline nohighlight">m_eResult</code> within the call result is
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK" class="bb_apilink"
     >k_EResultOK</a
@@ -759,20 +807,27 @@ indicated by <code class="bb_code bb_code_inline nohighlight">m_nOffset</code> a
         </td>
     </tr>
 </table>
-<br />Copies the bytes from a file which was asynchronously read with
+<br />
+Copies the bytes from a file which was asynchronously read with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileReadAsync"
     class="bb_apilink"
     >ISteamRemoteStorage::FileReadAsync</a
 >
-into a byte array.<br /><br />This should never be called outside of the context of a
+into a byte array.<br />
+<br />
+This should never be called outside of the context of a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStorageFileReadAsyncComplete_t"
     class="bb_apilink"
     >RemoteStorageFileReadAsyncComplete_t</a
 >
-call result.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the file was
-successfully read.<br /><br />Otherwise, <strong>false</strong> under the following conditions:<br />
+call result.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the file was successfully read.<br />
+<br />
+Otherwise, <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li>
         The handle passed to <code class="bb_code bb_code_inline nohighlight">hReadCall</code> is
@@ -806,7 +861,8 @@ successfully read.<br /><br />Otherwise, <strong>false</strong> under the follow
         <td></td>
     </tr>
 </table>
-<br /><strong>Returns:</strong>
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -850,18 +906,23 @@ call result.
         </td>
     </tr>
 </table>
-<br />Creates a new file, writes the bytes to the file, and then closes the file. If the target file
-already exists, it is overwritten.<br /><br /><strong>NOTE:</strong> This is a synchronous call and
-as such is a will block your calling thread on the disk IO, and will also block the SteamAPI, which
-can cause other threads in your application to block. To avoid "hitching" due to a busy disk on the
-client machine using
+<br />
+Creates a new file, writes the bytes to the file, and then closes the file. If the target file
+already exists, it is overwritten.<br />
+<br />
+<strong>NOTE:</strong> This is a synchronous call and as such is a will block your calling thread on
+the disk IO, and will also block the SteamAPI, which can cause other threads in your application to
+block. To avoid "hitching" due to a busy disk on the client machine using
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWriteAsync"
     class="bb_apilink"
     >ISteamRemoteStorage::FileWriteAsync</a
->, the asynchronous version of this API is recommended.<br /><br /><strong>Returns:</strong>
-bool<br /><strong>true</strong> if the write was successful.<br /><br />Otherwise,
-<strong>false</strong> under the following conditions:<br />
+>, the asynchronous version of this API is recommended.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the write was successful.<br />
+<br />
+Otherwise, <strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li>
         The file you're trying to write is larger than 100MiB as defined by
@@ -929,10 +990,11 @@ bool<br /><strong>true</strong> if the write was successful.<br /><br />Otherwis
         </td>
     </tr>
 </table>
-<br />Creates a new file and asynchronously writes the raw byte data to the Steam Cloud, and then
-closes the file. If the target file already exists, it is overwritten.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Creates a new file and asynchronously writes the raw byte data to the Steam Cloud, and then closes
+the file. If the target file already exists, it is overwritten.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -942,7 +1004,8 @@ to be used with a
     class="bb_apilink"
     >RemoteStorageFileWriteAsyncComplete_t</a
 >
-call result.<br />Returns
+call result.<br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
@@ -1000,13 +1063,18 @@ under the following conditions:<br />
         <td>The file write stream to cancel.</td>
     </tr>
 </table>
-<br />Cancels a file write stream that was started by
+<br />
+Cancels a file write stream that was started by
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWriteStreamOpen"
     class="bb_apilink"
     >ISteamRemoteStorage::FileWriteStreamOpen</a
->.<br /><br />This trashes all of the data written and closes the write stream, but if there was an
-existing file with this name, it remains untouched.<br /><br /><strong>Returns:</strong> bool
+>.<br />
+<br />
+This trashes all of the data written and closes the write stream, but if there was an existing file
+with this name, it remains untouched.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="FileWriteStreamClose"></a>FileWriteStreamClose</h2>
 <div class="bb_code cpp">bool FileWriteStreamClose( UGCFileWriteStreamHandle_t writeHandle );</div>
 <table>
@@ -1027,16 +1095,21 @@ existing file with this name, it remains untouched.<br /><br /><strong>Returns:<
         <td>The file write stream to close.</td>
     </tr>
 </table>
-<br />Closes a file write stream that was started by
+<br />
+Closes a file write stream that was started by
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWriteStreamOpen"
     class="bb_apilink"
     >ISteamRemoteStorage::FileWriteStreamOpen</a
->.<br /><br />This flushes the stream to the disk, overwriting the existing file if there was
-one.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the file write stream
-was successfully closed, the file has been committed to the disk.<br /><strong>false</strong> if
-<code class="bb_code bb_code_inline nohighlight">writeHandle</code> is not a valid file write
-stream.
+>.<br />
+<br />
+This flushes the stream to the disk, overwriting the existing file if there was one.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the file write stream was successfully closed, the file has been committed
+to the disk.<br />
+<strong>false</strong> if <code class="bb_code bb_code_inline nohighlight">writeHandle</code> is not
+a valid file write stream.
 <h2 class="bb_subsection"><a name="FileWriteStreamOpen"></a>FileWriteStreamOpen</h2>
 <div class="bb_code cpp">
     UGCFileWriteStreamHandle_t FileWriteStreamOpen( const char *pchFile );
@@ -1053,14 +1126,17 @@ stream.
         <td>The name of the file to write to.</td>
     </tr>
 </table>
-<br />Creates a new file output stream allowing you to stream out data to the Steam Cloud file in
-chunks. If the target file already exists, it is not overwritten until
+<br />
+Creates a new file output stream allowing you to stream out data to the Steam Cloud file in chunks.
+If the target file already exists, it is not overwritten until
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWriteStreamClose"
     class="bb_apilink"
     >ISteamRemoteStorage::FileWriteStreamClose</a
 >
-has been called.<br /><br />To write data out to this stream you can use
+has been called.<br />
+<br />
+To write data out to this stream you can use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWriteStreamWriteChunk"
     class="bb_apilink"
@@ -1077,12 +1153,15 @@ and
     class="bb_apilink"
     >ISteamRemoteStorage::FileWriteStreamCancel</a
 >
-respectively.<br /><br /><strong>Returns:</strong>
+respectively.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#UGCFileWriteStreamHandle_t"
     class="bb_apilink"
     >UGCFileWriteStreamHandle_t</a
-><br />Returns
+><br />
+Returns
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid"
     class="bb_apilink"
@@ -1145,12 +1224,14 @@ under the following conditions:<br />
         </td>
     </tr>
 </table>
-<br />Writes a blob of data to the file write stream.<br /><br /><strong>Returns:</strong>
-bool<br /><strong>true</strong> if the data was successfully written to the file write stream.<br /><strong
-    >false</strong
->
-if <code class="bb_code bb_code_inline nohighlight">writeHandle</code> is not a valid file write
-stream, <code class="bb_code bb_code_inline nohighlight">cubData</code> is negative or larger than
+<br />
+Writes a blob of data to the file write stream.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the data was successfully written to the file write stream.<br />
+<strong>false</strong> if <code class="bb_code bb_code_inline nohighlight">writeHandle</code> is not
+a valid file write stream, <code class="bb_code bb_code_inline nohighlight">cubData</code> is
+negative or larger than
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_unMaxCloudFileChunkSize"
     class="bb_apilink"
@@ -1159,7 +1240,8 @@ stream, <code class="bb_code bb_code_inline nohighlight">cubData</code> is negat
 space, or have too many files.
 <h2 class="bb_subsection"><a name="GetCachedUGCCount"></a>GetCachedUGCCount</h2>
 <div class="bb_code cpp">int32 GetCachedUGCCount();</div>
-<br /><strong>Returns:</strong>
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a>
 <h2 class="bb_subsection"><a name="GetCachedUGCHandle"></a>GetCachedUGCHandle</h2>
 <div class="bb_code cpp">UGCHandle_t GetCachedUGCHandle( int32 iCachedContent );</div>
@@ -1179,21 +1261,25 @@ space, or have too many files.
         <td></td>
     </tr>
 </table>
-<br /><strong>Returns:</strong>
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#UGCHandle_t" class="bb_apilink"
     >UGCHandle_t</a
 >
 <h2 class="bb_subsection"><a name="GetFileCount"></a>GetFileCount</h2>
 <div class="bb_code cpp">int32 GetFileCount();</div>
-Gets the total number of local files synchronized by Steam Cloud.<br /><br />Used for enumeration
-with
+Gets the total number of local files synchronized by Steam Cloud.<br />
+<br />
+Used for enumeration with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetFileNameAndSize"
     class="bb_apilink"
     >ISteamRemoteStorage::GetFileNameAndSize</a
->.<br /><br /><strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a
-><br />The number of files present for the current user, including files in subfolders.
+>.<br />
+<br />
+<strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a><br />
+The number of files present for the current user, including files in subfolders.
 <h2 class="bb_subsection"><a name="GetFileListFromServer"></a>GetFileListFromServer</h2>
 <div class="bb_code cpp">void GetFileListFromServer();</div>
 Deprecated - PS3 Only.
@@ -1230,14 +1316,20 @@ Deprecated - PS3 Only.
         <td>Returns the file size in bytes.</td>
     </tr>
 </table>
-<br />Gets the file name and size of a file from the index.<br /><br /><strong>NOTE:</strong> You
-must call
+<br />
+Gets the file name and size of a file from the index.<br />
+<br />
+<strong>NOTE:</strong> You must call
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetFileCount" class="bb_apilink"
     >ISteamRemoteStorage::GetFileCount</a
 >
-first to get the number of files.<br /><br /><strong>Returns:</strong> const char *<br />The name of
-the file at the specified index, if it exists. Returns an empty string ("") if the file doesn't
-exist.<br /><br /><strong>Example:</strong><br />
+first to get the number of files.<br />
+<br />
+<strong>Returns:</strong> const char *<br />
+The name of the file at the specified index, if it exists. Returns an empty string ("") if the file
+doesn't exist.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     int32 fileCount = SteamRemoteStorage()-&gt;GetFileCount(); for ( int i = 0; i &lt; fileCount;
     ++i ) { int32 fileSize; const char *fileName = SteamRemoteStorage()-&gt;GetFileNameAndSize( i,
@@ -1257,9 +1349,12 @@ exist.<br /><br /><strong>Example:</strong><br />
         <td>The name of the file.</td>
     </tr>
 </table>
-<br />Gets the specified files size in bytes.<br /><br /><strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a
-><br />The size of the file in bytes. Returns<strong>0</strong> if the file does not exist.
+<br />
+Gets the specified files size in bytes.<br />
+<br />
+<strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a><br />
+The size of the file in bytes. Returns<strong>0</strong> if the file does not exist.
 <h2 class="bb_subsection"><a name="GetFileTimestamp"></a>GetFileTimestamp</h2>
 <div class="bb_code cpp">int64 GetFileTimestamp( const char *pchFile );</div>
 <table>
@@ -1274,14 +1369,19 @@ exist.<br /><br /><strong>Example:</strong><br />
         <td>The name of the file.</td>
     </tr>
 </table>
-<br />Gets the specified file's last modified timestamp in Unix epoch format (seconds since Jan 1st
-1970).<br /><br /><strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#int64" class="bb_apilink">int64</a
-><br />The last modified timestamp in Unix epoch format (seconds since Jan 1st 1970).
+<br />
+Gets the specified file's last modified timestamp in Unix epoch format (seconds since Jan 1st
+1970).<br />
+<br />
+<strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#int64" class="bb_apilink">int64</a><br />
+The last modified timestamp in Unix epoch format (seconds since Jan 1st 1970).
 <h2 class="bb_subsection"><a name="GetLocalFileChangeCount"></a>GetLocalFileChangeCount</h2>
 <div class="bb_code cpp">int32 GetLocalFileChangeCount( );</div>
-<br />Note: only applies to applications flagged as supporting dynamic Steam Cloud sync.<br /><br />When
-your application receives a
+<br />
+Note: only applies to applications flagged as supporting dynamic Steam Cloud sync.<br />
+<br />
+When your application receives a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStorageLocalFileChange_t"
     class="bb_apilink"
@@ -1292,25 +1392,31 @@ You can then iterate the changes using
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
     class="bb_apilink"
     >ISteamRemoteStorage::GetLocalFileChange</a
->.<br /><br /><strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a
-><br />The number of local file changes that have occurred.
+>.<br />
+<br />
+<strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a><br />
+The number of local file changes that have occurred.
 <h2 class="bb_subsection"><a name="GetLocalFileChange"></a>GetLocalFileChange</h2>
 <div class="bb_code cpp">
     const char *GetLocalFileChange( int iFile, ERemoteStorageLocalFileChange *pEChangeType,
     ERemoteStorageFilePathType *pEFilePathType );
 </div>
-<br />Note: only applies to applications flagged as supporting dynamic Steam Cloud sync.<br /><br />After
-calling
+<br />
+Note: only applies to applications flagged as supporting dynamic Steam Cloud sync.<br />
+<br />
+After calling
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChangeCount"
     class="bb_apilink"
     >ISteamRemoteStorage::GetLocalFileChangeCount</a
 >, use this method to iterate over the changes. The changes described have already been made to
 local files. Your application should take appropriate action to reload state from disk, and possibly
-notify the user. <br /><br />For example: The local system had been suspended, during which time the
-user played elsewhere and uploaded changes to the Steam Cloud. On resume, Steam downloads those
-changes to the local system before resuming the application. The application receives an
+notify the user. <br />
+<br />
+For example: The local system had been suspended, during which time the user played elsewhere and
+uploaded changes to the Steam Cloud. On resume, Steam downloads those changes to the local system
+before resuming the application. The application receives an
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#RemoteStorageLocalFileChange_t"
     class="bb_apilink"
@@ -1328,7 +1434,8 @@ and
     >ISteamRemoteStorage::GetLocalFileChange</a
 >
 to iterate those changes. Depending on the application structure and the nature of the changes, the
-application could:<br /><br />
+application could:<br />
+<br />
 <ul class="bb_ul">
     <li>
         Re-load game progress to resume at exactly the point where the user was when they exited the
@@ -1337,7 +1444,8 @@ application could:<br /><br />
     <li>Notify the user of any synchronized changes that don't require reloading<br /></li>
     <li>etc</li>
 </ul>
-<br /><br />
+<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1376,8 +1484,9 @@ application could:<br /><br />
         <td>Type of path to the file returned</td>
     </tr>
 </table>
-<br /><strong>Returns:</strong> const char *<br />The file name or full path of the file affected by
-this change. See comments on
+<br />
+<strong>Returns:</strong> const char *<br />
+The file name or full path of the file affected by this change. See comments on
 <code class="bb_code bb_code_inline nohighlight">pEFilePathType</code> above for more detail.
 <h2 class="bb_subsection"><a name="GetPublishedFileDetails"></a>GetPublishedFileDetails</h2>
 <div class="bb_code cpp">
@@ -1411,9 +1520,10 @@ this change. See comments on
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -1446,9 +1556,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -1488,10 +1599,11 @@ call result.
         <td>Returns the number of bytes available.</td>
     </tr>
 </table>
-<br />Gets the number of bytes available, and used on the users Steam Cloud storage.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />This function always returns <strong>true</strong>.
+<br />
+Gets the number of bytes available, and used on the users Steam Cloud storage.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+This function always returns <strong>true</strong>.
 <h2 class="bb_subsection"><a name="GetSyncPlatforms"></a>GetSyncPlatforms</h2>
 <div class="bb_code cpp">ERemoteStoragePlatform GetSyncPlatforms( const char *pchFile );</div>
 <table>
@@ -1506,14 +1618,16 @@ bool<br />This function always returns <strong>true</strong>.
         <td>The name of the file.</td>
     </tr>
 </table>
-<br />Obtains the platforms that the specified file will syncronize to.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Obtains the platforms that the specified file will syncronize to.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#ERemoteStoragePlatform"
     class="bb_apilink"
     >ERemoteStoragePlatform</a
-><br />Bitfield containing the platforms that the file was set to with
+><br />
+Bitfield containing the platforms that the file was set to with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#SetSyncPlatforms"
     class="bb_apilink"
@@ -1577,7 +1691,8 @@ bool<br />This function always returns <strong>true</strong>.
         <td></td>
     </tr>
 </table>
-<br /><strong>Returns:</strong> bool
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="GetUGCDownloadProgress"></a>GetUGCDownloadProgress</h2>
 <div class="bb_code cpp">
     bool GetUGCDownloadProgress( UGCHandle_t hContent, int32 *pnBytesDownloaded, int32
@@ -1621,7 +1736,8 @@ bool<br />This function always returns <strong>true</strong>.
         <td></td>
     </tr>
 </table>
-<br /><strong>Returns:</strong> bool
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection">
     <a name="GetUserPublishedItemVoteDetails"></a>GetUserPublishedItemVoteDetails
 </h2>
@@ -1646,9 +1762,10 @@ bool<br />This function always returns <strong>true</strong>.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -1662,30 +1779,39 @@ call result.
 <h2 class="bb_subsection"><a name="IsCloudEnabledForAccount"></a>IsCloudEnabledForAccount</h2>
 <div class="bb_code cpp">bool IsCloudEnabledForAccount();</div>
 Checks if the account wide Steam Cloud setting is enabled for this user; or if they disabled it in
-the Settings-&gt;Cloud dialog.<br /><br />Ensure that you are also checking
+the Settings-&gt;Cloud dialog.<br />
+<br />
+Ensure that you are also checking
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#IsCloudEnabledForApp"
     class="bb_apilink"
     >ISteamRemoteStorage::IsCloudEnabledForApp</a
->, as these two options are mutually exclusive.<br /><br /><strong>Returns:</strong>
-bool<br /><strong>true</strong> if Steam Cloud is enabled for this account; otherwise,
-<strong>false</strong>.
+>, as these two options are mutually exclusive.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if Steam Cloud is enabled for this account; otherwise, <strong>false</strong>.
 <h2 class="bb_subsection"><a name="IsCloudEnabledForApp"></a>IsCloudEnabledForApp</h2>
 <div class="bb_code cpp">bool IsCloudEnabledForApp();</div>
 Checks if the per game Steam Cloud setting is enabled for this user; or if they disabled it in the
-Game Properties-&gt;Update dialog.<br /><br />Ensure that you are also checking
+Game Properties-&gt;Update dialog.<br />
+<br />
+Ensure that you are also checking
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#IsCloudEnabledForAccount"
     class="bb_apilink"
     >ISteamRemoteStorage::IsCloudEnabledForAccount</a
->, as these two options are mutually exclusive.<br /><br />It's generally recommended that you allow
-the user to toggle this setting within your in-game options, you can toggle it with
+>, as these two options are mutually exclusive.<br />
+<br />
+It's generally recommended that you allow the user to toggle this setting within your in-game
+options, you can toggle it with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#SetCloudEnabledForApp"
     class="bb_apilink"
     >ISteamRemoteStorage::SetCloudEnabledForApp</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if Steam Cloud is enabled
-for this app; otherwise, <strong>false</strong>.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if Steam Cloud is enabled for this app; otherwise, <strong>false</strong>.
 <h2 class="bb_subsection"><a name="PublishVideo"></a>PublishVideo</h2>
 <div class="bb_code cpp">
     SteamAPICall_t PublishVideo( EWorkshopVideoProvider eVideoProvider, const char *pchVideoAccount,
@@ -1768,9 +1894,10 @@ for this app; otherwise, <strong>false</strong>.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -1858,9 +1985,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -1873,7 +2001,9 @@ to be used with a
 call result.
 <h2 class="bb_subsection"><a name="ResetFileRequestState"></a>ResetFileRequestState</h2>
 <div class="bb_code cpp">bool ResetFileRequestState();</div>
-Deprecated - PS3 Only.<br /><br /><strong>Returns:</strong> bool
+Deprecated - PS3 Only.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="SetCloudEnabledForApp"></a>SetCloudEnabledForApp</h2>
 <div class="bb_code cpp">void SetCloudEnabledForApp( bool bEnabled );</div>
 <table>
@@ -1891,15 +2021,19 @@ Deprecated - PS3 Only.<br /><br /><strong>Returns:</strong> bool
         </td>
     </tr>
 </table>
-<br />Toggles whether the Steam Cloud is enabled for your application.<br /><br />This setting can
-be queried with
+<br />
+Toggles whether the Steam Cloud is enabled for your application.<br />
+<br />
+This setting can be queried with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#IsCloudEnabledForApp"
     class="bb_apilink"
     >ISteamRemoteStorage::IsCloudEnabledForApp</a
->.<br /><br /><strong>NOTE:</strong> This must only ever be called as the direct result of the user
-explicitly requesting that it's enabled or not. This is typically accomplished with a checkbox
-within your in-game options.
+>.<br />
+<br />
+<strong>NOTE:</strong> This must only ever be called as the direct result of the user explicitly
+requesting that it's enabled or not. This is typically accomplished with a checkbox within your
+in-game options.
 <h2 class="bb_subsection"><a name="SetSyncPlatforms"></a>SetSyncPlatforms</h2>
 <div class="bb_code cpp">
     bool SetSyncPlatforms( const char *pchFile, ERemoteStoragePlatform eRemoteStoragePlatform );
@@ -1927,17 +2061,22 @@ within your in-game options.
         <td>The platforms that the file will be syncronized to.</td>
     </tr>
 </table>
-<br />Allows you to specify which operating systems a file will be synchronized to.<br /><br />Use
-this if you have a multiplatform game but have data which is incompatible between platforms.<br /><br />Files
-default to
+<br />
+Allows you to specify which operating systems a file will be synchronized to.<br />
+<br />
+Use this if you have a multiplatform game but have data which is incompatible between platforms.<br />
+<br />
+Files default to
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_ERemoteStoragePlatformAll"
     class="bb_apilink"
     >k_ERemoteStoragePlatformAll</a
 >
 when they are first created. You can use the bitwise OR operator, "|" to specify multiple
-platforms.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the file exists,
-otherwise false.
+platforms.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the file exists, otherwise false.
 <h2 class="bb_subsection"><a name="SetUserPublishedFileAction"></a>SetUserPublishedFileAction</h2>
 <div class="bb_code cpp">
     SteamAPICall_t SetUserPublishedFileAction( PublishedFileId_t unPublishedFileId,
@@ -1972,9 +2111,10 @@ otherwise false.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2007,9 +2147,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2051,7 +2192,8 @@ call result.
         <td></td>
     </tr>
 </table>
-<br /><strong>Returns:</strong>
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2099,7 +2241,8 @@ call result.
         <td></td>
     </tr>
 </table>
-<br /><strong>Returns:</strong>
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2167,7 +2310,8 @@ call result.
         <td></td>
     </tr>
 </table>
-<br /><strong>Returns:</strong>
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink">int32</a>
 <h2 class="bb_subsection"><a name="UnsubscribePublishedFile"></a>UnsubscribePublishedFile</h2>
 <div class="bb_code cpp">
@@ -2191,9 +2335,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2234,10 +2379,10 @@ call result.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
-bool
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="UpdatePublishedFileFile"></a>UpdatePublishedFileFile</h2>
 <div class="bb_code cpp">
     bool UpdatePublishedFileFile( PublishedFileUpdateHandle_t updateHandle, const char *pchFile );
@@ -2265,10 +2410,10 @@ bool
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
-bool
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection">
     <a name="UpdatePublishedFilePreviewFile"></a>UpdatePublishedFilePreviewFile
 </h2>
@@ -2299,10 +2444,10 @@ bool
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
-bool
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection">
     <a name="UpdatePublishedFileSetChangeDescription"></a>UpdatePublishedFileSetChangeDescription
 </h2>
@@ -2333,10 +2478,10 @@ bool
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
-bool
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="UpdatePublishedFileTags"></a>UpdatePublishedFileTags</h2>
 <div class="bb_code cpp">
     bool UpdatePublishedFileTags( PublishedFileUpdateHandle_t updateHandle, SteamParamStringArray_t
@@ -2372,10 +2517,10 @@ bool
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
-bool
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="UpdatePublishedFileTitle"></a>UpdatePublishedFileTitle</h2>
 <div class="bb_code cpp">
     bool UpdatePublishedFileTitle( PublishedFileUpdateHandle_t updateHandle, const char *pchTitle );
@@ -2403,10 +2548,10 @@ bool
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
-bool
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection">
     <a name="UpdatePublishedFileVisibility"></a>UpdatePublishedFileVisibility
 </h2>
@@ -2443,10 +2588,10 @@ bool
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
-bool
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="UpdateUserPublishedItemVote"></a>UpdateUserPublishedItemVote</h2>
 <div class="bb_code cpp">
     SteamAPICall_t UpdateUserPublishedItemVote( PublishedFileId_t unPublishedFileId, bool bVoteUp );
@@ -2474,9 +2619,10 @@ bool
         <td></td>
     </tr>
 </table>
-<br />Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2496,7 +2642,8 @@ These are callbacks which can be fired by calling
 <h2 class="bb_subsection">
     <a name="RemoteStorageAppSyncedClient_t"></a>RemoteStorageAppSyncedClient_t
 </h2>
-Deprecated - PS3 only.<br /><br />
+Deprecated - PS3 only.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2530,7 +2677,8 @@ Deprecated - PS3 only.<br /><br />
 <h2 class="bb_subsection">
     <a name="RemoteStorageAppSyncedServer_t"></a>RemoteStorageAppSyncedServer_t
 </h2>
-Deprecated - PS3 only.<br /><br />
+Deprecated - PS3 only.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2564,7 +2712,8 @@ Deprecated - PS3 only.<br /><br />
 <h2 class="bb_subsection">
     <a name="RemoteStorageAppSyncProgress_t"></a>RemoteStorageAppSyncProgress_t
 </h2>
-Deprecated - PS3 only.<br /><br />
+Deprecated - PS3 only.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2614,7 +2763,8 @@ Deprecated - PS3 only.<br /><br />
 <h2 class="bb_subsection">
     <a name="RemoteStorageAppSyncStatusCheck_t"></a>RemoteStorageAppSyncStatusCheck_t
 </h2>
-Deprecated - PS3 only.<br /><br />
+Deprecated - PS3 only.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2643,7 +2793,8 @@ Deprecated - PS3 only.<br /><br />
 <h2 class="bb_subsection">
     <a name="RemoteStorageDeletePublishedFileResult_t"></a>RemoteStorageDeletePublishedFileResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2671,7 +2822,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td></td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#DeletePublishedFile"
     class="bb_apilink"
@@ -2746,7 +2898,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td>Steam ID of the user who created this content.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#UGCDownload" class="bb_apilink"
     >ISteamRemoteStorage::UGCDownload</a
 >,
@@ -2759,7 +2912,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     <a name="RemoteStorageEnumeratePublishedFilesByUserActionResult_t"></a
     >RemoteStorageEnumeratePublishedFilesByUserActionResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2833,7 +2987,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td></td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EnumeratePublishedFilesByUserAction"
     class="bb_apilink"
@@ -2843,7 +2998,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     <a name="RemoteStorageEnumerateUserPublishedFilesResult_t"></a
     >RemoteStorageEnumerateUserPublishedFilesResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2893,7 +3049,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td></td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EnumerateUserPublishedFiles"
     class="bb_apilink"
@@ -2908,7 +3065,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     <a name="RemoteStorageEnumerateUserSharedWorkshopFilesResult_t"></a
     >RemoteStorageEnumerateUserSharedWorkshopFilesResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2962,7 +3120,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     <a name="RemoteStorageEnumerateUserSubscribedFilesResult_t"></a
     >RemoteStorageEnumerateUserSubscribedFilesResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3025,7 +3184,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td></td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EnumerateUserSubscribedFiles"
     class="bb_apilink"
@@ -3035,7 +3195,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     <a name="RemoteStorageEnumerateWorkshopFilesResult_t"></a
     >RemoteStorageEnumerateWorkshopFilesResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3114,7 +3275,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td></td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EnumeratePublishedWorkshopFiles"
     class="bb_apilink"
@@ -3128,7 +3290,8 @@ Response when reading a file asyncrounously with
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileReadAsync"
     class="bb_apilink"
     >ISteamRemoteStorage::FileReadAsync</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3162,7 +3325,8 @@ Response when reading a file asyncrounously with
             >
         </td>
         <td>
-            The result of the operation.<br />If the local read was successful this will be
+            The result of the operation.<br />
+            If the local read was successful this will be
             <a
                 href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
                 class="bb_apilink"
@@ -3195,7 +3359,8 @@ Response when reading a file asyncrounously with
         <td>Amount of bytes read - will be the &lt;= the amount requested.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileReadAsync"
     class="bb_apilink"
@@ -3243,7 +3408,8 @@ Response when reading a file asyncrounously with
         <td>The name of the file that was shared</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileShare" class="bb_apilink"
     >ISteamRemoteStorage::FileShare</a
 >
@@ -3255,7 +3421,8 @@ Response when writing a file asyncrounously with
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWriteAsync"
     class="bb_apilink"
     >ISteamRemoteStorage::FileWriteAsync</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3270,7 +3437,8 @@ Response when writing a file asyncrounously with
             >
         </td>
         <td>
-            The result of the operation.<br />If the local write was successful then this will be
+            The result of the operation.<br />
+            If the local write was successful then this will be
             <a
                 href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
                 class="bb_apilink"
@@ -3287,7 +3455,8 @@ Response when writing a file asyncrounously with
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#FileWriteAsync"
     class="bb_apilink"
@@ -3297,7 +3466,8 @@ Response when writing a file asyncrounously with
     <a name="RemoteStorageGetPublishedFileDetailsResult_t"></a
     >RemoteStorageGetPublishedFileDetailsResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3502,7 +3672,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td>developer has specifically flagged this item as accepted in the Workshop</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetPublishedFileDetails"
     class="bb_apilink"
@@ -3512,7 +3683,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     <a name="RemoteStorageGetPublishedItemVoteDetailsResult_t"></a
     >RemoteStorageGetPublishedItemVoteDetailsResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3572,7 +3744,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td></td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetPublishedItemVoteDetails"
     class="bb_apilink"
@@ -3587,9 +3760,9 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     <a name="RemoteStorageLocalFileChange_t"></a>RemoteStorageLocalFileChange_t
 </h2>
 If a Steam app is flagged for supporting dynamic Steam Cloud sync, and a sync occurs, this callback
-will be posted to the app if any local files changed.<br /><br /><strong
-    >Associated Functions:</strong
->
+will be posted to the app if any local files changed.<br />
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChangeCount"
     class="bb_apilink"
@@ -3603,7 +3776,8 @@ will be posted to the app if any local files changed.<br /><br /><strong
 <h2 class="bb_subsection">
     <a name="RemoteStoragePublishedFileDeleted_t"></a>RemoteStoragePublishedFileDeleted_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3696,7 +3870,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
 <h2 class="bb_subsection">
     <a name="RemoteStoragePublishedFileUpdated_t"></a>RemoteStoragePublishedFileUpdated_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3736,7 +3911,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
 <h2 class="bb_subsection">
     <a name="RemoteStoragePublishFileProgress_t"></a>RemoteStoragePublishFileProgress_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3754,7 +3930,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td></td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishWorkshopFile"
     class="bb_apilink"
@@ -3766,7 +3943,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
 <h2 class="bb_subsection">
     <a name="RemoteStoragePublishFileResult_t"></a>RemoteStoragePublishFileResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3803,7 +3981,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     <a name="RemoteStorageSetUserPublishedFileActionResult_t"></a
     >RemoteStorageSetUserPublishedFileActionResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3842,7 +4021,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td>the action that was attempted</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#SetUserPublishedFileAction"
     class="bb_apilink"
@@ -3855,7 +4035,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
 Called when the user has subscribed to a piece of UGC. Result from
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubscribeItem" class="bb_apilink"
     >ISteamUGC::SubscribeItem</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3883,7 +4064,8 @@ Called when the user has subscribed to a piece of UGC. Result from
         <td>The workshop item that the user subscribed to.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#SubscribePublishedFile"
     class="bb_apilink"
@@ -3896,7 +4078,8 @@ Called when the user has subscribed to a piece of UGC. Result from
 Called when the user has unsubscribed from a piece of UGC. Result from
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UnsubscribeItem" class="bb_apilink"
     >ISteamUGC::UnsubscribeItem</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3924,7 +4107,8 @@ Called when the user has unsubscribed from a piece of UGC. Result from
         <td>The workshop item that the user unsubscribed from.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#UnsubscribePublishedFile"
     class="bb_apilink"
@@ -3933,7 +4117,8 @@ Called when the user has unsubscribed from a piece of UGC. Result from
 <h2 class="bb_subsection">
     <a name="RemoteStorageUpdatePublishedFileResult_t"></a>RemoteStorageUpdatePublishedFileResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -3966,7 +4151,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td></td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#CommitPublishedFileUpdate"
     class="bb_apilink"
@@ -3976,7 +4162,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     <a name="RemoteStorageUpdateUserPublishedItemVoteResult_t"></a
     >RemoteStorageUpdateUserPublishedItemVoteResult_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4004,7 +4191,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
         <td>The published file id</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#UpdateUserPublishedItemVote"
     class="bb_apilink"
@@ -4013,7 +4201,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
 <h2 class="bb_subsection">
     <a name="RemoteStorageUserVoteDetails_t"></a>RemoteStorageUserVoteDetails_t
 </h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4087,7 +4276,8 @@ Ways in which a local file may be changed by Steam during the application sessio
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
     class="bb_apilink"
     >ISteamRemoteStorage::GetLocalFileChange</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4116,7 +4306,8 @@ For APIs that may return file paths in different forms. See
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
     class="bb_apilink"
     >ISteamRemoteStorage::GetLocalFileChange</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4152,7 +4343,8 @@ Sync Platforms flags. These can be used with
     class="bb_apilink"
     >ISteamRemoteStorage::SetSyncPlatforms</a
 >
-to restrict a file to a specific OS.<br /><br />
+to restrict a file to a specific OS.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4198,7 +4390,8 @@ to restrict a file to a specific OS.<br /><br />
 <h2 class="bb_subsection">
     <a name="ERemoteStoragePublishedFileVisibility"></a>ERemoteStoragePublishedFileVisibility
 </h2>
-Possible visibility states that a Workshop item can be in.<br /><br />
+Possible visibility states that a Workshop item can be in.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4228,7 +4421,8 @@ Possible visibility states that a Workshop item can be in.<br /><br />
 Possible UGC Read Actions used with
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#UGCRead" class="bb_apilink"
     >ISteamRemoteStorage::UGCRead</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4240,10 +4434,11 @@ Possible UGC Read Actions used with
         <td>0</td>
         <td>
             Keeps the file handle open unless the last byte is read. You can use this when reading
-            large files (over 100MB) in sequential chunks.<br />If the last byte is read, this will
-            behave the same as k_EUGCRead_Close. Otherwise, it behaves the same as
-            k_EUGCRead_ContinueReading.<br />This value maintains the same behavior as before the
-            EUGCReadAction parameter was introduced.
+            large files (over 100MB) in sequential chunks.<br />
+            If the last byte is read, this will behave the same as k_EUGCRead_Close. Otherwise, it
+            behaves the same as k_EUGCRead_ContinueReading.<br />
+            This value maintains the same behavior as before the EUGCReadAction parameter was
+            introduced.
         </td>
     </tr>
     <tr id="k_EUGCRead_ContinueReading">
@@ -4251,21 +4446,23 @@ Possible UGC Read Actions used with
         <td>1</td>
         <td>
             Keeps the file handle open. Use this when using UGCRead to seek to different parts of
-            the file.<br />When you are done seeking around the file, make a final call with
-            k_EUGCRead_Close to close it.
+            the file.<br />
+            When you are done seeking around the file, make a final call with k_EUGCRead_Close to
+            close it.
         </td>
     </tr>
     <tr id="k_EUGCRead_Close">
         <td><strong>k_EUGCRead_Close</strong></td>
         <td>2</td>
         <td>
-            Frees the file handle. Use this when you're done reading the content.<br />To read the
-            file from Steam again you will need to call UGCDownload again.
+            Frees the file handle. Use this when you're done reading the content.<br />
+            To read the file from Steam again you will need to call UGCDownload again.
         </td>
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EWorkshopEnumerationType"></a>EWorkshopEnumerationType</h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4309,7 +4506,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EWorkshopFileAction"></a>EWorkshopFileAction</h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4328,7 +4526,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EWorkshopFileType"></a>EWorkshopFileType</h2>
-The way that a shared file will be shared with the community.<br /><br />
+The way that a shared file will be shared with the community.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4434,7 +4633,8 @@ The way that a shared file will be shared with the community.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EWorkshopVideoProvider"></a>EWorkshopVideoProvider</h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4453,7 +4653,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EWorkshopVote"></a>EWorkshopVote</h2>
-Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br /><br />
+Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4482,7 +4683,8 @@ Deprecated - Only used with the deprecated RemoteStorage based Workshop API.<br 
     </tr>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
-These are typedefs which are defined for use with ISteamRemoteStorage.<br /><br />
+These are typedefs which are defined for use with ISteamRemoteStorage.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4527,7 +4729,8 @@ These are typedefs which are defined for use with ISteamRemoteStorage.<br /><br 
     </tr>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with ISteamRemoteStorage.<br /><br />
+These are constants which are defined for use with ISteamRemoteStorage.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4669,8 +4872,9 @@ These are constants which are defined for use with ISteamRemoteStorage.<br /><br
         </td>
         <td>100 * 1024 * 1024</td>
         <td>
-            Defines the largest allowed file size for the Steam Cloud.<br />Cloud files cannot be
-            written in a single chunk over 100MiB and cannot be over 200MiB total.
+            Defines the largest allowed file size for the Steam Cloud.<br />
+            Cloud files cannot be written in a single chunk over 100MiB and cannot be over 200MiB
+            total.
         </td>
     </tr>
     <tr id="STEAMREMOTESTORAGE_INTERFACE_VERSION">

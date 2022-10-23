@@ -1,5 +1,7 @@
 <h1>ISteamVideo Interface</h1>
-Provides functions to interface with the Steam video and broadcasting platforms.<br /><br />See
+Provides functions to interface with the Steam video and broadcasting platforms.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/features/streaming_video" class="bb_doclink"
     >Steam Video</a
 >
@@ -26,13 +28,18 @@ through the global accessor function
         <td>The video app ID to get the OPF details of.</td>
     </tr>
 </table>
-<br />Get the OPF details for 360 video playback<br /><br />To retrieve the 360 OPF (open projection
-format) data to playback a 360 video, start by making a call to this, then the callback will
-indicate whether the request was successful. If it was successful, the actual OPF JSON data can be
-retrieved with a call to
+<br />
+Get the OPF details for 360 video playback<br />
+<br />
+To retrieve the 360 OPF (open projection format) data to playback a 360 video, start by making a
+call to this, then the callback will indicate whether the request was successful. If it was
+successful, the actual OPF JSON data can be retrieved with a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFStringForApp" class="bb_apilink"
     >ISteamVideo::GetOPFStringForApp</a
->.<br /><br /><strong>Returns:</strong> void<br />Triggers a
+>.<br />
+<br />
+<strong>Returns:</strong> void<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettingsResult_t"
     class="bb_apilink"
@@ -79,7 +86,10 @@ callback.
         </td>
     </tr>
 </table>
-<br />Gets the OPF string for the specified video App ID.<br /><br />Once the callback for
+<br />
+Gets the OPF string for the specified video App ID.<br />
+<br />
+Once the callback for
 <a
     href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettingsResult_t"
     class="bb_apilink"
@@ -89,21 +99,24 @@ has been raised and the EResult indicates success, then calling this will return
 data in a JSON format. The size of the OPF string varies, but at this time 48,000 bytes should be
 sufficient to contain the full string. If it is not,
 <code class="bb_code bb_code_inline nohighlight">pnBufferSize</code> will be set to the size
-required. In that case, make a second call with the correct buffer size.<br /><br /><strong
-    >NOTE:</strong
->
-The data returned in a successful call to GetOPFStringForApp() can only be retrieved once. If you
-need to retrieve it multiple times, a call to
+required. In that case, make a second call with the correct buffer size.<br />
+<br />
+<strong>NOTE:</strong> The data returned in a successful call to GetOPFStringForApp() can only be
+retrieved once. If you need to retrieve it multiple times, a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettings" class="bb_apilink"
     >ISteamVideo::GetOPFSettings</a
 >
-will need to be made each time.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
-if we have the OPF details from a previous call to
+will need to be made each time.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if we have the OPF details from a previous call to
 <a href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettings" class="bb_apilink"
     >ISteamVideo::GetOPFSettings</a
->, otherwise <strong>false</strong>.<br /><br />Returns the details in
-<code class="bb_code bb_code_inline nohighlight">pchBuffer</code>.<br /><br />For a description of
-the OPF format and an example response, please see the
+>, otherwise <strong>false</strong>.<br />
+<br />
+Returns the details in <code class="bb_code bb_code_inline nohighlight">pchBuffer</code>.<br />
+<br />
+For a description of the OPF format and an example response, please see the
 <a href="https://pixvana.com/open-projection-format/" target="_blank" rel="noreferrer"
     >Pixvana OPF web page</a
 >.
@@ -125,12 +138,19 @@ the OPF format and an example response, please see the
         <td>The video app ID to receive the video stream for.</td>
     </tr>
 </table>
-<br />Asynchronously gets the URL suitable for streaming the video associated with the specified
-video app ID.<br /><br /><strong>Returns:</strong> void<br />Triggers a
+<br />
+Asynchronously gets the URL suitable for streaming the video associated with the specified video app
+ID.<br />
+<br />
+<strong>Returns:</strong> void<br />
+Triggers a
 <a href="https://partner.steamgames.com/doc/api/ISteamVideo#GetVideoURLResult_t" class="bb_apilink"
     >GetVideoURLResult_t</a
 >
-callback.<br /><br /><br /><strong>See Also:</strong>
+callback.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP"
     target="_blank"
@@ -151,11 +171,13 @@ callback.<br /><br /><br /><strong>See Also:</strong>
         <td>Returns the number of viewers currently watching the live broadcast.</td>
     </tr>
 </table>
-<br />Checks if the user is currently live broadcasting and gets the number of users.<br /><br /><strong
-    >Returns:</strong
->
-bool<br /><strong>true</strong> if user is uploading a live broadcast, otherwise
-<strong>false</strong>.<br /><br />Returns the number of viewers via
+<br />
+Checks if the user is currently live broadcasting and gets the number of users.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if user is uploading a live broadcast, otherwise <strong>false</strong>.<br />
+<br />
+Returns the number of viewers via
 <code class="bb_code bb_code_inline nohighlight">pnNumViewers</code> if the user is currently
 broadcasting.
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
@@ -165,9 +187,12 @@ These are callbacks which can be fired by calling
 >. Many of these will be fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamVideo</code>.
 <h2 class="bb_subsection"><a name="BroadcastUploadStart_t"></a>BroadcastUploadStart_t</h2>
-Automatically called whenever the user starts broadcasting.<br /><br />This callback has no fields.
+Automatically called whenever the user starts broadcasting.<br />
+<br />
+This callback has no fields.
 <h2 class="bb_subsection"><a name="BroadcastUploadStop_t"></a>BroadcastUploadStop_t</h2>
-Automatically called whenever the user stops broadcasting.<br /><br />
+Automatically called whenever the user stops broadcasting.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -187,12 +212,13 @@ Automatically called whenever the user stops broadcasting.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="GetOPFSettingsResult_t"></a>GetOPFSettingsResult_t</h2>
-Triggered when the OPF Details for 360 video playback are retrieved.<br />After receiving this you
-can use
+Triggered when the OPF Details for 360 video playback are retrieved.<br />
+After receiving this you can use
 <a href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFStringForApp" class="bb_apilink"
     >ISteamVideo::GetOPFStringForApp</a
 >
-to access the OPF details.<br /><br />
+to access the OPF details.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -207,7 +233,8 @@ to access the OPF details.<br /><br />
             >
         </td>
         <td>
-            The result of the operation.<br />Possible values:<br />
+            The result of the operation.<br />
+            Possible values:<br />
             <ul class="bb_ul">
                 <li>
                     <a
@@ -284,7 +311,8 @@ to access the OPF details.<br /><br />
         <td>The app ID of the video that we got the details of.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamVideo#GetOPFSettings" class="bb_apilink"
     >ISteamVideo::GetOPFSettings</a
 >
@@ -292,7 +320,8 @@ to access the OPF details.<br /><br />
 Provides the result of a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamVideo#GetVideoURL" class="bb_apilink"
     >ISteamVideo::GetVideoURL</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -360,12 +389,14 @@ Provides the result of a call to
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamVideo#GetVideoURL" class="bb_apilink"
     >ISteamVideo::GetVideoURL</a
 >
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with ISteamVideo.<br /><br />
+These are constants which are defined for use with ISteamVideo.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

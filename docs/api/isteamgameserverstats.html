@@ -30,30 +30,39 @@ global accessor function
         <td>The 'API Name' of the Achievement to reset.</td>
     </tr>
 </table>
-<br />Resets the unlock status of an achievement for the specified user.<br /><br />This is
-primarily only ever used for testing.<br /><br />You must have called
+<br />
+Resets the unlock status of an achievement for the specified user.<br />
+<br />
+This is primarily only ever used for testing.<br />
+<br />
+You must have called
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::RequestUserStats</a
 >
-and it needs to return successfully via its callback prior to calling this!<br /><br />This call
-only modifies Steam's in-memory state and is very cheap. To submit the stats to the server you must
-call
+and it needs to return successfully via its callback prior to calling this!<br />
+<br />
+This call only modifies Steam's in-memory state and is very cheap. To submit the stats to the server
+you must call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::StoreUserStats</a
->.<br /><br /><strong>NOTE:</strong> This will work only on achievements that game servers are
-allowed to set. If the "Set By" field for this achievement is "Official GS" then only game servers
-that have been declared as officially controlled by you will be able to set it. To do this you must
-set the IP range of your official servers in the
+>.<br />
+<br />
+<strong>NOTE:</strong> This will work only on achievements that game servers are allowed to set. If
+the "Set By" field for this achievement is "Official GS" then only game servers that have been
+declared as officially controlled by you will be able to set it. To do this you must set the IP
+range of your official servers in the
 <a href="https://partner.steamgames.com/apps/dedicatedservers/" target="_blank" rel="noreferrer"
     >Dedicated Servers</a
 >
-section of App Admin.<br /><br /><strong>Returns:</strong> bool<br />This function returns
-<strong>true</strong> upon success if all of the following conditions are met; otherwise,
-<strong>false</strong>.<br />
+section of App Admin.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+This function returns <strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
 <ul class="bb_ul">
     <li>
         The specified achievement "API Name" exists in App Admin on the Steamworks website, and the
@@ -99,8 +108,11 @@ section of App Admin.<br /><br /><strong>Returns:</strong> bool<br />This functi
         <td>Returns the unlock status of the achievement.</td>
     </tr>
 </table>
-<br />Gets the unlock status of the Achievement.<br /><br /><strong>Returns:</strong> bool<br />This
-function returns <strong>true</strong> upon success if all of the following conditions are met;
+<br />
+Gets the unlock status of the Achievement.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+This function returns <strong>true</strong> upon success if all of the following conditions are met;
 otherwise, <strong>false</strong>.<br />
 <ul class="bb_ul">
     <li>
@@ -116,7 +128,8 @@ otherwise, <strong>false</strong>.<br />
         and the changes are published.
     </li>
 </ul>
-<br />If the call is successful then the unlock status is returned via the
+<br />
+If the call is successful then the unlock status is returned via the
 <code class="bb_code bb_code_inline nohighlight">pbAchieved</code> parameter.
 <h2 class="bb_subsection"><a name="GetUserStat"></a>GetUserStat</h2>
 <div class="bb_code cpp">
@@ -161,17 +174,20 @@ otherwise, <strong>false</strong>.<br />
         <td>The variable to return the stat value into.</td>
     </tr>
 </table>
-<br />Gets the current value of the a stat for the specified user.<br /><br />You must have called
+<br />
+Gets the current value of the a stat for the specified user.<br />
+<br />
+You must have called
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::RequestUserStats</a
 >
-and it needs to return successfully via its callback prior to calling this.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />This function returns <strong>true</strong> upon success if all of the following
-conditions are met; otherwise, <strong>false</strong>.<br />
+and it needs to return successfully via its callback prior to calling this.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+This function returns <strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
 <ul class="bb_ul">
     <li>
         The specified stat exists in App Admin on the Steamworks website, and the changes are
@@ -208,9 +224,13 @@ conditions are met; otherwise, <strong>false</strong>.<br />
         <td>The Steam ID of the user to request the stats for.</td>
     </tr>
 </table>
-<br />Asynchronously downloads stats and achievements for the specified user from the server.<br /><br />These
-stats will only be auto-updated for clients currently playing on the server. For other users you'll
-need to call this function again to refresh any data.<br /><br /><strong>Returns:</strong>
+<br />
+Asynchronously downloads stats and achievements for the specified user from the server.<br />
+<br />
+These stats will only be auto-updated for clients currently playing on the server. For other users
+you'll need to call this function again to refresh any data.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -244,29 +264,37 @@ call result.
         <td>The 'API Name' of the Achievement to unlock.</td>
     </tr>
 </table>
-<br />Unlocks an achievement for the specified user.<br /><br />You must have called
+<br />
+Unlocks an achievement for the specified user.<br />
+<br />
+You must have called
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::RequestUserStats</a
 >
-and it needs to return successfully via its callback prior to calling this!<br /><br />This call
-only modifies Steam's in-memory state and is very cheap. To submit the stats to the server you must
-call
+and it needs to return successfully via its callback prior to calling this!<br />
+<br />
+This call only modifies Steam's in-memory state and is very cheap. To submit the stats to the server
+you must call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::StoreUserStats</a
->.<br /><br /><strong>NOTE:</strong> This will work only on achievements that game servers are
-allowed to set. If the "Set By" field for this achievement is "Official GS" then only game servers
-that have been declared as officially controlled by you will be able to set it. To do this you must
-set the IP range of your official servers in the
+>.<br />
+<br />
+<strong>NOTE:</strong> This will work only on achievements that game servers are allowed to set. If
+the "Set By" field for this achievement is "Official GS" then only game servers that have been
+declared as officially controlled by you will be able to set it. To do this you must set the IP
+range of your official servers in the
 <a href="https://partner.steamgames.com/apps/dedicatedservers/" target="_blank" rel="noreferrer"
     >Dedicated Servers</a
 >
-section of App Admin.<br /><br /><strong>Returns:</strong> bool<br />This function returns
-<strong>true</strong> upon success if all of the following conditions are met; otherwise,
-<strong>false</strong>.<br />
+section of App Admin.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+This function returns <strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
 <ul class="bb_ul">
     <li>
         The specified achievement "API Name" exists in App Admin on the Steamworks website, and the
@@ -328,30 +356,37 @@ section of App Admin.<br /><br /><strong>Returns:</strong> bool<br />This functi
         </td>
     </tr>
 </table>
-<br />Sets / updates the value of a given stat for the specified user.<br /><br />You must have
-called
+<br />
+Sets / updates the value of a given stat for the specified user.<br />
+<br />
+You must have called
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::RequestUserStats</a
 >
-and it needs to return successfully via its callback prior to calling this!<br /><br />This call
-only modifies Steam's in-memory state and is very cheap. To submit the stats to the server you must
-call
+and it needs to return successfully via its callback prior to calling this!<br />
+<br />
+This call only modifies Steam's in-memory state and is very cheap. To submit the stats to the server
+you must call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::StoreUserStats</a
->.<br /><br /><strong>NOTE:</strong> These updates will work only on stats that game servers are
-allowed to edit. If the "Set By" field for this stat is "Official GS" then only game servers that
-have been declared as officially controlled by you will be able to set it. To do this you must set
-the IP range of your official servers in the
+>.<br />
+<br />
+<strong>NOTE:</strong> These updates will work only on stats that game servers are allowed to edit.
+If the "Set By" field for this stat is "Official GS" then only game servers that have been declared
+as officially controlled by you will be able to set it. To do this you must set the IP range of your
+official servers in the
 <a href="https://partner.steamgames.com/apps/dedicatedservers/" target="_blank" rel="noreferrer"
     >Dedicated Servers</a
 >
-section of App Admin.<br /><br /><strong>Returns:</strong> bool<br />This function returns
-<strong>true</strong> upon success if all of the following conditions are met; otherwise,
-<strong>false</strong>.<br />
+section of App Admin.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+This function returns <strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
 <ul class="bb_ul">
     <li>
         The specified stat exists in App Admin on the Steamworks website, and the changes are
@@ -389,16 +424,25 @@ section of App Admin.<br /><br /><strong>Returns:</strong> bool<br />This functi
         <td>The Steam ID of the user to store the stats of.</td>
     </tr>
 </table>
-<br />Send the changed stats and achievements data to the server for permanent storage for the
-specified user.<br /><br />If this fails then nothing is sent to the server. It's advisable to keep
-trying until the call is successful.<br /><br />This call can be rate limited. Call frequency should
-be on the order of minutes, rather than seconds. You should only be calling this during major state
-changes such as the end of a round, the map changing, or the user leaving a server.<br /><br />If
-you have stats or achievements that you have saved locally but haven't uploaded with this function
-when your application process ends then this function will automatically be called.<br /><br />You
-can find additional debug information written to the
+<br />
+Send the changed stats and achievements data to the server for permanent storage for the specified
+user.<br />
+<br />
+If this fails then nothing is sent to the server. It's advisable to keep trying until the call is
+successful.<br />
+<br />
+This call can be rate limited. Call frequency should be on the order of minutes, rather than
+seconds. You should only be calling this during major state changes such as the end of a round, the
+map changing, or the user leaving a server.<br />
+<br />
+If you have stats or achievements that you have saved locally but haven't uploaded with this
+function when your application process ends then this function will automatically be called.<br />
+<br />
+You can find additional debug information written to the
 <code class="bb_code bb_code_inline nohighlight">%steam_install%\logs\stats_log.txt</code>
-file.<br /><br /><strong>Returns:</strong>
+file.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -408,8 +452,8 @@ to be used with a
     class="bb_apilink"
     >GSStatsStored_t</a
 >
-call result.<br />If <code class="bb_code bb_code_inline nohighlight">m_eResult</code> has a result
-of
+call result.<br />
+If <code class="bb_code bb_code_inline nohighlight">m_eResult</code> has a result of
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_EResultInvalidParam" class="bb_apilink"
     >k_EResultInvalidParam</a
 >, then one or more stats uploaded has been rejected, either because they broke constraints or were
@@ -458,30 +502,37 @@ locally to keep in sync.
         <td>The amount of time in seconds since the last call to this function.</td>
     </tr>
 </table>
-<br />Updates an AVGRATE stat with new values for the specified user.<br /><br />You must have
-called
+<br />
+Updates an AVGRATE stat with new values for the specified user.<br />
+<br />
+You must have called
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::RequestUserStats</a
 >
-and it needs to return successfully via its callback prior to calling this!<br /><br />This call
-only modifies Steam's in-memory state and is very cheap. To submit the stats to the server you must
-call
+and it needs to return successfully via its callback prior to calling this!<br />
+<br />
+This call only modifies Steam's in-memory state and is very cheap. To submit the stats to the server
+you must call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::StoreUserStats</a
->.<br /><br /><strong>NOTE:</strong> These updates will work only on stats that game servers are
-allowed to edit. If the "Set By" field for this stat is "Official GS" then only game servers that
-have been declared as officially controlled by you will be able to set it. To do this you must set
-the IP range of your official servers in the
+>.<br />
+<br />
+<strong>NOTE:</strong> These updates will work only on stats that game servers are allowed to edit.
+If the "Set By" field for this stat is "Official GS" then only game servers that have been declared
+as officially controlled by you will be able to set it. To do this you must set the IP range of your
+official servers in the
 <a href="https://partner.steamgames.com/apps/dedicatedservers/" target="_blank" rel="noreferrer"
     >Dedicated Servers</a
 >
-section of App Admin.<br /><br /><strong>Returns:</strong> bool<br />This function returns
-<strong>true</strong> upon success if all of the following conditions are met; otherwise,
-<strong>false</strong>.<br />
+section of App Admin.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+This function returns <strong>true</strong> upon success if all of the following conditions are met;
+otherwise, <strong>false</strong>.<br />
 <ul class="bb_ul">
     <li>
         The specified stat exists in App Admin on the Steamworks website, and the changes are
@@ -505,7 +556,8 @@ These are callbacks which can be fired by calling
 >. Many of these will be fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamGameServerStats</code>.
 <h2 class="bb_subsection"><a name="GSStatsReceived_t"></a>GSStatsReceived_t</h2>
-Result when getting the latests stats and achievements for a user from the server.<br /><br />
+Result when getting the latests stats and achievements for a user from the server.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -539,14 +591,16 @@ Result when getting the latests stats and achievements for a user from the serve
         <td>The user whose stats were retrieved.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::RequestUserStats</a
 >
 <h2 class="bb_subsection"><a name="GSStatsStored_t"></a>GSStatsStored_t</h2>
-Result of a request to store the user stats.<br /><br />
+Result of a request to store the user stats.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -572,20 +626,24 @@ Result of a request to store the user stats.<br /><br />
         <td>The user for whom the stats were stored</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::StoreUserStats</a
 >
 <h2 class="bb_subsection"><a name="GSStatsUnloaded_t"></a>GSStatsUnloaded_t</h2>
-Callback indicating that a user's stats have been unloaded.<br /><br />Call
+Callback indicating that a user's stats have been unloaded.<br />
+<br />
+Call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
     class="bb_apilink"
     >ISteamGameServerStats::RequestUserStats</a
 >
-again to access stats for this user.<br /><br />
+again to access stats for this user.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -603,7 +661,8 @@ again to access stats for this user.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with ISteamGameServerStats.<br /><br />
+These are constants which are defined for use with ISteamGameServerStats.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

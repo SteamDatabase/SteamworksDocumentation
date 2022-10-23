@@ -10,14 +10,18 @@ find a faster route through our network, which actually
     target="_blank"
     rel="noreferrer"
     >improves player ping times</a
->.<br /><br />This relay network can be used for both peer-to-peer traffic and dedicated servers.
+>.<br />
+<br />
+This relay network can be used for both peer-to-peer traffic and dedicated servers.
 <h2 class="bb_section">
     <a name="1"></a>General requirements and tips for porting existing network code
 </h2>
 Here are some general things to be aware of that apply to both P2P and dedicated server
-connectivity.<br /><br />First, any place where network hosts are identified by a public IP (almost
-always the case for gameservers) will need to be changed to use a different identifier instead.
-There are several options for this:<br />
+connectivity.<br />
+<br />
+First, any place where network hosts are identified by a public IP (almost always the case for
+gameservers) will need to be changed to use a different identifier instead. There are several
+options for this:<br />
 <ul class="bb_ul">
     <li>For clients and gameservers that signin into Steam, you will usually the SteamID.<br /></li>
     <li>
@@ -62,7 +66,8 @@ There are several options for this:<br />
         for more info.
     </li>
 </ul>
-<br />Second, you'll need to modify any low-level socket code to use one of the Steamworks APIs for
+<br />
+Second, you'll need to modify any low-level socket code to use one of the Steamworks APIs for
 connectivity.<br />
 <ul class="bb_ul">
     <li>
@@ -70,9 +75,9 @@ connectivity.<br />
         <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
             >ISteamNetworkingSockets</a
         >
-        interfaces that returns an HSteamNetConnection.<br />(Note that these API also supports
-        plain UDP transport, which is very useful for testing. Also, there's an opensource
-        version.)<br />
+        interfaces that returns an HSteamNetConnection.<br />
+        (Note that these API also supports plain UDP transport, which is very useful for testing.
+        Also, there's an opensource version.)<br />
     </li>
     <li>
         Some codebases are written in a more UDP-like manner, where packets can be sent ad-hoc to
@@ -123,9 +128,11 @@ provided that your game meets some basic conditions.<br />
         can issue some authentication credentials. We have a separate SDK for this. See below.
     </li>
 </ul>
-<br />Please contact us for the relevant SDKs and to talk about the fine print. We're still working
-through the details of the best way to distribute the code to partners, please bear with us.<br /><br />If
-you don't meet the criteria above, feel free to use the
+<br />
+Please contact us for the relevant SDKs and to talk about the fine print. We're still working
+through the details of the best way to distribute the code to partners, please bear with us.<br />
+<br />
+If you don't meet the criteria above, feel free to use the
 <a href="https://github.com/ValveSoftware/GameNetworkingSockets" target="_blank" rel="noreferrer"
     >opensource</a
 >
@@ -143,30 +150,36 @@ and
     href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectP2P"
     class="bb_apilink"
     >ISteamNetworkingSockets::ConnectP2P</a
->. Steam will take care of everything else.<br /><br />On other platforms or stores, as mentioned
-above, there are some other technical requirements. Specifically, you must provide your own
-"signaling" service, by which we mean a low-bandwidth, non-latency-sensitive, best-effort-delivery
-channel capable of forwarding occasional rendezvous messages used to negotiate routing. This
-requires clients to have a persistent connection to your matchmaking service, such that you can push
-messages to them. (E.g. a websocket or TCP connection. If clients only talk to your game coordinator
-using request/response, e.g. http, that won't work.)
+>. Steam will take care of everything else.<br />
+<br />
+On other platforms or stores, as mentioned above, there are some other technical requirements.
+Specifically, you must provide your own "signaling" service, by which we mean a low-bandwidth,
+non-latency-sensitive, best-effort-delivery channel capable of forwarding occasional rendezvous
+messages used to negotiate routing. This requires clients to have a persistent connection to your
+matchmaking service, such that you can push messages to them. (E.g. a websocket or TCP connection.
+If clients only talk to your game coordinator using request/response, e.g. http, that won't work.)
 <h2 class="bb_section"><a name="4"></a>Dedicated Servers in Known Data Centers</h2>
 The peer-to-peer APIs work just fine even when one "peer" is a dedicated server! But there's one
 important catch: if your dedicated server is not near one of the data centers where we are running
 relays, then the best relayed route might be slower than the default IP route, and there will be at
-least some players whose latency is worse than the status quo.<br /><br />For the optimal dedicated
-server experience, the server should be run in a known data center that is part of the SDR network.
-We make sure that relays are running nearby and the relayed route is never too much slower than the
-default IP route. Servers running in these known data centers connect using a special API. This use
-case is referred to in the SDK as "Hosted Dedicated Server". Note that this doesn't necessarily mean
-that Valve is hosting the servers or the relays -- it could be a third party data center that we
-have established a relationship with, and is known to the Steam Datagram Relay system.<br /><br />If
-you are running game servers in a major hosting provider and are interested in using SDR, please get
-in touch with us. We'll try to work with your hosting company to run relays in the data center.
+least some players whose latency is worse than the status quo.<br />
+<br />
+For the optimal dedicated server experience, the server should be run in a known data center that is
+part of the SDR network. We make sure that relays are running nearby and the relayed route is never
+too much slower than the default IP route. Servers running in these known data centers connect using
+a special API. This use case is referred to in the SDK as "Hosted Dedicated Server". Note that this
+doesn't necessarily mean that Valve is hosting the servers or the relays -- it could be a third
+party data center that we have established a relationship with, and is known to the Steam Datagram
+Relay system.<br />
+<br />
+If you are running game servers in a major hosting provider and are interested in using SDR, please
+get in touch with us. We'll try to work with your hosting company to run relays in the data center.
 That's the ideal situation, but even if this is not possible we may be able to add the data center
-to our network.<br /><br />If you are a dedicated server hosting company and want to join our
-network so that your customers can take advantage of SDR, please get in touch with us! We have not
-yet deployed relays in any third party hosting companies, however we are interested in doing this.
+to our network.<br />
+<br />
+If you are a dedicated server hosting company and want to join our network so that your customers
+can take advantage of SDR, please get in touch with us! We have not yet deployed relays in any third
+party hosting companies, however we are interested in doing this.
 <h2 class="bb_section">
     <a name="5"></a>Simple Connection Flow to Dedicated Server Without Game Coordinator
 </h2>
@@ -203,7 +216,8 @@ offers two important advantages:<br />
         especially important for games that penalize players for leaving the game.
     </li>
 </ul>
-<br />A ticket-based connection to a dedicated server over SDR works like this:<br />
+<br />
+A ticket-based connection to a dedicated server over SDR works like this:<br />
 <ul class="bb_ul">
     <li>
         When your game server logs into your game coordinator, it sends up its
@@ -272,7 +286,8 @@ offers two important advantages:<br />
         for further details about how to send and receive messages.
     </li>
 </ul>
-<br />At this time, the ticket-based authentication is not available in combination with the FakeIP
+<br />
+At this time, the ticket-based authentication is not available in combination with the FakeIP
 system.
 <h2 class="bb_section"><a name="7"></a>Game Coordinator SDK</h2>
 "Game Coordinator" is the term we use to refer to your backend / matchmaking services. There is a
@@ -291,7 +306,8 @@ separate, small SDK that you can link with your game coordinator which can be us
     <li>Issue identity certificates for players on other platforms and stores<br /></li>
     <li>Take advantage of certain other advanced features.</li>
 </ul>
-<br />The SDK is available
+<br />
+The SDK is available
 <a
     href="http://media.steampowered.com/apps/sdr/sdk/steamdatagram_gamecoordinator_sdk.zip"
     target="_blank"
@@ -299,7 +315,8 @@ separate, small SDK that you can link with your game coordinator which can be us
     >here</a
 >
 <h2 class="bb_subsection"><a name="8"></a>Authentication using the Game Coordinator SDK</h2>
-SDR uses two authentication mechanisms:<br /><br />
+SDR uses two authentication mechanisms:<br />
+<br />
 <ul class="bb_ul">
     <li>
         <i>Hosted server tickets</i> are issued by your game coordinator and authorize a specific
@@ -318,18 +335,23 @@ SDR uses two authentication mechanisms:<br /><br />
         >.
     </li>
 </ul>
-<br />We use a proprietary public key infrastructure (PKI) to authenticate clients and servers.
-Players are issued individual, short-term certificates, tied to their specific player identity.
-Steam takes care of this. For gameservers, we typically use longer term certificates that authorize
-an entire data center for a particular AppID. You will issue those certificates.<br /><br />Before
-you can issue tickets and certificates, you'll need to generate a keypair and send us your public
-key. We will publish a certificate signed by our master CA key that marks your key as trusted for
-your app(s). Then, offline you will generate a certificate for each data center where you want to
-run servers, using our certificate tool, and sign it with your private key. You'll distribute those
-certificates to your gameservers over a secure channel, passing it to your server in the environment
-(see below).<br /><br />You'll also use your key to generate tickets, each time a player connects to
-a gameserver.<br /><br />Keep your CA private key and the private keys of your certificates safe! If
-your key leaks and needs to be revoked and replaced, it could lead to a disruption.
+<br />
+We use a proprietary public key infrastructure (PKI) to authenticate clients and servers. Players
+are issued individual, short-term certificates, tied to their specific player identity. Steam takes
+care of this. For gameservers, we typically use longer term certificates that authorize an entire
+data center for a particular AppID. You will issue those certificates.<br />
+<br />
+Before you can issue tickets and certificates, you'll need to generate a keypair and send us your
+public key. We will publish a certificate signed by our master CA key that marks your key as trusted
+for your app(s). Then, offline you will generate a certificate for each data center where you want
+to run servers, using our certificate tool, and sign it with your private key. You'll distribute
+those certificates to your gameservers over a secure channel, passing it to your server in the
+environment (see below).<br />
+<br />
+You'll also use your key to generate tickets, each time a player connects to a gameserver.<br />
+<br />
+Keep your CA private key and the private keys of your certificates safe! If your key leaks and needs
+to be revoked and replaced, it could lead to a disruption.
 <h2 class="bb_section"><a name="9"></a>Running servers in known data centers</h2>
 This section documents some technical details involved in running dedicated servers in known data
 centers.
@@ -390,20 +412,27 @@ Because
     >ISteamNetworkingSockets</a
 >
 supports plain UDP connectivity, it's usually best to start by getting your code working through
-this interface over UDP, without worrying about relays.<br /><br />We suggest that your server code
-use the presence of the SDR_LISTEN_PORT environment variable to decide whether your server should
-listen for SDR. You can use
+this interface over UDP, without worrying about relays.<br />
+<br />
+We suggest that your server code use the presence of the SDR_LISTEN_PORT environment variable to
+decide whether your server should listen for SDR. You can use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetHostedDedicatedServerPort"
     class="bb_apilink"
     >ISteamNetworkingSockets::GetHostedDedicatedServerPort</a
 >
-to fetch the value.<br /><br />In development, you will leave SDR_POPID blank. When SDR_LISTEN_PORT
-and SDR_POPID is blank, the POPID is set to the special 3-character code "dev".<br /><br />In
-general, authentication is disabled for servers in the "dev" environment. (Clients and relays will
-both allow connections to "dev" servers without a signed cert, as long as they have a signed
+to fetch the value.<br />
+<br />
+In development, you will leave SDR_POPID blank. When SDR_LISTEN_PORT and SDR_POPID is blank, the
+POPID is set to the special 3-character code "dev".<br />
+<br />
+In general, authentication is disabled for servers in the "dev" environment. (Clients and relays
+will both allow connections to "dev" servers without a signed cert, as long as they have a signed
 ticket.) You will need another mechanism to authenticate with your game coordinator. And your game
-coordinator needs to be careful when it issues tickets to any servers claiming to be in "dev"!<br /><br />Your
-server needs to be able to receive unsolicited public traffic, which means that if it doesn't have a
-public IP, you'll need to setup a port forward in your firewall. And you'll probably need to set
-SDR_IP with the proper public IP (and port, if it differs from SDR_LISTEN_PORT).<br /><br /><br />
+coordinator needs to be careful when it issues tickets to any servers claiming to be in "dev"!<br />
+<br />
+Your server needs to be able to receive unsolicited public traffic, which means that if it doesn't
+have a public IP, you'll need to setup a port forward in your firewall. And you'll probably need to
+set SDR_IP with the proper public IP (and port, if it differs from SDR_LISTEN_PORT).<br />
+<br />
+<br />

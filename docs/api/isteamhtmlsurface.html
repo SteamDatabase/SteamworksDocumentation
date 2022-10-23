@@ -1,6 +1,8 @@
 <h1>ISteamHTMLSurface Interface</h1>
-Interface for rendering and interacting with HTML pages.<br /><br />You can use this interface to
-render and display HTML pages directly inside your game or application. You must call
+Interface for rendering and interacting with HTML pages.<br />
+<br />
+You can use this interface to render and display HTML pages directly inside your game or
+application. You must call
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Init" class="bb_apilink"
     >ISteamHTMLSurface::Init</a
 >
@@ -8,8 +10,11 @@ prior to using this interface, and
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Shutdown" class="bb_apilink"
     >ISteamHTMLSurface::Shutdown</a
 >
-when you're done using it.<br /><br />It is built upon the Chromium Embedded Framework and supports
-HTML5 markup.<br /><br />See
+when you're done using it.<br />
+<br />
+It is built upon the Chromium Embedded Framework and supports HTML5 markup.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/features/html_surface" class="bb_doclink"
     >Steam HTML Surface</a
 >
@@ -50,8 +55,10 @@ called through the global accessor function
         <td>The header value to associate with the key.</td>
     </tr>
 </table>
-<br />Add a header to any HTTP requests from this browser.<br /><br />A full list of standard
-request fields are available here on
+<br />
+Add a header to any HTTP requests from this browser.<br />
+<br />
+A full list of standard request fields are available here on
 <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields" target="_blank" rel="noreferrer"
     >wikipedia</a
 >.
@@ -82,7 +89,8 @@ request fields are available here on
         <td>Allow or deny the navigation to the current start request.</td>
     </tr>
 </table>
-<br />Sets whether a pending load is allowed or if it should be canceled.
+<br />
+Sets whether a pending load is allowed or if it should be canceled.
 <div class="bb_callout bb_red bb_fixed">
     <div>
         <strong>NOTE:</strong>You MUST call this in response to a
@@ -94,7 +102,8 @@ request fields are available here on
         callback.
     </div>
 </div>
-<br />You can use this feature to limit the valid pages allowed in your HTML surface.
+<br />
+You can use this feature to limit the valid pages allowed in your HTML surface.
 <h2 class="bb_subsection"><a name="CopyToClipboard"></a>CopyToClipboard</h2>
 <div class="bb_code cpp">void CopyToClipboard( HHTMLBrowser unBrowserHandle );</div>
 <table>
@@ -115,8 +124,8 @@ request fields are available here on
         <td>The handle of the surface to copy the text from.</td>
     </tr>
 </table>
-<br />Copy the currently selected text from the current page in an HTML surface into the local
-clipboard.
+<br />
+Copy the currently selected text from the current page in an HTML surface into the local clipboard.
 <h2 class="bb_subsection"><a name="CreateBrowser"></a>CreateBrowser</h2>
 <div class="bb_code cpp">
     SteamAPICall_t CreateBrowser( const char *pchUserAgent, const char *pchUserCSS );
@@ -145,7 +154,8 @@ clipboard.
         </td>
     </tr>
 </table>
-<br />Create a browser object for displaying of an HTML page.
+<br />
+Create a browser object for displaying of an HTML page.
 <div class="bb_callout bb_red bb_fixed">
     <div>
         <strong>NOTE:</strong> You must have implemented callback handlers for
@@ -173,11 +183,11 @@ clipboard.
             href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_FileOpenDialog_t"
             class="bb_apilink"
             >HTML_FileOpenDialog_t</a
-        >!<br />If you do not implement these callback handlers, the browser may appear to hang
-        instead of navigating to new pages or triggering javascript popups!<br /><br /><strong
-            >NOTE:</strong
-        >
-        You MUST call
+        >!<br />
+        If you do not implement these callback handlers, the browser may appear to hang instead of
+        navigating to new pages or triggering javascript popups!<br />
+        <br />
+        <strong>NOTE:</strong> You MUST call
         <a
             href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#RemoveBrowser"
             class="bb_apilink"
@@ -187,7 +197,8 @@ clipboard.
         do so will result in a memory leak.
     </div>
 </div>
-<br />You will want to call
+<br />
+You will want to call
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetSize" class="bb_apilink"
     >ISteamHTMLSurface::SetSize</a
 >
@@ -195,7 +206,9 @@ and
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#LoadURL" class="bb_apilink"
     >ISteamHTMLSurface::LoadURL</a
 >
-to start using your display surface.<br /><br /><strong>Returns:</strong>
+to start using your display surface.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -233,7 +246,8 @@ call result.
         <td>The javascript script to run.</td>
     </tr>
 </table>
-<br />Run a javascript script in the currently loaded page.
+<br />
+Run a javascript script in the currently loaded page.
 <h2 class="bb_subsection"><a name="FileLoadDialogResponse"></a>FileLoadDialogResponse</h2>
 <div class="bb_code cpp">
     void FileLoadDialogResponse( HHTMLBrowser unBrowserHandle, const char **pchSelectedFiles );
@@ -264,7 +278,8 @@ call result.
         </td>
     </tr>
 </table>
-<br />Allows you to react to a page wanting to open a file load dialog.
+<br />
+Allows you to react to a page wanting to open a file load dialog.
 <div class="bb_callout bb_red bb_fixed">
     <div>
         <strong>NOTE:</strong>You MUST call this in response to a
@@ -317,16 +332,20 @@ call result.
         <td>Search from the bottom up?</td>
     </tr>
 </table>
-<br />Find a string in the current page of an HTML surface.<br /><br />This is the equivalent of
-"ctrl+f" in your browser of choice. It will highlight all of the matching strings.<br /><br />You
-should call
+<br />
+Find a string in the current page of an HTML surface.<br />
+<br />
+This is the equivalent of "ctrl+f" in your browser of choice. It will highlight all of the matching
+strings.<br />
+<br />
+You should call
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#StopFind" class="bb_apilink"
     >ISteamHTMLSurface::StopFind</a
 >
-when the input string has changed or you want to stop searching.<br /><br /><strong
-    >Returns:</strong
->
-void<br />Triggers a
+when the input string has changed or you want to stop searching.<br />
+<br />
+<strong>Returns:</strong> void<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_SearchResults_t"
     class="bb_apilink"
@@ -365,8 +384,11 @@ callback.
         </td>
     </tr>
 </table>
-<br />Retrieves details about a link at a specific position on the current page in an HTML
-surface.<br /><br /><strong>Returns:</strong> void<br />Triggers a
+<br />
+Retrieves details about a link at a specific position on the current page in an HTML surface.<br />
+<br />
+<strong>Returns:</strong> void<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_LinkAtPosition_t"
     class="bb_apilink"
@@ -393,7 +415,8 @@ callback.
         <td>The handle of the surface to navigate back on.</td>
     </tr>
 </table>
-<br />Navigate back in the page history.
+<br />
+Navigate back in the page history.
 <h2 class="bb_subsection"><a name="GoForward"></a>GoForward</h2>
 <div class="bb_code cpp">void GoForward( HHTMLBrowser unBrowserHandle );</div>
 <table>
@@ -414,17 +437,23 @@ callback.
         <td>The handle of the surface to navigate forward on.</td>
     </tr>
 </table>
-<br />Navigate forward in the page history
+<br />
+Navigate forward in the page history
 <h2 class="bb_subsection"><a name="Init"></a>Init</h2>
 <div class="bb_code cpp">bool Init();</div>
-Initializes the HTML Surface API.<br /><br />This must be called prior to using any other functions
-in this interface.<br /><br />You MUST call
+Initializes the HTML Surface API.<br />
+<br />
+This must be called prior to using any other functions in this interface.<br />
+<br />
+You MUST call
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Shutdown" class="bb_apilink"
     >ISteamHTMLSurface::Shutdown</a
 >
 when you are done using the interface to free up the resources associated with it. Failing to do so
-will result in a memory leak!<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
-if the API was successfully initialized; otherwise, <strong>false</strong>.
+will result in a memory leak!<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the API was successfully initialized; otherwise, <strong>false</strong>.
 <h2 class="bb_subsection"><a name="JSDialogResponse"></a>JSDialogResponse</h2>
 <div class="bb_code cpp">void JSDialogResponse( HHTMLBrowser unBrowserHandle, bool bResult );</div>
 <table>
@@ -453,7 +482,8 @@ if the API was successfully initialized; otherwise, <strong>false</strong>.
         </td>
     </tr>
 </table>
-<br />Allows you to react to a page wanting to open a javascript modal dialog notification.
+<br />
+Allows you to react to a page wanting to open a javascript modal dialog notification.
 <div class="bb_callout bb_red bb_fixed">
     <div>
         <strong>NOTE:</strong>You MUST call this in response to
@@ -520,8 +550,9 @@ if the API was successfully initialized; otherwise, <strong>false</strong>.
         </td>
     </tr>
 </table>
-<br />cUnicodeChar is the unicode character point for this keypress (and potentially multiple chars
-per press)
+<br />
+cUnicodeChar is the unicode character point for this keypress (and potentially multiple chars per
+press)
 <h2 class="bb_subsection"><a name="KeyDown"></a>KeyDown</h2>
 <div class="bb_code cpp">
     void KeyDown( HHTMLBrowser unBrowserHandle, uint32 nNativeKeyCode, EHTMLKeyModifiers
@@ -568,7 +599,8 @@ per press)
         </td>
     </tr>
 </table>
-<br />keyboard interactions, native keycode is the virtual key code value from your OS
+<br />
+keyboard interactions, native keycode is the virtual key code value from your OS
 <h2 class="bb_subsection"><a name="KeyUp"></a>KeyUp</h2>
 <div class="bb_code cpp">
     void KeyUp( HHTMLBrowser unBrowserHandle, uint32 nNativeKeyCode, EHTMLKeyModifiers
@@ -649,19 +681,22 @@ per press)
         </td>
     </tr>
 </table>
-<br />Navigate to a specified URL.<br /><br />If you send POST data with
-<code class="bb_code bb_code_inline nohighlight">pchPostData</code> then the data should be
-formatted as:
-<code class="bb_code bb_code_inline nohighlight">name1=value1&amp;name2=value2</code
->.<br /><br />You can load any URI scheme supported by Chromium Embedded Framework including but not
-limited to: <code class="bb_code bb_code_inline nohighlight">http://</code>,
+<br />
+Navigate to a specified URL.<br />
+<br />
+If you send POST data with <code class="bb_code bb_code_inline nohighlight">pchPostData</code> then
+the data should be formatted as:
+<code class="bb_code bb_code_inline nohighlight">name1=value1&amp;name2=value2</code>.<br />
+<br />
+You can load any URI scheme supported by Chromium Embedded Framework including but not limited to:
+<code class="bb_code bb_code_inline nohighlight">http://</code>,
 <code class="bb_code bb_code_inline nohighlight">https://</code>,
 <code class="bb_code bb_code_inline nohighlight">ftp://</code>, and
 <code class="bb_code bb_code_inline nohighlight">file:///</code>. If no scheme is specified then
-<code class="bb_code bb_code_inline nohighlight">http://</code> is used.<br /><br /><strong
-    >Returns:</strong
->
-void<br />Triggers a
+<code class="bb_code bb_code_inline nohighlight">http://</code> is used.<br />
+<br />
+<strong>Returns:</strong> void<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
     class="bb_apilink"
@@ -701,8 +736,10 @@ callback.
         <td>The mouse button which was double clicked.</td>
     </tr>
 </table>
-<br />Tells an HTML surface that a mouse button has been double clicked.<br /><br />The click will
-occur where the surface thinks the mouse is based on the last call to
+<br />
+Tells an HTML surface that a mouse button has been double clicked.<br />
+<br />
+The click will occur where the surface thinks the mouse is based on the last call to
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseMove" class="bb_apilink"
     >ISteamHTMLSurface::MouseMove</a
 >.
@@ -739,8 +776,10 @@ occur where the surface thinks the mouse is based on the last call to
         <td>The mouse button which was pressed.</td>
     </tr>
 </table>
-<br />Tells an HTML surface that a mouse button has been pressed.<br /><br />The click will occur
-where the surface thinks the mouse is based on the last call to
+<br />
+Tells an HTML surface that a mouse button has been pressed.<br />
+<br />
+The click will occur where the surface thinks the mouse is based on the last call to
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseMove" class="bb_apilink"
     >ISteamHTMLSurface::MouseMove</a
 >.
@@ -780,7 +819,8 @@ where the surface thinks the mouse is based on the last call to
         </td>
     </tr>
 </table>
-<br />Tells an HTML surface where the mouse is.
+<br />
+Tells an HTML surface where the mouse is.
 <h2 class="bb_subsection"><a name="MouseUp"></a>MouseUp</h2>
 <div class="bb_code cpp">
     void MouseUp( HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton );
@@ -814,8 +854,10 @@ where the surface thinks the mouse is based on the last call to
         <td>The mouse button which was released.</td>
     </tr>
 </table>
-<br />Tells an HTML surface that a mouse button has been released.<br /><br />The click will occur
-where the surface thinks the mouse is based on the last call to
+<br />
+Tells an HTML surface that a mouse button has been released.<br />
+<br />
+The click will occur where the surface thinks the mouse is based on the last call to
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseMove" class="bb_apilink"
     >ISteamHTMLSurface::MouseMove</a
 >.
@@ -848,7 +890,8 @@ where the surface thinks the mouse is based on the last call to
         <td>The number of pixels to scroll.</td>
     </tr>
 </table>
-<br />Tells an HTML surface that the mouse wheel has moved.
+<br />
+Tells an HTML surface that the mouse wheel has moved.
 <h2 class="bb_subsection"><a name="PasteFromClipboard"></a>PasteFromClipboard</h2>
 <div class="bb_code cpp">void PasteFromClipboard( HHTMLBrowser unBrowserHandle );</div>
 <table>
@@ -869,7 +912,8 @@ where the surface thinks the mouse is based on the last call to
         <td>The handle of the surface to paste into.</td>
     </tr>
 </table>
-<br />Paste from the local clipboard to the current page in an HTML surface.
+<br />
+Paste from the local clipboard to the current page in an HTML surface.
 <h2 class="bb_subsection"><a name="Reload"></a>Reload</h2>
 <div class="bb_code cpp">void Reload( HHTMLBrowser unBrowserHandle );</div>
 <table>
@@ -890,8 +934,11 @@ where the surface thinks the mouse is based on the last call to
         <td>The handle of the surface to reload.</td>
     </tr>
 </table>
-<br />Refreshes the current page.<br /><br />The reload will most likely hit the local cache instead
-of going over the network. This is equivalent to F5 or Ctrl+R in your browser of choice.
+<br />
+Refreshes the current page.<br />
+<br />
+The reload will most likely hit the local cache instead of going over the network. This is
+equivalent to F5 or Ctrl+R in your browser of choice.
 <h2 class="bb_subsection"><a name="RemoveBrowser"></a>RemoveBrowser</h2>
 <div class="bb_code cpp">void RemoveBrowser( HHTMLBrowser unBrowserHandle );</div>
 <table>
@@ -912,8 +959,11 @@ of going over the network. This is equivalent to F5 or Ctrl+R in your browser of
         <td>The browser handle to release.</td>
     </tr>
 </table>
-<br />You MUST call this when you are done with an HTML surface, freeing the resources associated
-with it.<br /><br />Failing to call this will result in a memory leak!
+<br />
+You MUST call this when you are done with an HTML surface, freeing the resources associated with
+it.<br />
+<br />
+Failing to call this will result in a memory leak!
 <h2 class="bb_subsection"><a name="SetBackgroundMode"></a>SetBackgroundMode</h2>
 <div class="bb_code cpp">
     void SetBackgroundMode( HHTMLBrowser unBrowserHandle, bool bBackgroundMode );
@@ -941,11 +991,14 @@ with it.<br /><br />Failing to call this will result in a memory leak!
         <td>Toggle background mode on or off.</td>
     </tr>
 </table>
-<br />Enable/disable low-resource background mode, where javascript and repaint timers are
-throttled, resources are more aggressively purged from memory, and audio/video elements are
-paused.<br /><br />When background mode is enabled, all HTML5 video and audio objects will execute
-".pause()" and gain the property "._steam_background_paused = 1".<br />When background mode is
-disabled, any video or audio objects with that property will resume with ".play()".
+<br />
+Enable/disable low-resource background mode, where javascript and repaint timers are throttled,
+resources are more aggressively purged from memory, and audio/video elements are paused.<br />
+<br />
+When background mode is enabled, all HTML5 video and audio objects will execute ".pause()" and gain
+the property "._steam_background_paused = 1".<br />
+When background mode is disabled, any video or audio objects with that property will resume with
+".play()".
 <h2 class="bb_subsection"><a name="SetCookie"></a>SetCookie</h2>
 <div class="bb_code cpp">
     void SetCookie( const char *pchHostname, const char *pchKey, const char *pchValue, const char
@@ -1003,8 +1056,10 @@ disabled, any video or audio objects with that property will resume with ".play(
         <td>Sets the 'HttpOnly' attribute.</td>
     </tr>
 </table>
-<br />Set a webcookie for a specific hostname.<br /><br />You can read more about the specifics of
-setting cookies here on
+<br />
+Set a webcookie for a specific hostname.<br />
+<br />
+You can read more about the specifics of setting cookies here on
 <a href="https://en.wikipedia.org/wiki/HTTP_cookie#Implementation" target="_blank" rel="noreferrer"
     >wikipedia</a
 >.
@@ -1045,14 +1100,20 @@ setting cookies here on
         </td>
     </tr>
 </table>
-<br />Scroll the current page horizontally.<br /><br /><strong>Returns:</strong> void<br />Triggers
-a
+<br />
+Scroll the current page horizontally.<br />
+<br />
+<strong>Returns:</strong> void<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_HorizontalScroll_t"
     class="bb_apilink"
     >HTML_HorizontalScroll_t</a
 >
-callback.<br /><br /><br /><strong>See Also:</strong>
+callback.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_HorizontalScroll_t"
     class="bb_apilink"
@@ -1093,7 +1154,8 @@ callback.<br /><br /><br /><strong>See Also:</strong>
         <td>Turn key focus on or off?</td>
     </tr>
 </table>
-<br />Tell a HTML surface if it has key focus currently, controls showing the I-beam cursor in text
+<br />
+Tell a HTML surface if it has key focus currently, controls showing the I-beam cursor in text
 controls amongst other things.
 <h2 class="bb_subsection"><a name="SetPageScaleFactor"></a>SetPageScaleFactor</h2>
 <div class="bb_code cpp">
@@ -1135,8 +1197,11 @@ controls amongst other things.
         <td>The Y point in pixels to zoom around. Use 0 if you don't care.</td>
     </tr>
 </table>
-<br />Zoom the current page in an HTML surface.<br /><br />The current scale factor is available
-from <code class="bb_code bb_code_inline nohighlight">HTML_NeedsPaint_t.flPageScale</code>,
+<br />
+Zoom the current page in an HTML surface.<br />
+<br />
+The current scale factor is available from
+<code class="bb_code bb_code_inline nohighlight">HTML_NeedsPaint_t.flPageScale</code>,
 <code class="bb_code bb_code_inline nohighlight">HTML_HorizontalScroll_t.flPageScale</code>, and
 <code class="bb_code bb_code_inline nohighlight">HTML_VerticalScroll_t.flPageScale</code>.
 <h2 class="bb_subsection"><a name="SetSize"></a>SetSize</h2>
@@ -1179,7 +1244,8 @@ from <code class="bb_code bb_code_inline nohighlight">HTML_NeedsPaint_t.flPageSc
         <td>The height of the surface in pixels.</td>
     </tr>
 </table>
-<br />Sets the display size of a surface in pixels.
+<br />
+Sets the display size of a surface in pixels.
 <h2 class="bb_subsection"><a name="SetVerticalScroll"></a>SetVerticalScroll</h2>
 <div class="bb_code cpp">
     void SetVerticalScroll( HHTMLBrowser unBrowserHandle, uint32 nAbsolutePixelScroll );
@@ -1217,13 +1283,20 @@ from <code class="bb_code bb_code_inline nohighlight">HTML_NeedsPaint_t.flPageSc
         </td>
     </tr>
 </table>
-<br />Scroll the current page vertically.<br /><br /><strong>Returns:</strong> void<br />Triggers a
+<br />
+Scroll the current page vertically.<br />
+<br />
+<strong>Returns:</strong> void<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_VerticalScroll_t"
     class="bb_apilink"
     >HTML_VerticalScroll_t</a
 >
-callback.<br /><br /><br /><strong>See Also:</strong>
+callback.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_VerticalScroll_t"
     class="bb_apilink"
@@ -1241,14 +1314,17 @@ callback.<br /><br /><br /><strong>See Also:</strong>
 >
 <h2 class="bb_subsection"><a name="Shutdown"></a>Shutdown</h2>
 <div class="bb_code cpp">bool Shutdown();</div>
-Shutdown the ISteamHTMLSurface interface, releasing the memory and handles.<br /><br />You MUST call
-this when you are done using this interface to prevent memory and handle leaks. After calling this
-then all of the functions provided in this interface will fail until you call
+Shutdown the ISteamHTMLSurface interface, releasing the memory and handles.<br />
+<br />
+You MUST call this when you are done using this interface to prevent memory and handle leaks. After
+calling this then all of the functions provided in this interface will fail until you call
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Init" class="bb_apilink"
     >ISteamHTMLSurface::Init</a
 >
-to reinitialize again.<br /><br /><strong>Returns:</strong> bool<br />This function currently always
-returns <strong>true</strong>.
+to reinitialize again.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+This function currently always returns <strong>true</strong>.
 <h2 class="bb_subsection"><a name="StopFind"></a>StopFind</h2>
 <div class="bb_code cpp">void StopFind( HHTMLBrowser unBrowserHandle );</div>
 <table>
@@ -1269,7 +1345,10 @@ returns <strong>true</strong>.
         <td>The handle of the surface to stop the find results.</td>
     </tr>
 </table>
-<br />Cancel a currently running find.<br /><br /><strong>See Also:</strong>
+<br />
+Cancel a currently running find.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Find" class="bb_apilink"
     >ISteamHTMLSurface::Find</a
 >
@@ -1293,7 +1372,8 @@ returns <strong>true</strong>.
         <td>The handle of the surface to stop loading.</td>
     </tr>
 </table>
-<br />Stop the load of the current HTML page.
+<br />
+Stop the load of the current HTML page.
 <h2 class="bb_subsection"><a name="ViewSource"></a>ViewSource</h2>
 <div class="bb_code cpp">void ViewSource( HHTMLBrowser unBrowserHandle );</div>
 <table>
@@ -1314,7 +1394,8 @@ returns <strong>true</strong>.
         <td>The handle of the surface to view its current pages source.</td>
     </tr>
 </table>
-<br />Open the current pages HTML source code in default local text editor, used for debugging.
+<br />
+Open the current pages HTML source code in default local text editor, used for debugging.
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
@@ -1322,7 +1403,8 @@ These are callbacks which can be fired by calling
 >. Many of these will be fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamHTMLSurface</code>.
 <h2 class="bb_subsection"><a name="HTML_BrowserReady_t"></a>HTML_BrowserReady_t</h2>
-A new browser was created and is ready for use.<br /><br />
+A new browser was created and is ready for use.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1347,12 +1429,14 @@ A new browser was created and is ready for use.<br /><br />
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#CreateBrowser" class="bb_apilink"
     >ISteamHTMLSurface::CreateBrowser</a
 >
 <h2 class="bb_subsection"><a name="HTML_CanGoBackAndForward_t"></a>HTML_CanGoBackAndForward_t</h2>
-Called when page history status has changed the ability to go backwards and forward.<br /><br />
+Called when page history status has changed the ability to go backwards and forward.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1382,7 +1466,8 @@ Called when page history status has changed the ability to go backwards and forw
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_ChangedTitle_t"></a>HTML_ChangedTitle_t</h2>
-Called when the current page in a browser gets a new title.<br /><br />
+Called when the current page in a browser gets a new title.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1408,7 +1493,8 @@ Called when the current page in a browser gets a new title.<br /><br />
 </table>
 <h2 class="bb_subsection"><a name="HTML_CloseBrowser_t"></a>HTML_CloseBrowser_t</h2>
 Called when the browser has been requested to close due to user interaction; usually because of a
-javascript <code class="bb_code bb_code_inline nohighlight">window.close()</code> call.<br /><br />
+javascript <code class="bb_code bb_code_inline nohighlight">window.close()</code> call.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1436,7 +1522,8 @@ you must call
     class="bb_apilink"
     >ISteamHTMLSurface::FileLoadDialogResponse</a
 >
-with the file(s) the user selected.<br /><br />
+with the file(s) the user selected.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1469,7 +1556,8 @@ with the file(s) the user selected.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_FinishedRequest_t"></a>HTML_FinishedRequest_t</h2>
-Called when a browser has finished loading a page.<br /><br />
+Called when a browser has finished loading a page.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1499,7 +1587,8 @@ Called when a browser has finished loading a page.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_HideToolTip_t"></a>HTML_HideToolTip_t</h2>
-Called when a a browser wants to hide a tooltip.<br /><br />
+Called when a a browser wants to hide a tooltip.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1519,7 +1608,8 @@ Called when a a browser wants to hide a tooltip.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_HorizontalScroll_t"></a>HTML_HorizontalScroll_t</h2>
-Provides details on the visibility and size of the horizontal scrollbar.<br /><br />
+Provides details on the visibility and size of the horizontal scrollbar.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1575,7 +1665,8 @@ Provides details on the visibility and size of the horizontal scrollbar.<br /><b
         <td>The total width of the page in pixels.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetHorizontalScroll"
     class="bb_apilink"
@@ -1588,7 +1679,8 @@ Called when the browser wants to display a Javascript alert dialog, call
     class="bb_apilink"
     >ISteamHTMLSurface::JSDialogResponse</a
 >
-when the user dismisses this dialog; or right away to ignore it.<br /><br />
+when the user dismisses this dialog; or right away to ignore it.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1619,7 +1711,8 @@ Called when the browser wants to display a Javascript confirmation dialog, call
     class="bb_apilink"
     >ISteamHTMLSurface::JSDialogResponse</a
 >
-when the user dismisses this dialog; or right away to ignore it.<br /><br />
+when the user dismisses this dialog; or right away to ignore it.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1649,7 +1742,8 @@ Result of a call to
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#GetLinkAtPosition"
     class="bb_apilink"
     >ISteamHTMLSurface::GetLinkAtPosition</a
-><br /><br />
+><br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1701,7 +1795,8 @@ Result of a call to
         <td></td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#GetLinkAtPosition"
     class="bb_apilink"
@@ -1709,7 +1804,8 @@ Result of a call to
 >
 <h2 class="bb_subsection"><a name="HTML_NeedsPaint_t"></a>HTML_NeedsPaint_t</h2>
 Called when a browser surface has a pending paint. This is where you get the actual image data to
-render to the screen.<br /><br />
+render to the screen.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1837,7 +1933,8 @@ render to the screen.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_NewWindow_t"></a>HTML_NewWindow_t</h2>
-A browser has created a new HTML window.<br /><br />
+A browser has created a new HTML window.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1909,7 +2006,8 @@ A browser has created a new HTML window.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_OpenLinkInNewTab_t"></a>HTML_OpenLinkInNewTab_t</h2>
-The browser has requested to load a url in a new tab.<br /><br />
+The browser has requested to load a url in a new tab.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1934,7 +2032,8 @@ The browser has requested to load a url in a new tab.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_SearchResults_t"></a>HTML_SearchResults_t</h2>
-Results from a search.<br /><br />
+Results from a search.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1974,12 +2073,14 @@ Results from a search.<br /><br />
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Find" class="bb_apilink"
     >ISteamHTMLSurface::Find</a
 >
 <h2 class="bb_subsection"><a name="HTML_SetCursor_t"></a>HTML_SetCursor_t</h2>
-Called when a browser wants to change the mouse cursor.<br /><br />
+Called when a browser wants to change the mouse cursor.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2016,7 +2117,8 @@ Called when a browser wants to change the mouse cursor.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_ShowToolTip_t"></a>HTML_ShowToolTip_t</h2>
-Called when a browser wants to display a tooltip.<br /><br />
+Called when a browser wants to display a tooltip.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2092,13 +2194,15 @@ Called when a browser wants to navigate to a new page.
         <td>True if this was a http/html redirect from the last load request.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#LoadURL" class="bb_apilink"
     >ISteamHTMLSurface::LoadURL</a
 >
 <h2 class="bb_subsection"><a name="HTML_StatusText_t"></a>HTML_StatusText_t</h2>
 Called when a browser wants you to display an informational message. This is most commonly used when
-you hover over links.<br /><br />
+you hover over links.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2123,7 +2227,8 @@ you hover over links.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_UpdateToolTip_t"></a>HTML_UpdateToolTip_t</h2>
-Called when the text of an existing tooltip has been updated.<br /><br />
+Called when the text of an existing tooltip has been updated.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2148,7 +2253,8 @@ Called when the text of an existing tooltip has been updated.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_URLChanged_t"></a>HTML_URLChanged_t</h2>
-Called when the browser is navigating to a new url<br /><br />
+Called when the browser is navigating to a new url<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2199,7 +2305,8 @@ Called when the browser is navigating to a new url<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="HTML_VerticalScroll_t"></a>HTML_VerticalScroll_t</h2>
-Provides details on the visibility and size of the vertical scrollbar.<br /><br />
+Provides details on the visibility and size of the vertical scrollbar.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2255,7 +2362,8 @@ Provides details on the visibility and size of the vertical scrollbar.<br /><br 
         <td>The total height of the page in pixels.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetVerticalScroll"
     class="bb_apilink"
@@ -2274,7 +2382,8 @@ Used to let the browser know what keys are pressed with:
 and
 <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#KeyDown" class="bb_apilink"
     >ISteamHTMLSurface::KeyDown</a
->. These flags can be added together using bitwise OR.<br /><br />
+>. These flags can be added together using bitwise OR.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2315,7 +2424,8 @@ and
     href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#MouseDoubleClick"
     class="bb_apilink"
     >ISteamHTMLSurface::MouseDoubleClick</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2339,7 +2449,8 @@ and
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EMouseCursor"></a>EMouseCursor</h2>
-This lists the mouse cursors that the HTML surface will tell you to render.<br /><br />
+This lists the mouse cursors that the HTML surface will tell you to render.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2558,7 +2669,8 @@ This lists the mouse cursors that the HTML surface will tell you to render.<br /
     </tr>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
-These are typedefs which are defined for use with ISteamHTMLSurface.<br /><br />
+These are typedefs which are defined for use with ISteamHTMLSurface.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2576,7 +2688,8 @@ These are typedefs which are defined for use with ISteamHTMLSurface.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with ISteamHTMLSurface.<br /><br />
+These are constants which are defined for use with ISteamHTMLSurface.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

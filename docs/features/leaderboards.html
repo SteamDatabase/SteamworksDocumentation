@@ -3,14 +3,17 @@
 Steam supports persistent leaderboards with automatically ordered entries. These leaderboards can be
 used to display global and friend leaderboards in your game and on your community webpage. Each
 Steamworks title can create up to 10,000 leaderboards, and each leaderboard can be retrieved
-immediately after a player's score has been inserted.<br /><br />For each leaderboard, a player can
-have one entry. There is no limit on the number of players per leaderboard. Each entry contains a
-score for the leaderboard (an int32) and optionally up to 64 int32s of associated data. The
-associated data can be used to store game specific information about the play session that resulted
-in the user's leaderboard entry. This data is not sorted or parsed by Steam, and is replaced when a
-new leaderboard entry is created for the user.<br /><br />All leaderboard functions live in
-ISteamUserGameStats.h, and two sample leaderboards have been implemented in the Steamworks example.
-It is also possible to view and administer leaderboards for your game in the Steamworks Game Admin.
+immediately after a player's score has been inserted.<br />
+<br />
+For each leaderboard, a player can have one entry. There is no limit on the number of players per
+leaderboard. Each entry contains a score for the leaderboard (an int32) and optionally up to 64
+int32s of associated data. The associated data can be used to store game specific information about
+the play session that resulted in the user's leaderboard entry. This data is not sorted or parsed by
+Steam, and is replaced when a new leaderboard entry is created for the user.<br />
+<br />
+All leaderboard functions live in ISteamUserGameStats.h, and two sample leaderboards have been
+implemented in the Steamworks example. It is also possible to view and administer leaderboards for
+your game in the Steamworks Game Admin.
 <h2 class="bb_section"><a name="2"></a>Before You Begin</h2>
 All asynchronous leaderboard functions return a handle to a Steam API call result. You can find more
 information on how to receive these results from the Call Result section of the Getting Started
@@ -22,11 +25,14 @@ site, or via the API.
 You can create and manage leaderboards in the Steamworks App Admin for your app ID by going to
 <a href="https://partner.steamgames.com/apps/leaderboards" target="_blank" rel="noreferrer"
     >Stats &amp; Achievements -&gt; Leaderboards</a
->.<br /><img
+>.<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/spacewar_leaderboards"
     alt="spacewar_leaderboards"
     title="spacewar_leaderboards"
-/><br /><br />The following fields must be completed to define a leaderboard:<br />
+/><br />
+<br />
+The following fields must be completed to define a leaderboard:<br />
 <ul class="bb_ul">
     <li>Name - Set this to be a name that makes sense as part of internal development.<br /></li>
     <li>
@@ -62,7 +68,8 @@ or programmatically by calling
     >ISteamUserStats::FindOrCreateLeaderboard</a
 >. In Steam, all leaderboards for a Steamworks title are identified by a unique name. The
 leaderboard name is only used for identification in the Steamworks API, and is not presented to
-users through the Steam Community. When creating a leaderboard, you will need to choose a:<br /><br />
+users through the Steam Community. When creating a leaderboard, you will need to choose a:<br />
+<br />
 <ul class="bb_ul">
     <li>
         sort method -
@@ -77,7 +84,8 @@ users through the Steam Community. When creating a leaderboard, you will need to
         format leaderboard scores when displayed
     </li>
 </ul>
-<br />If you choose to only create your leaderboards through the
+<br />
+If you choose to only create your leaderboards through the
 <a href="https://partner.steamgames.com/apps" target="_blank" rel="noreferrer">App Admin</a>, you
 can use
 <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard" class="bb_apilink"
@@ -90,9 +98,11 @@ asynchronous methods, and return the leaderboard handle for the specified leader
     class="bb_apilink"
     >ISteamUserStats::LeaderboardFindResult_t</a
 >
-call result.<br /><br />Once a leaderboard has been created, you can modify the sort method and
-display type for a leaderboard through the Game Admin. When FindOrCreateLeaderboard is called for an
-existing leaderboard, the sort method and display type parameters are ignored.
+call result.<br />
+<br />
+Once a leaderboard has been created, you can modify the sort method and display type for a
+leaderboard through the Game Admin. When FindOrCreateLeaderboard is called for an existing
+leaderboard, the sort method and display type parameters are ignored.
 <div class="bb_callout">
     <div>
         <strong>NOTE:</strong> If the leaderboard is to be shown on the Community Hub, you must set
@@ -116,7 +126,8 @@ is updated, the associated data passed to
     >ISteamUserStats::UploadLeaderboardScore</a
 >
 will replace any data previously stored. You can choose between two update methods when uploading a
-user's leaderboard score:<br /><br />
+user's leaderboard score:<br />
+<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -159,9 +170,10 @@ To do so, simply call
 >
 This content could be a replay of the user achieving the score or a ghost to race against. The
 attached handle will be available when the entry is retrieved and can be downloaded by other users.
-To create and download user generated content see the documentation for Steam Cloud.<br /><br />Once
-attached, the content will be available even if the underlying Cloud file is changed or deleted by
-the user.
+To create and download user generated content see the documentation for Steam Cloud.<br />
+<br />
+Once attached, the content will be available even if the underlying Cloud file is changed or deleted
+by the user.
 <h2 class="bb_section"><a name="8"></a>Retrieving Leaderboard Entries</h2>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
@@ -171,24 +183,31 @@ the user.
 is used to retrieve leaderboard entries using the leaderboard handle retrieved through
 <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard" class="bb_apilink"
     >ISteamUserStats::FindLeaderboard</a
->. <br /><br />Once you have retrieved all downloaded entries from GetDownloadedLeaderboardEntry,
-the entry data will be freed and the SteamLeaderboardEntries_t in LeaderboardScoresDownloaded_t will
-no longer be valid.
+>. <br />
+<br />
+Once you have retrieved all downloaded entries from GetDownloadedLeaderboardEntry, the entry data
+will be freed and the SteamLeaderboardEntries_t in LeaderboardScoresDownloaded_t will no longer be
+valid.
 <h2 class="bb_section"><a name="9"></a>Retrieving Leaderboard Information</h2>
 With a leaderboard handle returned from FindLeaderboard, you can retrieve information about the
-leaderboard through the following:<br /><br /><a
+leaderboard through the following:<br />
+<br />
+<a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardName"
     class="bb_apilink"
     >ISteamUserStats::GetLeaderboardName</a
-><br /><a
+><br />
+<a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardEntryCount"
     class="bb_apilink"
     >ISteamUserStats::GetLeaderboardEntryCount</a
-><br /><a
+><br />
+<a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardSortMethod"
     class="bb_apilink"
     >ISteamUserStats::GetLeaderboardSortMethod</a
-><br /><a
+><br />
+<a
     href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardDisplayType"
     class="bb_apilink"
     >ISteamUserStats::GetLeaderboardDisplayType</a

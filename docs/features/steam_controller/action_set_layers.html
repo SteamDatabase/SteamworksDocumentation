@@ -3,11 +3,12 @@ Action Set Layers are optional sets of action bindings which can be overlaid upo
 controls. In contrast to Action Sets, layers draw their actions from the Action Set they exist
 within and do not wholesale replace what is already active when applied, but apply small
 modifications. These can consist of setting changes as well as adding or removing bindings from the
-base action set. More than one layer can be applied at a time and will be applied consecutively.<br /><br />There
-is technically no limit to how many layers can be active at once, but as a practical matter, having
-too many layers in the configurator will be confusing for players.<br /><br /><strong
-    >Note that:</strong
-><br />
+base action set. More than one layer can be applied at a time and will be applied consecutively.<br />
+<br />
+There is technically no limit to how many layers can be active at once, but as a practical matter,
+having too many layers in the configurator will be confusing for players.<br />
+<br />
+<strong>Note that:</strong><br />
 <ul class="bb_ul">
     <li>Activating an action set that's already active will have no effect on its layers.<br /></li>
     <li>Activating a new action set will clear all active layers from the old set.<br /></li>
@@ -35,40 +36,55 @@ too many layers in the configurator will be confusing for players.<br /><br /><s
                 <i>should</i>, especially if you're using more than one layer. The last layer
                 applied will override any conflicting information that came before, so take special
                 care to apply them in the correct order. Your code could easily have race conditions
-                or other subtle timing bugs that could swap the order.<br /><br />Action set layers
-                are intended for narrow use cases and a good practice is to apply and remove them
-                only on specific game state changes.
+                or other subtle timing bugs that could swap the order.<br />
+                <br />
+                Action set layers are intended for narrow use cases and a good practice is to apply
+                and remove them only on specific game state changes.
             </div>
         </div>
-        <br />For games with native Steam Input support, the developer can define specific action
-        set layers activated by the game's code. Additionally, in legacy mode, players can define
-        their own action set layers and the inputs that trigger them, just as they can define their
-        own player-triggered action sets.
+        <br />
+        For games with native Steam Input support, the developer can define specific action set
+        layers activated by the game's code. Additionally, in legacy mode, players can define their
+        own action set layers and the inputs that trigger them, just as they can define their own
+        player-triggered action sets.
         <h2 class="bb_section"><a name="1"></a>A practical example</h2>
-        <br />Imagine a class-based shooter with vehicles. This game has native Steam Input support
-        and makes use of action set layers. For basic gameplay, a base action set is always active
-        and covers running around, picking up items, jumping, etc.<br /><br /><img
+        <br />
+        Imagine a class-based shooter with vehicles. This game has native Steam Input support and
+        makes use of action set layers. For basic gameplay, a base action set is always active and
+        covers running around, picking up items, jumping, etc.<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/action_set_layers_basic_1.png"
             alt="action_set_layers_basic_1.png"
             title="action_set_layers_basic_1.png"
-        /><br /><br />When the player selects a class, the appropriate layer is added, e.g.
-        "sniper"<br /><br /><img
+        /><br />
+        <br />
+        When the player selects a class, the appropriate layer is added, e.g. "sniper"<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/action_set_layers_sniper_2.png"
             alt="action_set_layers_sniper_2.png"
             title="action_set_layers_sniper_2.png"
-        /><br /><br />The code for this might look something like:<br /><br />
+        /><br />
+        <br />
+        The code for this might look something like:<br />
+        <br />
         <div class="bb_code cpp">
             void changeClass(EClassID myClass) { if(myClass == SNIPER) {
             SteamInput()-&gt;ActivateActionSetLayer( controllerHandle1, sniperLayerHandle ); }
             //logic for other classes }
         </div>
-        <br />If the player enters or exits a vehicle, the controls for the vehicle layer are
+        <br />
+        If the player enters or exits a vehicle, the controls for the vehicle layer are
         activated/deactivated on those state changes, adding or removing new controls for vehicle
-        specific functions. <br /><br /><img
+        specific functions. <br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/action_set_layers_vehicle_1.png"
             alt="action_set_layers_vehicle_1.png"
             title="action_set_layers_vehicle_1.png"
-        /><br /><br />
+        /><br />
+        <br />
         <div class="bb_code cpp">
             void changeVehicle(EVehicleID myVehicle, bool entering) { InputActionSetHandle_t
             layerHandle; if(myVehicle == AUTOMATIC) { layerHandle = automaticHandle; //automatic
@@ -79,57 +95,86 @@ too many layers in the configurator will be confusing for players.<br /><br /><s
             SteamInput()&gt;DeactivateActionSetLayer( controllerHandle1, layerHandle ); //remove the
             vehicle's action set layer when you get out of it } }
         </div>
-        <br />In this game, players can use their weapon even when riding in a vehicle. So when the
-        sniper uses the scope on the sniper rifle, this activates a third action set layer,
-        regardless of whether the player is on foot or riding in a vehicle.<br /><br /><img
+        <br />
+        In this game, players can use their weapon even when riding in a vehicle. So when the sniper
+        uses the scope on the sniper rifle, this activates a third action set layer, regardless of
+        whether the player is on foot or riding in a vehicle.<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/action_set_layers_scope.png"
             alt="action_set_layers_scope.png"
             title="action_set_layers_scope.png"
-        /><br /><br />
+        /><br />
+        <br />
         <div class="bb_code cpp">
             void useScope(bool entering) { if(entering) { SteamInput()-&gt;ActivateActionSetLayer(
             controllerHandle1, scopeHandle ); //apply the scoped-in layer when you scope in } else {
             SteamInput()-&gt;DeactivateActionSetLayer( controllerHandle1, scopeHandle ); //remove
             the scoped-in layer when you lower the scope } }
         </div>
-        <br />Here's how all the layers combine. <br /><br /><img
+        <br />
+        Here's how all the layers combine. <br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/action_set_layers_result_2.png"
             alt="action_set_layers_result_2.png"
             title="action_set_layers_result_2.png"
-        /><br /><br />Note how layers can not only add new actions on top of underyling layers, they
-        can also override previous bindings -- in this case, the vehicle-specific "brake" and "gas"
-        actions override the basic layer's "jump" and "interaction" actions, and "steer" overrides
-        the "move" action bound to the trackpad and joystick on the base layer, and in turn is
-        overriden by the "aim" action from the scoped-in action set layer. Once all three action set
-        layers are stacked on top, the only remaining action from the base set is "shoot."
+        /><br />
+        <br />
+        Note how layers can not only add new actions on top of underyling layers, they can also
+        override previous bindings -- in this case, the vehicle-specific "brake" and "gas" actions
+        override the basic layer's "jump" and "interaction" actions, and "steer" overrides the
+        "move" action bound to the trackpad and joystick on the base layer, and in turn is overriden
+        by the "aim" action from the scoped-in action set layer. Once all three action set layers
+        are stacked on top, the only remaining action from the base set is "shoot."
         <h2 class="bb_section"><a name="2"></a>Legacy Mode</h2>
-        <br />You create action set layers almost exactly like regular action sets. Simply click on
-        the button "Add Action Layer" in the configurator:<br /><br /><img
+        <br />
+        You create action set layers almost exactly like regular action sets. Simply click on the
+        button "Add Action Layer" in the configurator:<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/add_action_layer.png"
             alt="add_action_layer.png"
             title="add_action_layer.png"
-        /><br /><br />From here you can give your action set layer a name and specify bindings for
-        it. Since this is a legacy action set layer, the game has no knowledge of it and the player
-        will have to activate it themselves. Decide what input should trigger the action set layer,
-        and open the binding menu, then click the action set activation icon, which is the leftmost
-        special icon:<br /><br /><img
+        /><br />
+        <br />
+        From here you can give your action set layer a name and specify bindings for it. Since this
+        is a legacy action set layer, the game has no knowledge of it and the player will have to
+        activate it themselves. Decide what input should trigger the action set layer, and open the
+        binding menu, then click the action set activation icon, which is the leftmost special
+        icon:<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/bind_action_set.png"
             alt="bind_action_set.png"
             title="bind_action_set.png"
-        /><br /><br />This brings up the action set activation menu:<br /><br /><img
+        /><br />
+        <br />
+        This brings up the action set activation menu:<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/change_action_set.png"
             alt="change_action_set.png"
             title="change_action_set.png"
-        /><br /><br />In this case we want to apply a layer, not activate an action set. We'll
-        select "Apply Action Layer" from the dropdown menu:<br /><br /><img
+        /><br />
+        <br />
+        In this case we want to apply a layer, not activate an action set. We'll select "Apply
+        Action Layer" from the dropdown menu:<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/apply_action_set_layer.png"
             alt="apply_action_set_layer.png"
             title="apply_action_set_layer.png"
-        /><br /><br />Finally, we need to select which layer we want to apply:<br /><br /><img
+        /><br />
+        <br />
+        Finally, we need to select which layer we want to apply:<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/select_action_set_layer.png"
             alt="select_action_set_layer.png"
             title="select_action_set_layer.png"
-        /><br /><br />We can use the same procedure to assign a separate binding to remove the
-        layer.
+        /><br />
+        <br />
+        We can use the same procedure to assign a separate binding to remove the layer.
     </li>
 </ul>

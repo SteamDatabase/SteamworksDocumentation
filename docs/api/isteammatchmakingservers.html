@@ -1,5 +1,7 @@
 <h1>ISteamMatchmakingServers Interface</h1>
-Functions which provide access to the game server browser.<br /><br />See
+Functions which provide access to the game server browser.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/features/multiplayer/game_servers" class="bb_doclink"
     >Game Servers</a
 >
@@ -29,11 +31,14 @@ the global accessor function
         <td>The handle to the server list request.</td>
     </tr>
 </table>
-<br />Cancel an outstanding server list request.<br />You should call this to cancel any in-progress
-requests before destructing a callback object that may have been passed<br />to one of the below
-request calls. Not doing so may result in a crash when a callback occurs on the destructed
-object.<br />Canceling a query does not release the allocated request handle. The request handle
-must be released using
+<br />
+Cancel an outstanding server list request.<br />
+You should call this to cancel any in-progress requests before destructing a callback object that
+may have been passed<br />
+to one of the below request calls. Not doing so may result in a crash when a callback occurs on the
+destructed object.<br />
+Canceling a query does not release the allocated request handle. The request handle must be released
+using
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#ReleaseRequest"
     class="bb_apilink"
@@ -59,8 +64,10 @@ must be released using
         <td>The server query to cancel.</td>
     </tr>
 </table>
-<br />Cancel an outstanding individual server query.<br /><br />The calls that create this type of
-query are:<br />
+<br />
+Cancel an outstanding individual server query.<br />
+<br />
+The calls that create this type of query are:<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -84,8 +91,9 @@ query are:<br />
         >
     </li>
 </ul>
-<br />You should call this to cancel any in-progress requests before destructing a callback object
-that may have been passed to one of the above calls to avoid crashing when callbacks occur.
+<br />
+You should call this to cancel any in-progress requests before destructing a callback object that
+may have been passed to one of the above calls to avoid crashing when callbacks occur.
 <h2 class="bb_subsection"><a name="GetServerCount"></a>GetServerCount</h2>
 <div class="bb_code cpp">int GetServerCount( HServerListRequest hRequest );</div>
 <table>
@@ -106,14 +114,21 @@ that may have been passed to one of the above calls to avoid crashing when callb
         <td>The handle to the server list request.</td>
     </tr>
 </table>
-<br />Gets the number of servers in the given list.<br /><br />This is used for iterating with
+<br />
+Gets the number of servers in the given list.<br />
+<br />
+This is used for iterating with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#GetServerDetails"
     class="bb_apilink"
     >ISteamMatchmakingServers::GetServerDetails</a
->.<br /><br /><strong>Returns:</strong> int<br />The number of servers in a server list request
-object.<br /><br />Returns <strong>0</strong> if
-<code class="bb_code bb_code_inline nohighlight">hRequest</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> int<br />
+The number of servers in a server list request object.<br />
+<br />
+Returns <strong>0</strong> if <code class="bb_code bb_code_inline nohighlight">hRequest</code> is
+invalid.
 <h2 class="bb_subsection"><a name="GetServerDetails"></a>GetServerDetails</h2>
 <div class="bb_code cpp">
     gameserveritem_t * GetServerDetails( HServerListRequest hRequest, int iServer );
@@ -148,17 +163,23 @@ object.<br /><br />Returns <strong>0</strong> if
         </td>
     </tr>
 </table>
-<br />Get the details of a given server in the list. <br /><br />You can get the valid range of
-index values by calling
+<br />
+Get the details of a given server in the list. <br />
+<br />
+You can get the valid range of index values by calling
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#GetServerCount"
     class="bb_apilink"
     >ISteamMatchmakingServers::GetServerCount</a
->.<br /><br />You will also receive index values in
+>.<br />
+<br />
+You will also receive index values in
 <code class="bb_code bb_code_inline nohighlight"
     >ISteamMatchmakingServerListResponse::ServerResponded</code
 >
-callbacks.<br /><br /><strong>Returns:</strong> gameserveritem_t *
+callbacks.<br />
+<br />
+<strong>Returns:</strong> gameserveritem_t *
 <h2 class="bb_subsection"><a name="IsRefreshing"></a>IsRefreshing</h2>
 <div class="bb_code cpp">bool IsRefreshing( HServerListRequest hRequest );</div>
 <table>
@@ -179,12 +200,12 @@ callbacks.<br /><br /><strong>Returns:</strong> gameserveritem_t *
         <td>The handle to the server list request.</td>
     </tr>
 </table>
-<br />Checks if the server list request is currently refreshing.<br /><br /><strong
-    >Returns:</strong
->
-bool<br /><strong>true</strong> if
-<code class="bb_code bb_code_inline nohighlight">hRequest</code> is valid, and is currently
-refreshing; otherwise, <strong>false</strong>.
+<br />
+Checks if the server list request is currently refreshing.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if <code class="bb_code bb_code_inline nohighlight">hRequest</code> is valid,
+and is currently refreshing; otherwise, <strong>false</strong>.
 <h2 class="bb_subsection"><a name="PingServer"></a>PingServer</h2>
 <div class="bb_code cpp">
     HServerQuery PingServer( uint32 unIP, uint16 usPort, ISteamMatchmakingPingResponse
@@ -225,22 +246,26 @@ refreshing; otherwise, <strong>false</strong>.
         </td>
     </tr>
 </table>
-<br />Queries an individual game servers directly via IP/Port to request an updated ping time and
-other details from the server.<br /><br />You must inherit from the
+<br />
+Queries an individual game servers directly via IP/Port to request an updated ping time and other
+details from the server.<br />
+<br />
+You must inherit from the
 <code class="bb_code bb_code_inline nohighlight">ISteamMatchmakingPingResponse</code> object to
 receive this callback.
 <h4>ISteamMatchmakingPingResponse</h4>
-Callback interface for receiving responses after pinging an individual server.<br /><br />If you are
-destructing an object that implements this interface then you should call
+Callback interface for receiving responses after pinging an individual server.<br />
+<br />
+If you are destructing an object that implements this interface then you should call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#CancelServerQuery"
     class="bb_apilink"
     >ISteamMatchmakingServers::CancelServerQuery</a
 >
 passing in the handle to the query which is in progress. Failure to cancel in progress queries when
-destructing a callback handler may result in a crash when a callback later occurs.<br /><br /><strong
-    >Member functions:</strong
-><br />
+destructing a callback handler may result in a crash when a callback later occurs.<br />
+<br />
+<strong>Member functions:</strong><br />
 <table>
     <tr>
         <th>Return type</th>
@@ -263,10 +288,12 @@ destructing a callback handler may result in a crash when a callback later occur
         <td>Called when the server failed to respond to the ping request.</td>
     </tr>
 </table>
-<br /><strong>Returns:</strong>
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#HServerQuery" class="bb_apilink"
     >HServerQuery</a
-><br />Handle to the outstanding server query.
+><br />
+Handle to the outstanding server query.
 <h2 class="bb_subsection"><a name="PlayerDetails"></a>PlayerDetails</h2>
 <div class="bb_code cpp">
     HServerQuery PlayerDetails( uint32 unIP, uint16 usPort, ISteamMatchmakingPlayersResponse
@@ -307,22 +334,26 @@ destructing a callback handler may result in a crash when a callback later occur
         </td>
     </tr>
 </table>
-<br />Queries an individual game servers directly via IP/Port to request the list of players
-currently playing on the server.<br /><br />You must inherit from the
+<br />
+Queries an individual game servers directly via IP/Port to request the list of players currently
+playing on the server.<br />
+<br />
+You must inherit from the
 <code class="bb_code bb_code_inline nohighlight">ISteamMatchmakingPlayersResponse</code> object to
 receive this callback.
 <h4>ISteamMatchmakingPlayersResponse</h4>
-Callback interface for receiving responses after pinging an individual server.<br /><br />If you are
-destructing an object that implements this interface then you should call
+Callback interface for receiving responses after pinging an individual server.<br />
+<br />
+If you are destructing an object that implements this interface then you should call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#CancelServerQuery"
     class="bb_apilink"
     >ISteamMatchmakingServers::CancelServerQuery</a
 >
 passing in the handle to the query which is in progress. Failure to cancel in progress queries when
-destructing a callback handler may result in a crash when a callback later occurs.<br /><br /><strong
-    >Member functions:</strong
-><br />
+destructing a callback handler may result in a crash when a callback later occurs.<br />
+<br />
+<strong>Member functions:</strong><br />
 <table>
     <tr>
         <th>Return type</th>
@@ -359,10 +390,12 @@ destructing a callback handler may result in a crash when a callback later occur
         </td>
     </tr>
 </table>
-<br /><strong>Returns:</strong>
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#HServerQuery" class="bb_apilink"
     >HServerQuery</a
-><br />Handle to the outstanding server query.
+><br />
+Handle to the outstanding server query.
 <h2 class="bb_subsection"><a name="RefreshQuery"></a>RefreshQuery</h2>
 <div class="bb_code cpp">void RefreshQuery( HServerListRequest hRequest );</div>
 <table>
@@ -383,10 +416,12 @@ destructing a callback handler may result in a crash when a callback later occur
         <td>The handle to the server list request.</td>
     </tr>
 </table>
-<br />Ping every server in your list again but don't update the list of servers.<br /><br />The
-query callback installed when the server list was requested will be used again to post notifications
-and <code class="bb_code bb_code_inline nohighlight">RefreshComplete</code> will be called again, so
-the callback must remain valid until it completes or the request is released with
+<br />
+Ping every server in your list again but don't update the list of servers.<br />
+<br />
+The query callback installed when the server list was requested will be used again to post
+notifications and <code class="bb_code bb_code_inline nohighlight">RefreshComplete</code> will be
+called again, so the callback must remain valid until it completes or the request is released with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#ReleaseRequest"
     class="bb_apilink"
@@ -424,8 +459,10 @@ the callback must remain valid until it completes or the request is released wit
         </td>
     </tr>
 </table>
-<br />Refreshes a single server inside of a query.<br /><br />If you want to refresh all of the
-servers then you should use
+<br />
+Refreshes a single server inside of a query.<br />
+<br />
+If you want to refresh all of the servers then you should use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#RefreshQuery"
     class="bb_apilink"
@@ -451,10 +488,12 @@ servers then you should use
         <td>The asynchronous server list request object to release.</td>
     </tr>
 </table>
-<br />Releases the asynchronous server list request object and cancels any pending query on it if
-there's a pending query in progress.<br /><br />The
-<code class="bb_code bb_code_inline nohighlight">RefreshComplete</code> callback will not be posted
-when request is released.
+<br />
+Releases the asynchronous server list request object and cancels any pending query on it if there's
+a pending query in progress.<br />
+<br />
+The <code class="bb_code bb_code_inline nohighlight">RefreshComplete</code> callback will not be
+posted when request is released.
 <h2 class="bb_subsection"><a name="RequestFavoritesServerList"></a>RequestFavoritesServerList</h2>
 <div class="bb_code cpp">
     HServerListRequest RequestFavoritesServerList( AppId_t iApp, MatchMakingKeyValuePair_t
@@ -510,19 +549,26 @@ when request is released.
         </td>
     </tr>
 </table>
-<br />Request a new list of game servers from the 'favorites' server list.<br /><br />See
+<br />
+Request a new list of game servers from the 'favorites' server list.<br />
+<br />
+See
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#MatchMakingKeyValuePair_t"
     class="bb_apilink"
     >MatchMakingKeyValuePair_t</a
 >
-for more information.<br /><br /><strong>Returns:</strong>
+for more information.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#HServerListRequest"
     class="bb_apilink"
     >HServerListRequest</a
-><br />A new asynchronous server list request object.<br /><br /><strong>NOTE:</strong> This request
-object must be released by calling
+><br />
+A new asynchronous server list request object.<br />
+<br />
+<strong>NOTE:</strong> This request object must be released by calling
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#ReleaseRequest"
     class="bb_apilink"
@@ -584,19 +630,26 @@ when you're done using it!
         </td>
     </tr>
 </table>
-<br />Request a new list of game servers from the 'friends' server list.<br /><br />See
+<br />
+Request a new list of game servers from the 'friends' server list.<br />
+<br />
+See
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#MatchMakingKeyValuePair_t"
     class="bb_apilink"
     >MatchMakingKeyValuePair_t</a
 >
-for more information.<br /><br /><strong>Returns:</strong>
+for more information.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#HServerListRequest"
     class="bb_apilink"
     >HServerListRequest</a
-><br />A new asynchronous server list request object.<br /><br /><strong>NOTE:</strong> This request
-object must be released by calling
+><br />
+A new asynchronous server list request object.<br />
+<br />
+<strong>NOTE:</strong> This request object must be released by calling
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#ReleaseRequest"
     class="bb_apilink"
@@ -658,19 +711,26 @@ when you're done using it!
         </td>
     </tr>
 </table>
-<br />Request a new list of game servers from the 'history' server list.<br /><br />See
+<br />
+Request a new list of game servers from the 'history' server list.<br />
+<br />
+See
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#MatchMakingKeyValuePair_t"
     class="bb_apilink"
     >MatchMakingKeyValuePair_t</a
 >
-for more information.<br /><br /><strong>Returns:</strong>
+for more information.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#HServerListRequest"
     class="bb_apilink"
     >HServerListRequest</a
-><br />A new asynchronous server list request object.<br /><br /><strong>NOTE:</strong> This request
-object must be released by calling
+><br />
+A new asynchronous server list request object.<br />
+<br />
+<strong>NOTE:</strong> This request object must be released by calling
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#ReleaseRequest"
     class="bb_apilink"
@@ -732,25 +792,33 @@ when you're done using it!
         </td>
     </tr>
 </table>
-<br />Request a new list of game servers from the 'internet' server list.<br /><br />See
+<br />
+Request a new list of game servers from the 'internet' server list.<br />
+<br />
+See
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#MatchMakingKeyValuePair_t"
     class="bb_apilink"
     >MatchMakingKeyValuePair_t</a
 >
-for more information.<br /><br /><strong>Returns:</strong>
+for more information.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#HServerListRequest"
     class="bb_apilink"
     >HServerListRequest</a
-><br />Triggers a
+><br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyChatUpdate_t"
     class="bb_apilink"
     >LobbyChatUpdate_t</a
 >
-callback.<br />A new asynchronous server list request object.<br /><br /><strong>NOTE:</strong> This
-request object must be released by calling
+callback.<br />
+A new asynchronous server list request object.<br />
+<br />
+<strong>NOTE:</strong> This request object must be released by calling
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#ReleaseRequest"
     class="bb_apilink"
@@ -788,19 +856,26 @@ when you're done using it!
         </td>
     </tr>
 </table>
-<br />Request a new list of game servers from the 'LAN' server list.<br /><br />See
+<br />
+Request a new list of game servers from the 'LAN' server list.<br />
+<br />
+See
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#MatchMakingKeyValuePair_t"
     class="bb_apilink"
     >MatchMakingKeyValuePair_t</a
 >
-for more information.<br /><br /><strong>Returns:</strong>
+for more information.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#HServerListRequest"
     class="bb_apilink"
     >HServerListRequest</a
-><br />A new asynchronous server list request object.<br /><br /><strong>NOTE:</strong> This request
-object must be released by calling
+><br />
+A new asynchronous server list request object.<br />
+<br />
+<strong>NOTE:</strong> This request object must be released by calling
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#ReleaseRequest"
     class="bb_apilink"
@@ -862,19 +937,26 @@ when you're done using it!
         </td>
     </tr>
 </table>
-<br />Request a new list of game servers from the 'spectator' server list.<br /><br />See
+<br />
+Request a new list of game servers from the 'spectator' server list.<br />
+<br />
+See
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#MatchMakingKeyValuePair_t"
     class="bb_apilink"
     >MatchMakingKeyValuePair_t</a
 >
-for more information.<br /><br /><strong>Returns:</strong>
+for more information.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#HServerListRequest"
     class="bb_apilink"
     >HServerListRequest</a
-><br />A new asynchronous server list request object.<br /><br /><strong>NOTE:</strong> This request
-object must be released by calling
+><br />
+A new asynchronous server list request object.<br />
+<br />
+<strong>NOTE:</strong> This request object must be released by calling
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#ReleaseRequest"
     class="bb_apilink"
@@ -922,26 +1004,30 @@ when you're done using it!
         </td>
     </tr>
 </table>
-<br />Queries an individual game servers directly via IP/Port to request the list of rules that the
-server is running. (See
+<br />
+Queries an individual game servers directly via IP/Port to request the list of rules that the server
+is running. (See
 <a href="https://partner.steamgames.com/doc/api/ISteamGameServer#SetKeyValue" class="bb_apilink"
     >ISteamGameServer::SetKeyValue</a
 >
-to set the rules on the server side.)<br /><br />You must inherit from the
+to set the rules on the server side.)<br />
+<br />
+You must inherit from the
 <code class="bb_code bb_code_inline nohighlight">ISteamMatchmakingRulesResponse</code> object to
 receive this callback.
 <h4>ISteamMatchmakingRulesResponse</h4>
-Callback interface for receiving responses after pinging an individual server.<br /><br />If you are
-destructing an object that implements this interface then you should call
+Callback interface for receiving responses after pinging an individual server.<br />
+<br />
+If you are destructing an object that implements this interface then you should call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers#CancelServerQuery"
     class="bb_apilink"
     >ISteamMatchmakingServers::CancelServerQuery</a
 >
 passing in the handle to the query which is in progress. Failure to cancel in progress queries when
-destructing a callback handler may result in a crash when a callback later occurs.<br /><br /><strong
-    >Member functions:</strong
-><br />
+destructing a callback handler may result in a crash when a callback later occurs.<br />
+<br />
+<strong>Member functions:</strong><br />
 <table>
     <tr>
         <th>Return type</th>
@@ -978,17 +1064,22 @@ destructing a callback handler may result in a crash when a callback later occur
         </td>
     </tr>
 </table>
-<br /><strong>Returns:</strong>
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#HServerQuery" class="bb_apilink"
     >HServerQuery</a
-><br />Handle to the outstanding server query.
+><br />
+Handle to the outstanding server query.
 <h2 class="bb_section"><a name="structs"></a>Structs</h2>
 These are structs which functions in ISteamMatchmakingServers may return and/or interact with.
 <h2 class="bb_subsection"><a name="MatchMakingKeyValuePair_t"></a>MatchMakingKeyValuePair_t</h2>
-Store key/value pair used in matchmaking queries.<br /><br />Actually, the name Key/Value is a bit
-misleading. The "key" is better understood as "filter operation code" and the "value" is the operand
-to this filter operation. The meaning of the operand depends upon the filter.<br /><br />Supported
-filter operation codes:<br />
+Store key/value pair used in matchmaking queries.<br />
+<br />
+Actually, the name Key/Value is a bit misleading. The "key" is better understood as "filter
+operation code" and the "value" is the operand to this filter operation. The meaning of the operand
+depends upon the filter.<br />
+<br />
+Supported filter operation codes:<br />
 <ul class="bb_ul">
     <li>
         "map"<br />
@@ -1062,7 +1153,8 @@ filter operation codes:<br />
             !server.gametags.contains("payloadrace") ) ) "or", "4" "map", "cp_dustbowl" "and", "2"
             "gametagsand", "payload" "gametagsnor", "payloadrace"
         </div>
-        Unary NOT can be achieved using either "nand" or "nor" with a single operand.<br /><br />
+        Unary NOT can be achieved using either "nand" or "nor" with a single operand.<br />
+        <br />
     </li>
     <li>
         "addr"<br />
@@ -1074,7 +1166,8 @@ filter operation codes:<br />
         Server passes the filter if the server's game address matches the specified IP or IP:port.
     </li>
 </ul>
-<br />The following filter operations ignore the "value" part of MatchMakingKeyValuePair_t<br />
+<br />
+The following filter operations ignore the "value" part of MatchMakingKeyValuePair_t<br />
 <ul class="bb_ul">
     <li>
         "dedicated"<br />
@@ -1133,7 +1226,8 @@ Provided as the return response when refreshing Matchmaking Servers. See:
     class="bb_apilink"
     >ISteamMatchmakingServers::RequestInternetServerList</a
 >
-for more information.<br /><br />
+for more information.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1160,7 +1254,8 @@ for more information.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with ISteamMatchmakingServers.<br /><br />
+These are constants which are defined for use with ISteamMatchmakingServers.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

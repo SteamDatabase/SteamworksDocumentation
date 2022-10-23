@@ -1,23 +1,28 @@
 <h1>steam_api.h</h1>
-Provides the core foundation to initialize and access the Steamworks API.<br /><br />All of the
-types listed here are global defines and not associated with any one specific API.
+Provides the core foundation to initialize and access the Steamworks API.<br />
+<br />
+All of the types listed here are global defines and not associated with any one specific API.
 <h2 class="bb_section"><a name="Functions"></a>Functions</h2>
-<br />These are global functions which do not require an interface to set up. You can read more
-about these functions in the
+<br />
+These are global functions which do not require an interface to set up. You can read more about
+these functions in the
 <a href="https://partner.steamgames.com/doc/sdk/api#initialization_and_shutdown" class="bb_doclink"
     >Steamworks API Overview</a
 >.
 <h2 class="bb_subsection"><a name="SteamAPI_Init"></a>SteamAPI_Init</h2>
 <div class="bb_code cpp">S_API bool S_CALLTYPE SteamAPI_Init();</div>
-Initializes the Steamworks API.<br /><br />See
+Initializes the Steamworks API.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/sdk/api#initialization_and_shutdown" class="bb_doclink"
     >Initialization and Shutdown</a
 >
-for additional information.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong>
-indicates that all required interfaces have been acquired and are accessible.<br /><strong
-    >false</strong
->
-indicates one of the following conditions:<br />
+for additional information.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> indicates that all required interfaces have been acquired and are
+accessible.<br />
+<strong>false</strong> indicates one of the following conditions:<br />
 <ul class="bb_ul">
     <li>
         The Steam client isn't running. A running Steam client is required to provide
@@ -46,7 +51,8 @@ indicates one of the following conditions:<br />
         missing default packages.
     </li>
 </ul>
-<br /><strong>Example:</strong><br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     int main() { if ( SteamAPI_RestartAppIfNecessary( k_uAppIdInvalid ) ) // Replace with your App
     ID { return 1; } if ( !SteamAPI_Init() ) { printf( "Fatal Error - Steam must be running to play
@@ -56,8 +62,9 @@ indicates one of the following conditions:<br />
     <a name="SteamAPI_ReleaseCurrentThreadMemory"></a>SteamAPI_ReleaseCurrentThreadMemory
 </h2>
 <div class="bb_code cpp">S_API void S_CALLTYPE SteamAPI_ReleaseCurrentThreadMemory();</div>
-Free's the internal Steamworks API memory associated with the calling thread.<br /><br />Most
-Steamworks API functions allocate a small amount of thread-local memory for parameter storage,
+Free's the internal Steamworks API memory associated with the calling thread.<br />
+<br />
+Most Steamworks API functions allocate a small amount of thread-local memory for parameter storage,
 calling this will manually free such memory. This function is called automatically by
 <a href="#SteamAPI_RunCallbacks" class="bb_apilink">SteamAPI_RunCallbacks</a>, so a program that
 only ever accesses the Steamworks API from a single thread never needs to explicitly call this
@@ -80,23 +87,32 @@ function.
         <td>The App ID of this title.</td>
     </tr>
 </table>
-<br />Checks if your executable was launched through Steam and relaunches it through Steam if it
-wasn't.<br /><br />See
+<br />
+Checks if your executable was launched through Steam and relaunches it through Steam if it
+wasn't.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/sdk/api#initialization_and_shutdown" class="bb_doclink"
     >Initialization and Shutdown</a
 >
-for additional information.<br /><br /><strong>Returns:</strong> bool<br />If this returns
-<strong>true</strong> then it starts the Steam client if required and launches your game again
-through it, and you should quit your process as soon as possible. This effectively runs
+for additional information.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+If this returns <strong>true</strong> then it starts the Steam client if required and launches your
+game again through it, and you should quit your process as soon as possible. This effectively runs
 <code class="bb_code bb_code_inline nohighlight">steam://run/&lt;AppId&gt;</code> so it may not
 relaunch the exact executable that called it, as it will always relaunch from the version installed
-in your Steam library folder.<br /><br />If it returns <strong>false</strong>, then your game was
-launched by the Steam client and no action needs to be taken. One exception is if a
+in your Steam library folder.<br />
+<br />
+If it returns <strong>false</strong>, then your game was launched by the Steam client and no action
+needs to be taken. One exception is if a
 <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file is present then this
 will return <strong>false</strong> regardless. This allows you to develop and test without launching
 your game through the Steam client. Make sure to remove the
 <code class="bb_code bb_code_inline nohighlight">steam_appid.txt</code> file when uploading the game
-to your Steam depot!<br /><br /><strong>Example:</strong><br />
+to your Steam depot!<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     int main() { if ( SteamAPI_RestartAppIfNecessary( k_uAppIdInvalid ) ) // Replace with your App
     ID { return 1; } if ( !SteamAPI_Init() ) { printf( "Fatal Error - Steam must be running to play
@@ -104,13 +120,15 @@ to your Steam depot!<br /><br /><strong>Example:</strong><br />
 </div>
 <h2 class="bb_subsection"><a name="SteamAPI_RunCallbacks"></a>SteamAPI_RunCallbacks</h2>
 <div class="bb_code cpp">S_API void S_CALLTYPE SteamAPI_RunCallbacks();</div>
-Dispatches callbacks and call results to all of the registered listeners.<br /><br />It's best to
-call this at &gt;10Hz, the more time between calls, the more potential latency between receiving
-events or results from the Steamworks API. Most games call this once per render-frame. All
-registered listener functions will be invoked during this call, in the callers thread context.<br /><br />SteamAPI_RunCallbacks
-is safe to call from multiple threads simultaneously, but if you choose to do this, callback code
-could be executed on any thread. One alternative is to call SteamAPI_RunCallbacks from the main
-thread only, and call
+Dispatches callbacks and call results to all of the registered listeners.<br />
+<br />
+It's best to call this at &gt;10Hz, the more time between calls, the more potential latency between
+receiving events or results from the Steamworks API. Most games call this once per render-frame. All
+registered listener functions will be invoked during this call, in the callers thread context.<br />
+<br />
+SteamAPI_RunCallbacks is safe to call from multiple threads simultaneously, but if you choose to do
+this, callback code could be executed on any thread. One alternative is to call
+SteamAPI_RunCallbacks from the main thread only, and call
 <a href="#SteamAPI_ReleaseCurrentThreadMemory" class="bb_apilink"
     >SteamAPI_ReleaseCurrentThreadMemory</a
 >
@@ -131,17 +149,23 @@ regularly on other threads.
         <td>The message to attach to the minidump. This must be null terminated.</td>
     </tr>
 </table>
-<br />Attaches an arbitrary comment to embed in the minidump.<br /><br />Some examples that you may
-want to include are what level the user was playing, how many players on the server, how much memory
-is free, etc.<br />This must be called before calling
+<br />
+Attaches an arbitrary comment to embed in the minidump.<br />
+<br />
+Some examples that you may want to include are what level the user was playing, how many players on
+the server, how much memory is free, etc.<br />
+This must be called before calling
 <a href="#SteamAPI_WriteMiniDump" class="bb_apilink">SteamAPI_WriteMiniDump</a>.
 <div class="bb_callout bb_red bb_fixed">
     <div><strong>NOTE:</strong> Only works on 32bit Windows!</div>
 </div>
 <h2 class="bb_subsection"><a name="SteamAPI_Shutdown"></a>SteamAPI_Shutdown</h2>
 <div class="bb_code cpp">S_API void S_CALLTYPE SteamAPI_Shutdown();</div>
-Shuts down the Steamworks API, releases pointers and frees memory.<br /><br />You should call this
-during process shutdown if possible.<br /><br />This will not unhook the
+Shuts down the Steamworks API, releases pointers and frees memory.<br />
+<br />
+You should call this during process shutdown if possible.<br />
+<br />
+This will not unhook the
 <a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">Steam Overlay</a>
 from your game as there's no guarantee that your rendering API is done using it.
 <h2 class="bb_subsection"><a name="SteamAPI_WriteMiniDump"></a>SteamAPI_WriteMiniDump</h2>
@@ -174,17 +198,23 @@ from your game as there's no guarantee that your rendering API is done using it.
         </td>
     </tr>
 </table>
-<br />Writes and uploads a minidump to report crashes.<br /><br />See
+<br />
+Writes and uploads a minidump to report crashes.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/features/error_reporting" class="bb_doclink"
     >Steam Error Reporting</a
 >
-for more information.<br /><br />You can add an optional comment by calling
+for more information.<br />
+<br />
+You can add an optional comment by calling
 <a href="#SteamAPI_SetMiniDumpComment" class="bb_apilink">SteamAPI_SetMiniDumpComment</a> before you
 call this function.
 <div class="bb_callout bb_red bb_fixed">
     <div><strong>NOTE:</strong> This only supports 32bit Windows.</div>
 </div>
-<br /><strong>Example:</strong><br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     #ifdef _WIN32 #include &lt;Windows.h&gt; void MiniDumpFunction( unsigned int nExceptionCode,
     EXCEPTION_POINTERS *pException ) { // You can build and set an arbitrary comment to embed in the
@@ -208,14 +238,15 @@ These are structs which functions in steam_api may return and/or interact with.
 <h2 class="bb_subsection"><a name="CGameID"></a>CGameID</h2>
 The globally unique identifier for Steam Games.
 <h2 class="bb_subsection"><a name="CSteamID"></a>CSteamID</h2>
-The globally unique identifier for all Steam accounts, Steam groups, Lobbies and Chat rooms.<br />See
-<a href="#EAccountType" class="bb_apilink">EAccountType</a> and
+The globally unique identifier for all Steam accounts, Steam groups, Lobbies and Chat rooms.<br />
+See <a href="#EAccountType" class="bb_apilink">EAccountType</a> and
 <a href="#EUniverse" class="bb_apilink">EUniverse</a>.
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with steam_api.
 <h2 class="bb_subsection"><a name="EAccountType"></a>EAccountType</h2>
 Steam account types. This is used internally in
-<a href="#CSteamID" class="bb_apilink">CSteamID</a>.<br /><br />
+<a href="#CSteamID" class="bb_apilink">CSteamID</a>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -284,7 +315,8 @@ Steam account types. This is used internally in
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EAppOwnershipFlags"></a>EAppOwnershipFlags</h2>
-Flags that represent the ownership information of an App ID. (Steam Internal usage only)<br /><br />
+Flags that represent the ownership information of an App ID. (Steam Internal usage only)<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -393,7 +425,8 @@ Flags that represent the ownership information of an App ID. (Steam Internal usa
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EAppReleaseState"></a>EAppReleaseState</h2>
-Release state of an App ID. (Steam Internal usage only)<br /><br />
+Release state of an App ID. (Steam Internal usage only)<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -433,7 +466,8 @@ App ID type, more info is available on
     class="bb_doclink"
     >Types of Applications</a
 >
-(Steam Internal usage only)<br /><br />
+(Steam Internal usage only)<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -550,7 +584,8 @@ and
     href="https://partner.steamgames.com/doc/api/ISteamGameServer#BeginAuthSession"
     class="bb_apilink"
     >ISteamGameServer::BeginAuthSession</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -624,7 +659,8 @@ and
     href="https://partner.steamgames.com/doc/api/ISteamGameServer#BeginAuthSession"
     class="bb_apilink"
     >ISteamGameServer::BeginAuthSession</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -668,7 +704,8 @@ Broadcast upload result from
     href="https://partner.steamgames.com/doc/api/ISteamVideo#BroadcastUploadStop_t"
     class="bb_apilink"
     >BroadcastUploadStop_t</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -747,7 +784,9 @@ Broadcast upload result from
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EChatEntryType"></a>EChatEntryType</h2>
-Chat Entry Types.<br /><br />Returned by
+Chat Entry Types.<br />
+<br />
+Returned by
 <a href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendMessage" class="bb_apilink"
     >ISteamFriends::GetFriendMessage</a
 >,
@@ -759,7 +798,8 @@ and
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyChatEntry"
     class="bb_apilink"
     >ISteamMatchmaking::GetLobbyChatEntry</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -828,7 +868,8 @@ and
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EChatRoomEnterResponse"></a>EChatRoomEnterResponse</h2>
-Chat Room Enter Responses.<br /><br />
+Chat Room Enter Responses.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -895,7 +936,8 @@ Chat Room Enter Responses.<br /><br />
 </table>
 <h2 class="bb_subsection"><a name="EChatSteamIDInstanceFlags"></a>EChatSteamIDInstanceFlags</h2>
 Special flags for Chat accounts - they go in the top 8 bits of the Steam ID's "instance", leaving 12
-for the actual instances<br /><br />
+for the actual instances<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -931,7 +973,8 @@ Result values when a client failed to join or has been kicked from a game server
 and
 <a href="https://partner.steamgames.com/doc/api/ISteamGameServer#GSClientKick_t" class="bb_apilink"
     >GSClientKick_t</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1020,7 +1063,8 @@ and
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EGameIDType"></a>EGameIDType</h2>
-Used to describe the type of <a href="#CGameID" class="bb_apilink">CGameID</a>.<br /><br />
+Used to describe the type of <a href="#CGameID" class="bb_apilink">CGameID</a>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1054,8 +1098,11 @@ Options which can be found on the
 <a href="https://partner.steamgames.com/apps/config/" target="_blank" rel="noreferrer"
     >General Installation Settings</a
 >
-page.<br /><br />There is a special function BIsVRLaunchOptionType, to check a the type is any of
-the VR launch options.<br /><br />
+page.<br />
+<br />
+There is a special function BIsVRLaunchOptionType, to check a the type is any of the VR launch
+options.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1149,7 +1196,8 @@ the VR launch options.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EMarketingMessageFlags"></a>EMarketingMessageFlags</h2>
-Internal Steam marketing message flags that change how a client should handle them.<br /><br />
+Internal Steam marketing message flags that change how a client should handle them.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1193,7 +1241,8 @@ Possible positions to have the overlay show notifications in. Used with
     href="https://partner.steamgames.com/doc/api/ISteamUtils#SetOverlayNotificationPosition"
     class="bb_apilink"
     >ISteamUtils::SetOverlayNotificationPosition</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1222,11 +1271,14 @@ Possible positions to have the overlay show notifications in. Used with
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EResult"></a>EResult</h2>
-Steam error result codes.<br /><br />These are frequently returned by functions, callbacks, and call
-results from both the Steamworks API and the Web API. An API may return arbitrary EResult codes,
-refer to the documentation for that API function or callback to see what it could return and what
-they mean in the context of that API call.<br />This is similar to Win32's HRESULT type or POSIXs
-errno.<br /><br />
+Steam error result codes.<br />
+<br />
+These are frequently returned by functions, callbacks, and call results from both the Steamworks API
+and the Web API. An API may return arbitrary EResult codes, refer to the documentation for that API
+function or callback to see what it could return and what they mean in the context of that API
+call.<br />
+This is similar to Win32's HRESULT type or POSIXs errno.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1791,7 +1843,8 @@ errno.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="ESteamUserStatType"></a>ESteamUserStatType</h2>
-Fields used internally to store user stats.<br /><br />
+Fields used internally to store user stats.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1838,7 +1891,8 @@ Fields used internally to store user stats.<br /><br />
 Parameter to
 <a href="https://partner.steamgames.com/doc/api/ISteamUtils#FilterText" class="bb_apilink"
     >ISteamUtils::FilterText</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1867,7 +1921,8 @@ Parameter to
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="EUniverse"></a>EUniverse</h2>
-Steam universes. Each universe is a self-contained Steam instance.<br /><br />
+Steam universes. Each universe is a self-contained Steam instance.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1909,7 +1964,8 @@ Steam universes. Each universe is a self-contained Steam instance.<br /><br />
 Result of
 <a href="https://partner.steamgames.com/doc/api/ISteamUser#UserHasLicenseForApp" class="bb_apilink"
     >ISteamUser::UserHasLicenseForApp</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1935,7 +1991,8 @@ Result of
 <h2 class="bb_subsection"><a name="EVoiceResult"></a>EVoiceResult</h2>
 Results for use with the
 <a href="https://partner.steamgames.com/doc/features/voice" class="bb_doclink">Steam Voice</a>
-functions.<br /><br />
+functions.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1995,7 +2052,8 @@ functions.<br /><br />
 </table>
 <h2 class="bb_subsection"><a name="EVRHMDType"></a>EVRHMDType</h2>
 Code points for VR HMD vendors and models. Use the special functions BIsOculusHMD and BIsViveHMD to
-check for a specific brand.<br /><br />
+check for a specific brand.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2054,7 +2112,8 @@ check for a specific brand.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
-These are typedefs which are defined for use with steam_api.<br /><br />
+These are typedefs which are defined for use with steam_api.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2195,8 +2254,8 @@ These are typedefs which are defined for use with steam_api.<br /><br />
         <td><strong>SteamAPICall_t</strong></td>
         <td><a href="#uint64" class="bb_apilink">uint64</a></td>
         <td>
-            Unique handle to a Steam API call.<br />If a function returns one of these you must
-            track its status by using the
+            Unique handle to a Steam API call.<br />
+            If a function returns one of these you must track its status by using the
             <a href="https://partner.steamgames.com/doc/sdk/api#callresults" class="bb_doclink"
                 >Call Result</a
             >
@@ -2243,7 +2302,8 @@ These are typedefs which are defined for use with steam_api.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with steam_api.<br /><br />
+These are constants which are defined for use with steam_api.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2313,8 +2373,8 @@ These are constants which are defined for use with steam_api.<br /><br />
         <td>CSteamID(</td>
         <td>
             This Steam ID can come from a user game connection to a GS that isn't using the steam
-            authentication system but still<br />wants to support the "Join Game" option in the
-            friends list
+            authentication system but still<br />
+            wants to support the "Join Game" option in the friends list
         </td>
     </tr>
     <tr id="k_steamIDNotInitYetGS">
@@ -2323,7 +2383,8 @@ These are constants which are defined for use with steam_api.<br /><br />
         <td>CSteamID(</td>
         <td>
             This Steam ID can come from a user game connection to a GS that has just booted but
-            hasnt yet even initialized<br />its steam3 component and started logging on.
+            hasnt yet even initialized<br />
+            its steam3 component and started logging on.
         </td>
     </tr>
     <tr id="k_steamIDOutofDateGS">
@@ -2469,9 +2530,10 @@ These are constants which are defined for use with steam_api.<br /><br />
         <td>int</td>
         <td>0xFFFF</td>
         <td>
-            -----------------------------------------------------------------------------<br />Constants
-            used for query ports.<br />-----------------------------------------------------------------------------<br />We
-            haven't asked the GS for this query port's actual value yet.
+            -----------------------------------------------------------------------------<br />
+            Constants used for query ports.<br />
+            -----------------------------------------------------------------------------<br />
+            We haven't asked the GS for this query port's actual value yet.
         </td>
     </tr>
 </table>

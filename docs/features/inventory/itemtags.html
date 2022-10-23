@@ -1,32 +1,43 @@
 <h1>Steam Inventory Item Tags</h1>
 Item tags allow Steam to show users an "Advanced Filter" dialog for items, including the
-inventory<br />and market search views. Players can quickly narrow a view down to items of a given
-rarity, or only items that apply to their character class.<br /><br /><img
+inventory<br />
+and market search views. Players can quickly narrow a view down to items of a given rarity, or only
+items that apply to their character class.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/inventory_tag_filtering.png"
     alt="inventory_tag_filtering.png"
     title="inventory_tag_filtering.png"
-/><br />To use tags, first define the categories and tags directly in the Item Definitions, then
-provide user-visible<br />localized strings in English and any other languages you plan to support.
-Tags that do not have at least an<br />English localization string will be ignored by inventory
-features.<br /><br />The values used in the item definition should be short, simple text tokens.
-These tokens are used as a key to identify the localized strings in each language. The tokens will
-never be shown to the user directly.
+/><br />
+To use tags, first define the categories and tags directly in the Item Definitions, then provide
+user-visible<br />
+localized strings in English and any other languages you plan to support. Tags that do not have at
+least an<br />
+English localization string will be ignored by inventory features.<br />
+<br />
+The values used in the item definition should be short, simple text tokens. These tokens are used as
+a key to identify the localized strings in each language. The tokens will never be shown to the user
+directly.
 <h2 class="bb_subsection"><a name="1"></a>Item Tag Localization</h2>
 Once you've defined tags for your items, to make them visible to users you must provide user-visible
-translations<br />at least in English, but preferably in all supported languages. This can be set as
-part of your SteamWorks configuration, on the
+translations<br />
+at least in English, but preferably in all supported languages. This can be set as part of your
+SteamWorks configuration, on the
 <a href="https://partner.steamgames.com/apps/inventoryservice" target="_blank" rel="noreferrer"
     >Inventory Service</a
 >
-page for your application.<br /><br /><img
+page for your application.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/inventory_tag_localize.png"
     alt="inventory_tag_localize.png"
     title="inventory_tag_localize.png"
 />
 <h2 class="bb_subsection"><a name="TagFormat"></a>Item Tag Format</h2>
 The <code class="bb_code bb_code_inline nohighlight">tag</code> field should be provided as a list
-of categorized tokens, separated by the ";" character.<br />Each token consists of a category token
-and a value token, separated by the ":" character.<br /><br />
+of categorized tokens, separated by the ";" character.<br />
+Each token consists of a category token and a value token, separated by the ":" character.<br />
+<br />
 <div class="bb_code">
     &lt;tag_list&gt;: &lt;tag_pair&gt; { ";" &lt;tag_pair&gt; } &lt;tag_pair&gt;:
     &lt;category_token&gt; ":" &lt;tag_token&gt;
@@ -37,35 +48,40 @@ and a value token, separated by the ":" character.<br /><br />
     "tags":"class:troll;farms:gold;rarity:common;type:character;handed:left"
 </div>
 <h2 class="bb_subsection"><a name="PerItemTags"></a>Per-Item Tags</h2>
-<br />When an item is created from a
-<code class="bb_code bb_code_inline nohighlight">generator</code>,
+<br />
+When an item is created from a <code class="bb_code bb_code_inline nohighlight">generator</code>,
 <code class="bb_code bb_code_inline nohighlight">playtimegenerator,</code> or
 <code class="bb_code bb_code_inline nohighlight">bundle,</code> you can assign it tags that it will
-keep throughout its lifetime and persist across ownership changes.<br /><br />These tags are
-automatically sent along with other item attributes to the Steam Client and can be retrieved by
-calling ISteamInventory::GetResultItemProperty() with the property name "tags". The tags will be
-returned in the provided string buffer, delimited by the
-<code class="bb_code bb_code_inline nohighlight">;</code> character.<br /><br />A simple way to
-assign tags would be to define them in the generating item definition--basically anything in the
-<code class="bb_code bb_code_inline nohighlight">tags</code> field for
+keep throughout its lifetime and persist across ownership changes.<br />
+<br />
+These tags are automatically sent along with other item attributes to the Steam Client and can be
+retrieved by calling ISteamInventory::GetResultItemProperty() with the property name "tags". The
+tags will be returned in the provided string buffer, delimited by the
+<code class="bb_code bb_code_inline nohighlight">;</code> character.<br />
+<br />
+A simple way to assign tags would be to define them in the generating item definition--basically
+anything in the <code class="bb_code bb_code_inline nohighlight">tags</code> field for
 <code class="bb_code bb_code_inline nohighlight">generator</code> or
 <code class="bb_code bb_code_inline nohighlight">playtimegenerator</code> item definitions would be
 copied over wholesale to any created item.
 <h4>Example</h4>
-<br />Generator A has a 10% chance to create an item from Generator Legendary, and a 90% chance to
-create an item from Generator Common. Generator A also happens to apply the
+<br />
+Generator A has a 10% chance to create an item from Generator Legendary, and a 90% chance to create
+an item from Generator Common. Generator A also happens to apply the
 <code class="bb_code bb_code_inline nohighlight">color:red</code> tag. Generator Legendary applies
 the tag <code class="bb_code bb_code_inline nohighlight">quality:legendary</code> and creates sword
 or shield items, while Generator Common applies the tag
 <code class="bb_code bb_code_inline nohighlight">quality:common</code> and also creates sword or
-shield items.<br /><br />
+shield items.<br />
+<br />
 <div class="bb_code">
     itemdefid: 10 type: item name: Sword itemdefid: 11 type: item name: Shield itemdefid: 100 type:
     generator name: Generator A bundle: 101x1;102x9 tags: color:red itemdef: 101 type: generator
     name: Generator Legendary bundle: 10;11 tags: quality:legendary itemdef: 102 type: generator
     name: Generator Common bundle: 10;11 tags: quality:common
 </div>
-<br />Another way to assign tags would be to use the
+<br />
+Another way to assign tags would be to use the
 <code class="bb_code bb_code_inline nohighlight">tag_generator</code> item definition type. In this
 special item definition (that doesn't actually generate items) you would define the set of tags to
 pick from and their probabilities. In a
@@ -76,7 +92,8 @@ the <code class="bb_code bb_code_inline nohighlight">tag_generators</code> field
 definition ids of all the tag generators. Those tag generators will be applied to all downstream
 items.
 <h4>Tag Generator Example</h4>
-<br />Generator A creates either a sword or a shield, applies the
+<br />
+Generator A creates either a sword or a shield, applies the
 <code class="bb_code bb_code_inline nohighlight">color:red</code> tag, and then applies the Tag
 Generator Quality and Tag Generator FX to the new item. Tag Generator Quality has a 10% chance to
 add the <code class="bb_code bb_code_inline nohighlight">quality:legendary</code> tag and a 90%
@@ -85,7 +102,8 @@ Generator FX has an equal chance to apply the tags
 <code class="bb_code bb_code_inline nohighlight">fx:flames</code>,
 <code class="bb_code bb_code_inline nohighlight">fx:sparks</code>, or
 <code class="bb_code bb_code_inline nohighlight">fx:lasers</code>. In the end you could end up with
-"Legendary Red Shield with Flames" or a "Common Red Sword with Lasers."<br /><br />
+"Legendary Red Shield with Flames" or a "Common Red Sword with Lasers."<br />
+<br />
 <div class="bb_code">
     itemdefid: 10 type: item name: Sword itemdefid: 11 type: item name: Shield itemdefid: 100 type:
     generator name: Generator A bundle: 10;11 tags: color:red tag_generators: 101;102 itemdefid: 101
@@ -93,15 +111,19 @@ Generator FX has an equal chance to apply the tags
     tag_generator_values: legendary:1;common:9 itemdefid: 102 type: tag_generator name: Tag
     Generator FX tag_generator_name: fx tag_generator_values: flames;sparks;lasers
 </div>
-<br />The format for the
-<code class="bb_code bb_code_inline nohighlight">tag_generators</code> field is a list of all item
-definition ids of the tag generators you want applied, separated by the ";" character.<br /><br />For
-<code class="bb_code bb_code_inline nohighlight">tag_generator</code> item definitions, you'll need
-to define both the <code class="bb_code bb_code_inline nohighlight">tag_generator_name</code> field
-and
-<code class="bb_code bb_code_inline nohighlight">tag_generator_values</code> field.<br /><br />The
-<code class="bb_code bb_code_inline nohighlight">tag_generator_name</code> field is the same thing
-as the category token defined above.<br /><br />For the
-<code class="bb_code bb_code_inline nohighlight">tag_generator_values</code> field, it is a list of
-<code class="bb_code bb_code_inline nohighlight">tag_token:chance</code> separated by the ";"
-character. If chance is omitted it defaults to 1.
+<br />
+The format for the <code class="bb_code bb_code_inline nohighlight">tag_generators</code> field is a
+list of all item definition ids of the tag generators you want applied, separated by the ";"
+character.<br />
+<br />
+For <code class="bb_code bb_code_inline nohighlight">tag_generator</code> item definitions, you'll
+need to define both the
+<code class="bb_code bb_code_inline nohighlight">tag_generator_name</code> field and
+<code class="bb_code bb_code_inline nohighlight">tag_generator_values</code> field.<br />
+<br />
+The <code class="bb_code bb_code_inline nohighlight">tag_generator_name</code> field is the same
+thing as the category token defined above.<br />
+<br />
+For the <code class="bb_code bb_code_inline nohighlight">tag_generator_values</code> field, it is a
+list of <code class="bb_code bb_code_inline nohighlight">tag_token:chance</code> separated by the
+";" character. If chance is omitted it defaults to 1.

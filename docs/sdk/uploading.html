@@ -49,22 +49,30 @@ features:<br />
 <h2 class="bb_section">
     <a name="AppStructureBestPractices"></a>Game Content Structure - Best Practices
 </h2>
-<br />SteamPipe was designed for both efficient downloading of initial game installs and efficient
+<br />
+SteamPipe was designed for both efficient downloading of initial game installs and efficient
 patching of updates. In general, it works well for a wide variety of game content structures.
 However, there are some important things to know in terms of optimization and avoiding situations
-that can cause inefficiency.<br /><br />SteamPipe initially splits each file into roughly one
-megabyte (MB) chunks. Each chunk is then compressed and encrypted before being upload to the Steam
-content-delivery system. They remain compressed and encrypted until downloaded by each client, where
-they are decrypted and expanded and placed in the necessary file location(s). <br /><br />When
-SteamPipe is processing an update for an existing game, it searches to find any such chunks that
-match the previous build of the game. This way, ideally only the new or modified portions of any
-file are turned into "new" chunks, and those new chunks are the only pieces a client must download
-to update their game.<br /><br />Many game engines use "pack" files to coalesce game assets, and
-improve load times by allowing more efficient disk access. In general, this works well with
-SteamPipe. However, some pack file systems use or enable using behaviors that can cause problems.
-The effect of these problems is almost always that updates are much larger than necessary. They can
-also result in a quick download but a slow update process as large amounts of local disk IO are
-necessary.<br /><br />If your game uses pack files, here are some general guidelines.<br /><br />
+that can cause inefficiency.<br />
+<br />
+SteamPipe initially splits each file into roughly one megabyte (MB) chunks. Each chunk is then
+compressed and encrypted before being upload to the Steam content-delivery system. They remain
+compressed and encrypted until downloaded by each client, where they are decrypted and expanded and
+placed in the necessary file location(s). <br />
+<br />
+When SteamPipe is processing an update for an existing game, it searches to find any such chunks
+that match the previous build of the game. This way, ideally only the new or modified portions of
+any file are turned into "new" chunks, and those new chunks are the only pieces a client must
+download to update their game.<br />
+<br />
+Many game engines use "pack" files to coalesce game assets, and improve load times by allowing more
+efficient disk access. In general, this works well with SteamPipe. However, some pack file systems
+use or enable using behaviors that can cause problems. The effect of these problems is almost always
+that updates are much larger than necessary. They can also result in a quick download but a slow
+update process as large amounts of local disk IO are necessary.<br />
+<br />
+If your game uses pack files, here are some general guidelines.<br />
+<br />
 <ul class="bb_ul">
     <li>
         Ensure asset changes are <strong>localized</strong> within the pack file as much as
@@ -81,57 +89,71 @@ necessary.<br /><br />If your game uses pack files, here are some general guidel
         <strong>filenames or file / build timestamps</strong> for each asset
     </li>
 </ul>
-<br />The first point above refers to the scope of what bytes are changed within a file when a
-single asset is modified. If that asset's data is modified and/or grows or shrinks within the same
-location of the pack file, that is ideal. SteamPipe will only create new chunks for the portions of
-the file containing the asset data. However, all pack files need some sort of Table of Contents
-(TOC) as well so that the engine can locate the asset data. The structure of this TOC can have a
-large impact on the efficiency of SteamPipe patching. Ideally, there is one TOC or TOC tree near the
-beginning or end of the file. Because other assets may shift byte position within the file, their
-TOC entries will change as well. In this situation, SteamPipe will make new chunks for the modified
-asset data and the modified portions of the TOC.<br /><br />However, what we have seen in some game
-engines is that the TOC information is distributed throughout the file. Even worse, it uses absolute
-byte-offset values. So if an asset at byte 3450 increases in size by 8 bytes, then the offset values
-for all assets after this in the file change. Even though each offset value is only 4 or 8 bytes in
-size, a change to an 8-byte number will result in a new 1MB chunk being created by SteamPipe. This
-can have catastrophic effects where even changing a few small assets in a pack file results in
-clients needing to download over half the entire file to update. If you know or suspect that your
-pack file structure is causing this issue, please contact your Valve representative as soon as
-possible. We have an alternate build algorithm that can help mitigate this issue, though it has
-tradeoffs. <br /><br />Additionally, SteamPipe does not know about asset boundaries within a pack
-file. If sub-megabyte assets are shuffled, it will most likely not be able to detect this reordering
-as the previously determined 1-MB chunks will no longer be present within the file. So if, in the
-process of creating an update for your game, you wish to optimize load times by reordering assets
-within the pack file, be cognizant of the fact that it may result in a very large download for that
-update. We recommend only doing this if the performance improvements are significant.<br /><br />Next
-- to update the pack file on a client device, SteamPipe builds the new version alongside the old
-version. When all new files are built, it then "commits" the update by deleting old files and moving
-the new files in. What this means is that to update a 25 GB pack file, SteamPipe will always build a
-new, 25GB file. If the update only requires 10 bytes of changes to that file, SteamPipe will need to
-copy almost the entire 25GB from the old file to the new file. Depending on the client storage
-hardware, this can be a very slow process. For this reason, we recommend two things.<br /><br />First
-- limit the size of pack files. Probably one or two gigabytes (GB) is sufficiently large - more than
-enough to allow efficient disk reads when loading the game. <br /><br />Second - keep the scope of
-assets within a single pack file fairly limited. Perhaps to a single game level, or unlockable
-feature. This way, updates that are focused on specific parts of your game don't cause the data from
-other parts to be copied around on the client machine. Additionally, when adding new functionality /
-levels / etc, these can and likely should be placed in their own new pack files. Clients downloading
-this update will have a simple download of new files, avoiding any of the issues mentioned above
-with pack file modifications.<br /><br />When in doubt, you can use a local binary diff tool such as
-Beyond Compare to compare versions of your pack files. Verify that the differences shown are of the
-size you expect for the changed assets, and that there aren't perhaps dozens or hundreds of small
-changes spread out throughout the file. If what you see is unexpected, check your pack file tool
-settings. <br /><br /><strong>Compression</strong>: Because Steam will compress all data for upload
-/ storage / download, we generally don't recommend using general compression on pack files. However,
-if you are concerned about the on-disk size of your game, you may still want to use pack file
-compression. It will work OK with SteamPipe so long as the criteria listed above are met.
-Specifically, you should ensure that compression is per-asset as much as possible. Any compression
-that crosses asset boundaries will spread out changes and require clients to download more data than
-necessary.<br /><br /><strong>Encryption</strong>: This is similar to compression - most likely
-unnecessary, and with the same risks mentioned above.<br /><br />If you follow these rules you will
-minimize patch sizes and only new content will need to be downloaded. Your customers will thank you
-for that and you will be able to increase the quality of your product by shipping more updates.<br /><br />If
-you suspect that your game packaging is not interacting well with the SteamPipe update process,
+<br />
+The first point above refers to the scope of what bytes are changed within a file when a single
+asset is modified. If that asset's data is modified and/or grows or shrinks within the same location
+of the pack file, that is ideal. SteamPipe will only create new chunks for the portions of the file
+containing the asset data. However, all pack files need some sort of Table of Contents (TOC) as well
+so that the engine can locate the asset data. The structure of this TOC can have a large impact on
+the efficiency of SteamPipe patching. Ideally, there is one TOC or TOC tree near the beginning or
+end of the file. Because other assets may shift byte position within the file, their TOC entries
+will change as well. In this situation, SteamPipe will make new chunks for the modified asset data
+and the modified portions of the TOC.<br />
+<br />
+However, what we have seen in some game engines is that the TOC information is distributed
+throughout the file. Even worse, it uses absolute byte-offset values. So if an asset at byte 3450
+increases in size by 8 bytes, then the offset values for all assets after this in the file change.
+Even though each offset value is only 4 or 8 bytes in size, a change to an 8-byte number will result
+in a new 1MB chunk being created by SteamPipe. This can have catastrophic effects where even
+changing a few small assets in a pack file results in clients needing to download over half the
+entire file to update. If you know or suspect that your pack file structure is causing this issue,
+please contact your Valve representative as soon as possible. We have an alternate build algorithm
+that can help mitigate this issue, though it has tradeoffs. <br />
+<br />
+Additionally, SteamPipe does not know about asset boundaries within a pack file. If sub-megabyte
+assets are shuffled, it will most likely not be able to detect this reordering as the previously
+determined 1-MB chunks will no longer be present within the file. So if, in the process of creating
+an update for your game, you wish to optimize load times by reordering assets within the pack file,
+be cognizant of the fact that it may result in a very large download for that update. We recommend
+only doing this if the performance improvements are significant.<br />
+<br />
+Next - to update the pack file on a client device, SteamPipe builds the new version alongside the
+old version. When all new files are built, it then "commits" the update by deleting old files and
+moving the new files in. What this means is that to update a 25 GB pack file, SteamPipe will always
+build a new, 25GB file. If the update only requires 10 bytes of changes to that file, SteamPipe will
+need to copy almost the entire 25GB from the old file to the new file. Depending on the client
+storage hardware, this can be a very slow process. For this reason, we recommend two things.<br />
+<br />
+First - limit the size of pack files. Probably one or two gigabytes (GB) is sufficiently large -
+more than enough to allow efficient disk reads when loading the game. <br />
+<br />
+Second - keep the scope of assets within a single pack file fairly limited. Perhaps to a single game
+level, or unlockable feature. This way, updates that are focused on specific parts of your game
+don't cause the data from other parts to be copied around on the client machine. Additionally, when
+adding new functionality / levels / etc, these can and likely should be placed in their own new pack
+files. Clients downloading this update will have a simple download of new files, avoiding any of the
+issues mentioned above with pack file modifications.<br />
+<br />
+When in doubt, you can use a local binary diff tool such as Beyond Compare to compare versions of
+your pack files. Verify that the differences shown are of the size you expect for the changed
+assets, and that there aren't perhaps dozens or hundreds of small changes spread out throughout the
+file. If what you see is unexpected, check your pack file tool settings. <br />
+<br />
+<strong>Compression</strong>: Because Steam will compress all data for upload / storage / download,
+we generally don't recommend using general compression on pack files. However, if you are concerned
+about the on-disk size of your game, you may still want to use pack file compression. It will work
+OK with SteamPipe so long as the criteria listed above are met. Specifically, you should ensure that
+compression is per-asset as much as possible. Any compression that crosses asset boundaries will
+spread out changes and require clients to download more data than necessary.<br />
+<br />
+<strong>Encryption</strong>: This is similar to compression - most likely unnecessary, and with the
+same risks mentioned above.<br />
+<br />
+If you follow these rules you will minimize patch sizes and only new content will need to be
+downloaded. Your customers will thank you for that and you will be able to increase the quality of
+your product by shipping more updates.<br />
+<br />
+If you suspect that your game packaging is not interacting well with the SteamPipe update process,
 please contact your Valve representative and we can look into enabling advanced features to help
 with this.
 <h2 class="bb_section">
@@ -139,11 +161,8 @@ with this.
     Steampipe
 </h2>
 This tutorial introduces SteamPipe and steps through building a sample application for Steam via the
-Steamworks tools.<br /><a
-    href="https://www.youtube.com/watch?v=SoNH-v6aU9Q"
-    target="_blank"
-    rel="noreferrer"
-    id="dynamiclink_0"
+Steamworks tools.<br />
+<a href="https://www.youtube.com/watch?v=SoNH-v6aU9Q" target="_blank" rel="noreferrer"
     >https://www.youtube.com/watch?v=SoNH-v6aU9Q</a
 >
 <h2 class="bb_section">
@@ -151,21 +170,20 @@ Steamworks tools.<br /><a
     Platforms and Languages
 </h2>
 This tutorial walks you through adding new platforms and languages to your game by adding depots to
-your app.<br /><a
-    href="https://www.youtube.com/watch?v=PShS32hcing"
-    target="_blank"
-    rel="noreferrer"
-    id="dynamiclink_1"
+your app.<br />
+<a href="https://www.youtube.com/watch?v=PShS32hcing" target="_blank" rel="noreferrer"
     >https://www.youtube.com/watch?v=PShS32hcing</a
 >
 <h4>SteamPipe Technical Details</h4>
 SteamPipe uses the HTTP protocol for content delivery. Since downloads are regular web traffic, any
 third-party HTTP cache between the customer and Steam servers will increase download speed. Content
 can be hosted by external CDN providers, which can be easily added to our content network. Most
-consumer firewalls allow HTTP traffic and won't block downloads.<br /><br />SteamPipe has an
-efficient patching algorithm based on binary deltas, only changing the modified portions of existing
-content files. When this content is updated, only these deltas need be sent. This means both
-developer and user transfers are smaller and faster. Most partners will find that using a
+consumer firewalls allow HTTP traffic and won't block downloads.<br />
+<br />
+SteamPipe has an efficient patching algorithm based on binary deltas, only changing the modified
+portions of existing content files. When this content is updated, only these deltas need be sent.
+This means both developer and user transfers are smaller and faster. Most partners will find that
+using a
 <a href="https://partner.steamgames.com/doc/sdk/uploading/local_content_server" class="bb_doclink"
     >SteamPipe Local Content Server</a
 >
@@ -177,12 +195,16 @@ reasons it's recommended that you have a dedicated build account with just those
 may create a new Steam account for this purpose at
 <a href="https://store.steampowered.com/join" target="_blank" rel="noreferrer"
     >https://store.steampowered.com/join</a
->.<br /><br />Any administrator of your Steamworks account can add a Steam account and grant the
-necessary permissions. More information on this process can be found in the
+>.<br />
+<br />
+Any administrator of your Steamworks account can add a Steam account and grant the necessary
+permissions. More information on this process can be found in the
 <a href="https://partner.steamgames.com/doc/gettingstarted/managing_users" class="bb_doclink"
     >Managing Your Steamworks Account</a
 >
-documentation. An example of what this account might look like is:<br /><br /><img
+documentation. An example of what this account might look like is:<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/create_build_account.png"
     alt="create_build_account.png"
     title="create_build_account.png"
@@ -203,9 +225,11 @@ Follow these steps to set up new SteamPipe apps:<br />
     </li>
     <li>
         Define at least one launch option (the path and optionally, any arguments required to launch
-        the game). Hover over the (?) to learn more about each field.<br /><br />
+        the game). Hover over the (?) to learn more about each field.<br />
+        <br />
         The example below shows 5 launch options, 2 for Windows, 2 for macOS and 1 for Linux.<br />
-        Launch option 3 will only be shown on Windows if the user also owns the DLC specified.<br /><br />
+        Launch option 3 will only be shown on Windows if the user also owns the DLC specified.<br />
+        <br />
         <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/updatedlaunchoptions_3.png"
             alt="updatedlaunchoptions_3.png"
@@ -268,19 +292,24 @@ Follow these steps to set up new SteamPipe apps:<br />
         specifying either an app bundle (Game.app) or a script/binary
         (Game.app/Contents/MacOS/Game). In general the app bundle format should be preferred if
         possible as it allows macOS to more correctly determine launch parameters in the manner it
-        would if launched manually outside of Steam.<br /><br />One instance of this to note is that
-        currently applications that are launched through an app bundle on Apple Silicon devices will
-        launch the best architecture available in the application whereas direct binary launches
-        will use the same architecture as the Steam process (currently x86_64).
+        would if launched manually outside of Steam.<br />
+        <br />
+        One instance of this to note is that currently applications that are launched through an app
+        bundle on Apple Silicon devices will launch the best architecture available in the
+        application whereas direct binary launches will use the same architecture as the Steam
+        process (currently x86_64).
     </div>
 </div>
 <h2 class="bb_section"><a name="1"></a>Setting up the SDK for SteamPipe uploads</h2>
 Download and unzip the latest version of the Steamworks SDK on the machine you will be uploading
-builds on.<br /><br />The SteamPipe tools can be found within the SDK in the
+builds on.<br />
+<br />
+The SteamPipe tools can be found within the SDK in the
 <code class="bb_code bb_code_inline nohighlight">tools</code> folder which contains 2 relevant
-sub-directories. <br /><br />The
-<code class="bb_code bb_code_inline nohighlight">ContentBuilder</code> directory is where your game
-content and SteamPipe build tools will live. This directory contains the following
+sub-directories. <br />
+<br />
+The <code class="bb_code bb_code_inline nohighlight">ContentBuilder</code> directory is where your
+game content and SteamPipe build tools will live. This directory contains the following
 sub-directories:<br />
 <ul class="bb_ul">
     <li>
@@ -307,11 +336,14 @@ sub-directories:<br />
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steampipebuilddir.png"
     alt="steampipebuilddir.png"
     title="steampipebuilddir.png"
-/><br /><br />It's recommended that you run steamcmd.exe directly in the builder folder for your
-platform once to bootstrap your build system. This should populate your builder directory with all
-the files it needs to build depots.<br /><br />The
-<code class="bb_code bb_code_inline nohighlight">ContentServer</code> directory contains the tools
-for running your own
+/><br />
+<br />
+It's recommended that you run steamcmd.exe directly in the builder folder for your platform once to
+bootstrap your build system. This should populate your builder directory with all the files it needs
+to build depots.<br />
+<br />
+The <code class="bb_code bb_code_inline nohighlight">ContentServer</code> directory contains the
+tools for running your own
 <a href="https://partner.steamgames.com/doc/sdk/uploading/local_content_server" class="bb_doclink"
     >SteamPipe Local Content Server</a
 >
@@ -337,15 +369,18 @@ Steamworks SDK.
 <h2 class="bb_subsection"><a name="steampipe_gui_tool"></a>SteamPipe GUI Tool</h2>
 If you're running on Windows and would prefer a GUI tool to help create these config files and
 upload your builds you can use the SteamPipeGUI which is available in the tools folder of the
-Steamworks SDK. Included in the zip are additional instructions to get you started.<br /><br />If
-you choose to use the GUI tool then reading the following sections is still recommended to help you
-become more familiar with how the SteamPipe system works.
+Steamworks SDK. Included in the zip are additional instructions to get you started.<br />
+<br />
+If you choose to use the GUI tool then reading the following sections is still recommended to help
+you become more familiar with how the SteamPipe system works.
 <h2 class="bb_subsection"><a name="4"></a>Simple Build Script</h2>
-<br />Let's start with the most basic build script possible. In our example we have a game (AppID
-1000) that has one depot (DepotID 1001) and want to upload all files from a content folder and it's
+<br />
+Let's start with the most basic build script possible. In our example we have a game (AppID 1000)
+that has one depot (DepotID 1001) and want to upload all files from a content folder and it's
 subfolders. We just need a single build script for that, take a look at
 <code class="bb_code bb_code_inline nohighlight">"simple_app_build.vdf"</code> included in the SDK :
-<br /><br />
+<br />
+<br />
 <div class="bb_code">
     "AppBuild" { "AppID" "1000" // your AppID "Desc" "This is a simple build script" // internal
     description for this build "ContentRoot" "..\content\" // root content folder, relative to
@@ -354,21 +389,26 @@ subfolders. We just need a single build script for that, take a look at
     from contentroot folder "DepotPath" "." // mapped into the root of the depot "recursive" "1" //
     include all subfolders } } } }
 </div>
-<br />Adjust the AppID and DepotID for your game as needed. To kick off a build you need to run
-steamcmd and pass a couple of parameters :<br />
+<br />
+Adjust the AppID and DepotID for your game as needed. To kick off a build you need to run steamcmd
+and pass a couple of parameters :<br />
 <div class="bb_code">
     tools\ContentBuilder\builder\steamcmd.exe +login &lt;account_name&gt; &lt;password&gt;
     +run_app_build ..\scripts\simple_app_build.vdf +quit
 </div>
-<br /><strong>NOTE:</strong> Your first attempt at running a build may fail due to Steam Guard. If
-the login fails due to Steam Guard, check your email for the Steam Guard code, and run steamcmd as:
+<br />
+<strong>NOTE:</strong> Your first attempt at running a build may fail due to Steam Guard. If the
+login fails due to Steam Guard, check your email for the Steam Guard code, and run steamcmd as:
 <code class="bb_code bb_code_inline nohighlight"
     >steamcmd.exe "set_steam_guard_code &lt;code&gt;"</code
 >, and try again. After logging in with Steam Guard once, a sentry file is used to verify the login
-is genuine.<br /><br />If you are using steamcmd from a machine or VM that gets re-imaged
-frequently, you should include the config file in your image so you won't be prompted for a Steam
-Guard every time. The the config file is located in &lt;Steam&gt;\config\config.vdf.<br /><br />The
-following steps occur during a SteamPipe build:<br />
+is genuine.<br />
+<br />
+If you are using steamcmd from a machine or VM that gets re-imaged frequently, you should include
+the config file in your image so you won't be prompted for a Steam Guard every time. The the config
+file is located in &lt;Steam&gt;\config\config.vdf.<br />
+<br />
+The following steps occur during a SteamPipe build:<br />
 <ol class="bb_ol">
     <li>Steamcmd.exe will update itself to the latest version.<br /></li>
     <li>
@@ -400,16 +440,19 @@ following steps occur during a SteamPipe build:<br />
         are temporary and can be deleted, but they speed up subsequent build times.
     </li>
 </ol>
-<br /><br />Once the build is complete you can see it on your app builds page, in this case it would
-be
+<br />
+<br />
+Once the build is complete you can see it on your app builds page, in this case it would be
 <a href="https://partner.steamgames.com/apps/builds/1000" target="_blank" rel="noreferrer"
     >https://partner.steamgames.com/apps/builds/1000</a
 >. There you can set that build live for the default branch or any beta branch and users will be
 able to download this update with a couple of minutes.
 <h2 class="bb_subsection"><a name="5"></a>Advanced Build Scripts</h2>
-<br />If your app has a lot of depots with complex file mapping rules, you can create a depot build
-script for each depot which will be referenced by the app build script. First let's take a look at
-available parameters in the app build script:<br /><br />
+<br />
+If your app has a lot of depots with complex file mapping rules, you can create a depot build script
+for each depot which will be referenced by the app build script. First let's take a look at
+available parameters in the app build script:<br />
+<br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight"> AppID </code> - The AppID of your game.
@@ -459,7 +502,8 @@ available parameters in the app build script:<br /><br />
         file for each depot
     </li>
 </ul>
-<br />Example app build script
+<br />
+Example app build script
 <code class="bb_code bb_code_inline nohighlight">"app_build_1000.vdf"</code> is using all
 options:<br />
 <div class="bb_code">
@@ -472,9 +516,11 @@ options:<br />
     "Depots" { // file mapping instructions for each depot are in separate script files "1001"
     "depot_build_1001.vdf" "1002" "depot_build_1002.vdf" } }
 </div>
-<br />This app build script references two depot build script files that specify all file mappings
-and file properties. The following instructions are available in a depot build script ( and also if
-the section is included directly into the app build script).<br /><br />
+<br />
+This app build script references two depot build script files that specify all file mappings and
+file properties. The following instructions are available in a depot build script ( and also if the
+section is included directly into the app build script).<br />
+<br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight"> DepotID </code> - The DepotID for this
@@ -527,7 +573,8 @@ the section is included directly into the app build script).<br /><br />
         </ul>
     </li>
 </ul>
-<br />Example depot build script
+<br />
+Example depot build script
 <code class="bb_code bb_code_inline nohighlight">depot_build_1002.vdf</code> showing use of all
 options:<br />
 <div class="bb_code">
@@ -543,7 +590,8 @@ options:<br />
     "localization\german\german_installscript.vdf" "FileProperties" { "LocalPath" "bin\setup.cfg"
     "Attributes" "userconfig" // this file will be modified during runtime } }
 </div>
-<br /><strong>NOTE:</strong> You can name these scripts what ever you want, but we use the names
+<br />
+<strong>NOTE:</strong> You can name these scripts what ever you want, but we use the names
 <code class="bb_code bb_code_inline nohighlight">app_build_&lt;AppID&gt;</code> and
 <code class="bb_code bb_code_inline nohighlight">depot_build_&lt;DepotID&gt;</code> for consistency.
 If you know that you'll be building apps on this machine, it might be a good idea to create
@@ -557,7 +605,8 @@ your customers, for more information on how to successfully do this see
 <h2 class="bb_section"><a name="Debugging_Build_Issues"></a>Debugging Build Issues</h2>
 If your build wasn't successful, you should look in your output directory for error information, not
 the console where the build script was run. Most error information can be found in the *.log
-files.<br />You can use these Steam client commands and client-side files to debug issues:<br />
+files.<br />
+You can use these Steam client commands and client-side files to debug issues:<br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">"app_status [appid]"</code> - Shows the
@@ -585,8 +634,8 @@ files.<br />You can use these Steam client commands and client-side files to deb
 <h2 class="bb_section">
     <a name="Building_Retail_Install_Discs"></a>Building Retail Install Discs
 </h2>
-To build retail install disc for SteamPipe games, you must first setup a build project file.<br />In
-this example, the SKU file is called "sku_goldmaster.txt":<br />
+To build retail install disc for SteamPipe games, you must first setup a build project file.<br />
+In this example, the SKU file is called "sku_goldmaster.txt":<br />
 <div class="bb_code">
     "sku" { "name" "Test Game Installer" "appid" "202930" "disk_size_mb" "640" "included_depots" {
     "1" "202931" "2" "202932" } }
@@ -662,11 +711,12 @@ the following command to build from the baseline branch:<br />
 </div>
 <h2 class="bb_subsection"><a name="7"></a>Installing DLC from a retail installer</h2>
 In some circumstances, you may wish to create a retail installer that includes your DLC packages. In
-such cases, the process to create the installer requires only a few changes.<br />In
-"sku_goldmaster.txt", include the DLC AppIDs under the "included_depots" section. Once you have run
-the "build_installer" process, find the generated sku.sis file for the installer and open it with a
-text editor.<br />Add the DLC AppID in the "apps" section. For example, if I had a game with AppID
-1000 and DLC AppID 1010, I would adjust the "apps" section as follows:<br />
+such cases, the process to create the installer requires only a few changes.<br />
+In "sku_goldmaster.txt", include the DLC AppIDs under the "included_depots" section. Once you have
+run the "build_installer" process, find the generated sku.sis file for the installer and open it
+with a text editor.<br />
+Add the DLC AppID in the "apps" section. For example, if I had a game with AppID 1000 and DLC AppID
+1010, I would adjust the "apps" section as follows:<br />
 <div class="bb_code">"apps" { "0" "1000" "1" "1010" }</div>
 This will ensure that Steam checks for ownership of the DLC and prompt the user for a key if the DLC
 is not owned by the account that they are logging into on Steam.
@@ -687,8 +737,9 @@ for more details on customizing your retail install disk.
 By default, all content is always encrypted, on all retail discs and on all content servers.
 Switching a game to preload mode means owners can download the content, but it stays encrypted on
 the users' disk and can't be played. Once the game becomes officially released, Steam will decrypt
-the preloaded content and the user can play the game.<br /><br />Switching a game to preload mode is
-recommended in these cases:<br />
+the preloaded content and the user can play the game.<br />
+<br />
+Switching a game to preload mode is recommended in these cases:<br />
 <ul class="bb_ul">
     <li>
         Shipping retail discs with product keys before the game is actually available (0-day
@@ -696,7 +747,8 @@ recommended in these cases:<br />
     </li>
     <li>Games that run a pre-purchase and are larger than 20GBs in size.</li>
 </ul>
-<br />Please submit a ticket to Steam Publishing if you believe your game requires preloading.
+<br />
+Please submit a ticket to Steam Publishing if you believe your game requires preloading.
 <h2 class="bb_section"><a name="Building_DLC"></a>Building DLC</h2>
 DLC is built as a depot of the base game. See the
 <a href="https://partner.steamgames.com/doc/store/application/dlc" class="bb_doclink"

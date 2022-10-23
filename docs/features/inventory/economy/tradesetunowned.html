@@ -2,10 +2,11 @@
 This is called when the Steam Economy Server needs to remove an asset or chunk of currency from a
 user and change it to an unowned state. It is up to the asset server to verify that this is a legal
 change to make to this asset or currency type. It should check asset ownership matches the specified
-owner, that the asset or currency is tradable, and that the requested amount is present.<br /><br /><strong
-    >Called by:</strong
->
-Trading System<br /><br /><strong>HTTP Method:</strong> POST
+owner, that the asset or currency is tradable, and that the requested amount is present.<br />
+<br />
+<strong>Called by:</strong> Trading System<br />
+<br />
+<strong>HTTP Method:</strong> POST
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
 <table>
     <tr>
@@ -132,9 +133,9 @@ Trading System<br /><br /><strong>HTTP Method:</strong> POST
     </tr>
 </table>
 <h2 class="bb_section"><a name="2"></a>Returns</h2>
-The output from this method should be encoded in the JSON format.<br /><br /><strong
-    >Response:</strong
-><br />
+The output from this method should be encoded in the JSON format.<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">result</code><br />
@@ -143,7 +144,8 @@ The output from this method should be encoded in the JSON format.<br /><br /><st
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set
                 <code class="bb_code bb_code_inline nohighlight">error</code> to a string that
-                explains why.<br /><br />
+                explains why.<br />
+                <br />
                 <strong>NOTE:</strong> If success is set to false or if the response is invalid or
                 times out, Steam will retry the TradeSetUnowned request until it succeeds. If the
                 error is a permanent failure (e.g. the item no longer exists), you should set
@@ -155,10 +157,12 @@ The output from this method should be encoded in the JSON format.<br /><br /><st
                 make sure the item is a consistent state before deciding what to do next. However,
                 for a permanent failure where you know that retries will not change the response
                 (for example, if the item no longer exists), you can set the value of this field to
-                0.<br /><br />
+                0.<br />
+                <br />
                 You may also set this value to 1 if you wish to explicitly communicate to Steam that
                 the error is a transient error (for example, you were unable to check/modify your
-                database).<br /><br />
+                database).<br />
+                <br />
                 This field is required because there are scenarios where the asset server might
                 receive two different TradeSetUnowned requests for the same assetid, but with
                 different audit_reference values. For example, a user may try to trade an item while
@@ -166,7 +170,8 @@ The output from this method should be encoded in the JSON format.<br /><br /><st
                 The asset server should accept the first TradeSetUnowned request, but then reject
                 the second request since the item is no longer owned by the user. In this example,
                 the response for the second request should set have should_retry set to 0 since that
-                request will never succeed and has not ever succeeded.<br /><br />
+                request will never succeed and has not ever succeeded.<br />
+                <br />
                 <strong>Important:</strong> When this value is 0, Steam assumes your asset server
                 has never made any modification to this asset in response to the TradeSetUnowned
                 request.<br />

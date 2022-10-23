@@ -3,12 +3,17 @@ This is called when the Steam Economy Server needs to transfer an asset or chunk
 was previously set unowned to a user's inventory. It is up to the asset server to verify that this
 is a legal change to make to this asset or currency type. It should check asset ownership is
 actually unowned, that the asset or currency is tradable, and that the requested amount is
-present.<br /><br />For stackable assets and currency it is possible that this request will provide
-an amount that is fewer than was originally set unowned. In that case the unowned asset or currency
-should have its amount decremented and a new asset should be created.<br /><br />This will happen if
-you have a stackable item that can be listed on the Community Market. For example, if somebody puts
-a large stack of items on the market in a single listing, then multiple smaller purchases may come
-in.<br /><br />The asset server will receive one
+present.<br />
+<br />
+For stackable assets and currency it is possible that this request will provide an amount that is
+fewer than was originally set unowned. In that case the unowned asset or currency should have its
+amount decremented and a new asset should be created.<br />
+<br />
+This will happen if you have a stackable item that can be listed on the Community Market. For
+example, if somebody puts a large stack of items on the market in a single listing, then multiple
+smaller purchases may come in.<br />
+<br />
+The asset server will receive one
 <a
     href="https://partner.steamgames.com/doc/features/inventory/economy/TradeSetUnowned"
     class="bb_doclink"
@@ -30,10 +35,11 @@ that has not previously been used in any other
 <code class="bb_code bb_code_inline nohighlight">TradeSetOwned</code> calls and thus is not
 guaranteed to match the value was used in the
 <code class="bb_code bb_code_inline nohighlight">TradeSetUnowned</code> call when the listing was
-created.<br /><br /><strong>Called by:</strong> Trading System<br /><br /><strong
-    >HTTP Method:</strong
->
-POST
+created.<br />
+<br />
+<strong>Called by:</strong> Trading System<br />
+<br />
+<strong>HTTP Method:</strong> POST
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
 <table>
     <tr>
@@ -163,9 +169,9 @@ POST
     </tr>
 </table>
 <h2 class="bb_section"><a name="2"></a>Returns</h2>
-The output from this method should be encoded in the JSON format.<br /><br /><strong
-    >Response:</strong
-><br />
+The output from this method should be encoded in the JSON format.<br />
+<br />
+<strong>Response:</strong><br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">result</code><br />
@@ -187,7 +193,8 @@ The output from this method should be encoded in the JSON format.<br /><br /><st
                 transfers. This<br />
                 could be a new asset ID or be the same as the asset id specified in the request
                 depending on the implementation of the asset server.<br />
-                Defaults to being the same as the asset ID that was passed in.<br /><br />
+                Defaults to being the same as the asset ID that was passed in.<br />
+                <br />
                 <strong>NOTE:</strong> For auditing purposes, we recommend that asset server
                 implementations create a new copy of the asset and return the new asset ID in the
                 TradeSetOwned response. We have found that this also helps prevent bugs as it means

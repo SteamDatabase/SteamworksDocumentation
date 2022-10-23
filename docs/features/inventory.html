@@ -1,7 +1,8 @@
 <h1>Steam Inventory Service</h1>
 The Steam Inventory Service is a set of features that allow a game to enable persistent player
-inventories without having to run special servers to manage users or items.<br /><br />Please leave
-us feedback or ask questions in the
+inventories without having to run special servers to manage users or items.<br />
+<br />
+Please leave us feedback or ask questions in the
 <a
     href="https://steamcommunity.com/groups/steamworks/discussions/21/"
     target="_blank"
@@ -11,21 +12,28 @@ us feedback or ask questions in the
 in the Steamworks Developer group.
 <h2 class="bb_section"><a name="Description"></a>Description</h2>
 The Inventory Service can be used in two ways - either server-less or with the addition of a trusted
-server that knows game state.<br /><br />Without a game server, the game client can communicate
-directly to the steam service to retrieve users inventory contents, consume and exchange items, and
-receive new items granted as an effect of playtime. Users can also purchase items directly from the
-Item Store, or trade and exchange markets in the Steam community.<br /><br />However because the
-client can't be trusted (and the keys in a client can always be captured by an attacker) you can't
-give users specific items in this scheme. Rather you select certain items that can be dropped, and
-configure a drop frequency. At appropriate times, the game client invokes
+server that knows game state.<br />
+<br />
+Without a game server, the game client can communicate directly to the steam service to retrieve
+users inventory contents, consume and exchange items, and receive new items granted as an effect of
+playtime. Users can also purchase items directly from the Item Store, or trade and exchange markets
+in the Steam community.<br />
+<br />
+However because the client can't be trusted (and the keys in a client can always be captured by an
+attacker) you can't give users specific items in this scheme. Rather you select certain items that
+can be dropped, and configure a drop frequency. At appropriate times, the game client invokes
 <a href="https://partner.steamgames.com/doc/api/ISteamInventory#TriggerItemDrop" class="bb_apilink"
     >ISteamInventory::TriggerItemDrop</a
 >. Steam servers manage the playtime and drop frequency per-player. These APIs are called using an
-internal "Client API Key" that is assumed to be untrusted.<br /><br />If you have a participating
-trusted server then you can use a privileged Steam API key on the server and grant explicit items
-for appropriate situations. It is still important to keep in mind that you can't trust your own
-clients so you can only do this when the server is the master of the state of the game.<br /><br />Finally
-in conjunction with the Inventory Service you can sell an individual item or a cart of items,
+internal "Client API Key" that is assumed to be untrusted.<br />
+<br />
+If you have a participating trusted server then you can use a privileged Steam API key on the server
+and grant explicit items for appropriate situations. It is still important to keep in mind that you
+can't trust your own clients so you can only do this when the server is the master of the state of
+the game.<br />
+<br />
+Finally in conjunction with the Inventory Service you can sell an individual item or a cart of
+items,
 <a
     href="https://partner.steamgames.com/doc/features/inventory/webfunctions#BuyItem"
     class="bb_doclink"
@@ -34,13 +42,13 @@ in conjunction with the Inventory Service you can sell an individual item or a c
 or through a web-based
 <a href="https://partner.steamgames.com/doc/features/inventory/itemstore" class="bb_doclink"
     >storefront</a
->.<br /><br />Check out this presentation from Steam Dev Days 2016 for an implementation overview,
-details on the specific problems that the Inventory Service solves for developers, and demonstration
-on how partners are already using the system to serve their customers.<br /><br /><a
-    href="https://www.youtube.com/watch?v=jDfhPTSOLis"
-    target="_blank"
-    rel="noreferrer"
-    id="dynamiclink_0"
+>.<br />
+<br />
+Check out this presentation from Steam Dev Days 2016 for an implementation overview, details on the
+specific problems that the Inventory Service solves for developers, and demonstration on how
+partners are already using the system to serve their customers.<br />
+<br />
+<a href="https://www.youtube.com/watch?v=jDfhPTSOLis" target="_blank" rel="noreferrer"
     >https://www.youtube.com/watch?v=jDfhPTSOLis</a
 >
 <h2 class="bb_section"><a name="ImplementationOverview"></a>Implementation Overview</h2>

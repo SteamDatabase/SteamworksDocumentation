@@ -37,12 +37,15 @@ through the global accessor function
         <td>The required app/dlc.</td>
     </tr>
 </table>
-<br />Adds a dependency between the given item and the appid. This list of dependencies can be
-retrieved by calling
+<br />
+Adds a dependency between the given item and the appid. This list of dependencies can be retrieved
+by calling
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetAppDependencies" class="bb_apilink"
     >ISteamUGC::GetAppDependencies</a
 >. This is a soft-dependency that is displayed on the web. It is up to the application to determine
-whether the item can actually be used or not.<br /><br /><strong>Returns:</strong>
+whether the item can actually be used or not.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -52,7 +55,9 @@ to be used with a
     class="bb_apilink"
     >AddAppDependencyResult_t</a
 >
-call result.<br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveAppDependency" class="bb_apilink"
     >ISteamUGC::RemoveAppDependency</a
 >
@@ -90,7 +95,8 @@ call result.<br /><br /><strong>See Also:</strong>
         <td>The dependency to add to the parent.</td>
     </tr>
 </table>
-<br />Adds a workshop item as a dependency to the specified item. If the
+<br />
+Adds a workshop item as a dependency to the specified item. If the
 <code class="bb_code bb_code_inline nohighlight">nParentPublishedFileID</code> item is of type
 <code class="bb_code bb_code_inline nohighlight">k_EWorkshopFileTypeCollection</code>, than the
 <code class="bb_code bb_code_inline nohighlight">nChildPublishedFileID</code> is simply added to
@@ -104,7 +110,9 @@ using a combination of the m_unNumChildren member variable of the
 struct and
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCChildren" class="bb_apilink"
     >ISteamUGC::GetQueryUGCChildren</a
->.<br /><br /><strong>Returns:</strong>
+>.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -114,7 +122,10 @@ to be used with a
     class="bb_apilink"
     >AddUGCDependencyResult_t</a
 >
-call result.<br /><br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveDependency" class="bb_apilink"
     >ISteamUGC::RemoveDependency</a
 >
@@ -143,21 +154,27 @@ call result.<br /><br /><br /><strong>See Also:</strong>
         <td>The tag that must NOT be attached to the UGC to receive it.</td>
     </tr>
 </table>
-<br />Adds a excluded tag to a pending UGC Query. This will only return UGC without the specified
-tag.<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+<br />
+Adds a excluded tag to a pending UGC Query. This will only return UGC without the specified tag.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the
-UGC query handle is from
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the UGC query handle
+is from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUGCDetailsRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryUGCDetailsRequest</a
 >, or <code class="bb_code bb_code_inline nohighlight">pTagName</code> was
-<strong>NULL</strong>.<br /><br /><strong>See Also:</strong>
+<strong>NULL</strong>.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredTag" class="bb_apilink"
     >ISteamUGC::AddRequiredTag</a
 >,
@@ -199,21 +216,31 @@ UGC query handle is from
         <td>A value to map to the key.</td>
     </tr>
 </table>
-<br />Adds a key-value tag pair to an item. Keys can map to multiple different values (1-to-many
-relationship).<br /><br />Key names are restricted to alpha-numeric characters and the '_'
-character.<br /><br />Both keys and values cannot exceed 255 characters in length.<br /><br />Key-value
-tags are searchable by exact match only.<br /><br /><strong>NOTE:</strong> This must be set before
-you submit the UGC update handle using
+<br />
+Adds a key-value tag pair to an item. Keys can map to multiple different values (1-to-many
+relationship).<br />
+<br />
+Key names are restricted to alpha-numeric characters and the '_' character.<br />
+<br />
+Both keys and values cannot exceed 255 characters in length.<br />
+<br />
+Key-value tags are searchable by exact match only.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if
 <code class="bb_code bb_code_inline nohighlight">pchKey</code> or
 <code class="bb_code bb_code_inline nohighlight">pchValue</code> invalid because they are
 <strong>NULL</strong> or have exceeded the maximum length, or if you are trying to add more than 100
-key-value tags in a single update.<br /><br /><strong>See Also:</strong>
+key-value tags in a single update.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveItemKeyValueTags" class="bb_apilink"
     >ISteamUGC::RemoveItemKeyValueTags</a
 >,
@@ -267,9 +294,13 @@ key-value tags in a single update.<br /><br /><strong>See Also:</strong>
         <td>The type of this preview.</td>
     </tr>
 </table>
-<br />Adds an additional preview file for the item.<br /><br />Then the format of the image should
-be one that both the web and the application (if necessary) can render, and must be under 1MB.
-Suggested formats include JPG, PNG and GIF.<br /><br /><strong>NOTE:</strong> Using
+<br />
+Adds an additional preview file for the item.<br />
+<br />
+Then the format of the image should be one that both the web and the application (if necessary) can
+render, and must be under 1MB. Suggested formats include JPG, PNG and GIF.<br />
+<br />
+<strong>NOTE:</strong> Using
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EItemPreviewType_YouTubeVideo"
     class="bb_apilink"
@@ -284,15 +315,19 @@ or
 are not currently supported with this API. For YouTube videos you should use
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddItemPreviewVideo" class="bb_apilink"
     >ISteamUGC::AddItemPreviewVideo</a
->.<br /><br /><strong>NOTE:</strong> This must be set before you submit the UGC update handle using
+>.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumAdditionalPreviews"
     class="bb_apilink"
@@ -344,16 +379,20 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The YouTube video ID to add. (e.g. "jHgZh4GV9G0")</td>
     </tr>
 </table>
-<br />Adds an additional video preview from YouTube for the item.<br /><br /><strong>NOTE:</strong>
-This must be set before you submit the UGC update handle using
+<br />
+Adds an additional video preview from YouTube for the item.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumAdditionalPreviews"
     class="bb_apilink"
@@ -409,7 +448,10 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The workshop item to add to the users favorites list.</td>
     </tr>
 </table>
-<br />Adds a workshop item to the users favorites list.<br /><br /><strong>Returns:</strong>
+<br />
+Adds a workshop item to the users favorites list.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -419,7 +461,10 @@ to be used with a
     class="bb_apilink"
     >UserFavoriteItemsListChanged_t</a
 >
-call result.<br /><br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveItemFromFavorites"
     class="bb_apilink"
@@ -461,16 +506,20 @@ call result.<br /><br /><br /><strong>See Also:</strong>
         </td>
     </tr>
 </table>
-<br />Adds a required key-value tag to a pending UGC Query. This will only return workshop items
-that have a key = <code class="bb_code bb_code_inline nohighlight">pKey</code> and a value =
-<code class="bb_code bb_code_inline nohighlight">pValue</code>.<br /><br /><strong>NOTE:</strong>
-This must be set before you send a UGC Query handle using
+<br />
+Adds a required key-value tag to a pending UGC Query. This will only return workshop items that have
+a key = <code class="bb_code bb_code_inline nohighlight">pKey</code> and a value =
+<code class="bb_code bb_code_inline nohighlight">pValue</code>.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if
 <code class="bb_code bb_code_inline nohighlight">pKey</code> or
 <code class="bb_code bb_code_inline nohighlight">pValue</code> are <strong>NULL</strong>.
 <h2 class="bb_subsection"><a name="AddRequiredTag"></a>AddRequiredTag</h2>
@@ -498,21 +547,27 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         <td>The tag that must be attached to the UGC to receive it.</td>
     </tr>
 </table>
-<br />Adds a required tag to a pending UGC Query. This will only return UGC with the specified
-tag.<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+<br />
+Adds a required tag to a pending UGC Query. This will only return UGC with the specified tag.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the
-UGC query handle is from
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the UGC query handle
+is from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUGCDetailsRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryUGCDetailsRequest</a
 >, or <code class="bb_code bb_code_inline nohighlight">pTagName</code> was
-<strong>NULL</strong>.<br /><br /><strong>See Also:</strong>
+<strong>NULL</strong>.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddExcludedTag" class="bb_apilink"
     >ISteamUGC::AddExcludedTag</a
 >,
@@ -557,23 +612,29 @@ UGC query handle is from
         <td>A set of tags where at least one of the tags must attached to the UGC.</td>
     </tr>
 </table>
-<br />Adds the requirement that the returned items from the pending UGC Query have at least one of
-the tags in the given set (logical "or"). For each tag group that is added, at least one tag from
-each group is required to be on the matching items.<br /><br /><strong>NOTE:</strong> This must be
-set before you send a UGC Query handle using
+<br />
+Adds the requirement that the returned items from the pending UGC Query have at least one of the
+tags in the given set (logical "or"). For each tag group that is added, at least one tag from each
+group is required to be on the matching items.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the
-UGC query handle is from
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the UGC query handle
+is from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUGCDetailsRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryUGCDetailsRequest</a
 >, or <code class="bb_code bb_code_inline nohighlight">pTagName</code> was
-<strong>NULL</strong>.<br /><br /><strong>See Also:</strong>
+<strong>NULL</strong>.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredTag" class="bb_apilink"
     >ISteamUGC::AddRequiredTag</a
 >,
@@ -605,12 +666,15 @@ UGC query handle is from
         <td>The absolute path to store the workshop content.</td>
     </tr>
 </table>
-<br />Lets game servers set a specific workshop folder before issuing any UGC commands.<br /><br />This
-is helpful if you want to support multiple game servers running out of the same install folder.<br /><br /><strong
-    >Returns:</strong
->
-bool<br /><strong>true</strong> upon success; otherwise, <strong>false</strong> if the calling user
-is not a game server or if the workshop is currently updating it's content.
+<br />
+Lets game servers set a specific workshop folder before issuing any UGC commands.<br />
+<br />
+This is helpful if you want to support multiple game servers running out of the same install
+folder.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success; otherwise, <strong>false</strong> if the calling user is not a
+game server or if the workshop is currently updating it's content.
 <h2 class="bb_subsection"><a name="CreateItem"></a>CreateItem</h2>
 <div class="bb_code cpp">
     SteamAPICall_t CreateItem( AppId_t nConsumerAppId, EWorkshopFileType eFileType );
@@ -642,7 +706,10 @@ is not a game server or if the workshop is currently updating it's content.
         <td>The type of UGC to create.</td>
     </tr>
 </table>
-<br />Creates a new workshop item with no content attached yet.<br /><br /><strong>Returns:</strong>
+<br />
+Creates a new workshop item with no content attached yet.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -650,7 +717,10 @@ to be used with a
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateItemResult_t" class="bb_apilink"
     >CreateItemResult_t</a
 >
-call result.<br /><br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/features/workshop/implementation#creating_a_workshop_item"
     class="bb_doclink"
@@ -725,31 +795,39 @@ call result.<br /><br /><br /><strong>See Also:</strong>
         </td>
     </tr>
 </table>
-<br />Query for all matching UGC. You can use this to list all of the available UGC for your app.<br /><br />This
-will return up to 50 results as declared by
+<br />
+Query for all matching UGC. You can use this to list all of the available UGC for your app.<br />
+<br />
+This will return up to 50 results as declared by
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#kNumUGCResultsPerPage" class="bb_apilink"
     >kNumUGCResultsPerPage</a
 >. You can make subsequent calls to this function, increasing the
 <code class="bb_code bb_code_inline nohighlight">unPage</code> each time to get the next set of
-results.<br /><br /><strong>NOTE:</strong> Either
+results.<br />
+<br />
+<strong>NOTE:</strong> Either
 <code class="bb_code bb_code_inline nohighlight">nConsumerAppID</code> or
-<code class="bb_code bb_code_inline nohighlight">nCreatorAppID</code> must have a valid AppID!<br /><br /><strong
-    >NOTE:</strong
->
-You must release the handle returned by this function by calling
+<code class="bb_code bb_code_inline nohighlight">nCreatorAppID</code> must have a valid AppID!<br />
+<br />
+<strong>NOTE:</strong> You must release the handle returned by this function by calling
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#ReleaseQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::ReleaseQueryUGCRequest</a
 >
-when you are done with it!<br /><br />To query for the UGC associated with a single user you can use
+when you are done with it!<br />
+<br />
+To query for the UGC associated with a single user you can use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUserUGCRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryUserUGCRequest</a
 >
-instead.<br /><br /><strong>Returns:</strong>
+instead.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t" class="bb_apilink"
     >UGCQueryHandle_t</a
-><br />Returns a new
+><br />
+Returns a new
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t" class="bb_apilink"
     >UGCQueryHandle_t</a
 >
@@ -772,10 +850,13 @@ in the following situations:<br />
     </li>
     <li>An internal error occurred.</li>
 </ul>
-<br />This handle can be used to further customize the query before sending it out with
+<br />
+This handle can be used to further customize the query before sending it out with
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>See Also:</strong>
+>.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAppID" class="bb_apilink"
     >ISteamUtils::GetAppID</a
 >
@@ -817,29 +898,37 @@ in the following situations:<br />
         </td>
     </tr>
 </table>
-<br />Query for the details of specific workshop items.<br /><br />This will return up to 50 results
-as declared by
+<br />
+Query for the details of specific workshop items.<br />
+<br />
+This will return up to 50 results as declared by
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#kNumUGCResultsPerPage" class="bb_apilink"
     >kNumUGCResultsPerPage</a
->.<br /><br /><strong>NOTE:</strong> Either
+>.<br />
+<br />
+<strong>NOTE:</strong> Either
 <code class="bb_code bb_code_inline nohighlight">nConsumerAppID</code> or
-<code class="bb_code bb_code_inline nohighlight">nCreatorAppID</code> must have a valid AppID!<br /><br /><strong
-    >NOTE:</strong
->
-You must release the handle returned by this function by calling
+<code class="bb_code bb_code_inline nohighlight">nCreatorAppID</code> must have a valid AppID!<br />
+<br />
+<strong>NOTE:</strong> You must release the handle returned by this function by calling
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#ReleaseQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::ReleaseQueryUGCRequest</a
 >
-when you are done with it!<br /><br />To query all the UGC for your app you can use
+when you are done with it!<br />
+<br />
+To query all the UGC for your app you can use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryAllUGCRequest</a
 >
-instead.<br /><br /><strong>Returns:</strong>
+instead.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t" class="bb_apilink"
     >UGCQueryHandle_t</a
-><br />Returns a new
+><br />
+Returns a new
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t" class="bb_apilink"
     >UGCQueryHandle_t</a
 >
@@ -857,7 +946,8 @@ in the following situations:<br />
     </li>
     <li>An internal error occurred.</li>
 </ul>
-<br />This handle can be used to further customize the query before sending it out with
+<br />
+This handle can be used to further customize the query before sending it out with
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
 >.
@@ -898,8 +988,8 @@ in the following situations:<br />
             >
         </td>
         <td>
-            Used to specify the type of list to get.<br />If the currently logged in user is
-            different than the user specified in
+            Used to specify the type of list to get.<br />
+            If the currently logged in user is different than the user specified in
             <code class="bb_code bb_code_inline nohighlight">unAccountID</code>, then some options
             are not be allowed. (<a
                 href="https://partner.steamgames.com/doc/api/ISteamUGC#k_EUserUGCList_VotedOn"
@@ -987,31 +1077,40 @@ in the following situations:<br />
         </td>
     </tr>
 </table>
-<br />Query UGC associated with a user. You can use this to list the UGC the user is subscribed to
-amongst other things.<br /><br />This will return up to 50 results as declared by
+<br />
+Query UGC associated with a user. You can use this to list the UGC the user is subscribed to amongst
+other things.<br />
+<br />
+This will return up to 50 results as declared by
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#kNumUGCResultsPerPage" class="bb_apilink"
     >kNumUGCResultsPerPage</a
 >. You can make subsequent calls to this function, increasing the
 <code class="bb_code bb_code_inline nohighlight">unPage</code> each time to get the next set of
-results.<br /><br /><strong>NOTE:</strong> Either
+results.<br />
+<br />
+<strong>NOTE:</strong> Either
 <code class="bb_code bb_code_inline nohighlight">nConsumerAppID</code> or
-<code class="bb_code bb_code_inline nohighlight">nCreatorAppID</code> must have a valid AppID!<br /><br /><strong
-    >NOTE:</strong
->
-You must release the handle returned by this function by calling
+<code class="bb_code bb_code_inline nohighlight">nCreatorAppID</code> must have a valid AppID!<br />
+<br />
+<strong>NOTE:</strong> You must release the handle returned by this function by calling
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#ReleaseQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::ReleaseQueryUGCRequest</a
 >
-when you are done with it!<br /><br />To query all the UGC for your app you can use
+when you are done with it!<br />
+<br />
+To query all the UGC for your app you can use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryAllUGCRequest</a
 >
-instead.<br /><br /><strong>Returns:</strong>
+instead.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t" class="bb_apilink"
     >UGCQueryHandle_t</a
-><br />Returns a new
+><br />
+Returns a new
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t" class="bb_apilink"
     >UGCQueryHandle_t</a
 >
@@ -1038,10 +1137,13 @@ in the following situations:<br />
     </li>
     <li>An internal error occurred.</li>
 </ul>
-<br />This handle can be used to further customize the query before sending it out with
+<br />
+This handle can be used to further customize the query before sending it out with
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>See Also:</strong>
+>.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAppID" class="bb_apilink"
     >ISteamUtils::GetAppID</a
 >
@@ -1065,7 +1167,10 @@ in the following situations:<br />
         <td>The item to delete.</td>
     </tr>
 </table>
-<br />Deletes the item without prompting the user.<br /><br /><strong>Returns:</strong>
+<br />
+Deletes the item without prompting the user.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -1104,8 +1209,10 @@ call result.
         </td>
     </tr>
 </table>
-<br />Download or update a workshop item.<br /><br />If the return value is
-<strong>true</strong> then register and wait for the Callback
+<br />
+Download or update a workshop item.<br />
+<br />
+If the return value is <strong>true</strong> then register and wait for the Callback
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t" class="bb_apilink"
     >DownloadItemResult_t</a
 >
@@ -1113,26 +1220,34 @@ before calling
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo" class="bb_apilink"
     >ISteamUGC::GetItemInstallInfo</a
 >
-or accessing the workshop item on disk.<br /><br />If the user is not subscribed to the item (e.g. a
-Game Server using anonymous login), the workshop item will be downloaded and cached temporarily.<br /><br />If
-the workshop item has an item state of
+or accessing the workshop item on disk.<br />
+<br />
+If the user is not subscribed to the item (e.g. a Game Server using anonymous login), the workshop
+item will be downloaded and cached temporarily.<br />
+<br />
+If the workshop item has an item state of
 <code class="bb_code bb_code_inline nohighlight">k_EItemStateNeedsUpdate</code>, then this function
 can be called to initiate the update. Do not access the workshop item on disk until the Callback
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t" class="bb_apilink"
     >DownloadItemResult_t</a
 >
-is called.<br /><br />The
+is called.<br />
+<br />
+The
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t" class="bb_apilink"
     >DownloadItemResult_t</a
 >
 callback contains the app ID associated with the workshop item. It should be compared against the
 running app ID as the handler will be called for all item downloads regardless of the running
-application.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
+application.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Triggers a
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t" class="bb_apilink"
     >DownloadItemResult_t</a
 >
-callback.<br /><strong>true</strong> if the download was successfully started; otherwise,
-<strong>false</strong> if
+callback.<br />
+<strong>true</strong> if the download was successfully started; otherwise, <strong>false</strong> if
 <code class="bb_code bb_code_inline nohighlight">nPublishedFileID</code> is invalid or the user is
 not logged on.
 <h2 class="bb_subsection"><a name="GetAppDependencies"></a>GetAppDependencies</h2>
@@ -1155,13 +1270,16 @@ not logged on.
         <td>The workshop item to get app dependencies for.</td>
     </tr>
 </table>
-<br />Get the app dependencies associated with the given
+<br />
+Get the app dependencies associated with the given
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#PublishedFileId_t"
     class="bb_apilink"
     >PublishedFileId_t</a
 >. These are "soft" dependencies that are shown on the web. It is up to the application to determine
-whether an item can be used or not.<br /><br /><strong>Returns:</strong>
+whether an item can be used or not.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -1171,7 +1289,9 @@ to be used with a
     class="bb_apilink"
     >GetAppDependenciesResult_t</a
 >
-call result.<br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddAppDependency" class="bb_apilink"
     >ISteamUGC::AddAppDependency</a
 >,
@@ -1221,10 +1341,12 @@ call result.<br /><br /><strong>See Also:</strong>
         <td>Returns the total bytes. This is only valid after the download has started.</td>
     </tr>
 </table>
-<br />Get info about a pending download of a workshop item that has
-<code class="bb_code bb_code_inline nohighlight">k_EItemStateNeedsUpdate</code>
-set.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the download
-information was available; otherwise, <strong>false</strong>.
+<br />
+Get info about a pending download of a workshop item that has
+<code class="bb_code bb_code_inline nohighlight">k_EItemStateNeedsUpdate</code> set.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the download information was available; otherwise, <strong>false</strong>.
 <h2 class="bb_subsection"><a name="GetItemInstallInfo"></a>GetItemInstallInfo</h2>
 <div class="bb_code cpp">
     bool GetItemInstallInfo( PublishedFileId_t nPublishedFileID, uint64 *punSizeOnDisk, char
@@ -1284,16 +1406,20 @@ information was available; otherwise, <strong>false</strong>.
         <td>Returns the time when the workshop item was last updated.</td>
     </tr>
 </table>
-<br />Gets info about currently installed content on the disc for workshop items that have
-<code class="bb_code bb_code_inline nohighlight">k_EItemStateInstalled</code>
-set.<br /><br />Calling this sets the "used" flag on the workshop item for the current player and
-adds it to their
-<code class="bb_code bb_code_inline nohighlight">k_EUserUGCList_UsedOrPlayed</code>
-list.<br /><br />If
-<code class="bb_code bb_code_inline nohighlight">k_EItemStateLegacyItem</code> is set then
+<br />
+Gets info about currently installed content on the disc for workshop items that have
+<code class="bb_code bb_code_inline nohighlight">k_EItemStateInstalled</code> set.<br />
+<br />
+Calling this sets the "used" flag on the workshop item for the current player and adds it to their
+<code class="bb_code bb_code_inline nohighlight">k_EUserUGCList_UsedOrPlayed</code> list.<br />
+<br />
+If <code class="bb_code bb_code_inline nohighlight">k_EItemStateLegacyItem</code> is set then
 <code class="bb_code bb_code_inline nohighlight">pchFolder</code> contains the path to the legacy
-file itself, not a folder.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if
-the workshop item is already installed.<br /><strong>false</strong> in the following cases:<br />
+file itself, not a folder.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the workshop item is already installed.<br />
+<strong>false</strong> in the following cases:<br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">cchFolderSize</code> is
@@ -1322,13 +1448,19 @@ the workshop item is already installed.<br /><strong>false</strong> in the follo
         <td>The workshop item to get the state for.</td>
     </tr>
 </table>
-<br />Gets the current state of a workshop item on this client.<br /><br /><strong>Returns:</strong>
+<br />
+Gets the current state of a workshop item on this client.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
-><br />Returns the item state. Should be used with the
+><br />
+Returns the item state. Should be used with the
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#EItemState" class="bb_apilink"
     >EItemState</a
 >
-flags to determine the state of the workshop item.<br /><br /><strong>Example:</strong><br />
+flags to determine the state of the workshop item.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     uint32 unItemState = GetItemState( 280762427 ); if ( unItemState &amp; k_EItemStateDownloading )
     { // indicates the item is currently downloading to the client } else if ( ( unItemState &amp;
@@ -1378,20 +1510,27 @@ flags to determine the state of the workshop item.<br /><br /><strong>Example:</
         <td>Returns the total number of bytes that will be uploaded.</td>
     </tr>
 </table>
-<br />Gets the progress of an item update.<br /><br /><strong>Returns:</strong>
+<br />
+Gets the progress of an item update.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#EItemUpdateStatus" class="bb_apilink"
     >EItemUpdateStatus</a
-><br />The current status.<br /><br /><strong>See Also:</strong>
+><br />
+The current status.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
 >
 <h2 class="bb_subsection"><a name="GetNumSubscribedItems"></a>GetNumSubscribedItems</h2>
 <div class="bb_code cpp">uint32 GetNumSubscribedItems();</div>
-Gets the total number of items the current user is subscribed to for the game or application.<br /><br /><strong
-    >Returns:</strong
->
+Gets the total number of items the current user is subscribed to for the game or application.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
-><br />Returns <strong>0</strong> if called from a game server.
+><br />
+Returns <strong>0</strong> if called from a game server.
 <h2 class="bb_subsection">
     <a name="GetQueryUGCAdditionalPreview"></a>GetQueryUGCAdditionalPreview
 </h2>
@@ -1484,28 +1623,33 @@ Gets the total number of items the current user is subscribed to for the game or
         <td>The type of preview that was returned.</td>
     </tr>
 </table>
-<br />Retrieve the details of an additional preview associated with an individual workshop item
-after receiving a querying UGC call result.<br /><br />You should call this in a loop to get the
-details of all the workshop items returned.<br /><br /><strong>NOTE:</strong> This must only be
-called with the handle obtained from a successful
+<br />
+Retrieve the details of an additional preview associated with an individual workshop item after
+receiving a querying UGC call result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br />Before calling this you should call
+call result.<br />
+<br />
+Before calling this you should call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumAdditionalPreviews"
     class="bb_apilink"
     >ISteamUGC::GetQueryUGCNumAdditionalPreviews</a
 >
-to get number of additional previews.<br /><br /><strong>Returns:</strong> bool<br /><strong
-    >true</strong
->
-upon success, indicates that
+to get number of additional previews.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success, indicates that
 <code class="bb_code bb_code_inline nohighlight">pchURLOrVideoID</code> and
-<code class="bb_code bb_code_inline nohighlight">pPreviewType</code> have been filled out.<br />Otherwise,
-<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">pPreviewType</code> have been filled out.<br />
+Otherwise, <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds, or
 <code class="bb_code bb_code_inline nohighlight">previewIndex</code> is out of bounds.
@@ -1565,20 +1709,24 @@ upon success, indicates that
         </td>
     </tr>
 </table>
-<br />Retrieve the ids of any child items of an individual workshop item after receiving a querying
-UGC call result. These items can either be a part of a collection or some other dependency (see
+<br />
+Retrieve the ids of any child items of an individual workshop item after receiving a querying UGC
+call result. These items can either be a part of a collection or some other dependency (see
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddDependency" class="bb_apilink"
     >ISteamUGC::AddDependency</a
->).<br /><br />You should call this in a loop to get the details of all the workshop items
-returned.<br /><br /><strong>NOTE:</strong> This must only be called with the handle obtained from a
-successful
+>).<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br />You should create
-<code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code> with
+call result.<br />
+<br />
+You should create <code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code> with
 <code class="bb_code bb_code_inline nohighlight">m_unNumChildren</code> provided in
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCDetails_t" class="bb_apilink"
     >SteamUGCDetails_t</a
@@ -1586,9 +1734,12 @@ call result.<br /><br />You should create
 after getting the UGC details with
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCResult" class="bb_apilink"
     >ISteamUGC::GetQueryUGCResult</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success, indicates that
-<code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code> has been filled out.<br />Otherwise,
-<strong>false</strong> if the UGC query
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success, indicates that
+<code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code> has been filled out.<br />
+Otherwise, <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.
 <h2 class="bb_subsection"><a name="GetQueryUGCNumTags"></a>GetQueryUGCNumTags</h2>
@@ -1620,16 +1771,23 @@ after getting the UGC details with
         <td>The index of the item to get the details of.</td>
     </tr>
 </table>
-<br />Available in SDK v1.51.<br /><br />Retrieve the number of tags for an individual workshop item
-after receiving a querying UGC call result.<br /><br />You should call this in a loop to get the
-details of all the workshop items returned.<br /><br /><strong>NOTE:</strong> This must only be
-called with the handle obtained from a successful
+<br />
+Available in SDK v1.51.<br />
+<br />
+Retrieve the number of tags for an individual workshop item after receiving a querying UGC call
+result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br />You can then call
+call result.<br />
+<br />
+You can then call
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCTag" class="bb_apilink"
     >ISteamUGC::GetQueryUGCTag</a
 >
@@ -1639,10 +1797,13 @@ to get the tag name or
     class="bb_apilink"
     >ISteamUGC::GetQueryUGCTagDisplayName</a
 >
-to get the localized tag string (if any).<br /><br /><strong>Returns:</strong>
+to get the localized tag string (if any).<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
-><br />The number of key-value tags associated with the specified workshop item.<br />Returns
-<strong>0</strong> if the UGC query
+><br />
+The number of key-value tags associated with the specified workshop item.<br />
+Returns <strong>0</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.
 <h2 class="bb_subsection"><a name="GetQueryUGCTag"></a>GetQueryUGCTag</h2>
@@ -1703,16 +1864,23 @@ to get the localized tag string (if any).<br /><br /><strong>Returns:</strong>
         </td>
     </tr>
 </table>
-<br />Available in SDK v1.51.<br /><br />Retrieve the "nth" tag associated with an individual
-workshop item after receiving a querying UGC call result.<br /><br />You should call this in a loop
-to get the details of all the workshop items returned.<br /><br /><strong>NOTE:</strong> This must
-only be called with the handle obtained from a successful
+<br />
+Available in SDK v1.51.<br />
+<br />
+Retrieve the "nth" tag associated with an individual workshop item after receiving a querying UGC
+call result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br />Before calling this you should call
+call result.<br />
+<br />
+Before calling this you should call
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumTags" class="bb_apilink"
     >ISteamUGC::GetQueryUGCNumTags</a
 >
@@ -1775,17 +1943,23 @@ to get number of tags.
         </td>
     </tr>
 </table>
-<br />Available in SDK v1.51.<br /><br />Retrieve the "nth" display string (usually localized) for a
-tag, which is associated with an individual workshop item after receiving a querying UGC call
-result.<br /><br />You should call this in a loop to get the details of all the workshop items
-returned.<br /><br /><strong>NOTE:</strong> This must only be called with the handle obtained from a
-successful
+<br />
+Available in SDK v1.51.<br />
+<br />
+Retrieve the "nth" display string (usually localized) for a tag, which is associated with an
+individual workshop item after receiving a querying UGC call result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br />Before calling this you should call
+call result.<br />
+<br />
+Before calling this you should call
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumTags" class="bb_apilink"
     >ISteamUGC::GetQueryUGCNumTags</a
 >
@@ -1863,25 +2037,33 @@ to get number of tags.
         </td>
     </tr>
 </table>
-<br />Retrieve the details of a key-value tag associated with an individual workshop item after
-receiving a querying UGC call result.<br /><br />You should call this in a loop to get the details
-of all the workshop items returned.<br /><br /><strong>NOTE:</strong> This must only be called with
-the handle obtained from a successful
+<br />
+Retrieve the details of a key-value tag associated with an individual workshop item after receiving
+a querying UGC call result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br />Before calling this you should call
+call result.<br />
+<br />
+Before calling this you should call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCNumKeyValueTags"
     class="bb_apilink"
     >ISteamUGC::GetQueryUGCNumKeyValueTags</a
 >
-to get number of tags.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon
-success, indicates that <code class="bb_code bb_code_inline nohighlight">pchKey</code> and
-<code class="bb_code bb_code_inline nohighlight">pchValue</code> have been filled out.<br />Otherwise,
-<strong>false</strong> if the UGC query
+to get number of tags.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success, indicates that
+<code class="bb_code bb_code_inline nohighlight">pchKey</code> and
+<code class="bb_code bb_code_inline nohighlight">pchValue</code> have been filled out.<br />
+Otherwise, <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds, or
 <code class="bb_code bb_code_inline nohighlight">keyValueTagIndex</code> is out of bounds.
@@ -1934,22 +2116,28 @@ success, indicates that <code class="bb_code bb_code_inline nohighlight">pchKey<
         </td>
     </tr>
 </table>
-<br />Retrieve the developer set metadata of an individual workshop item after receiving a querying
-UGC call result.<br /><br />You should call this in a loop to get the details of all the workshop
-items returned.<br /><br /><strong>NOTE:</strong> This must only be called with the handle obtained
-from a successful
+<br />
+Retrieve the developer set metadata of an individual workshop item after receiving a querying UGC
+call result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success,
-indicates that <code class="bb_code bb_code_inline nohighlight">pchMetadata</code> has been filled
-out.<br />Otherwise, <strong>false</strong> if the UGC query
+call result.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success, indicates that
+<code class="bb_code bb_code_inline nohighlight">pchMetadata</code> has been filled out.<br />
+Otherwise, <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or the
-<code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.<br /><br /><strong
-    >See Also:</strong
->
+<code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemMetadata" class="bb_apilink"
     >ISteamUGC::SetItemMetadata</a
 >
@@ -1986,25 +2174,33 @@ out.<br />Otherwise, <strong>false</strong> if the UGC query
         <td>The index of the item to get the details of.</td>
     </tr>
 </table>
-<br />Retrieve the number of additional previews of an individual workshop item after receiving a
-querying UGC call result.<br /><br />You should call this in a loop to get the details of all the
-workshop items returned.<br /><br /><strong>NOTE:</strong> This must only be called with the handle
-obtained from a successful
+<br />
+Retrieve the number of additional previews of an individual workshop item after receiving a querying
+UGC call result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br />You can then call
+call result.<br />
+<br />
+You can then call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCAdditionalPreview"
     class="bb_apilink"
     >ISteamUGC::GetQueryUGCAdditionalPreview</a
 >
-to get the details of each additional preview.<br /><br /><strong>Returns:</strong>
+to get the details of each additional preview.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
-><br />The number of additional previews associated with the specified workshop item.<br />Returns
-<strong>0</strong> if the UGC query
+><br />
+The number of additional previews associated with the specified workshop item.<br />
+Returns <strong>0</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.
 <h2 class="bb_subsection"><a name="GetQueryUGCNumKeyValueTags"></a>GetQueryUGCNumKeyValueTags</h2>
@@ -2038,23 +2234,31 @@ to get the details of each additional preview.<br /><br /><strong>Returns:</stro
         <td>The index of the item to get the details of.</td>
     </tr>
 </table>
-<br />Retrieve the number of key-value tags of an individual workshop item after receiving a
-querying UGC call result.<br /><br />You should call this in a loop to get the details of all the
-workshop items returned.<br /><br /><strong>NOTE:</strong> This must only be called with the handle
-obtained from a successful
+<br />
+Retrieve the number of key-value tags of an individual workshop item after receiving a querying UGC
+call result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br />You can then call
+call result.<br />
+<br />
+You can then call
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCKeyValueTag" class="bb_apilink"
     >ISteamUGC::GetQueryUGCKeyValueTag</a
 >
-to get the details of each tag.<br /><br /><strong>Returns:</strong>
+to get the details of each tag.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
-><br />The number of key-value tags associated with the specified workshop item.<br />Returns
-<strong>0</strong> if the UGC query
+><br />
+The number of key-value tags associated with the specified workshop item.<br />
+Returns <strong>0</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.
 <h2 class="bb_subsection"><a name="GetQueryUGCPreviewURL"></a>GetQueryUGCPreviewURL</h2>
@@ -2105,22 +2309,28 @@ to get the details of each tag.<br /><br /><strong>Returns:</strong>
         </td>
     </tr>
 </table>
-<br />Retrieve the URL to the preview image of an individual workshop item after receiving a
-querying UGC call result.<br /><br />You should call this in a loop to get the details of all the
-workshop items returned.<br /><br /><strong>NOTE:</strong> This must only be called with the handle
-obtained from a successful
+<br />
+Retrieve the URL to the preview image of an individual workshop item after receiving a querying UGC
+call result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br />You can use this URL to download and display the preview image instead of
-having to download it using the
-<code class="bb_code bb_code_inline nohighlight">m_hPreviewFile</code> in the
-<code class="bb_code bb_code_inline nohighlight">ISteamUGC::SteamUGCDetails_t</code>
-struct.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success, indicates
-that <code class="bb_code bb_code_inline nohighlight">pchURL</code> has been filled out.<br />Otherwise,
-<strong>false</strong> if the UGC query
+call result.<br />
+<br />
+You can use this URL to download and display the preview image instead of having to download it
+using the <code class="bb_code bb_code_inline nohighlight">m_hPreviewFile</code> in the
+<code class="bb_code bb_code_inline nohighlight">ISteamUGC::SteamUGCDetails_t</code> struct.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success, indicates that
+<code class="bb_code bb_code_inline nohighlight">pchURL</code> has been filled out.<br />
+Otherwise, <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.
 <h2 class="bb_subsection"><a name="GetQueryUGCResult"></a>GetQueryUGCResult</h2>
@@ -2166,18 +2376,23 @@ that <code class="bb_code bb_code_inline nohighlight">pchURL</code> has been fil
         <td>Returns the the UGC details.</td>
     </tr>
 </table>
-<br />Retrieve the details of an individual workshop item after receiving a querying UGC call
-result.<br /><br />You should call this in a loop to get the details of all the workshop items
-returned.<br /><br /><strong>NOTE:</strong> This must only be called with the handle obtained from a
-successful
+<br />
+Retrieve the details of an individual workshop item after receiving a querying UGC call result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success,
-indicates that <code class="bb_code bb_code_inline nohighlight">pDetails</code> has been filled
-out.<br />Otherwise, <strong>false</strong> if the UGC query
+call result.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success, indicates that
+<code class="bb_code bb_code_inline nohighlight">pDetails</code> has been filled out.<br />
+Otherwise, <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds.
 <h2 class="bb_subsection"><a name="GetQueryUGCStatistic"></a>GetQueryUGCStatistic</h2>
@@ -2233,18 +2448,24 @@ out.<br />Otherwise, <strong>false</strong> if the UGC query
         <td>Returns the value associated with the specified statistic.</td>
     </tr>
 </table>
-<br />Retrieve various statistics of an individual workshop item after receiving a querying UGC call
-result.<br /><br />You should call this in a loop to get the details of all the workshop items
-returned.<br /><br /><strong>NOTE:</strong> This must only be called with the handle obtained from a
-successful
+<br />
+Retrieve various statistics of an individual workshop item after receiving a querying UGC call
+result.<br />
+<br />
+You should call this in a loop to get the details of all the workshop items returned.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success,
-indicates that <code class="bb_code bb_code_inline nohighlight">pStatValue</code> has been filled
-out.<br />Otherwise, <strong>false</strong> if the UGC query
+call result.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success, indicates that
+<code class="bb_code bb_code_inline nohighlight">pStatValue</code> has been filled out.<br />
+Otherwise, <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds, or
 <code class="bb_code bb_code_inline nohighlight">eStatType</code> was invalid.
@@ -2289,14 +2510,19 @@ out.<br />Otherwise, <strong>false</strong> if the UGC query
         </td>
     </tr>
 </table>
-<br />Gets a list of all of the items the current user is subscribed to for the current game.<br /><br />You
-create an array with the size provided by
+<br />
+Gets a list of all of the items the current user is subscribed to for the current game.<br />
+<br />
+You create an array with the size provided by
 <code class="bb_code bb_code_inline nohighlight">GetNumSubscribedItems</code> before calling
-this.<br /><br /><strong>Returns:</strong>
+this.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
-><br />The number of subscribed workshop items that were populated into
-<code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code>.<br />Returns
-<strong>0</strong> if called from a game server.
+><br />
+The number of subscribed workshop items that were populated into
+<code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code>.<br />
+Returns <strong>0</strong> if called from a game server.
 <h2 class="bb_subsection"><a name="GetUserItemVote"></a>GetUserItemVote</h2>
 <div class="bb_code cpp">SteamAPICall_t GetUserItemVote( PublishedFileId_t nPublishedFileID );</div>
 <table>
@@ -2317,7 +2543,10 @@ this.<br /><br /><strong>Returns:</strong>
         <td>The workshop item ID to get the users vote.</td>
     </tr>
 </table>
-<br />Gets the users vote status on a workshop item.<br /><br /><strong>Returns:</strong>
+<br />
+Gets the users vote status on a workshop item.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2327,7 +2556,10 @@ to be used with a
     class="bb_apilink"
     >GetUserItemVoteResult_t</a
 >
-call result.<br /><br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetUserItemVote" class="bb_apilink"
     >ISteamUGC::SetUserItemVote</a
 >
@@ -2351,10 +2583,11 @@ call result.<br /><br /><br /><strong>See Also:</strong>
         <td>The UGC query handle to release.</td>
     </tr>
 </table>
-<br />Releases a UGC query handle when you are done with it to free up memory.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />Always returns <strong>true</strong>.
+<br />
+Releases a UGC query handle when you are done with it to free up memory.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Always returns <strong>true</strong>.
 <h2 class="bb_subsection"><a name="RemoveAppDependency"></a>RemoveAppDependency</h2>
 <div class="bb_code cpp">
     SteamAPICall_t RemoveAppDependency( PublishedFileId_t nPublishedFileID, AppId_t nAppID );
@@ -2386,11 +2619,14 @@ bool<br />Always returns <strong>true</strong>.
         <td>The app/dlc.</td>
     </tr>
 </table>
-<br />Removes the dependency between the given item and the appid. This list of dependencies can be
+<br />
+Removes the dependency between the given item and the appid. This list of dependencies can be
 retrieved by calling
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetAppDependencies" class="bb_apilink"
     >ISteamUGC::GetAppDependencies</a
->.<br /><br /><strong>Returns:</strong>
+>.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2400,7 +2636,9 @@ to be used with a
     class="bb_apilink"
     >RemoveAppDependencyResult_t</a
 >
-call result.<br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddAppDependency" class="bb_apilink"
     >ISteamUGC::AddAppDependency</a
 >
@@ -2438,9 +2676,10 @@ call result.<br /><br /><strong>See Also:</strong>
         <td>The dependency to remove from the parent.</td>
     </tr>
 </table>
-<br />Removes a workshop item as a dependency from the specified item.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Removes a workshop item as a dependency from the specified item.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2450,7 +2689,10 @@ to be used with a
     class="bb_apilink"
     >RemoveUGCDependencyResult_t</a
 >
-call result.<br /><br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddDependency" class="bb_apilink"
     >ISteamUGC::AddDependency</a
 >
@@ -2485,7 +2727,10 @@ call result.<br /><br /><br /><strong>See Also:</strong>
         <td>The workshop item to remove from the users favorites list.</td>
     </tr>
 </table>
-<br />Removes a workshop item from the users favorites list.<br /><br /><strong>Returns:</strong>
+<br />
+Removes a workshop item from the users favorites list.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2495,7 +2740,10 @@ to be used with a
     class="bb_apilink"
     >UserFavoriteItemsListChanged_t</a
 >
-call result.<br /><br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddItemToFavorites" class="bb_apilink"
     >ISteamUGC::AddItemToFavorites</a
 >
@@ -2526,19 +2774,24 @@ call result.<br /><br /><br /><strong>See Also:</strong>
         <td>The key to remove from the item.</td>
     </tr>
 </table>
-<br />Removes an existing key value tag from an item.<br /><br />You can only call this up to 100
-times per item update. If you need remove more tags than that you'll need to make subsequent item
-updates.<br /><br /><strong>NOTE:</strong> This must be set before you submit the UGC update handle
-using
+<br />
+Removes an existing key value tag from an item.<br />
+<br />
+You can only call this up to 100 times per item update. If you need remove more tags than that
+you'll need to make subsequent item updates.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if
-you are trying to remove more than 100 key-value tags in a single update.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if you are trying to
+remove more than 100 key-value tags in a single update.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddItemKeyValueTag" class="bb_apilink"
     >ISteamUGC::AddItemKeyValueTag</a
 >
@@ -2571,7 +2824,10 @@ you are trying to remove more than 100 key-value tags in a single update.<br /><
         <td></td>
     </tr>
 </table>
-<br /><br /><br /><strong>Returns:</strong> bool
+<br />
+<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="RequestUGCDetails"></a>RequestUGCDetails</h2>
 <div class="bb_code cpp">
     SteamAPICall_t RequestUGCDetails( PublishedFileId_t nPublishedFileID, uint32 unMaxAgeSeconds );
@@ -2603,13 +2859,16 @@ you are trying to remove more than 100 key-value tags in a single update.<br /><
         <td>Deprecated!</td>
     </tr>
 </table>
-<br /><strong>DEPRECATED</strong>! Use
+<br />
+<strong>DEPRECATED</strong>! Use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUGCDetailsRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryUGCDetailsRequest</a
 >
-instead!<br /><br /><strong>Returns:</strong>
+instead!<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2640,7 +2899,10 @@ call result.
         <td>The UGC query request handle to send.</td>
     </tr>
 </table>
-<br />Send a UGC query to Steam.<br /><br />This must be called with a handle obtained from
+<br />
+Send a UGC query to Steam.<br />
+<br />
+This must be called with a handle obtained from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUserUGCRequest"
     class="bb_apilink"
@@ -2657,9 +2919,8 @@ call result.
     >ISteamUGC::CreateQueryUGCDetailsRequest</a
 >
 to actually send the request to Steam. Before calling this you should use one or more of the
-following APIs to customize your query:<br /><a
-    href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredTag"
-    class="bb_apilink"
+following APIs to customize your query:<br />
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredTag" class="bb_apilink"
     >ISteamUGC::AddRequiredTag</a
 >,
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddExcludedTag" class="bb_apilink"
@@ -2710,7 +2971,9 @@ following APIs to customize your query:<br /><a
 >,
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredKeyValueTag" class="bb_apilink"
     >ISteamUGC::AddRequiredKeyValueTag</a
-><br /><br /><strong>Returns:</strong>
+><br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -2720,7 +2983,8 @@ to be used with a
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-call result.<br />Returns
+call result.<br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
@@ -2758,15 +3022,19 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         </td>
     </tr>
 </table>
-<br />Sets whether results will be returned from the cache for the specific period of time on a
-pending UGC Query.<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query
-handle using
+<br />
+Sets whether results will be returned from the cache for the specific period of time on a pending
+UGC Query.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetCloudFileNameFilter"></a>SetCloudFileNameFilter</h2>
 <div class="bb_code cpp">
     bool SetCloudFileNameFilter( UGCQueryHandle_t handle, const char *pMatchCloudFileName );
@@ -2794,22 +3062,26 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         <td>The filename to match.</td>
     </tr>
 </table>
-<br />Sets to only return items that have a specific filename on a pending UGC Query.<br /><br /><strong
-    >NOTE:</strong
->
-This can only be used with
+<br />
+Sets to only return items that have a specific filename on a pending UGC Query.<br />
+<br />
+<strong>NOTE:</strong> This can only be used with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUserUGCRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryUserUGCRequest</a
->!<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+>!<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the
-UGC query handle is not from
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the UGC query handle
+is not from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUserUGCRequest"
     class="bb_apilink"
@@ -2844,17 +3116,21 @@ or if <code class="bb_code bb_code_inline nohighlight">pMatchCloudFileName</code
         <td>The absolute path to a local folder containing the content for the item.</td>
     </tr>
 </table>
-<br />Sets the folder that will be stored as the content for an item.<br /><br />For efficient
-upload and download, files should not be merged or compressed into single files (e.g. zip files).<br /><br /><strong
-    >NOTE:</strong
->
-This must be set before you submit the UGC update handle using
+<br />
+Sets the folder that will be stored as the content for an item.<br />
+<br />
+For efficient upload and download, files should not be merged or compressed into single files (e.g.
+zip files).<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetItemDescription"></a>SetItemDescription</h2>
 <div class="bb_code cpp">
     bool SetItemDescription( UGCUpdateHandle_t handle, const char *pchDescription );
@@ -2882,25 +3158,32 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The new description of the item.</td>
     </tr>
 </table>
-<br />Sets a new description for an item.<br /><br />The description must be limited to the length
-defined by
+<br />
+Sets a new description for an item.<br />
+<br />
+The description must be limited to the length defined by
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_cchPublishedDocumentDescriptionMax"
     class="bb_apilink"
     >k_cchPublishedDocumentDescriptionMax</a
->.<br /><br />You can set what language this is for by using
+>.<br />
+<br />
+You can set what language this is for by using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemUpdateLanguage" class="bb_apilink"
     >ISteamUGC::SetItemUpdateLanguage</a
->, if no language is set then "english" is assumed.<br /><br /><strong>NOTE:</strong> This must be
-set before you submit the UGC update handle using
+>, if no language is set then "english" is assumed.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnLongDescription"
     class="bb_apilink"
@@ -2933,26 +3216,34 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The new metadata for this item.</td>
     </tr>
 </table>
-<br />Sets arbitrary metadata for an item. This metadata can be returned from queries without having
-to download and install the actual content.<br /><br />The metadata must be limited to the size
-defined by
+<br />
+Sets arbitrary metadata for an item. This metadata can be returned from queries without having to
+download and install the actual content.<br />
+<br />
+The metadata must be limited to the size defined by
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#k_cchDeveloperMetadataMax"
     class="bb_apilink"
     >k_cchDeveloperMetadataMax</a
->.<br /><br /><strong>NOTE:</strong> This must be set before you submit the UGC update handle using
+>.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, or if
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, or if
 <code class="bb_code bb_code_inline nohighlight">pchMetadata</code> is longer than
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#k_cchDeveloperMetadataMax"
     class="bb_apilink"
     >k_cchDeveloperMetadataMax</a
->.<br /><br /><strong>See Also:</strong>
+>.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetReturnMetadata" class="bb_apilink"
     >ISteamUGC::SetReturnMetadata</a
 >
@@ -2983,19 +3274,24 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The absolute path to a local preview image file for the item.</td>
     </tr>
 </table>
-<br />Sets the primary preview image for the item.<br /><br />The format should be one that both the
-web and the application (if necessary) can render. Suggested formats include JPG, PNG and GIF.<br /><br />Be
-sure your app has its Steam Cloud quota and number of files set, as preview images are stored under
-the user's Cloud. If your app has no Cloud values set, this call will fail.<br /><br /><strong
-    >NOTE:</strong
->
-This must be set before you submit the UGC update handle using
+<br />
+Sets the primary preview image for the item.<br />
+<br />
+The format should be one that both the web and the application (if necessary) can render. Suggested
+formats include JPG, PNG and GIF.<br />
+<br />
+Be sure your app has its Steam Cloud quota and number of files set, as preview images are stored
+under the user's Cloud. If your app has no Cloud values set, this call will fail.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetItemTags"></a>SetItemTags</h2>
 <div class="bb_code cpp">
     bool SetItemTags( UGCUpdateHandle_t updateHandle, const SteamParamStringArray_t *pTags );
@@ -3031,20 +3327,27 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The list of tags to set on this item.</td>
     </tr>
 </table>
-<br />Sets arbitrary developer specified tags on an item.<br /><br />Each tag must be limited to 255
-characters. Tag names can only include printable characters, excluding ','. For reference on what
-characters are allowed, refer to
+<br />
+Sets arbitrary developer specified tags on an item.<br />
+<br />
+Each tag must be limited to 255 characters. Tag names can only include printable characters,
+excluding ','. For reference on what characters are allowed, refer to
 <a href="http://en.cppreference.com/w/c/string/byte/isprint" target="_blank" rel="noreferrer"
     >http://en.cppreference.com/w/c/string/byte/isprint</a
-><br /><br /><strong>NOTE:</strong> This must be set before you submit the UGC update handle using
+><br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, or if
-one of the tags is invalid either due to exceeding the maximum length or because it is
-<strong>NULL</strong>.<br /><br /><strong>See Also:</strong>
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, or if one of the tags is
+invalid either due to exceeding the maximum length or because it is <strong>NULL</strong>.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredTag" class="bb_apilink"
     >ISteamUGC::AddRequiredTag</a
 >,
@@ -3079,22 +3382,30 @@ one of the tags is invalid either due to exceeding the maximum length or because
         <td>The new title of the item.</td>
     </tr>
 </table>
-<br />Sets a new title for an item.<br /><br />The title must be limited to the size defined by
+<br />
+Sets a new title for an item.<br />
+<br />
+The title must be limited to the size defined by
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_cchPublishedDocumentTitleMax"
     class="bb_apilink"
     >k_cchPublishedDocumentTitleMax</a
->.<br /><br />You can set what language this is for by using
+>.<br />
+<br />
+You can set what language this is for by using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemUpdateLanguage" class="bb_apilink"
     >ISteamUGC::SetItemUpdateLanguage</a
->, if no language is set then "english" is assumed.<br /><br /><strong>NOTE:</strong> This must be
-set before you submit the UGC update handle using
+>, if no language is set then "english" is assumed.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetItemUpdateLanguage"></a>SetItemUpdateLanguage</h2>
 <div class="bb_code cpp">
     bool SetItemUpdateLanguage( UGCUpdateHandle_t handle, const char *pchLanguage );
@@ -3122,22 +3433,29 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The language of the title and description that will be set in this update.</td>
     </tr>
 </table>
-<br />Sets the language of the title and description that will be set in this item update.<br /><br />This
-must be in the format of the
+<br />
+Sets the language of the title and description that will be set in this item update.<br />
+<br />
+This must be in the format of the
 <a
     href="https://partner.steamgames.com/doc/store/localization#supported_languages"
     class="bb_doclink"
     >API language code</a
->.<br /><br />If this is not set then "english" is assumed.<br /><br /><strong>NOTE:</strong> This
-must be set before you submit the UGC update handle using
+>.<br />
+<br />
+If this is not set then "english" is assumed.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemTitle" class="bb_apilink"
     >ISteamUGC::SetItemTitle</a
 >,
@@ -3181,14 +3499,18 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The visibility to set.</td>
     </tr>
 </table>
-<br />Sets the visibility of an item.<br /><br /><strong>NOTE:</strong> This must be set before you
-submit the UGC update handle using
+<br />
+Sets the visibility of an item.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetLanguage"></a>SetLanguage</h2>
 <div class="bb_code cpp">bool SetLanguage( UGCQueryHandle_t handle, const char *pchLanguage );</div>
 <table>
@@ -3214,22 +3536,29 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The language to return.</td>
     </tr>
 </table>
-<br />Sets the language to return the title and description in for the items on a pending UGC
-Query.<br /><br />This must be in the format of the
+<br />
+Sets the language to return the title and description in for the items on a pending UGC Query.<br />
+<br />
+This must be in the format of the
 <a
     href="https://partner.steamgames.com/doc/store/localization#supported_languages"
     class="bb_doclink"
     >API Language code</a
->.<br /><br />If this is not set then "english" is assumed.<br /><br /><strong>NOTE:</strong> This
-must be set before you send a UGC Query handle using
+>.<br />
+<br />
+If this is not set then "english" is assumed.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemUpdateLanguage" class="bb_apilink"
     >ISteamUGC::SetItemUpdateLanguage</a
 >
@@ -3261,26 +3590,34 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         </td>
     </tr>
 </table>
-<br />Sets whether workshop items will be returned if they have one or more matching tag, or if all
-tags need to match on a pending UGC Query.<br /><br /><strong>NOTE:</strong> This can only be used
-with
+<br />
+Sets whether workshop items will be returned if they have one or more matching tag, or if all tags
+need to match on a pending UGC Query.<br />
+<br />
+<strong>NOTE:</strong> This can only be used with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryAllUGCRequest</a
->!<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+>!<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if the
-UGC query handle is not from
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if the UGC query handle
+is not from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryAllUGCRequest</a
->.<br /><br /><strong>See Also:</strong>
+>.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddRequiredTag" class="bb_apilink"
     >ISteamUGC::AddRequiredTag</a
 >,
@@ -3319,20 +3656,27 @@ UGC query handle is not from
         <td>Sets the number of days to rank items over. Valid values are 1-365 inclusive.</td>
     </tr>
 </table>
-<br />Sets whether the order of the results will be updated based on the rank of items over a number
-of days on a pending UGC Query.<br /><br /><strong>NOTE:</strong> This can only be used with
+<br />
+Sets whether the order of the results will be updated based on the rank of items over a number of
+days on a pending UGC Query.<br />
+<br />
+<strong>NOTE:</strong> This can only be used with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryAllUGCRequest</a
->!<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+>!<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the
-UGC query handle is not from
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the UGC query handle
+is not from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
@@ -3342,9 +3686,8 @@ or if the
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#EUGCQuery" class="bb_apilink"
     >EUGCQuery</a
 >
-of the query is not one of:<br /><code class="bb_code bb_code_inline nohighlight"
-    >k_PublishedFileQueryType_RankedByTrend</code
->,
+of the query is not one of:<br />
+<code class="bb_code bb_code_inline nohighlight">k_PublishedFileQueryType_RankedByTrend</code>,
 <code class="bb_code bb_code_inline nohighlight"
     >k_PublishedFileQueryType_RankedByPlaytimeTrend</code
 >,
@@ -3382,14 +3725,18 @@ or
         <td>Return the additional previews for the items?</td>
     </tr>
 </table>
-<br />Sets whether to return any additional images/videos attached to the items on a pending UGC
-Query.<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+<br />
+Sets whether to return any additional images/videos attached to the items on a pending UGC Query.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetReturnChildren"></a>SetReturnChildren</h2>
 <div class="bb_code cpp">
     bool SetReturnChildren( UGCQueryHandle_t handle, bool bReturnChildren );
@@ -3417,16 +3764,18 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         <td>Return the IDs of children of the items?</td>
     </tr>
 </table>
-<br />Sets whether to return the IDs of the child items of the items on a pending UGC Query.<br /><br /><strong
-    >NOTE:</strong
->
-This must be set before you send a UGC Query handle using
+<br />
+Sets whether to return the IDs of the child items of the items on a pending UGC Query.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetReturnKeyValueTags"></a>SetReturnKeyValueTags</h2>
 <div class="bb_code cpp">
     bool SetReturnKeyValueTags( UGCQueryHandle_t handle, bool bReturnKeyValueTags );
@@ -3454,16 +3803,18 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         <td>Return any key-value tags for the items?</td>
     </tr>
 </table>
-<br />Sets whether to return any key-value tags for the items on a pending UGC Query.<br /><br /><strong
-    >NOTE:</strong
->
-This must be set before you send a UGC Query handle using
+<br />
+Sets whether to return any key-value tags for the items on a pending UGC Query.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetReturnLongDescription"></a>SetReturnLongDescription</h2>
 <div class="bb_code cpp">
     bool SetReturnLongDescription( UGCQueryHandle_t handle, bool bReturnLongDescription );
@@ -3491,17 +3842,23 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         <td>Return the long description for the items?</td>
     </tr>
 </table>
-<br />Sets whether to return the full description for the items on a pending UGC Query.<br /><br />If
-you don't set this then you only receive the summary which is the description truncated at 255
-bytes.<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+<br />
+Sets whether to return the full description for the items on a pending UGC Query.<br />
+<br />
+If you don't set this then you only receive the summary which is the description truncated at 255
+bytes.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemDescription" class="bb_apilink"
     >ISteamUGC::SetItemDescription</a
 >
@@ -3532,16 +3889,20 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         <td>Return the metadata for the items?</td>
     </tr>
 </table>
-<br />Sets whether to return the developer specified metadata for the items on a pending UGC
-Query.<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+<br />
+Sets whether to return the developer specified metadata for the items on a pending UGC Query.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetItemMetadata" class="bb_apilink"
     >ISteamUGC::SetItemMetadata</a
 >
@@ -3572,17 +3933,22 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         <td>Return only the IDs of items?</td>
     </tr>
 </table>
-<br />Sets whether to only return IDs instead of all the details on a pending UGC Query.<br /><br />This
-is useful for when you don't need all the information (e.g. you just want to get the IDs of the
-items a user has in their favorites list.)<br /><br /><strong>NOTE:</strong> This must be set before
-you send a UGC Query handle using
+<br />
+Sets whether to only return IDs instead of all the details on a pending UGC Query.<br />
+<br />
+This is useful for when you don't need all the information (e.g. you just want to get the IDs of the
+items a user has in their favorites list.)<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if the
-UGC query handle is from
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if the UGC query handle
+is from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUGCDetailsRequest"
     class="bb_apilink"
@@ -3619,16 +3985,18 @@ UGC query handle is from
         <td>The number of days worth of playtime stats to return.</td>
     </tr>
 </table>
-<br />Sets whether to return the the playtime stats on a pending UGC Query.<br /><br /><strong
-    >NOTE:</strong
->
-This must be set before you send a UGC Query handle using
+<br />
+Sets whether to return the the playtime stats on a pending UGC Query.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetReturnTotalOnly"></a>SetReturnTotalOnly</h2>
 <div class="bb_code cpp">
     bool SetReturnTotalOnly( UGCQueryHandle_t handle, bool bReturnTotalOnly );
@@ -3656,22 +4024,27 @@ if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> 
         <td>Only return the total number of items?</td>
     </tr>
 </table>
-<br />Sets whether to only return the the total number of matching items on a pending UGC Query.<br /><br />The
-actual items will not be returned when
+<br />
+Sets whether to only return the the total number of matching items on a pending UGC Query.<br />
+<br />
+The actual items will not be returned when
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
     class="bb_apilink"
     >SteamUGCQueryCompleted_t</a
 >
-is called.<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle
-using
+is called.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if the
-UGC query handle is from
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid or if the UGC query handle
+is from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryUGCDetailsRequest"
     class="bb_apilink"
@@ -3704,20 +4077,27 @@ UGC query handle is from
         <td>The text to be searched for.</td>
     </tr>
 </table>
-<br />Sets a string to that items need to match in either the title or the description on a pending
-UGC Query.<br /><br /><strong>NOTE:</strong> This can only be used with
+<br />
+Sets a string to that items need to match in either the title or the description on a pending UGC
+Query.<br />
+<br />
+<strong>NOTE:</strong> This can only be used with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryAllUGCRequest</a
->!<br /><br /><strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+>!<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC query <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the
-UGC query handle is not from
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, if the UGC query handle
+is not from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
@@ -3751,7 +4131,10 @@ or if <code class="bb_code bb_code_inline nohighlight">pSearchText</code> is <st
         <td>Vote up (<strong>true</strong>) or down (<strong>false</strong>)?</td>
     </tr>
 </table>
-<br />Allows the user to rate a workshop item up or down.<br /><br /><strong>Returns:</strong>
+<br />
+Allows the user to rate a workshop item up or down.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -3761,7 +4144,10 @@ to be used with a
     class="bb_apilink"
     >SetUserItemVoteResult_t</a
 >
-call result.<br /><br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetUserItemVote" class="bb_apilink"
     >ISteamUGC::GetUserItemVote</a
 >
@@ -3796,15 +4182,22 @@ call result.<br /><br /><br /><strong>See Also:</strong>
         <td>The item to update.</td>
     </tr>
 </table>
-<br />Starts the item update process.<br /><br />This gets you a handle that you can use to modify
-the item before finally sending off the update to the server with
+<br />
+Starts the item update process.<br />
+<br />
+This gets you a handle that you can use to modify the item before finally sending off the update to
+the server with
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong>
+>.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCUpdateHandle_t" class="bb_apilink"
     >UGCUpdateHandle_t</a
-><br />A handle that you can use with future calls to modify the item before finally sending the
-update.<br /><br /><strong>See Also:</strong>
+><br />
+A handle that you can use with future calls to modify the item before finally sending the update.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/features/workshop/implementation#uploading_a_workshop_item"
     class="bb_doclink"
@@ -3891,8 +4284,12 @@ update.<br /><br /><strong>See Also:</strong>
         </td>
     </tr>
 </table>
-<br />Start tracking playtime on a set of workshop items.<br /><br />When your app shuts down,
-playtime tracking will automatically stop.<br /><br /><strong>Returns:</strong>
+<br />
+Start tracking playtime on a set of workshop items.<br />
+<br />
+When your app shuts down, playtime tracking will automatically stop.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -3902,14 +4299,17 @@ to be used with a
     class="bb_apilink"
     >StartPlaytimeTrackingResult_t</a
 >
-call result.<br />Returns
+call result.<br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
 if <code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code> is
 <strong>NULL</strong>, or
 <code class="bb_code bb_code_inline nohighlight">unNumPublishedFileIDs</code> is less than
-<strong>1</strong> or greater than <strong>100</strong>.<br /><br /><strong>See Also:</strong>
+<strong>1</strong> or greater than <strong>100</strong>.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#StopPlaytimeTracking" class="bb_apilink"
     >ISteamUGC::StopPlaytimeTracking</a
 >,
@@ -3954,8 +4354,12 @@ if <code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code> i
         </td>
     </tr>
 </table>
-<br />Stop tracking playtime on a set of workshop items.<br /><br />When your app shuts down,
-playtime tracking will automatically stop.<br /><br /><strong>Returns:</strong>
+<br />
+Stop tracking playtime on a set of workshop items.<br />
+<br />
+When your app shuts down, playtime tracking will automatically stop.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -3970,8 +4374,11 @@ call result.
     <a name="StopPlaytimeTrackingForAllItems"></a>StopPlaytimeTrackingForAllItems
 </h2>
 <div class="bb_code cpp">SteamAPICall_t StopPlaytimeTrackingForAllItems();</div>
-Stop tracking playtime of all workshop items.<br /><br />When your app shuts down, playtime tracking
-will automatically stop.<br /><br /><strong>Returns:</strong>
+Stop tracking playtime of all workshop items.<br />
+<br />
+When your app shuts down, playtime tracking will automatically stop.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -3981,7 +4388,8 @@ to be used with a
     class="bb_apilink"
     >StopPlaytimeTrackingResult_t</a
 >
-call result.<br />Returns
+call result.<br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
@@ -4011,9 +4419,10 @@ if <code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code> i
         <td>The item.</td>
     </tr>
 </table>
-<br />Returns any app dependencies that are associated with the given item.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Returns any app dependencies that are associated with the given item.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -4054,11 +4463,15 @@ call result.
         </td>
     </tr>
 </table>
-<br />Uploads the changes made to an item to the Steam Workshop.<br /><br />You can track the
-progress of an item update with
+<br />
+Uploads the changes made to an item to the Steam Workshop.<br />
+<br />
+You can track the progress of an item update with
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemUpdateProgress" class="bb_apilink"
     >ISteamUGC::GetItemUpdateProgress</a
->.<br /><br /><strong>Returns:</strong>
+>.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -4068,7 +4481,8 @@ to be used with a
     class="bb_apilink"
     >SubmitItemUpdateResult_t</a
 >
-call result.<br />Returns
+call result.<br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
     >k_uAPICallInvalid</a
 >
@@ -4093,9 +4507,10 @@ if <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
         <td>The workshop item to subscribe to.</td>
     </tr>
 </table>
-<br />Subscribe to a workshop item. It will be downloaded and installed as soon as possible.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Subscribe to a workshop item. It will be downloaded and installed as soon as possible.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -4105,7 +4520,10 @@ to be used with a
     class="bb_apilink"
     >RemoteStorageSubscribePublishedFileResult_t</a
 >
-call result.<br /><br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubscribeItem" class="bb_apilink"
     >ISteamUGC::SubscribeItem</a
 >
@@ -4125,9 +4543,11 @@ call result.<br /><br /><br /><strong>See Also:</strong>
         </td>
     </tr>
 </table>
-<br />Suspends and resumes all workshop downloads.<br /><br />If you call this with
-<code class="bb_code bb_code_inline nohighlight">bSuspend</code> set to <strong>true</strong> then
-downloads will be suspended until you resume them by setting
+<br />
+Suspends and resumes all workshop downloads.<br />
+<br />
+If you call this with <code class="bb_code bb_code_inline nohighlight">bSuspend</code> set to
+<strong>true</strong> then downloads will be suspended until you resume them by setting
 <code class="bb_code bb_code_inline nohighlight">bSuspend</code> to <strong>false</strong> or when
 the game ends.
 <h2 class="bb_subsection"><a name="UnsubscribeItem"></a>UnsubscribeItem</h2>
@@ -4150,8 +4570,11 @@ the game ends.
         <td>The workshop item to unsubscribe from.</td>
     </tr>
 </table>
-<br />Unsubscribe from a workshop item. This will result in the item being removed after the game
-quits.<br /><br /><strong>Returns:</strong>
+<br />
+Unsubscribe from a workshop item. This will result in the item being removed after the game
+quits.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -4161,7 +4584,10 @@ to be used with a
     class="bb_apilink"
     >RemoteStorageUnsubscribePublishedFileResult_t</a
 >
-call result.<br /><br /><br /><strong>See Also:</strong>
+call result.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#UnsubscribeItem" class="bb_apilink"
     >ISteamUGC::UnsubscribeItem</a
 >
@@ -4209,18 +4635,23 @@ call result.<br /><br /><br /><strong>See Also:</strong>
         <td>Absolute path to the local image.</td>
     </tr>
 </table>
-<br />Updates an existing additional preview file for the item.<br /><br />If the preview type is an
-image then the format should be one that both the web and the application (if necessary) can render,
-and must be under 1MB. Suggested formats include JPG, PNG and GIF.<br /><br /><strong>NOTE:</strong>
-This must be set before you submit the UGC update handle using
+<br />
+Updates an existing additional preview file for the item.<br />
+<br />
+If the preview type is an image then the format should be one that both the web and the application
+(if necessary) can render, and must be under 1MB. Suggested formats include JPG, PNG and GIF.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddItemPreviewFile" class="bb_apilink"
     >ISteamUGC::AddItemPreviewFile</a
 >
@@ -4267,38 +4698,49 @@ if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code>
         <td>The YouTube video to add. (e.g. "jHgZh4GV9G0")</td>
     </tr>
 </table>
-<br />Updates an additional video preview from YouTube for the item.<br /><br /><strong
-    >NOTE:</strong
->
-This must be set before you submit the UGC update handle using
+<br />
+Updates an additional video preview from YouTube for the item.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you submit the UGC update handle using
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
->.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the UGC update <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br /><br /><strong
-    >See Also:</strong
->
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC update
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddItemPreviewVideo" class="bb_apilink"
     >ISteamUGC::AddItemPreviewVideo</a
 >
 <h2 class="bb_subsection"><a name="ShowWorkshopEULA"></a>ShowWorkshopEULA</h2>
 <div class="bb_code cpp">bool ShowWorkshopEULA();</div>
-<br />Show the app's latest Workshop EULA to the user in an overlay window, where they can accept it
-or not<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success.<br /><strong
-    >false</strong
->
-if the overlay cannot be shown.<br /><br /><strong>See Also:</strong>
+<br />
+Show the app's latest Workshop EULA to the user in an overlay window, where they can accept it or
+not<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the overlay cannot be shown.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetWorkshopEULAStatus" class="bb_apilink"
     >ISteamUGC::GetWorkshopEULAStatus</a
 >
 <h2 class="bb_subsection"><a name="GetWorkshopEULAStatus"></a>GetWorkshopEULAStatus</h2>
 <div class="bb_code cpp">SteamAPICall_t GetWorkshopEULAStatus();</div>
-<br />Asynchronously retrieves data about whether the user accepted the Workshop EULA for the
-current app.<br /><br /><strong>Returns:</strong>
+<br />
+Asynchronously retrieves data about whether the user accepted the Workshop EULA for the current
+app.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
-><br /><br /><strong>See Also:</strong>
+><br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#WorkshopEULAStatus_t" class="bb_apilink"
     >ISteamUGC::WorkshopEULAStatus_t</a
 >,
@@ -4315,7 +4757,8 @@ These are callbacks which can be fired by calling
 The result of a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddAppDependency" class="bb_apilink"
     >ISteamUGC::AddAppDependency</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4352,7 +4795,8 @@ The result of a call to
         <td>The app/dlc.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddAppDependency" class="bb_apilink"
     >ISteamUGC::AddAppDependency</a
 >
@@ -4360,7 +4804,8 @@ The result of a call to
 The result of a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddDependency" class="bb_apilink"
     >ISteamUGC::AddDependency</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4399,12 +4844,14 @@ The result of a call to
         <td>The child workshop item which was added as a dependency to the parent item.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddDependency" class="bb_apilink"
     >ISteamUGC::AddDependency</a
 >
 <h2 class="bb_subsection"><a name="CreateItemResult_t"></a>CreateItemResult_t</h2>
-Called when a new workshop item has been created.<br /><br />
+Called when a new workshop item has been created.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4563,14 +5010,17 @@ Called when a new workshop item has been created.<br /><br />
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateItem" class="bb_apilink"
     >ISteamUGC::CreateItem</a
 >
 <h2 class="bb_subsection"><a name="DownloadItemResult_t"></a>DownloadItemResult_t</h2>
-Called when a workshop item has been downloaded.<br /><br /><strong>NOTE:</strong> This callback
-goes out to all running applications, ensure that the app ID associated with the item matches what
-you expect.<br /><br />
+Called when a workshop item has been downloaded.<br />
+<br />
+<strong>NOTE:</strong> This callback goes out to all running applications, ensure that the app ID
+associated with the item matches what you expect.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4607,12 +5057,14 @@ you expect.<br /><br />
         <td>The result of the operation.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItem" class="bb_apilink"
     >ISteamUGC::DownloadItem</a
 >
 <h2 class="bb_subsection"><a name="GetAppDependenciesResult_t"></a>GetAppDependenciesResult_t</h2>
-Called when getting the app dependencies for an item.<br /><br />
+Called when getting the app dependencies for an item.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4655,12 +5107,14 @@ Called when getting the app dependencies for an item.<br /><br />
         <td>Total app dependencies found.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetAppDependencies" class="bb_apilink"
     >ISteamUGC::GetAppDependencies</a
 >
 <h2 class="bb_subsection"><a name="DeleteItemResult_t"></a>DeleteItemResult_t</h2>
-Called when an attempt at deleting an item completes.<br /><br />
+Called when an attempt at deleting an item completes.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4688,12 +5142,14 @@ Called when an attempt at deleting an item completes.<br /><br />
         <td>The workshop item which was being deleted.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#DeleteItem" class="bb_apilink"
     >ISteamUGC::DeleteItem</a
 >
 <h2 class="bb_subsection"><a name="GetUserItemVoteResult_t"></a>GetUserItemVoteResult_t</h2>
-Called when getting the users vote status on an item.<br /><br />
+Called when getting the users vote status on an item.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4736,14 +5192,17 @@ Called when getting the users vote status on an item.<br /><br />
         <td>Has the user skipped voting on this item?</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetUserItemVote" class="bb_apilink"
     >ISteamUGC::GetUserItemVote</a
 >
 <h2 class="bb_subsection"><a name="ItemInstalled_t"></a>ItemInstalled_t</h2>
-Called when a workshop item has been installed or updated.<br /><br /><strong>NOTE:</strong> This
-callback goes out to all running applications, ensure that the app ID associated with the item
-matches what you expect.<br /><br />
+Called when a workshop item has been installed or updated.<br />
+<br />
+<strong>NOTE:</strong> This callback goes out to all running applications, ensure that the app ID
+associated with the item matches what you expect.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4783,7 +5242,8 @@ matches what you expect.<br /><br />
 Purpose: The result of a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveAppDependency" class="bb_apilink"
     >ISteamUGC::RemoveAppDependency</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4820,7 +5280,8 @@ Purpose: The result of a call to
         <td>The app/dlc.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveAppDependency" class="bb_apilink"
     >ISteamUGC::RemoveAppDependency</a
 >
@@ -4828,7 +5289,8 @@ Purpose: The result of a call to
 Purpose: The result of a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveDependency" class="bb_apilink"
     >ISteamUGC::RemoveDependency</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4867,12 +5329,14 @@ Purpose: The result of a call to
         <td>The child workshop item which was removed as a dependency from the parent item.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveDependency" class="bb_apilink"
     >ISteamUGC::RemoveDependency</a
 >
 <h2 class="bb_subsection"><a name="SetUserItemVoteResult_t"></a>SetUserItemVoteResult_t</h2>
-Called when the user has voted on an item.<br /><br />
+Called when the user has voted on an item.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4905,14 +5369,16 @@ Called when the user has voted on an item.<br /><br />
         <td>Was the vote up (<strong>true</strong>) or down (<strong>false</strong>)?</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SetUserItemVote" class="bb_apilink"
     >ISteamUGC::SetUserItemVote</a
 >
 <h2 class="bb_subsection">
     <a name="StartPlaytimeTrackingResult_t"></a>StartPlaytimeTrackingResult_t
 </h2>
-Called when workshop item playtime tracking has started.<br /><br />
+Called when workshop item playtime tracking has started.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4929,12 +5395,14 @@ Called when workshop item playtime tracking has started.<br /><br />
         <td>The result of the operation.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#StartPlaytimeTracking" class="bb_apilink"
     >ISteamUGC::StartPlaytimeTracking</a
 >
 <h2 class="bb_subsection"><a name="SteamUGCQueryCompleted_t"></a>SteamUGCQueryCompleted_t</h2>
-Called when a UGC query request completes.<br /><br />
+Called when a UGC query request completes.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -4985,7 +5453,8 @@ Called when a UGC query request completes.<br /><br />
         <td>Indicates whether this data was retrieved from the local on-disk cache.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SendQueryUGCRequest" class="bb_apilink"
     >ISteamUGC::SendQueryUGCRequest</a
 >
@@ -4995,7 +5464,8 @@ Called when a UGC query request completes.<br /><br />
 DEPRECATED - Former result of a call to
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RequestUGCDetails" class="bb_apilink"
     >ISteamUGC::RequestUGCDetails</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5019,14 +5489,16 @@ DEPRECATED - Former result of a call to
         <td>Deprecated.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#RequestUGCDetails" class="bb_apilink"
     >ISteamUGC::RequestUGCDetails</a
 >
 <h2 class="bb_subsection">
     <a name="StopPlaytimeTrackingResult_t"></a>StopPlaytimeTrackingResult_t
 </h2>
-Called when workshop item playtime tracking has stopped.<br /><br />
+Called when workshop item playtime tracking has stopped.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5043,7 +5515,8 @@ Called when workshop item playtime tracking has stopped.<br /><br />
         <td>The result of the operation.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#StopPlaytimeTracking" class="bb_apilink"
     >ISteamUGC::StopPlaytimeTracking</a
 >,
@@ -5053,7 +5526,8 @@ Called when workshop item playtime tracking has stopped.<br /><br />
     >ISteamUGC::StopPlaytimeTrackingForAllItems</a
 >
 <h2 class="bb_subsection"><a name="SubmitItemUpdateResult_t"></a>SubmitItemUpdateResult_t</h2>
-Called when an item update has completed.<br /><br />
+Called when an item update has completed.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5165,14 +5639,16 @@ Called when an item update has completed.<br /><br />
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubmitItemUpdate" class="bb_apilink"
     >ISteamUGC::SubmitItemUpdate</a
 >
 <h2 class="bb_subsection">
     <a name="UserFavoriteItemsListChanged_t"></a>UserFavoriteItemsListChanged_t
 </h2>
-Called when the user has added or removed an item to/from their favorites.<br /><br />
+Called when the user has added or removed an item to/from their favorites.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5208,7 +5684,8 @@ Called when the user has added or removed an item to/from their favorites.<br />
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddItemToFavorites" class="bb_apilink"
     >ISteamUGC::AddItemToFavorites</a
 >,
@@ -5221,7 +5698,8 @@ Called when the user has added or removed an item to/from their favorites.<br />
     <a name="UserSubscribedItemsListChanged_t"></a>UserSubscribedItemsListChanged_t
 </h2>
 Called when the user has added or removed an item to/from their subscriptions for the returned
-appid.<br /><br />
+appid.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5236,7 +5714,8 @@ appid.<br /><br />
         <td>The related appid.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubscribeItem" class="bb_apilink"
     >ISteamUGC::SubscribeItem</a
 >,
@@ -5247,7 +5726,8 @@ appid.<br /><br />
 Callback returned
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetWorkshopEULAStatus" class="bb_apilink"
     >ISteamUGC::GetWorkshopEULAStatus</a
-><br /><br />
+><br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5304,7 +5784,8 @@ Callback returned
         <td>True if the user needs to accept the latest Workshop EULA, false otherwise.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetWorkshopEULAStatus" class="bb_apilink"
     >ISteamUGC::GetWorkshopEULAStatus</a
 >
@@ -5314,7 +5795,8 @@ These are structs which functions in ISteamUGC may return and/or interact with.
 Details for a single published item/UGC. This is returned by
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCResult" class="bb_apilink"
     >ISteamUGC::GetQueryUGCResult</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5570,7 +6052,8 @@ Flags that specify the type of preview an item has. Set with
     href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCAdditionalPreview"
     class="bb_apilink"
     >ISteamUGC::GetQueryUGCAdditionalPreview</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5623,7 +6106,8 @@ Flags that specify the type of preview an item has. Set with
 Specifies an items state. These are flags that can be combined. Returned by
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemState" class="bb_apilink"
     >ISteamUGC::GetItemState</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5691,7 +6175,8 @@ Specifies an items state. These are flags that can be combined. Returned by
 Used to retrieve item statistics with
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCStatistic" class="bb_apilink"
     >ISteamUGC::GetQueryUGCStatistic</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5775,7 +6260,8 @@ after a call to
 >, returned by
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemUpdateProgress" class="bb_apilink"
     >ISteamUGC::GetItemUpdateProgress</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5833,7 +6319,8 @@ or
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
     >ISteamUGC::CreateQueryAllUGCRequest</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -5932,7 +6419,8 @@ Used with
     class="bb_apilink"
     >ISteamUGC::CreateQueryAllUGCRequest</a
 >
-to specify the sorting and filtering for queries across all available UGC.<br /><br />
+to specify the sorting and filtering for queries across all available UGC.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -6090,7 +6578,8 @@ Used with
     class="bb_apilink"
     >ISteamUGC::CreateQueryUserUGCRequest</a
 >
-to obtain different lists of published UGC for a user.<br /><br />
+to obtain different lists of published UGC for a user.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -6183,7 +6672,8 @@ Used with
     class="bb_apilink"
     >ISteamUGC::CreateQueryUserUGCRequest</a
 >
-to specify the sort order for user published UGC lists. Defaults to creation order descending.<br /><br />
+to specify the sort order for user published UGC lists. Defaults to creation order descending.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -6245,7 +6735,8 @@ to specify the sort order for user published UGC lists. Defaults to creation ord
     </tr>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
-These are typedefs which are defined for use with ISteamUGC.<br /><br />
+These are typedefs which are defined for use with ISteamUGC.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -6278,7 +6769,8 @@ These are typedefs which are defined for use with ISteamUGC.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with ISteamUGC.<br /><br />
+These are constants which are defined for use with ISteamUGC.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

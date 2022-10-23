@@ -3,7 +3,9 @@ Steam Input is a service allowing Steam users to play any controller-supported g
 of their choice. Steam Input will translates the user's input into something the game understands
 through either Gamepad Emulation, Mouse and Keyboard Emulation, or Steam Input API. Here we will
 focus on how to best use Steam Input Gamepad Emulation to extend your game's existing controller
-support.<br /><br />What's Gamepad Emulation?<br />
+support.<br />
+<br />
+What's Gamepad Emulation?<br />
 <ul class="bb_ul">
     <li>
         On Windows the Steam Overlay will hook traditional gamepad input APIs such as XInput,
@@ -45,27 +47,36 @@ support.<br /><br />What's Gamepad Emulation?<br />
         including nearly half of all PlayStation controller sessions.
     </li>
 </ul>
-<br />Over 2000 games on Steam use Gamepad Emulation for at least one controller type, including
-notable games such as Monster Hunter: World, Ace Combat 7, Dragon Quest XI, Into the Breach, and
-Middle Earth: Shadow of War though not all of them are following the full list of best practices.
-Here we'll highlight Into the Breach because they are doing a great job of following each of these
-best practices.
+<br />
+Over 2000 games on Steam use Gamepad Emulation for at least one controller type, including notable
+games such as Monster Hunter: World, Ace Combat 7, Dragon Quest XI, Into the Breach, and Middle
+Earth: Shadow of War though not all of them are following the full list of best practices. Here
+we'll highlight Into the Breach because they are doing a great job of following each of these best
+practices.
 <h2 class="bb_section"><a name="1"></a>Showing device specific art</h2>
 We support a few ways to get device specific glyphs with Steam Input Gamepad Emulation – one for
 games that can load images at run-time that is future-proofed (meaning that when Steam updates Steam
 Input it will work without any game updates) and two for games which need to bake the images into
 their assets or want to use the same stylized art from the console ports of their game. Into the
-Breach uses their own art for Xbox/Steam Controllers:<br /><br /><img
+Breach uses their own art for Xbox/Steam Controllers:<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/intothebreach_xbox.PNG"
     alt="intothebreach_xbox.PNG"
     title="intothebreach_xbox.PNG"
-/><br /><br />PlayStation:<br /><br /><img
+/><br />
+<br />
+PlayStation:<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/intothebreach_ps4.PNG"
     alt="intothebreach_ps4.PNG"
     title="intothebreach_ps4.PNG"
-/><br /><br />
+/><br />
+<br />
 and Nintendo Switch controllers:<br />
-<br /><img
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/intothebreach_switchpro.PNG"
     alt="intothebreach_switchpro.PNG"
     title="intothebreach_switchpro.PNG"
@@ -105,7 +116,9 @@ You'll need to make use of the following functions:<br />
         >
     </li>
 </ul>
-<br />Example code:<br /><br />
+<br />
+Example code:<br />
+<br />
 <div class="bb_code">
     // Initialize the interface before using individual functions - this only needs to be called
     once! SteamInput()-&gt;Init() // ... // SteamAPI_RunCallbacks() will call the RunFrame functions
@@ -153,7 +166,8 @@ can ask Steam for this info by XInput slot using:<br />
         >
     </li>
 </ul>
-<br />Example code:<br />
+<br />
+Example code:<br />
 <div class="bb_code cpp">
     // Initialize the interface before using individual functions - this only needs to be called
     once! SteamInput()-&gt;Init() // ... // SteamAPI_RunCallbacks() will call the RunFrame functions
@@ -203,7 +217,8 @@ equivalents.<br />
         >
     </li>
 </ul>
-<br />Example code:<br />
+<br />
+Example code:<br />
 <div class="bb_code">
     // Initialize the interface before using individual functions - this only needs to be called
     once! SteamInput()-&gt;Init() // ... // SteamAPI_RunCallbacks() will call the RunFrame functions
@@ -236,11 +251,13 @@ Some games will use RawInput to support more than 4 controllers or will use it t
 have PlayStation controllers connected. This API will also return other non-gamepad devices and
 doesn't have a reliable index to directly map from Steam Input functions. Instead you can get this
 info by querying RIDI_DEVICENAME string from GetRawInputDeviceInfo() which is encoded with the USB
-VID/PID of real device, gamepad index, and Steam Input handle with the following format:<br />\\.\pipe\HID#VID_045E&amp;PID_028E&amp;IG_00#{Real
-device VID}&amp;{Real Device PID}&amp;{Steam Input API handle}#{Steam Input Gamepad
-Index}#{ProcessID}<br />For example,
-\\.\pipe\HID#VID_045E&amp;PID_028E&amp;IG_00#045E&amp;0B00&amp;00045EB00704DAF3#0#20160 for an Xbox
-one controller with a VID/PID of 0x45e/0x0b00.<br /><br />Example code:<br />
+VID/PID of real device, gamepad index, and Steam Input handle with the following format:<br />
+\\.\pipe\HID#VID_045E&amp;PID_028E&amp;IG_00#{Real device VID}&amp;{Real Device PID}&amp;{Steam
+Input API handle}#{Steam Input Gamepad Index}#{ProcessID}<br />
+For example, \\.\pipe\HID#VID_045E&amp;PID_028E&amp;IG_00#045E&amp;0B00&amp;00045EB00704DAF3#0#20160
+for an Xbox one controller with a VID/PID of 0x45e/0x0b00.<br />
+<br />
+Example code:<br />
 <div class="bb_code">
     #define VALVE_DIRECTINPUT_GAMEPAD_VID 0x28DE #define VALVE_DIRECTINPUT_GAMEPAD_PID 0x11FF
     #define STEAM_INPUT_VID_INDEX 37 #define STEAM_INPUT_PID_INDEX 42 #define
@@ -278,12 +295,16 @@ one controller with a VID/PID of 0x45e/0x0b00.<br /><br />Example code:<br />
 <h2 class="bb_section"><a name="6"></a>Setting the Steamworks Settings</h2>
 The first step is to setup which controllers will use Steam Input in the Opt-in section on the
 Steamworks settings under Application-&gt;Steam Input. For a standard game w/ Xbox controller
-support we recommend checking all checkboxes other than Xbox:<br /><br /><img
+support we recommend checking all checkboxes other than Xbox:<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_optin_settings.png"
     alt="steamworks_steam_input_optin_settings.png"
     title="steamworks_steam_input_optin_settings.png"
-/><br /><br />If your game has flight stick or racing wheel support you'll want to uncheck the box
-for Generic/DirectInput controllers because Steam doesn't support remapping those devices.
+/><br />
+<br />
+If your game has flight stick or racing wheel support you'll want to uncheck the box for
+Generic/DirectInput controllers because Steam doesn't support remapping those devices.
 <h2 class="bb_subsection"><a name="7"></a>Selecting a configuration</h2>
 You can choose to create your own configuration or pick from one of our premade templates. It is not
 necessary to create your own configuration unless you plan tweaking the configurations away from our
@@ -313,11 +334,14 @@ type of games they are intended for:<br />
         config instead.
     </li>
 </ul>
-<br /><img
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steam_input_gamepad_templates.png"
     alt="steam_input_gamepad_templates.png"
     title="steam_input_gamepad_templates.png"
-/><br /><br />Steps for setting the template live for your game in Steamworks can be found
+/><br />
+<br />
+Steps for setting the template live for your game in Steamworks can be found
 <a
     href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#23"
     target="_blank"
@@ -334,12 +358,14 @@ make a Steam Controller and Xbox controller configuration.
     </div>
 </div>
 <h2 class="bb_section"><a name="10"></a>Text Input</h2>
-<br />On-screen text input is not technically part of the
+<br />
+On-screen text input is not technically part of the
 <a href="https://partner.steamgames.com/doc/api/ISteamInput" class="bb_apilink">ISteamInput</a>
 (Steam Input), but is found instead in
 <a href="https://partner.steamgames.com/doc/api/ISteamUtils" class="bb_apilink">ISteamUtils</a>.
-This is currently only implemented when the player launches the game through Big Picture Mode.<br /><br />Some
-quick references:<br />
+This is currently only implemented when the player launches the game through Big Picture Mode.<br />
+<br />
+Some quick references:<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -363,8 +389,10 @@ quick references:<br />
         >
     </li>
 </ul>
-<br /><strong>Localizing your configuration</strong><br />Making a localized configuration is a
-little bit more complicated when not using Steam Input API but it is still achievable.<br />
+<br />
+<strong>Localizing your configuration</strong><br />
+Making a localized configuration is a little bit more complicated when not using Steam Input API but
+it is still achievable.<br />
 <ul class="bb_ul">
     <li>
         To start make sure you have not edited your configuration since the last time it was
@@ -419,8 +447,9 @@ little bit more complicated when not using Steam Input API but it is still achie
         >. You will want to set the "use action block" checkbox for one your configurations.
     </li>
 </ul>
-<br />The example configuration can be previewed in the steam client by entering this URL in your
-browser: steam://controllerconfig/681280/1744110334 or you can find the VDF file
+<br />
+The example configuration can be previewed in the steam client by entering this URL in your browser:
+steam://controllerconfig/681280/1744110334 or you can find the VDF file
 <a
     class="bb_docfile"
     href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/ExampleLocalizedConfiguration.vdf"

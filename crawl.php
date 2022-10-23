@@ -185,12 +185,14 @@ class Crawler
 		$Html = $this->DOMinnerHTML( $Content[ 0 ] );
 		$Html = str_replace( [
 			'</track>',
+			'<br>',
 			'steamcdn-a.akamaihd.net', 
 			'cdn.akamai.steamstatic.com',
 			'media.st.dl.pinyuncloud.com',
 			'media.st.dl.eccdnx.com',
 		], [
 			'',
+			"<br>\n",
 			self::CDN,
 			self::CDN,
 			self::CDN,

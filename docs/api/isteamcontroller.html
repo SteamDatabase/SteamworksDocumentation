@@ -1,10 +1,13 @@
 <h1>ISteamController Interface (Deprecated)</h1>
-Steam Controller support API.<br /><br />This API has been deprecated in favor of ISteamInput -
-please see
+Steam Controller support API.<br />
+<br />
+This API has been deprecated in favor of ISteamInput - please see
 <a href="https://partner.steamgames.com/doc/api/ISteamInput" class="bb_doclink"
     >ISteamInput Interface</a
 >
-for API info<br /><br />See the
+for API info<br />
+<br />
+See the
 <a href="https://partner.steamgames.com/doc/features/steam_controller" class="bb_doclink"
     >Steam Input</a
 >
@@ -47,11 +50,13 @@ called through the global accessor function
         <td>The handle of the action set you want to activate.</td>
     </tr>
 </table>
-<br />Reconfigure the controller to use the specified action set (ie "Menu", "Walk", or "Drive").<br /><br />This
-is cheap, and can be safely called repeatedly. It's often easier to repeatedly call it in your state
-loops, instead of trying to place it in all of your state transitions.<br /><br /><strong
-    >Example:</strong
-><br />
+<br />
+Reconfigure the controller to use the specified action set (ie "Menu", "Walk", or "Drive").<br />
+<br />
+This is cheap, and can be safely called repeatedly. It's often easier to repeatedly call it in your
+state loops, instead of trying to place it in all of your state transitions.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     void updateStateLoop() { switch( currentState ) { case MENU:
     SteamController()-&gt;ActivateActionSet( controllerHandle1, menuSetHandle ); doMenuStuff();
@@ -75,7 +80,8 @@ loops, instead of trying to place it in all of your state transitions.<br /><br 
         for an individual controller handle.
     </div>
 </div>
-<br /><strong>Example:</strong><br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     void updateStateLoop() { switch( currentState ) { case MENU:
     SteamController()-&gt;ActivateActionSet( STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS, menuSetHandle
@@ -120,14 +126,18 @@ loops, instead of trying to place it in all of your state transitions.<br /><br 
         <td>The handle of the action set layer you want to activate.</td>
     </tr>
 </table>
-<br />Reconfigure the controller to use the specified action set layer.<br /><br />See the
+<br />
+Reconfigure the controller to use the specified action set layer.<br />
+<br />
+See the
 <a
     href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
     class="bb_doclink"
     >Action Set Layers</a
 >
-article for full details and an in-depth practical example.<br /><br /><strong>Example:</strong
-><br />
+article for full details and an in-depth practical example.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     SteamController()-&gt;ActivateActionSetLayer( controllerHandle1, myActionSetLayer );
 </div>
@@ -165,9 +175,10 @@ article for full details and an in-depth practical example.<br /><br /><strong>E
         <td>The handle of the action set layer you want to deactivate.</td>
     </tr>
 </table>
-<br />Reconfigure the controller to stop using the specified action set layer.<br /><br /><strong
-    >Example:</strong
-><br />
+<br />
+Reconfigure the controller to stop using the specified action set layer.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     SteamController()-&gt;DeactivateActionSetLayer( controllerHandle1, myActionSetLayer );
 </div>
@@ -195,9 +206,10 @@ article for full details and an in-depth practical example.<br /><br /><strong>E
         <td>The handle of the controller you want to deactivate all action set layers for.</td>
     </tr>
 </table>
-<br />Reconfigure the controller to stop using all action set layers.<br /><br /><strong
-    >Example:</strong
-><br />
+<br />
+Reconfigure the controller to stop using all action set layers.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     SteamController()-&gt;DeactivateAllActionSetLayers( controllerHandle1 );
 </div>
@@ -243,8 +255,11 @@ article for full details and an in-depth practical example.<br /><br /><strong>E
         </td>
     </tr>
 </table>
-<br />Fill an array with all of the currently active action set layers for a specified controller
-handle.<br /><br /><strong>Example:</strong><br />
+<br />
+Fill an array with all of the currently active action set layers for a specified controller
+handle.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     ControllerHandle_t *handlesOut = new ControllerHandle_t [];
     SteamController()-&gt;GetActiveActionSetLayers( controllerHandle1, &amp;handlesOut );
@@ -265,13 +280,19 @@ handle.<br /><br /><strong>Example:</strong><br />
         <td>The string identifier of an action set defined in the game's VDF file.</td>
     </tr>
 </table>
-<br />Lookup the handle for an Action Set. Best to do this once on startup, and store the handles
-for all future API calls.<br /><br /><strong>Returns:</strong>
+<br />
+Lookup the handle for an Action Set. Best to do this once on startup, and store the handles for all
+future API calls.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#ControllerActionSetHandle_t"
     class="bb_apilink"
     >ControllerActionSetHandle_t</a
-><br />The handle of the specified action set.<br /><br /><strong>Example:</strong><br />
+><br />
+The handle of the specified action set.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     ControllerActionSetHandle_t fightingSetHandle = SteamController()-&gt;GetActionSetHandle(
     "fighting" );
@@ -310,14 +331,18 @@ for all future API calls.<br /><br /><strong>Returns:</strong>
         <td>The handle of the analog action you want to query.</td>
     </tr>
 </table>
-<br />Returns the current state of the supplied analog game action.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Returns the current state of the supplied analog game action.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#ControllerAnalogActionData_t"
     class="bb_apilink"
     >ControllerAnalogActionData_t</a
-><br />The current state of the specified analog action.<br /><br /><strong>Example:</strong><br />
+><br />
+The current state of the specified analog action.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     ControllerAnalogActionData_t data = SteamController()-&gt;GetAnalogActionData(
     controller1Handle, moveHandle );
@@ -338,17 +363,23 @@ for all future API calls.<br /><br /><strong>Returns:</strong>
         <td>The string identifier of the analog action defined in the game's VDF file.</td>
     </tr>
 </table>
-<br />Get the handle of the specified Analog action.<br /><br /><strong>NOTE:</strong> This function
-does not take an action set handle parameter. That means that each action in your VDF file must have
-a unique string identifier. In other words, if you use an action called "up" in two different action
-sets, this function will only ever return one of them and the other will be ignored.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Get the handle of the specified Analog action.<br />
+<br />
+<strong>NOTE:</strong> This function does not take an action set handle parameter. That means that
+each action in your VDF file must have a unique string identifier. In other words, if you use an
+action called "up" in two different action sets, this function will only ever return one of them and
+the other will be ignored.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#ControllerAnalogActionHandle_t"
     class="bb_apilink"
     >ControllerAnalogActionHandle_t</a
-><br />The handle of the specified analog action.<br /><br /><strong>Example:</strong><br />
+><br />
+The handle of the specified analog action.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     ControllerAnalogActionHandle_t moveHandle = SteamController()-&gt;GetAnalogActionHandle( "move"
     );
@@ -425,12 +456,16 @@ sets, this function will only ever return one of them and the other will be igno
         </td>
     </tr>
 </table>
-<br />Get the origin(s) for an analog action within an action set by filling originsOut with
+<br />
+Get the origin(s) for an analog action within an action set by filling originsOut with
 EControllerActionOrigin handles. Use this to display the appropriate on-screen prompt for the
-action.<br /><br /><strong>Returns:</strong> int<br />The number of origins supplied in
-<code class="bb_code bb_code_inline nohighlight">originsOut</code>.<br /><br /><strong
-    >Example:</strong
-><br />
+action.<br />
+<br />
+<strong>Returns:</strong> int<br />
+The number of origins supplied in
+<code class="bb_code bb_code_inline nohighlight">originsOut</code>.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     EControllerActionOrigin *origins = new EControllerActionOrigin[];
     SteamController()-&gt;GetAnalogActionOrigins( controller1Handle, walkingSetHandle, moveHandle,
@@ -465,13 +500,14 @@ action.<br /><br /><strong>Returns:</strong> int<br />The number of origins supp
         </td>
     </tr>
 </table>
-<br />Enumerates currently connected controllers by filling handlesOut with controller handles.<br /><br /><strong
-    >Returns:</strong
->
-int<br />The number of handles written to
-<code class="bb_code bb_code_inline nohighlight">handlesOut</code>.<br /><br /><strong
-    >Example:</strong
-><br />
+<br />
+Enumerates currently connected controllers by filling handlesOut with controller handles.<br />
+<br />
+<strong>Returns:</strong> int<br />
+The number of handles written to
+<code class="bb_code bb_code_inline nohighlight">handlesOut</code>.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     ControllerHandle_t *controllerHandles = new ControllerHandle_t[];
     SteamController()-&gt;GetConnectedControllers( controllerHandles );
@@ -492,14 +528,20 @@ int<br />The number of handles written to
         <td>The index of the emulated gamepad you want to get a controller handle for.</td>
     </tr>
 </table>
-<br />Returns the associated controller handle for the specified emulated gamepad. Can be used with
+<br />
+Returns the associated controller handle for the specified emulated gamepad. Can be used with
 GetInputTypeForHandle to determine the controller type of a controller using Steam Input Gamepad
-Emulation.<br /><br /><strong>Returns:</strong>
+Emulation.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#ControllerHandle_t"
     class="bb_apilink"
     >ControllerHandle_t</a
-><br /><br /><br /><strong>Example:</strong><br />
+><br />
+<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     // Replace with the Xinput Slot you are querying for. This number is between 0 and 3 int
     nXinputSlotIndex = 0; ControllerHandle_t controllerHandle =
@@ -535,16 +577,18 @@ Emulation.<br /><br /><strong>Returns:</strong>
         <td>The handle of the controller you want to query.</td>
     </tr>
 </table>
-<br />Get the currently active action set for the specified controller.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Get the currently active action set for the specified controller.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#ControllerActionSetHandle_t"
     class="bb_apilink"
     >ControllerActionSetHandle_t</a
-><br />The handle of the action set activated for the specified controller.<br /><br /><strong
-    >Example:</strong
 ><br />
+The handle of the action set activated for the specified controller.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     ControllerActionSetHandle_t controller1Set =
     SteamController()-&gt;GetCurrentActionSet(controller1Handle);
@@ -583,14 +627,16 @@ Emulation.<br /><br /><strong>Returns:</strong>
         <td>The handle of the digital action you want to query.</td>
     </tr>
 </table>
-<br />Returns the current state of the supplied digital game action.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Returns the current state of the supplied digital game action.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#ControllerDigitalActionData_t"
     class="bb_apilink"
     >ControllerDigitalActionData_t</a
-><br />The current state of the specified digital action.
+><br />
+The current state of the specified digital action.
 <h2 class="bb_subsection"><a name="GetDigitalActionHandle"></a>GetDigitalActionHandle</h2>
 <div class="bb_code cpp">
     ControllerDigitalActionHandle_t GetDigitalActionHandle( const char *pszActionName );
@@ -607,16 +653,23 @@ Emulation.<br /><br /><strong>Returns:</strong>
         <td>The string identifier of the digital action defined in the game's VDF file.</td>
     </tr>
 </table>
-<br />Get the handle of the specified digital action.<br /><br /><strong>NOTE:</strong> This
-function does not take an action set handle parameter. That means that each action in your VDF file
-must have a unique string identifier. In other words, if you use an action called "up" in two
-different action sets, this function will only ever return one of them and the other will be
-ignored.<br /><br /><strong>Returns:</strong>
+<br />
+Get the handle of the specified digital action.<br />
+<br />
+<strong>NOTE:</strong> This function does not take an action set handle parameter. That means that
+each action in your VDF file must have a unique string identifier. In other words, if you use an
+action called "up" in two different action sets, this function will only ever return one of them and
+the other will be ignored.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#ControllerDigitalActionHandle_t"
     class="bb_apilink"
     >ControllerDigitalActionHandle_t</a
-><br />The handle of the specified digital action.<br /><br /><strong>Example:</strong><br />
+><br />
+The handle of the specified digital action.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     ControllerDigitalActionHandle_t punchHandle = SteamController()-&gt;GetDigitalActionHandle(
     "punch" );
@@ -693,20 +746,21 @@ ignored.<br /><br /><strong>Returns:</strong>
         </td>
     </tr>
 </table>
-<br />Get the origin(s) for a digital action within an action set by filling
+<br />
+Get the origin(s) for a digital action within an action set by filling
 <code class="bb_code bb_code_inline nohighlight">originsOut</code> with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#EControllerActionOrigin"
     class="bb_apilink"
     >EControllerActionOrigin</a
 >
-handles. Use this to display the appropriate on-screen prompt for the action.<br /><br /><strong
-    >Returns:</strong
->
-int<br />The number of origins supplied in
-<code class="bb_code bb_code_inline nohighlight">originsOut</code>.<br /><br /><strong
-    >Example:</strong
-><br />
+handles. Use this to display the appropriate on-screen prompt for the action.<br />
+<br />
+<strong>Returns:</strong> int<br />
+The number of origins supplied in
+<code class="bb_code bb_code_inline nohighlight">originsOut</code>.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     EControllerActionOrigin *origins = new EControllerActionOrigin[];
     SteamController()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle,
@@ -736,10 +790,13 @@ int<br />The number of origins supplied in
         <td>The handle of the controller you want to get a gamepad index for.</td>
     </tr>
 </table>
-<br />Returns the associated gamepad index for the specified controller, if emulating a gamepad.<br /><br /><strong
-    >Returns:</strong
->
-int<br /><br /><br /><strong>Example:</strong><br />
+<br />
+Returns the associated gamepad index for the specified controller, if emulating a gamepad.<br />
+<br />
+<strong>Returns:</strong> int<br />
+<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     int gamepadIndex = SteamController()-&gt;GetGamepadIndexForController( controller1Handle );
 </div>
@@ -765,14 +822,18 @@ int<br /><br /><br /><strong>Example:</strong><br />
         <td></td>
     </tr>
 </table>
-<br />Get a local path to art for on-screen glyph for a particular origin.<br /><br /><strong
-    >Returns:</strong
->
-const char *<br />The path to the png file for the glyph.<br />E.g.
+<br />
+Get a local path to art for on-screen glyph for a particular origin.<br />
+<br />
+<strong>Returns:</strong> const char *<br />
+The path to the png file for the glyph.<br />
+E.g.
 <code class="bb_code bb_code_inline nohighlight"
     >"C:\Program Files
     (x86)\Steam\tenfoot\resource\images\library\controller\api\ps4_button_x.png"</code
-><br /><br /><strong>Example:</strong><br />
+><br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     // Get origins for "punch" EControllerActionOrigin *origins = new EControllerActionOrigin[];
     SteamController()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle,
@@ -811,7 +872,8 @@ const char *<br />The path to the png file for the glyph.<br />E.g.
         <td>The handle of the controller whose input type (device model) you want to query</td>
     </tr>
 </table>
-<br />Returns the input type (device model) for the specified controller. This tells you if a given
+<br />
+Returns the input type (device model) for the specified controller. This tells you if a given
 controller is a Steam controller, XBox 360 controller, PS4 controller, etc. For more details, see
 Steam's
 <a
@@ -819,10 +881,15 @@ Steam's
     target="_blank"
     rel="noreferrer"
     >Supported Controller Database</a
->.<br /><br /><strong>Returns:</strong>
+>.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamController#ESteamInputType" class="bb_apilink"
     >ESteamInputType</a
-><br /><br /><br /><strong>Example:</strong><br />
+><br />
+<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     ESteamInputType inputType = SteamController()-&gt;GetInputTypeForHandle(controller1Handle);
     switch(inputType) { case k_ESteamInputType_Unknown: printf("unknown\n!"); break; case
@@ -854,12 +921,18 @@ Steam's
         <td>The handle of the controller you want to get motion data for.</td>
     </tr>
 </table>
-<br />Returns raw motion data for the specified controller.<br /><br /><strong>Returns:</strong>
+<br />
+Returns raw motion data for the specified controller.<br />
+<br />
+<strong>Returns:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamController#ControllerMotionData_t"
     class="bb_apilink"
     >ControllerMotionData_t</a
-><br /><br /><br /><strong>Example:</strong><br />
+><br />
+<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     ControllerMotionData_t motionData = SteamController()-&gt;GetControllerMotionData(
     controllerHandle );
@@ -886,10 +959,13 @@ Steam's
         <td></td>
     </tr>
 </table>
-<br />Returns a localized string (from Steam's language setting) for the specified origin.<br /><br /><strong
-    >Returns:</strong
->
-const char *<br /><br /><br /><strong>Example:</strong><br />
+<br />
+Returns a localized string (from Steam's language setting) for the specified origin.<br />
+<br />
+<strong>Returns:</strong> const char *<br />
+<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     EControllerActionOrigin *origins = new EControllerActionOrigin[];
     SteamController()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle,
@@ -903,14 +979,20 @@ Must be called when starting use of the
 <a href="https://partner.steamgames.com/doc/api/ISteamController" class="bb_apilink"
     >ISteamController</a
 >
-interface.<br /><br /><strong>Returns:</strong> bool<br />Always returns
-<strong>true</strong>.<br /><br /><strong>Example:</strong><br />
+interface.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Always returns <strong>true</strong>.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">SteamController()-&gt;Init();</div>
 <h2 class="bb_subsection"><a name="RunFrame"></a>RunFrame</h2>
 <div class="bb_code cpp">void RunFrame();</div>
 Synchronize API state with the latest Steam Controller inputs available. This is performed
 automatically by SteamAPI_RunCallbacks, but for the absolute lowest possible latency, you can call
-this directly before reading controller state.<br /><br /><strong>Example:</strong><br />
+this directly before reading controller state.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">SteamController()-&gt;RunFrame();</div>
 <h2 class="bb_subsection"><a name="SetLEDColor"></a>SetLEDColor</h2>
 <div class="bb_code cpp">
@@ -974,12 +1056,16 @@ this directly before reading controller state.<br /><br /><strong>Example:</stro
         </td>
     </tr>
 </table>
-<br />Set the controller LED color on supported controllers.<br /><br /><strong>Notes:</strong
-><br />The VSC does not support any color but white, and will interpret the RGB values as a
-greyscale value affecting the brightness of the Steam button LED.<br />The DS4 responds to full
-color information and uses the values to set the color &amp; brightness of the lightbar.<br /><br /><strong
-    >Example:</strong
-><br />
+<br />
+Set the controller LED color on supported controllers.<br />
+<br />
+<strong>Notes:</strong><br />
+The VSC does not support any color but white, and will interpret the RGB values as a greyscale value
+affecting the brightness of the Steam button LED.<br />
+The DS4 responds to full color information and uses the values to set the color &amp; brightness of
+the lightbar.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     // Restore the user default color for controller 1: SteamController()-&gt;SetLEDColor(
     controller1Handle, 0, 0, 0, k_ESteamControllerLEDFlag_RestoreUserDefault ); // Set the color to
@@ -1036,8 +1122,11 @@ color information and uses the values to set the color &amp; brightness of the l
         <td></td>
     </tr>
 </table>
-<br />Deprecated.<br /><br /><strong>Returns:</strong> bool<br />Always returns
-<strong>true</strong>.
+<br />
+Deprecated.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Always returns <strong>true</strong>.
 <h2 class="bb_subsection"><a name="ShowBindingPanel"></a>ShowBindingPanel</h2>
 <div class="bb_code cpp">bool ShowBindingPanel( ControllerHandle_t controllerHandle );</div>
 <table>
@@ -1058,12 +1147,14 @@ color information and uses the values to set the color &amp; brightness of the l
         <td>The handle of the controller you want to bring up the binding screen for.</td>
     </tr>
 </table>
-<br />Invokes the Steam overlay and brings up the binding screen.<br /><br /><strong
-    >Returns:</strong
->
-bool<br /><strong>true</strong> for success; <strong>false</strong> if overlay is
-disabled/unavailable, or the user is not in Big Picture Mode.<br /><br /><strong>Example:</strong
-><br />
+<br />
+Invokes the Steam overlay and brings up the binding screen.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> for success; <strong>false</strong> if overlay is disabled/unavailable, or the
+user is not in Big Picture Mode.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">SteamController()-&gt;ShowBindingPanel( myControllerHandle );</div>
 <h2 class="bb_subsection"><a name="ShowDigitalActionOrigins"></a>ShowDigitalActionOrigins</h2>
 <div class="bb_code cpp">
@@ -1115,16 +1206,23 @@ disabled/unavailable, or the user is not in Big Picture Mode.<br /><br /><strong
         <td></td>
     </tr>
 </table>
-<br />Deprecated.<br /><br /><strong>Returns:</strong> bool<br />Always returns
-<strong>true</strong>.
+<br />
+Deprecated.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Always returns <strong>true</strong>.
 <h2 class="bb_subsection"><a name="Shutdown"></a>Shutdown</h2>
 <div class="bb_code cpp">bool Shutdown();</div>
 Must be called when ending use of the
 <a href="https://partner.steamgames.com/doc/api/ISteamController" class="bb_apilink"
     >ISteamController</a
 >
-interface.<br /><br /><strong>Returns:</strong> bool<br />Always returns
-<strong>true</strong>.<br /><br /><strong>Example:</strong><br />
+interface.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Always returns <strong>true</strong>.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">SteamController()-&gt;Shutdown();</div>
 <h2 class="bb_subsection"><a name="StopAnalogActionMomentum"></a>StopAnalogActionMomentum</h2>
 <div class="bb_code cpp">
@@ -1160,11 +1258,16 @@ interface.<br /><br /><strong>Returns:</strong> bool<br />Always returns
         <td>The analog action to stop momentum for.</td>
     </tr>
 </table>
-<br />Stops the momentum of an analog action (where applicable, ie a touchpad w/ virtual trackball
-settings).<br /><br /><strong>NOTE:</strong><br />This will also stop all associated haptics. This
-is useful for situations where you want to indicate to the user that the limit of an action has been
-reached, such as spinning a carousel or scrolling a webpage.<br /><br /><strong>Example:</strong
-><br />
+<br />
+Stops the momentum of an analog action (where applicable, ie a touchpad w/ virtual trackball
+settings).<br />
+<br />
+<strong>NOTE:</strong><br />
+This will also stop all associated haptics. This is useful for situations where you want to indicate
+to the user that the limit of an action has been reached, such as spinning a carousel or scrolling a
+webpage.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     SteamController()-&gt;StopAnalogActionMomentum( controller1Handle, moveHandle );
 </div>
@@ -1207,15 +1310,18 @@ reached, such as spinning a carousel or scrolling a webpage.<br /><br /><strong>
         <td>Duration of the pulse, in microseconds (1/1,000,000th of a second)</td>
     </tr>
 </table>
-<br />Triggers a (low-level) haptic pulse on supported controllers.<br /><br /><strong
-    >Notes:</strong
-><br />Currently only the VSC supports haptic pulses.<br />This API call will be ignored for all
-other controller models.<br />The typical max value of an unsigned short is 65535, which means the
-longest haptic pulse you can trigger with this method has a duration of 0.065535 seconds (ie, less
-than 1/10th of a second). This function should be thought of as a low-level primitive meant to be
-repeatedly used in higher-level user functions to generate more sophisticated behavior.<br /><br /><strong
-    >Example:</strong
-><br />
+<br />
+Triggers a (low-level) haptic pulse on supported controllers.<br />
+<br />
+<strong>Notes:</strong><br />
+Currently only the VSC supports haptic pulses.<br />
+This API call will be ignored for all other controller models.<br />
+The typical max value of an unsigned short is 65535, which means the longest haptic pulse you can
+trigger with this method has a duration of 0.065535 seconds (ie, less than 1/10th of a second). This
+function should be thought of as a low-level primitive meant to be repeatedly used in higher-level
+user functions to generate more sophisticated behavior.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     //Pulse once for 1/20th of a second SteamController()-&gt;TriggerHapticPulse(controller1Handle,
     k_ESteamControllerPad_Left, 50000);
@@ -1279,12 +1385,18 @@ repeatedly used in higher-level user functions to generate more sophisticated be
         <td>Currently unused and reserved for future use.</td>
     </tr>
 </table>
-<br />Triggers a repeated haptic pulse on supported controllers.<br /><br /><strong>Notes:</strong
-><br />Currently only the VSC supports haptic pulses.<br />This API call will be ignored for
-incompatible controller models.<br />This is a more user-friendly function to call than
-TriggerHapticPulse as it can generate pulse patterns long enough to be actually noticed by the
-user.<br />Changing the usDurationMicroSec and usOffMicroSec parameters will change the "texture" of
-the haptic pulse.<br /><br /><strong>Example:</strong><br />
+<br />
+Triggers a repeated haptic pulse on supported controllers.<br />
+<br />
+<strong>Notes:</strong><br />
+Currently only the VSC supports haptic pulses.<br />
+This API call will be ignored for incompatible controller models.<br />
+This is a more user-friendly function to call than TriggerHapticPulse as it can generate pulse
+patterns long enough to be actually noticed by the user.<br />
+Changing the usDurationMicroSec and usOffMicroSec parameters will change the "texture" of the haptic
+pulse.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     //Pulse for 1 second with an on/off pulse pattern of 1/20th of a second each
     SteamController()-&gt;TriggerRepeatedHapticPulse( controller1Handle, k_ESteamControllerPad_Left,
@@ -1323,10 +1435,15 @@ the haptic pulse.<br /><br /><strong>Example:</strong><br />
         <td>The intensity value of the right rumble motor.</td>
     </tr>
 </table>
-<br />Trigger a vibration event on supported controllers.<br /><br /><strong>Notes:</strong
-><br />This API call will be ignored for incompatible controller models.<br />This generates the
-traditional "rumble" vibration effect.<br />The VSC will emulate traditional rumble using its
-haptics.<br /><br /><strong>Example:</strong><br />
+<br />
+Trigger a vibration event on supported controllers.<br />
+<br />
+<strong>Notes:</strong><br />
+This API call will be ignored for incompatible controller models.<br />
+This generates the traditional "rumble" vibration effect.<br />
+The VSC will emulate traditional rumble using its haptics.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     SteamController()-&gt;TriggerVibration( controller1Handle, 10000, 10000 );
 </div>
@@ -1363,9 +1480,14 @@ haptics.<br /><br /><strong>Example:</strong><br />
         <td>This is the button you want to get the image for ex: k_EXboxOrigin_A</td>
     </tr>
 </table>
-<br /><strong>Returns:</strong> EControllerActionOrigin<br /><br />Get an action origin that you can
-use in your glyph look up table or passed into GetGlyphForActionOrigin or
-GetStringForActionOrigin<br /><br /><br /><strong>Example:</strong><br />
+<br />
+<strong>Returns:</strong> EControllerActionOrigin<br />
+<br />
+Get an action origin that you can use in your glyph look up table or passed into
+GetGlyphForActionOrigin or GetStringForActionOrigin<br />
+<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     int nXinputSlot = 1; // Substitute whatever the correct Xinput slot is for your player
     ControllerHandle_t controller1Handle = GetControllerForGamepadIndex( nXinputSlot );
@@ -1420,12 +1542,16 @@ GetStringForActionOrigin<br /><br /><br /><strong>Example:</strong><br />
         <td>This is the button you want to translate</td>
     </tr>
 </table>
-<br /><strong>Returns:</strong> EControllerActionOrigin<br /><br />Get the equivalent origin for a
-given controller type or the closest controller type that existed in the SDK you built into your
-game if eDestinationInputType is k_ESteamInputType_Unknown. This action origin can be used in your
-glyph look up table or passed into GetGlyphForActionOrigin or GetStringForActionOrigin<br /><br /><br /><strong
-    >Example:</strong
-><br />
+<br />
+<strong>Returns:</strong> EControllerActionOrigin<br />
+<br />
+Get the equivalent origin for a given controller type or the closest controller type that existed in
+the SDK you built into your game if eDestinationInputType is k_ESteamInputType_Unknown. This action
+origin can be used in your glyph look up table or passed into GetGlyphForActionOrigin or
+GetStringForActionOrigin<br />
+<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     int nXinputSlot = 1; // Substitute whatever the correct Xinput slot is for your player
     ControllerHandle_t controller1Handle = GetControllerForGamepadIndex( nXinputSlot );
@@ -1477,16 +1603,20 @@ glyph look up table or passed into GetGlyphForActionOrigin or GetStringForAction
         <td>Pointer to int that Minor binding revision will be populated into</td>
     </tr>
 </table>
-<br /><strong>Returns:</strong> bool - true if a device binding was successfully found and false if
-the binding is still loading<br /><br />Get's the major and minor device binding revisions for Steam
-Input API configurations. Minor revisions are for small changes such as adding a new option action
-or updating localization in the configuration. When updating a Minor revision only one new
-configuration needs to be update with the "Use Action Block" flag set. Major revisions are to be
-used when changing the number of action sets or otherwise reworking configurations to the degree
-that older configurations are no longer usable. When a user's binding disagree's with the major
-revision of the current official configuration Steam will forcibly update the user to the new
-configuration. New configurations will need to be made for every controller when updating the Major
-revision.<br /><br /><strong>Example Code:</strong><br />
+<br />
+<strong>Returns:</strong> bool - true if a device binding was successfully found and false if the
+binding is still loading<br />
+<br />
+Get's the major and minor device binding revisions for Steam Input API configurations. Minor
+revisions are for small changes such as adding a new option action or updating localization in the
+configuration. When updating a Minor revision only one new configuration needs to be update with the
+"Use Action Block" flag set. Major revisions are to be used when changing the number of action sets
+or otherwise reworking configurations to the degree that older configurations are no longer usable.
+When a user's binding disagree's with the major revision of the current official configuration Steam
+will forcibly update the user to the new configuration. New configurations will need to be made for
+every controller when updating the Major revision.<br />
+<br />
+<strong>Example Code:</strong><br />
 <div class="bb_code cpp">
     int nMinor = -1; int nMinor = -1; const int nCurrentMajorRevision = 1; const int
     nCurrentMinorRevision = 1; if ( GetControllerBindingRevision( controllerHandle, &amp;nMajor,
@@ -1496,7 +1626,8 @@ revision.<br /><br /><strong>Example Code:</strong><br />
     detects // and then force-updates the user to the latest official config } } else { // The
     configuration isn't loaded for this controller yet }
 </div>
-<br /><strong>Example In-game Action File Usage:</strong><br />
+<br />
+<strong>Example In-game Action File Usage:</strong><br />
 <div class="bb_code">
     "In Game Actions" { "major_revision" "0" “minor_revision” “1” "actions" { ...
 </div>
@@ -1505,7 +1636,9 @@ These are structs which functions in ISteamController may return and/or interact
 <h2 class="bb_subsection">
     <a name="ControllerAnalogActionData_t"></a>ControllerAnalogActionData_t
 </h2>
-Represents the current state of an analog action.<br /><br /><strong>Notes:</strong><br />
+Represents the current state of an analog action.<br />
+<br />
+<strong>Notes:</strong><br />
 <ul class="bb_ul">
     <li>
         The exact values, range, etc, depend on the configuration, but (broadly speaking)
@@ -1569,7 +1702,8 @@ Represents the current state of an analog action.<br /><br /><strong>Notes:</str
 <h2 class="bb_subsection">
     <a name="ControllerDigitalActionData_t"></a>ControllerDigitalActionData_t
 </h2>
-Represents the current state of a digital action.<br /><br />
+Represents the current state of a digital action.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1593,10 +1727,12 @@ Represents the current state of a digital action.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="ControllerMotionData_t"></a>ControllerMotionData_t</h2>
-Represents the current state of a device's motion sensor(s).<br /><br /><strong>NOTE:</strong> For
-rotQuatX/rotQuatY/rotQuatZ, the inertial measurement unit on the controller will create a quaternion
-based on fusing the gyro and the accelerometer. This value is the absolute orientation of the
-controller, but it will drift on the yaw axis.<br /><br />
+Represents the current state of a device's motion sensor(s).<br />
+<br />
+<strong>NOTE:</strong> For rotQuatX/rotQuatY/rotQuatZ, the inertial measurement unit on the
+controller will create a quaternion based on fusing the gyro and the accelerometer. This value is
+the absolute orientation of the controller, but it will drift on the yaw axis.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1659,7 +1795,8 @@ These are enums which are defined for use with ISteamController.
 <h2 class="bb_subsection"><a name="EControllerActionOrigin"></a>EControllerActionOrigin</h2>
 Inputs the player binds to actions in the Steam Input Configurator. The chief purpose of these
 values is to direct which on-screen button glyphs should appear for a given action, such as "Press
-[A] to Jump".<br /><br />
+[A] to Jump".<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2437,7 +2574,8 @@ A region of the controller that can be thought of as a larger abstract modular u
 modes can be applied to and output meaningful data. For example, a joystick can be treated as either
 a single analog input, or broken up into four discrete digital forming a virtual DPAD. Likewise, the
 ABXY face buttons form a natural group that be treated as four independent buttons, or as components
-of a virtual DPAD, etc.<br /><br />
+of a virtual DPAD, etc.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2530,7 +2668,8 @@ The virtual input mode imposed by the configurator upon a controller source. For
 configurator can make an analog joystick behave like a Dpad with four digital inputs; the
 EControllerSource would be k_EControllerSource_Joystick and the EControllerSourceMode would be
 k_EControllerSourceMode_Dpad. The mode also changes the input data received by any associated
-actions.<br /><br />
+actions.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2627,10 +2766,12 @@ actions.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="ESteamControllerLEDFlag"></a>ESteamControllerLEDFlag</h2>
-Controls the color of a Steam Controller Device's LED (if the device indeed has one).<br /><br /><strong
-    >Notes:</strong
-><br />The VSC has an LED, but only its brightness will be affected (the color is always white).<br />The
-DS4's LED is the lightbar, whose color and brightness can both be configured.<br /><br />
+Controls the color of a Steam Controller Device's LED (if the device indeed has one).<br />
+<br />
+<strong>Notes:</strong><br />
+The VSC has an LED, but only its brightness will be affected (the color is always white).<br />
+The DS4's LED is the lightbar, whose color and brightness can both be configured.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2649,7 +2790,8 @@ DS4's LED is the lightbar, whose color and brightness can both be configured.<br
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="ESteamInputType"></a>ESteamInputType</h2>
-Represents the device model for a given piece of hardware.<br /><br />
+Represents the device model for a given piece of hardware.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2733,9 +2875,12 @@ Represents the device model for a given piece of hardware.<br /><br />
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="ESteamControllerPad"></a>ESteamControllerPad</h2>
-A touchpad region on a Steam Controller Device.<br /><br /><strong>Notes:</strong><br />On the VSC,
-the values correspond to the left &amp; right haptic touchpads.<br />On the DS4, the values
-correspond to the left &amp; right halves of the single, central touchpad.<br /><br />
+A touchpad region on a Steam Controller Device.<br />
+<br />
+<strong>Notes:</strong><br />
+On the VSC, the values correspond to the left &amp; right haptic touchpads.<br />
+On the DS4, the values correspond to the left &amp; right halves of the single, central touchpad.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2754,7 +2899,8 @@ correspond to the left &amp; right halves of the single, central touchpad.<br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
-These are typedefs which are defined for use with ISteamController.<br /><br />
+These are typedefs which are defined for use with ISteamController.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2769,8 +2915,8 @@ These are typedefs which are defined for use with ISteamController.<br /><br />
             >
         </td>
         <td>
-            These handles are used to refer to a specific in-game action or action set<br />All
-            action handles should be queried during initialization for performance reasons
+            These handles are used to refer to a specific in-game action or action set<br />
+            All action handles should be queried during initialization for performance reasons
         </td>
     </tr>
     <tr id="ControllerAnalogActionHandle_t">
@@ -2819,7 +2965,8 @@ These are typedefs which are defined for use with ISteamController.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with ISteamController.<br /><br />
+These are constants which are defined for use with ISteamController.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

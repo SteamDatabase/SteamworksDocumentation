@@ -11,9 +11,11 @@
         documentation for more information.
     </div>
 </div>
-<br />When you create recurring payments for a Steam user, you first establish a billing agreement
-with the user which describes the payment terms. The user must agree to the terms before the billing
-process can begin. Payment processing can be handled in two ways:<br /><br />
+<br />
+When you create recurring payments for a Steam user, you first establish a billing agreement with
+the user which describes the payment terms. The user must agree to the terms before the billing
+process can begin. Payment processing can be handled in two ways:<br />
+<br />
 <ul class="bb_ul">
     <li>Billing and payment are handled entirely by Steam.<br /></li>
     <li>
@@ -21,9 +23,10 @@ process can begin. Payment processing can be handled in two ways:<br /><br />
         backend for processing of the actual payment.
     </li>
 </ul>
-<br />In both cases, payment results can be retrieved through the microtransaction API either by
-querying status on individual users or by parsing the settlement report which will show all payments
-for all users.
+<br />
+In both cases, payment results can be retrieved through the microtransaction API either by querying
+status on individual users or by parsing the settlement report which will show all payments for all
+users.
 <h2 class="bb_subsection"><a name="2"></a>Establishing a Billing Agreement</h2>
 Use the
 <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink"
@@ -39,8 +42,11 @@ submitted. Once approved, you should use the
 <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn" class="bb_apilink"
     >ISteamMicroTxn/FinalizeTxn</a
 >
-Web API to complete the agreement.<br /><br />Two types of billing agreements can be created
-depending on which party should initiate the payment cycle:<br /><br />
+Web API to complete the agreement.<br />
+<br />
+Two types of billing agreements can be created depending on which party should initiate the payment
+cycle:<br />
+<br />
 <ul class="bb_ul">
     <li>
         Steam – Where Steam manages and performs all processing based on criteria specified in the
@@ -62,20 +68,23 @@ depending on which party should initiate the payment cycle:<br /><br />
         to adjust the payment amount over time or issue credit.
     </li>
 </ul>
-<br />A user may only have one active billing agreement per game. You may create a new billing
-agreement for a user at any time, but all previous billing agreements will be disabled upon
-completing a
+<br />
+A user may only have one active billing agreement per game. You may create a new billing agreement
+for a user at any time, but all previous billing agreements will be disabled upon completing a
 <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#FinalizeTxn" class="bb_apilink"
     >ISteamMicroTxn/FinalizeTxn</a
 >
 call. Each billing agreement will be given a unique 64-bit ID that you can use to reference it, but
-only the most recent agreement will be allowed to process payment.<br /><br />Users can elect to
-cancel an agreement at any time from within their Steam account settings. Notification of
-cancellations will be done through the
+only the most recent agreement will be allowed to process payment.<br />
+<br />
+Users can elect to cancel an agreement at any time from within their Steam account settings.
+Notification of cancellations will be done through the
 <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport" class="bb_apilink"
     >ISteamMicroTxn/GetReport</a
 >
-Web API.<br /><br />Additional Web APIs for recurring payments are:<br />
+Web API.<br />
+<br />
+Additional Web APIs for recurring payments are:<br />
 <ul class="bb_ul">
     <li>
         <a

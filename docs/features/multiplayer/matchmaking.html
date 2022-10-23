@@ -5,8 +5,10 @@ lives on the Steam back-end servers that is a lot like a chat room. Users can cr
 associate data with a lobby; search for lobbies based on that data; join lobbies; and share
 information with other users in the lobby. A single lobby can have up to 250 users in it, although
 typically most games have at most 2-16 players. Skill-based matchmaking is built on top of this
-system.<br /><br />The Steam peer-to-peer matchmaking API is a set of functions that enable users to
-find other users to play a game with. The matchmaking functions all live in
+system.<br />
+<br />
+The Steam peer-to-peer matchmaking API is a set of functions that enable users to find other users
+to play a game with. The matchmaking functions all live in
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking" class="bb_apilink"
     >ISteamMatchmaking</a
 >, which contains more details on the parameters for each function. Lobbies are uniquely identified
@@ -57,10 +59,11 @@ To have your game search for a lobby, you need to call:
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
     class="bb_apilink"
     >ISteamMatchmaking::RequestLobbyList</a
-><br />This function is asynchronous, returning a SteamAPICall_t handle which you can use to track
-the state of the request. Depending on the users connection to the Steam back-end, this call can
-take from 300ms to 5 seconds to complete, and has a timeout of 20 seconds.<br />The number of
-results returned is in the
+><br />
+This function is asynchronous, returning a SteamAPICall_t handle which you can use to track the
+state of the request. Depending on the users connection to the Steam back-end, this call can take
+from 300ms to 5 seconds to complete, and has a timeout of 20 seconds.<br />
+The number of results returned is in the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyMatchList_t"
     class="bb_apilink"
@@ -72,10 +75,10 @@ call result, which you can then use
     class="bb_apilink"
     >ISteamMatchmaking::GetLobbyByIndex</a
 >
-to iterate over them all and get their IDs.<br />Up to 50 results may be returned, but usually it's
-no more than a couple. The results are returned ordered by geographical distance and based on any
-near filters set. By default, we will not return lobbies that are already full, and the distance
-filter is set to
+to iterate over them all and get their IDs.<br />
+Up to 50 results may be returned, but usually it's no more than a couple. The results are returned
+ordered by geographical distance and based on any near filters set. By default, we will not return
+lobbies that are already full, and the distance filter is set to
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#k_ELobbyDistanceFilterDefault"
     class="bb_apilink"
@@ -138,9 +141,8 @@ more of the filtering functions:<br />
 </ul>
 <h2 class="bb_section"><a name="4"></a>Creating a lobby</h2>
 If you can't find an existing lobby for a user to join, this is when you'd typically create a lobby.
-Just call<br /><a
-    href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby"
-    class="bb_apilink"
+Just call<br />
+<a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
 >
 and wait for it to complete. The call result indicates whether or not it succeeded, and if it did,
@@ -161,15 +163,17 @@ and wait for the
     >LobbyEnter_t</a
 >
 call result. Once in the lobby, you'll want to use the lobby data API to get details about the lobby
-to work out what to display (if there is any display).<br /><br />When a user joins or leaves a
-lobby, a
+to work out what to display (if there is any display).<br />
+<br />
+When a user joins or leaves a lobby, a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyChatUpdate_t"
     class="bb_apilink"
     >LobbyChatUpdate_t</a
 >
-callback is posted to all members of that lobby, including the owner.<br /><br />To iterate which
-users are currently in a lobby, use:<br />
+callback is posted to all members of that lobby, including the owner.<br />
+<br />
+To iterate which users are currently in a lobby, use:<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -186,12 +190,14 @@ users are currently in a lobby, use:<br />
         >
     </li>
 </ul>
-<br />To get more information about another user in the lobby, you'll need to use the friends API,
-see <a href="#friends" class="bb_doclink">Friends, invites, and lobbies</a> for more information.
+<br />
+To get more information about another user in the lobby, you'll need to use the friends API, see
+<a href="#friends" class="bb_doclink">Friends, invites, and lobbies</a> for more information.
 <h2 class="bb_section"><a name="6"></a>Lobby Metadata</h2>
 Lobby Metadata allows you to set the arbitrary state of the lobby, including the lobbies name,
-current map, game mode, current state of the game, or anything else you can think of. <br /><br />A
-user will automatically have the latest lobby data for any lobby they are a member of. For lobbies
+current map, game mode, current state of the game, or anything else you can think of. <br />
+<br />
+A user will automatically have the latest lobby data for any lobby they are a member of. For lobbies
 returned via search results, the user will have lobby data for at the point in time as to when they
 did the search. If it's a friends' lobby, there will be no lobby data available to look at until
 <a
@@ -199,8 +205,9 @@ did the search. If it's a friends' lobby, there will be no lobby data available 
     class="bb_apilink"
     >ISteamMatchmaking::RequestLobbyData</a
 >
-is called and has successfully completed.<br /><br />If lobby data is changed on a lobby, all lobby
-members will receive a
+is called and has successfully completed.<br />
+<br />
+If lobby data is changed on a lobby, all lobby members will receive a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
@@ -212,8 +219,10 @@ callback (this callback is the same way you know a
     class="bb_apilink"
     >ISteamMatchmaking::RequestLobbyData</a
 >
-call has completed).<br /><br />These are the set of functions you can use to get and set lobby
-data. Only the lobby owner can set or delete the lobby data.<br />
+call has completed).<br />
+<br />
+These are the set of functions you can use to get and set lobby data. Only the lobby owner can set
+or delete the lobby data.<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -237,8 +246,9 @@ data. Only the lobby owner can set or delete the lobby data.<br />
         >
     </li>
 </ul>
-<br />Functions which allow you to iterate over the metadata, (this is typically only used for
-debugging purposes):<br />
+<br />
+Functions which allow you to iterate over the metadata, (this is typically only used for debugging
+purposes):<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -255,8 +265,9 @@ debugging purposes):<br />
         >
     </li>
 </ul>
-<br />Lobbies also allow members to set their own metadata that other members can receive updates
-for with the following functions.<br />
+<br />
+Lobbies also allow members to set their own metadata that other members can receive updates for with
+the following functions.<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -300,35 +311,39 @@ You can find out all the lobbies a user's friends are in with the friends API:<b
     friendGameInfo.m_steamIDLobby.IsValid() ) { // friendGameInfo.m_steamIDLobby is a valid lobby,
     you can join it or use RequestLobbyData() get its metadata } }
 </div>
-<br />You can invite a friend to a lobby with
+<br />
+You can invite a friend to a lobby with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#InviteUserToLobby"
     class="bb_apilink"
     >ISteamMatchmaking::InviteUserToLobby</a
-><br />That user will receive a chat dialog with a link to join the game. If the user clicks the
-link, and they are not currently running the game, it will launch the game with the command-line:<br /><code
-    class="bb_code bb_code_inline nohighlight"
-    >+connect_lobby &lt;64-bit lobby id&gt;</code
->. Be sure your app implements
+><br />
+That user will receive a chat dialog with a link to join the game. If the user clicks the link, and
+they are not currently running the game, it will launch the game with the command-line:<br />
+<code class="bb_code bb_code_inline nohighlight">+connect_lobby &lt;64-bit lobby id&gt;</code>. Be
+sure your app implements
 <a href="https://partner.steamgames.com/doc/api/ISteamApps#GetLaunchCommandLine" class="bb_apilink"
     >ISteamApps::GetLaunchCommandLine</a
 >
-so you can disable the popup warning when launched via a command line.<br /><br />If the user is
-already in a game, a
+so you can disable the popup warning when launched via a command line.<br />
+<br />
+If the user is already in a game, a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamFriends#GameLobbyJoinRequested_t"
     class="bb_apilink"
     >ISteamFriends::GameLobbyJoinRequested_t</a
 >
 callback will be posted, which contains the Steam ID of the lobby the user wishes to join. It's up
-to your game to decide to obey it or not.<br /><br />If you want the user to select from a list of
-friends to invite to a lobby, you can call
+to your game to decide to obey it or not.<br />
+<br />
+If you want the user to select from a list of friends to invite to a lobby, you can call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayInviteDialog"
     class="bb_apilink"
     >ISteamFriends::ActivateGameOverlayInviteDialog</a
->.<br />This will activate the Steam in-game overlay to a dialog designed for inviting friends to
-the current lobby.
+>.<br />
+This will activate the Steam in-game overlay to a dialog designed for inviting friends to the
+current lobby.
 <h2 class="bb_section"><a name="authentication"></a>Authentication</h2>
 Any user in a Steam lobby is already fully authenticated with the Steam back-end. There is no need
 for the game to do any more authentication steps with lobby users, unless it's looking to see if
@@ -336,11 +351,11 @@ they're VAC banned (see Valve Anti-Cheat Technology). If a user tries to log in 
 location with the same account, their prior login will automatically be removed from any existing
 lobbies.
 <h2 class="bb_section"><a name="8"></a>Cleaning up</h2>
-Once the game has started, each user can just leave the lobby with:<br /><a
-    href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LeaveLobby"
-    class="bb_apilink"
+Once the game has started, each user can just leave the lobby with:<br />
+<a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LeaveLobby" class="bb_apilink"
     >ISteamMatchmaking::LeaveLobby</a
-><br />Once all the users have left, the lobby is automatically destroyed on the back-end.
+><br />
+Once all the users have left, the lobby is automatically destroyed on the back-end.
 <h2 class="bb_section"><a name="9"></a>Lobby Tips</h2>
 <ul class="bb_ul">
     <li>

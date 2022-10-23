@@ -16,14 +16,17 @@ system. It enables two independent workflows for detecting and managing cheating
         this information will be used to automatically detect and ban players using known cheats.
     </li>
 </ul>
-<br />To use this interface you must first opt in to VAC support. This can be done from the
+<br />
+To use this interface you must first opt in to VAC support. This can be done from the
 <a href="https://partner.steamgames.com/apps/vac/" target="_blank" rel="noreferrer"
     >Anti-Cheat Configuration</a
 >
-page in the App Admin panel.<br /><br /><strong>NOTE:</strong> This is a Service interface, methods
-in this interface should be called with the
-<code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br /><br />For more
-info on how to use the Steamworks Web API please see the
+page in the App Admin panel.<br />
+<br />
+<strong>NOTE:</strong> This is a Service interface, methods in this interface should be called with
+the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br />
+<br />
+For more info on how to use the Steamworks Web API please see the
 <a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
 >.
 <h2 class="bb_section"><a name="ReportPlayerCheating"></a>ReportPlayerCheating</h2>
@@ -124,14 +127,17 @@ info on how to use the Steamworks Web API please see the
         <td>(Optional) Level of severity of bad action being reported. Scale set by developer.</td>
     </tr>
 </table>
-<br />ReportPlayerCheating is designed to gather community reports of cheating, where one player
-reports another player within the game.<br /><br />It is intended for unreliable data from peers in
-the game ( semi-trusted sources ). The back-end that reports the data should ensure that both
-parties are authenticated, but the data in itself is treated as hearsay. Optional parameters may be
-used to encode the type of cheating that is suspected or additional evidence ( an identifier
-pointing to the match/demo for further review )<br /><br /><strong>NOTE:</strong> This call requires
-a publisher API key to use this method. As such this API <strong>MUST</strong> be called from a
-secure server, and can never be used directly by clients!
+<br />
+ReportPlayerCheating is designed to gather community reports of cheating, where one player reports
+another player within the game.<br />
+<br />
+It is intended for unreliable data from peers in the game ( semi-trusted sources ). The back-end
+that reports the data should ensure that both parties are authenticated, but the data in itself is
+treated as hearsay. Optional parameters may be used to encode the type of cheating that is suspected
+or additional evidence ( an identifier pointing to the match/demo for further review )<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="RequestPlayerGameBan"></a>RequestPlayerGameBan</h2>
 <div class="bb_code http">
     POST https://partner.steam-api.com/ICheatReportingService/RequestPlayerGameBan/v1/
@@ -195,16 +201,19 @@ secure server, and can never be used directly by clients!
         <td>Additional information about the ban request. (Unused)</td>
     </tr>
 </table>
-<br />Requests a game ban on a specific player.<br /><br />This is designed to be used after the
-incidents from
+<br />
+Requests a game ban on a specific player.<br />
+<br />
+This is designed to be used after the incidents from
 <a
     href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#ReportPlayerCheating"
     class="bb_apilink"
     >ICheatReportingService/ReportPlayerCheating</a
 >
-have been reviewed and cheating has been confirmed.<br /><br /><strong>NOTE:</strong> This call
-requires a publisher API key to use this method. As such this API <strong>MUST</strong> be called
-from a secure server, and can never be used directly by clients!
+have been reviewed and cheating has been confirmed.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="RemovePlayerGameBan"></a>RemovePlayerGameBan</h2>
 <div class="bb_code http">
     POST https://partner.steam-api.com/ICheatReportingService/RemovePlayerGameBan/v1/
@@ -235,10 +244,13 @@ from a secure server, and can never be used directly by clients!
         <td>The App ID of the game.</td>
     </tr>
 </table>
-<br />Remove a game ban on a player.<br /><br />This is used if a Game ban is determined to be a
-false positive.<br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use this
-method. As such this API <strong>MUST</strong> be called from a secure server, and can never be used
-directly by clients!
+<br />
+Remove a game ban on a player.<br />
+<br />
+This is used if a Game ban is determined to be a false positive.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="GetCheatingReports"></a>GetCheatingReports</h2>
 <div class="bb_code http">
     GET https://partner.steam-api.com/ICheatReportingService/GetCheatingReports/v1/
@@ -302,10 +314,13 @@ directly by clients!
         <td>(Optional) Query just for this Steam ID.</td>
     </tr>
 </table>
-<br />Get a list of cheating reports submitted for this app.<br /><br />Used to gather the cheating
-reports so that they may be reviewed and a determination made.<br /><br /><strong>NOTE:</strong>
-This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!
+<br />
+Get a list of cheating reports submitted for this app.<br />
+<br />
+Used to gather the cheating reports so that they may be reviewed and a determination made.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="ReportCheatData"></a>ReportCheatData</h2>
 <div class="bb_code http">
     POST https://api.steampowered.com/ICheatReportingService/ReportCheatData/v1/
@@ -402,9 +417,12 @@ called from a secure server, and can never be used directly by clients!
         <td>Extra cheat data.</td>
     </tr>
 </table>
-<br />Reports cheat data. Only use on test account that is running the game but not in a multiplayer
-session.<br /><br />This is for reporting specific cheats to the VAC system. This is done by running
-the cheat and the game and then calling this webapi.
+<br />
+Reports cheat data. Only use on test account that is running the game but not in a multiplayer
+session.<br />
+<br />
+This is for reporting specific cheats to the VAC system. This is done by running the cheat and the
+game and then calling this webapi.
 <div class="bb_callout bb_red bb_fixed">
     <div>
         <strong>NOTE:</strong> Because of this you should only use a test account on a disposable
@@ -418,9 +436,10 @@ the cheat and the game and then calling this webapi.
         future, so be sure to always use a test account that is for cheat reporting only.
     </div>
 </div>
-<br />If the call does not report success, then the report has been ignored.<br /><br /><strong
-    >Calling Example:</strong
-><br />
+<br />
+If the call does not report success, then the report has been ignored.<br />
+<br />
+<strong>Calling Example:</strong><br />
 <div class="bb_code">
     # requires python 2.7 import sys, os, time if sys.version_info &gt;= ( 2, 7 ): # import argparse
     print "Found python 2.7 or greater" else: print "Must use python 2.7 or greater" exit() import
@@ -512,21 +531,25 @@ the cheat and the game and then calling this webapi.
         </td>
     </tr>
 </table>
-<br />Checks a user's VAC ban status and verifies a user's VAC session status. If verification
-fails, then do not let the user matchmake into a secure game. <br /><br />This is used before a user
-enters matchmaking or joins a game. If the player is blocking VAC in some way and VAC can not scan
-the computer for cheats, it will report success = true and session_verified = false. Checking this
-webapi will allow you to prevent the user from matchmaking or joining a server and then just getting
-kicked by VAC a short time later ( with a
+<br />
+Checks a user's VAC ban status and verifies a user's VAC session status. If verification fails, then
+do not let the user matchmake into a secure game. <br />
+<br />
+This is used before a user enters matchmaking or joins a game. If the player is blocking VAC in some
+way and VAC can not scan the computer for cheats, it will report success = true and session_verified
+= false. Checking this webapi will allow you to prevent the user from matchmaking or joining a
+server and then just getting kicked by VAC a short time later ( with a
 <code class="bb_code bb_code_inline nohighlight">k_EAuthSessionResponseVACCheckTimedOut</code>
 result from an authentication callback ). The VAC system may not always have had time to fully
 determine if the clients system is cooperating, and if so it will report success = false. It is also
 possible for the players system to pass the initial check but then fail to respond later, in that
 case verification will succeed, but a
 <code class="bb_code bb_code_inline nohighlight">k_EAuthSessionResponseVACCheckTimedOut</code> may
-follow later.<br /><br /><br /><strong>NOTE:</strong> This call requires a publisher API key to use
-this method. As such this API <strong>MUST</strong> be called from a secure server, and can never be
-used directly by clients!
+follow later.<br />
+<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="web_api_sessions"></a>Web API Sessions</h2>
 <div class="bb_callout bb_red bb_fixed">
     <div>
@@ -575,11 +598,11 @@ used directly by clients!
         <td>The App ID of the game.</td>
     </tr>
 </table>
-<br />Tell the VAC servers that a secure multiplayer session has started.<br /><br /><strong
-    >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!
+<br />
+Tell the VAC servers that a secure multiplayer session has started.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_subsection"><a name="EndSecureMultiplayerSession"></a>EndSecureMultiplayerSession</h2>
 <div class="bb_code http">
     POST https://partner.steam-api.com/ICheatReportingService/EndSecureMultiplayerSession/v1/
@@ -623,15 +646,17 @@ called from a secure server, and can never be used directly by clients!
         </td>
     </tr>
 </table>
-<br />Tell the VAC servers that a secure multiplayer session has ended.<br /><br /><strong
-    >NOTE:</strong
->
-This call requires a publisher API key to use this method. As such this API <strong>MUST</strong> be
-called from a secure server, and can never be used directly by clients!<br /><br /><strong
-    >Response:</strong
-><br />[<br />
+<br />
+Tell the VAC servers that a secure multiplayer session has ended.<br />
+<br />
+<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
+<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Response:</strong><br />
+[<br />
 {<br />
 "name": "success",<br />
 "type": "bool",<br />
 "description": ""<br />
-}<br />]<br />
+}<br />
+]<br />

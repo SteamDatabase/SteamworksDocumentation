@@ -12,8 +12,9 @@ running on your Windows development box.
             target="_blank"
             rel="noreferrer"
             >Steam Deck Developer Forums</a
-        >.<br />NOTE: The remote debugging features are only supported against the Proton -
-        Experimental release
+        >.<br />
+        NOTE: The remote debugging features are only supported against the Proton - Experimental
+        release
     </div>
 </div>
 <h2 class="bb_section"><a name="2"></a>Setup</h2>
@@ -37,10 +38,13 @@ an advanced option to 'Copy c++ Runtime to OutDir' that can be helpful for C++ p
 <h2 class="bb_subsection"><a name="4"></a>Visual Studio remote debugging tools in Proton:</h2>
 Visual Studio's remote debugging tools are not distributed with Proton. When you upload a title with
 the Steam Play button checked, the devkit tool will copy the remote debugging tools from your
-Windows development host to the devkit system.<br /><br />Currently the devkit will search for the
-installed debugging tools from Visual Studio 2019 and Visual Studio 2017. In order to have the
-remote debugging tools available, when you install Visual Studio, be sure to include a development
-Workload like the "Desktop development with C++"<br /><br /><img
+Windows development host to the devkit system.<br />
+<br />
+Currently the devkit will search for the installed debugging tools from Visual Studio 2019 and
+Visual Studio 2017. In order to have the remote debugging tools available, when you install Visual
+Studio, be sure to include a development Workload like the "Desktop development with C++"<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/VirtualBox_Win_10_05_08_2021_18_05_44.png"
     alt="VirtualBox_Win_10_05_08_2021_18_05_44.png"
     title="VirtualBox_Win_10_05_08_2021_18_05_44.png"
@@ -52,49 +56,73 @@ The project
     >Vulkan Examples</a
 >
 is a good starting point for getting used to remotely debug games uploaded to the Steam Deck
-devkit.<br /><br />Clone the project and change the current directory:<br />
+devkit.<br />
+<br />
+Clone the project and change the current directory:<br />
 <div class="bb_code">
     git clone --recursive https://gitlab.steamos.cloud/jupiter/vulkan-examples.git cd
     vulkan-examples
 </div>
-<br />The project contains several different small Vulkan samples located in the examples directory.
-For documentation purposes we will just use
+<br />
+The project contains several different small Vulkan samples located in the examples directory. For
+documentation purposes we will just use
 <code class="bb_code bb_code_inline nohighlight">imgui</code>. Generate and build the project:<br />
 <div class="bb_code">
     cmake -G "Visual Studio 16 2019" -S . -Bbuild/windows cmake --build build/windows --config Debug
     --target imgui
 </div>
-<br />Note: the Cmake build downloads additional assets by running a small script, you will need
-Python on your build host.<br /><br />This will create a
+<br />
+Note: the Cmake build downloads additional assets by running a small script, you will need Python on
+your build host.<br />
+<br />
+This will create a
 <code class="bb_code bb_code_inline nohighlight">build/windows/bin/Debug</code> directory that
 contains the <code class="bb_code bb_code_inline nohighlight">imgui</code> executable, the required
-Windows debug DLLs and the data assets.<br /><br />At this point you can upload the resulting Debug
-directory.<br /><br />Be sure to select "This title requires Steam Play", because this is not a
-Linux native build, and also select "Start Visual Studio C++ debugger service on launch" to enable a
-remote debugger.<br /><br />If attaching once your game is running is not adequate, and you wish to
-debug the startup and initialization of your title, use "Wait for a debug client to attach" and see
-the "early attach" section in this document.<br /><br /><img
+Windows debug DLLs and the data assets.<br />
+<br />
+At this point you can upload the resulting Debug directory.<br />
+<br />
+Be sure to select "This title requires Steam Play", because this is not a Linux native build, and
+also select "Start Visual Studio C++ debugger service on launch" to enable a remote debugger.<br />
+<br />
+If attaching once your game is running is not adequate, and you wish to debug the startup and
+initialization of your title, use "Wait for a debug client to attach" and see the "early attach"
+section in this document.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/devkit-tool-remote-debug-20211207.png"
     alt="devkit-tool-remote-debug-20211207.png"
     title="devkit-tool-remote-debug-20211207.png"
-/><br /><br />Once the transfer completes, if for example you chose the name
+/><br />
+<br />
+Once the transfer completes, if for example you chose the name
 <code class="bb_code bb_code_inline nohighlight">vulkan_examples_debug</code>, you should find a new
 game called
 <code class="bb_code bb_code_inline nohighlight">Devkit Game: vulkan_examples_debug</code> in the
-Steam game library.<br /><br />By launching the game a msvsmon server for remote debugging will
-automatically start too.<br /><br /><img
+Steam game library.<br />
+<br />
+By launching the game a msvsmon server for remote debugging will automatically start too.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Screenshot_from_2021-07-14_10-05-21.png"
     alt="Screenshot_from_2021-07-14_10-05-21.png"
     title="Screenshot_from_2021-07-14_10-05-21.png"
-/><br /><br />Finally you are now able to attach a debugger to the running game.<br /><br />In
-Visual Studio press <code class="bb_code bb_code_inline nohighlight">Ctrl+Alt+P</code> to open the
-<i>Debug &gt; Attach to Process</i>. In Connection target set the IP and port of the msvsmon server,
-and then select the
-<code class="bb_code bb_code_inline nohighlight">imgui.exe</code> process.<br /><br /><img
+/><br />
+<br />
+Finally you are now able to attach a debugger to the running game.<br />
+<br />
+In Visual Studio press <code class="bb_code bb_code_inline nohighlight">Ctrl+Alt+P</code> to open
+the <i>Debug &gt; Attach to Process</i>. In Connection target set the IP and port of the msvsmon
+server, and then select the
+<code class="bb_code bb_code_inline nohighlight">imgui.exe</code> process.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Screenshot_2021-07-26_092207.png"
     alt="Screenshot_2021-07-26_092207.png"
     title="Screenshot_2021-07-26_092207.png"
-/><br /><br />For a detailed step-by-step guide you can follow the
+/><br />
+<br />
+For a detailed step-by-step guide you can follow the
 <a
     href="https://docs.microsoft.com/en-us/visualstudio/debugger/attach-to-running-processes-with-the-visual-studio-debugger"
     target="_blank"
@@ -104,43 +132,66 @@ and then select the
 <h2 class="bb_subsection"><a name="7"></a>Unreal Engine 4 examples</h2>
 Create an Epic Games account, if you don't have one already, and then
 <a href="https://www.unrealengine.com/en-US/get-now" target="_blank" rel="noreferrer">download</a>
-and install the Unreal Engine 4.<br /><br />As an example we are going to use one of the sample
-projects that the Unreal Editor offers. Create a new project and choose the "Puzzle" template<br /><br /><img
+and install the Unreal Engine 4.<br />
+<br />
+As an example we are going to use one of the sample projects that the Unreal Editor offers. Create a
+new project and choose the "Puzzle" template<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Screenshot_2021-07-16_072803.png"
     alt="Screenshot_2021-07-16_072803.png"
     title="Screenshot_2021-07-16_072803.png"
-/><br /><br />Select a project name and a location<br /><br /><img
+/><br />
+<br />
+Select a project name and a location<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Screenshot_2021-07-15_082533.png"
     alt="Screenshot_2021-07-15_082533.png"
     title="Screenshot_2021-07-15_082533.png"
-/><br /><br />Go to Edit-&gt;Project settings-&gt;Packaging and choose either "Debug" or "DebugGame"
-as the build configuration. You can find more information in the
+/><br />
+<br />
+Go to Edit-&gt;Project settings-&gt;Packaging and choose either "Debug" or "DebugGame" as the build
+configuration. You can find more information in the
 <a
     href="https://docs.unrealengine.com/4.26/en-US/ProductionPipelines/DevelopmentSetup/BuildConfigurations"
     target="_blank"
     rel="noreferrer"
     >official documentation</a
->. If you tick "Include Debug Files", the debug files will be included in the packaged game.<br /><br /><img
+>. If you tick "Include Debug Files", the debug files will be included in the packaged game.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Screenshot_2021-07-16_073647.png"
     alt="Screenshot_2021-07-16_073647.png"
     title="Screenshot_2021-07-16_073647.png"
-/><br /><br />If you are not able to compile a native Linux build, e.g. if your game has external
-dependencies that don't support Linux, you can start a Windows build by using File-&gt;Package
+/><br />
+<br />
+If you are not able to compile a native Linux build, e.g. if your game has external dependencies
+that don't support Linux, you can start a Windows build by using File-&gt;Package
 Project-&gt;Windows (64-bit). This will create a build in a new directory called
-"WindowsNoEditor".<br /><br />Upload your compiled game using the
-<code class="bb_code bb_code_inline nohighlight">SteamOS Devkit Client</code>.<br /><br /><img
+"WindowsNoEditor".<br />
+<br />
+Upload your compiled game using the
+<code class="bb_code bb_code_inline nohighlight">SteamOS Devkit Client</code>.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Screenshot_2021-07-16_074524.png"
     alt="Screenshot_2021-07-16_074524.png"
     title="Screenshot_2021-07-16_074524.png"
-/><br /><br />In the Steam library you should have a new entry with a name similar to
+/><br />
+<br />
+In the Steam library you should have a new entry with a name similar to
 <code class="bb_code bb_code_inline nohighlight">Devkit Game: puzzle</code>. By launching the game a
-msvsmon server for remote debugging will automatically start too.<br /><br />As the last step you
-can now attach a debugger to the running game.<br /><br />In Visual Studio press
-<code class="bb_code bb_code_inline nohighlight">Ctrl+Alt+P</code> to open the
-<i>Debug &gt; Attach to Process</i>. In Connection target set the IP and port of the msvsmon server,
-and then select the
-<code class="bb_code bb_code_inline nohighlight">puzzle.exe</code> process.<br /><br />For a
-detailed step-by-step guide you can follow the
+msvsmon server for remote debugging will automatically start too.<br />
+<br />
+As the last step you can now attach a debugger to the running game.<br />
+<br />
+In Visual Studio press <code class="bb_code bb_code_inline nohighlight">Ctrl+Alt+P</code> to open
+the <i>Debug &gt; Attach to Process</i>. In Connection target set the IP and port of the msvsmon
+server, and then select the
+<code class="bb_code bb_code_inline nohighlight">puzzle.exe</code> process.<br />
+<br />
+For a detailed step-by-step guide you can follow the
 <a
     href="https://docs.microsoft.com/en-us/visualstudio/debugger/attach-to-running-processes-with-the-visual-studio-debugger"
     target="_blank"
@@ -150,22 +201,33 @@ detailed step-by-step guide you can follow the
 <h2 class="bb_subsection">
     <a name="8"></a>Remote debugging process startup: "early attach" support:
 </h2>
-<br />The remote debug service can be configured to wait for the user to attach before launching the
-title. This allows you to set a breakpoint in WinMain or other initialization code.<br /><br />This
-requires that you first install a Microsoft extension in Visual Studio on your development host:
+<br />
+The remote debug service can be configured to wait for the user to attach before launching the
+title. This allows you to set a breakpoint in WinMain or other initialization code.<br />
+<br />
+This requires that you first install a Microsoft extension in Visual Studio on your development
+host:
 <a
     href="https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool"
     target="_blank"
     rel="noreferrer"
     >https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool</a
-><br /><br /><img
+><br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/child-process-debug-extension.png"
     alt="child-process-debug-extension.png"
     title="child-process-debug-extension.png"
-/><br /><br />Once the extension is installed, enable child process debugging per the documentation
-(Debug &gt; Other Debug Targets &gt; Child Process Debugging Settings)<br /><br />Check "Wait for a
-debug client to attach" in your devkit tool, and upload your title.<br /><br />Launch your title
-normally.<br /><br />When attaching to the remote process, attach to
+/><br />
+<br />
+Once the extension is installed, enable child process debugging per the documentation (Debug &gt;
+Other Debug Targets &gt; Child Process Debugging Settings)<br />
+<br />
+Check "Wait for a debug client to attach" in your devkit tool, and upload your title.<br />
+<br />
+Launch your title normally.<br />
+<br />
+When attaching to the remote process, attach to
 <code class="bb_code bb_code_inline nohighlight">steam.exe</code> - once you attach, Proton will
 immediately launch your title as a child process, the extension will kick in and start debugging
 your title from its startup with your breakpoints activated.<br />

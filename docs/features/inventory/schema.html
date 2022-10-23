@@ -442,14 +442,19 @@ You can also define any additional properties that you need that are specific to
 <h2 class="bb_section"><a name="ItemDefTypes"></a>Using Complex Item Definitions</h2>
 <h2 class="bb_subsection"><a name="SpecifyBundles"></a>Bundle and Generator item types</h2>
 Bundle, generator, and playtimegenerator rules are defined with
-<code class="bb_code bb_code_inline nohighlight">bundle</code> field.<br /><br />In the case of
-bundles, we describe the type and quantity of the contained items.<br /><br />In a generator or
-playtimegenerator, we describe the types of the possible item to be generated, and the relative
-weight of each type. Note that the weights do not need to add to 100, though it may be convenient to
-do so.<br /><br />The <code class="bb_code bb_code_inline nohighlight">bundle</code> field is
-expressed as a series of item recipes separated by ";". Each recipe consists of an itemdef ID,
-optionally followed by an "x" separator and a desired quantity.<br /><br />If quantity is not
-supplied explicitly, "1" is used as a default.
+<code class="bb_code bb_code_inline nohighlight">bundle</code> field.<br />
+<br />
+In the case of bundles, we describe the type and quantity of the contained items.<br />
+<br />
+In a generator or playtimegenerator, we describe the types of the possible item to be generated, and
+the relative weight of each type. Note that the weights do not need to add to 100, though it may be
+convenient to do so.<br />
+<br />
+The <code class="bb_code bb_code_inline nohighlight">bundle</code> field is expressed as a series of
+item recipes separated by ";". Each recipe consists of an itemdef ID, optionally followed by an "x"
+separator and a desired quantity.<br />
+<br />
+If quantity is not supplied explicitly, "1" is used as a default.
 <h4>Bundle format</h4>
 <div class="bb_code">
     bundle_def : item_recipe , { ";" , item_recipe } item_recipe : item_def , []
@@ -477,22 +482,31 @@ supplied explicitly, "1" is used as a default.
         </div>
     </li>
 </ul>
-<br />Note that - as in the last example - bundle and generator definitions can be chained. At grant
-time, any complex item types are expanded repeatedly until only simple itemdefs remain.
+<br />
+Note that - as in the last example - bundle and generator definitions can be chained. At grant time,
+any complex item types are expanded repeatedly until only simple itemdefs remain.
 <h2 class="bb_subsection"><a name="ExchangeFormat"></a>Exchange Formulas</h2>
 The ExchangeItems API allows you to define item crafting/transformation recipes that can be securely
 called from the client. Steam servers will check the player inventory and atomically consume the
-given materials and grant a target item if the requirements are met.<br /><br />The target item may
-be a bundle or generator type.<br /><br />The formula is provided in the
+given materials and grant a target item if the requirements are met.<br />
+<br />
+The target item may be a bundle or generator type.<br />
+<br />
+The formula is provided in the
 <code class="bb_code bb_code_inline nohighlight">exchange</code> field of the target item. The
-formula is specified as a set of one or more <i>recipes </i> separated by semicolons.
-<br /><br />Each recipe is a set of required <i>material</i> items, separated by commas.<br /><br />Required
-materials can be given explicitly by itemdefid, or by tag. If quantity is not given, 1 is
-assumed.<br /><br />When using ExchangeItems, the caller provides a list of material items to be
-exchanged for the target item. The server will check each recipe, and choose the first recipe that
-is satisfied by the materials given.<br /><br />Exchanges are flexible - using a key to open a
-crate, building a fancy item out of component parts, item recycling, and item upgrades can all be
-achieved with these formulas.
+formula is specified as a set of one or more <i>recipes </i> separated by semicolons. <br />
+<br />
+Each recipe is a set of required <i>material</i> items, separated by commas.<br />
+<br />
+Required materials can be given explicitly by itemdefid, or by tag. If quantity is not given, 1 is
+assumed.<br />
+<br />
+When using ExchangeItems, the caller provides a list of material items to be exchanged for the
+target item. The server will check each recipe, and choose the first recipe that is satisfied by the
+materials given.<br />
+<br />
+Exchanges are flexible - using a key to open a crate, building a fancy item out of component parts,
+item recycling, and item upgrades can all be achieved with these formulas.
 <h4>Exchange Format</h4>
 <div class="bb_code">
     &lt;exchange&gt;: &lt;recipe&gt; { ";" &lt;recipe&gt; } &lt;recipe&gt;: &lt;material&gt; { ","
@@ -513,25 +527,32 @@ If not explicitly given, required quantity is 1.
     "bundle":...., "exchange":"rarity:common*5", ... }
 </div>
 <h2 class="bb_subsection"><a name="PromoItems"></a>Promo Items</h2>
-Promotional items can be granted to players based on a few different criteria:<br /><br />
+Promotional items can be granted to players based on a few different criteria:<br />
+<br />
 <ul class="bb_ul">
     <li>Ownership of an appid (including a DLC appid)<br /></li>
     <li>An achievement<br /></li>
     <li>Playtime in an appid<br /></li>
     <li>Manually granted - client needs to call AddPromoItem with the specific item def id.</li>
 </ul>
-<br />The promotional item checks are done by Steam - so these items can be requested safely from
-the client; see
+<br />
+The promotional item checks are done by Steam - so these items can be requested safely from the
+client; see
 <a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem" class="bb_apilink"
     >ISteamInventory::AddPromoItem</a
 >. To define a promotional item, set one or more rules for granting the item in the "promo" property
-of the item definition.<br /><br />Note that a promotional item may also be a bundle.<br /><br />Promotional
-items that are manually granted can also have drop intervals. As an example, using this you could
-grant a few items each week based on the player completing some task (e.g. in-game quest). To use
-this feature, set the <code class="bb_code bb_code_inline nohighlight">drop_start_time</code> and
-<code class="bb_code bb_code_inline nohighlight">drop_interval</code> values in the itemdef.<br /><br />Promo
-items are not granted for temporary ownership of a free title (Free Weekend, borrowed via Family
-Sharing, etc).
+of the item definition.<br />
+<br />
+Note that a promotional item may also be a bundle.<br />
+<br />
+Promotional items that are manually granted can also have drop intervals. As an example, using this
+you could grant a few items each week based on the player completing some task (e.g. in-game quest).
+To use this feature, set the
+<code class="bb_code bb_code_inline nohighlight">drop_start_time</code> and
+<code class="bb_code bb_code_inline nohighlight">drop_interval</code> values in the itemdef.<br />
+<br />
+Promo items are not granted for temporary ownership of a free title (Free Weekend, borrowed via
+Family Sharing, etc).
 <h4>Promo rule Format</h4>
 <div class="bb_code">
     &lt;promo&gt;: &lt;rule&gt; { ";" &lt;rule&gt; } &lt;rule&gt;: app_rule / ach_rule / played_rule
@@ -559,24 +580,29 @@ the user's playtime. Your game only needs to call the function
     >ISteamInventory::TriggerItemDrop</a
 >
 when you believe a grant should occur. You need to create items of type "playtimegenerator" to
-perform the drop.<br />The playtime grant is controlled by your application. There is no support for
-automatic grants based entirely on the users playtime. In other words, playtime is a condition for
-granting, while your application is the trigger for the grant evaluation.<br /><br />The item drop
-frequency can be controlled at the application level via the Community-&gt;Inventory
+perform the drop.<br />
+The playtime grant is controlled by your application. There is no support for automatic grants based
+entirely on the users playtime. In other words, playtime is a condition for granting, while your
+application is the trigger for the grant evaluation.<br />
+<br />
+The item drop frequency can be controlled at the application level via the Community-&gt;Inventory
 Service-&gt;Playtime Item Grants section. There are three controls that will allow the following
 customization:<br />
 (1) How long before a item drop?<br />
 (2) How many items drops in a window? And,<br />
-(3) How long is the cool-down window before we can grant another item drop?<br /><br />The same
-control exists per itemdef. Values set at the item will override any settings at the application for
-that specific item. This allows each item to have their own drop rate, max-per-window and cool-down
-window.<br /><br />Each playtime generator grant will be tracked separately if any of the drop
-settings are specified ('drop_interval', 'use_drop_window', 'drop_window', 'drop_max_per_window' ).
-In other words, if the itemdef does <strong>NOT</strong> any drop settings, then it shares drops
-with all other playtime generators without drop settings and they are all limited by the
-application's drop interval. Otherwise, if the itemdef <strong>does</strong> explicitly specify any
-drop setting, then its drops are granted/tracked separately at the generator level, independent of
-the application or other itemdef playtime generators.
+(3) How long is the cool-down window before we can grant another item drop?<br />
+<br />
+The same control exists per itemdef. Values set at the item will override any settings at the
+application for that specific item. This allows each item to have their own drop rate,
+max-per-window and cool-down window.<br />
+<br />
+Each playtime generator grant will be tracked separately if any of the drop settings are specified
+('drop_interval', 'use_drop_window', 'drop_window', 'drop_max_per_window' ). In other words, if the
+itemdef does <strong>NOT</strong> any drop settings, then it shares drops with all other playtime
+generators without drop settings and they are all limited by the application's drop interval.
+Otherwise, if the itemdef <strong>does</strong> explicitly specify any drop setting, then its drops
+are granted/tracked separately at the generator level, independent of the application or other
+itemdef playtime generators.
 <h4>Playtime ItemDef Grant Example</h4>
 <ol class="bb_ol">
     <li>
@@ -610,14 +636,16 @@ If a particular itemdef setting is missing then it will default to the setting d
 application.
 <h4>Drop Limits</h4>
 The <code class="bb_code bb_code_inline nohighlight">drop_limit</code> variable allows a maximum
-playtime grants for a specific generator.<br />You can use to limit the times an item is generated
-(for example: Only the first time they beat the game on
-<strong>Legendary difficulty</strong>).<br />Alternatively it can be used to prevent any future
-drops of a deprecated item if the value is set to zero. We will only acknowledge this setting if the
+playtime grants for a specific generator.<br />
+You can use to limit the times an item is generated (for example: Only the first time they beat the
+game on <strong>Legendary difficulty</strong>).<br />
+Alternatively it can be used to prevent any future drops of a deprecated item if the value is set to
+zero. We will only acknowledge this setting if the
 <code class="bb_code bb_code_inline nohighlight">use_drop_limit</code> is assigned to "true".
 <h2 class="bb_section"><a name="SellingItems"></a>Selling Items</h2>
 To make certain game items available for sale, simply define prices or price categories in the
-appropriate itemdefs.<br />See the Steam
+appropriate itemdefs.<br />
+See the Steam
 <a href="https://partner.steamgames.com/doc/features/inventory/itemstore" class="bb_doclink"
     >Item Store</a
 >
@@ -644,11 +672,14 @@ Item prices can be defined in either of the following fields, but not both.<br /
         </td>
     </tr>
 </table>
-<br />The <code class="bb_code bb_code_inline nohighlight">price_category</code> field is specified
-in the special "VLV" currency. VLV100 is equivalent to $0.99 USD, and is converted to all supported
-currencies using Valve's conversion rates.<br /><br />The VLV conversion rates are carefully managed
-to adapt to currency movements over time. We update prices as necessary, while allowing for minor
-fluctuations to provide customers with stable pricing and a positive user experience.
+<br />
+The <code class="bb_code bb_code_inline nohighlight">price_category</code> field is specified in the
+special "VLV" currency. VLV100 is equivalent to $0.99 USD, and is converted to all supported
+currencies using Valve's conversion rates.<br />
+<br />
+The VLV conversion rates are carefully managed to adapt to currency movements over time. We update
+prices as necessary, while allowing for minor fluctuations to provide customers with stable pricing
+and a positive user experience.
 <h4>Price Format</h4>
 <div class="bb_code">
     Price: &lt;version&gt;;&lt;pricelist&gt; Version: "1" &lt;pricelist&gt; :
@@ -659,7 +690,9 @@ fluctuations to provide customers with stable pricing and a positive user experi
     &lt;daterange&gt;: YYYYMMDDTHHMMSSZ-YYYYMMDDTHHMMSSZ
 </div>
 <code class="bb_code bb_code_inline nohighlight">&lt;daterange&gt;</code> must be exactly 33
-characters.<br /><br />The list of dateranges must be in descending order (future dates first).
+characters.<br />
+<br />
+The list of dateranges must be in descending order (future dates first).
 <h4>Price Examples</h4>
 <ul class="bb_ul">
     <li>
@@ -690,16 +723,19 @@ characters.<br /><br />The list of dateranges must be in descending order (futur
     </li>
 </ul>
 <h2 class="bb_subsection"><a name="SellingBundles"></a>Selling Bundles</h2>
-<br />Bundled items can be listed for sale in the Item Store. The bundle will be expanded in the
-checkout process, so the user will see the list of granted items. The Steam Refund Policy allows
-refunding the purchase within certain time limits - but all the enclosed items must still be found
-in the player's inventory, and unmodified.
+<br />
+Bundled items can be listed for sale in the Item Store. The bundle will be expanded in the checkout
+process, so the user will see the list of granted items. The Steam Refund Policy allows refunding
+the purchase within certain time limits - but all the enclosed items must still be found in the
+player's inventory, and unmodified.
 <h4>Bundle Prices</h4>
 When pricing a bundle, there are a few additional steps to consider. Steam uses the prices of the
 individual item within the bundle to determine the bundle price, and to allocate the bundle revenue
 proportionately. This allocation will determine the value of Workshop contributor payouts. One
 bundle can easily mix content from different Workshop contributors, or include Workshop content with
-your own first-party content.<br /><br />To price a bundled item:<br />
+your own first-party content.<br />
+<br />
+To price a bundled item:<br />
 <ul class="bb_ul">
     <li>Specify price information for each item within the bundle.<br /></li>
     <li>
@@ -720,11 +756,13 @@ your own first-party content.<br /><br />To price a bundled item:<br />
         percentage discount for the bundle.
     </li>
 </ul>
-<br />If you prefer, you can specify an exact bundle price in each currency. The bundle price
-override will ignore any
-<code class="bb_code bb_code_inline nohighlight">purchase_bundle_discount</code> you specify.
-However, the individual item prices are still used to proportionately allocate the bundle revenue,
-so they must be provided.<br /><br />To override the automatic bundle price:<br />
+<br />
+If you prefer, you can specify an exact bundle price in each currency. The bundle price override
+will ignore any <code class="bb_code bb_code_inline nohighlight">purchase_bundle_discount</code> you
+specify. However, the individual item prices are still used to proportionately allocate the bundle
+revenue, so they must be provided.<br />
+<br />
+To override the automatic bundle price:<br />
 <ul class="bb_ul">
     <li>
         Specify your desired price in the
@@ -739,11 +777,13 @@ so they must be provided.<br /><br />To override the automatic bundle price:<br 
 </ul>
 <h4>Selling Generator items</h4>
 Do not attempt to sell items of type
-<code class="bb_code bb_code_inline nohighlight">generator</code> directly in the Item Store.<br /><br />To
-sell an item with a random component (a chest), you should define the chest item as a simple
+<code class="bb_code bb_code_inline nohighlight">generator</code> directly in the Item Store.<br />
+<br />
+To sell an item with a random component (a chest), you should define the chest item as a simple
 <code class="bb_code bb_code_inline nohighlight">item</code> type. Then create a generator item that
-accepts the chest as input for an exchange recipe.<br /><br />After purchase, the player can choose
-to "open" the chest, at which time you can call
+accepts the chest as input for an exchange recipe.<br />
+<br />
+After purchase, the player can choose to "open" the chest, at which time you can call
 <a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
     >ISteamInventory::ExchangeItems</a
 >

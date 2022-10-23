@@ -1,9 +1,13 @@
 <h1>SteamEncryptedAppTicket</h1>
-Utilities to decode/decrypt encrypted application tickets.<br /><br />See
+Utilities to decode/decrypt encrypted application tickets.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/features/auth#encryptedapptickets" class="bb_doclink"
     >Encrypted Application Tickets</a
 >
-for more information.<br /><br />To use these functions you must include the
+for more information.<br />
+<br />
+To use these functions you must include the
 <code class="bb_code bb_code_inline nohighlight">steamencryptedappticket.h</code> header, and link
 to the sdkencryptedappticket binary. As such, you can use these in an offline application that runs
 on a trusted server to authenticate the tickets you receive from clients.
@@ -14,7 +18,8 @@ on a trusted server to authenticate the tickets you receive from clients.
     </div>
 </div>
 <h2 class="bb_section"><a name="Functions"></a>Functions</h2>
-<br />These are global functions which do not require an interface to use.
+<br />
+These are global functions which do not require an interface to use.
 <h2 class="bb_subsection"><a name="BDecryptTicket"></a>SteamEncryptedAppTicket_BDecryptTicket</h2>
 <div class="bb_code cpp">
     S_API bool SteamEncryptedAppTicket_BDecryptTicket( const uint8 *rgubTicketEncrypted, uint32
@@ -74,19 +79,21 @@ on a trusted server to authenticate the tickets you receive from clients.
         <td>The length of <code class="bb_code bb_code_inline nohighlight">rgubKey</code>.</td>
     </tr>
 </table>
-<br />Decrypts an encrypted application ticket.<br /><br />The encryption key can be obtained from
-the
+<br />
+Decrypts an encrypted application ticket.<br />
+<br />
+The encryption key can be obtained from the
 <a href="https://partner.steamgames.com/apps/sdkauth/" target="_blank" rel="noreferrer"
     >Encrypted App Ticket Key</a
 >
-page on the App Admin for your app.<br /><br />If this call succeeded then you can use the other
-SteamEncryptedAppTicket functions to get more info about the decrypted ticket.<br /><br /><strong
-    >Returns:</strong
->
-bool<br /><strong>true</strong> if the ticket has been decrypted successfully.<br /><strong
-    >false</strong
->
-under the following conditions:<br />
+page on the App Admin for your app.<br />
+<br />
+If this call succeeded then you can use the other SteamEncryptedAppTicket functions to get more info
+about the decrypted ticket.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the ticket has been decrypted successfully.<br />
+<strong>false</strong> under the following conditions:<br />
 <ul class="bb_ul">
     <li><code class="bb_code bb_code_inline nohighlight">cubKey</code> was 0.<br /></li>
     <li>
@@ -101,12 +108,15 @@ under the following conditions:<br />
     </li>
     <li>Encryption failed, likely because the key is incorrect.</li>
 </ul>
-<br /><strong>See Also:</strong>
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUser#RequestEncryptedAppTicket"
     class="bb_apilink"
     >ISteamUser::RequestEncryptedAppTicket</a
-><br /><br /><strong>Example:</strong><br />
+><br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     void DecryptTicket( uint8* rgubTicket, uint32 cubTicket ) { // Included is the secret encrypted
     app ticket key for spacewar. You should never send this to clients. const uint8
@@ -154,10 +164,11 @@ under the following conditions:<br />
         <td>The App ID to compare against.</td>
     </tr>
 </table>
-<br />Verifies that a decrypted app ticket is for the expected application.<br /><br /><strong
-    >Returns:</strong
->
-bool<br /><strong>true</strong> if the ticket belongs to the provided App ID; otherwise,
+<br />
+Verifies that a decrypted app ticket is for the expected application.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the ticket belongs to the provided App ID; otherwise,
 <strong>false</strong> if it does not, or if the ticket is not valid.
 <h2 class="bb_subsection">
     <a name="BUserIsVacBanned"></a>SteamEncryptedAppTicket_BUserIsVacBanned
@@ -186,12 +197,16 @@ bool<br /><strong>true</strong> if the ticket belongs to the provided App ID; ot
         </td>
     </tr>
 </table>
-<br />Checks if the user associated with the ticket is
+<br />
+Checks if the user associated with the ticket is
 <a href="https://partner.steamgames.com/doc/features/anticheat#VAC" class="bb_doclink">VAC</a>
-banned.<br /><br /><strong>Returns:</strong>
+banned.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#AppId_t" class="bb_apilink">AppId_t</a
-><br /><strong>true</strong> if the user is VAC banned; otherwise, <strong>false</strong> if the
-user is not VAC banned, the ticket is not valid, or if the ticket doesn't have this information.
+><br />
+<strong>true</strong> if the user is VAC banned; otherwise, <strong>false</strong> if the user is
+not VAC banned, the ticket is not valid, or if the ticket doesn't have this information.
 <h2 class="bb_subsection">
     <a name="BUserOwnsAppInTicket"></a>SteamEncryptedAppTicket_BUserOwnsAppInTicket
 </h2>
@@ -224,11 +239,14 @@ user is not VAC banned, the ticket is not valid, or if the ticket doesn't have t
         <td>The App ID to check if the user owns it.</td>
     </tr>
 </table>
-<br />Check that the ticket proves the user owns the given App ID.<br /><br />This can be used for
-DLC and related App ID that is placed in the ticket, not just the main ticket's App ID.<br /><br /><strong
-    >Returns:</strong
->
-bool<br /><strong>true</strong> if the ticket belongs to the provided App ID; otherwise,
+<br />
+Check that the ticket proves the user owns the given App ID.<br />
+<br />
+This can be used for DLC and related App ID that is placed in the ticket, not just the main ticket's
+App ID.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the ticket belongs to the provided App ID; otherwise,
 <strong>false</strong> if it does not, or if the ticket is not valid.
 <h2 class="bb_subsection"><a name="GetTicketAppID"></a>SteamEncryptedAppTicket_GetTicketAppID</h2>
 <div class="bb_code cpp">
@@ -255,9 +273,13 @@ bool<br /><strong>true</strong> if the ticket belongs to the provided App ID; ot
         </td>
     </tr>
 </table>
-<br />Gets the App ID associated with a ticket.<br /><br /><strong>Returns:</strong>
+<br />
+Gets the App ID associated with a ticket.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#AppId_t" class="bb_apilink">AppId_t</a
-><br />Returns the App ID linked to the ticket. Returns 0 if the ticket is not valid.
+><br />
+Returns the App ID linked to the ticket. Returns 0 if the ticket is not valid.
 <h2 class="bb_subsection">
     <a name="GetTicketIssueTime"></a>SteamEncryptedAppTicket_GetTicketIssueTime
 </h2>
@@ -285,10 +307,14 @@ bool<br /><strong>true</strong> if the ticket belongs to the provided App ID; ot
         </td>
     </tr>
 </table>
-<br />Gets the time that a ticket was issued.<br /><br /><strong>Returns:</strong>
+<br />
+Gets the time that a ticket was issued.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#RTime32" class="bb_apilink">RTime32</a
-><br />Returns the time as Unix epoch time (time since Jan 1st, 1970). Returns 0 if the ticket is
-not valid.
+><br />
+Returns the time as Unix epoch time (time since Jan 1st, 1970). Returns 0 if the ticket is not
+valid.
 <h2 class="bb_subsection">
     <a name="GetTicketSteamID"></a>SteamEncryptedAppTicket_GetTicketSteamID
 </h2>
@@ -329,7 +355,8 @@ not valid.
         </td>
     </tr>
 </table>
-<br />Gets the Steam ID associated with a ticket.
+<br />
+Gets the Steam ID associated with a ticket.
 <h2 class="bb_subsection">
     <a name="GetUserVariableData"></a>SteamEncryptedAppTicket_GetUserVariableData
 </h2>
@@ -362,13 +389,15 @@ not valid.
         <td>Returns the size of the user data.</td>
     </tr>
 </table>
-<br />Gets the variable length user data supplied when creating the ticket.<br /><br /><strong
-    >Returns:</strong
->
-const uint8 *<br />Returns a pointer to the user data. Returns the size of this data via
+<br />
+Gets the variable length user data supplied when creating the ticket.<br />
+<br />
+<strong>Returns:</strong> const uint8 *<br />
+Returns a pointer to the user data. Returns the size of this data via
 <code class="bb_code bb_code_inline nohighlight">pcubUserData</code>.
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with SteamEncryptedAppTicket.<br /><br />
+These are constants which are defined for use with SteamEncryptedAppTicket.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

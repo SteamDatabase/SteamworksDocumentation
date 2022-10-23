@@ -39,8 +39,9 @@ object. You can retrieve the current user's SteamID by calling
 >
 and then retrieve the 64-bit ID by calling
 <code class="bb_code bb_code_inline nohighlight">CSteamID.ConvertToUint64()</code> on the returned
-value.<br /><br />The following authentication methods can be used to securely verify a user's Steam
-ID.
+value.<br />
+<br />
+The following authentication methods can be used to securely verify a user's Steam ID.
 <h2 class="bb_subsection"><a name="2"></a>APIs covered in this document</h2>
 <h4>Session Tickets</h4>
 Session Tickets are signed tickets that can be used to verify a user's identity between the user's
@@ -53,8 +54,9 @@ API). These tickets can also be used to verify ownership of the current game and
 downloadable content, and determine if the user has been VAC-banned (See
 <a href="https://partner.steamgames.com/doc/features/anticheat" class="bb_doclink"
     >Valve Anti-Cheat (VAC) and Game Bans</a
->).<br />Session Tickets can also be used to verify a user's identity between a game client and a
-secure, backend server using the
+>).<br />
+Session Tickets can also be used to verify a user's identity between a game client and a secure,
+backend server using the
 <a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
     >Steamworks Web API</a
 >. Requires that the secure server can make HTTPS requests to
@@ -65,12 +67,13 @@ secure, backend server. Unlike Session Tickets, verifying Encrypted Application 
 <i>not</i> require that the secure server can make HTTPS requests. Instead, a C++ library and a
 private, symmetric key are used by the secure server to verify the ticket. The Steamworks SDK
 includes 32-bit and 64-bit versions of this library for Windows and Linux under the
-<code class="bb_code bb_code_inline nohighlight">public/steam/lib</code>
-directory.<br /><br />Before using Encrypted Application Tickets, you must generate a private key
-for each title. You can do this by navigating to Edit Steamworks Settings for your application and
-selecting 'SDK Auth' from the 'Security' drop-down. This key will be associated with your title's
-AppID and any downloadable content for that title. In order to access this section of Steamworks, a
-user must have the "Manage Signing" permission for the relevant Application.
+<code class="bb_code bb_code_inline nohighlight">public/steam/lib</code> directory.<br />
+<br />
+Before using Encrypted Application Tickets, you must generate a private key for each title. You can
+do this by navigating to Edit Steamworks Settings for your application and selecting 'SDK Auth' from
+the 'Security' drop-down. This key will be associated with your title's AppID and any downloadable
+content for that title. In order to access this section of Steamworks, a user must have the "Manage
+Signing" permission for the relevant Application.
 <div class="bb_callout">
     <div>
         NOTE: These keys must be stored securely, and must not be distributed within your
@@ -148,7 +151,8 @@ game client (client A) and another client or game server (client B):<br />
         </ul>
     </li>
 </ul>
-<br />A few important notes about Session Tickets:<br />
+<br />
+A few important notes about Session Tickets:<br />
 <ul class="bb_ul">
     <li>
         Session Tickets must only be used once.
@@ -420,7 +424,8 @@ between the user's game client and a secure server:<br />
         </ul>
     </li>
 </ul>
-<br />An example implementation can be found in the
+<br />
+An example implementation can be found in the
 <a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
     >Steamworks API Example Application (SpaceWar)</a
 >
@@ -451,29 +456,38 @@ to determine if the user owns a specific piece of
 Steam is an <a href="http://openid.net/" target="_blank" rel="noreferrer">OpenID</a> Provider, as
 described in the OpenID 2.0 specification. Inside a web browser, a third-party website can use
 OpenID to obtain a user's SteamID which can be used as the login credentials for the 3rd party
-website, or linked to an existing account on that website.<br /><br />When using OpenID, the user
-begins in a web browser at the third-party website. When the user wishes to login/link their account
-to that website, using OpenID, the site directs the user to a login form on the Steam Community
-website. Once the user has entered their Steam login credentials, the user's web browser is
-automatically redirected back to the 3rd party website with some additional OpenID specific data
-appended to the return URL. The site's OpenID library can then use this data to verify and obtain
-the user's SteamID.<br /><br />Steam provides the following images which may be used by 3rd party
-sites when linking to the Steam sign in page:<br /><img
+website, or linked to an existing account on that website.<br />
+<br />
+When using OpenID, the user begins in a web browser at the third-party website. When the user wishes
+to login/link their account to that website, using OpenID, the site directs the user to a login form
+on the Steam Community website. Once the user has entered their Steam login credentials, the user's
+web browser is automatically redirected back to the 3rd party website with some additional OpenID
+specific data appended to the return URL. The site's OpenID library can then use this data to verify
+and obtain the user's SteamID.<br />
+<br />
+Steam provides the following images which may be used by 3rd party sites when linking to the Steam
+sign in page:<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png"
     alt="sits_large_border.png"
     title="sits_large_border.png"
-/><br /><br /><img
+/><br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/sits_large_noborder.png"
     alt="sits_large_noborder.png"
     title="sits_large_noborder.png"
-/><br /><br /><img
+/><br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/sits_small.png"
     alt="sits_small.png"
     title="sits_small.png"
 />
 <h4>User Authentication</h4>
 Steam's OpenID 2.0 implementation can be used to link a users Steam account to their account on the
-third-party website.<br />A list of open source OpenID libraries can be found at the
+third-party website.<br />
+A list of open source OpenID libraries can be found at the
 <a href="http://openid.net/developers/libraries/" target="_blank" rel="noreferrer">OpenID website</a
 >. To use OpenID to verify a user's identity:<br />
 <ul class="bb_ul">
@@ -510,14 +524,16 @@ to retrieve a list of all user owned AppIDs that are associated with the provide
     <a name="account_linking"></a>Linking third-party accounts to Steam accounts
 </h2>
 Third-party accounts can be linked to Steam accounts by associating a user's SteamID with the 3rd
-party account.<br /><br />A user's SteamID can be securely retrieved either in-game or through a web
-browser and once the initial association has occurred, you can safely allow access to the 3rd party
-account by merely verifying a user's SteamID. This eliminates the need for Steam users to do any
-sort of secondary login to 3rd party account systems. Additionally, if new 3rd party accounts can be
-automatically created and linked when a new SteamID is encountered, the Steam user will never have
-to be aware that a secondary authentication is taking place at all. Instead, their single Steam
-account can grant access to all of their games, streamlining the user experience and removing
-potential barriers to installing and trying new games.
+party account.<br />
+<br />
+A user's SteamID can be securely retrieved either in-game or through a web browser and once the
+initial association has occurred, you can safely allow access to the 3rd party account by merely
+verifying a user's SteamID. This eliminates the need for Steam users to do any sort of secondary
+login to 3rd party account systems. Additionally, if new 3rd party accounts can be automatically
+created and linked when a new SteamID is encountered, the Steam user will never have to be aware
+that a secondary authentication is taking place at all. Instead, their single Steam account can
+grant access to all of their games, streamlining the user experience and removing potential barriers
+to installing and trying new games.
 <h2 class="bb_subsection"><a name="5"></a>Linking From In-game</h2>
 Session Tickets can be used to verify a user's identity between a game client and a secure, backend
 server using the Steamworks Web API:<br />
@@ -624,7 +640,8 @@ If you are using the
 <a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem" class="bb_apilink"
     >ISteamInventory::AddPromoItem</a
 >
-from the client.<br />If you have your own item backend, you can call
+from the client.<br />
+If you have your own item backend, you can call
 <a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket" class="bb_apilink"
     >ISteamUser::GetAuthSessionTicket</a
 >

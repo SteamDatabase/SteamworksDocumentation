@@ -1,7 +1,9 @@
 <h1>Getting Started for Developers</h1>
 <h2 class="bb_section"><a name="1"></a>Overview</h2>
-<br />The Steam Input API is designed to allow you to easily enable <i>full support</i> for Steam
-Input devices in your game. We define full support as the follows:<br /><br />
+<br />
+The Steam Input API is designed to allow you to easily enable <i>full support</i> for Steam Input
+devices in your game. We define full support as the follows:<br />
+<br />
 <ul class="bb_ul">
     <li>
         Your game uses the proper controller-specific glyphs when showing in-game input prompts.<br />
@@ -29,7 +31,9 @@ Input devices in your game. We define full support as the follows:<br /><br />
         all.
     </li>
 </ul>
-<br />To ensure users have a good experience from the couch, we also recommend the following:<br /><br />
+<br />
+To ensure users have a good experience from the couch, we also recommend the following:<br />
+<br />
 <ul class="bb_ul">
     <li>
         Make your UI readable from several feet away. Our rule of thumb: when your game is running
@@ -48,7 +52,8 @@ Input devices in your game. We define full support as the follows:<br /><br />
 <h2 class="bb_subsection">
     <a name="3"></a>I'm Adding Steam Input API support <i>before</i> shipping my game
 </h2>
-<br />Great! Follow the technical directions in
+<br />
+Great! Follow the technical directions in
 <a
     href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#implement_steam_input"
     class="bb_doclink"
@@ -57,11 +62,13 @@ Input devices in your game. We define full support as the follows:<br /><br />
 <h2 class="bb_subsection">
     <a name="4"></a>I'm Adding Steam Input API support alongside other input libraries
 </h2>
-<br />It's perfectly acceptable to ship conventional gamepad input as well as Steam Input, and if
-you're adding Steam Input API support after initial launch or shipping your game on multiple
-platforms, you could easily find yourself in this situation. There's a few things to keep in
-mind:<br /><br /><strong> 1. Be deliberate with your analog action choices</strong><br />We'll be
-going into further detail on this topic later but the quick summary is:<br />
+<br />
+It's perfectly acceptable to ship conventional gamepad input as well as Steam Input, and if you're
+adding Steam Input API support after initial launch or shipping your game on multiple platforms, you
+could easily find yourself in this situation. There's a few things to keep in mind:<br />
+<br />
+<strong> 1. Be deliberate with your analog action choices</strong><br />
+We'll be going into further detail on this topic later but the quick summary is:<br />
 <ul class="bb_ul">
     <li>
         You should always include a mouse-style action for cursor or precision camera controls. It
@@ -79,37 +86,45 @@ going into further detail on this topic later but the quick summary is:<br />
         for Steam Input that's distinct from the system mouse.
     </li>
 </ul>
-<br /><strong> 2. Be consistent with auto-aim on joysticks </strong><br />If you have any auto-aim
-or aim-assist applied to XInput analog sticks, consider applying that to Steam Input devices as
-well, at least for traditional controller models configured through Steam Input. You can call
+<br />
+<strong> 2. Be consistent with auto-aim on joysticks </strong><br />
+If you have any auto-aim or aim-assist applied to XInput analog sticks, consider applying that to
+Steam Input devices as well, at least for traditional controller models configured through Steam
+Input. You can call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamInput#GetInputTypeForHandle"
     class="bb_apilink"
     >GetInputTypeForHandle</a
 >
 to determine an individual controller's model type or implement separate mouse-style and
-joystick-style camera actions.<br /><br /><strong>
-    3. Use SDL version 2.0.8 or above, if possible</strong
-><br />If you're using
-<a href="https://www.libsdl.org/" target="_blank" rel="noreferrer">SDL</a> (Simple DirectMedia
-Layer), one of the most popular cross-platform game libraries for handling things like input, make
-sure you're using the latest version, or at least version 2.0.8 or above. This version allows Steam
-to tell SDL to ignore input for controllers configured by Steam Input, which avoids double-input
-bugs.<br /><br /><strong> 4. Have a plan for Xbox controllers </strong><br />If your game has
-already shipped and has XInput support that you're leaving in place, you may want to leave Xbox
-controllers in the XInput path by default. If you're a local multiplayer game you'll want to make
-sure that you can either accept input from both paths at the same time or opt all controller into
-Steam Input though.
+joystick-style camera actions.<br />
+<br />
+<strong> 3. Use SDL version 2.0.8 or above, if possible</strong><br />
+If you're using <a href="https://www.libsdl.org/" target="_blank" rel="noreferrer">SDL</a> (Simple
+DirectMedia Layer), one of the most popular cross-platform game libraries for handling things like
+input, make sure you're using the latest version, or at least version 2.0.8 or above. This version
+allows Steam to tell SDL to ignore input for controllers configured by Steam Input, which avoids
+double-input bugs.<br />
+<br />
+<strong> 4. Have a plan for Xbox controllers </strong><br />
+If your game has already shipped and has XInput support that you're leaving in place, you may want
+to leave Xbox controllers in the XInput path by default. If you're a local multiplayer game you'll
+want to make sure that you can either accept input from both paths at the same time or opt all
+controller into Steam Input though.
 <h2 class="bb_subsection">
     <a name="5"></a>I Want my Non-Steam Input API Games to Play Nicely with Steam Input
 </h2>
-<br />First of all, I highly recommend reading Zach Burke's
+<br />
+First of all, I highly recommend reading Zach Burke's
 <a
     href="https://www.gamasutra.com/blogs/ZachBurke/20151030/257920/The_5_Golden_Rules_of_Input.php"
     target="_blank"
     rel="noreferrer"
     >The Five Golden Rules of Input</a
->.<br /><br />To summarize, they are:<br /><br />
+>.<br />
+<br />
+To summarize, they are:<br />
+<br />
 <ol class="bb_ol">
     <li><strong>On-screen icons should match the input device</strong><br /></li>
     <li><strong>Mouse cursor should match the input device</strong><br /></li>
@@ -117,22 +132,28 @@ Steam Input though.
     <li><strong>Dpad, analog stick, and mouse can all be used to navigate menus</strong><br /></li>
     <li><strong>A disconnected gamepad should pause the game</strong></li>
 </ol>
-<br />These are good general guidelines to follow if you are able. To add our own emphasis:<br /><br /><strong>
-    Gamepad and mouse input should be possible simultaneously </strong
-><br /><br />Most games allow mouse input, or gamepad input, but not both at the same time, and this
-is the chief cause of compatibility issues with the Steam Input system.
-<br /><br />Additionally:<br /><br />
+<br />
+These are good general guidelines to follow if you are able. To add our own emphasis:<br />
+<br />
+<strong> Gamepad and mouse input should be possible simultaneously </strong><br />
+<br />
+Most games allow mouse input, or gamepad input, but not both at the same time, and this is the chief
+cause of compatibility issues with the Steam Input system. <br />
+<br />
+Additionally:<br />
+<br />
 <ol class="bb_ol">
     <li>
-        <strong>Set a recommended controller configuration for all controller types</strong
-        ><br />This way Steam doesn't have to prompt the user to select a configuration on startup.
-        By the way, you don't need to provide a configuration for both the Xbox 360 and the Xbox One
+        <strong>Set a recommended controller configuration for all controller types</strong><br />
+        This way Steam doesn't have to prompt the user to select a configuration on startup. By the
+        way, you don't need to provide a configuration for both the Xbox 360 and the Xbox One
         controllers -- if you only supply one, it will work for the other model.<br />
     </li>
     <li>
         <strong>Opt-in Controller Type you don't have native support for to Steam Input</strong
-        ><br />If you don't have built-in support for these controller types, you should use the
-        partner site to opt them in to using Steam Input. See the bottom of
+        ><br />
+        If you don't have built-in support for these controller types, you should use the partner
+        site to opt them in to using Steam Input. See the bottom of
         <a
             href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#21"
             class="bb_doclink"
@@ -141,11 +162,11 @@ is the chief cause of compatibility issues with the Steam Input system.
         for more on that.<br />
     </li>
     <li>
-        <strong>If you're not going to allow simultaneous gamepad/mouse...</strong><br />...at least
-        make the deadzone, acceleration, and sensitivity of the joystick configurable. Joystick
-        emulation for the trackpad works by rapidly flicking the virtual joystick so it is quite
-        sensitive to these settings. For good results you want to allow very high sensitivities,
-        deadzones that go to 0 and a linear acceleration curve.
+        <strong>If you're not going to allow simultaneous gamepad/mouse...</strong><br />
+        ...at least make the deadzone, acceleration, and sensitivity of the joystick configurable.
+        Joystick emulation for the trackpad works by rapidly flicking the virtual joystick so it is
+        quite sensitive to these settings. For good results you want to allow very high
+        sensitivities, deadzones that go to 0 and a linear acceleration curve.
         <a
             href="http://store.steampowered.com/app/356190/Middleearth_Shadow_of_War/"
             target="_blank"
@@ -157,16 +178,18 @@ is the chief cause of compatibility issues with the Steam Input system.
         <strong
             >Allow users to select from Xbox or PS4 glyphs via the menu or detect the device type
             via our API</strong
-        ><br />When Steam is sending gamepad input it will appear in your game as regular Xbox
-        controller input, rather than the normal device. This is useful since it allows the player
-        to use devices that would not normally work, but it also means that normal check for USB
-        device ID's, etc will not work and you'll need to call a helper function from Steam. It's
-        important to note here that even controllers which you have built-in support may appear in
-        your game through Steam Input either because the user is streaming the game via Steam Remote
-        Play or because the user has opted into Steam Input to reconfigure their devices.
+        ><br />
+        When Steam is sending gamepad input it will appear in your game as regular Xbox controller
+        input, rather than the normal device. This is useful since it allows the player to use
+        devices that would not normally work, but it also means that normal check for USB device
+        ID's, etc will not work and you'll need to call a helper function from Steam. It's important
+        to note here that even controllers which you have built-in support may appear in your game
+        through Steam Input either because the user is streaming the game via Steam Remote Play or
+        because the user has opted into Steam Input to reconfigure their devices.
     </li>
 </ol>
-<br />You can read more about this on the
+<br />
+You can read more about this on the
 <a
     href="https://partner.steamgames.com/doc/features/steam_controller/steam_input_gamepad_emulation_bestpractices"
     class="bb_doclink"
@@ -174,11 +197,14 @@ is the chief cause of compatibility issues with the Steam Input system.
 >
 page.
 <h2 class="bb_section"><a name="6"></a>Text Input</h2>
-<br />On-screen text input is not technically part of the
+<br />
+On-screen text input is not technically part of the
 <a href="https://partner.steamgames.com/doc/api/ISteamInput" class="bb_apilink">ISteamInput</a>, but
 is found instead in
 <a href="https://partner.steamgames.com/doc/api/ISteamUtils" class="bb_apilink">ISteamUtils</a
->.<br /><br />Some quick references:<br />
+>.<br />
+<br />
+Some quick references:<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -202,10 +228,13 @@ is found instead in
         >
     </li>
 </ul>
-<br />You might find these useful regardless of whether you're using Steam Input in any way.
+<br />
+You might find these useful regardless of whether you're using Steam Input in any way.
 <h2 class="bb_section"><a name="implement_steam_input"></a>Implementing Steam Input API support</h2>
-<br />The implementation process is straightforward, and shouldn't take more than a few days of
-work. Four steps are involved:<br /><br />
+<br />
+The implementation process is straightforward, and shouldn't take more than a few days of work. Four
+steps are involved:<br />
+<br />
 <ol class="bb_ol">
     <li>
         In a text editor, create an in-game actions file, which tells Steam what in-game actions
@@ -224,7 +253,8 @@ work. Four steps are involved:<br /><br />
     </li>
 </ol>
 <h2 class="bb_section"><a name="iga"></a>Step 1 - Creating an In-Game Actions File</h2>
-<br />Start by downloading the starting
+<br />
+Start by downloading the starting
 <a
     href="https://cdn.cloudflare.steamstatic.com/steam/partner/controller/game_actions_X.vdf"
     target="_blank"
@@ -233,9 +263,11 @@ work. Four steps are involved:<br /><br />
 >. Place it in your <i>"&lt;Steam Install Directory&gt;\controller_config"</i> directory (create the
 directory if it doesn't exist). Rename the file to the following: <i>"game_actions_X.vdf"</i>, where
 X is your game's Steam AppID. If you don't know what your game's Steam AppID is, it can be found by
-logging into your Steam partner site.<br /><br />Now open up the file in your favorite text editor.
-The file is in a standard Valve format called KeyValues, which is a simple &amp; easily read format.
-You might also find it useful to download one of our
+logging into your Steam partner site.<br />
+<br />
+Now open up the file in your favorite text editor. The file is in a standard Valve format called
+KeyValues, which is a simple &amp; easily read format. You might also find it useful to download one
+of our
 <a
     href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples"
     class="bb_doclink"
@@ -248,33 +280,40 @@ or the
     rel="noreferrer"
     >Portal 2 IGA</a
 >
-for a reference.<br /><br />For more details see:
+for a reference.<br />
+<br />
+For more details see:
 <a href="https://partner.steamgames.com/doc/features/steam_controller/iga_file" class="bb_doclink"
     >In-Game Actions File</a
 >
 <h2 class="bb_subsection"><a name="7"></a>File Format</h2>
-<br />IGA files contain an "actions" section, which should list all the in-game action sets (IGAS)
-in your game. An IGAS describes all the actions a player can take within some game context - such as
-when the player is in a vehicle, or on foot, or navigating the menu system. For each IGAS, the Steam
+<br />
+IGA files contain an "actions" section, which should list all the in-game action sets (IGAS) in your
+game. An IGAS describes all the actions a player can take within some game context - such as when
+the player is in a vehicle, or on foot, or navigating the menu system. For each IGAS, the Steam
 Input configuration UI will provide a tab that allows a player to customize how those actions are
-bound to the controller.<br /><br />An IGAS entry in the IGA file should contain a "title" key &amp;
-value, and the following subsections: "StickPadGyro", "AnalogTrigger", and "Button". The
-"StickPadGyro" and "AnalogTrigger" sections each contain a list of IGAs that the player can only
-assign to the stick/pad/gyro and analog triggers respectively. The "Buttons" section contains IGAs
-that can only be bound to digital inputs (like the physical ABXY buttons, or a trackpad that's in
-ABXY mode, or a trigger that's not being used as an AnalogTrigger action).
+bound to the controller.<br />
+<br />
+An IGAS entry in the IGA file should contain a "title" key &amp; value, and the following
+subsections: "StickPadGyro", "AnalogTrigger", and "Button". The "StickPadGyro" and "AnalogTrigger"
+sections each contain a list of IGAs that the player can only assign to the stick/pad/gyro and
+analog triggers respectively. The "Buttons" section contains IGAs that can only be bound to digital
+inputs (like the physical ABXY buttons, or a trackpad that's in ABXY mode, or a trigger that's not
+being used as an AnalogTrigger action).
 <h2 class="bb_subsection"><a name="8"></a>Designing your IGA</h2>
 Take a minute to think about the functionality of your game - how many distinct modes does it
 contain? For each place where you want to have distinct controls you'll want to make an action set.
 Most games will have at least a distinct "Menu" and "In-game" action set, but many will need more.
 Does your game have any special cases like operating a vehicle or have specialized in-game menus
-like a map or inventory screen, those may also be useful to make into action sets.<br /><br />Not
-everything needs to be a distinct action set though, you can also use action set layers to handle
-similar modes. For example if you can drive both a car and boat in your game you may want to include
-one "vehicle" action set with an action set layer of "boat" or "car" on top of it. Action set layers
-retain any settings of the parent action set and can make understanding and editing configurations
-more manageable for both your development team and your users.<br /><br />For more information on
-action set layers see:
+like a map or inventory screen, those may also be useful to make into action sets.<br />
+<br />
+Not everything needs to be a distinct action set though, you can also use action set layers to
+handle similar modes. For example if you can drive both a car and boat in your game you may want to
+include one "vehicle" action set with an action set layer of "boat" or "car" on top of it. Action
+set layers retain any settings of the parent action set and can make understanding and editing
+configurations more manageable for both your development team and your users.<br />
+<br />
+For more information on action set layers see:
 <a
     href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
     class="bb_doclink"
@@ -290,31 +329,41 @@ action set layers see:
     </div>
 </div>
 <h2 class="bb_subsection"><a name="9"></a>Button Actions</h2>
-<br />The format for "Button" actions is as follows: <br /><br />
+<br />
+The format for "Button" actions is as follows: <br />
+<br />
 <div class="bb_code">"&lt;action name&gt;" "#&lt;localization key&gt;"</div>
-<br />The <code class="bb_code bb_code_inline nohighlight">&lt;action name&gt;</code> is the
-internal name you want to refer to this action by in your game code, when talking to the Steam Input
-API. The <code class="bb_code bb_code_inline nohighlight">&lt;localization key&gt;</code> should be
-the name of an entry in your localization section (see Adding Localization). Make sure to include
-the '#' character at the start of your localization key.
+<br />
+The <code class="bb_code bb_code_inline nohighlight">&lt;action name&gt;</code> is the internal name
+you want to refer to this action by in your game code, when talking to the Steam Input API. The
+<code class="bb_code bb_code_inline nohighlight">&lt;localization key&gt;</code> should be the name
+of an entry in your localization section (see Adding Localization). Make sure to include the '#'
+character at the start of your localization key.
 <h2 class="bb_subsection"><a name="10"></a>Analog Trigger Actions</h2>
-<br />The format for "AnalogTrigger" actions is the same as for "Button". "AnalogTrigger" actions
-should be actions that your game will be interpreting as full analog inputs, like vehicle
-acceleration. If you don't have any of that kind of input, just leave the section empty. The Steam
-Input configurator UI will allow players to assign any "Button" action to the physical triggers if
-they're not being used as an "AnalogTrigger" action.
+<br />
+The format for "AnalogTrigger" actions is the same as for "Button". "AnalogTrigger" actions should
+be actions that your game will be interpreting as full analog inputs, like vehicle acceleration. If
+you don't have any of that kind of input, just leave the section empty. The Steam Input configurator
+UI will allow players to assign any "Button" action to the physical triggers if they're not being
+used as an "AnalogTrigger" action.
 <h2 class="bb_subsection"><a name="11"></a>StickPadGyro Actions</h2>
-<br />The format for "StickPadGyro" actions is as follows: <br /><br />
+<br />
+The format for "StickPadGyro" actions is as follows: <br />
+<br />
 <div class="bb_code">
     "&lt;action name&gt;" { "title" "#&lt;localization key&gt;" "input_mode" "&lt;analog mode&gt;" }
 </div>
-<br /><code class="bb_code bb_code_inline nohighlight">&lt;action name&gt;</code> and
+<br />
+<code class="bb_code bb_code_inline nohighlight">&lt;action name&gt;</code> and
 <code class="bb_code bb_code_inline nohighlight">&lt;localization key&gt;</code> are the same as the
 matching keys in the "Button" format.
 <code class="bb_code bb_code_inline nohighlight">&lt;analog mode&gt;</code> tells us how to
 interpret the data coming from the physical controls, before we pass it to your game via the steam
-input API.<br /><br />Valid
-<code class="bb_code bb_code_inline nohighlight">&lt;analog modes&gt;</code> are as follows:<br /><br />
+input API.<br />
+<br />
+Valid <code class="bb_code bb_code_inline nohighlight">&lt;analog modes&gt;</code> are as
+follows:<br />
+<br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">"absolute_mouse"</code> - for when you're
@@ -334,23 +383,28 @@ input API.<br /><br />Valid
         action and react to deltas as if it’s a mouse as the 1:1 data is required for implementing
         good quality Gyro aim or trackpad input. Steam Input is able to convert joystick input from
         gamepads into "absolute_mouse" style input for you but due to the acceleration curves and
-        deadzones applied in-game it's not possible to convert the other direction. <br /><br />It's
-        fine to include a <strong>"joystick_move"</strong> style action if you want exact parity for
-        joystick aim with your console builds but please test that you can accept input from both
-        <strong>"absolute_mouse"</strong> and <strong>"joystick_move"</strong> at the same time so
-        Playstation and Switch controllers can use Gyro aim along side the joystick. You may also
-        want to implement a digital action for "Reset Camera" to re-center the vertical position of
-        the camera. If you have auto aim enabled for XInput controllers please apply the same logic
-        to joystick input through Steam Input API and consider applying a lighter amount of auto aim
-        for trackpad/gyro aim.
+        deadzones applied in-game it's not possible to convert the other direction. <br />
+        <br />
+        It's fine to include a <strong>"joystick_move"</strong> style action if you want exact
+        parity for joystick aim with your console builds but please test that you can accept input
+        from both <strong>"absolute_mouse"</strong> and <strong>"joystick_move"</strong> at the same
+        time so Playstation and Switch controllers can use Gyro aim along side the joystick. You may
+        also want to implement a digital action for "Reset Camera" to re-center the vertical
+        position of the camera. If you have auto aim enabled for XInput controllers please apply the
+        same logic to joystick input through Steam Input API and consider applying a lighter amount
+        of auto aim for trackpad/gyro aim.
     </div>
 </div>
-<br />There is one optional setting for StickPadGyro actions that are using
+<br />
+There is one optional setting for StickPadGyro actions that are using
 <code class="bb_code bb_code_inline nohighlight">"absolute_mouse"</code> as their input. If you set
 the <code class="bb_code bb_code_inline nohighlight">"os_mouse"</code> key to
 <code class="bb_code bb_code_inline nohighlight">"1"</code>, we'll pass the input from the player
 into the OS as well as your game. This is useful if you have a visible OS mouse cursor that should
-be controlled by this action. <br /><br />Here's an example: <br /><br />
+be controlled by this action. <br />
+<br />
+Here's an example: <br />
+<br />
 <div class="bb_code">
     "menu_mouse" { "title" "#Menu_Mouse_Title" "input_mode" "absolute_mouse" "os_mouse" "1" }
 </div>
@@ -372,72 +426,93 @@ be controlled by this action. <br /><br />Here's an example: <br /><br />
     </div>
 </div>
 <h2 class="bb_subsection"><a name="12"></a>Step 1.1 - Adding Localization</h2>
-<br />The "localization" section in your IGA file contains a list of languages, each of which is a
-section containing localization keys &amp; values. For example: <br /><br />
+<br />
+The "localization" section in your IGA file contains a list of languages, each of which is a section
+containing localization keys &amp; values. For example: <br />
+<br />
 <div class="bb_code">
     "localization" { "english" { "Action_Jump" "Jump" "Action_Camera" "Camera" } "german" {
     "Action_Jump" "Springen" "Action_Camera" "Kameraansicht" } }
 </div>
-<br />The actions in your IGA file should then specify their names by referring to the desired
+<br />
+The actions in your IGA file should then specify their names by referring to the desired
 localization key, preceded by the '#' character. Here are example actions using the above
-localization keys:<br /><br />
+localization keys:<br />
+<br />
 <div class="bb_code">
     "StickPadGyro" { "Camera" { "title" "#Action_Camera" "input_mode" "absolute_mouse" } } "Button"
     { "Jump" "#Action_Jump" }
 </div>
-<br />If the language the game is running under is not found in the localization section, English
-will be used as a fallback. If English is not found, the string will be shown as is. For details on
+<br />
+If the language the game is running under is not found in the localization section, English will be
+used as a fallback. If English is not found, the string will be shown as is. For details on
 supported languages, please see
 <a href="https://partner.steamgames.com/doc/store/localization/languages" class="bb_doclink"
     >Fully supported languages</a
 >
 <h2 class="bb_subsection"><a name="13"></a>Step 1.2 - Titles &amp; Descriptions</h2>
-<br />Configurations also need a localized title and description. If you're only making a single
-official configuration for your game, you don't need to worry about this - we'll provide a default
-title and description, and you can skip this step entirely. But if you want to have multiple
-official configurations for your game, then you'll also need to provide localized titles and
-descriptions for them.<br /><br />Configuration titles and descriptions should be listed along with
-the rest of your localization keys. The title key must start with
+<br />
+Configurations also need a localized title and description. If you're only making a single official
+configuration for your game, you don't need to worry about this - we'll provide a default title and
+description, and you can skip this step entirely. But if you want to have multiple official
+configurations for your game, then you'll also need to provide localized titles and descriptions for
+them.<br />
+<br />
+Configuration titles and descriptions should be listed along with the rest of your localization
+keys. The title key must start with
 <code class="bb_code bb_code_inline nohighlight">"Title_"</code>, and the description key must start
 with <code class="bb_code bb_code_inline nohighlight">"Description_"</code>. Here's an example:
-<br /><br />
+<br />
+<br />
 <div class="bb_code">
     "localization" { "english" { "Title_Config1" "Official Configuration" "Description_Config1"
     "This config was created by the developers of Game X." "Title_Config2" "Official Southpaw
     Configuration" "Description_Config2" "This config was created by the developers of Game X, and
     is setup for Southpaw users." "Action_Jump" "Jump" "Action_Camera" "Camera" } }
 </div>
-<br />When you publish a configuration (see
+<br />
+When you publish a configuration (see
 <a href="#publishing" class="bb_doclink">Step 4 - Publishing</a>), you'll be able to select which of
 these localized titles and descriptions you want to use.
 <h2 class="bb_section"><a name="14"></a>Step 2 - Creating a Default Configuration</h2>
-<br />Once you've created your IGA file, and ensured it's in the right directory &amp; named to
-match your game's AppID, you're ready to create a configuration. <br /><br />Run Steam in Big
-Picture mode, and navigate to your game's game details page. <br /><br />Select "Manage Game," and
-then "Configure Controller." If you receive any errors at this point, they'll be identifying issues
-in your IGA file and you'll need to go fix them - the most common mistake is a missing closing quote
-or brace.<br /><br />If you don't receive any errors, you're now looking at an empty controller
-configuration for your game, and it should be fully aware of your in-game actions. Use the UI to
-create a default configuration. Make sure you set defaults for all your in-game action sets, not
-just the first one.<br /><br />Once you've got a configuration, save it privately. Don't publish it,
-because your game is not yet ready to receive IGAs.
+<br />
+Once you've created your IGA file, and ensured it's in the right directory &amp; named to match your
+game's AppID, you're ready to create a configuration. <br />
+<br />
+Run Steam in Big Picture mode, and navigate to your game's game details page. <br />
+<br />
+Select "Manage Game," and then "Configure Controller." If you receive any errors at this point,
+they'll be identifying issues in your IGA file and you'll need to go fix them - the most common
+mistake is a missing closing quote or brace.<br />
+<br />
+If you don't receive any errors, you're now looking at an empty controller configuration for your
+game, and it should be fully aware of your in-game actions. Use the UI to create a default
+configuration. Make sure you set defaults for all your in-game action sets, not just the first
+one.<br />
+<br />
+Once you've got a configuration, save it privately. Don't publish it, because your game is not yet
+ready to receive IGAs.
 <h2 class="bb_section"><a name="15"></a>Step 3 - The Steam Input API</h2>
-<br />Make sure you have the latest version of the Steamworks API - Grab it from the
+<br />
+Make sure you have the latest version of the Steamworks API - Grab it from the
 <a
     href="https://partner.steamgames.com/documentation/getting_started"
     target="_blank"
     rel="noreferrer"
     >Getting Started With SteamWorks</a
 >
-page.<br /><br />Steam Input provides per-app mappings for controllers to decide which mapping to
-run and Steam will track the foreground window. This can make it trickier to debug the controller
-while you're working on it, because the controller will change its configuration when you hit a
-breakpoint in your debugger. There are two ways to make Steam lock onto your window for debugging,
-either run the following Steam URL:<br />
+page.<br />
+<br />
+Steam Input provides per-app mappings for controllers to decide which mapping to run and Steam will
+track the foreground window. This can make it trickier to debug the controller while you're working
+on it, because the controller will change its configuration when you hit a breakpoint in your
+debugger. There are two ways to make Steam lock onto your window for debugging, either run the
+following Steam URL:<br />
 <div class="bb_code">
     steam://forceinputappid/&lt;your_game's_AppID or 0 to reset to normal operation&gt;
 </div>
-<br />or add the following command line parameters to your Steam shortcut: <br />
+<br />
+or add the following command line parameters to your Steam shortcut: <br />
 <div class="bb_code">-forcecontrollerappid &lt;your_game's_AppID</div>
 <div class="bb_callout bb_red">
     <div>
@@ -446,7 +521,8 @@ either run the following Steam URL:<br />
         parameters need to be passed to the Steam client, not your game.
     </div>
 </div>
-<br />You can also download the
+<br />
+You can also download the
 <a
     href="https://cdn.cloudflare.steamstatic.com/steam/partner/controller/SteamControllerGlyphs_v1.zip"
     target="_blank"
@@ -469,11 +545,17 @@ Otherwise, you can just
 to get a direct file path to appropriate art for any controller input (the image files are shipped
 with the Steam client itself).
 <h2 class="bb_subsection"><a name="16"></a>Step 3.1 - API Overview</h2>
-<br />The Steam Input API is built around the in-game actions &amp; sets that you specified in your
-in-game actions file in Step 1. <br /><br />For a complete API reference, see
+<br />
+The Steam Input API is built around the in-game actions &amp; sets that you specified in your
+in-game actions file in Step 1. <br />
+<br />
+For a complete API reference, see
 <a href="https://partner.steamgames.com/doc/api/ISteamInput" class="bb_doclink"
     >ISteamInput Interface</a
-><br /><br />The functionality overview is as follows: <br /><br />
+><br />
+<br />
+The functionality overview is as follows: <br />
+<br />
 <ul class="bb_ul">
     <li>
         On game startup, initialize Steam Input with
@@ -614,35 +696,42 @@ in-game actions file in Step 1. <br /><br />For a complete API reference, see
         <a href="https://partner.steamgames.com/doc/api/ISteamInput#RunFrame" class="bb_apilink"
             >ISteamInput::RunFrame</a
         >
-        every frame.<br /><br />You can tell if you have version-safe interfaces enabled by seeing
-        if you have this #define in your code:<br />
+        every frame.<br />
+        <br />
+        You can tell if you have version-safe interfaces enabled by seeing if you have this #define
+        in your code:<br />
         <div class="bb_code">VERSION_SAFE_STEAM_API_INTERFACES</div>
     </div>
 </div>
 <h2 class="bb_subsection"><a name="17"></a>Step 3.2 - Input Handling</h2>
-<br />For digital actions, the data returned by
+<br />
+For digital actions, the data returned by
 <a href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionData" class="bb_apilink"
     >ISteamInput::GetDigitalActionData</a
 >
-is straightforward:<br /><br />
+is straightforward:<br />
+<br />
 <div class="bb_code html">
     bState: will be true if the action is being sent by the controller (button is pressed, trigger
     pulled, etc)
 </div>
-<br />For analog actions, the data returned by
+<br />
+For analog actions, the data returned by
 <a href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionData" class="bb_apilink"
     >ISteamInput::GetAnalogActionData</a
 >
-is only slightly more complex:<br /><br />
+is only slightly more complex:<br />
+<br />
 <div class="bb_code html">
     x,y: will depend on the mode you assigned the game action to in your IGA File. -
     "absolute_mouse": x &amp; y will be deltas from the previous mouse position. - "joystick_move":
     x &amp; y will be values ranging between -1 &amp; 1, representing the current position of the
     joystick.
 </div>
-<br />While you're in your code, make sure you're not preventing the user from combining different
-kinds of input simultaneously. A common mistake we've seen is for games to start ignoring gamepad
-input when they see mouse &amp; KB, or vice versa.
+<br />
+While you're in your code, make sure you're not preventing the user from combining different kinds
+of input simultaneously. A common mistake we've seen is for games to start ignoring gamepad input
+when they see mouse &amp; KB, or vice versa.
 <h2 class="bb_subsection"><a name="18"></a>Step 3.3 - On-screen Glyphs</h2>
 To display an on-screen prompt for your controller, you need to get the physical origins that are
 bound to an in-game action. The player may have bound more than one physical origin to the same
@@ -659,8 +748,9 @@ and
     >ISteamInput::GetAnalogActionOrigins</a
 >
 will return the count of origins for the specified action, and fill out the passed in
-<code class="bb_code bb_code_inline nohighlight">originsOut</code> array.<br /><br />For each
-origin, you can use the
+<code class="bb_code bb_code_inline nohighlight">originsOut</code> array.<br />
+<br />
+For each origin, you can use the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamInput#EControllerActionOrigin"
     class="bb_apilink"
@@ -672,10 +762,12 @@ Valve's official image set (located in the Steam client's install folder). This 
 hardware devices recognized by Steam Input (so a PlayStation controller will show PlayStation
 buttons, and an Xbox controller will show Xbox buttons, etc). Even better, it's future proof -- when
 Valve adds support for new hardware, this function will automatically fetch updated glyphs without
-you needing to recompile your game with new glyph assets. <br /><br />You may provide your own
-images for the controller glyphs, but we strongly recommend making sure to do some future-proofing
-as Steam Input is always adding support for new devices and the only thing stopping them from
-working well with your game is if glyph images are broken or blank. You can either:<br />
+you needing to recompile your game with new glyph assets. <br />
+<br />
+You may provide your own images for the controller glyphs, but we strongly recommend making sure to
+do some future-proofing as Steam Input is always adding support for new devices and the only thing
+stopping them from working well with your game is if glyph images are broken or blank. You can
+either:<br />
 <ul class="bb_ul">
     <li>
         fall back to the image returned by
@@ -713,20 +805,23 @@ working well with your game is if glyph images are broken or blank. You can eith
             class="bb_apilink"
             >ISteamInput::GetAnalogActionOrigins</a
         >
-        functions are extremely cheap to call. <br /><br />When you display an onscreen prompt,
-        don't cache the origins and keep displaying the first results. Instead, we recommend you
-        re-gather the origins each frame, and display the matching prompts. That way, if a user
-        decides to change their configuration as a result of seeing the prompt, when they return
-        from the configuration screen the prompts will automatically update to match the new
-        origins.
+        functions are extremely cheap to call. <br />
+        <br />
+        When you display an onscreen prompt, don't cache the origins and keep displaying the first
+        results. Instead, we recommend you re-gather the origins each frame, and display the
+        matching prompts. That way, if a user decides to change their configuration as a result of
+        seeing the prompt, when they return from the configuration screen the prompts will
+        automatically update to match the new origins.
     </div>
 </div>
 <h2 class="bb_section"><a name="publishing"></a>Step 4 - Publishing</h2>
-<br />Once your game is working with the controller, you're ready to publish. You'll need to release
-your new game update and make your configuration the official one. Official configurations are
+<br />
+Once your game is working with the controller, you're ready to publish. You'll need to release your
+new game update and make your configuration the official one. Official configurations are
 automatically loaded when a player launches your game for the first time. This allows users to
-simply fire up your game and play without needing to go into the configuration screen at all.<br /><br />Here's
-the recommended process:
+simply fire up your game and play without needing to go into the configuration screen at all.<br />
+<br />
+Here's the recommended process:
 <h2 class="bb_subsection"><a name="19"></a>Step 4.1 - Update your game</h2>
 <ul class="bb_ul">
     <li>Update your Steam depot with your new version of the game</li>
@@ -750,63 +845,89 @@ the recommended process:
 <ul class="bb_ul">
     <li>Open up your game's page on the Steamworks partner website.<br /></li>
     <li>
-        Select "Steam Input" from the "Application" tab.<br /><br /><img
+        Select "Steam Input" from the "Application" tab.<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input.png"
             alt="steamworks_steam_input.png"
             title="steamworks_steam_input.png"
-        /><br /><br />
+        /><br />
+        <br />
     </li>
     <li>
         Scroll to the section called "Steam Input Template". Select the "Custom Configuration"
         option in the dropdown. (If you were not planning on adding native support and just want to
-        select from common legacy mode presets, here is where you would do so).<br /><br /><img
+        select from common legacy mode presets, here is where you would do so).<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_custom_config.png"
             alt="steamworks_steam_input_custom_config.png"
             title="steamworks_steam_input_custom_config.png"
-        /><br /><br />And from the selection below, select "Add Custom Configuration."<br /><br /><img
+        /><br />
+        <br />
+        And from the selection below, select "Add Custom Configuration."<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom2.png"
             alt="steamworks_steam_controller_custom2.png"
             title="steamworks_steam_controller_custom2.png"
-        /><br /><br />
+        /><br />
+        <br />
     </li>
     <li>
-        Paste the file ID of your public configuration into the box, and click the OK button.<br /><br /><img
+        Paste the file ID of your public configuration into the box, and click the OK button.<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom3.png"
             alt="steamworks_steam_controller_custom3.png"
             title="steamworks_steam_controller_custom3.png"
-        /><br /><br />
+        /><br />
+        <br />
     </li>
     <li>Publish your app changes in the partner site as usual.</li>
 </ul>
-<br />If you'd like, you can also specify multiple official configurations for your game. You may
-want to create an official "Southpaw" (left-handed) mode, for example.<br /><br />To do this, simply
-create multiple configurations and publish them each via step 4.2. Then, in step 4.3, paste all the
-file IDs for your configurations into the box, separated by the comma character (,) characters. The
-first one on the list will be considered the highest priority, and will be picked by default for new
-players. Don't forget to make
+<br />
+If you'd like, you can also specify multiple official configurations for your game. You may want to
+create an official "Southpaw" (left-handed) mode, for example.<br />
+<br />
+To do this, simply create multiple configurations and publish them each via step 4.2. Then, in step
+4.3, paste all the file IDs for your configurations into the box, separated by the comma character
+(,) characters. The first one on the list will be considered the highest priority, and will be
+picked by default for new players. Don't forget to make
 <a
     href="https://partner.steamgames.com/documentation/steamcontroller#step12"
     target="_blank"
     rel="noreferrer"
     >Titles &amp; Descriptions</a
 >
-for each of them. <br /><br />When your official configurations have been posted they will appear in
-the "Custom Configuration" section:<br /><br /><img
+for each of them. <br />
+<br />
+When your official configurations have been posted they will appear in the "Custom Configuration"
+section:<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_branch_settings.png"
     alt="steamworks_steam_input_branch_settings.png"
     title="steamworks_steam_input_branch_settings.png"
-/><br /><br />For each configuration you can get a direct link, see what controller type it is for,
-control which beta branches it is available on, or remove it entirely. If you create a new official
-configuration, you can use the remove / add functions in this section to replace an existing one.
+/><br />
+<br />
+For each configuration you can get a direct link, see what controller type it is for, control which
+beta branches it is available on, or remove it entirely. If you create a new official configuration,
+you can use the remove / add functions in this section to replace an existing one.
 <h2 class="bb_subsection"><a name="22"></a>Opting Controllers into Steam Input</h2>
-<br />Next, you should set up what kind of controllers use Steam Input - if you are using Steam
-Input API you'll want to make sure to check the "Any Future Devices" option to make sure new
-controllers work by default without you having to adjust settings after support ships in Steam.<br /><br /><img
+<br />
+Next, you should set up what kind of controllers use Steam Input - if you are using Steam Input API
+you'll want to make sure to check the "Any Future Devices" option to make sure new controllers work
+by default without you having to adjust settings after support ships in Steam.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_optin_settings.png"
     alt="steamworks_steam_input_optin_settings.png"
     title="steamworks_steam_input_optin_settings.png"
-/><br /><br />Checking these boxes will cause those controller types to make use of Steam Input
-rather than their standard gamepad input protocols.
+/><br />
+<br />
+Checking these boxes will cause those controller types to make use of Steam Input rather than their
+standard gamepad input protocols.
 <h2 class="bb_subsection"><a name="23"></a>Updating your official configurations</h2>
 There are two ways to update your configuration. <br />
 <ol class="bb_ol">
@@ -814,7 +935,9 @@ There are two ways to update your configuration. <br />
         To make a breaking change such as adding/removing a new action set or adding actions that
         must be bound upload a new configuration for each supported controller type and remove the
         old configuration. You should also go into the Steam Input Configuration browser with the
-        account that created the configuration and mark it deleted by hitting:<br /><br /><img
+        account that created the configuration and mark it deleted by hitting:<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_remove_community_config.png"
             alt="steamworks_remove_community_config.png"
             title="steamworks_remove_community_config.png"
@@ -824,7 +947,9 @@ There are two ways to update your configuration. <br />
         To make an optional change such as adding a new language for your action name localization
         or adding a new optional action that does not need to be bound in every configuration,
         upload a single new configuration and use the "Use Action Block" checkbox to make sure the
-        action block of that configuration is used preferentially on the selected branches.<br /><br /><img
+        action block of that configuration is used preferentially on the selected branches.<br />
+        <br />
+        <img
             src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_use_action_block.png"
             alt="steamworks_steam_input_use_action_block.png"
             title="steamworks_steam_input_use_action_block.png"

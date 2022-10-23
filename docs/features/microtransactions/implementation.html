@@ -10,12 +10,15 @@ other mechanisms your game has for selling items. Its purpose is to bring a comm
 experience that user's are familiar with from the Steam platform into your game and allow them to
 easily spend their Steam wallet value on your products. Using this type of integration, your game
 will have immediate access to new Steam users and payment methods as soon as they become
-available.<br /><br />With this system, the purchase is completely under your control. A successful
-response to a purchase request will result in the user reliably getting charged and you getting
-positive and immediate notification of the event. Once a purchase is approved, it's up to you to
-grant and manage the items. If an item is time based for example, your system dictates how long that
-item is good for.<br /><br />In addition to in-game purchasing, the system will provide additional
-functionality that your accounting and support systems can use:<br />
+available.<br />
+<br />
+With this system, the purchase is completely under your control. A successful response to a purchase
+request will result in the user reliably getting charged and you getting positive and immediate
+notification of the event. Once a purchase is approved, it's up to you to grant and manage the
+items. If an item is time based for example, your system dictates how long that item is good for.<br />
+<br />
+In addition to in-game purchasing, the system will provide additional functionality that your
+accounting and support systems can use:<br />
 <ol class="bb_ol">
     <li>You can receive notification if customers fail to pay.<br /></li>
     <li>You can issue refunds and query transaction status through the web service.<br /></li>
@@ -28,15 +31,19 @@ functionality that your accounting and support systems can use:<br />
 If you are working to bring your title with in-game purchases to Steam, we've got a few suggestions,
 best practices, and resources to help you get started. Whether you have a Free to Play game, or a
 game that is purchased upfront, there are common elements with any game that has in-game purchases
-that are useful to consider when working toward your launch on Steam.<br /><br />Please see the
+that are useful to consider when working toward your launch on Steam.<br />
+<br />
+Please see the
 <a href="https://partner.steamgames.com/doc/features/microtransactions" class="bb_doclink"
     >Microtransactions (In-Game Purchases)</a
 >
 documentation for suggestions for in-game economies and best practices.
 <h2 class="bb_section"><a name="3"></a>How the Payment System Works</h2>
 The payment system is a combination of whatever purchase process you have in-game, the Steam billing
-web service, and a customer approval process.<br /><br />The purchase process occurs in the
-following sequence. Your user always starts and completes their order in your game.<br />
+web service, and a customer approval process.<br />
+<br />
+The purchase process occurs in the following sequence. Your user always starts and completes their
+order in your game.<br />
 <ol class="bb_ol">
     <li>
         When a user wishes to buy something in-game, your game sends a purchase request to your
@@ -68,8 +75,9 @@ following sequence. Your user always starts and completes their order in your ga
         and you can then grant the item to the user.
     </li>
 </ol>
-<br />Alternatively, for games whose purchasing options are typically serviced through a web page or
-if you wish to offer Steam as a payment method directly on your web site, you can optionally do a
+<br />
+Alternatively, for games whose purchasing options are typically serviced through a web page or if
+you wish to offer Steam as a payment method directly on your web site, you can optionally do a
 browser-based integration. For this solution the purchase process occurs in the following
 sequence:<br />
 <ol class="bb_ol">
@@ -106,25 +114,33 @@ transactions within Steam.
 <h4>Submitting requests</h4>
 All requests should be sent using HTTP 1.1 GET or POST using a TLS secure connection. The
 Content-Type should be "application/x-www-form-urlencoded" and the POST parameters should be in the
-body of the request in standard form urlencoding format. Text should be transmitted as UTF-8.<br /><br />Requests
-will go through the base URI:<br /><code class="bb_code bb_code_inline nohighlight"
+body of the request in standard form urlencoding format. Text should be transmitted as UTF-8.<br />
+<br />
+Requests will go through the base URI:<br />
+<code class="bb_code bb_code_inline nohighlight"
     >https://partner.steam-api.com/ISteamMicroTxn/*</code
-><br /><br />Some commands return a pass or fail result. For cases where a fail result is returned,
-an additional error code and description will be appended. These keys will not be present for a pass
-response.<br /><br />Responses will be returned in JSON format by default. You may optionally
-specify XML format by adding the "format=xml" parameter to the request.<br />
+><br />
+<br />
+Some commands return a pass or fail result. For cases where a fail result is returned, an additional
+error code and description will be appended. These keys will not be present for a pass response.<br />
+<br />
+Responses will be returned in JSON format by default. You may optionally specify XML format by
+adding the "format=xml" parameter to the request.<br />
 Note: You must implement a flexible JSON or XML solution that allows parameter keys to be posted and
 returned in arbitrary order.
 <h4>Testing</h4>
 Steam offers a developer sandbox to test your integration. The sandbox supports all requests
 available through the regular API but no actual funds will be withdrawn from the tester's Steam
-wallet.<br /><br />The sandbox is accessed through a different base URI:<br /><code
-    class="bb_code bb_code_inline nohighlight"
+wallet.<br />
+<br />
+The sandbox is accessed through a different base URI:<br />
+<code class="bb_code bb_code_inline nohighlight"
     >https://partner.steam-api.com/ISteamMicroTxnSandbox/*</code
 >
 <h2 class="bb_section"><a name="5"></a>Integration Steps</h2>
 <h2 class="bb_subsection"><a name="6"></a>In-Game Purchasing</h2>
-<br />This is for games that have an integrated store and the user experience will stay in-game.<br />
+<br />
+This is for games that have an integrated store and the user experience will stay in-game.<br />
 <ul class="bb_ul">
     <li>
         <strong>Step 1</strong><br />
@@ -181,7 +197,8 @@ wallet.<br /><br />The sandbox is accessed through a different base URI:<br /><c
             class="bb_apilink"
             >ISteamMicroTxn/GetUserInfo</a
         >
-        web API request passing it the user's Steam ID.<br /><br />
+        web API request passing it the user's Steam ID.<br />
+        <br />
         This user metadata should be bundled and sent with your regular purchasing data to your
         purchasing server.<br />
     </li>
@@ -263,7 +280,8 @@ wallet.<br /><br />The sandbox is accessed through a different base URI:<br /><c
         item descriptions supplied by your purchase request. The user can then authorize the
         transaction. If the user does not have sufficient funds in their account, Steam will
         automatically guide them through a funding process. At the end, your game will receive
-        notification that the transaction has either been authorized or denied.<br /><br />
+        notification that the transaction has either been authorized or denied.<br />
+        <br />
         Your game will need to register a
         <a
             href="https://partner.steamgames.com/doc/api/ISteamUser#MicroTxnAuthorizationResponse_t"
@@ -338,7 +356,8 @@ store checkout, you can use the following steps for integration:<br />
             >ISteamMicroTxn/GetUserInfo</a
         >
         web API request passing it the user's Steam ID. This data can be used to display your store
-        with appropriate pricing and currency values for the user.<br /><br />
+        with appropriate pricing and currency values for the user.<br />
+        <br />
         <strong>Note:</strong>
         <code class="bb_code bb_code_inline nohighlight">GetUserInfo</code> has an optional IP
         address parameter that you can use to hint to Steam where the user is originating from. Send
@@ -364,7 +383,8 @@ store checkout, you can use the following steps for integration:<br />
         <br />
         When usersession is set to WEB, the InitTxn request will return an additional steamurl
         parameter. This is a unique URL that you can redirect the user's web session to and
-        identifies the transaction created by this API call.<br /><br />
+        identifies the transaction created by this API call.<br />
+        <br />
     </li>
     <li>
         <strong>Step 4</strong><br />
@@ -388,7 +408,8 @@ store checkout, you can use the following steps for integration:<br />
             href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToWebPage"
             class="bb_apilink"
             >ISteamFriends::ActivateGameOverlayToWebPage</a
-        ><br /><br />
+        ><br />
+        <br />
         Full details on using the game overlay can be found
         <a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">here</a
         >.<br />
@@ -407,7 +428,8 @@ store checkout, you can use the following steps for integration:<br />
             class="bb_apilink"
             >ISteamMicroTxn/FinalizeTxn</a
         >
-        API call. Abandon the transaction if any other status returns.<br /><br />
+        API call. Abandon the transaction if any other status returns.<br />
+        <br />
         <strong>Note:</strong> If the user closes their browser or something happens that otherwise
         prevents their return to your site, abandon the transaction and do not issue a FinalizeTxn
         call. Even if the user approved the transaction and somehow did not get redirected back,
@@ -445,7 +467,8 @@ policy, you will need to implement the following APIs and provide us with the en
         <td>Called when a refund has been approved either automatically or by a support agent.</td>
     </tr>
 </table>
-<br />For more information see the
+<br />
+For more information see the
 <a href="https://partner.steamgames.com/doc/features/inventory/economy" class="bb_doclink"
     >Steam Economy</a
 >

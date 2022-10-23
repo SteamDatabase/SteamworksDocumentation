@@ -17,32 +17,43 @@
 <h2 class="bb_section"><a name="1"></a>Steam Cloud Overview</h2>
 The Steam Cloud provides an easy and transparent remote file storage system for your game. Files
 specified in the Auto-Cloud configuration or written to disk (created, modified, deleted, etc.)
-using the Cloud API will automatically be replicated to the Steam servers after the game exits.<br /><br />If
-the user changes computers, the files are automatically downloaded to the new computer prior to the
-game launching. The game can then access the files by reading them through the Cloud API or reading
-them directly from disk as usual. Avoid machine specific configurations such as video settings.<br /><br />The
-Steam Client does the work of ensuring that the files are kept synchronized across all computers the
-user may be accessing.<br /><br />Users can globally disable Cloud synchronization in the Steam
-Settings under Cloud by unchecking "Enable Steam Cloud synchronization for applications which
-support it."<br /><br />Users can also disable the Cloud synchronization on a per game basis in each
-games properties.<br /><br /><img
+using the Cloud API will automatically be replicated to the Steam servers after the game exits.<br />
+<br />
+If the user changes computers, the files are automatically downloaded to the new computer prior to
+the game launching. The game can then access the files by reading them through the Cloud API or
+reading them directly from disk as usual. Avoid machine specific configurations such as video
+settings.<br />
+<br />
+The Steam Client does the work of ensuring that the files are kept synchronized across all computers
+the user may be accessing.<br />
+<br />
+Users can globally disable Cloud synchronization in the Steam Settings under Cloud by unchecking
+"Enable Steam Cloud synchronization for applications which support it."<br />
+<br />
+Users can also disable the Cloud synchronization on a per game basis in each games properties.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Spacewar_Cloud_Properties.png"
     alt="Spacewar_Cloud_Properties.png"
     title="Spacewar_Cloud_Properties.png"
 />
 <h2 class="bb_section"><a name="initial-setup"></a>Notes and Best Practices</h2>
-<br />It is important to remember that Steam will synchronize the user's Steam Cloud files for your
-game before and after every session. Any matching files which change during the session will be
-uploaded to Cloud storage immediately afterward. If your game writes very large files, or many small
-files, to Steam Cloud, then this may cause a noticeable impact on the user's internet bandwidth and
-also delay their ability to shut down Steam or re-launch the game.<br /><br />As a general rule,
-smaller files will work better. If the saved state for a given user can be split up into different
-categories - things which may change frequently, and things which may not change often - then we
-recommend using separate files for those categories. That way, the un-changed state will not be
-re-uploaded after every session.
+<br />
+It is important to remember that Steam will synchronize the user's Steam Cloud files for your game
+before and after every session. Any matching files which change during the session will be uploaded
+to Cloud storage immediately afterward. If your game writes very large files, or many small files,
+to Steam Cloud, then this may cause a noticeable impact on the user's internet bandwidth and also
+delay their ability to shut down Steam or re-launch the game.<br />
+<br />
+As a general rule, smaller files will work better. If the saved state for a given user can be split
+up into different categories - things which may change frequently, and things which may not change
+often - then we recommend using separate files for those categories. That way, the un-changed state
+will not be re-uploaded after every session.
 <h2 class="bb_subsection"><a name="2"></a>File Size Limits</h2>
-<br />The absolute limits on file sizes for Steam Cloud may change over time. Here are some current
-limits and thresholds:<br /><br />
+<br />
+The absolute limits on file sizes for Steam Cloud may change over time. Here are some current limits
+and thresholds:<br />
+<br />
 <table>
     <tr>
         <th>Size</th>
@@ -71,23 +82,27 @@ user. If needed, you can get the user's unique Steam ID via
 >. From that, you can access their accountID from GetAccountID(), allowing you to have a unique
 variable when constructing your save path.
 <h2 class="bb_subsection"><a name="4"></a>Cross-Platform Saves</h2>
-<br />If your game is supported on multiple platforms - or even if you plan to support this in the
-future - you should consider this when setting up Steam Cloud for your game.<br /><br />If you plan
-to read/write files directly via the
+<br />
+If your game is supported on multiple platforms - or even if you plan to support this in the future
+- you should consider this when setting up Steam Cloud for your game.<br />
+<br />
+If you plan to read/write files directly via the
 <code class="bb_code bb_code_inline nohighlight">ISteamRemoteStorage</code> interface, then you can
 control platform sync via
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#SetSyncPlatforms"
     class="bb_apilink"
     >ISteamRemoteStorage::SetSyncPlatforms</a
->. The default for a new file is to sync to <strong>all</strong> platforms.<br /><br />If you plan
-to use <a href="#steam_auto-cloud" class="bb_doclink">Steam Auto-Cloud</a>, there are some key
-things to know. First, the default for new files is to sync to <strong>only</strong> the
+>. The default for a new file is to sync to <strong>all</strong> platforms.<br />
+<br />
+If you plan to use <a href="#steam_auto-cloud" class="bb_doclink">Steam Auto-Cloud</a>, there are
+some key things to know. First, the default for new files is to sync to <strong>only</strong> the
 <code class="bb_code bb_code_inline nohighlight">OS</code> setting on the associated Auto Cloud Root
 path. This means that if you set up distinct roots for each OS, all files will be partitioned by
-platform, and hence there will be no cross-platform save functionality.<br /><br />To enable
-cross-platform saves, you should instead define a single Root path (likely for Windows), and then
-create <code class="bb_code bb_code_inline nohighlight">Root Overrides</code> for the other
+platform, and hence there will be no cross-platform save functionality.<br />
+<br />
+To enable cross-platform saves, you should instead define a single Root path (likely for Windows),
+and then create <code class="bb_code bb_code_inline nohighlight">Root Overrides</code> for the other
 supported platforms. Files matching a given Root path which also has platform Root Overrides will
 sync to all platforms in both the origianal Root and all Overrides. See the
 <a href="#steam_auto-cloud" class="bb_doclink">Steam Auto-Cloud</a> documentation for more details.
@@ -99,29 +114,37 @@ the
 <a href="https://partner.steamgames.com/apps/cloud/" target="_blank" rel="noreferrer"
     >Steam Cloud Settings</a
 >
-page in the Steamworks App Admin panel.<br /><br />This quota is enforced on each Cloud-enabled
-game, on a per-user-per-game basis. It's recommended to set the values to reasonable amounts for
-your game title.<br /><br /><strong>NOTE:</strong> Don't forget to click Save at the bottom of the
-page, and Publish your updated settings. Once published the cloud icon will be visible in the Steam
-client for anyone that owns your game.<br /><br />If your game has already been released to the
-public then you can check the box labeled
+page in the Steamworks App Admin panel.<br />
+<br />
+This quota is enforced on each Cloud-enabled game, on a per-user-per-game basis. It's recommended to
+set the values to reasonable amounts for your game title.<br />
+<br />
+<strong>NOTE:</strong> Don't forget to click Save at the bottom of the page, and Publish your
+updated settings. Once published the cloud icon will be visible in the Steam client for anyone that
+owns your game.<br />
+<br />
+If your game has already been released to the public then you can check the box labeled
 <code class="bb_code bb_code_inline nohighlight">Enable cloud support for developers only</code>. If
 developers-only mode is enabled then only the steam accounts which own a "Developer Comp" license
 for your title will see the cloud icon and will be able to use the Steam Cloud. This is useful to
 safely test Steam Cloud integration without breaking the public user experience. This has no effect
 on unreleased games since no one owns the game yet, they won't be able to see or access any cloud
-storage for the specific app ID.<br /><br />You are able to share Cloud storage space between two
-app IDs by filling out the
+storage for the specific app ID.<br />
+<br />
+You are able to share Cloud storage space between two app IDs by filling out the
 <code class="bb_code bb_code_inline nohighlight">Shared cloud APP ID</code> field. This is most
 commonly used to share saved games between a demo and a full game. A value of
 <strong>0</strong> disables this feature.
 <h2 class="bb_section"><a name="5"></a>Steam Cloud API and Steam Auto-Cloud</h2>
 Steam provides two different methods of utilizing the Steam Cloud, read up on how the two methods
-differ, and determine which would be the best for your application.<br /><br />First up is the Steam
-Cloud API.<br />The Cloud API provides a series of functions which allows you to directly integrate
-the Steam Cloud into your game. The Cloud API isolates individual Steam users files from each other
-and provides a greater level of control over the Steam Cloud.<br /><br />The Steam Cloud API is
-exposed via the
+differ, and determine which would be the best for your application.<br />
+<br />
+First up is the Steam Cloud API.<br />
+The Cloud API provides a series of functions which allows you to directly integrate the Steam Cloud
+into your game. The Cloud API isolates individual Steam users files from each other and provides a
+greater level of control over the Steam Cloud.<br />
+<br />
+The Steam Cloud API is exposed via the
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage" class="bb_apilink"
     >ISteamRemoteStorage</a
 >
@@ -129,12 +152,16 @@ API interface, and you can find example usage in the
 <a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
     >Steamworks API Example Application (SpaceWar)</a
 >
-project.<br /><br />The second is
-<a href="#steam_auto-cloud" class="bb_doclink">Steam Auto-Cloud</a>.<br />Steam Auto-Cloud was
-designed for games where you choose to not integrate the Steam Cloud API. It provides a quick and
-easy way to get started but lacks the flexibility that is available with the Steam Cloud API.<br /><br />If
-you prefer a deeper integration with Steam Cloud (for example, allowing to choose which save files
-are stored in the cloud), then you should use the Cloud API. Otherwise you can use Steam Auto-Cloud.
+project.<br />
+<br />
+The second is <a href="#steam_auto-cloud" class="bb_doclink">Steam Auto-Cloud</a>.<br />
+Steam Auto-Cloud was designed for games where you choose to not integrate the Steam Cloud API. It
+provides a quick and easy way to get started but lacks the flexibility that is available with the
+Steam Cloud API.<br />
+<br />
+If you prefer a deeper integration with Steam Cloud (for example, allowing to choose which save
+files are stored in the cloud), then you should use the Cloud API. Otherwise you can use Steam
+Auto-Cloud.
 <h2 class="bb_section"><a name="steam_auto-cloud"></a>Steam Auto-Cloud</h2>
 Steam Auto-Cloud is an alternative to the Steam Cloud API that allows apps to use Steam Cloud
 without writing code or modifying the game in any way. It only requires that you specify the file
@@ -152,9 +179,13 @@ Auto-Cloud configuration section will unlock on the
 <a href="https://partner.steamgames.com/apps/cloud/" target="_blank" rel="noreferrer"
     >Steam Cloud Settings</a
 >
-page.<br /><br />Root Paths describe groups of files which will be persisted to the Steam Cloud.
-Each Root Path can be as specific as a single file or as wide as all files under a given subfolder.
-Use a new path for each group of files to sync.<br /><br />A Root Path is composed of 5 parts:<br />
+page.<br />
+<br />
+Root Paths describe groups of files which will be persisted to the Steam Cloud. Each Root Path can
+be as specific as a single file or as wide as all files under a given subfolder. Use a new path for
+each group of files to sync.<br />
+<br />
+A Root Path is composed of 5 parts:<br />
 <ol class="bb_ol">
     <li>
         <h4>Root</h4>
@@ -228,16 +259,19 @@ Use a new path for each group of files to sync.<br /><br />A Root Path is compos
                 <td>$XDG\_DATA\_HOME/</td>
             </tr>
         </table>
-        <br />A note regarding the Windows %USERPROFILE% paths: The corresponding paths listed above
-        are the default locations. It is now possible for the user to configure their Windows
+        <br />
+        A note regarding the Windows %USERPROFILE% paths: The corresponding paths listed above are
+        the default locations. It is now possible for the user to configure their Windows
         installation so that these folders are in different locations (not necessarily under
         %USERPROFILE%). Steam uses the necessary Windows APIs to find the current location of these
-        folders, whether they are default or customized.<br /><br />
+        folders, whether they are default or customized.<br />
+        <br />
     </li>
     <li>
         <h4>Subdirectory</h4>
         Subdirectory path to the clouded files relative to the Root. Use `.` if there is no
-        subdirectory.<br /><br />
+        subdirectory.<br />
+        <br />
         <strong>Auto-Cloud special path values</strong><br />
         Auto-Cloud allows the use of unique Steam user identifiers in the
         <code class="bb_code bb_code_inline nohighlight">Subdirectory</code> path. This allows you
@@ -266,7 +300,8 @@ Use a new path for each group of files to sync.<br /><br />A Root Path is compos
         File mask pattern to match. You can use
         <code class="bb_code bb_code_inline nohighlight">*</code> as a wildcard. If you want all
         files in the directory, just use
-        <code class="bb_code bb_code_inline nohighlight">*</code>.<br /><br />
+        <code class="bb_code bb_code_inline nohighlight">*</code>.<br />
+        <br />
         Example: <code class="bb_code bb_code_inline nohighlight">*.sav</code><br />
     </li>
     <li>
@@ -284,10 +319,12 @@ Use a new path for each group of files to sync.<br /><br />A Root Path is compos
 </ol>
 <h2 class="bb_subsection"><a name="root_overrides"></a>Root Overrides</h2>
 If your application is cross-platform and requires different directories for each OS. You can use
-the Root Overrides functionality to specify an override the Root Paths that you set above.<br /><br />The
-root paths specified above can be overridden to correspond to a different path on another OS. If you
-use Root Overrides, you must specify [All OSes] in the Root OS drop down above.<br /><br />A Root
-Override consists of 5 parts.<br />
+the Root Overrides functionality to specify an override the Root Paths that you set above.<br />
+<br />
+The root paths specified above can be overridden to correspond to a different path on another OS. If
+you use Root Overrides, you must specify [All OSes] in the Root OS drop down above.<br />
+<br />
+A Root Override consists of 5 parts.<br />
 <ol class="bb_ol">
     <li>
         <h4>Original Root</h4>
@@ -321,8 +358,12 @@ where the value is different per OS. The Windows version is configured as the Ro
 company in Unity set to DefaultCompany and the Project called AutocloudSample. On macOS and
 Linux/SteamOS, the alternate paths from
 <code class="bb_code bb_code_inline nohighlight">Application.persistentDataPath</code> are set in
-the Add/Replace Path field and Replace Path is enabled.<br /><br />With these settings, Auto-Cloud
-files will be synchronized between the three folders as shown in the Preview samples.<br /><br /><img
+the Add/Replace Path field and Replace Path is enabled.<br />
+<br />
+With these settings, Auto-Cloud files will be synchronized between the three folders as shown in the
+Preview samples.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Cloud_Unity_Auto-Cloud_Example.png"
     alt="Cloud_Unity_Auto-Cloud_Example.png"
     title="Cloud_Unity_Auto-Cloud_Example.png"
@@ -365,30 +406,37 @@ you must complete some additional steps to test the functionality.<br />
         You can restart the Steam client to get rid of the console tab.
     </li>
 </ol>
-<br />Don't forget to disable developers-only mode and publish the changes when you're done testing.
+<br />
+Don't forget to disable developers-only mode and publish the changes when you're done testing.
 <h2 class="bb_section"><a name="dynamic_cloud_sync"></a>Dynamic Cloud Sync</h2>
-<br />Steam Cloud now supports dynamic sync - where changes appearing in the Cloud can be downloaded
-to the local machine during an application session. The current example is a suspended game session
-on the Steam Deck. For apps marked as supporting dynamic Cloud sync, Steam will synchronize files up
-to the Steam Cloud at the suspend time. Then, the user may run the game on another device, which
-will receive the updates from the Steam Deck session at launch. At exit, those changes will be
-uploaded to the Steam Cloud. Finally, when the Steam Deck device is awakened, Steam will synchronize
-the changes down to that device, and post a notification to the application that local files have
+<br />
+Steam Cloud now supports dynamic sync - where changes appearing in the Cloud can be downloaded to
+the local machine during an application session. The current example is a suspended game session on
+the Steam Deck. For apps marked as supporting dynamic Cloud sync, Steam will synchronize files up to
+the Steam Cloud at the suspend time. Then, the user may run the game on another device, which will
+receive the updates from the Steam Deck session at launch. At exit, those changes will be uploaded
+to the Steam Cloud. Finally, when the Steam Deck device is awakened, Steam will synchronize the
+changes down to that device, and post a notification to the application that local files have
 changed. The application can then iterate those changes and take appropriate action. For instance,
 the game may be able to simply load the updated progress from disk and allow the user to pick up
-right where they left off on the other device. <br /><br />Check out
+right where they left off on the other device. <br />
+<br />
+Check out
 <a
     href="https://steamcommunity.com/groups/steamworks/announcements/detail/3142949576401813670"
     target="_blank"
     rel="noreferrer"
     >our announcement post for even more information</a
 >
-about why this feature exists, and how to use it. <br /><br />Note that this feature supports
-applications whether they use the
+about why this feature exists, and how to use it. <br />
+<br />
+Note that this feature supports applications whether they use the
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage" class="bb_apilink"
     >ISteamRemoteStorage</a
 >
-API to manage files, or Auto-Cloud.<br /><br />For more details, see the
+API to manage files, or Auto-Cloud.<br />
+<br />
+For more details, see the
 <a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage" class="bb_apilink"
     >ISteamRemoteStorage</a
 >
@@ -407,7 +455,9 @@ documentation, specifically
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#GetLocalFileChange"
     class="bb_apilink"
     >ISteamRemoteStorage::GetLocalFileChange</a
->.<br /><br />See also
+>.<br />
+<br />
+See also
 <a
     href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#BeginFileWriteBatch"
     class="bb_apilink"
@@ -422,10 +472,13 @@ and
 - these wrappers should be used to provide hints to Steam which will help it safely sync up to the
 Steam Cloud at the time when the user initiates a system suspend.
 <h2 class="bb_subsection"><a name="dynamic_sync_testing"></a>Pre-release Testing</h2>
-<br />You can locally enable Dynamic Cloud Sync for your app to test your builds - this is
-recommended for a game that has already shipped, as enabling Dynamic Cloud Sync for all users could
-lead to data loss when running builds that do not handle the new API methods and callbacks.<br /><br />To
-test locally from a PC:<br /><br />
+<br />
+You can locally enable Dynamic Cloud Sync for your app to test your builds - this is recommended for
+a game that has already shipped, as enabling Dynamic Cloud Sync for all users could lead to data
+loss when running builds that do not handle the new API methods and callbacks.<br />
+<br />
+To test locally from a PC:<br />
+<br />
 <ol class="bb_ol">
     <li>Sign in to Steam with an account that owns the app that you are testing.<br /></li>
     <li>
@@ -461,7 +514,9 @@ test locally from a PC:<br /><br />
         game, then un-suspend your game process.
     </li>
 </ol>
-<br />To test locally from a Steam Deck:<br /><br />
+<br />
+To test locally from a Steam Deck:<br />
+<br />
 <ol class="bb_ol">
     <li>
         Connect your Steam Deck with a
@@ -491,10 +546,12 @@ test locally from a PC:<br /><br />
 </ol>
 <h2 class="bb_section"><a name="debugging"></a>Debugging</h2>
 First, always ensure that you have published your changes on the Steam partner website and have
-waited up to 10 minutes or restarted your Steam client to receive the published changes.<br /><br />If
-you run into issues with Steam Cloud you should check the log file located at
-<code class="bb_code bb_code_inline nohighlight">%Steam Install%\logs\cloud_log.txt</code
->.<br /><br />See
+waited up to 10 minutes or restarted your Steam client to receive the published changes.<br />
+<br />
+If you run into issues with Steam Cloud you should check the log file located at
+<code class="bb_code bb_code_inline nohighlight">%Steam Install%\logs\cloud_log.txt</code>.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/sdk/api/debugging" class="bb_doclink"
     >Debugging the Steamworks API</a
 >

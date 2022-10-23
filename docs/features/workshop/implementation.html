@@ -1,18 +1,20 @@
 <h1>Steam Workshop Implementation Guide</h1>
 <h2 class="bb_section"><a name="1"></a>Introduction</h2>
 Steam Workshop is a system of back-end storage and front-end web pages that make it easy to store,
-organize, sort, rate, and download content for your game or application.<br /><br />This page
-contains technical details on implementing Steam Workshop with your title. For information and
-definitions of the various types of Workshop integration you can utilize and how to make the best
-out of the tools provided by Steam please see the
+organize, sort, rate, and download content for your game or application.<br />
+<br />
+This page contains technical details on implementing Steam Workshop with your title. For information
+and definitions of the various types of Workshop integration you can utilize and how to make the
+best out of the tools provided by Steam please see the
 <a href="https://partner.steamgames.com/doc/features/workshop" class="bb_doclink"
     >Steam Workshop Overview</a
 >
-before getting started integrating the steam workshop with your game.<br /><br />In a typical
-set-up, customers of your game would use tools provided by you with purchase of your game to create
-modifications or entirely new content. Those customers would then submit that content through a form
-built into your tool to the Steam Workshop. Other customers would then be able to browse, sort,
-rate, and subscribe to items they wish to add to their game by going to the
+before getting started integrating the steam workshop with your game.<br />
+<br />
+In a typical set-up, customers of your game would use tools provided by you with purchase of your
+game to create modifications or entirely new content. Those customers would then submit that content
+through a form built into your tool to the Steam Workshop. Other customers would then be able to
+browse, sort, rate, and subscribe to items they wish to add to their game by going to the
 <a href="http://steamcommunity.com/workshop/" target="_blank" rel="noreferrer">Steam Workshop</a> in
 the Steam Community. Those items would then download through Steam. If you've registered for the
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#ItemInstalled_t" class="bb_apilink"
@@ -36,8 +38,8 @@ documentation.
 The Steam Workshop is the website hosted through Steam that enumerates shared content and allows
 users to vote and comment on the content visible through the community. By default, applications are
 not enabled to be publicly visible in the Workshop. This prevents content not intended to be shared
-through the Steam Workshop portal from being visible unless the workshop is set to public.<br />Set
-the visibility state of the workshop through the following steps:<br />
+through the Steam Workshop portal from being visible unless the workshop is set to public.<br />
+Set the visibility state of the workshop through the following steps:<br />
 <ol class="bb_ol">
     <li>Browse to the application landing page on the Steamworks website<br /></li>
     <li>Click <strong>Edit Steamworks Settings</strong><br /></li>
@@ -63,9 +65,12 @@ The process to share and consume User Generated Content is by using the
 which can be found in the
 <a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a>. The methods
 exposed provide a way to share workshop item content which can then be discovered through the Steam
-Workshop or an in-app experience.<br /><br />The Workshop API must be accessed through the pointer
-that is returned from
-<code class="bb_code bb_code_inline nohighlight">SteamUGC()</code>.<br /><br />For example:<br />
+Workshop or an in-app experience.<br />
+<br />
+The Workshop API must be accessed through the pointer that is returned from
+<code class="bb_code bb_code_inline nohighlight">SteamUGC()</code>.<br />
+<br />
+For example:<br />
 <div class="bb_code">
     SteamAPICall_t hSteamAPICall = SteamUGC()-&gt;CreateItem( SteamUtils()-&gt;GetAppID(),
     k_EWorkshopFileTypeMicrotransaction );
@@ -76,8 +81,10 @@ that is returned from
 Before workshop items can be uploaded to the Steamworks backend there are two configuration settings
 that must be made, Configuring Steam Cloud Quotas and Enabling the
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a>
-API.<br /><br />The Steam Cloud feature is used to store the preview images associated to workshop
-items. The Steam Cloud Quota can be configured with the following steps:<br />
+API.<br />
+<br />
+The Steam Cloud feature is used to store the preview images associated to workshop items. The Steam
+Cloud Quota can be configured with the following steps:<br />
 <ol class="bb_ol">
     <li>
         Navigate to the
@@ -97,7 +104,8 @@ items. The Steam Cloud Quota can be configured with the following steps:<br />
     </li>
     <li>Click <strong>Publish to Steam</strong> and complete the process to publish the change.</li>
 </ol>
-<br />Enabling the
+<br />
+Enabling the
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API can
 be accomplished with the following steps:<br />
 <ol class="bb_ol">
@@ -119,7 +127,9 @@ be accomplished with the following steps:<br />
 Once these settings are in place workshop content can be uploaded via the API.
 <h2 class="bb_section"><a name="CreateUploadContent"></a>Creating and Uploading Content</h2>
 The process of creating and uploading workshop content is a simple and repeatable process as shown
-in the flow chart below.<br /><br /><img
+in the flow chart below.<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/ISteamUGCFlow-CreateUpload-Web2.png"
     alt="ISteamUGCFlow-CreateUpload-Web2.png"
     title="ISteamUGCFlow-CreateUpload-Web2.png"
@@ -407,9 +417,10 @@ Consuming workshop content falls into two categories, Item Subscription and Item
 <h2 class="bb_subsection"><a name="item_subscription"></a>Item Subscription</h2>
 The majority of subscriptions to a workshop item will happen through the Steam Workshop portal. It
 is a known location, common to all games and applications, and as such, users are likely to find and
-subscribe to items regularly on the workshop site.<br /><br />However, ISteamUGC provides two
-methods for programmatically subscribing and unsubscribing to workshop items to support in-game item
-subscription management.<br />
+subscribe to items regularly on the workshop site.<br />
+<br />
+However, ISteamUGC provides two methods for programmatically subscribing and unsubscribing to
+workshop items to support in-game item subscription management.<br />
 <ul class="bb_ul">
     <li>
         <a href="https://partner.steamgames.com/doc/api/ISteamUGC#SubscribeItem" class="bb_apilink"
@@ -427,7 +438,8 @@ subscription management.<br />
         game quits.
     </li>
 </ul>
-<br />Two additional methods exist for enumerating through a user's subscribed items.<br />
+<br />
+Two additional methods exist for enumerating through a user's subscribed items.<br />
 <ul class="bb_ul">
     <li>
         <a
@@ -511,10 +523,11 @@ based on the following rules:<br />
     </li>
 </ol>
 Note: Using the "Verify Integrity of Game Files" feature in the Steam Client will also cause
-workshop items to be downloaded.<br /><br />As the game will start before newly subscribed content
-is downloaded and installed, the remaining consumption methods exist to aid in monitoring and
-managing the install progress. They can also be used when items are subscribed in-game to provide
-status of installation in real time.
+workshop items to be downloaded.<br />
+<br />
+As the game will start before newly subscribed content is downloaded and installed, the remaining
+consumption methods exist to aid in monitoring and managing the install progress. They can also be
+used when items are subscribed in-game to provide status of installation in real time.
 <h4>Status of a Workshop Item</h4>
 <ul class="bb_ul">
     <li>
@@ -658,11 +671,14 @@ status of installation in real time.
 The
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a>
 interface provides a flexible way to enumerate the various kinds of UGC in Steam (e.g. Workshop
-items, screenshots, videos, etc.).<br /><br /><img
+items, screenshots, videos, etc.).<br />
+<br />
+<img
     src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/ISteamUGCFlows-QueryingContent-web2.png"
     alt="ISteamUGCFlows-QueryingContent-web2.png"
     title="ISteamUGCFlows-QueryingContent-web2.png"
-/><br /><br />
+/><br />
+<br />
 <ol class="bb_ol">
     <li>
         Register a call result handler for
@@ -905,7 +921,8 @@ items, screenshots, videos, etc.).<br /><br /><img
             class="bb_apilink"
             >ISteamUGC::GetQueryUGCResult</a
         >
-        to retrieve the details for each item returned.<br /><br />
+        to retrieve the details for each item returned.<br />
+        <br />
     </li>
     <li>
         You can also call these functions to retrieve additional information for each item (some of
@@ -1008,9 +1025,10 @@ with the ids you want to stop tracking or call
     class="bb_apilink"
     >ISteamUGC::StopPlaytimeTrackingForAllItems</a
 >
-to stop tracking playtime for all items at once.<br />When your app shuts down, playtime tracking
-will automatically stop.<br /><br />You will also be able to sort items by various playtime metrics
-in
+to stop tracking playtime for all items at once.<br />
+When your app shuts down, playtime tracking will automatically stop.<br />
+<br />
+You will also be able to sort items by various playtime metrics in
 <a
     href="https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest"
     class="bb_apilink"
@@ -1202,16 +1220,18 @@ Along with the
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API, the
 steamcmd.exe command line tool can be used to create and update workshop items for testing purposes.
 This should only be used for testing purposes, as the tool requires the user to enter their Steam
-credentials (something we don't want customers to have to do).<br /><br />To create a new Steam
-Workshop item using steamcmd.exe a VDF file must first be created. The VDF is a plain text file that
-should contain the following keys.<br />
+credentials (something we don't want customers to have to do).<br />
+<br />
+To create a new Steam Workshop item using steamcmd.exe a VDF file must first be created. The VDF is
+a plain text file that should contain the following keys.<br />
 <div class="bb_code cpp">
     "workshopitem" { "appid" "480" "publishedfileid" "5674" "contentfolder"
     "D:\\Content\\workshopitem" "previewfile" "D:\\Content\\preview.jpg" "visibility" "0" "title"
     "Team Fortress Green Hat" "description" "A green hat for Team Fortress" "changenote" "Version
     1.2" }
 </div>
-<br />Notes:<br />
+<br />
+Notes:<br />
 <ul class="bb_ul">
     <li>
         The keys map to the various ISteamUGC::SetItem[...] methods. See the documentation above for
@@ -1288,8 +1308,11 @@ to review:<br />
 <h2 class="bb_section"><a name="FAQ"></a>Frequently Asked Questions</h2>
 <h4>Q: Can a separate application publish content to my game's Workshop?</h4>
 Yes. A separate application for editing or publishing tools can be configured with base
-application's workshop to accept content from that editing application.<br /><br />To configure
-this, go to the Workshop Configuration section for the base application and scroll to the bottom of
-the page. Enter the separate application's App ID in the field under "App Publish Permissions" and
-hit "Add".<br /><br />Once the Steamworks settings are published, the editing application will be
-able to publish content to the base application's workshop.
+application's workshop to accept content from that editing application.<br />
+<br />
+To configure this, go to the Workshop Configuration section for the base application and scroll to
+the bottom of the page. Enter the separate application's App ID in the field under "App Publish
+Permissions" and hit "Add".<br />
+<br />
+Once the Steamworks settings are published, the editing application will be able to publish content
+to the base application's workshop.

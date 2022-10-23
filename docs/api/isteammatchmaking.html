@@ -1,5 +1,7 @@
 <h1>ISteamMatchmaking Interface</h1>
-Functions for clients to access matchmaking services, favorites, and to operate on game lobbies.<br /><br />See
+Functions for clients to access matchmaking services, favorites, and to operate on game lobbies.<br />
+<br />
+See
 <a href="https://partner.steamgames.com/doc/features/multiplayer/matchmaking" class="bb_doclink"
     >Steam Matchmaking &amp; Lobbies</a
 >
@@ -82,8 +84,11 @@ called through the global accessor function
         <td>This should be the current time in Unix epoch format (seconds since Jan 1st, 1970).</td>
     </tr>
 </table>
-<br />Adds the game server to the local favorites list or updates the time played of the server if
-it already exists in the list.<br /><br /><strong>Returns:</strong> int
+<br />
+Adds the game server to the local favorites list or updates the time played of the server if it
+already exists in the list.<br />
+<br />
+<strong>Returns:</strong> int
 <h2 class="bb_subsection">
     <a name="AddRequestLobbyListCompatibleMembersFilter"></a
     >AddRequestLobbyListCompatibleMembersFilter
@@ -107,7 +112,8 @@ it already exists in the list.<br /><br /><strong>Returns:</strong> int
         <td></td>
     </tr>
 </table>
-<br />Unused - Checks the player compatibility based on the frenemy system.
+<br />
+Unused - Checks the player compatibility based on the frenemy system.
 <h2 class="bb_subsection">
     <a name="AddRequestLobbyListDistanceFilter"></a>AddRequestLobbyListDistanceFilter
 </h2>
@@ -132,8 +138,9 @@ it already exists in the list.<br /><br /><strong>Returns:</strong> int
         <td>Specifies the maximum distance.</td>
     </tr>
 </table>
-<br />Sets the physical distance for which we should search for lobbies, this is based on the users
-IP address and a IP location map on the Steam backed.
+<br />
+Sets the physical distance for which we should search for lobbies, this is based on the users IP
+address and a IP location map on the Steam backed.
 <h2 class="bb_subsection">
     <a name="AddRequestLobbyListFilterSlotsAvailable"></a>AddRequestLobbyListFilterSlotsAvailable
 </h2>
@@ -150,7 +157,8 @@ IP address and a IP location map on the Steam backed.
         <td>The number of open slots that must be open.</td>
     </tr>
 </table>
-<br />Filters to only return lobbies with the specified number of open slots available.
+<br />
+Filters to only return lobbies with the specified number of open slots available.
 <h2 class="bb_subsection">
     <a name="AddRequestLobbyListNearValueFilter"></a>AddRequestLobbyListNearValueFilter
 </h2>
@@ -181,10 +189,12 @@ IP address and a IP location map on the Steam backed.
         <td>The value that lobbies will be sorted on.</td>
     </tr>
 </table>
-<br />Sorts the results closest to the specified value.<br /><br />Near filters don't actually
-filter out values, they just influence how the results are sorted. You can specify multiple near
-filters, with the first near filter influencing the most, and the last near filter influencing the
-least.
+<br />
+Sorts the results closest to the specified value.<br />
+<br />
+Near filters don't actually filter out values, they just influence how the results are sorted. You
+can specify multiple near filters, with the first near filter influencing the most, and the last
+near filter influencing the least.
 <h2 class="bb_subsection">
     <a name="AddRequestLobbyListNumericalFilter"></a>AddRequestLobbyListNumericalFilter
 </h2>
@@ -227,7 +237,8 @@ least.
         <td>The type of comparison to make.</td>
     </tr>
 </table>
-<br />Adds a numerical comparison filter to the next
+<br />
+Adds a numerical comparison filter to the next
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
     class="bb_apilink"
@@ -250,8 +261,9 @@ call.
         <td>The maximum number of lobbies to return.</td>
     </tr>
 </table>
-<br />Sets the maximum number of lobbies to return. The lower the count the faster it is to download
-the lobby results &amp; details to the client.
+<br />
+Sets the maximum number of lobbies to return. The lower the count the faster it is to download the
+lobby results &amp; details to the client.
 <h2 class="bb_subsection">
     <a name="AddRequestLobbyListStringFilter"></a>AddRequestLobbyListStringFilter
 </h2>
@@ -294,7 +306,8 @@ the lobby results &amp; details to the client.
         <td>The type of comparison to make.</td>
     </tr>
 </table>
-<br />Adds a string comparison filter to the next
+<br />
+Adds a string comparison filter to the next
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
     class="bb_apilink"
@@ -315,7 +328,8 @@ call.
         <td></td>
     </tr>
 </table>
-<br />Deprecated - PS3 only.
+<br />
+Deprecated - PS3 only.
 <h2 class="bb_subsection"><a name="CreateLobby"></a>CreateLobby</h2>
 <div class="bb_code cpp">SteamAPICall_t CreateLobby( ELobbyType eLobbyType, int cMaxMembers );</div>
 <table>
@@ -348,7 +362,10 @@ call.
         <td>The maximum number of players that can join this lobby. This can not be above 250.</td>
     </tr>
 </table>
-<br />Create a new matchmaking lobby.<br /><br /><strong>Returns:</strong>
+<br />
+Create a new matchmaking lobby.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -356,21 +373,26 @@ to be used with a
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyCreated_t" class="bb_apilink"
     >LobbyCreated_t</a
 >
-call result.<br />Triggers a
+call result.<br />
+Triggers a
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyEnter_t" class="bb_apilink"
     >LobbyEnter_t</a
 >
-callback.<br />Triggers a
+callback.<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
     >LobbyDataUpdate_t</a
 >
-callback.<br />If the results returned via the
+callback.<br />
+If the results returned via the
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyCreated_t" class="bb_apilink"
     >LobbyCreated_t</a
 >
-call result indicate success then the lobby is joined &amp; ready to use at this point.<br /><br />The
+call result indicate success then the lobby is joined &amp; ready to use at this point.<br />
+<br />
+The
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyEnter_t" class="bb_apilink"
     >LobbyEnter_t</a
 >
@@ -398,13 +420,17 @@ callback is also received since the local user has joined their own lobby.
         <td>The key to delete the data for.</td>
     </tr>
 </table>
-<br />Removes a metadata key from the lobby.<br /><br />This can only be done by the owner of the
-lobby.<br /><br />This will only send the data if the key existed. There is a slight delay before
-sending the data so you can call this repeatedly to set all the data you need to and it will
-automatically be batched up and sent after the last sequential call.<br /><br /><strong
-    >Returns:</strong
->
-bool<br /><strong>true</strong> if the key/value was successfully deleted; otherwise,
+<br />
+Removes a metadata key from the lobby.<br />
+<br />
+This can only be done by the owner of the lobby.<br />
+<br />
+This will only send the data if the key existed. There is a slight delay before sending the data so
+you can call this repeatedly to set all the data you need to and it will automatically be batched up
+and sent after the last sequential call.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the key/value was successfully deleted; otherwise,
 <strong>false</strong> if <code class="bb_code bb_code_inline nohighlight">steamIDLobby</code> or
 <code class="bb_code bb_code_inline nohighlight">pchKey</code> are invalid.
 <h2 class="bb_subsection"><a name="GetFavoriteGame"></a>GetFavoriteGame</h2>
@@ -502,18 +528,22 @@ bool<br /><strong>true</strong> if the key/value was successfully deleted; other
         </td>
     </tr>
 </table>
-<br />Gets the details of the favorite game server by index.<br /><br /><strong>NOTE:</strong> You
-must call
+<br />
+Gets the details of the favorite game server by index.<br />
+<br />
+<strong>NOTE:</strong> You must call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetFavoriteGameCount"
     class="bb_apilink"
     >ISteamMatchmaking::GetFavoriteGameCount</a
 >
-before calling this.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the
-details were successfully retrieved. <strong>false</strong> if
-<code class="bb_code bb_code_inline nohighlight">iGame</code> was an invalid index.<br /><br /><strong
-    >See Also:</strong
->
+before calling this.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the details were successfully retrieved. <strong>false</strong> if
+<code class="bb_code bb_code_inline nohighlight">iGame</code> was an invalid index.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddFavoriteGame"
     class="bb_apilink"
@@ -526,10 +556,12 @@ details were successfully retrieved. <strong>false</strong> if
 >
 <h2 class="bb_subsection"><a name="GetFavoriteGameCount"></a>GetFavoriteGameCount</h2>
 <div class="bb_code cpp">int GetFavoriteGameCount();</div>
-Gets the number of favorite and recent game servers the user has stored locally.<br /><br /><strong
-    >Returns:</strong
->
-int<br /><br /><br /><strong>See Also:</strong>
+Gets the number of favorite and recent game servers the user has stored locally.<br />
+<br />
+<strong>Returns:</strong> int<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddFavoriteGame"
     class="bb_apilink"
@@ -561,21 +593,27 @@ int<br /><br /><br /><strong>See Also:</strong>
         </td>
     </tr>
 </table>
-<br />Gets the Steam ID of the lobby at the specified index after receiving the
+<br />
+Gets the Steam ID of the lobby at the specified index after receiving the
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
     class="bb_apilink"
     >ISteamMatchmaking::RequestLobbyList</a
 >
-results.<br /><br /><strong>NOTE:</strong> This should only be called after a
+results.<br />
+<br />
+<strong>NOTE:</strong> This should only be called after a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyMatchList_t"
     class="bb_apilink"
     >LobbyMatchList_t</a
 >
-call result is received.<br /><br /><strong>Returns:</strong>
+call result is received.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink">CSteamID</a
-><br />Returns
+><br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil" class="bb_apilink"
     >k_steamIDNil</a
 >
@@ -673,14 +711,18 @@ if the provided index is invalid or there are no lobbies found.
         </td>
     </tr>
 </table>
-<br />Gets the data from a lobby chat message after receiving a
+<br />
+Gets the data from a lobby chat message after receiving a
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyChatMsg_t" class="bb_apilink"
     >LobbyChatMsg_t</a
 >
-callback.<br /><br /><strong>Returns:</strong> int<br />The number of bytes copied into
-<code class="bb_code bb_code_inline nohighlight">pvData</code>.<br /><br /><strong
-    >See Also:</strong
->
+callback.<br />
+<br />
+<strong>Returns:</strong> int<br />
+The number of bytes copied into
+<code class="bb_code bb_code_inline nohighlight">pvData</code>.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SendLobbyChatMsg"
     class="bb_apilink"
@@ -711,11 +753,11 @@ callback.<br /><br /><strong>Returns:</strong> int<br />The number of bytes copi
         <td>The key to get the value of.</td>
     </tr>
 </table>
-<br />Gets the metadata associated with the specified key from the specified lobby.<br /><br /><strong
-    >NOTE:</strong
->
-This can only get metadata from lobbies that the client knows about, either after receiving a list
-of lobbies from
+<br />
+Gets the metadata associated with the specified key from the specified lobby.<br />
+<br />
+<strong>NOTE:</strong> This can only get metadata from lobbies that the client knows about, either
+after receiving a list of lobbies from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyMatchList_t"
     class="bb_apilink"
@@ -726,8 +768,10 @@ of lobbies from
     class="bb_apilink"
     >ISteamMatchmaking::RequestLobbyData</a
 >
-or after joining a lobby.<br /><br /><strong>Returns:</strong> const char *<br />Returns an empty
-string ("") if no value is set for this key, or if
+or after joining a lobby.<br />
+<br />
+<strong>Returns:</strong> const char *<br />
+Returns an empty string ("") if no value is set for this key, or if
 <code class="bb_code bb_code_inline nohighlight">steamIDLobby</code> is invalid.
 <h2 class="bb_subsection"><a name="GetLobbyDataByIndex"></a>GetLobbyDataByIndex</h2>
 <div class="bb_code cpp">
@@ -809,14 +853,19 @@ string ("") if no value is set for this key, or if
         </td>
     </tr>
 </table>
-<br />Gets a lobby metadata key/value pair by index.<br /><br /><strong>NOTE:</strong> You must call
+<br />
+Gets a lobby metadata key/value pair by index.<br />
+<br />
+<strong>NOTE:</strong> You must call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyDataCount"
     class="bb_apilink"
     >ISteamMatchmaking::GetLobbyDataCount</a
 >
-before calling this.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon
-success; otherwise, <strong>false</strong> if the
+before calling this.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success; otherwise, <strong>false</strong> if the
 <code class="bb_code bb_code_inline nohighlight">steamIDLobby</code> or
 <code class="bb_code bb_code_inline nohighlight">iLobbyData</code> are invalid.
 <h2 class="bb_subsection"><a name="GetLobbyDataCount"></a>GetLobbyDataCount</h2>
@@ -837,9 +886,11 @@ success; otherwise, <strong>false</strong> if the
         <td>The Steam ID of the lobby to get the data count from.</td>
     </tr>
 </table>
-<br />Gets the number of metadata keys set on the specified lobby.<br /><br /><strong>NOTE:</strong>
-This can only get metadata from lobbies that the client knows about, either after receiving a list
-of lobbies from
+<br />
+Gets the number of metadata keys set on the specified lobby.<br />
+<br />
+<strong>NOTE:</strong> This can only get metadata from lobbies that the client knows about, either
+after receiving a list of lobbies from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyMatchList_t"
     class="bb_apilink"
@@ -850,18 +901,23 @@ of lobbies from
     class="bb_apilink"
     >ISteamMatchmaking::RequestLobbyData</a
 >
-or after joining a lobby.<br /><br />This is used for iteration, after calling this then
+or after joining a lobby.<br />
+<br />
+This is used for iteration, after calling this then
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyDataByIndex"
     class="bb_apilink"
     >ISteamMatchmaking::GetLobbyDataByIndex</a
 >
-can be used to get the key/value pair of each piece of metadata.<br /><br /><strong>NOTE:</strong>
-This should typically only ever be used for debugging purposes.<br /><br /><strong>Returns:</strong>
-int<br />Returns <strong>0</strong> if
-<code class="bb_code bb_code_inline nohighlight">steamIDLobby</code> is invalid.<br /><br /><strong
-    >Example:</strong
-><br />
+can be used to get the key/value pair of each piece of metadata.<br />
+<br />
+<strong>NOTE:</strong> This should typically only ever be used for debugging purposes.<br />
+<br />
+<strong>Returns:</strong> int<br />
+Returns <strong>0</strong> if
+<code class="bb_code bb_code_inline nohighlight">steamIDLobby</code> is invalid.<br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     void ListLobbyData( CSteamID lobbyID ) { int nData = SteamMatchmaking()-&gt;GetLobbyDataCount(
     lobbyID ); char key[k_nMaxLobbyKeyLength]; char value[k_cubChatMetadataMax]; for( int i = 0; i
@@ -923,12 +979,17 @@ int<br />Returns <strong>0</strong> if
         <td>Returns the Steam ID of the game server, if it's set.</td>
     </tr>
 </table>
-<br />Gets the details of a game server set in a lobby.<br /><br />Either the IP/Port or the Steam
-ID of the game server has to be valid, depending on how you want the clients to be able to
-connect.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the lobby is valid
-and has a valid game server set; otherwise, <strong>false</strong>.<br /><br /><strong
-    >See Also:</strong
->
+<br />
+Gets the details of a game server set in a lobby.<br />
+<br />
+Either the IP/Port or the Steam ID of the game server has to be valid, depending on how you want the
+clients to be able to connect.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the lobby is valid and has a valid game server set; otherwise,
+<strong>false</strong>.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyGameServer"
     class="bb_apilink"
@@ -971,17 +1032,24 @@ and has a valid game server set; otherwise, <strong>false</strong>.<br /><br /><
         </td>
     </tr>
 </table>
-<br />Gets the Steam ID of the lobby member at the given index.<br /><br /><strong>NOTE:</strong>
-You must call
+<br />
+Gets the Steam ID of the lobby member at the given index.<br />
+<br />
+<strong>NOTE:</strong> You must call
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetNumLobbyMembers"
     class="bb_apilink"
     >ISteamMatchmaking::GetNumLobbyMembers</a
 >
-before calling this.<br /><br /><strong>NOTE:</strong> The current user must be in the lobby to
-retrieve the Steam IDs of other users in that lobby.<br /><br /><strong>Returns:</strong>
+before calling this.<br />
+<br />
+<strong>NOTE:</strong> The current user must be in the lobby to retrieve the Steam IDs of other
+users in that lobby.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink">CSteamID</a
-><br />Invalid indices return
+><br />
+Invalid indices return
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil" class="bb_apilink"
     >k_steamIDNil</a
 >.
@@ -1020,13 +1088,20 @@ retrieve the Steam IDs of other users in that lobby.<br /><br /><strong>Returns:
         <td>The key to get the value of.</td>
     </tr>
 </table>
-<br />Gets per-user metadata from another player in the specified lobby.<br /><br />This can only be
-queried from members in lobbies that you are currently in.<br /><br /><strong>Returns:</strong>
-const char *<br />Returns <strong>NULL</strong> if
+<br />
+Gets per-user metadata from another player in the specified lobby.<br />
+<br />
+This can only be queried from members in lobbies that you are currently in.<br />
+<br />
+<strong>Returns:</strong> const char *<br />
+Returns <strong>NULL</strong> if
 <code class="bb_code bb_code_inline nohighlight">steamIDLobby</code> is invalid, or
-<code class="bb_code bb_code_inline nohighlight">steamIDUser</code> is not in the lobby.<br /><br />Returns
-an empty string ("") if <code class="bb_code bb_code_inline nohighlight">pchKey</code> is not set
-for the player.<br /><br /><strong>See Also:</strong>
+<code class="bb_code bb_code_inline nohighlight">steamIDUser</code> is not in the lobby.<br />
+<br />
+Returns an empty string ("") if <code class="bb_code bb_code_inline nohighlight">pchKey</code> is
+not set for the player.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyMemberData"
     class="bb_apilink"
@@ -1050,9 +1125,12 @@ for the player.<br /><br /><strong>See Also:</strong>
         <td>The Steam ID of the lobby to get the member limit of.</td>
     </tr>
 </table>
-<br />The current limit on the # of users who can join the lobby.<br />Returns <strong>0</strong> if
-no limit is defined.<br /><br /><strong>Returns:</strong> int<br />Returns <strong>0</strong> if no
-metadata is available for the specified lobby.
+<br />
+The current limit on the # of users who can join the lobby.<br />
+Returns <strong>0</strong> if no limit is defined.<br />
+<br />
+<strong>Returns:</strong> int<br />
+Returns <strong>0</strong> if no metadata is available for the specified lobby.
 <h2 class="bb_subsection"><a name="GetLobbyOwner"></a>GetLobbyOwner</h2>
 <div class="bb_code cpp">CSteamID GetLobbyOwner( CSteamID steamIDLobby );</div>
 <table>
@@ -1071,18 +1149,25 @@ metadata is available for the specified lobby.
         <td>The Steam ID of the lobby to get the owner of.</td>
     </tr>
 </table>
-<br />Returns the current lobby owner.<br /><br /><strong>NOTE:</strong> You must be a member of the
-lobby to access this.<br /><br />There always one lobby owner - if the current owner leaves, another
-user in the lobby will become the owner automatically. It is possible (but rare) to join a lobby
-just as the owner is leaving, thus entering a lobby with self as the owner.<br /><br /><strong
-    >Returns:</strong
->
+<br />
+Returns the current lobby owner.<br />
+<br />
+<strong>NOTE:</strong> You must be a member of the lobby to access this.<br />
+<br />
+There always one lobby owner - if the current owner leaves, another user in the lobby will become
+the owner automatically. It is possible (but rare) to join a lobby just as the owner is leaving,
+thus entering a lobby with self as the owner.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink">CSteamID</a
-><br />Returns
+><br />
+Returns
 <a href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil" class="bb_apilink"
     >k_steamIDNil</a
 >
-if you're not in the lobby.<br /><br /><strong>See Also:</strong>
+if you're not in the lobby.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyOwner" class="bb_apilink"
     >ISteamMatchmaking::SetLobbyOwner</a
 >
@@ -1104,9 +1189,13 @@ if you're not in the lobby.<br /><br /><strong>See Also:</strong>
         <td>The Steam ID of the lobby to get the number of members of.</td>
     </tr>
 </table>
-<br />Gets the number of users in a lobby.<br /><br /><strong>NOTE:</strong> The current user must
-be in the lobby to retrieve the Steam IDs of other users in that lobby.<br /><br />This is used for
-iteration, after calling this then
+<br />
+Gets the number of users in a lobby.<br />
+<br />
+<strong>NOTE:</strong> The current user must be in the lobby to retrieve the Steam IDs of other
+users in that lobby.<br />
+<br />
+This is used for iteration, after calling this then
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyMemberByIndex"
     class="bb_apilink"
@@ -1115,8 +1204,11 @@ iteration, after calling this then
 can be used to get the Steam ID of each person in the lobby. Persona information for other lobby
 members (name, avatar, etc.) is automatically received and accessible via the
 <a href="https://partner.steamgames.com/doc/api/ISteamFriends" class="bb_apilink">ISteamFriends</a>
-interface.<br /><br /><strong>Returns:</strong> int<br />The number of members in the lobby,
-<strong>0</strong> if the current user has no data from the lobby.
+interface.<br />
+<br />
+<strong>Returns:</strong> int<br />
+The number of members in the lobby, <strong>0</strong> if the current user has no data from the
+lobby.
 <h2 class="bb_subsection"><a name="InviteUserToLobby"></a>InviteUserToLobby</h2>
 <div class="bb_code cpp">
     bool InviteUserToLobby( CSteamID steamIDLobby, CSteamID steamIDInvitee );
@@ -1146,21 +1238,27 @@ interface.<br /><br /><strong>Returns:</strong> int<br />The number of members i
         <td>The Steam ID of the person who will be invited.</td>
     </tr>
 </table>
-<br />Invite another user to the lobby.<br /><br />If the specified user clicks the join link, a
+<br />
+Invite another user to the lobby.<br />
+<br />
+If the specified user clicks the join link, a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamFriends#GameLobbyJoinRequested_t"
     class="bb_apilink"
     >GameLobbyJoinRequested_t</a
 >
-callback will be posted if the user is in-game,<br />or if the game isn't running yet then the game
-will be automatically launched with the command line parameter
+callback will be posted if the user is in-game,<br />
+or if the game isn't running yet then the game will be automatically launched with the command line
+parameter
 <code class="bb_code bb_code_inline nohighlight">+connect_lobby &lt;64-bit lobby Steam ID&gt;</code>
-instead.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if the invite was
-successfully sent; otherwise, <strong>false</strong> if the local user isn't in a lobby, no
-connection to Steam could be made, or the specified user is invalid.<br /><br /><strong
-    >NOTE:</strong
->
-This call doesn't check if the other user was successfully invited.
+instead.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the invite was successfully sent; otherwise, <strong>false</strong> if the
+local user isn't in a lobby, no connection to Steam could be made, or the specified user is
+invalid.<br />
+<br />
+<strong>NOTE:</strong> This call doesn't check if the other user was successfully invited.
 <h2 class="bb_subsection"><a name="JoinLobby"></a>JoinLobby</h2>
 <div class="bb_code cpp">SteamAPICall_t JoinLobby( CSteamID steamIDLobby );</div>
 <table>
@@ -1179,13 +1277,17 @@ This call doesn't check if the other user was successfully invited.
         <td>The Steam ID of the lobby to join.</td>
     </tr>
 </table>
-<br />Joins an existing lobby.<br /><br />The lobby Steam ID can be obtained either from a search
-with
+<br />
+Joins an existing lobby.<br />
+<br />
+The lobby Steam ID can be obtained either from a search with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
     class="bb_apilink"
     >ISteamMatchmaking::RequestLobbyList</a
->, joining on a friend, or from an invite.<br /><br /><strong>Returns:</strong>
+>, joining on a friend, or from an invite.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -1193,7 +1295,8 @@ to be used with a
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyEnter_t" class="bb_apilink"
     >LobbyEnter_t</a
 >
-call result.<br />Triggers a
+call result.<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
@@ -1218,8 +1321,9 @@ callback.
         <td>The lobby to leave.</td>
     </tr>
 </table>
-<br />Leave a lobby that the user is currently in; this will take effect immediately on the client
-side, other users in the lobby will be notified by a
+<br />
+Leave a lobby that the user is currently in; this will take effect immediately on the client side,
+other users in the lobby will be notified by a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyChatUpdate_t"
     class="bb_apilink"
@@ -1291,9 +1395,12 @@ callback.
         </td>
     </tr>
 </table>
-<br />Removes the game server from the local favorites list.<br /><br /><strong>Returns:</strong>
-bool<br /><strong>true</strong> if the server was removed; otherwise, <strong>false</strong> if the
-specified server was not on the users local favorites list.
+<br />
+Removes the game server from the local favorites list.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the server was removed; otherwise, <strong>false</strong> if the specified
+server was not on the users local favorites list.
 <h2 class="bb_subsection"><a name="RequestLobbyData"></a>RequestLobbyData</h2>
 <div class="bb_code cpp">bool RequestLobbyData( CSteamID steamIDLobby );</div>
 <table>
@@ -1312,24 +1419,31 @@ specified server was not on the users local favorites list.
         <td>The Steam ID of the lobby to refresh the metadata of.</td>
     </tr>
 </table>
-<br />Refreshes all of the metadata for a lobby that you're not in right now.<br /><br />You will
-never do this for lobbies you're a member of, that data will always be up to date. You can use this
-to refresh lobbies that you have obtained from
+<br />
+Refreshes all of the metadata for a lobby that you're not in right now.<br />
+<br />
+You will never do this for lobbies you're a member of, that data will always be up to date. You can
+use this to refresh lobbies that you have obtained from
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
     class="bb_apilink"
     >ISteamMatchmaking::RequestLobbyList</a
 >
-or that are available via friends.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
+or that are available via friends.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
     >LobbyDataUpdate_t</a
 >
-callback.<br /><strong>true</strong> if the request was successfully sent to the server.
-<strong>false</strong> if no connection to Steam could be made, or
-<code class="bb_code bb_code_inline nohighlight">steamIDLobby</code> is invalid.<br /><br />If the
-specified lobby doesn't exist,
+callback.<br />
+<strong>true</strong> if the request was successfully sent to the server. <strong>false</strong> if
+no connection to Steam could be made, or
+<code class="bb_code bb_code_inline nohighlight">steamIDLobby</code> is invalid.<br />
+<br />
+If the specified lobby doesn't exist,
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
@@ -1338,15 +1452,17 @@ specified lobby doesn't exist,
 <strong>false</strong>.
 <h2 class="bb_subsection"><a name="RequestLobbyList"></a>RequestLobbyList</h2>
 <div class="bb_code cpp">SteamAPICall_t RequestLobbyList();</div>
-Get a filtered list of relevant lobbies.<br /><br />There can only be one active lobby search at a
-time. The old request will be canceled if a new one is started. Depending on the users connection to
-the Steam back-end, this call can take from 300ms to 5 seconds to complete, and has a timeout of 20
-seconds.<br /><br /><strong>NOTE:</strong> To filter the results you MUST call the
+Get a filtered list of relevant lobbies.<br />
+<br />
+There can only be one active lobby search at a time. The old request will be canceled if a new one
+is started. Depending on the users connection to the Steam back-end, this call can take from 300ms
+to 5 seconds to complete, and has a timeout of 20 seconds.<br />
+<br />
+<strong>NOTE:</strong> To filter the results you MUST call the
 <code class="bb_code bb_code_inline nohighlight">AddRequestLobbyList*</code> functions before
-calling this. The filters are cleared on each call to this function.<br /><br /><strong
-    >NOTE:</strong
->
-If
+calling this. The filters are cleared on each call to this function.<br />
+<br />
+<strong>NOTE:</strong> If
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddRequestLobbyListDistanceFilter"
     class="bb_apilink"
@@ -1358,10 +1474,9 @@ is not called,
     class="bb_apilink"
     >k_ELobbyDistanceFilterDefault</a
 >
-will be used, which will only find matches in the same or nearby regions.<br /><br /><strong
-    >NOTE:</strong
->
-This will only return lobbies that are not full, and only lobbies that are
+will be used, which will only find matches in the same or nearby regions.<br />
+<br />
+<strong>NOTE:</strong> This will only return lobbies that are not full, and only lobbies that are
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#k_ELobbyTypePublic"
     class="bb_apilink"
@@ -1377,7 +1492,9 @@ or
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyJoinable"
     class="bb_apilink"
     >ISteamMatchmaking::SetLobbyJoinable</a
->.<br /><br /><strong>Returns:</strong>
+>.<br />
+<br />
+<strong>Returns:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
     >SteamAPICall_t</a
 >
@@ -1387,10 +1504,11 @@ to be used with a
     class="bb_apilink"
     >LobbyMatchList_t</a
 >
-call result.<br /><strong>NOTE:</strong> This also returns as a callback for compatibility with
-older applications, but you should use the call result if possible.<br /><br /><strong
-    >See Also:</strong
->
+call result.<br />
+<strong>NOTE:</strong> This also returns as a callback for compatibility with older applications,
+but you should use the call result if possible.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddRequestLobbyListStringFilter"
     class="bb_apilink"
@@ -1420,7 +1538,9 @@ older applications, but you should use the call result if possible.<br /><br /><
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddRequestLobbyListResultCountFilter"
     class="bb_apilink"
     >ISteamMatchmaking::AddRequestLobbyListResultCountFilter</a
-><br /><br /><strong>Example:</strong><br />
+><br />
+<br />
+<strong>Example:</strong><br />
 <div class="bb_code cpp">
     class CLobbyListManager { CCallResult&lt; CLobbyListManager, LobbyMatchList_t &gt;
     m_CallResultLobbyMatchList; void FindLobbies() { //
@@ -1464,33 +1584,43 @@ older applications, but you should use the call result if possible.<br /><br /><
         </td>
     </tr>
 </table>
-<br />Broadcasts a chat (text or binary data) message to the all of the users in the lobby.<br /><br />All
-users in the lobby (including the local user) will receive a
+<br />
+Broadcasts a chat (text or binary data) message to the all of the users in the lobby.<br />
+<br />
+All users in the lobby (including the local user) will receive a
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyChatMsg_t" class="bb_apilink"
     >LobbyChatMsg_t</a
 >
-callback with the message.<br /><br />If you're sending binary data, you should prefix a header to
-the message so that you know to treat it as your custom data rather than a plain old text
-message.<br /><br />For communication that needs to be arbitrated (for example having a user pick
-from a set of characters, and making sure only one user has picked a character), you can use the
-lobby owner as the decision maker.
+callback with the message.<br />
+<br />
+If you're sending binary data, you should prefix a header to the message so that you know to treat
+it as your custom data rather than a plain old text message.<br />
+<br />
+For communication that needs to be arbitrated (for example having a user pick from a set of
+characters, and making sure only one user has picked a character), you can use the lobby owner as
+the decision maker.
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyOwner" class="bb_apilink"
     >ISteamMatchmaking::GetLobbyOwner</a
 >
 returns the current lobby owner. There is guaranteed to always be one and only one lobby member who
 is the owner. So for the choose-a-character scenario, the user who is picking a character would send
 the binary message 'I want to be Zoe', the lobby owner would see that message, see if it was OK, and
-broadcast the appropriate result (user X is Zoe).<br /><br />These messages are sent via the Steam
-back-end, and so the bandwidth available is limited. For higher-volume traffic like voice or game
-data, you'll want to use the
+broadcast the appropriate result (user X is Zoe).<br />
+<br />
+These messages are sent via the Steam back-end, and so the bandwidth available is limited. For
+higher-volume traffic like voice or game data, you'll want to use the
 <a href="https://partner.steamgames.com/doc/features/multiplayer/networking" class="bb_doclink"
     >Steam Networking API</a
->.<br /><br /><strong>Returns:</strong> bool<br />Triggers a
+>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Triggers a
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyChatMsg_t" class="bb_apilink"
     >LobbyChatMsg_t</a
 >
-callback.<br /><strong>true</strong> if the message was successfully sent. <strong>false</strong> if
-the message is too small or too large, or no connection to Steam could be made.
+callback.<br />
+<strong>true</strong> if the message was successfully sent. <strong>false</strong> if the message is
+too small or too large, or no connection to Steam could be made.
 <h2 class="bb_subsection"><a name="SetLinkedLobby"></a>SetLinkedLobby</h2>
 <div class="bb_code cpp">
     bool SetLinkedLobby( CSteamID steamIDLobby, CSteamID steamIDLobbyDependent );
@@ -1520,12 +1650,16 @@ the message is too small or too large, or no connection to Steam could be made.
         <td>The Steam ID that will be linked to the primary lobby.</td>
     </tr>
 </table>
-<br />Unused - Link two lobbies for the purposes of checking player compatibility using the frenemy
-system.<br /><br />You must be the lobby owner of both lobbies.<br /><br /><strong>Returns:</strong>
-bool<br /><strong>true</strong> if the request was successfully sent to the Steam server.<br /><strong
-    >false</strong
->
-if the local user isn't the owner of both lobbies, or no connection to Steam could be made.
+<br />
+Unused - Link two lobbies for the purposes of checking player compatibility using the frenemy
+system.<br />
+<br />
+You must be the lobby owner of both lobbies.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the request was successfully sent to the Steam server.<br />
+<strong>false</strong> if the local user isn't the owner of both lobbies, or no connection to Steam
+could be made.
 <h2 class="bb_subsection"><a name="SetLobbyData"></a>SetLobbyData</h2>
 <div class="bb_code cpp">
     bool SetLobbyData( CSteamID steamIDLobby, const char *pchKey, const char *pchValue );
@@ -1570,26 +1704,32 @@ if the local user isn't the owner of both lobbies, or no connection to Steam cou
         </td>
     </tr>
 </table>
-<br />Sets a key/value pair in the lobby metadata. This can be used to set the the lobby name,
-current map, game mode, etc.<br /><br />This can only be set by the owner of the lobby. Lobby
-members should use
+<br />
+Sets a key/value pair in the lobby metadata. This can be used to set the the lobby name, current
+map, game mode, etc.<br />
+<br />
+This can only be set by the owner of the lobby. Lobby members should use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyMemberData"
     class="bb_apilink"
     >ISteamMatchmaking::SetLobbyMemberData</a
 >
-instead.<br /><br />Each user in the lobby will be receive notification of the lobby data change via
-a
+instead.<br />
+<br />
+Each user in the lobby will be receive notification of the lobby data change via a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
     >LobbyDataUpdate_t</a
 >
-callback, and any new users joining will receive any existing data.<br /><br />This will only send
-the data if it has changed. There is a slight delay before sending the data so you can call this
-repeatedly to set all the data you need to and it will automatically be batched up and sent after
-the last sequential call.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> if
-the data has been set successfully. <strong>false</strong> if
+callback, and any new users joining will receive any existing data.<br />
+<br />
+This will only send the data if it has changed. There is a slight delay before sending the data so
+you can call this repeatedly to set all the data you need to and it will automatically be batched up
+and sent after the last sequential call.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the data has been set successfully. <strong>false</strong> if
 <code class="bb_code bb_code_inline nohighlight">steamIDLobby</code> was invalid, or the key/value
 are too long.
 <h2 class="bb_subsection"><a name="SetLobbyGameServer"></a>SetLobbyGameServer</h2>
@@ -1648,22 +1788,34 @@ are too long.
         </td>
     </tr>
 </table>
-<br />Sets the game server associated with the lobby.<br /><br />This can only be set by the owner
-of the lobby.<br /><br />Either the IP/Port or the Steam ID of the game server must be valid,
-depending on how you want the clients to be able to connect.<br /><br />A
+<br />
+Sets the game server associated with the lobby.<br />
+<br />
+This can only be set by the owner of the lobby.<br />
+<br />
+Either the IP/Port or the Steam ID of the game server must be valid, depending on how you want the
+clients to be able to connect.<br />
+<br />
+A
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyGameCreated_t"
     class="bb_apilink"
     >LobbyGameCreated_t</a
 >
 callback will be sent to all players in the lobby, usually at this point, the users will join the
-specified game server.<br /><br /><strong>Returns:</strong> void<br />Triggers a
+specified game server.<br />
+<br />
+<strong>Returns:</strong> void<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyGameCreated_t"
     class="bb_apilink"
     >LobbyGameCreated_t</a
 >
-callback.<br /><br /><br /><strong>See Also:</strong>
+callback.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyGameServer"
     class="bb_apilink"
@@ -1695,11 +1847,17 @@ callback.<br /><br /><br /><strong>See Also:</strong>
         </td>
     </tr>
 </table>
-<br />Sets whether or not a lobby is joinable by other players. This always defaults to enabled for
-a new lobby.<br /><br />If joining is disabled, then no players can join, even if they are a friend
-or have been invited.<br /><br />Lobbies with joining disabled will not be returned from a lobby
-search.<br /><br /><strong>Returns:</strong> bool<br /><strong>true</strong> upon success;
-otherwise, <strong>false</strong> if you're not the owner of the lobby.
+<br />
+Sets whether or not a lobby is joinable by other players. This always defaults to enabled for a new
+lobby.<br />
+<br />
+If joining is disabled, then no players can join, even if they are a friend or have been invited.<br />
+<br />
+Lobbies with joining disabled will not be returned from a lobby search.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success; otherwise, <strong>false</strong> if you're not the owner of the
+lobby.
 <h2 class="bb_subsection"><a name="SetLobbyMemberData"></a>SetLobbyMemberData</h2>
 <div class="bb_code cpp">
     void SetLobbyMemberData( CSteamID steamIDLobby, const char *pchKey, const char *pchValue );
@@ -1744,25 +1902,31 @@ otherwise, <strong>false</strong> if you're not the owner of the lobby.
         </td>
     </tr>
 </table>
-<br />Sets per-user metadata for the local user.<br /><br />Each user in the lobby will be receive
-notification of the lobby data change via a
+<br />
+Sets per-user metadata for the local user.<br />
+<br />
+Each user in the lobby will be receive notification of the lobby data change via a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
     >LobbyDataUpdate_t</a
 >
-callback, and any new users joining will receive any existing data.<br /><br />There is a slight
-delay before sending the data so you can call this repeatedly to set all the data you need to and it
-will automatically be batched up and sent after the last sequential call.<br /><br /><strong
-    >Returns:</strong
->
-void<br />Triggers a
+callback, and any new users joining will receive any existing data.<br />
+<br />
+There is a slight delay before sending the data so you can call this repeatedly to set all the data
+you need to and it will automatically be batched up and sent after the last sequential call.<br />
+<br />
+<strong>Returns:</strong> void<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
     >LobbyDataUpdate_t</a
 >
-callback.<br /><br /><br /><strong>See Also:</strong>
+callback.<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyMemberData"
     class="bb_apilink"
@@ -1791,13 +1955,18 @@ callback.<br /><br /><br /><strong>See Also:</strong>
         <td>The maximum number of players allowed in this lobby. This can not be above 250.</td>
     </tr>
 </table>
-<br />Set the maximum number of players that can join the lobby.<br /><br />This is also set when
-you create the lobby with
+<br />
+Set the maximum number of players that can join the lobby.<br />
+<br />
+This is also set when you create the lobby with
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
->.<br />This can only be set by the owner of the lobby.<br /><br /><strong>Returns:</strong>
-bool<br /><strong>true</strong> if the limit was successfully set.<br /><strong>false</strong> if
-you are not the owner of the specified lobby.
+>.<br />
+This can only be set by the owner of the lobby.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the limit was successfully set.<br />
+<strong>false</strong> if you are not the owner of the specified lobby.
 <h2 class="bb_subsection"><a name="SetLobbyOwner"></a>SetLobbyOwner</h2>
 <div class="bb_code cpp">
     bool SetLobbyOwner( CSteamID steamIDLobby, CSteamID steamIDNewOwner );
@@ -1830,29 +1999,32 @@ you are not the owner of the specified lobby.
         </td>
     </tr>
 </table>
-<br />Changes who the lobby owner is.<br /><br />This can only be set by the owner of the lobby.
-This will trigger a
+<br />
+Changes who the lobby owner is.<br />
+<br />
+This can only be set by the owner of the lobby. This will trigger a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
     >LobbyDataUpdate_t</a
 >
 for all of the users in the lobby, each user should update their local state to reflect the new
-owner. This is typically accomplished by displaying a crown icon next to the owners name.<br /><br /><strong
-    >Returns:</strong
->
-bool<br />Triggers a
+owner. This is typically accomplished by displaying a crown icon next to the owners name.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Triggers a
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyDataUpdate_t"
     class="bb_apilink"
     >LobbyDataUpdate_t</a
 >
-callback.<br /><strong>true</strong> if the owner was successfully changed.<br /><strong
-    >false</strong
->
-if you're not the current owner of the lobby,
+callback.<br />
+<strong>true</strong> if the owner was successfully changed.<br />
+<strong>false</strong> if you're not the current owner of the lobby,
 <code class="bb_code bb_code_inline nohighlight">steamIDNewOwner</code> is not a member in the
-lobby, or if no connection to Steam could be made.<br /><br /><strong>See Also:</strong>
+lobby, or if no connection to Steam could be made.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyOwner" class="bb_apilink"
     >ISteamMatchmaking::GetLobbyOwner</a
 >
@@ -1885,12 +2057,18 @@ lobby, or if no connection to Steam could be made.<br /><br /><strong>See Also:<
         <td>The new lobby type to that will be set.</td>
     </tr>
 </table>
-<br />Updates what type of lobby this is.<br /><br />This is also set when you create the lobby with
+<br />
+Updates what type of lobby this is.<br />
+<br />
+This is also set when you create the lobby with
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
->.<br />This can only be set by the owner of the lobby.<br /><br /><strong>Returns:</strong>
-bool<br /><strong>true</strong> upon success; otherwise, <strong>false</strong> if you're not the
-owner of the lobby.
+>.<br />
+This can only be set by the owner of the lobby.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success; otherwise, <strong>false</strong> if you're not the owner of the
+lobby.
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
@@ -1900,7 +2078,8 @@ These are callbacks which can be fired by calling
 <h2 class="bb_subsection">
     <a name="FavoritesListAccountsUpdated_t"></a>FavoritesListAccountsUpdated_t
 </h2>
-<br /><br />
+<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -1918,7 +2097,8 @@ These are callbacks which can be fired by calling
     </tr>
 </table>
 <h2 class="bb_subsection"><a name="FavoritesListChanged_t"></a>FavoritesListChanged_t</h2>
-A server was added/removed from the favorites list, you should refresh now.<br /><br />
+A server was added/removed from the favorites list, you should refresh now.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2019,7 +2199,8 @@ A chat (text or binary) message for this lobby has been received. After getting 
     class="bb_apilink"
     >ISteamMatchmaking::GetLobbyChatEntry</a
 >
-to retrieve the contents of this message.<br /><br />
+to retrieve the contents of this message.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2079,7 +2260,8 @@ to retrieve the contents of this message.<br /><br />
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SendLobbyChatMsg"
     class="bb_apilink"
@@ -2087,7 +2269,8 @@ to retrieve the contents of this message.<br /><br />
 >
 <h2 class="bb_subsection"><a name="LobbyChatUpdate_t"></a>LobbyChatUpdate_t</h2>
 A lobby chat room state has changed, this is usually sent when a user has joined or left the
-lobby.<br /><br />
+lobby.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2150,7 +2333,8 @@ use, a
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyEnter_t" class="bb_apilink"
     >LobbyEnter_t</a
 >
-callback will also be received (since the local user is joining their own lobby).<br /><br />
+callback will also be received (since the local user is joining their own lobby).<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2165,7 +2349,9 @@ callback will also be received (since the local user is joining their own lobby)
             >
         </td>
         <td>
-            The result of the operation.<br /><br />Possible values:<br />
+            The result of the operation.<br />
+            <br />
+            Possible values:<br />
             <ul class="bb_ul">
                 <li>
                     <a
@@ -2229,13 +2415,15 @@ callback will also be received (since the local user is joining their own lobby)
         <td>The Steam ID of the lobby that was created, 0 if failed.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
 >
 <h2 class="bb_subsection"><a name="LobbyDataUpdate_t"></a>LobbyDataUpdate_t</h2>
-The lobby metadata has changed.<br /><br />If
-<code class="bb_code bb_code_inline nohighlight">m_ulSteamIDMember</code> is a user in the lobby,
+The lobby metadata has changed.<br />
+<br />
+If <code class="bb_code bb_code_inline nohighlight">m_ulSteamIDMember</code> is a user in the lobby,
 then use
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyMemberData"
@@ -2248,7 +2436,8 @@ to access per-user details; otherwise, if
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyData" class="bb_apilink"
     >ISteamMatchmaking::GetLobbyData</a
 >
-to access the lobby metadata.<br /><br />
+to access the lobby metadata.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2286,7 +2475,8 @@ to access the lobby metadata.<br /><br />
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
 >,
@@ -2308,7 +2498,8 @@ to access the lobby metadata.<br /><br />
 >
 <h2 class="bb_subsection"><a name="LobbyEnter_t"></a>LobbyEnter_t</h2>
 Recieved upon attempting to enter a lobby. Lobby metadata is available to use immediately after
-receiving this.<br /><br />
+receiving this.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2367,7 +2558,8 @@ receiving this.<br /><br />
         </td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#CreateLobby" class="bb_apilink"
     >ISteamMatchmaking::CreateLobby</a
 >,
@@ -2383,7 +2575,8 @@ A game server has been set via
 >
 for all of the members of the lobby to join. It's up to the individual clients to take action on
 this; the typical game behavior is to leave the lobby and connect to the specified game server; but
-the lobby may stay open throughout the session if desired.<br /><br />
+the lobby may stay open throughout the session if desired.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2430,7 +2623,8 @@ the lobby may stay open throughout the session if desired.<br /><br />
         <td>The connection port of the game server, in host order, if it's set.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyGameServer"
     class="bb_apilink"
@@ -2439,8 +2633,9 @@ the lobby may stay open throughout the session if desired.<br /><br />
 <h2 class="bb_subsection"><a name="LobbyInvite_t"></a>LobbyInvite_t</h2>
 Someone has invited you to join a Lobby. Normally you don't need to do anything with this, as the
 Steam UI will also display a '&lt;user&gt; has invited you to the lobby, join?' notification and
-message.<br /><br />If the user outside a game chooses to join, your game will be launched with the
-parameter
+message.<br />
+<br />
+If the user outside a game chooses to join, your game will be launched with the parameter
 <code class="bb_code bb_code_inline nohighlight">+connect_lobby &lt;64-bit lobby id&gt;</code>, or
 with the callback
 <a
@@ -2448,7 +2643,8 @@ with the callback
     class="bb_apilink"
     >GameLobbyJoinRequested_t</a
 >
-if they're already in-game.<br /><br />
+if they're already in-game.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2493,7 +2689,8 @@ sent with
 >, when the user gets the packet they should call
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LeaveLobby" class="bb_apilink"
     >ISteamMatchmaking::LeaveLobby</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2534,8 +2731,8 @@ Result when requesting the lobby list. You should iterate over the returned lobb
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#GetLobbyByIndex"
     class="bb_apilink"
     >ISteamMatchmaking::GetLobbyByIndex</a
->, from 0 to
-<code class="bb_code bb_code_inline nohighlight">m_nLobbiesMatching</code>-1.<br /><br />
+>, from 0 to <code class="bb_code bb_code_inline nohighlight">m_nLobbiesMatching</code>-1.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2552,14 +2749,16 @@ Result when requesting the lobby list. You should iterate over the returned lobb
         <td>Number of lobbies that matched search criteria and we have Steam IDs for.</td>
     </tr>
 </table>
-<br /><strong>Associated Functions:</strong>
+<br />
+<strong>Associated Functions:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#RequestLobbyList"
     class="bb_apilink"
     >ISteamMatchmaking::RequestLobbyList</a
 >
 <h2 class="bb_subsection"><a name="PSNGameBootInviteResult_t"></a>PSNGameBootInviteResult_t</h2>
-Deprecated - PS3 only.<br /><br />
+Deprecated - PS3 only.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2589,7 +2788,8 @@ Flags describing how a users lobby state has changed. This is provided from
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#LobbyChatUpdate_t"
     class="bb_apilink"
     >LobbyChatUpdate_t</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2634,7 +2834,8 @@ and
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddRequestLobbyListNearValueFilter"
     class="bb_apilink"
     >ISteamMatchmaking::AddRequestLobbyListNearValueFilter</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2679,7 +2880,8 @@ to farthest. This can be set with
     href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddRequestLobbyListDistanceFilter"
     class="bb_apilink"
     >ISteamMatchmaking::AddRequestLobbyListDistanceFilter</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2721,7 +2923,8 @@ Specifies the lobby type, this is set from
 and
 <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyType" class="bb_apilink"
     >ISteamMatchmaking::SetLobbyType</a
->.<br /><br />
+>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2747,14 +2950,15 @@ and
         <td><strong>k_ELobbyTypeInvisible</strong></td>
         <td>3</td>
         <td>
-            Returned by search, but not visible to other friends.<br />This is useful if you want a
-            user in two lobbies, for example matching groups together. A user can be in only one
-            regular lobby, and up to two invisible lobbies.
+            Returned by search, but not visible to other friends.<br />
+            This is useful if you want a user in two lobbies, for example matching groups together.
+            A user can be in only one regular lobby, and up to two invisible lobbies.
         </td>
     </tr>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
-These are typedefs which are defined for use with ISteamMatchmaking.<br /><br />
+These are typedefs which are defined for use with ISteamMatchmaking.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>
@@ -2773,7 +2977,8 @@ These are typedefs which are defined for use with ISteamMatchmaking.<br /><br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
-These are constants which are defined for use with ISteamMatchmaking.<br /><br />
+These are constants which are defined for use with ISteamMatchmaking.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

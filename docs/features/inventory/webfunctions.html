@@ -3,8 +3,9 @@ These are structured web pages that you can redirect the user to.
 <h2 class="bb_section"><a name="ItemCart"></a>Item Cart</h2>
 ItemCart can be used to send a cart containing one or more items to be purchased via Steam. You'll
 need to build and maintain the cart within your own game or UI, then send the contents of that cart
-to Steam for purchase and activation of those items.<br /><br />Your store should direct the client
-browser to POST directly to
+to Steam for purchase and activation of those items.<br />
+<br />
+Your store should direct the client browser to POST directly to
 <code class="bb_code bb_code_inline nohighlight"
     >https://store.steampowered.com/itemcart/checkout</code
 >
@@ -82,7 +83,8 @@ purchase flows:
         the checkout page. This optional field is not authenticated.
     </li>
 </ul>
-<br />The following strings will be substituted in the return url:<br />
+<br />
+The following strings will be substituted in the return url:<br />
 <ul class="bb_ul">
     <li>
         [RESULT] - result code ( 0 = success, 1 = user declined, 2 = currency mismatch, 3 or above
@@ -112,7 +114,8 @@ purchase flows:
         HMAC key is your Itemcart secret key.
     </li>
 </ul>
-<br />Sample PHP to generate "auth" value:<br />
+<br />
+Sample PHP to generate "auth" value:<br />
 <div class="bb_code php">
     define( 'SECRET_ITEMCART_KEY', '11111111111111111111111111111111' ); $appid = '234560';
     $cartstring = '1001,1006*2'; $totalstring = 'USD499'; $sandbox = '0'; // or '1' $returnurl =
@@ -120,15 +123,17 @@ purchase flows:
     $auth = hash_hmac( "sha1", "$appid\n$cartstring\n$totalstring\n$sandbox\n$returnurl",
     SECRET_ITEMCART_KEY );
 </div>
-<br />Sample PHP to validate return URL:<br />
+<br />
+Sample PHP to validate return URL:<br />
 <div class="bb_code php">
     hash_hmac( "sha1", str_replace( $_GET['AUTH'], "", $_SERVER["REQUEST_URI"] ),
     SECRET_ITEMCART_KEY ) === $_GET['AUTH']
 </div>
-<br />The authentication code in the sample HTML form is computed as if the Itemcart secret key is
-all ones (32 characters long). Given the other field values (appid, cart, total, sandbox, return,
-lang) you should be able to replicate the 'auth' value; if your generated 'auth' value does not
-match, your code likely has errors which will prevent checkout from working.
+<br />
+The authentication code in the sample HTML form is computed as if the Itemcart secret key is all
+ones (32 characters long). Given the other field values (appid, cart, total, sandbox, return, lang)
+you should be able to replicate the 'auth' value; if your generated 'auth' value does not match,
+your code likely has errors which will prevent checkout from working.
 <h2 class="bb_section"><a name="BuyItem"></a>BuyItem</h2>
 BuyItem is a simple structured web page that allows a user to buy an in-game item using a simple
 Steam purchase UI.
@@ -151,5 +156,7 @@ Construct a URI for your item as follows, and direct the player to it:
 </ul>
 <h2 class="bb_subsection"><a name="4"></a>Notes</h2>
 This simplified page can only be used to sell instances of a single ItemDef (including a sellable
-bundle). For a full-featured shopping cart, see ItemCart.<br /><br />See the Inventory Schema
-documentation for details on specifying items for sale, including pricing and bundles.
+bundle). For a full-featured shopping cart, see ItemCart.<br />
+<br />
+See the Inventory Schema documentation for details on specifying items for sale, including pricing
+and bundles.

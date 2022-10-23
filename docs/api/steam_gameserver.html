@@ -1,8 +1,9 @@
 <h1>steam_gameserver.h</h1>
 Provides the core foundation to initialize and access the Steamworks GameServer API.
 <h2 class="bb_section"><a name="Functions"></a>Functions</h2>
-<br />These are global functions which do not require an interface to set up. You can read more
-about these functions in
+<br />
+These are global functions which do not require an interface to set up. You can read more about
+these functions in
 <a href="https://partner.steamgames.com/doc/sdk/api#steam_game_servers" class="bb_doclink"
     >Steamworks API Overview - Steam Game Servers</a
 >.
@@ -57,16 +58,20 @@ about these functions in
         </td>
     </tr>
 </table>
-<br />Initializes the ISteamGameServer interface object, and set server properties which may not be
-changed.<br /><br />After calling this function, you should set any additional server parameters,
-and then call
+<br />
+Initializes the ISteamGameServer interface object, and set server properties which may not be
+changed.<br />
+<br />
+After calling this function, you should set any additional server parameters, and then call
 <a href="https://partner.steamgames.com/doc/api/ISteamGameServer#LogOnAnonymous" class="bb_apilink"
     >ISteamGameServer::LogOnAnonymous</a
 >
 or
 <a href="https://partner.steamgames.com/doc/api/ISteamGameServer#LogOn" class="bb_apilink"
     >ISteamGameServer::LogOn</a
->.<br /><br />If you pass in
+>.<br />
+<br />
+If you pass in
 <a
     href="https://partner.steamgames.com/doc/api/ISteamGameServer#MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE"
     class="bb_apilink"
@@ -74,8 +79,12 @@ or
 >
 into <code class="bb_code bb_code_inline nohighlight">usQueryPort</code>, then the game server will
 use GameSocketShare mode, which means that the game is responsible for sending and receiving UDP
-packets for the master server updater.<br /><br /><strong>Returns:</strong>
-bool<br /><br /><br /><strong>See Also:</strong>
+packets for the master server updater.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
     >SteamAPI_Init</a
 >
@@ -84,12 +93,15 @@ bool<br /><br /><br /><strong>See Also:</strong>
     >SteamGameServer_ReleaseCurrentThreadMemory
 </h2>
 <div class="bb_code cpp">inline void SteamGameServer_ReleaseCurrentThreadMemory();</div>
-Frees the internal Steamworks API memory associated with the calling thread.<br /><br />Most
-Steamworks API functions allocate a small amount of thread-local memory for parameter storage,
+Frees the internal Steamworks API memory associated with the calling thread.<br />
+<br />
+Most Steamworks API functions allocate a small amount of thread-local memory for parameter storage,
 calling this will manually free such memory. This function is called automatically by
 <a href="#SteamGameServer_RunCallbacks" class="bb_apilink">SteamGameServer_RunCallbacks</a>, so a
 program that only ever accesses the Steamworks API from a single thread never needs to explicitly
-call this function.<br /><br /><strong>See Also:</strong>
+call this function.<br />
+<br />
+<strong>See Also:</strong>
 <a
     href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_ReleaseCurrentThreadMemory"
     class="bb_apilink"
@@ -100,23 +112,28 @@ call this function.<br /><br /><strong>See Also:</strong>
 </h2>
 <div class="bb_code cpp">S_API void SteamGameServer_RunCallbacks();</div>
 Dispatches callbacks created with STEAM_GAMESERVER_CALLBACK and call results to all of the
-registered listeners.<br /><br />It's best to call this at &gt;10Hz, the more time between calls,
-the more potential latency between receiving events or results from the Steamworks API.<br />Most
-games call this once per render-frame. All registered listener functions will be invoked during this
-call, in the callers thread context.<br /><br />SteamGameServer_RunCallbacks is safe to call from
-multiple threads simultaneously, but if you choose to do this, callback code could be executed on
-any thread. One alternative is to call SteamGameServer_RunCallbacks from the main thread only, and
-call
+registered listeners.<br />
+<br />
+It's best to call this at &gt;10Hz, the more time between calls, the more potential latency between
+receiving events or results from the Steamworks API.<br />
+Most games call this once per render-frame. All registered listener functions will be invoked during
+this call, in the callers thread context.<br />
+<br />
+SteamGameServer_RunCallbacks is safe to call from multiple threads simultaneously, but if you choose
+to do this, callback code could be executed on any thread. One alternative is to call
+SteamGameServer_RunCallbacks from the main thread only, and call
 <a href="#SteamGameServer_ReleaseCurrentThreadMemory" class="bb_apilink"
     >SteamGameServer_ReleaseCurrentThreadMemory</a
 >
-regularly on other threads.<br /><br /><strong>See Also:</strong>
+regularly on other threads.<br />
+<br />
+<strong>See Also:</strong>
 <a href="#SteamGameServer_RunCallbacks" class="bb_apilink">SteamGameServer_RunCallbacks</a>
 <h2 class="bb_subsection"><a name="SteamGameServer_Shutdown"></a>SteamGameServer_Shutdown</h2>
 <div class="bb_code cpp">S_API void SteamGameServer_Shutdown();</div>
-Shuts down the Steamworks GameServer API, releases pointers and frees memory.<br /><br /><strong
-    >See Also:</strong
->
+Shuts down the Steamworks GameServer API, releases pointers and frees memory.<br />
+<br />
+<strong>See Also:</strong>
 <a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink"
     >SteamAPI_Shutdown</a
 >
@@ -124,7 +141,8 @@ Shuts down the Steamworks GameServer API, releases pointers and frees memory.<br
 These are enums which are defined for use with steam_gameserver.
 <h2 class="bb_subsection"><a name="EServerMode"></a>EServerMode</h2>
 Used to set the authentication and VAC status of a game server when initializing with
-<a href="#SteamGameServer_Init" class="bb_apilink">SteamGameServer_Init</a>.<br /><br />
+<a href="#SteamGameServer_Init" class="bb_apilink">SteamGameServer_Init</a>.<br />
+<br />
 <table>
     <tr>
         <th>Name</th>

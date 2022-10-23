@@ -2,21 +2,25 @@
 Provides access to a Steam user's Steam Cloud files. This is mostly intended to enable
 cross-platform saves for your game. The Steam version of the game can use the Steamworks Cloud
 features (either the ISteamRemoteStorage API, or Steam Auto-Cloud). Non-Steam versions can use this
-WebAPI to access the files and upload new versions.<br /><br />Your game will need to obtain
-permission from the user to access their Steam Cloud files. This can be done via
+WebAPI to access the files and upload new versions.<br />
+<br />
+Your game will need to obtain permission from the user to access their Steam Cloud files. This can
+be done via
 <a href="https://partner.steamgames.com/doc/webapi_overview/OAuth" class="bb_doclink">OAuth</a>.
 Note that you will most likely want to request both
 <code class="bb_code bb_code_inline nohighlight">read_cloud</code> and
-<code class="bb_code bb_code_inline nohighlight">write_cloud</code> permissions.<br /><br />Please
-also see the general Steam
+<code class="bb_code bb_code_inline nohighlight">write_cloud</code> permissions.<br />
+<br />
+Please also see the general Steam
 <a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
     >WebAPI overview documentation</a
 >, specifically the section titled "Service Interfaces". GET requests can be done with parameters in
 the URL, however it is recommended for POST requests that all parameters are in the request body.
 The <code class="bb_code bb_code_inline nohighlight">access-token</code> parameter is directly
 form-encoded, and then the remaining parameters should be in a JSON structure set via the
-<code class="bb_code bb_code_inline nohighlight">input-json</code> field.<br /><br />Responses to
-well-formed and authenticated requests will usually be
+<code class="bb_code bb_code_inline nohighlight">input-json</code> field.<br />
+<br />
+Responses to well-formed and authenticated requests will usually be
 <code class="bb_code bb_code_inline nohighlight">200 OK</code>. However the request may have failed
 - the detailed Steam error code will be found in the
 <code class="bb_code bb_code_inline nohighlight">x-eresult</code> header. The value for "success" is
@@ -26,7 +30,8 @@ details.
 <h2 class="bb_section"><a name="EnumerateUserFiles"></a>Enumerating Files</h2>
 Requires <code class="bb_code bb_code_inline nohighlight">read_cloud</code> OAuth access.
 <h2 class="bb_subsection"><a name="1"></a>EnumerateUserFiles</h2>
-<br />Example:
+<br />
+Example:
 <div class="bb_code">
     GET
     https://api.steampowered.com/ICloudService/EnumerateUserFiles/v1/?access_token=&lt;token&gt;&amp;appid=1234&amp;extended_details=1
@@ -71,9 +76,11 @@ Requires <code class="bb_code bb_code_inline nohighlight">read_cloud</code> OAut
         <td>Beginning file index to enumerate (default 0)</td>
     </tr>
 </table>
-<br />Enumerate the user's Steam Cloud files for your game. Begin with a "start_index" of zero, and
-iterate if necessary if the user has more than "count" files.<br /><br />The response has two
-fields:<br />
+<br />
+Enumerate the user's Steam Cloud files for your game. Begin with a "start_index" of zero, and
+iterate if necessary if the user has more than "count" files.<br />
+<br />
+The response has two fields:<br />
 <table>
     <tr>
         <th>Name</th>
@@ -91,7 +98,8 @@ fields:<br />
         <td>The total number of files the user has in Steam Cloud for your app.</td>
     </tr>
 </table>
-<br />The files list contains this data:<br />
+<br />
+The files list contains this data:<br />
 <table>
     <tr>
         <th>Name</th>
@@ -153,14 +161,21 @@ fields:<br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="DownloadFiles"></a>Downloading Files</h2>
-<br />To download a file, simple make a GET request to the URL returned by EnumerateUserFiles above.
+<br />
+To download a file, simple make a GET request to the URL returned by EnumerateUserFiles above.
 <h2 class="bb_section"><a name="UploadFile"></a>Modifying Files</h2>
-<br />Requires <code class="bb_code bb_code_inline nohighlight">write_cloud</code> OAuth access.<br /><br />Modifying
-files includes uploading new files, uploading new versions of existing files, and deleting files
-from Steam Cloud.<br /><br />A set of file modification actions should be wrapped in a
-<strong>Batch</strong>. Batches are used to communicate intent to the Steam Cloud for your set of
-modifications, and help reduce the likelihood of file conflicts.<br /><br />A full batch sequence
-will look like the following:<br /><br />
+<br />
+Requires <code class="bb_code bb_code_inline nohighlight">write_cloud</code> OAuth access.<br />
+<br />
+Modifying files includes uploading new files, uploading new versions of existing files, and deleting
+files from Steam Cloud.<br />
+<br />
+A set of file modification actions should be wrapped in a <strong>Batch</strong>. Batches are used
+to communicate intent to the Steam Cloud for your set of modifications, and help reduce the
+likelihood of file conflicts.<br />
+<br />
+A full batch sequence will look like the following:<br />
+<br />
 <ul class="bb_ul">
     <li>
         <code class="bb_code bb_code_inline nohighlight">BeginAppUploadBatch</code> call, listing
@@ -183,17 +198,21 @@ will look like the following:<br /><br />
     </li>
     <li><code class="bb_code bb_code_inline nohighlight">CompleteAppUploadBatch</code></li>
 </ul>
-<br />Note that you must call
+<br />
+Note that you must call
 <code class="bb_code bb_code_inline nohighlight">CompleteAppUploadBatch</code> whether or not all
 uploads and/or deletes complete successfully. Failing to call
 <code class="bb_code bb_code_inline nohighlight">CompleteAppUploadBatch</code> will result in a time
 period of several minutes where new upload attempts for this user and app are blocked with a "too
 many pending requests" response.
 <h2 class="bb_subsection"><a name="2"></a>BeginAppUploadBatch</h2>
-<br />The first operation for a set of file modifications is to call
+<br />
+The first operation for a set of file modifications is to call
 <code class="bb_code bb_code_inline nohighlight">BeginAppUploadBatch</code>. This call communicates
 the set of intended uploads and deletes to the SteamCloud, as well as information about the user's
-machine which is doing the update.<br /><br />Example:
+machine which is doing the update.<br />
+<br />
+Example:
 <div class="bb_code">
     POST https://api.steampowered.com/ICloudService/BeginAppUploadBatch/v1/ HTTP/1.1 Host:
     api.steampowered.com Content-Type: application/x-www-form-urlencoded Content-Length: &lt;body
@@ -244,12 +263,17 @@ machine which is doing the update.<br /><br />Example:
         <td>List of all files to be deleted from Steam Cloud as part of this batch.</td>
     </tr>
 </table>
-<br />Call this API to begin the upload batch.<br /><br />Note that for list parameters, such as
-"files_to_upload", the syntax when used as a GET param is as follows:
+<br />
+Call this API to begin the upload batch.<br />
+<br />
+Note that for list parameters, such as "files_to_upload", the syntax when used as a GET param is as
+follows:
 <div class="bb_code http">&amp;files_to_upload[0]=file1.sav&amp;files_to_upload[1]=file2.sav</div>
-<br />In a JSON-encoded field in a POST param, it is as follows:<br />
+<br />
+In a JSON-encoded field in a POST param, it is as follows:<br />
 <div class="bb_code">"files_to_upload": ["file1.sav", "file2.sav"]</div>
-<br />The response data:<br />
+<br />
+The response data:<br />
 <table>
     <tr>
         <th>Name</th>
@@ -270,15 +294,19 @@ machine which is doing the update.<br /><br />Example:
         <td>currently unused by this API</td>
     </tr>
 </table>
-<br />Your application must remember the
+<br />
+Your application must remember the
 <code class="bb_code bb_code_inline nohighlight">batch_id</code> from this response and submit it to
 the <code class="bb_code bb_code_inline nohighlight">CompleteAppUploadBatch</code> request once all
 uploads and deletes have been attempted.
 <h2 class="bb_subsection"><a name="3"></a>CompleteAppUploadBatch</h2>
-<br />Once all uploads and deletes have been attempted, successful or not, you must call
+<br />
+Once all uploads and deletes have been attempted, successful or not, you must call
 <code class="bb_code bb_code_inline nohighlight">CompleteAppUploadBatch</code>. This indicates to
 Steam that all operations for this batch have been attempted and it will then allow any
-newly-requested batches immediately.<br /><br />Example:
+newly-requested batches immediately.<br />
+<br />
+Example:
 <div class="bb_code">
     POST https://api.steampowered.com/ICloudService/CompleteAppUploadBatch/v1/ HTTP/1.1 Host:
     api.steampowered.com Content-Type: application/x-www-form-urlencoded Content-Length: &lt;body
@@ -318,15 +346,20 @@ newly-requested batches immediately.<br /><br />Example:
         <td>Result of the batch (see remarks)</td>
     </tr>
 </table>
-<br />The <code class="bb_code bb_code_inline nohighlight">batch_eresult</code> parameter should be
-either 1 (success) or 2 (failure). Technically this is an
+<br />
+The <code class="bb_code bb_code_inline nohighlight">batch_eresult</code> parameter should be either
+1 (success) or 2 (failure). Technically this is an
 <code class="bb_code bb_code_inline nohighlight">EResult</code> value (see
 <a href="https://partner.steamgames.com/doc/api/steam_api" class="bb_doclink">steam_api.h</a> for
-the list). Indicating success or failure to Steam is sufficient for this method.<br /><br />There's
-no body data in the response from this API.
+the list). Indicating success or failure to Steam is sufficient for this method.<br />
+<br />
+There's no body data in the response from this API.
 <h2 class="bb_subsection"><a name="4"></a>BeginHTTPUpload</h2>
-<br />Uploading is done via a two-part API. You'll first call BeginHTTPUpload to get details on
-where to upload the file, then when that is complete, call CommitHTTPUpload.<br /><br />Example:
+<br />
+Uploading is done via a two-part API. You'll first call BeginHTTPUpload to get details on where to
+upload the file, then when that is complete, call CommitHTTPUpload.<br />
+<br />
+Example:
 <div class="bb_code">
     POST https://api.steampowered.com/ICloudService/BeginHTTPUpload/v1/ HTTP/1.1 Host:
     api.steampowered.com Content-Type: application/x-www-form-urlencoded Content-Length: &lt;body
@@ -392,14 +425,18 @@ where to upload the file, then when that is complete, call CommitHTTPUpload.<br 
         </td>
     </tr>
 </table>
-<br />Call this API to initiate uploading a new file (or new version of an existing file) to Steam
-Cloud for the user. New versions of existing files will overwrite the existing version.<br /><br />Note
-that for list parameters, such as "platforms_to_sync", the syntax when used as a GET param is as
-follows:
+<br />
+Call this API to initiate uploading a new file (or new version of an existing file) to Steam Cloud
+for the user. New versions of existing files will overwrite the existing version.<br />
+<br />
+Note that for list parameters, such as "platforms_to_sync", the syntax when used as a GET param is
+as follows:
 <div class="bb_code http">&amp;platforms_to_sync[0]=macos&amp;platforms_to_sync[1]=windows</div>
-<br />In a JSON-encoded field in a POST param, it is as follows:<br />
+<br />
+In a JSON-encoded field in a POST param, it is as follows:<br />
 <div class="bb_code">"platforms_to_sync": ["macos", "windows"]</div>
-<br />The response data:<br />
+<br />
+The response data:<br />
 <table>
     <tr>
         <th>Name</th>
@@ -442,7 +479,8 @@ follows:
         <td>list of HTTP headers you must set on the subsequent PUT request</td>
     </tr>
 </table>
-<br />The "request_headers" list contains this data:<br />
+<br />
+The "request_headers" list contains this data:<br />
 <table>
     <tr>
         <th>Name</th>
@@ -460,12 +498,14 @@ follows:
         <td>the header value</td>
     </tr>
 </table>
-<br />To upload the file, make a PUT request to
+<br />
+To upload the file, make a PUT request to
 <a href="https://&lt;url_host&gt;&lt;url_path&gt;" target="_blank" rel="noreferrer"
     >https://&lt;url_host&gt;&lt;url_path&gt;</a
 >, where each of the above specified HTTP headers has the specified value. On success you may
-receive a 200 OK, 201 Created, or 204 No Content response, depending on the storage provider.
-<br /><br />This request may look like:<br />
+receive a 200 OK, 201 Created, or 204 No Content response, depending on the storage provider. <br />
+<br />
+This request may look like:<br />
 <div class="bb_code">
     PUT
     https://steamcloud-us-west1.storage.googleapis.com/00/00/00/00/1234/012_3_4A77D494_9D267_1464.dat?GoogleAccessId=numbersandletters@developer.gserviceaccount.com&amp;Expires=1595961837&amp;Signature=morestuffhere
@@ -473,9 +513,11 @@ receive a 200 OK, 201 Created, or 204 No Content response, depending on the stor
     Content-Length: &lt;body length&gt; Header-from-Steam1: value1 Header-from-Steam2: value2
     &lt;file data&gt;
 </div>
-<br />When that completes (whether a success or a failure), call:
+<br />
+When that completes (whether a success or a failure), call:
 <h2 class="bb_subsection"><a name="5"></a>CommitHTTPUpload</h2>
-<br />Example:
+<br />
+Example:
 <div class="bb_code">
     POST https://api.steampowered.com/ICloudService/CommitHTTPUpload/v1/ HTTP/1.1 Host:
     api.steampowered.com Content-Type: application/x-www-form-urlencoded Content-Length: &lt;body
@@ -521,12 +563,14 @@ receive a 200 OK, 201 Created, or 204 No Content response, depending on the stor
         <td>Hex string (40 digits) representing the SHA1 digest of the file.</td>
     </tr>
 </table>
-<br />The response to this API currently has a single field, "file_committed", which will be true if
-Steam was able to fully commit the change. If false, then the upload has failed -- a new file was
-not recorded, and if it was an update to an existing file, the existing file still exists and will
-be returned by future Enumerate/Download requests.
+<br />
+The response to this API currently has a single field, "file_committed", which will be true if Steam
+was able to fully commit the change. If false, then the upload has failed -- a new file was not
+recorded, and if it was an update to an existing file, the existing file still exists and will be
+returned by future Enumerate/Download requests.
 <h2 class="bb_subsection"><a name="6"></a>Delete</h2>
-<br />Example:
+<br />
+Example:
 <div class="bb_code">
     POST https://api.steampowered.com/ICloudService/Delete/v1/ HTTP/1.1 Host: api.steampowered.com
     Content-Type: application/x-www-form-urlencoded Content-Length: &lt;body length&gt;
@@ -560,6 +604,10 @@ be returned by future Enumerate/Download requests.
         <td>filename of the file to delete</td>
     </tr>
 </table>
-<br />This API will delete the specified file from the user's Steam Cloud. Deleting files is
-permanent; no prior versions of the file are retained. There's no body data in the response from
-this API.<br /><br /><br /><br /><br />
+<br />
+This API will delete the specified file from the user's Steam Cloud. Deleting files is permanent; no
+prior versions of the file are retained. There's no body data in the response from this API.<br />
+<br />
+<br />
+<br />
+<br />

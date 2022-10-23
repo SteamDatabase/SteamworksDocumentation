@@ -1,13 +1,15 @@
 <h1>steamnetworkingtypes.h</h1>
 Miscellaneous types and functions used by networking APIs.
 <h2 class="bb_section"><a name="describing_network_hosts"></a>Describing Network Hosts</h2>
-<br />Types needed to describe network hosts.
+<br />
+Types needed to describe network hosts.
 <h2 class="bb_subsection">
     <a name="ESteamNetworkingIdentityType"></a>enum ESteamNetworkingIdentityType
 </h2>
 Different types of identities that a remote host can have. Most of the time on Steam, this will be a
 CSteamID. However, in some cases you can disable authentication, in which case a more generic
-identity will be used.<br /><br />
+identity will be used.<br />
+<br />
 <div class="bb_code">
     enum ESteamNetworkingIdentityType { // Dummy/unknown/invalid
     k_ESteamNetworkingIdentityType_Invalid = 0, // // Basic platform-specific identifiers. //
@@ -26,7 +28,9 @@ identity will be used.<br /><br />
     0x7fffffff, }}
 </div>
 <h2 class="bb_subsection"><a name="SteamNetworkingIdentity"></a>struct SteamNetworkingIdentity</h2>
-<br />An abstract way to represent the identity of a network host.<br /><br />
+<br />
+An abstract way to represent the identity of a network host.<br />
+<br />
 <div class="bb_code">
     struct SteamNetworkingIdentity { /// Type of identity. ESteamNetworkingIdentityType m_eType; //
     // Get/Set in various formats. // void Clear(); bool IsInvalid() const; // Return true if we are
@@ -54,8 +58,11 @@ identity will be used.<br /><br />
     terminating '\0' k_cbMaxGenericBytes = 32, }; // [] };
 </div>
 <h2 class="bb_subsection"><a name="SteamNetworkingIPAddr"></a>struct SteamNetworkingIPAddr</h2>
-<br />Store an IP and port.<br /><br />IPv6 is always used; IPv4 is represented using "IPv4-mapped"
-addresses: IPv4 aa.bb.cc.dd =&gt; IPv6 ::ffff:aabb:ccdd. (See
+<br />
+Store an IP and port.<br />
+<br />
+IPv6 is always used; IPv4 is represented using "IPv4-mapped" addresses: IPv4 aa.bb.cc.dd =&gt; IPv6
+::ffff:aabb:ccdd. (See
 <a href="https://tools.ietf.org/html/rfc4291#section-2.5.5.2" target="_blank" rel="noreferrer"
     >RFC 4291</a
 >
@@ -99,7 +106,8 @@ These types are used to describe the status of a connection. See
 <h2 class="bb_subsection">
     <a name="ESteamNetworkingConnectionState"></a>enum ESteamNetworkingState
 </h2>
-Enumerates high level connection states.<br /><br />
+Enumerates high level connection states.<br />
+<br />
 <div class="bb_code">
     enum ESteamNetworkingConnectionState { /// Dummy value used to indicate an error condition in
     the API. /// Specified connection doesn't exist or has already been closed.
@@ -162,8 +170,9 @@ Enumerates high level connection states.<br /><br />
     k_ESteamNetworkingConnectionState__Force32Bit = 0x7fffffff };
 </div>
 <h2 class="bb_subsection"><a name="ESteamNetConnectionEnd"></a>enum ESteamNetConnectionEnd</h2>
-<br />Enumerate various causes of connection termination. These are designed to work similar to HTTP
-error codes: the numeric range gives you a rough classification as to the source of the problem.<br />
+<br />
+Enumerate various causes of connection termination. These are designed to work similar to HTTP error
+codes: the numeric range gives you a rough classification as to the source of the problem.<br />
 <div class="bb_code">
     enum ESteamNetConnectionEnd { // Invalid/sentinel value k_ESteamNetConnectionEnd_Invalid = 0, //
     // Application codes. These are the values you will pass to //
@@ -241,7 +250,8 @@ error codes: the numeric range gives you a rough classification as to the source
     = 5999, };
 </div>
 <h2 class="bb_subsection"><a name="SteamNetConnectionInfo_t"></a>SteamNetConnectionInfo_t</h2>
-<br />Describe the state of a connection.<br />
+<br />
+Describe the state of a connection.<br />
 <div class="bb_code">
     struct SteamNetConnectionInfo_t { /// Who is on the other end? Depending on the connection type
     and phase of the connection, we might not know SteamNetworkingIdentity m_identityRemote; ///
@@ -266,7 +276,8 @@ error codes: the numeric range gives you a rough classification as to the source
     <a name="SteamNetworkingQuickConnectionStatus"></a>SteamNetworkingQuickConnectionStatus
 </h2>
 Quick connection state, pared down to something you could call more frequently without it being too
-big of a perf hit.<br /><br />
+big of a perf hit.<br />
+<br />
 <div class="bb_code">
     struct SteamNetworkingQuickConnectionStatus { /// High level state of the connection
     ESteamNetworkingConnectionState m_eState; /// Current ping (ms) int m_nPing; /// Connection
@@ -305,10 +316,11 @@ big of a perf hit.<br /><br />
 <h2 class="bb_section"><a name="messages"></a>Network messages</h2>
 <br />
 <div class="bb_code">const int k_cbMaxSteamNetworkingSocketsMessageSizeSend = 512 * 1024;</div>
-Max size of a single message that we can SEND.<br />Note: We might be wiling to receive larger
-messages, and our peer might, too.
+Max size of a single message that we can SEND.<br />
+Note: We might be wiling to receive larger messages, and our peer might, too.
 <h2 class="bb_subsection"><a name="SteamNetworkingMessage_t"></a>SteamNetworkingMessage_t</h2>
-<br />A message that has been received<br />
+<br />
+A message that has been received<br />
 <div class="bb_code">
     struct SteamNetworkingMessage_t { /// Message payload void *m_pData; /// Size of the payload.
     int m_cbSize; /// For messages received on connections: what connection did this come from? ///
@@ -349,25 +361,32 @@ These values are used in bitmask parameters to functions such as
     href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SendMessageToConnection"
     class="bb_apilink"
     >ISteamNetworkingSockets::SendMessageToConnection</a
-><br /><br />
+><br />
+<br />
 <div class="bb_code">const int k_nSteamNetworkingSend_Unreliable = 0;</div>
 <td>
     Send the message unreliably. Can be lost. Messages *can* be larger than a single MTU (UDP
     packet), but there is no retransmission, so if any piece of the message is lost, the entire
-    message will be dropped.<br /><br />The sending API does have some knowledge of the underlying
-    connection, so if there is no NAT-traversal accomplished or there is a recognized adjustment
-    happening on the connection, the packet will be batched until the connection is open again.<br /><br />Migration
-    note: This is not exactly the same as k_EP2PSendUnreliable! You probably want
-    k_ESteamNetworkingSendType_UnreliableNoNagle<br /><br />
+    message will be dropped.<br />
+    <br />
+    The sending API does have some knowledge of the underlying connection, so if there is no
+    NAT-traversal accomplished or there is a recognized adjustment happening on the connection, the
+    packet will be batched until the connection is open again.<br />
+    <br />
+    Migration note: This is not exactly the same as k_EP2PSendUnreliable! You probably want
+    k_ESteamNetworkingSendType_UnreliableNoNagle<br />
+    <br />
     <div class="bb_code">const int k_nSteamNetworkingSend_NoNagle = 1;</div>
     Disable
     <a href="https://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank" rel="noreferrer"
         >Nagle's algorithm</a
-    >.<br /><br />By default, Nagle's algorithm is applied to all outbound messages. This means that
-    the message will NOT be sent immediately, in case further messages are sent soon after you send
-    this, which can be grouped together. Any time there is enough buffered data to fill a packet,
-    the packets will be pushed out immediately, but partially-full packets not be sent until the
-    Nagle timer expires. See
+    >.<br />
+    <br />
+    By default, Nagle's algorithm is applied to all outbound messages. This means that the message
+    will NOT be sent immediately, in case further messages are sent soon after you send this, which
+    can be grouped together. Any time there is enough buffered data to fill a packet, the packets
+    will be pushed out immediately, but partially-full packets not be sent until the Nagle timer
+    expires. See
     <a
         href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#FlushMessagesOnConnection"
         class="bb_apilink"
@@ -377,12 +396,15 @@ These values are used in bitmask parameters to functions such as
         href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#FlushMessagesToUser"
         class="bb_apilink"
         >ISteamNetworkingMessages::FlushMessagesToUser</a
-    ><br /><br />NOTE: Don't just send every message without Nagle because you want packets to "get
-    there quicker". Make sure you understand the problem that Nagle is solving before disabling it.
-    If you are sending small messages, often many at the same time, then it is very likely that it
-    will be more efficient to leave Nagle enabled. A typical proper use of this flag is when you are
-    sending what you know will be the last message sent for a while (e.g. the last in the server
-    simulation tick to a particular client), and you use this flag to flush all messages.<br /><br />
+    ><br />
+    <br />
+    NOTE: Don't just send every message without Nagle because you want packets to "get there
+    quicker". Make sure you understand the problem that Nagle is solving before disabling it. If you
+    are sending small messages, often many at the same time, then it is very likely that it will be
+    more efficient to leave Nagle enabled. A typical proper use of this flag is when you are sending
+    what you know will be the last message sent for a while (e.g. the last in the server simulation
+    tick to a particular client), and you use this flag to flush all messages.<br />
+    <br />
     <div class="bb_code">
         const int k_nSteamNetworkingSend_UnreliableNoNagle =
         k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoNagle;
@@ -401,18 +423,23 @@ These values are used in bitmask parameters to functions such as
         href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#FlushMessagesToUser"
         class="bb_apilink"
         >ISteamNetworkingMessages::FlushMessagesToUser</a
-    >. (But using this flag is more efficient since you only make one API call.)<br /><br />
+    >. (But using this flag is more efficient since you only make one API call.)<br />
+    <br />
     <div class="bb_code">const int k_nSteamNetworkingSend_NoDelay = 4;</div>
     If the message cannot be sent very soon (because the connection is still doing some initial
     handshaking, route negotiations, etc), then just drop it. This is only applicable for unreliable
-    messages. Using this flag on reliable messages is invalid.<br /><br /><br />
+    messages. Using this flag on reliable messages is invalid.<br />
+    <br />
+    <br />
     <div class="bb_code">
         const int k_nSteamNetworkingSend_UnreliableNoDelay =
         k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoDelay|k_nSteamNetworkingSend_NoNagle;
     </div>
     Send an unreliable message, but if it cannot be sent relatively quickly, just drop it instead of
     queuing it. This is useful for messages that are not useful if they are excessively delayed,
-    such as voice data.<br /><br />A message will be dropped under the following circumstances:<br />
+    such as voice data.<br />
+    <br />
+    A message will be dropped under the following circumstances:<br />
     <ul class="bb_ul">
         <li>
             the connection is not fully connected. (E.g. the "Connecting" or "FindingRoute"
@@ -423,15 +450,19 @@ These values are used in bitmask parameters to functions such as
             messagewill not be placed on the wire in the next ~200ms or so.
         </li>
     </ul>
-    <br />If a message is dropped for these reasons, k_EResultIgnored will be returned.<br /><br />NOTE:
-    The Nagle algorithm is not used, and if the message is not dropped, any messages waiting on the
-    Nagle timer are immediately flushed.<br /><br />
+    <br />
+    If a message is dropped for these reasons, k_EResultIgnored will be returned.<br />
+    <br />
+    NOTE: The Nagle algorithm is not used, and if the message is not dropped, any messages waiting
+    on the Nagle timer are immediately flushed.<br />
+    <br />
     <div class="bb_code">const int k_nSteamNetworkingSend_Reliable = 8;</div>
     Reliable message send. Can send up to k_cbMaxSteamNetworkingSocketsMessageSizeSend bytes in a
     single message. Does fragmentation/re-assembly of messages under the hood, as well as a sliding
-    window for efficient sends of large chunks of data.<br /><br />The Nagle algorithm is used. See
-    notes on k_ESteamNetworkingSendType_Unreliable for more details. See
-    k_ESteamNetworkingSendType_ReliableNoNagle,
+    window for efficient sends of large chunks of data.<br />
+    <br />
+    The Nagle algorithm is used. See notes on k_ESteamNetworkingSendType_Unreliable for more
+    details. See k_ESteamNetworkingSendType_ReliableNoNagle,
     <a
         href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#FlushMessagesOnConnection"
         class="bb_apilink"
@@ -441,14 +472,18 @@ These values are used in bitmask parameters to functions such as
         href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#FlushMessagesToUser"
         class="bb_apilink"
         >ISteamNetworkingMessages::FlushMessagesToUser</a
-    ><br /><br />Migration note: This is NOT the same as k_EP2PSendReliable, it's more like
-    k_EP2PSendReliableWithBuffering<br /><br />
+    ><br />
+    <br />
+    Migration note: This is NOT the same as k_EP2PSendReliable, it's more like
+    k_EP2PSendReliableWithBuffering<br />
+    <br />
     <div class="bb_code">
         const int k_nSteamNetworkingSend_ReliableNoNagle =
         k_nSteamNetworkingSend_Reliable|k_nSteamNetworkingSend_NoNagle;
     </div>
-    Send a message reliably, but bypass Nagle's algorithm.<br /><br />Migration note: This is
-    equivalent to k_EP2PSendReliable
+    Send a message reliably, but bypass Nagle's algorithm.<br />
+    <br />
+    Migration note: This is equivalent to k_EP2PSendReliable
     <h2 class="bb_section"><a name="ping_location"></a>Ping location / measurement</h2>
     <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingutils" class="bb_apilink"
         >ISteamNetworkingutils</a
@@ -463,11 +498,14 @@ These values are used in bitmask parameters to functions such as
     Opaque object that describes a "location" on the Internet with sufficient detail that we can
     reasonably estimate an upper bound on the ping between the two hosts, even if a direct route
     between the hosts is not possible, and the connection must be routed through the Steam Datagram
-    Relay network.<br /><br />This does not contain any information that identifies the host.
-    Indeed, if two hosts are in the same building or otherwise have nearly identical networking
-    characteristics, then it's valid to use the same location object for both of them.<br /><br />NOTE:
-    This object should only be used in the same process! Do not serialize it, send it over the wire,
-    or persist it in a file or database! If you need to do that, convert it to a string
+    Relay network.<br />
+    <br />
+    This does not contain any information that identifies the host. Indeed, if two hosts are in the
+    same building or otherwise have nearly identical networking characteristics, then it's valid to
+    use the same location object for both of them.<br />
+    <br />
+    NOTE: This object should only be used in the same process! Do not serialize it, send it over the
+    wire, or persist it in a file or database! If you need to do that, convert it to a string
     representation using the methods in
     <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils" class="bb_apilink"
         >ISteamNetworkingUtils</a
@@ -491,7 +529,8 @@ These values are used in bitmask parameters to functions such as
     <h2 class="bb_subsection">
         <a name="ESteamNetworkingConfigScope"></a>ESteamNetworkingConfigScope
     </h2>
-    <br />Configuration values can be applied to different types of objects.<br />
+    <br />
+    Configuration values can be applied to different types of objects.<br />
     <div class="bb_code">
         enum ESteamNetworkingConfigScope { /// Get/set global option, or defaults. Even options that
         apply to more specific scopes /// have global scope, and you may be able to just change the
@@ -511,7 +550,8 @@ These values are used in bitmask parameters to functions such as
     <h2 class="bb_subsection">
         <a name="ESteamNetworkingConfigDataType"></a>ESteamNetworkingConfigDataType
     </h2>
-    <br />Different configuration values have different data types<br />
+    <br />
+    Different configuration values have different data types<br />
     <div class="bb_code">
         enum ESteamNetworkingConfigDataType { k_ESteamNetworkingConfig_Int32 = 1,
         k_ESteamNetworkingConfig_Int64 = 2, k_ESteamNetworkingConfig_Float = 3,
@@ -522,7 +562,8 @@ These values are used in bitmask parameters to functions such as
     <h2 class="bb_subsection">
         <a name="ESteamNetworkingConfigValue"></a>ESteamNetworkingConfigValue
     </h2>
-    <br />Configuration options<br />
+    <br />
+    Configuration options<br />
     <div class="bb_code">
         enum ESteamNetworkingConfigValue { k_ESteamNetworkingConfig_Invalid = 0, /// [global float,
         0--100] Randomly discard N pct of packets instead of sending/recv /// This is a global
@@ -597,7 +638,8 @@ These values are used in bitmask parameters to functions such as
     <h2 class="bb_subsection">
         <a name="ESteamNetworkingGetConfigValueResult"></a>ESteamNetworkingGetConfigValueResult
     </h2>
-    <br />Return value of
+    <br />
+    Return value of
     <a
         href="https://partner.steamgames.com/doc/api/ISteamNetworkintgUtils#GetConfigValue"
         class="bb_apilink"
@@ -615,13 +657,15 @@ These values are used in bitmask parameters to functions such as
     <h2 class="bb_subsection">
         <a name="SteamNetworkingConfigValue_t"></a>SteamNetworkingConfigValue_t
     </h2>
-    <br />In a few places we need to set configuration options on listen sockets and connections,
-    and have them take effect <i>before</i> the listen socket or connection really starts doing
-    anything. Creating the object and then setting the options "immediately" after creation doesn't
-    work completely, because network packets could be received between the time the object is
-    created and when the options are applied. To set options at creation time in a reliable way,
-    they must be passed to the creation function. This structure is used to pass those options.<br /><br />For
-    the meaning of these fields, see
+    <br />
+    In a few places we need to set configuration options on listen sockets and connections, and have
+    them take effect <i>before</i> the listen socket or connection really starts doing anything.
+    Creating the object and then setting the options "immediately" after creation doesn't work
+    completely, because network packets could be received between the time the object is created and
+    when the options are applied. To set options at creation time in a reliable way, they must be
+    passed to the creation function. This structure is used to pass those options.<br />
+    <br />
+    For the meaning of these fields, see
     <a
         href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#SetConfigValue"
         class="bb_apilink"
@@ -640,14 +684,17 @@ These values are used in bitmask parameters to functions such as
         buffer void *m_functionPtr; } m_val; };
     </div>
     <h2 class="bb_section"><a name="valve_data_centers"></a>Valve data centers</h2>
-    Used to describe the topology of the Valve network, identify data centers, etc.<br /><br />
+    Used to describe the topology of the Valve network, identify data centers, etc.<br />
+    <br />
     <div class="bb_code">typedef uint32 SteamNetworkingPOPID;</div>
-    Identifier used for a network location point of presence. (E.g. a Valve data center.)<br />Typically
-    you won't need to directly manipulate these.<br /><br />
+    Identifier used for a network location point of presence. (E.g. a Valve data center.)<br />
+    Typically you won't need to directly manipulate these.<br />
+    <br />
     <div class="bb_code">
         SteamNetworkingPOPID CalculateSteamNetworkingPOPIDFromString( const char *pszCode )
     </div>
-    Convert 3- or 4-character ID to 32-bit int.<br /><br />
+    Convert 3- or 4-character ID to 32-bit int.<br />
+    <br />
     <div class="bb_code">
         template &lt;int N&gt; inline void GetSteamNetworkingLocationPOPStringFromID(
         SteamNetworkingPOPID id, char (&amp;szCode)[N] )

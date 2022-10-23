@@ -6,18 +6,22 @@ purchased via microtransactions, earned from Steam Achievements, delivered in-ga
 response to various kinds of promotions. Users can view their in-game inventories in the Steam
 Community, include links to items in chat sessions, and trade items with other users. Steam provides
 the user-interface and the heavy lifting for these features, but leaves the game itself in complete
-control of the items themselves.<br /><br />In-game items in the Steam Economy are called Assets and
-can represent anything a user can own in a game. Some examples are equipment, vehicles, character,
-pets, crafting recipes, etc. The game tells Steam how to display an asset to a user, but what the
-asset actually does is left up to the game. The game is also responsible for keeping track of which
-user owns which assets and communicating that information to both users and support agents. It is
-also the responsibility of the game to determine which assets are tradable, decide what storage
-space restrictions users are subject to, and to provide the support team information about all of
-the above.<br /><br />Each game controls these things by implementing the Steam Asset API. This is a
-collection of Web APIs to allow Steam visibility into that back end. Full documentation for the
-Steam Asset API is below.
+control of the items themselves.<br />
+<br />
+In-game items in the Steam Economy are called Assets and can represent anything a user can own in a
+game. Some examples are equipment, vehicles, character, pets, crafting recipes, etc. The game tells
+Steam how to display an asset to a user, but what the asset actually does is left up to the game.
+The game is also responsible for keeping track of which user owns which assets and communicating
+that information to both users and support agents. It is also the responsibility of the game to
+determine which assets are tradable, decide what storage space restrictions users are subject to,
+and to provide the support team information about all of the above.<br />
+<br />
+Each game controls these things by implementing the Steam Asset API. This is a collection of Web
+APIs to allow Steam visibility into that back end. Full documentation for the Steam Asset API is
+below.
 <h2 class="bb_subsection"><a name="2"></a>Requirements</h2>
-In order to add a game to the Steam Economy a few requirements must be met.<br /><br />
+In order to add a game to the Steam Economy a few requirements must be met.<br />
+<br />
 <ul class="bb_ul">
     <li>
         The game must have an asset back-end that is not stored on the game client. Some kind of
@@ -53,7 +57,8 @@ In order to add a game to the Steam Economy a few requirements must be met.<br /
 </ul>
 <h2 class="bb_subsection"><a name="3"></a>Only Read Further If...</h2>
 You plan to create your own asset tracking service. The rest of this document outlines the required
-Web API.<br />Otherwise, if you plan on using the
+Web API.<br />
+Otherwise, if you plan on using the
 <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
     >Steam Inventory Service</a
 >
@@ -153,9 +158,10 @@ server in Steam. It causes ownership changes to occur in games via the
 <h2 class="bb_subsection"><a name="5"></a>Support Tool Integration</h2>
 The support tool is the system that Steam support agents use to help out issues that crop up with a
 user's assets (and any other account issue in Steam.) Implementing these APIs allows both forms of
-the support tool access to the assets in a game.<br /><br />Support tool access to games in the
-Steam Economy is provided through two pages: Economy and History. The Economy page interacts with
-the assets in a context with
+the support tool access to the assets in a game.<br />
+<br />
+Support tool access to games in the Steam Economy is provided through two pages: Economy and
+History. The Economy page interacts with the assets in a context with
 <code class="bb_code bb_code_inline nohighlight">GetContextContents</code> and
 <code class="bb_code bb_code_inline nohighlight">GetAssetClassInfo</code>. The History page uses
 <code class="bb_code bb_code_inline nohighlight">GetUserHistory</code>,
@@ -334,12 +340,14 @@ each URL. So if your asset server URL is
 <code class="bb_code bb_code_inline nohighlight"
     >https://api.mygame.com/assetapi/GetContexts/v0001</code
 >
-followed by the specified GET<br />parameters for that method.
+followed by the specified GET<br />
+parameters for that method.
 <h2 class="bb_subsection"><a name="10"></a>API Keys</h2>
 If you set an API key in the Economy tab of your game's technical details that key will be passed
-into every call made by the economy server.<br />The key will be in a GET or POST (depending on
-request type) parameter called "key". Please verify that the key matches what you set in the Economy
-tab when you receive a call to ensure that the call actually came from the Economy server.
+into every call made by the economy server.<br />
+The key will be in a GET or POST (depending on request type) parameter called "key". Please verify
+that the key matches what you set in the Economy tab when you receive a call to ensure that the call
+actually came from the Economy server.
 <h2 class="bb_section"><a name="FAQ"></a>Frequently Asked Questions</h2>
 <h4>Q. What is the Steam Economy?</h4>
 A. The Steam platform has built-in functionality for secure and reliable trading, a world-wide real
@@ -347,19 +355,21 @@ currency marketplace, detailed out-of-game item introspection through the Steam 
 You can opt in to any or all of this functionality.
 <h4>Q.What are the benefits to participating in the Steam economy?</h4>
 A. Items in economy-enabled games are more valuable than items that are only used in a single-game
-ecosystem, leading to happier customers.<br /><br />Players can link to items in Steam profiles and
-chat, providing additional free exposure for both the game and the items in it. For games that
-support trading, items capture value not only for their current owners, but also for all other
-active players and potential newcomers. This means, for example, that all games that use the Steam
-economy immediately become both more interesting and more valuable to the players of all other
-economy-enabled games (like Team Fortress 2 and Dota 2).<br /><br />Additionally, you can leverage
-our existing infrastructure for trading/currency transactions and support, as well as opt in to any
-future functionality for free.
+ecosystem, leading to happier customers.<br />
+<br />
+Players can link to items in Steam profiles and chat, providing additional free exposure for both
+the game and the items in it. For games that support trading, items capture value not only for their
+current owners, but also for all other active players and potential newcomers. This means, for
+example, that all games that use the Steam economy immediately become both more interesting and more
+valuable to the players of all other economy-enabled games (like Team Fortress 2 and Dota 2).<br />
+<br />
+Additionally, you can leverage our existing infrastructure for trading/currency transactions and
+support, as well as opt in to any future functionality for free.
 <h4>Q.What are the requirements to participate?</h4>
 A. Your game must have an asset back-end that is not stored on the game client, aka item server.
-Some kind of database that lives in a datacenter will be required.<br />That datacenter could be
-owned by a publisher or developer, or it could be provided by a cloud hosting service. Steam offers
-a free
+Some kind of database that lives in a datacenter will be required.<br />
+That datacenter could be owned by a publisher or developer, or it could be provided by a cloud
+hosting service. Steam offers a free
 <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
     >Inventory Service</a
 >

@@ -5,7 +5,8 @@ Here are some example templates for
 >
 that you can use as starting points for your games. None of these are for any specific game, and
 your game might have specific needs not covered by any of them, so feel free to experiment. This is
-just to give you a useful skeleton to build upon.<br /><br />
+just to give you a useful skeleton to build upon.<br />
+<br />
 <ul class="bb_ul">
     <li><a href="#basic" class="bb_doclink">Basic</a><br /></li>
     <li><a href="#fps" class="bb_doclink">First Person Shooter</a><br /></li>
@@ -19,8 +20,10 @@ just to give you a useful skeleton to build upon.<br /><br />
     <li><a href="#platformer" class="bb_doclink">Platformer</a></li>
 </ul>
 <h2 class="bb_section"><a name="basic"></a>Basic</h2>
-<br />This is a completely minimal file -- one action set, one digital action, and one analog
-action. About as much functionality as an Atari joystick or single-button mouse.<br /><br />
+<br />
+This is a completely minimal file -- one action set, one digital action, and one analog action.
+About as much functionality as an Atari joystick or single-button mouse.<br />
+<br />
 <div class="bb_code vdf">
     "In Game Actions" { "actions" { "TheOneAndOnlySet" { "title" "#Set_Title" "Button" {
     "DoSomething" "#Action_DoSomething" } "StickPadGyro" { "Move" { "title" "#Action_Move"
@@ -28,9 +31,10 @@ action. About as much functionality as an Atari joystick or single-button mouse.
     Set" "Action_DoSomething" "Do Something" "Action_Move" "Move" } } }
 </div>
 <h2 class="bb_section"><a name="fps"></a> First Person Shooter</h2>
-<br />This is for a first-person shooter where you can move around, jump, shoot things, and hold
-multiple items (presumably weapons) in your inventory that you can freely switch between at any
-time.<br /><br />
+<br />
+This is for a first-person shooter where you can move around, jump, shoot things, and hold multiple
+items (presumably weapons) in your inventory that you can freely switch between at any time.<br />
+<br />
 <div class="bb_code">
     "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls" "StickPadGyro" {
     "Move" { "title" "#Action_Move" "input_mode" "joystick_move" } "Look" { "title" "#Action_Look"
@@ -54,9 +58,11 @@ time.<br /><br />
     "Scroll Up" "Menu_ScrollDown" "Scroll Down" "Menu_DismissMenu" "Dismiss Menu" } } }
 </div>
 <h2 class="bb_section"><a name="action"></a> Third Person Action / Adventure</h2>
-<br />This is for a third-person action / adventure game where you move a character around an
-environment, and can do basic things like jump, sneak, interact with things/people, and engage in
-simple combat.<br /><br />
+<br />
+This is for a third-person action / adventure game where you move a character around an environment,
+and can do basic things like jump, sneak, interact with things/people, and engage in simple
+combat.<br />
+<br />
 <div class="bb_code">
     "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls" "StickPadGyro" {
     "Move" { "title" "#Action_Move" "input_mode" "joystick_move" } "Camera" { "title"
@@ -75,8 +81,10 @@ simple combat.<br /><br />
     "Menu_DismissMenu" "Dismiss Menu" } } }
 </div>
 <h2 class="bb_section"><a name="tactics"></a>Turn Based Tactics</h2>
-<br />This is for a turn-based tactics game where you move units around a grid and issue commands.
-Also includes actions for controlling a 3D camera and basic navigation.<br /><br />
+<br />
+This is for a turn-based tactics game where you move units around a grid and issue commands. Also
+includes actions for controlling a 3D camera and basic navigation.<br />
+<br />
 <div class="bb_code">
     "In Game Actions" { "actions" { "MenuControls" { "title" "#Set_MenuControls" "StickPadGyro" {
     "MenuCursor" { "title" "#Action_MenuCursor" "input_mode" "absolute_mouse" } } "Button" { "Up"
@@ -111,27 +119,31 @@ Also includes actions for controlling a 3D camera and basic navigation.<br /><br
     Selected Object" } } }
 </div>
 <h2 class="bb_section"><a name="rts"></a> Real Time Strategy</h2>
-<br />This is for a Real Time Strategy game where you build units &amp; buildings and command units
+<br />
+This is for a Real Time Strategy game where you build units &amp; buildings and command units
 individually or in groups. A few special things are going on here -- first of all, there's two
 <a
     href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
     class="bb_doclink"
     >action layers</a
 >
-for the Unit and Build menus, but it's also set up to use actions in chords.<br /><br />In this
-game, you can assign units, buildings, or groups of units to ten groups bound to ten hotkeys
+for the Unit and Build menus, but it's also set up to use actions in chords.<br />
+<br />
+In this game, you can assign units, buildings, or groups of units to ten groups bound to ten hotkeys
 (implemented here as actions "Group 0" through "Group 9"). After you activate an action such as
 "assign_group" or "add_remove_group", the game's programming will wait until an action such as
 "group_0" or "group_3" is pressed. "assign_group" + "group_2" means, "assign the current selection
 to group 2," whereas "select_group" + "group_5" means, "select everything currently assigned to
 group 5." This sort of thing has to be implemented by the game's own logic, but it's much simpler
 than creating individual action permutations for each slot, ie "add_remove_group_2",
-"assign_group_2", "select_group_2", etc...<br /><br />Additionally, the Unit commands have the
-special action "queue." When an order action is received, if the game detects that the "queue"
-action is also currently being fired, it will not immediately execute the original order, but
-instead stick it on queue for that unit. When done with a "move" order this could be used to set
-waypoints, for instance. Again, this sort of logic would need to be implemented by the game
-itself.<br /><br />
+"assign_group_2", "select_group_2", etc...<br />
+<br />
+Additionally, the Unit commands have the special action "queue." When an order action is received,
+if the game detects that the "queue" action is also currently being fired, it will not immediately
+execute the original order, but instead stick it on queue for that unit. When done with a "move"
+order this could be used to set waypoints, for instance. Again, this sort of logic would need to be
+implemented by the game itself.<br />
+<br />
 <div class="bb_code">
     "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls" "StickPadGyro" {
     "MoveCursor" { "title" "#Action_MoveCursor" "input_mode" "absolute_mouse" } "CameraPan" {
@@ -174,10 +186,11 @@ itself.<br /><br />
     "Build option 9" } } }
 </div>
 <h2 class="bb_section"><a name="4x"></a> 4X Strategy</h2>
-<br />This is a simple 4X strategy game, where you move units on a main map, colonize territory
-(whether that's planets or islands or cities), and engage in combat with other empires. Base actions
-such as "click", "cancel", "select", and "inspect" are always available in the base action set,
-whereas other actions come in via
+<br />
+This is a simple 4X strategy game, where you move units on a main map, colonize territory (whether
+that's planets or islands or cities), and engage in combat with other empires. Base actions such as
+"click", "cancel", "select", and "inspect" are always available in the base action set, whereas
+other actions come in via
 <a
     href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
     class="bb_doclink"
@@ -185,7 +198,8 @@ whereas other actions come in via
 >
 depending on context. For instance, in the main map you have additional actions such as ending the
 turn, or cycling between your colonies. In battle, you can cycle between units, and tell them to
-move, attack, or retreat.<br /><br />
+move, attack, or retreat.<br />
+<br />
 <div class="bb_code">
     "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls" "StickPadGyro" {
     "MoveCursor" { "title" "#Action_MoveCursor" "input_mode" "absolute_mouse" } "CameraPan" {
@@ -211,11 +225,13 @@ move, attack, or retreat.<br /><br />
     "Menu_ScrollDown" "Scroll Down" "Menu_DismissMenu" "Dismiss Menu" } } }
 </div>
 <h2 class="bb_section"><a name="jrpg"></a> Console-style JRPG</h2>
-<br />A simple console-style JRPG where you move a character avatar around a map environment such as
-an overworld, dungeon, or town, and can interact with things. The game features a modal battle
-system that mostly uses the same basic menu-driven actions (up/down/left/right/select/cancel), but
-has some special commands like toggling a special power between targetting an individual and a group
-of enemies, skipping a character's turn, and pausing the game.<br /><br />
+<br />
+A simple console-style JRPG where you move a character avatar around a map environment such as an
+overworld, dungeon, or town, and can interact with things. The game features a modal battle system
+that mostly uses the same basic menu-driven actions (up/down/left/right/select/cancel), but has some
+special commands like toggling a special power between targetting an individual and a group of
+enemies, skipping a character's turn, and pausing the game.<br />
+<br />
 <div class="bb_code">
     "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls" "Button" {
     "Action_Select" "#Action_Select" "Action_Up" "#Action_Up" "Action_Down" "#Action_Down"
@@ -230,10 +246,12 @@ of enemies, skipping a character's turn, and pausing the game.<br /><br />
     "Battle_Pause" "Pause" "Battle_Skip" "Skip Character" } } }
 </div>
 <h2 class="bb_section"><a name="adventure"></a> Point-and-click Adventure</h2>
-<br />A simple point-and click adventure game where you point to a location on the screen and tell
-your character to move there, examine something, or interact with it. Inventory management is done
-by bringing up a menu, where you can point to an object (or use up/down/left/right actions to
-navigate) to select it.<br /><br />
+<br />
+A simple point-and click adventure game where you point to a location on the screen and tell your
+character to move there, examine something, or interact with it. Inventory management is done by
+bringing up a menu, where you can point to an object (or use up/down/left/right actions to navigate)
+to select it.<br />
+<br />
 <div class="bb_code">
     "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls" "Button" {
     "Action_Interact" "#Action_Interact" "Action_MoveTo" "#Action_MoveTo" "Action_Examine"
@@ -249,7 +267,9 @@ navigate) to select it.<br /><br />
     "Right" "Menu_Select" "Select" "Menu_Cancel" "Cancel" } } }
 </div>
 <h2 class="bb_section"><a name="racing"></a>Racing</h2>
-<br />A simple racing game where you race manual transmission ("stick shift") cars.<br /><br />
+<br />
+A simple racing game where you race manual transmission ("stick shift") cars.<br />
+<br />
 <div class="bb_code">
     "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls" "Button" {
     "Action_Gas" "#Action_Gas" "Action_Brake" "#Action_Brake" "Action_Clutch" "#Action_Clutch"
@@ -262,8 +282,10 @@ navigate) to select it.<br /><br />
     "Action_Steer" "Steer" "Action_Look" "Free look" } } }
 </div>
 <h2 class="bb_section"><a name="platformer"></a>Platformer</h2>
-<br />A very simple platform game where you can move around, jump, hold down a button to run, and
-interact with environmental objects (e.g. pick up / throw).<br /><br />
+<br />
+A very simple platform game where you can move around, jump, hold down a button to run, and interact
+with environmental objects (e.g. pick up / throw).<br />
+<br />
 <div class="bb_code">
     "In Game Actions" { "actions" { "GameControls" { "title" "#Set_GameControls" "Button" {
     "Action_Jump" "#Action_Jump" "Action_Run" "#Action_Run" "Action_Interact" "#Action_Interact"
