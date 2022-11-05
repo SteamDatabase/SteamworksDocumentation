@@ -198,6 +198,7 @@ class Crawler
 			self::CDN,
 			self::CDN,
 		], $Html );
+		$Html = preg_replace( '/ id="dynamiclink_[0-9]+"/', '', $Html );
 
 		$Html .= "\n";
 
