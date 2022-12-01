@@ -105,7 +105,7 @@ connectivity.<br />
         </ul>
     </li>
 </ul>
-<h2 class="bb_section"><a name="2"></a>Using SDR on other platforms and stores</h2>
+<h2 class="bb_section"><a name="2"></a>Requirements for using SDR on other platforms and stores</h2>
 A Networking API and DDoS solution for a cross-platform game is useless if it only works on one
 platform. In most cases, your players on other platforms and stores can access the relay network,
 provided that your game meets some basic conditions.<br />
@@ -133,11 +133,14 @@ Please contact us for the relevant SDKs and to talk about the fine print. We're 
 through details of how to distribute this code, and at this time we might not be able to make
 cross-platform support available to all partners and all games.<br />
 <br />
+See below for more technical information on implementing SDR on other platforms and stores.<br />
+<br />
 If you don't meet the criteria above, feel free to use the
 <a href="https://github.com/ValveSoftware/GameNetworkingSockets" target="_blank" rel="noreferrer"
     >opensource</a
 >
-version of the API for whatever you want.
+version of the API for whatever you want. Note that the opensource code does not support accessing
+the relay network.
 <h2 class="bb_section"><a name="3"></a>Peer-to-peer games</h2>
 For peer-to-peer traffic on Steam, all you need to do to take advantage of SDR is to use APIs such
 as
@@ -151,14 +154,8 @@ and
     href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectP2P"
     class="bb_apilink"
     >ISteamNetworkingSockets::ConnectP2P</a
->. Steam will take care of everything else.<br />
-<br />
-On other platforms or stores, as mentioned above, there are some other technical requirements.
-Specifically, you must provide your own "signaling" service, by which we mean a low-bandwidth,
-non-latency-sensitive, best-effort-delivery channel capable of forwarding occasional rendezvous
-messages used to negotiate routing. This requires clients to have a persistent connection to your
-matchmaking service, such that you can push messages to them. (E.g. a websocket or TCP connection.
-If clients only talk to your game coordinator using request/response, e.g. http, that won't work.)
+>. Steam will take care of everything else. For other platforms and stores, read more about
+additional technical requirements below.
 <h2 class="bb_section"><a name="4"></a>Dedicated Servers in Known Data Centers</h2>
 The peer-to-peer APIs work just fine even when one "peer" is a dedicated server! But there's one
 important catch: if your dedicated server is not near one of the data centers where we are running
@@ -176,7 +173,7 @@ Relay system.<br />
 If you are running game servers in a major hosting provider and are interested in using SDR, please
 get in touch with us. We'll try to work with your hosting company to run relays in the data center.
 That's the ideal situation, but even if this is not possible we may be able to add the data center
-to our network.<br />
+to our network configuration system and just use Valve relays that are nearby.<br />
 <br />
 If you are a dedicated server hosting company and want to join our network so that your customers
 can take advantage of SDR, please get in touch with us! We have not yet deployed relays in any third
@@ -296,7 +293,7 @@ separate, small SDK that you can link with your game coordinator which can be us
 <ul class="bb_ul">
     <li>Issue tickets to give clients access to gameservers hosted behind SDR<br /></li>
     <li>
-        Parse with
+        Parse
         <a
             href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#PingLocation_t"
             class="bb_apilink"
@@ -353,10 +350,115 @@ You'll also use your key to generate tickets, each time a player connects to a g
 <br />
 Keep your CA private key and the private keys of your certificates safe! If your key leaks and needs
 to be revoked and replaced, it could lead to a disruption.
-<h2 class="bb_section"><a name="9"></a>Running servers in known data centers</h2>
+<h2 class="bb_section"><a name="9"></a>Implementing SDR on other platforms and stores</h2>
+<br />
+Your clients on other platforms and stores will not sign into Steam, and so you will need to provide
+a few services for those players that Steam provides for Steam players.
+<h2 class="bb_subsection"><a name="10"></a>Game coordinator initialization</h2>
+<ul class="bb_ul">
+    <li>
+        Your matchmaking service (referred to as the "game coordinator") will need to link with the
+        game coordinator SDK. The header file steamdatagram_gamecoordinator.h has more details. The
+        game coordinator SDK uses a plain C API, so it should be relatively easy to integrate with
+        other languages.<br />
+    </li>
+    <li>
+        Download the network config at initialization time, and check for updates approximately once
+        an hour. (See SteamDatagram_GameCoordinator_GetNetworkConfigURL and
+        SteamDatagram_GameCoordinator_SetNetworkConfig.) The network configuration is a small JSON
+        file, at the time of this writing, about 26K (9K compressed). This URL has very high
+        availability, however if you wish to handle the possibility of failure, you can use a
+        recently downloaded version.<br />
+    </li>
+    <li>
+        You'll need a keypair authenticated for your game. Send us the public key, and initialize
+        the game coordinator SDK with your private key. (See SteamDatagram_SetPrivateKey_Ed25519 for
+        more information.)
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="11"></a>Client signon</h2>
+<ul class="bb_ul">
+    <li>
+        The client will call
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetCertificateRequest"
+            class="bb_apilink"
+            >ISteamNetworkingSockets::GetCertificateRequest</a
+        >
+        to get a blob and send it along with the signon request message to your game coordinator.<br />
+    </li>
+    <li>
+        When the game coordinator receives the signon request, generate a certificate for the client
+        using SteamDatagram_CreateCert.<br />
+    </li>
+    <li>
+        Send the generated certificate back to the client in the logon response. The client should
+        install their certificate using
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SetCertificate"
+            class="bb_apilink"
+            >ISteamNetworkingSockets::SetCertificate</a
+        ><br />
+    </li>
+    <li>
+        It is highly recommended that you also distribute the network configuration to clients at
+        this time as well. The client will apply the network configuration using
+        SteamDatagram_SetNetworkConfig.
+    </li>
+</ul>
+<br />
+Certificates have an expiry, and we recommend that you use an expiry of 48-hours. If clients might
+be connected for longer than 48 hours, then you will need to periodically renew the certificate. It
+is acceptable to apply a new certificate at any time, and so if you want to issue certificates more
+often, for example at the start of every match, that is OK.<br />
+<br />
+Every client must have a unique identity. If possible, use the platform-specific identities. (For
+Steam clients, this is a requirement.) However, if this is not possible, you can use a "generic
+string" identity that is meaningful to your matchmaker. See
+<a
+    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingIdentity"
+    class="bb_apilink"
+    >SteamNetworkingIdentity</a
+>.
+<h2 class="bb_subsection"><a name="12"></a>Peer-to-peer games</h2>
+P2P connections require a "signaling" service. This is a low-bandwidth, non-latency-sensitive,
+best-effort-delivery channel capable of forwarding occasional rendezvous messages used to negotiate
+routing. This requires clients to have a persistent connection to your matchmaking service, such
+that you can push messages to them, such as a websocket or TCP connection. If clients only talk to
+your game coordinator using a request/response pattern, for example through http, that won't work.
+You only need to provide "best effort" delivery, meaning that the library is tolerant of messages
+dropping or being delivered multiple times.<br />
+<br />
+<ul class="bb_ul">
+    <li>
+        To initiate a connection, use
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectP2PCustomSignaling"
+            class="bb_apilink"
+            >ISteamNetworkingSockets::ConnectP2PCustomSignaling</a
+        >. You will need to implement a subclass of ISteamNetworkingConnectionSignaling, and when
+        SendSignal is called, the client should send the message to your backend, and your backend
+        should make its best effort to deliver the message to the peer. When a connection is first
+        created, a initial exchange 4-10 messages is typical. Thereafter, you might be called to
+        deliver a signal for an established connection if routing conditions change.<br />
+    </li>
+    <li>
+        When a client receives a signal, call
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ReceivedP2PCustomSignal"
+            class="bb_apilink"
+            >ISteamNetworkingSockets::ReceivedP2PCustomSignal</a
+        >. The library will decode the message. If it is concerning an existing connection, the
+        signal will be processed internally. If the signal is for a new connection,
+        ISteamNetworkingSignalingRecvContext::OnConnectRequest will be called.
+    </li>
+</ul>
+<br />
+See steamnetworkingcustomsignaling.h for more details.
+<h2 class="bb_section"><a name="13"></a>Running servers in known data centers</h2>
 This section documents some technical details involved in running dedicated servers in known data
 centers.
-<h2 class="bb_subsection"><a name="10"></a>Environment variables</h2>
+<h2 class="bb_subsection"><a name="14"></a>Environment variables</h2>
 The dedicated server gets its configuration from environment variables. Note that in Valve data
 centers, all of these values will be set automatically for you.<br />
 <ul class="bb_ul">
@@ -407,7 +509,7 @@ centers, all of these values will be set automatically for you.<br />
         servers are configured.
     </li>
 </ul>
-<h2 class="bb_subsection"><a name="11"></a>Running in a dev environment</h2>
+<h2 class="bb_subsection"><a name="15"></a>Running in a dev environment</h2>
 Because
 <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
     >ISteamNetworkingSockets</a
