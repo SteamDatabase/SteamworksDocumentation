@@ -899,13 +899,40 @@ This handle can be used to further customize the query before sending it out wit
     </tr>
 </table>
 <br />
-Query for the details of specific UGC items.<br />
+Query for the details of specific UGC items. There is currently a 1,000 limit for the number of
+items you can request, but this may be lifted in the future.<br />
 <br />
-This will return up to 50 results as declared by
-<a href="https://partner.steamgames.com/doc/api/ISteamUGC#kNumUGCResultsPerPage" class="bb_apilink"
-    >kNumUGCResultsPerPage</a
->. However, there's a limit of 1,000 items that you can request at any given time--the API will
-return an error if you exceed this limit.<br />
+Note: this API is normally used to retrieve metadata about UGC for display purposes, so it is a good
+practice to keep the list of items small to match your UI. Subscribed items should have enough
+information to be used, available through:<br />
+<ul class="bb_ul">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetNumSubscribedItems"
+            class="bb_apilink"
+            >ISteamUGC::GetNumSubscribedItems</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetSubscribedItems"
+            class="bb_apilink"
+            >ISteamUGC::GetSubscribedItems</a
+        ><br />
+    </li>
+    <li>
+        <a href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemState" class="bb_apilink"
+            >ISteamUGC::GetItemState</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo"
+            class="bb_apilink"
+            >ISteamUGC::GetItemInstallInfo</a
+        >
+    </li>
+</ul>
 <br />
 <strong>NOTE:</strong> Either
 <code class="bb_code bb_code_inline nohighlight">nConsumerAppID</code> or
