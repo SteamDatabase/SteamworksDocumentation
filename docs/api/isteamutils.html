@@ -402,11 +402,11 @@ otherwise <strong>false</strong>.<br />
     success = SteamUtils()-&gt;GetImageSize( iImage, &amp;uAvatarWidth, &amp;uAvatarHeight ); if (
     !success ) { // Log a warning message. return hTexture; } // Get the actual raw RGBA data from
     Steam and turn it into a texture in our game engine const int uImageSizeInBytes = uAvatarWidth *
-    uAvatarHeight * 4; uint8 *pAvatarRGBA = new uint8[]; success = SteamUtils()-&gt;GetImageRGBA(
-    iImage, pAvatarRGBA, uImageSizeInBytes ); if( !success ) { // Do something to convert the RGBA
-    texture into your internal texture format for displaying. // hTexture =
-    m_pGameEngine-&gt;HCreateTexture( pAvatarRGBA, uAvatarWidth, uAvatarHeight ); // And add the
-    texture to the cache } // Don't forget to free the memory! delete[] pAvatarRGBA; return
+    uAvatarHeight * 4; uint8 *pAvatarRGBA = new uint8[uImageSizeInBytes]; success =
+    SteamUtils()-&gt;GetImageRGBA( iImage, pAvatarRGBA, uImageSizeInBytes ); if( !success ) { // Do
+    something to convert the RGBA texture into your internal texture format for displaying. //
+    hTexture = m_pGameEngine-&gt;HCreateTexture( pAvatarRGBA, uAvatarWidth, uAvatarHeight ); // And
+    add the texture to the cache } // Don't forget to free the memory! delete[] pAvatarRGBA; return
     hTexture; }
 </div>
 <h2 class="bb_subsection"><a name="GetImageSize"></a>GetImageSize</h2>
