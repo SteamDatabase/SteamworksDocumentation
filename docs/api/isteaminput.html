@@ -1376,7 +1376,8 @@ user functions to generate more sophisticated behavior.<br />
 Triggers a repeated haptic pulse on supported controllers.<br />
 <br />
 <strong>Notes:</strong><br />
-Currently only the VSC supports haptic pulses.<br />
+Currently only the Steam Controller, Steam Deck, and Nintendo Switch Pro Controller devices support
+haptic pulses.<br />
 This API call will be ignored for incompatible controller models.<br />
 This is a more user-friendly function to call than TriggerHapticPulse as it can generate pulse
 patterns long enough to be actually noticed by the user.<br />
@@ -1432,6 +1433,61 @@ The VSC will emulate traditional rumble using its haptics.<br />
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">SteamInput()-&gt;TriggerVibration( controller1Handle, 10000, 10000 );</div>
+<h2 class="bb_subsection"><a name="TriggerVibration"></a>TriggerVibrationExtended</h2>
+<div class="bb_code cpp">
+    void TriggerVibrationExtended( InputHandle_t inputHandle, unsigned short usLeftSpeed, unsigned
+    short usRightSpeed );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>inputHandle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamInput#InputHandle_t"
+                class="bb_apilink"
+                >InputHandle_t</a
+            >
+        </td>
+        <td>The handle of the controller to affect.</td>
+    </tr>
+    <tr>
+        <td><strong>usLeftSpeed</strong></td>
+        <td>unsigned short</td>
+        <td>The intensity value for the left rumble motor.</td>
+    </tr>
+    <tr>
+        <td><strong>usRightSpeed</strong></td>
+        <td>unsigned short</td>
+        <td>The intensity value of the right rumble motor.</td>
+    </tr>
+    <tr>
+        <td><strong>usLeftTriggerSpeed</strong></td>
+        <td>unsigned short</td>
+        <td>The intensity value for the left Xbox Impulse Trigger motor.</td>
+    </tr>
+    <tr>
+        <td><strong>usRightTriggerSpeed</strong></td>
+        <td>unsigned short</td>
+        <td>The intensity value of the right Xbox Impulse Trigger motor.</td>
+    </tr>
+</table>
+<br />
+Trigger a vibration event on supported controllers, including Xbox Impulse Trigger motor values.<br />
+<br />
+<strong>Notes:</strong><br />
+On Windows support for Xbox Impulse Trigger motor values requires user installation of the Xbox
+Extended Feature support driver.<br />
+The Steam Controller and Steam Deck will emulate traditional rumble using their haptics.<br />
+<br />
+<strong>Example:</strong><br />
+<div class="bb_code cpp">
+    SteamInput()-&gt;TriggerVibrationExtended( controller1Handle, 10000, 10000, 10000, 10000 );
+</div>
 <h2 class="bb_subsection">
     <a name="GetActionOriginFromXboxOrigin"></a>GetActionOriginFromXboxOrigin
 </h2>
