@@ -55,6 +55,9 @@ patching of updates. In general, it works well for a wide variety of game conten
 However, there are some important things to know in terms of optimization and avoiding situations
 that can cause inefficiency.<br />
 <br />
+<strong>Note:</strong> If your game uses <strong>Unreal Engine</strong>, please see the notes
+specific to these pack files at the end of this section.<br />
+<br />
 SteamPipe initially splits each file into roughly one megabyte (MB) chunks. Each chunk is then
 compressed and encrypted before being upload to the Steam content-delivery system. They remain
 compressed and encrypted until downloaded by each client, where they are decrypted and expanded and
@@ -155,7 +158,34 @@ your product by shipping more updates.<br />
 <br />
 If you suspect that your game packaging is not interacting well with the SteamPipe update process,
 please contact your Valve representative and we can look into enabling advanced features to help
-with this.
+with this. <br />
+<br />
+<strong>Unreal Engine</strong> - Special Notes<br />
+<br />
+Some versions of the Unreal Engine use asset "padding alignment" in the pack files which can have a
+very large impact on the size of SteamPipe updates. This alignment can cause cascading asset shifts
+when building new versions, especially if pack file compression is enabled. Using a padding
+alignment of 1MB (1048576) will help ensure that re-alignments will shift assets by a multiple of
+the same blocksize that SteamPipe uses for delta calculations. <br />
+<br />
+As an example, to change or specify your padding alignment when "cooking" your game pack files, you
+will need to change one line inside the file
+<code class="bb_code bb_code_inline nohighlight"
+    >UnrealEngine/Engine/Source/Programs/AutomationTool/Win/WinPlatform.Automation.cs</code
+>. That file contains a function
+<code class="bb_code bb_code_inline nohighlight">GetPlatformPakCommandLine</code> -- inside that
+function, change this line:<br />
+<br />
+<div class="bb_code">string PakParams = " -patchpaddingalign=2048";</div>
+<br />
+to this:<br />
+<br />
+<div class="bb_code">string PakParams = " -patchpaddingalign=1048576 -blocksize=1048576";</div>
+<br />
+With this change, you should be able to enable pack file compression and still get optimized
+SteamPipe update behavior.<br />
+<br />
+<i>Unreal Engine is Epic’s trademark or registered trademark in the US and elsewhere.</i>
 <h2 class="bb_section">
     <a name="BuildingYourGameTutorial"></a>Steamworks Video Tutorial - Building Your Game in
     Steampipe
