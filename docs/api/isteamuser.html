@@ -439,7 +439,8 @@ Ends an auth session that was started with
 >
 <h2 class="bb_subsection"><a name="GetAuthSessionTicket"></a>GetAuthSessionTicket</h2>
 <div class="bb_code cpp">
-    HAuthTicket GetAuthSessionTicket( void *pTicket, int cbMaxTicket, uint32 *pcbTicket );
+    HAuthTicket GetAuthSessionTicket( void *pTicket, int cbMaxTicket, uint32 *pcbTicket, const
+    SteamNetworkingIdentity *pIdentityRemote );
 </div>
 <table>
     <tr>
@@ -473,6 +474,23 @@ Ends an auth session that was started with
             *
         </td>
         <td>Returns the length of the actual ticket.</td>
+    </tr>
+    <tr>
+        <td><strong>pIdentityRemote </strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/steam_api#SteamNetworkingIdentity%20"
+                class="bb_apilink"
+                >SteamNetworkingIdentity
+            </a>
+            *
+        </td>
+        <td>
+            The identity of the remote system that will authenticate the ticket. If it is
+            peer-to-peer then the user steam ID. If it is a game server, then the game server steam
+            ID may be used if it was obtained from a trusted 3rd party, otherwise use the IP
+            address. If it is a service, a string identifier of that service if one if provided.
+        </td>
     </tr>
 </table>
 <div class="bb_callout">
