@@ -427,17 +427,6 @@ and pass a couple of parameters :<br />
     +run_app_build ..\scripts\simple_app_build.vdf +quit
 </div>
 <br />
-<strong>NOTE:</strong> Your first attempt at running a build may fail due to Steam Guard. If the
-login fails due to Steam Guard, check your email for the Steam Guard code, and run steamcmd as:
-<code class="bb_code bb_code_inline nohighlight"
-    >steamcmd.exe "set_steam_guard_code &lt;code&gt;"</code
->, and try again. After logging in with Steam Guard once, a sentry file is used to verify the login
-is genuine.<br />
-<br />
-If you are using steamcmd from a machine or VM that gets re-imaged frequently, you should include
-the config file in your image so you won't be prompted for a Steam Guard every time. The the config
-file is located in &lt;Steam&gt;\config\config.vdf.<br />
-<br />
 The following steps occur during a SteamPipe build:<br />
 <ol class="bb_ol">
     <li>Steamcmd.exe will update itself to the latest version.<br /></li>
@@ -627,6 +616,32 @@ options:<br />
 If you know that you'll be building apps on this machine, it might be a good idea to create
 sub-directories in your scripts directory for each application, to help organize each application's
 build scripts.
+<h2 class="bb_section">
+    <a name="automating_steampipe"></a>Using SteamPipe In A CI/CD Environment
+</h2>
+<br />
+To setup steamcmd for continuous integration, or just on a machine or VM that will get re-imaged
+frequently, you'll need to include the config file that contains your login token. Follow these
+steps so that your initial login token is properly saved:<br />
+<br />
+<ol class="bb_ol">
+    <li>Run "steamcmd.exe +login &lt;username&gt;"<br /></li>
+    <li>Enter your password, and the SteamGuard token<br /></li>
+    <li>Type "info", and you should see your account listed as connected<br /></li>
+    <li>Type "quit"<br /></li>
+    <li>
+        For each future run, do not enter a password. Simply run "steamcmd.exe +login
+        &lt;username&gt;"<br />
+    </li>
+    <li>
+        Be sure that the config file stored in &lt;Steam&gt;\config\config.vdf is
+        <strong>saved and preserved between runs</strong>, as this file may be updated after a
+        successful login
+    </li>
+</ol>
+<br />
+<strong>NOTE:</strong> If you do login again and provide your password, a new SteamGuard token will
+be issued and required to login.
 <h2 class="bb_section"><a name="Managing_Updates"></a>Managing Updates</h2>
 After your app releases to customers, your customers will be receiving the build marked as the
 Default build. When uploading a new build it's always a good idea to test it before shipping it to

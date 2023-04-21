@@ -107,3 +107,19 @@ Then in your callback handler for
     class="bb_apilink"
     >SteamInventoryResultReady_t</a
 >, you will get the results of the call to update those item properties.
+<h2 class="bb_subsection"><a name="4"></a>Localization</h2>
+Dynamic properties are not normally rendered in the web view of the user's backpack. However, you
+can use the values in your item's description if you specify the dynamic property name as a
+replacement token.<br />
+<br />
+Using the preceding example, your description string in your item definition could be:<br />
+<div class="bb_code">This rocket launcher has been fired %num_times_fired% times.</div>
+<br />
+The description on the web would then look like:<br />
+<div class="bb_code">This rocket launcher has been fired 100 times.</div>
+<br />
+Replacement tokens (i.e. strings that match this regular expression "%([a-zA-Z0-9.-_]+)%") that have
+no corresponding dynamic property are automatically stripped. If you configure your dynamic
+properties on the Steam Inventory Service page under the "Item Dynamic Properties" section and set
+the "type" field, then integers and floats will be replaced with 0 instead, and bool properties will
+be replaced by "false".<br />
