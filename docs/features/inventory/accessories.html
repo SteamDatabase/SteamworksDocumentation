@@ -120,7 +120,29 @@ As usual, item names are localized by providing values in the
 <br />
 See the "Item Tags" section on the Steam Inventory Service page to provide localized text for the
 internal name. In our example, the internal name "sticker" is simply mapped to "Sticker" in all
-supported languages.
+supported languages.<br />
+<br />
+You can also specify special text that will be displayed before the aforementioned special
+description block. Simply provide a
+<code class="bb_code bb_code_inline nohighlight">accessory_description_&lt;language&gt;</code>
+property on your item description. In combination with
+<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
+    >dynamic properties</a
+>, you can tokens that will be replaced with dynamic property values.
+<h4>Example:</h4>
+<br />
+If the item instance (that has the "sticker" accessory attached) has the dynamic property
+<code class="bb_code bb_code_inline nohighlight">num_times_stickered</code> set to
+<code class="bb_code bb_code_inline nohighlight">123</code>, then specifying this on the sticker
+item definition:<br />
+<br />
+<div class="bb_code json">
+    { "accessory_description_english": "Stickers applied %num_times_stickered% times" }
+</div>
+<br />
+will output the following text in the web view.<br />
+<br />
+<div class="bb_code">Stickers applied 123 times</div>
 <h2 class="bb_subsection"><a name="6"></a>Removing or replacing accessories</h2>
 Once consumed, an accessory item can't be restored by removing it from the customized item.
 Accessories can of course be removed - see the per-item tags documentation for methods to remove
