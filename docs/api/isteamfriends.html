@@ -684,7 +684,7 @@ The number of Steam groups that the user is a member of.<br />
 Gets the display name for the specified Steam group; if the local client knows about it.<br />
 <br />
 <strong>Returns:</strong> const char *<br />
-The Steam groups name in UTF-8 format. Returns an empty string ("") if the provided Steam ID is
+The Steam group's name in UTF-8 format. Returns an empty string ("") if the provided Steam ID is
 invalid or the user does not know about the group.<br />
 <br />
 <strong>See Also:</strong>
@@ -2973,7 +2973,7 @@ After enabling this you will receive
     class="bb_apilink"
     >GameConnectedFriendChatMsg_t</a
 >
-callbacks when ever the user receives a chat message. You can get the actual message data from this
+callbacks whenever the user receives a chat message. You can get the actual message data from this
 callback with
 <a href="https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendMessage" class="bb_apilink"
     >ISteamFriends::GetFriendMessage</a
@@ -3332,13 +3332,13 @@ After calling
         <td>Type of item you are retrieving the property for</td>
     </tr>
     <tr>
-        <td><strong>itemType</strong></td>
+        <td><strong>prop</strong></td>
         <td>
             <a
-                href="https://partner.steamgames.com/doc/api/ISteamFriends#ECommunityProfileItemProperty%20"
+                href="https://partner.steamgames.com/doc/api/ISteamFriends#ECommunityProfileItemProperty"
                 class="bb_apilink"
-                >ECommunityProfileItemProperty
-            </a>
+                >ECommunityProfileItemProperty</a
+            >
         </td>
         <td>The string property you want to retrieve</td>
     </tr>
@@ -3361,7 +3361,7 @@ Returns a string property for a user's equipped profile item.<br />
 >
 <h2 class="bb_subsection"><a name="GetProfileItemPropertyUint"></a>GetProfileItemPropertyUint</h2>
 <div class="bb_code cpp">
-    bool GetProfileItemPropertyString( CSteamID steamID, ECommunityProfileItemType itemType,
+    bool GetProfileItemPropertyUint( CSteamID steamID, ECommunityProfileItemType itemType,
     ECommunityProfileItemProperty prop);
 </div>
 <table>
@@ -3391,13 +3391,13 @@ Returns a string property for a user's equipped profile item.<br />
         <td>Type of item you are retrieving the property for</td>
     </tr>
     <tr>
-        <td><strong>itemType</strong></td>
+        <td><strong>prop</strong></td>
         <td>
             <a
-                href="https://partner.steamgames.com/doc/api/ISteamFriends#ECommunityProfileItemProperty%20"
+                href="https://partner.steamgames.com/doc/api/ISteamFriends#ECommunityProfileItemProperty"
                 class="bb_apilink"
-                >ECommunityProfileItemProperty
-            </a>
+                >ECommunityProfileItemProperty</a
+            >
         </td>
         <td>The unsigned integer property you want to retrieve</td>
     </tr>
@@ -4023,7 +4023,7 @@ callback
 will be made.
 <h2 class="bb_subsection"><a name="GameServerChangeRequested_t"></a>GameServerChangeRequested_t</h2>
 Called when the user tries to join a different game server from their friends list. The game client
-should attempt to connect to specified server when this is received.<br />
+should attempt to connect to the specified server when this is received.<br />
 <br />
 <table>
     <tr>
@@ -4257,7 +4257,7 @@ Information about user sessions. (Steam Internal usage only.)<br />
 <h2 class="bb_subsection">
     <a name="EquippedProfileItemsChanged_t"></a>EquippedProfileItemsChanged_t
 </h2>
-Callback for when a user's equipped Steam Commuity profile items have changed. This can be for the
+Callback for when a user's equipped Steam Community profile items have changed. This can be for the
 current user or their friends.<br />
 <br />
 <table>
@@ -4613,7 +4613,7 @@ List of states a Steam friend can be in.<br />
     <tr id="k_EPersonaStateBusy">
         <td><strong>k_EPersonaStateBusy</strong></td>
         <td>2</td>
-        <td>User is on, but busy.</td>
+        <td>Friend is logged on, but set to "Do not disturb."</td>
     </tr>
     <tr id="k_EPersonaStateAway">
         <td><strong>k_EPersonaStateAway</strong></td>
@@ -4776,7 +4776,7 @@ and
     <tr id="k_ECommunityProfileItemProperty_Description">
         <td><strong>k_ECommunityProfileItemProperty_Description</strong></td>
         <td>4</td>
-        <td>Localized descript of the item</td>
+        <td>Localized description of the item</td>
     </tr>
     <tr id="k_ECommunityProfileItemProperty_AppID">
         <td><strong>k_ECommunityProfileItemProperty_AppID</strong></td>
