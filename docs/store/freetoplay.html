@@ -1,0 +1,259 @@
+<h1>Free To Play Games</h1>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+On Steam, you have the option to ship your game as Free to Play (otherwise known as F2P). Free to
+Play games are free for customers to download. Sometimes they also contain in-game purchases to
+monetize content. Free to Play games don’t require you to enter pricing because the game is a free
+license.<br />
+You can choose to make your game Free to Play during the app creation process. Simply select “This
+is a free product” under Options.
+<h2 class="bb_section"><a name="2"></a>Configuring as Free</h2>
+When you initially create your game in Steamworks, you can do so with the setting to make it free to
+play.<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Setup1.png"
+    alt="Setup1.png"
+    title="Setup1.png"
+/><br />
+<br />
+Once you have done this, you'll find your game listed with a price of 'free' in the "Store Package"
+area. Note that this package will never become visible, but is important for our system to recognize
+the game as free.<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Setup2.png"
+    alt="Setup2.png"
+    title="Setup2.png"
+/><br />
+<br />
+You can also change a game from paid to free. For more details, please see
+<a href="#switching" class="bb_doclink">Switching from paid to free</a>
+<h2 class="bb_section"><a name="3"></a>Selling Content for your Game</h2>
+<br />
+Whether your game is Free to Play or paid, you have two ways to sell content for your game: DLC or
+in-game purchases (microtransactions). Both offer ways for customers to easily purchase content, and
+both purchase paths must use Steam Wallet.
+<h2 class="bb_subsection"><a name="4"></a>Selling DLC For Your Game</h2>
+Selling your content via DLC in the Steam store means you will create distinct Steam store pages for
+each piece of content, allowing you to have a landing page on Steam to direct customers who may be
+interested in your DLC and it also gives you an opportunity to describe the content in-depth. DLC
+can have actual files that you distribute to customers, or it can also just be a license
+entitlement. Either way, your game should check ownership via the BisSubscribedApp API to make sure
+the customer actually has a license to the content. More info can be found in our
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamApps#BIsSubscribedApp"
+    target="_blank"
+    rel="noreferrer"
+    >documentation</a
+>.<br />
+<br />
+If you’re not interested in managing your own backend, you can offer in-game transactions via the
+Steam inventory service where we handle the management of your inventory and purchasing. Please see
+the documentation for more information.<br />
+The potential downside to offering all of your content as DLC is you will need to go through the
+release process (including creating a store page and going through the review and launch process)
+for each piece of content. Any change in price or other change will also go through the standard
+Steam review processes. <br />
+<br />
+<strong>DLC visibility options</strong><br />
+For some types of DLC content, it might make sense to have the DLC for sale on the Steam store, with
+its own store page, trailer, screenshots, and description. Other content may be better suited for
+sale only in-game. You’re welcome to make that choice yourself and do what’s best for your game.
+Please see below for more information.
+<h2 class="bb_subsection"><a name="5"></a>In-Game Purchases (Microtransactions)</h2>
+Microtransactions offer customers the option to purchase additional content while playing a game.
+With the Steam Microtransaction APIs, your Steam game can support all kinds of in-game purchases,
+including items, virtual currency, or any other content you’d like to offer.<br />
+<br />
+The upside of this approach is you retain control and flexibility over the process. You can change
+offerings at any time, change prices, change descriptions, etc, however you like. <br />
+The downside of this approach if you need to have a reliable and secure backend to manage your
+microtransactions, inventory and entitlements as well as to reconcile purchasing to prevent fraud.
+<br />
+<br />
+If you’re looking to launch your game with in-game purchases on Steam, there are some helpful
+guides, suggestions, and best-practices in the
+<a
+    href="https://partner.steamgames.com/doc/features/microtransactions"
+    target="_blank"
+    rel="noreferrer"
+    >Microtransactions documentation</a
+>.<br />
+<br />
+To learn about implementing Steam Microtransaction APIs, check out this
+<a
+    href="https://partner.steamgames.com/doc/features/microtransactions/implementation"
+    target="_blank"
+    rel="noreferrer"
+    >guide</a
+>.
+<h2 class="bb_subsection">
+    <a name="6"></a>Entering pricing for in-game purchases and running discounts
+</h2>
+For in-game purchases, you won’t enter pricing into Steamworks—all pricing is handled on your
+backend when it initializes the transaction. You can set whatever pricing you think is appropriate.
+<br />
+<br />
+Every transaction is completely distinct so you can set the pricing per transaction. <br />
+Discounting is also handled on your backend. With in-game transactions, there’s no concept of
+running a discount. Instead, you’ll simply adjust the pricing as needed. You should consider how you
+will present the new price to customers as a discount in-game.<br />
+Most developers handle pricing by setting up a database pricing sheet that has a list of all pieces
+of content and corresponding prices in each currency. When you initiate a microtransaction using the
+InitTxn API, you will use the GetUserInfo API to get the user’s preferred currency and then use that
+information to look up the price you have specified for that item and currency. You will pass that
+information using the InitTxn API.<br />
+<br />
+We recommend entering pricing in your database in every supported currency so that users will see a
+price displayed in a currency they are familiar with. Otherwise, customers may see a price displayed
+in a currency they aren’t familiar with and will cancel the purchase out of caution.<br />
+<br />
+The price you specify is tied to the currency you specify. Depending on the currency, there are
+specific increments you will need to observe.<br />
+<br />
+If you’d like to dive into the details on InitTxn, please see the
+<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn" target="_blank" rel="noreferrer"
+    >documentation</a
+>.
+<h2 class="bb_section"><a name="7"></a>Visibility for F2P Games</h2>
+For the most part, visibility works the same for Free to Play games as it does for paid games. The
+vast majority of featuring on Steam is algorithmic based on customer interest. The store looks for
+bursts of customer interest, typically measured in revenue, and reacts accordingly with additional
+featuring on the store. For Free to Play games, in-game revenue are factored into measuring customer
+interest in the same way that sales are for paid games. <br />
+<br />
+On the front page, Free to Play games are featured in the same way in the Featured and Recommended
+section (main capsule) as paid games. <br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/maincap.png"
+    alt="maincap.png"
+    title="maincap.png"
+/><br />
+<br />
+By default, the Top Sellers list includes Free to Play games (with an optional checkbox to exclude
+Free to Play games). The Top Sellers list includes in-game revenue, so Free to Play games can (and
+often are) be displayed among the top selling games on Steam.<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/topsellers.png"
+    alt="topsellers.png"
+    title="topsellers.png"
+/><br />
+<br />
+Popular New Releases uses player count, in addition to sales, in determining what games appear
+there. Popular upcoming uses wishlist number to determine which games make the list, whether that
+game is paid or Free to Play.
+<h2 class="bb_subsection"><a name="8"></a>Curated Promotion on Steam for Free to Play games</h2>
+In general, Free to Play games aren’t eligible for curated spotlights (Daily Deals, Midweek deals,
+Weekend deals) because over time, we’ve learned that customers expect to see paid games on discount
+in these spotlights rather than Free to Play games with discounts on in-game purchases. However,
+that doesn’t mean that Free to Play games are excluded from curated marketing!<br />
+<br />
+Free to Play games are eligible for all other forms of curated marketing depending on the scale and
+success of the game, including IMs, featuring on the Free to Play hub, and even a full Steam
+takeover (for the biggest, most popular Free to Play releases).<br />
+<br />
+The Free to Play hub is among the most popular pages on all of Steam, and is by far the most popular
+content hub on Steam. A lot of players visit the Free to Play hub searching for games to check out
+and play, and featuring in this hub (whether it’s algorithmic or curated) can help boost visibility
+on Steam in a big way. <br />
+<br />
+If you are wondering if your game might qualify for curated marketing, feel free to reach out to us
+via
+<a
+    href="https://help.steampowered.com/en/wizard/HelpWithPublishing?issueid=915"
+    target="_blank"
+    rel="noreferrer"
+    >support ticket</a
+>
+and ask.
+<h2 class="bb_section"><a name="9"></a>Marketing Your Free Game</h2>
+<br />
+Building buzz and community around your Free to Play game is no different than a paid game—you’ll
+still need to put in the work to market your game and foster a community of players. There are many
+ways to market your game, and how you go about it will depend on the time and resources you have
+available. We also have tools on Steam to help you communicate with customers.
+<h2 class="bb_subsection"><a name="10"></a>Reach Players Where They Are</h2>
+Try to reach the players that you think will be most interested in your game where they are—whether
+that’s on social media, through livestreaming or influencers, Reddit or community groups,
+conventions or other live events or tradeshows, or any other way you can think of. Some developers
+choose to also participate in paid marketing to increase awareness and drive traffic to their Steam
+store page, but it’s not required, and really depends on the budget and resources you have set aside
+for marketing your game.<br />
+<br />
+Generally, the most important thing for Free to Play games is driving as many new players to try out
+the game as possible, and hopefully holding onto those players over time by making the game as fun
+and rewarding as possible. As your community grows, and with it revenue, the amount of buzz and
+visibility on Steam will also grow.
+<h2 class="bb_subsection"><a name="11"></a>Keep Players Up to Date on Your Updates</h2>
+In addition to marketing your game in locations across the internet where players learn about games,
+you can take advantage of Steam’s built-in tools to raise awareness about what’s happening in your
+game.<br />
+<br />
+<ul class="bb_ul">
+    <li>
+        <strong>Steam Events and Announcements</strong><br />
+        You should also be using Steam Events to tell your community about whatever is happening in
+        your game, whether that’s in-game events, major updates or expansions, new DLC, new items,
+        or anything else you think players would be interested in. This is a great way to also
+        re-engage players, as Steam Events may appear in a user’s library. <br />
+        <br />
+        <img
+            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/libraryevent.png"
+            alt="libraryevent.png"
+            title="libraryevent.png"
+        /><br />
+        <br />
+        You can learn so much more about Steam Events on our
+        <a
+            href="https://partner.steamgames.com/doc/marketing/event_tools"
+            target="_blank"
+            rel="noreferrer"
+            >documentation page</a
+        >.
+    </li>
+</ul>
+<br />
+<ul class="bb_ul">
+    <li>
+        <strong>Update Visibility Rounds</strong><br />
+        We've dedicated space on the front page of the Steam store to highlighting products where
+        the developer has a major update they would like to tell customers about. These appear to
+        customers that have your game in their library or on their wishlist.<br />
+        <br />
+        If you have a major update for your game, consider using a Update Visibility Round to drive
+        awareness around the update. When you have a major update that you'd like to tell customers
+        about, simply click the 'Start Update Round' button on your applications' Marketing admin
+        page. You can learn all about Update Visibility Rounds in our
+        <a
+            href="https://partner.steamgames.com/doc/marketing/visibility/update_rounds"
+            target="_blank"
+            rel="noreferrer"
+            >documentation</a
+        >.<br />
+        <br />
+        <img
+            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/doc_store_home_recentlyUpdated_1.jpg"
+            alt="doc_store_home_recentlyUpdated_1.jpg"
+            title="doc_store_home_recentlyUpdated_1.jpg"
+        /><br />
+        <br />
+        When you re-engage players using events and announcements, it doesn’t just help with the
+        boost of players who may jump back into your game after seeing an event pop up in their
+        library—when those users launch your game, their friends will also a notification that they
+        are playing, and they’ll see them playing on their friends list. This can lead to a virtuous
+        cycle where more and more players are encouraged to try your game.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="switching"></a>Switching a game from Paid to Free</h2>
+If you would like to change your game from paid to free, please use the support form
+<a
+    href="https://help.steampowered.com/en/wizard/HelpWithPublishing?issueid=915"
+    target="_blank"
+    rel="noreferrer"
+    >here</a
+>
+to let us know. Again, we'd ask that you give your customers at least a month's notice before
+changing so that they can make an informed decision whether or not to buy a game that's intending to
+change its business model in the near future.
