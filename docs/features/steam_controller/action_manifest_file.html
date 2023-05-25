@@ -81,11 +81,54 @@ Supported controller type strings:<br />
 There are two main ways to setup your action manifest file, either starting from scratch or using an
 existing IGA file.
 <h2 class="bb_subsection"><a name="5"></a>Starting with an In-Game Actions file</h2>
-<h2 class="bb_subsection"><a name="6"></a>Step 1 - Save a configuration</h2>
-If you have an existing IGA file you can save your current configuration out by going to the
-controller configuration screen-&gt;Export-&gt;"Save New Personal Binding". If you've setup multiple
-localization tokens for titles/descriptions you'll be given a dropdown of options to pick from.
-<h2 class="bb_subsection"><a name="7"></a>Step 2 - Find your configuration</h2>
+<h2 class="bb_subsection"><a name="6"></a>Step 1 - Setting up Dev-mode for Steam Input</h2>
+Before editing the Action Manifest File, we need to enable Steam Input dev-mode so that we can
+export configurations as a developer and receive error messages if we make mistakes when editing the
+actions manifest.<br />
+<br />
+1) Go to Steam Big PIcture Mode -&gt;Settings-&gt;System and turn on Dev mode for Steam<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/export_prestep_1.png"
+    alt="export_prestep_1.png"
+    title="export_prestep_1.png"
+/><br />
+<br />
+2) Go to the developer section and turn on "Steam Input Layout Dev Mode"<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/export_prestep_2.png"
+    alt="export_prestep_2.png"
+    title="export_prestep_2.png"
+/>
+<h2 class="bb_subsection"><a name="7"></a>Step 2 - Save a configuration</h2>
+If you have an existing IGA file you can save your current configuration out in the controller
+configuration screen.<br />
+<br />
+1) Select the Gear Icon<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/export_step_1.png"
+    alt="export_step_1.png"
+    title="export_step_1.png"
+/><br />
+<br />
+2) Select "Export layout"<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/export_step_2.png"
+    alt="export_step_2.png"
+    title="export_step_2.png"
+/><br />
+<br />
+3) Select a Title and Description for you game and export the configuration.
+<div class="bb_callout">
+    <div>
+        Reminder: you will want to double check that you've setup localization tokens in the action
+        manifest for each language supported by your game
+    </div>
+</div>
+<h2 class="bb_subsection"><a name="8"></a>Step 2 - Find your configuration</h2>
 Next you will run the following Steam URL to dump the configuration into your OS-specific documents
 folder, ex: My Documents on Windows. URL:<br />
 <br />
@@ -96,7 +139,7 @@ Linux Commandline<br />
 <br />
 Copy both the configuration and your existing IGA file into the desired location inside the game
 folder.
-<h2 class="bb_subsection"><a name="8"></a>Step 3 - Convert the IGA file to Action Manifest file</h2>
+<h2 class="bb_subsection"><a name="9"></a>Step 3 - Convert the IGA file to Action Manifest file</h2>
 To convert your IGA file to an Action Manifest edit the file and add a "configuration" section
 including a listing for the controller configuration you just exported. This is an example from the
 Steamworks SDK:<br />
@@ -104,7 +147,7 @@ Steamworks SDK:<br />
     "configurations" { "controller_xboxone" { "0" { "path" "xbox_controller.vdf" } }
     "controller_steamcontroller_gordon" { "0" { "path" "steam_controller.vdf" } } }
 </div>
-<h2 class="bb_subsection"><a name="9"></a>Step 4 - Set the Steamworks settings</h2>
+<h2 class="bb_subsection"><a name="10"></a>Step 5 - Set the Steamworks settings</h2>
 To set your Steamworks settings in the partner site, navigate to the Steam Input settings. Next set
 the dropdown to "Custom Configuration (Bundled with game)" and enter the path where the action
 manifest is located:<br />
@@ -114,7 +157,7 @@ manifest is located:<br />
     alt="gamebundledconfigdropdown.PNG"
     title="gamebundledconfigdropdown.PNG"
 />
-<h2 class="bb_section"><a name="10"></a>Debugging a game that uses an Action Manifest File</h2>
+<h2 class="bb_section"><a name="11"></a>Debugging a game that uses an Action Manifest File</h2>
 When running the game through Steam the Action Manifest file will automatically be pulled from your
 game depots. If you're running via the IDE and have the game installed Steam will also use the
 Action Manifest file from your Steam depots. However if you're running without the game installed in
