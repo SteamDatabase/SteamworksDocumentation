@@ -134,7 +134,7 @@ Change history:<br />
     <a name="GetPartnerAppListForWebAPIKey"></a>GetPartnerAppListForWebAPIKey
 </h2>
 <div class="bb_code http">
-    GET https://partner.steam-api.com/ISteamApps/GetPartnerAppListForWebAPIKey/v1/
+    GET https://partner.steam-api.com/ISteamApps/GetPartnerAppListForWebAPIKey/v2/
 </div>
 <table>
     <tr>
@@ -161,13 +161,16 @@ Get a list of appIDs associated with a WebAPI key. Type_filter can used to speci
 to be returned. Possible values are "game,application,tool,demo,dlc,music". When type_filter is
 blank or not used, all apps are returned.<br />
 <br />
+Version 2 will output the app name.<br />
+<br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Example Response:</strong><br />
 <div class="bb_code xml">
-    {"applist":{"apps":{"app":[{ "appid": 500, "app_type": "game" }, { "appid": 222840, "app_type":
-    "tool" }, { "appid": 222860, "app_type": "tool" } ]}}}
+    {"applist":{"apps":{"app":[{ "appid": 500, "app_type": "game" "app_name": "Left 4 Dead" }, {
+    "appid": 222840, "app_type": "tool" "app_name": "Left 4 Dead Dedicated Server" }, { "appid":
+    222860, "app_type": "tool" "app_name": "Left 4 Dead 2 Dedicated Server" } ]}}}
 </div>
 <h2 class="bb_section"><a name="GetPlayersBanned"></a>GetPlayersBanned</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamApps/GetPlayersBanned/v1/</div>
