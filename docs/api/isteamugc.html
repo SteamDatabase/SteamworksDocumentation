@@ -2095,6 +2095,95 @@ Otherwise, <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds, or
 <code class="bb_code bb_code_inline nohighlight">keyValueTagIndex</code> is out of bounds.
+<h2 class="bb_subsection">
+    <a name="GetQueryUGCContentDescriptors"></a>GetQueryUGCContentDescriptors
+</h2>
+<div class="bb_code cpp">
+    uint32 GetQueryUGCContentDescriptors( UGCQueryHandle_t handle, uint32 index,
+    EUGCContentDescriptorID *pvecDescriptors, uint32 cMaxEntries );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t"
+                class="bb_apilink"
+                >UGCQueryHandle_t</a
+            >
+        </td>
+        <td>The UGC query handle to get the results from.</td>
+    </tr>
+    <tr>
+        <td><strong>index</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The index of the item to get the details of.</td>
+    </tr>
+    <tr>
+        <td><strong>pvecDescriptors</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#EUGCContentDescriptorID"
+                class="bb_apilink"
+                >EUGCContentDescriptorID</a
+            >
+        </td>
+        <td>An array of EUGCContentDescriptorID to fill in.</td>
+    </tr>
+    <tr>
+        <td><strong>cMaxEntries</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>Size of the pvecDescriptors array</td>
+    </tr>
+</table>
+<br />
+Retrieve an array of
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#EUGCContentDescriptorID"
+    class="bb_apilink"
+    >EUGCContentDescriptorID</a
+>
+set on the item. <br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+    class="bb_apilink"
+    >SteamUGCQueryCompleted_t</a
+>
+call result.<br />
+<br />
+<strong>Returns:</strong> uint32<br />
+Returns the number of
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#EUGCContentDescriptorID"
+    class="bb_apilink"
+    >EUGCContentDescriptorID</a
+>
+set on the item.<br />
+<br />
+<strong>See Also:</strong>
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddContentDescriptor" class="bb_apilink"
+    >ISteamUGC::AddContentDescriptor</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveContentDescriptor"
+    class="bb_apilink"
+    >ISteamUGC::RemoveContentDescriptor</a
+>
 <h2 class="bb_subsection"><a name="GetQueryUGCMetadata"></a>GetQueryUGCMetadata</h2>
 <div class="bb_code cpp">
     bool GetQueryUGCMetadata( UGCQueryHandle_t handle, uint32 index, char *pchMetadata, uint32
@@ -2853,9 +2942,115 @@ remove more than 100 key-value tags in a single update.<br />
     </tr>
 </table>
 <br />
-<br />
-<br />
 <strong>Returns:</strong> bool
+<h2 class="bb_subsection"><a name="AddContentDescriptor"></a>AddContentDescriptor</h2>
+<div class="bb_code cpp">
+    bool AddContentDescriptor( UGCUpdateHandle_t handle, EUGCContentDescriptorID descid );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCUpdateHandle_t"
+                class="bb_apilink"
+                >UGCUpdateHandle_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>descid</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#EUGCContentDescriptorID"
+                class="bb_apilink"
+                >EUGCContentDescriptorID</a
+            >
+        </td>
+        <td></td>
+    </tr>
+</table>
+<br />
+Sets the given
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#EUGCContentDescriptorID"
+    class="bb_apilink"
+    >EUGCContentDescriptorID</a
+>
+on the item.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<br />
+<strong>See Also:</strong>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCContentDescriptors"
+    class="bb_apilink"
+    >ISteamUGC::GetQueryUGCContentDescriptors</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveContentDescriptor"
+    class="bb_apilink"
+    >ISteamUGC::RemoveContentDescriptor</a
+>
+<h2 class="bb_subsection"><a name="RemoveContentDescriptor"></a>RemoveContentDescriptor</h2>
+<div class="bb_code cpp">
+    bool RemoveContentDescriptor( UGCUpdateHandle_t handle, EUGCContentDescriptorID descid );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCUpdateHandle_t"
+                class="bb_apilink"
+                >UGCUpdateHandle_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>descid</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#EUGCContentDescriptorID"
+                class="bb_apilink"
+                >EUGCContentDescriptorID</a
+            >
+        </td>
+        <td></td>
+    </tr>
+</table>
+<br />
+Removes the given
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#EUGCContentDescriptorID"
+    class="bb_apilink"
+    >EUGCContentDescriptorID</a
+>
+from the item.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<br />
+<strong>See Also:</strong>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCContentDescriptors"
+    class="bb_apilink"
+    >ISteamUGC::GetQueryUGCContentDescriptors</a
+>,
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddContentDescriptor" class="bb_apilink"
+    >ISteamUGC::AddContentDescriptor</a
+>
 <h2 class="bb_subsection"><a name="RequestUGCDetails"></a>RequestUGCDetails</h2>
 <div class="bb_code cpp">
     SteamAPICall_t RequestUGCDetails( PublishedFileId_t nPublishedFileID, uint32 unMaxAgeSeconds );
@@ -6759,6 +6954,79 @@ to specify the sort order for user published UGC lists. Defaults to creation ord
         <td>
             Returns the items that have been reported for moderation. (Corresponds to
             "sortmethod=formoderation" on the workshop page)
+        </td>
+    </tr>
+</table>
+<h2 class="bb_subsection"><a name="EUGCContentDescriptorID"></a>EUGCContentDescriptorID</h2>
+Users can control what user-generated content they want to see under the
+<strong>Mature Content Filtering</strong> section in their preferences. This filtering is done
+automatically by Steam servers, but first, user-generated content must be tagged appropriately.
+Developers can use
+<a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddContentDescriptor" class="bb_apilink"
+    >ISteamUGC::AddContentDescriptor</a
+>
+and
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#RemoveContentDescriptor"
+    class="bb_apilink"
+    >ISteamUGC::RemoveContentDescriptor</a
+>
+calls to manage content descriptors a piece of UGC has. These can be retrieved from the result of a
+query via
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetQueryUGCContentDescriptors"
+    class="bb_apilink"
+    >ISteamUGC::GetQueryUGCContentDescriptors</a
+>. <br />
+<br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr id="k_EUGCContentDescriptor_NudityOrSexualContent">
+        <td><strong>k_EUGCContentDescriptor_NudityOrSexualContent</strong></td>
+        <td>1</td>
+        <td>
+            Some Nudity or Sexual Content:<br />
+            Contains content that has some nudity or sexual themes, but not as the primary focus.
+        </td>
+    </tr>
+    <tr id="k_EUGCContentDescriptor_FrequentViolenceOrGore">
+        <td><strong>k_EUGCContentDescriptor_FrequentViolenceOrGore</strong></td>
+        <td>2</td>
+        <td>
+            Frequent Violence or Gore:<br />
+            Contains content that features extreme violence or gore.
+        </td>
+    </tr>
+    <tr id="k_EUGCContentDescriptor_AdultOnlySexualContent">
+        <td><strong>k_EUGCContentDescriptor_AdultOnlySexualContent</strong></td>
+        <td>3</td>
+        <td>
+            Adult Only Sexual Content: <br />
+            Contains content that is sexually explicit or graphic and is intended for adults only.
+            Users must affirm that they are at least eighteen years old before they can view content
+            with this content descriptor.
+        </td>
+    </tr>
+    <tr id="k_EUGCContentDescriptor_GratuitousSexualContent">
+        <td><strong>k_EUGCContentDescriptor_GratuitousSexualContent</strong></td>
+        <td>4</td>
+        <td>
+            Frequent Nudity or Sexual Content:<br />
+            Contains content that primarily features nudity or sexual themes. Users must affirm that
+            they are at least eighteen years old before they can view content with this content
+            descriptor.
+        </td>
+    </tr>
+    <tr id="k_EUGCContentDescriptor_AnyMatureContent">
+        <td><strong>k_EUGCContentDescriptor_AnyMatureContent</strong></td>
+        <td>5</td>
+        <td>
+            General Mature Content:<br />
+            Contains mature topics that may not be appropriate for all audiences.
         </td>
     </tr>
 </table>
