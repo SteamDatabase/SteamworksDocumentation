@@ -104,6 +104,20 @@ Returns:<br />
 <ul class="bb_ul">
     <li>k_EREsultOK on success.<br /></li>
     <li>
+        k_EResultNoConnection, if the session has failed or was closed by the peer and
+        k_nSteamNetworkingSend_AutoRestartBrokenSession was not specified. (You can<br />
+        use
+        <a href="https://partner.steamgames.com/doc/api/GetSessionConnectionInfo" class="bb_apilink"
+            >GetSessionConnectionInfo</a
+        >
+        to get the details.) In order to acknowledge the broken session and start a new one, you
+        must call
+        <a href="https://partner.steamgames.com/doc/api/CloseSessionWithUser" class="bb_apilink"
+            >CloseSessionWithUser</a
+        >, or you may repeat the call with k_nSteamNetworkingSend_AutoRestartBrokenSession. See
+        k_nSteamNetworkingSend_AutoRestartBrokenSession for more details.<br />
+    </li>
+    <li>
         k_EResultNoConnection will be returned if the session has failed or was closed by the peer,
         and k_nSteamNetworkingSend_AutoRestartBrokenSession is not used. (You can use
         <a
@@ -214,7 +228,7 @@ callback
 <div class="bb_code cpp">
     ESteamNetworkingConnectionState GetSessionConnectionInfo( const SteamNetworkingIdentity
     &amp;identityRemote, SteamNetConnectionInfo_t *pConnectionInfo,
-    SteamNetworkingQuickConnectionStatus *pQuickStatus );
+    SteamNetConnectionRealTimeStatus_t *pQuickStatus );
 </div>
 <br />
 Returns information about the latest state of a connection, if any, with the given peer. Primarily

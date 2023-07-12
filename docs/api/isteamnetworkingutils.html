@@ -239,49 +239,33 @@ Set a configuration value.<br />
         object to use global defaults. Or at global scope, passing NULL will reset any custom value
         and restore it to the system default.<br />
         <br />
-        NOTE: When setting callback functions, do not pass the function pointer directly. Your
-        argument should be a pointer to a function pointer.
+        NOTE: When setting pointers (e.g. callback functions), do not pass the function pointer
+        directly. Your argument should be a pointer to a function pointer.
     </li>
 </ul>
-<h2 class="bb_subsection"><a name="GetConfigValue"></a>GetConfigValue</h2>
+<h2 class="bb_subsection"><a name="char"></a>char</h2>
 <div class="bb_code cpp">
-    ESteamNetworkingGetConfigValueResult GetConfigValue( ESteamNetworkingConfigValue eValue,
-    ESteamNetworkingConfigScope eScopeType, intptr_t scopeObj, ESteamNetworkingConfigDataType
-    *pOutDataType, void *pResult, size_t *cbResult );
+    const char *GetConfigValueInfo( ESteamNetworkingConfigValue eValue,
+    ESteamNetworkingConfigDataType *pOutDataType, ESteamNetworkingConfigScope *pOutScope );
 </div>
 <br />
-Get a configuration value.<br />
-<ul class="bb_ul">
-    <li>eValue: which value to fetch<br /></li>
-    <li>eScopeType: query setting on what type of object<br /></li>
-    <li>eScopeArg: the object to query the setting for<br /></li>
-    <li>pOutDataType: If non-NULL, the data type of the value is returned.<br /></li>
-    <li>
-        pResult: Where to put the result. Pass NULL to query the required buffer size.
-        (k_ESteamNetworkingGetConfigValue_BufferTooSmall will be returned.)<br />
-    </li>
-    <li>cbResult: IN: the size of your buffer. OUT: the number of bytes filled in or required.</li>
-</ul>
-<h2 class="bb_subsection"><a name="GetConfigValueInfo"></a>GetConfigValueInfo</h2>
+Get info about a configuration value. Returns the name of the value, or NULL if the value doesn't
+exist. Other output parameters can be NULL if you do not need them.
+<h2 class="bb_subsection">
+    <a name="IterateGenericEditableConfigValues"></a>IterateGenericEditableConfigValues
+</h2>
 <div class="bb_code cpp">
-    bool GetConfigValueInfo( ESteamNetworkingConfigValue eValue, const char **pOutName,
-    ESteamNetworkingConfigDataType *pOutDataType, ESteamNetworkingConfigScope *pOutScope,
-    ESteamNetworkingConfigValue *pOutNextValue );
+    ESteamNetworkingConfigValue IterateGenericEditableConfigValues( ESteamNetworkingConfigValue
+    eCurrent, bool bEnumerateDevVars );
 </div>
-Returns info about a configuration value.<br />
 <br />
-Any of the output parameters can be NULL if you do not need that information.<br />
+Iterate the list of all configuration values in the current environment that it might be possible to
+display or edit using a generic UI. To get the first iterable value, pass
+k_ESteamNetworkingConfig_Invalid. Returns k_ESteamNetworkingConfig_Invalid to signal end of list.<br />
 <br />
-pOutNextValue can be used to iterate through all of the known configuration values. (Use
-GetFirstConfigValue() to begin the iteration, will be k_ESteamNetworkingConfig_Invalid on the last
-value)<br />
-<br />
-Returns false if the value does not exist.
-<h2 class="bb_subsection"><a name="GetFirstConfigValue"></a>GetFirstConfigValue</h2>
-<div class="bb_code cpp">ESteamNetworkingConfigValue GetFirstConfigValue();</div>
-Return the lowest numbered configuration value available in the current environment.<br />
-<br />
-Use this to begin iteration through all of the configuration values.
+The bEnumerateDevVars argument can be used to include "dev" vars. These are vars that are
+recommended to only be editable in "debug" or "dev" mode and typically should not be shown in a
+retail environment where a malicious local user might use this to cheat.
 <h2 class="bb_subsection"><a name="shortcuts"></a>Shortcuts for common cases</h2>
 The following functions are handy shortcuts for common use cases.<br />
 <div class="bb_code cpp">
@@ -352,6 +336,44 @@ k_ESteamNetworkingSocketsDebugOutputType_Msg or k_ESteamNetworkingSocketsDebugOu
 For best performance, do NOT request a high detail level and then filter out messages in your
 callback. Instead, call this function to adjust the desired level of detail.<br />
 <br />
+The value here controls the detail level for most messages. You can control the detail level for
+various subsystems (perhaps only for certain connections) by adjusting the configuration values
+k_ESteamNetworkingConfig_LogLevel_Xxxxx.<br />
+<br />
 <strong>IMPORTANT</strong>: This may be called from a service thread, while we own a mutex, etc.
-<i>Your callback function must be threadsafe and fast!</i> Do not make any other<br />
-Steamworks calls from within the handler.<br />
+<i>Your callback function must be threadsafe and fast!</i> Do not make any other Steamworks calls
+from within the handler.
+<h2 class="bb_section"><a name="1"></a>Fake IP</h2>
+<br />
+The "FakeIP" system is useful for interfacing with code that assumes peers are identified using an
+IPv4 address. See
+<a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
+    >ISteamNetworkingSockets</a
+>
+for more information.
+<h2 class="bb_subsection"><a name="IsFakeIPv4"></a>IsFakeIPv4</h2>
+<div class="bb_code cpp">bool IsFakeIPv4( uint32 nIPv4 );</div>
+<br />
+Return true if an IPv4 address is one that might be used as a "fake" one. This function is fast; it
+just does some logical tests on the IP and does not need to do any lookup operations.
+<h2 class="bb_subsection"><a name="GetRealIdentityForFakeIP"></a>GetRealIdentityForFakeIP</h2>
+<div class="bb_code cpp">
+    EResult GetRealIdentityForFakeIP( const SteamNetworkingIPAddr &amp;fakeIP,
+    SteamNetworkingIdentity *pOutRealIdentity );
+</div>
+<br />
+Get the real identity associated with a given FakeIP.<br />
+<br />
+On failure, returns:<br />
+<ul class="bb_ul">
+    <li>k_EResultInvalidParam: the IP is not a FakeIP.<br /></li>
+    <li>
+        k_EResultNoMatch: we don't recognize that FakeIP and don't know the corresponding identity.
+    </li>
+</ul>
+<br />
+FakeIP's used by active connections, or the FakeIPs assigned to local identities, will always work.
+FakeIPs for recently destroyed connections will continue to return results for a little while, but
+not forever. At some point, we will forget FakeIPs to save space. It's reasonably safe to assume
+that you can read back the real identity of a connection very soon after it is destroyed. But do not
+wait indefinitely.<br />
