@@ -21,7 +21,9 @@ downloads the wrapped executable.<br />
 <br />
 To perform a DRM wrap with SteamPipe, have your script login and then run the drm_wrap Steam
 command:<br />
-<div class="bb_code">drm_wrap [appid] [input filename] [output filename] [toolname] [flags]</div>
+<div class="bb_code">
+    drm_wrap [appid] [input filename] [output filename] [toolname] [flags] [&lt;destination&gt;]
+</div>
 <br />
 Parameters:<br />
 <ul class="bb_ul">
@@ -35,24 +37,31 @@ Parameters:<br />
         output wrapped executable.<br />
     </li>
     <li>
-        <strong>toolname</strong> - "drmtoolp" for the new portable tool. "drmtool" for old legacy
-        win32 tool.<br />
+        <strong>toolname</strong> - "drmtoolp" is currently the only supported toolname
+        parameter.<br />
     </li>
     <li>
         <strong>flags</strong> - Bitmask of the following numeric flags specifying tool behavior.<br />
+        <ul class="bb_ul bb_1">
+            <li><strong>0</strong> - Normal wrap (most protection)<br /></li>
+            <li><strong>6</strong> - Compatibility mode (disables obfuscation)<br /></li>
+            <li><strong>32</strong> - Skip debugger check<br /></li>
+            <li>
+                <strong>38</strong> - compatibility mode and also skip debugger check (least
+                protection)
+            </li>
+        </ul>
     </li>
-    <li><strong>0</strong> - Normal wrap (most protection)<br /></li>
-    <li><strong>6</strong> - Compatibility mode (disables obfuscation)<br /></li>
-    <li><strong>32</strong> - Skip debugger check<br /></li>
     <li>
-        <strong>38</strong> - compatibility mode and also skip debugger check (least protection)
+        <strong>destination, optional parameter</strong> - "cloud" or "local". The current default
+        is "local". We will be migrating this command to use cloud storage by default in the future.
     </li>
 </ul>
 <br />
 Example run_build.bat script to login, apply DRM, build and upload the build to Steam (where App ID
 is 480):<br />
 <div class="bb_code">
-    builder\steamcmd.exe +login mysteamaccount mysteampassword +drm_wrap 480
+    builder\steamcmd.exe +login mysteamaccount +drm_wrap 480
     "D:\src\steamworkssdk\steamworksexample\release\steamworksexample.exe"
     "D:\src\steamworkssdk\tools\ContentBuilder\content\windows_content\SteamworksExample.exe"
     drmtoolp 0 +run_app_build ..\scripts\app_build_480.vdf +quit
@@ -110,4 +119,4 @@ wrapper. Try automating it using the Automated Steam Wrapper process documented 
 ><br />
 <strong>A.</strong> False positives like this can happen, as the DRM injection process is modifying
 your binary in the same way a virus might do. Feel free to contact the vendor, or use the API
-instead of the Steam DRM wrapper
+instead of the Steam DRM wrapper.<br />
