@@ -567,7 +567,7 @@ history:<br />
 </div>
 <h2 class="bb_section"><a name="GetUserAgreementInfo"></a>GetUserAgreementInfo</h2>
 <div class="bb_code http">
-    GET https://partner.steam-api.com/ISteamMicroTxn/GetUserAgreementInfo/v1/
+    GET https://partner.steam-api.com/ISteamMicroTxn/GetUserAgreementInfo/v2/
 </div>
 <table>
     <tr>
@@ -600,6 +600,9 @@ Get detailed information of all recurring billing agreements (subscriptions) for
 <br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
+<br />
+<strong>Version 2</strong> - The status value can be "processing" in the case where Steam has not
+yet charged the user for the agreement. Previously the status value would be "active"<br />
 <br />
 <strong>Response:</strong><br />
 <ul class="bb_ul">
@@ -636,7 +639,7 @@ Get detailed information of all recurring billing agreements (subscriptions) for
                                         <code class="bb_code bb_code_inline nohighlight"
                                             >status</code
                                         >
-                                        - Active or canceled.<br />
+                                        - Active, canceled, or processing.<br />
                                     </li>
                                     <li>
                                         <code class="bb_code bb_code_inline nohighlight"
