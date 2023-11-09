@@ -245,7 +245,7 @@ Version 2 will output the app name.<br />
     </tr>
 </table>
 <h2 class="bb_section"><a name="SetAppBuildLive"></a>SetAppBuildLive</h2>
-<div class="bb_code http">POST https://partner.steam-api.com/ISteamApps/SetAppBuildLive/v1/</div>
+<div class="bb_code http">POST https://partner.steam-api.com/ISteamApps/SetAppBuildLive/v2/</div>
 <table>
     <tr>
         <th>Name</th>
@@ -275,7 +275,16 @@ Version 2 will output the app name.<br />
         <td><strong>betakey</strong></td>
         <td>string</td>
         <td>✔</td>
-        <td>beta key, required. Use public for default branch</td>
+        <td>beta key, required. Use public for default branch.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint32</td>
+        <td>*</td>
+        <td>
+            SteamID of the account that will confirm the build change. This parameter is required if
+            betakey is set to public and the app is released
+        </td>
     </tr>
     <tr>
         <td><strong>description</strong></td>
@@ -285,7 +294,10 @@ Version 2 will output the app name.<br />
     </tr>
 </table>
 <br />
-<br />
+The steamID is required when an app is released and the betakey is set to public. The steamID must
+have appropriate permissions to make a build change, specifically the Edit App and Publish
+permissions. This account will receive a Steam Mobile app confirmation. When confirmation of a build
+change is required, SetAppBuildLive will return back a HTTP response code 201 Created.<br />
 <br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
