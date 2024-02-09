@@ -313,7 +313,40 @@ This is for games that have an integrated store and the user experience will sta
         <br />
         A successful response means that the purchase has been accepted and the items should be
         granted. An error response indicates that the purchase did not complete properly and an
-        appropriate error message is given.
+        appropriate error message is given.<br />
+    </li>
+    <li>
+        <strong>Step 6</strong><br />
+        Your purchasing server will need to regularly call the
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport"
+            class="bb_apilink"
+            >ISteamMicroTxn/GetReport</a
+        >
+        API to receive notifaction about changes in the settlement status of transactions. You
+        should be calling this API at least once daily to reconcile settlement updates, but it isn't
+        unreasonable to call this API as often as every minute to ensure that your servers stay
+        current with transaction updates.<br />
+        <br />
+        At your discretion, you are able to refund customer transactions using the
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#RefundTxn"
+            class="bb_apilink"
+            >ISteamMicroTxn/RefundTxn</a
+        >
+        API. However, there are other ways that transactions can be reversed that likely require
+        your attention. When a transaction enters a reversed state (e.g., Refunded, PartialRefund,
+        Chargedback, RefundedSuspsectedFraud, or RefundedFriendlyFraud - see:
+        <a
+            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#status_values"
+            class="bb_doclink"
+            >Appendix A: Status Values</a
+        >) then your backend should attempt to claw-back items associated with the reversed
+        transaction if at all possible. Please review our documentaion on
+        <a href="https://partner.steamgames.com/doc/features/microtransactions#3" class="bb_doclink"
+            >Anticpating Fraud</a
+        >
+        and ensure that you've taken steps to prevent the most common types of fraud.
     </li>
 </ul>
 <h2 class="bb_subsection"><a name="7"></a>Web-based Purchasing</h2>
@@ -433,7 +466,40 @@ store checkout, you can use the following steps for integration:<br />
         <strong>Note:</strong> If the user closes their browser or something happens that otherwise
         prevents their return to your site, abandon the transaction and do not issue a FinalizeTxn
         call. Even if the user approved the transaction and somehow did not get redirected back,
-        abandon it and start again.
+        abandon it and start again.<br />
+    </li>
+    <li>
+        <strong>Step 6</strong><br />
+        Your purchasing server will need to regularly call the
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport"
+            class="bb_apilink"
+            >ISteamMicroTxn/GetReport</a
+        >
+        API to receive notifaction about changes in the settlement status of transactions. You
+        should be calling this API at least once daily to reconcile settlement updates, but it isn't
+        unreasonable to call this API as often as every minute to ensure that your servers stay
+        current with transaction updates.<br />
+        <br />
+        At your discretion, you are able to refund customer transactions using the
+        <a
+            href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#RefundTxn"
+            class="bb_apilink"
+            >ISteamMicroTxn/RefundTxn</a
+        >
+        API. However, there are other ways that transactions can be reversed that likely require
+        your attention. When a transaction enters a reversed state (e.g., Refunded, PartialRefund,
+        Chargedback, RefundedSuspsectedFraud, or RefundedFriendlyFraud - see:
+        <a
+            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#status_values"
+            class="bb_doclink"
+            >Appendix A: Status Values</a
+        >) then your backend should attempt to claw-back items associated with the reversed
+        transaction if at all possible. Please review our documentaion on
+        <a href="https://partner.steamgames.com/doc/features/microtransactions#3" class="bb_doclink"
+            >Anticpating Fraud</a
+        >
+        and ensure that you've taken steps to prevent the most common types of fraud.
     </li>
 </ul>
 <h2 class="bb_section"><a name="status_values"></a>Appendix A: Status Values</h2>
