@@ -559,27 +559,24 @@ history:<br />
 </ul>
 <br />
 <strong>Example Response:</strong><br />
-<div class="bb_code xml">
-    &lt;response&gt; &lt;result&gt;OK&lt;/result&gt; &lt;params&gt; &lt;count&gt;2&lt;/count&gt;
-    &lt;orders&gt; &lt;order&gt; &lt;orderid&gt;938473&lt;/orderid&gt;
-    &lt;transid&gt;374839&lt;/transid&gt; &lt;steamid&gt;48392048&lt;/steamid&gt;
-    &lt;status&gt;PartialRefund&lt;/status&gt; &lt;currency&gt;GBP&lt;/currency&gt;
-    &lt;time&gt;2010-01-01T00:23:45Z&lt;/time&gt; &lt;items&gt; &lt;item&gt;
-    &lt;itemid&gt;12345&lt;/itemid&gt; &lt;qty&gt;1&lt;/qty&gt; &lt;amount&gt;199&lt;/amount&gt;
-    &lt;vat&gt;38&lt;/vat&gt; &lt;itemstatus&gt;Refunded&lt;/itemstatus&gt; &lt;/item&gt;
-    &lt;item&gt; &lt;itemid&gt;12345&lt;/itemid&gt; &lt;qty&gt;1&lt;/qty&gt;
-    &lt;amount&gt;199&lt;/amount&gt; &lt;vat&gt;38&lt;/vat&gt;
-    &lt;itemstatus&gt;Succeeded&lt;/itemstatus&gt; &lt;/item&gt; &lt;/items&gt; &lt;/order&gt;
-    &lt;order&gt; &lt;orderid&gt;938474&lt;/orderid&gt; &lt;transid&gt;374840&lt;/transid&gt;
-    &lt;steamid&gt;48392063&lt;/steamid&gt; &lt;status&gt;Succeeded&lt;/status&gt;
-    &lt;currency&gt;USD&lt;/currency&gt; &lt;time&gt;2010-01-01T00:23:52Z&lt;/time&gt; &lt;items&gt;
-    &lt;item&gt; &lt;itemid&gt;12345&lt;/itemid&gt; &lt;qty&gt;1&lt;/qty&gt;
-    &lt;amount&gt;199&lt;/amount&gt; &lt;vat&gt;0&lt;/vat&gt;
-    &lt;itemstatus&gt;Succeeded&lt;/itemstatus&gt; &lt;storepurchasereference&gt;
-    &lt;packageid&gt;131842&lt;/packageid&gt; &lt;bundleid&gt;0&lt;/bundleid&gt;
-    &lt;referenceid&gt;32492903480230384&lt;/referenceid&gt; &lt;amount&gt;4990&lt;/amount&gt;
-    &lt;vat&gt;0&lt;/vat&gt; &lt;currency&gt;USD&lt;/currency&gt; &lt;/storepurchasereference&gt;
-    &lt;/item&gt; &lt;/items&gt; &lt;/order&gt; &lt;/orders&gt; &lt;/params&gt; &lt;/response&gt;
+<div class="bb_code json">
+    { "response": { "result": "OK", "params": { "count": 4, "orders": [ { "orderid": "1233",
+    "transid": "1234567890123456788", "steamid": "76561197972751825", "status": "PartialRefund",
+    "currency": "USD", "time": "2024-01-23T18:30:00Z", "country": "US", "usstate": "WA",
+    "timecreated": "2024-01-23T18:15:00Z", "items": [ { "itemid": 100, "qty": 1, "amount": 99,
+    "vat": 9, "itemstatus": "Refunded" }, { "itemid": 101, "qty": 1, "amount": 1299, "vat": 116,
+    "itemstatus": "Succeeded" } ] }, { "orderid": "1234", "transid": "1234567890123456789",
+    "steamid": "76561197972751825", "status": "Failed", "currency": "USD", "time":
+    "2024-01-23T18:40:30Z", "country": "US", "usstate": "WA", "timecreated": "2024-01-23T18:39:00Z",
+    "items": [ { "itemid": 100, "qty": 1, "amount": 99, "vat": 9, "itemstatus": "Failed" } ] }, {
+    "orderid": "1235", "transid": "1234567890123456790", "steamid": "76561197972751825", "status":
+    "Succeeded", "currency": "USD", "time": "2024-01-23T18:40:40Z", "country": "US", "usstate":
+    "WA", "timecreated": "2024-01-23T18:39:30Z", "items": [ { "itemid": 101, "qty": 1, "amount":
+    1299, "vat": 116, "itemstatus": "Succeeded" } ] }, { "orderid": "1236", "transid":
+    "1234567890123456791", "steamid": "76561197972751825", "status": "Chargedback", "currency":
+    "USD", "time": "2024-01-23T19:55:00Z", "country": "US", "usstate": "WA", "timecreated":
+    "2024-01-23T18:40:00Z", "items": [ { "itemid": 102, "qty": 1, "amount": 999, "vat": 89,
+    "itemstatus": "Chargedback" } ] } ] } } }
 </div>
 <h2 class="bb_section"><a name="GetUserAgreementInfo"></a>GetUserAgreementInfo</h2>
 <div class="bb_code http">
