@@ -1,13 +1,188 @@
 <h1>Steam Audio</h1>
-Steam Audio delivers a full-featured audio solution that integrates environment and listener
-simulation for games and VR.<br />
+Steam Audio is an open-source, cross-platform software toolkit for spatial audio. You can use it to
+add rich, immersive positional and environmental audio effects to games and VR/AR apps. Steam Audio
+offers a wide variety of features, including:
+<h2 class="bb_subsection"><a name="1"></a>Overview</h2>
 <br />
-For more information and to download Steam Audio, please visit our Github page:
-<a href="https://valvesoftware.github.io/steam-audio/" target="_blank" rel="noreferrer"
-    >https://valvesoftware.github.io/steam-audio/</a
-><br />
+<ul class="bb_ul">
+    <li>
+        <strong>Render 3D positional audio.</strong> Steam Audio binaurally renders direct sound
+        using HRTFs to accurately model the direction of a sound source relative to the listener.
+        Users can get an impression of the height of the source, as well as whether the source is in
+        front of or behind them.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Render 3D audio for Ambisonic content.</strong> Steam Audio can also spatialize
+        Ambisonics audio clips, rotating them based on the listener’s orientation in the virtual
+        world. This is useful for creating spatialized ambiences that are fixed in place relative to
+        the virtual world.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Use custom HRTFs using SOFA files.</strong> In addition to its built-in HRTF, Steam
+        Audio can spatialize point sources and Ambisonics sources using any HRTF specified by the
+        user. These files should be in the AES standard
+        <a href="https://www.sofaconventions.org/" target="_blank" rel="noreferrer">SOFA format</a
+        >.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Model occlusion of sound sources.</strong> Steam Audio can quickly model raycast
+        occlusion of direct sound by solid objects. Steam Audio also models partial occlusion for
+        non-point sources, and transmission of occluded sound through the occluding geometry.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Model reflections and related environmental audio effects.</strong> Steam Audio can
+        model how sound is reflected by solid objects. This can be used to model many kinds of
+        environmental audio effects, including slap echoes, flutter echoes, occlusion of sound by
+        buildings, and more.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Model propagation of sound along multiple paths.</strong> Steam Audio can model how
+        sound propagates from the source to the listener, along multiple paths. This can be used to
+        correctly spatialize sound that reaches the listener after traveling along hallways, around
+        corners, through doors and windows, and more.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Create environmental audio effects tailored to your scene.</strong> Steam Audio
+        analyzes the size, shape, layout, and material properties of rooms and objects in your
+        scene. It uses this information to automatically calculate occlusion, reflections, and other
+        environmental effects by simulating the physics of sound.<br />
+        <br />
+    </li>
+    <li>
+        <strong
+            >Automate the process of authoring reverbs and other environmental audio
+            effects.</strong
+        >
+        With Steam Audio, you don’t have to manually place effect filters throughout your scene, and
+        you don’t have to manually tweak the filters everywhere. Steam Audio uses an automated
+        real-time or pre-computation based process where environmental audio properties are
+        calculated (using physics principles) throughout your scene.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Change acoustics in real-time in response to moving geometry.</strong> Steam Audio
+        can model how moving geometry impacts occlusion, reflections, and other environmental
+        effects. For example, opening doors can result in an occluded sound becoming unoccluded;
+        making a room larger during gameplay can increase the amount of reverb in it.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Render high-quality convolution reverbs.</strong> Steam Audio can calculate
+        convolution reverb, which results in compelling environments that sound more realistic than
+        with parametric reverb. This is particularly true for outdoor spaces, where parametric
+        reverbs have several limitations.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Use multi-core CPU and GPU acceleration.</strong> Steam Audio can use multi-core
+        CPUs to accelerate simulation of environmental effects. Steam Audio can also use supported
+        GPUs for accelerating simulation and rendering of environmental effects, while ensuring that
+        its audio workloads do not adversely impact other GPU workloads or frame rate stability.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Balance physical realism and artistic intent.</strong> Steam Audio lets designers
+        modify the results of physics-based simulation before they are used for rendering audio
+        effects. This lets designers treat the simulation results as a high-quality starting point,
+        while providing many ways to tweak the results to achieve their artistic goals. For example,
+        designers can adjust the material-dependent EQ filters used to model transmission of sound
+        through geometry, or make a reverb tail longer or shorter while retaining the
+        characteristics of the early reflections.
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="2"></a>Integrations</h2>
 <br />
-For the latest news and updates, please visit the Steam Audio Community Hub:
-<a href="https://steamcommunity.com/app/596420/" target="_blank" rel="noreferrer"
-    >https://steamcommunity.com/app/596420/</a
->
+Steam Audio includes the following integrations with game engines and audio middleware:<br />
+<br />
+<ul class="bb_ul">
+    <li>
+        Unity 2017.3 or later
+        <a
+            href="https://valvesoftware.github.io/steam-audio/doc/unity/index.html"
+            target="_blank"
+            rel="noreferrer"
+            >(documentation)</a
+        ><br />
+    </li>
+    <li>
+        Unreal Engine 4.27 or later
+        <a
+            href="https://valvesoftware.github.io/steam-audio/doc/unreal/index.html"
+            target="_blank"
+            rel="noreferrer"
+            >(documentation)</a
+        ><br />
+    </li>
+    <li>
+        FMOD Studio 2.00 or later
+        <a
+            href="https://valvesoftware.github.io/steam-audio/doc/fmod/getting-started.html"
+            target="_blank"
+            rel="noreferrer"
+            >(documentation)</a
+        ><br />
+    </li>
+    <li>
+        C/C++ SDK to allow integrating Steam Audio with any other game engine or audio middleware
+        <a
+            href="https://valvesoftware.github.io/steam-audio/doc/capi/index.html"
+            target="_blank"
+            rel="noreferrer"
+            >(documentation)</a
+        >
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="3"></a>Supported Platforms</h2>
+<br />
+Steam Audio supports the following platforms:<br />
+<br />
+<ul class="bb_ul">
+    <li>Windows 7 or later (32-bit and 64-bit)<br /></li>
+    <li>Linux (32-bit and 64-bit, tested with Ubuntu 18.04 LTS)<br /></li>
+    <li>macOS 10.7 or later (64-bit Intel)<br /></li>
+    <li>Android 5.0 or later (32-bit ARM, 64-bit ARM, 32-bit Intel, and 64-bit Intel)<br /></li>
+    <li>iOS 11.0 or later (64-bit ARM)</li>
+</ul>
+<br />
+The C/C++ SDK and various plugins are built using the cross-platform
+<a href="https://cmake.org/" target="_blank" rel="noreferrer">CMake build system</a>, allowing it to
+be ported to other platforms as needed.
+<h2 class="bb_subsection"><a name="4"></a>Links</h2>
+<br />
+<ul class="bb_ul">
+    <li>
+        <a
+            href="https://valvesoftware.github.io/steam-audio/downloads.html"
+            target="_blank"
+            rel="noreferrer"
+            >Downloads &amp; Documentation</a
+        ><br />
+    </li>
+    <li>
+        <a href="https://github.com/ValveSoftware/steam-audio" target="_blank" rel="noreferrer"
+            >Source Code</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://github.com/ValveSoftware/steam-audio/issues"
+            target="_blank"
+            rel="noreferrer"
+            >Issue Tracker</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://steamcommunity.com/app/596420/discussions/"
+            target="_blank"
+            rel="noreferrer"
+            >Community Forum</a
+        >
+    </li>
+</ul>
