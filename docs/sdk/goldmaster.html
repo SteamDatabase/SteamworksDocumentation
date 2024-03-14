@@ -1,4 +1,4 @@
-<h1>Creating a retail and "Gold Master" disk</h1>
+<h1>Creating a retail and &amp;quot;Gold Master&amp;quot; disk</h1>
 <h2 class="bb_section"><a name="Requirements"></a>Before you begin</h2>
 Before customizing a Steam gold master disk, first package your game files in one or more depots and
 <a
@@ -135,49 +135,6 @@ your game:<br />
 The font name, height, color and other text attributes can be configured through
 <code class="bb_code bb_code_inline nohighlight">setup.ini</code>. See
 <a href="#setup_config" class="bb_doclink">Configuration</a> for more details.
-<h2 class="bb_subsection"><a name="setup_installscript"></a>Installscript</h2>
-Before installing Steam,
-<a href="https://partner.steamgames.com/doc/sdk/installscripts" class="bb_doclink">Installscript</a>
-can be used to have the setup application install all 3rd-party applications your game depends on.
-When installed from the setup application, users running Windows Vista will only need to authorize
-one UAC elevation for the entire installation process (a requirement for Games For Windows
-certification). If not installed through the setup application, Steam will need to ask for elevation
-a second time when executing your game's Installscript prior to launching your game.<br />
-There are some important differences between running Installscript from the setup application, and
-running it from Steam:<br />
-<ol class="bb_ol">
-    <li>
-        The setup application can only run applications listed under the
-        <code class="bb_code bb_code_inline nohighlight">Run Process</code> key in your
-        Installscript.<br />
-    </li>
-    <li>
-        The setup application will not run any process marked with
-        <code class="bb_code bb_code_inline nohighlight">AsCurrentUser</code> in your Installscript.
-        The setup application will only be run by administrators, so the Installscript should only
-        contain applications which need to be run by administrators.<br />
-    </li>
-    <li>
-        Because the Installscript run from the setup application will run prior to installing Steam
-        and your game, the
-        <code class="bb_code bb_code_inline nohighlight">%INSTALLDIR%</code> Installscript variable
-        will refer to the
-        <code class="bb_code bb_code_inline nohighlight">resources</code> directory on the install
-        media and you will not have access to the install path for your game.
-    </li>
-</ol>
-<br />
-Because of these limitations, you should create a new version of your installscript that contains
-only applications that need to be run by an administrator (DirectX redist, MSVC++ redist, etc.).
-After creating and signing the new installscript vdf through the
-<a href="https://partner.steamgames.com/apps/" target="_blank" rel="noreferrer">game admin</a>, move
-the file to
-<code class="bb_code bb_code_inline nohighlight">resources\installscript.vdf</code>.<br />
-<br />
-For more information about Installscript, see
-<a href="https://partner.steamgames.com/doc/sdk/installscripts" class="bb_doclink"
-    >Creating and using InstallScripts</a
->.
 <h2 class="bb_section"><a name="Testing"></a>Testing</h2>
 Once you have built your installation files and customized the setup application, you will have a
 gold master image you can use for testing and replication. If your depots have not been uploaded to
