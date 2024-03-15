@@ -72,7 +72,14 @@ call result.
     </tr>
 </table>
 <br />
-Authenticate the ticket from the entity Steam ID to be sure it is valid and isn't reused.<br />
+Authenticate the ticket from the entity Steam ID to be sure it is valid and isn't reused. Note that
+identity is not confirmed until the callback
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
+    class="bb_apilink"
+    >ValidateAuthTicketResponse_t</a
+>
+is received and the return value in that callback is checked for success.<br />
 <br />
 The ticket is created on the entity with
 <a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket" class="bb_apilink"
@@ -1699,8 +1706,8 @@ A client has been approved to connect to this game server.<br />
         </td>
         <td>
             The Steam ID that owns the game, this will be different from
-            <code class="bb_code bb_code_inline nohighlight">m_SteamID</code> if the game is being
-            borrowed via Steam Family Sharing.
+            <code class="bb_code bb_code_inline nohighlight">m_SteamID</code> if the game is
+            accessed via Steam Family Sharing.
         </td>
     </tr>
 </table>
