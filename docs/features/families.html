@@ -1,0 +1,49 @@
+<h1>Steam Families</h1>
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+The Steam Families feature allows Steam users to play games from up to five close family members
+libraries. For more information about the feature, please see our
+<a
+    href="https://store.steampowered.com/news/group/27766192/view/4149575031735702628"
+    target="_blank"
+    rel="noreferrer"
+    >announcement blog post</a
+>.<br />
+<br />
+By default Family Sharing is enabled on all games and DLC on Steam. For the most part, this feature
+doesn't require any extra implementation by the developer, but in some cases the game needs to be
+aware that the current player is using a shared copy. One example would be if your game economy is
+impacted if a DLC includes items or currency that are meant to be used only once. Or if you
+implement your own banning system (that's not VAC), you may need to verify game ownership in case
+both the player and the original game owner need to be banned for malicious behavior in a game.<br />
+<br />
+There are two ways to check if a game is being accessed via Family Sharing, client-side or server
+side.
+<h2 class="bb_section"><a name="2"></a>Checking Family Sharing status via Client API</h2>
+<br />
+Your running game can call
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamApps#BIsSubscribedFromFamilySharing"
+    class="bb_doclink"
+    >ISteamApps::BIsSubscribedFromFamilySharing</a
+>
+to check if the game is accessed via family sharing. If the user is playing a shared copy, call
+<a href="https://partner.steamgames.com/doc/api/ISteamApps#GetAppOwner" class="bb_doclink"
+    >ISteamApps::GetAppOwner</a
+>
+to get the SteamID of the original game owner.
+<h2 class="bb_section"><a name="3"></a>Checking Family Sharing status via Server API</h2>
+<br />
+A more secure way to check if a player is using a shared copy is to call the
+<a href="https://partner.steamgames.com/doc/webapi/ISteamUser#CheckAppOwnership" class="bb_apilink"
+    >ISteamUser/CheckAppOwnership</a
+>
+Web API method from your backend. If the user is playing a shared copy, the response field
+"permanent" will be set to false and the field "ownersteamid" will contain the original owners
+SteamID, different from the caller provided SteamID. Family sharing licenses are considered
+temporary and family members accessing a shared game shouldn't be granted any permanent ownership
+rights on your backend.<br />
+<br />
+If you having problems solving any Steam Family sharing related issues using these APIs, please
+contact Steam Support.<br />
+<br />
+<br />
