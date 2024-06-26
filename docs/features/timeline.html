@@ -1,0 +1,604 @@
+<h1>Steam Timelines</h1>
+<h2 class="bb_section"><a name="overview"></a>Overview</h2>
+Steam Timeline is a feature that exists within the
+<a href="http://%22https://store.steampowered.com/gamerecording%22" target="_blank" rel="noreferrer"
+    >Game Recording</a
+>
+framework designed to make it easy for players to find, save and share gameplay moments.
+<h2 class="bb_section"><a name="requirements"></a>Requirements</h2>
+Your game does not need to do anything special for the Game Recording to work, however the
+experience can be enhanced by adding some simple API calls to your game.<br />
+<br />
+The calls are primarily used to pass information to the Steam Timeline UI
+<div class="bb_callout">
+    <div>
+        <strong>NOTE:</strong> The overlay is automatically disabled for 'Software' app types. If
+        you need the overlay enabled, you can do so by:<br />
+        <ol class="bb_ol">
+            <li>Making sure your Steam account has the Edit App Metadata permission<br /></li>
+            <li>
+                Navigate from the App's landing page to &gt; Edit Steamworks Settings &gt;
+                Installation tab &gt; General Installation<br />
+            </li>
+            <li>Check box for Enable Steam Overlay for Application<br /></li>
+            <li>Publish</li>
+        </ol>
+    </div>
+</div>
+<h2 class="bb_section">
+    <a name="activating"></a>Integrating Steam Timeline functionality in your app
+</h2>
+<br />
+The Steam Timeline API calls can be found here:
+<a href="https://partner.steamgames.com/doc/api/ISteamTimeline" class="bb_apilink"
+    >ISteamTimeline</a
+>
+<h2 class="bb_section"><a name="icons"></a>Timeline Icons</h2>
+Steam Timelines includes a set of icons ready to use for your game. You can reference them in
+<strong>AddTimelineEvent</strong> using the prefix "<code class="bb_code bb_code_inline nohighlight"
+    >steam_</code
+>". Additionally, you can generate number icons from 0-99 using the format "<code
+    class="bb_code bb_code_inline nohighlight"
+    >steam_[number]</code
+>", e.g. "<code class="bb_code bb_code_inline nohighlight">steam_0</code>", "<code
+    class="bb_code bb_code_inline nohighlight"
+    >steam_1</code
+>", etc.<br />
+<br />
+You can also upload custom icons for your product on the Steamworks site.<br />
+<br />
+Default set of icons:<br />
+<span class="no_glow"
+    ><br />
+    <table>
+        <tr>
+            <th>Icon</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/marker_2.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_marker</td>
+            <td>Marker</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/achievment_1.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_achievement</td>
+            <td>Achievement</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/attack_1.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_attack</td>
+            <td>Attack</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/bolt_1.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_bolt</td>
+            <td>Bolt</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/bookmark_1.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_bookmark</td>
+            <td>Bookmark</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/bug.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_bug</td>
+            <td>Bug</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/cart.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_cart</td>
+            <td>Cart</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/caution.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_caution</td>
+            <td>Caution</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/chat.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_chat</td>
+            <td>Chat</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/checkmark.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_checkmark</td>
+            <td>Checkmark</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/chest.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_chest</td>
+            <td>Chest</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/circle.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_circle</td>
+            <td>Circle</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/combat.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_combat</td>
+            <td>Combat</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/completed.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_completed</td>
+            <td>Completed</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/crown.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_crown</td>
+            <td>Crown</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/death.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_death</td>
+            <td>Death</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/defend.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_defend</td>
+            <td>Defend</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/diamond.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_diamond</td>
+            <td>Diamond</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/edit.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_edit</td>
+            <td>Edit</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/effect.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_effect</td>
+            <td>Effect</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/explosion.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_explosion</td>
+            <td>Explosion</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/fix.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_fix</td>
+            <td>Fix</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/flag.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_flag</td>
+            <td>Flag</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/gem.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_gem</td>
+            <td>Gem</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/group.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_group</td>
+            <td>Group</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/heart.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_heart</td>
+            <td>Heart</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/info.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_info</td>
+            <td>Info</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/invalid.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_invalid</td>
+            <td>Invalid</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/minus.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_minus</td>
+            <td>Minus</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/pair.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_pair</td>
+            <td>Pair</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/person.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_person</td>
+            <td>Person</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/plus.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_plus</td>
+            <td>Plus</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/purchase.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_purchase</td>
+            <td>Purchase</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/question.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_question</td>
+            <td>Question</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/ribbon.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_ribbon</td>
+            <td>Ribbon</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/screenshot.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_screenshot</td>
+            <td>Screenshot</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/scroll.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_scroll</td>
+            <td>Scroll</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/square.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_square</td>
+            <td>Square</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/star.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_star</td>
+            <td>Star</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/starburst.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_starburst</td>
+            <td>Starburst</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/timer.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_timer</td>
+            <td>Timer</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/transfer.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_transfer</td>
+            <td>Transfer</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/triangle.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_triangle</td>
+            <td>Triangle</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/trophy.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_trophy</td>
+            <td>Trophy</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/view.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_view</td>
+            <td>View</td>
+        </tr>
+        <tr>
+            <td>
+                <img
+                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/x.png"
+                    alt=""
+                    title=""
+                />
+            </td>
+            <td>steam_x</td>
+            <td>X</td>
+        </tr>
+    </table></span
+>
+<h2 class="bb_section"><a name="example"></a>Example Code</h2>
+Below is a code sample for integrating Steam Timeline with Left 4 Dead. This code was used in the
+Steamworks video introduction which is viewable here:<br />
+<br />
+<div class="bb_code cpp">
+    //=========== Copyright (c) Valve Corporation, All rights reserved. =========== #include
+    "cbase.h" #include "igamesystem.h" #include "gameeventlistener.h" #include "steam/steam_api.h"
+    #include "steam/isteamtimeline.h" #include "clientterrorplayer.h" #include "fmtstr.h"
+    //----------------------------------------------------------------------------- class
+    L4DSteamVideo : public CAutoGameSystem, public CGameEventListener { public: // CAutoGameSystem
+    virtual bool Init(); virtual void Shutdown(); // CGameEventListener virtual void FireGameEvent(
+    IGameEvent* pEvent ); private: bool m_bEnabled; };
+    //----------------------------------------------------------------------------- bool
+    L4DSteamVideo::Init() { ISteamTimeline *pSteamTimeline = SteamTimeline(); if ( pSteamTimeline )
+    { pSteamTimeline-&gt;SetTimelineGameMode( k_ETimelineGameMode_Staging ); // Create the event
+    listeners ListenForGameEvent( "survival_round_start" ); ListenForGameEvent( "round_end" );
+    ListenForGameEvent( "heal_success" ); ListenForGameEvent( "player_incapacitated_start" ); } //
+    if pSteamVideo is null then the client's steam API is not recent enough // in this case, we
+    still init the system it just doesn't do anything m_bEnabled = pSteamTimeline != nullptr; return
+    true; } //----------------------------------------------------------------------------- void
+    L4DSteamVideo::Shutdown() { StopListeningForAllEvents(); m_bEnabled = false; }
+    //----------------------------------------------------------------------------- void
+    L4DSteamVideo::FireGameEvent( IGameEvent *pEvent ) { if ( !m_bEnabled ) return; int userid =
+    pEvent-&gt;GetInt( "userid", 0 ); if ( userid != 0 &amp;&amp; userid !=
+    C_BasePlayer::GetLocalPlayer()-&gt;GetUserID() ) return; const char* eventname =
+    pEvent-&gt;GetName(); if ( V_strcmp( "survival_round_start", eventname ) == 0 ) {
+    SteamTimeline()-&gt;SetTimelineGameMode( k_ETimelineGameMode_Playing ); } else if ( V_strcmp(
+    "round_end", eventname ) == 0 ) { SteamTimeline()-&gt;SetTimelineGameMode(
+    k_ETimelineGameMode_Staging ); } else if ( V_strcmp( "heal_success", eventname ) == 0 ) {
+    SteamTimeline()-&gt;AddTimelineEvent( "medkit32", "Healed", CFmtStr( "Restored %d Health",
+    pEvent-&gt;GetInt( "health_restored" ) ), 0, -5.f, 5.f, k_ETimelineEventClipPriority_Standard );
+    } else if ( V_strcmp( "player_incapacitated_start", eventname ) == 0 ) { C_TerrorPlayer*
+    pAttacker = (C_TerrorPlayer*)UTIL_PlayerByUserId( pEvent-&gt;GetInt( "userid" ) ); const char*
+    pszAttacker = pAttacker ? pAttacker-&gt;GetCharacterDisplayName() : "the world";
+    SteamTimeline()-&gt;AddTimelineEvent( "foo", "Incapacitated", CFmtStr( "INCAPACITATED by %s",
+    pszAttacker ), 0, 0.f, 0.f, k_ETimelineEventClipPriority_Featured ); } } static L4DSteamVideo
+    s_steamVideo;
+</div>
