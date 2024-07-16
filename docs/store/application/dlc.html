@@ -43,11 +43,29 @@ Steam.<br />
     >https://www.youtube.com/watch?v=Su4uuUjnm9M</a
 >
 <h2 class="bb_section"><a name="4"></a>Configuration</h2>
+Remember: your game will need to check whether or not a user owns the DLC. If you are operating an
+online game with a secure server and you use a WebAPI Key, you can rely on the
+<a href="https://partner.steamgames.com/doc//webapi/ISteamUser#CheckAppOwnership" class="bb_doclink"
+    >CheckAppOwnership</a
+>
+web API call to securely verify if a user owns a DLC. <br />
+Other games can use the
+<a href="https://partner.steamgames.com/doc/api/ISteamApps#BIsSubscribedApp" class="bb_doclink"
+    >BIsSubscribedApp client API</a
+>
+to check ownership of DLC. <br />
+<br />
+For more information about identifying users and verifying ownership, see the
+<a href="https://partner.steamgames.com/doc//features/auth" class="bb_doclink"
+    >Authentication and Ownership guide.</a
+><br />
+<br />
 In Steam, each piece of downloadable content is identified by its own app ID. Unlike the base game,
 the DLC uses the app ID as the depot ID.<br />
 <br />
 Creating a new DLC app ID is done by viewing the base game's "All Associated Packages, DLC, Demos
 And Tools" and clicking on the "Add New DLC" button.<br />
+<br />
 <br />
 When downloaded, the Steam client will store all downloadable content under your game's Steam
 directory. Your game can choose to distribute each piece of content in one of two ways:<br />
@@ -56,7 +74,7 @@ directory. Your game can choose to distribute each piece of content in one of tw
         The content can be included with your game files that are distributed to all game owners.
         Your game can then use
         <a
-            href="https://partner.steamgames.com/doc/api/ISteamApps#BIsDlcInstalled"
+            href="https://partner.steamgames.com/doc/webapi/ISteamApps::BIsDlcInstalled"
             class="bb_apilink"
             >ISteamApps::BIsDlcInstalled</a
         >
