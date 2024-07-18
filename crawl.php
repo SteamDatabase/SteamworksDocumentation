@@ -110,6 +110,7 @@ class Crawler
 		$Queries =
 		[
 			'Steam',
+			'optin',
 		];
 
 		if( $this->IsCI )
