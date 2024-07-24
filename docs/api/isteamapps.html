@@ -395,6 +395,110 @@ Checks if the user is running from a beta branch, and gets the name of the branc
 <br />
 <strong>Returns:</strong> bool<br />
 <strong>true</strong> if the user is on a beta branch; otherwise, <strong>false</strong>.
+<h2 class="bb_subsection"><a name="GetNumBetas"></a>GetNumBetas</h2>
+<div class="bb_code cpp">int GetNumBetas( int *pnAvailable, int *pnPrivate );</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pnAvailable</strong></td>
+        <td>int*</td>
+        <td>Number of beta branches available to current user.</td>
+    </tr>
+    <tr>
+        <td><strong>pnPrivate</strong></td>
+        <td>int*</td>
+        <td>How many of these are private betas.</td>
+    </tr>
+</table>
+<br />
+Returns total number of known app branches (including default "public" branch ) which can be
+iterated with GetBetaInfo()<br />
+<br />
+<strong>Returns:</strong> int <br />
+Number of known app branches
+<h2 class="bb_subsection"><a name="GetBetaInfo"></a>GetBetaInfo</h2>
+<div class="bb_code cpp">
+    bool GetBetaInfo( int iBetaIndex, uint32 *punFlags, uint32 *punBuildID, char *pchBetaName, int
+    cchBetaName, char *pchDescription, int cchDescription );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>iBetaIndex</strong></td>
+        <td>int</td>
+        <td>Branch index starting at 0 which is always the default branch.</td>
+    </tr>
+    <tr>
+        <td><strong>punFlags</strong></td>
+        <td>uint32 *</td>
+        <td>Set of flags (EBetaBranchFlags) describing current branch state.</td>
+    </tr>
+    <tr>
+        <td><strong>punBuildID</strong></td>
+        <td>uint32 *</td>
+        <td>Content BuildID set live on this branch.</td>
+    </tr>
+    <tr>
+        <td><strong>pchBetaName</strong></td>
+        <td>char *</td>
+        <td>Beta branch name</td>
+    </tr>
+    <tr>
+        <td><strong>cchBetaName</strong></td>
+        <td>int</td>
+        <td>Size of pchBetaName provided by caller</td>
+    </tr>
+    <tr>
+        <td><strong>pchDescription</strong></td>
+        <td>char *</td>
+        <td>Beta branch description</td>
+    </tr>
+    <tr>
+        <td><strong>cchDescription</strong></td>
+        <td>int</td>
+        <td>Size of pchDescription provided by caller</td>
+    </tr>
+</table>
+<br />
+Get details about an app beta branch like name, description and state. <br />
+<br />
+<strong>Returns:</strong> bool<br />
+true if passed in branch index is valid; otherwise, false.<br />
+<br />
+<strong>Example:</strong><br />
+<div class="bb_code cpp">
+    int32 betaCount = SteamApps()-&gt;GetNumBetas( nullptr, nullptr ); for ( int betaIndex = 0;
+    betaIndex &lt; betaCount; ++betaIndex ) { char name[128]; char description[1024]; uint32 flags =
+    0; // EBetaBranchFlags uint32 buildID = 0; SteamApps()-&gt;GetBetaInfo( betaIndex, &amp;flags,
+    &amp;buildID, name, sizeof( name ), description, sizeof( description ) ); }
+</div>
+<h2 class="bb_subsection"><a name="SetActiveBeta"></a>SetActiveBeta</h2>
+<div class="bb_code cpp">bool SetActiveBeta( const char *pchBetaName );</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchBetaName</strong></td>
+        <td>const char *</td>
+        <td>Beta name the game wants to switch to.</td>
+    </tr>
+</table>
+<br />
+Select an beta branch for this app as active, might need the game to restart so Steam can update
+its' content that branch.<br />
+<br />
+<strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="GetCurrentGameLanguage"></a>GetCurrentGameLanguage</h2>
 <div class="bb_code cpp">const char * GetCurrentGameLanguage();</div>
 Gets the current language that the user has set.<br />
