@@ -2586,6 +2586,163 @@ Otherwise, <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid, the
 <code class="bb_code bb_code_inline nohighlight">index</code> is out of bounds, or
 <code class="bb_code bb_code_inline nohighlight">eStatType</code> was invalid.
+<h2 class="bb_subsection"><a name="GetNumSupportedGameVersions"></a>GetNumSupportedGameVersions</h2>
+<div class="bb_code cpp">
+    uint32 GetNumSupportedGameVersions( UGCQueryHandle_t handle, uint32 index );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t"
+                class="bb_apilink"
+                >UGCQueryHandle_t</a
+            >
+        </td>
+        <td>The UGC query handle to get the results from.</td>
+    </tr>
+    <tr>
+        <td><strong>index</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The index of the item from the query.</td>
+    </tr>
+</table>
+<br />
+Items can have multiple versions, which support can be valid for a range of Steam beta branches.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+    class="bb_apilink"
+    >SteamUGCQueryCompleted_t</a
+>
+call result.<br />
+<br />
+<strong>Returns:</strong> uint32<br />
+The number of versions available for this item.<br />
+<br />
+<strong>See Also:</strong>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetSupportedGameVersionData"
+    class="bb_apilink"
+    >ISteamUGC::GetSupportedGameVersionData</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRequiredGameVersions"
+    class="bb_apilink"
+    >ISteamUGC::SetRequiredGameVersions</a
+>
+<h2 class="bb_subsection"><a name="GetSupportedGameVersionData"></a>GetSupportedGameVersionData</h2>
+<div class="bb_code cpp">
+    bool GetSupportedGameVersionData( UGCQueryHandle_t handle, uint32 index, uint32 versionIndex,
+    STEAM_OUT_STRING_COUNT( cchGameBranchSize ) char *pchGameBranchMin, STEAM_OUT_STRING_COUNT(
+    cchGameBranchSize ) char *pchGameBranchMax, uint32 cchGameBranchSize )
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCQueryHandle_t"
+                class="bb_apilink"
+                >UGCQueryHandle_t</a
+            >
+        </td>
+        <td>The UGC query handle to get the results from.</td>
+    </tr>
+    <tr>
+        <td><strong>index</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The index of the item.</td>
+    </tr>
+    <tr>
+        <td><strong>versionIndex</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>The index of the item version.</td>
+    </tr>
+    <tr>
+        <td><strong>pchGameBranchMin</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/char%20*" class="bb_apilink">char *</a>
+        </td>
+        <td>
+            String buffer to populate with the minimum Steam (beta) branch this version of the item
+            supports
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchGameBranchMax</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/char%20*" class="bb_apilink">char *</a>
+        </td>
+        <td>
+            String buffer to populate with the maximum Steam (beta) branch version this version of
+            the item supports
+        </td>
+    </tr>
+    <tr>
+        <td><strong>cchGameBranchSize</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
+                >uint32</a
+            >
+        </td>
+        <td>Size of the pchGameBranchMin or pchGameBranchMax buffers.</td>
+    </tr>
+</table>
+<br />
+Use this function to retrieve what Steam (beta) branches this item version is valid for. If the
+minimum branch is an empty string, then it is valid for all versions up to the maximum branch. If
+the maximum branch is an empty string, then the this item version is valid for every branch
+published after the minimum branch. If both strings are empty, then this item version is valid for
+all Steam branches. The version that is downloaded by the Steam client is dictated by what versions
+are valid for the item and what Steam (beta) branch the user has opted into.<br />
+<br />
+<strong>NOTE:</strong> This must only be called with the handle obtained from a successful
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#SteamUGCQueryCompleted_t"
+    class="bb_apilink"
+    >SteamUGCQueryCompleted_t</a
+>
+call result.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+Return true if the item version at the given index version exists, false otherwise.<br />
+<br />
+<strong>See Also:</strong>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetNumSupportedGameVersions"
+    class="bb_apilink"
+    >ISteamUGC::GetNumSupportedGameVersions</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRequiredGameVersions"
+    class="bb_apilink"
+    >ISteamUGC::SetRequiredGameVersions</a
+>
 <h2 class="bb_subsection"><a name="GetSubscribedItems"></a>GetSubscribedItems</h2>
 <div class="bb_code cpp">
     uint32 GetSubscribedItems( PublishedFileId_t*pvecPublishedFileID, uint32 cMaxEntries );
@@ -3050,6 +3207,66 @@ from the item.<br />
 >,
 <a href="https://partner.steamgames.com/doc/api/ISteamUGC#AddContentDescriptor" class="bb_apilink"
     >ISteamUGC::AddContentDescriptor</a
+>
+<h2 class="bb_subsection"><a name="SetRequiredGameVersions"></a>SetRequiredGameVersions</h2>
+<div class="bb_code cpp">
+    bool SetRequiredGameVersions( UGCUpdateHandle_t handle, const char *pszGameBranchMin, const char
+    *pszGameBranchMax );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>handle</strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamUGC#UGCUpdateHandle_t"
+                class="bb_apilink"
+                >UGCUpdateHandle_t</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pszGameBranchMin</strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/const%20char%20*" class="bb_apilink"
+                >const char *</a
+            >
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>pszGameBranchMax </strong></td>
+        <td>
+            <a href="https://partner.steamgames.com/doc/api/const%20char%20*" class="bb_apilink"
+                >const char *</a
+            >
+        </td>
+        <td></td>
+    </tr>
+</table>
+<br />
+Sets what Steam (beta) branches this item is valid for. An empty string for either pszGameBranchMin
+or pszGameBranchMax means that it will match any version on that end of the range. This will only be
+applied if the actual content has been changed. Users will download the version of the item that is
+valid for the Steam (beta) branch they have opted into.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<br />
+<strong>See Also:</strong>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetNumSupportedGameVersions"
+    class="bb_apilink"
+    >ISteamUGC::GetNumSupportedGameVersions</a
+>,
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetSupportedGameVersionData"
+    class="bb_apilink"
+    >ISteamUGC::GetSupportedGameVersionData</a
 >
 <h2 class="bb_subsection"><a name="RequestUGCDetails"></a>RequestUGCDetails</h2>
 <div class="bb_code cpp">
