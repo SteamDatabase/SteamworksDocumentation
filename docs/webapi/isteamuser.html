@@ -11,7 +11,7 @@ For more info on how to use the Steamworks Web API please see the
 <a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
 >.
 <h2 class="bb_section"><a name="CheckAppOwnership"></a>CheckAppOwnership</h2>
-<div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/CheckAppOwnership/v2/</div>
+<div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/CheckAppOwnership/v3/</div>
 <table>
     <tr>
         <th>Name</th>
@@ -80,13 +80,23 @@ The JSON response will contain the following fields:<br />
         <td>bool</td>
         <td>Indicates if user is accessing this app through the PC Cafe program.</td>
     </tr>
+    <tr>
+        <td><strong>usercanceled</strong></td>
+        <td>bool</td>
+        <td>Indicates if user self-canceled their license for this app.</td>
+    </tr>
 </table>
 <br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
 <ul class="bb_ul">
-    <li><strong>Version 2</strong> - Adds element <strong>sitelicense </strong>to the response.</li>
+    <li>
+        <strong>Version 2</strong> - Adds element <strong>sitelicense </strong>to the response.<br />
+    </li>
+    <li>
+        <strong>Version 3</strong> - Adds element <strong>usercanceled</strong> to the response.
+    </li>
 </ul>
 <br />
 <strong>NOTE:</strong> This call requires the publisher API key that owns the specified App ID to
@@ -265,7 +275,7 @@ The response from the call will look something like this:<br />
 </div>
 <h2 class="bb_section"><a name="GetPublisherAppOwnership"></a>GetPublisherAppOwnership</h2>
 <div class="bb_code http">
-    GET https://partner.steam-api.com/ISteamUser/GetPublisherAppOwnership/v3/
+    GET https://partner.steam-api.com/ISteamUser/GetPublisherAppOwnership/v4/
 </div>
 <table>
     <tr>
@@ -293,7 +303,10 @@ This method has previous versions which are no longer officially supported. They
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
 <ul class="bb_ul">
-    <li><strong>Version 3</strong> - Adds element sitelicense to the response</li>
+    <li><strong>Version 3</strong> - Adds element sitelicense to the response<br /></li>
+    <li>
+        <strong>Version 4</strong> - Adds element <strong>usercanceled</strong> to the response.
+    </li>
 </ul>
 <br />
 The response from the call will look something like this:<br />
@@ -351,6 +364,11 @@ The JSON response will contain the following fields:<br />
         <td><strong>sitelicense</strong></td>
         <td>bool</td>
         <td>Indicates if user is accessing this app through the PC Cafe program</td>
+    </tr>
+    <tr>
+        <td><strong>usercanceled</strong></td>
+        <td>bool</td>
+        <td>Indicates if user self-canceled their license for this app.</td>
     </tr>
 </table>
 <br />
