@@ -187,7 +187,9 @@ class Crawler
 		$Html = str_replace( [
 			'</track>',
 			'<br>',
-			'steamcdn-a.akamaihd.net', 
+			'steamcdn-a.akamaihd.net',
+			'cdn.steamstatic.com',
+			'cdn.fastly.steamstatic.com',
 			'cdn.akamai.steamstatic.com',
 			'media.st.dl.pinyuncloud.com',
 			'media.st.dl.eccdnx.com',
@@ -297,7 +299,7 @@ class Crawler
 		{
 			return '';
 		}
-		
+
 		$InnerHTML = '';
 		$Children  = $Element->childNodes;
 
