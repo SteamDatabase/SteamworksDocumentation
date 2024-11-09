@@ -31,7 +31,16 @@ into:"<br />
 /><br />
 <br />
 As soon as a tester or customer has selected the branch, the Steam client will start downloading the
-branch, replacing their currently installed branch.
+branch, replacing their currently installed branch.<br />
+<br />
+One a player is opted in to any branch other than "default/none," Steam will show some UI next to
+the play button indicating the selected branch.<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/CurrentBetaExample.jpg"
+    alt="CurrentBetaExample.jpg"
+    title="CurrentBetaExample.jpg"
+/>
 <h2 class="bb_section"><a name="1"></a>Default Branch</h2>
 The default branch is the version of your game delivered to your customers on Steam. Prior to
 release, this is the version that your testers will download by default. Once your game is live,
@@ -75,4 +84,51 @@ Example if your title is currently live on Steam:<br />
         </ul>
     </li>
 </ul>
+<h2 class="bb_section"><a name="3"></a>Switching Branches from within your game</h2>
+Steam has a set of APIs that lets a game tell Steam to switch the user to a particular beta branch.
+This can be found in the ISteamApp documentation here:
+<a href="https://partner.steamgames.com/doc/api/ISteamApps" target="_blank" rel="noreferrer"
+    >https://partner.steamgames.com/doc/api/ISteamApps</a
+><br />
+<ol class="bb_ol">
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamApps#GetCurrentBetaName"
+            target="_blank"
+            rel="noreferrer"
+            >GetCurrentBetaName</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamApps#GetNumBetas"
+            target="_blank"
+            rel="noreferrer"
+            >GetNumBetas</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamApps#GetBetaInfo"
+            target="_blank"
+            rel="noreferrer"
+            >GetBetaInfo</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://partner.steamgames.com/doc/api/ISteamApps#SetActiveBeta"
+            target="_blank"
+            rel="noreferrer"
+            >SetActiveBeta</a
+        >
+    </li>
+</ol>
 <br />
+For some example use cases where you may want to use these APIs, please see our blog post:
+<a
+    href="https://store.steampowered.com/news/group/4145017/view/4547039255696769966"
+    target="_blank"
+    rel="noreferrer"
+    >New: Steam APIs For Switching Game Versions &amp; Beta Branches</a
+>

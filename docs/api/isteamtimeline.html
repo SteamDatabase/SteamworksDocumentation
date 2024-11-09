@@ -12,9 +12,9 @@ and diagram at the bottom of page for more information.
 Member functions for <code class="bb_code bb_code_inline nohighlight">ISteamTimeline</code> are
 called through the global accessor function
 <code class="bb_code bb_code_inline nohighlight">SteamTimeline</code>.
-<h2 class="bb_subsection"><a name="SetTimelineGameMode"></a>SetTimelineStateDescription</h2>
+<h2 class="bb_subsection"><a name="SetTimelineTooltip"></a>SetTimelineTooltip</h2>
 <div class="bb_code cpp">
-    void SetTimelineStateDescription( const char *pchDescription, float flTimeDelta );
+    void SetTimelineTooltip( const char *pchDescription, float flTimeDelta );
 </div>
 <table>
     <tr>
@@ -54,10 +54,8 @@ Examples could include:<br />
     <li>Which round is happening in a multiplayer game<br /></li>
     <li>The current score for a sports game</li>
 </ul>
-<h2 class="bb_subsection">
-    <a name="ClearTimelineStateDescription"></a>ClearTimelineStateDescription
-</h2>
-<div class="bb_code cpp">void ClearTimelineStateDescription( float flTimeDelta );</div>
+<h2 class="bb_subsection"><a name="ClearTimelineTooltip"></a>ClearTimelineTooltip</h2>
+<div class="bb_code cpp">void ClearTimelineTooltip( float flTimeDelta );</div>
 <table>
     <tr>
         <th>Name</th>
@@ -76,30 +74,19 @@ Examples could include:<br />
 </table>
 <br />
 Clears the previous set game state in the timeline.
-<h2 class="bb_subsection"><a name="AddTimelineEvent"></a>AddTimelineEvent</h2>
+<h2 class="bb_subsection">
+    <a name="AddInstantaneousTimelineEvent"></a>AddInstantaneousTimelineEvent
+</h2>
 <div class="bb_code cpp">
-    void AddTimelineEvent( const char *pchIcon, const char *pchTitle, const char *pchDescription,
-    uint32 unPriority, float flStartOffsetSeconds, float flDurationSeconds,
-    ETimelineEventClipPriority ePossibleClip ) ;
+    TimelineEventHandle_t AddInstantaneousTimelineEvent( const char *pchIcon, const char *pchTitle,
+    const char *pchDescription, uint32 unPriority, float flStartOffsetSeconds,
+    ETimelineEventClipPriority ePossibleClip );
 </div>
 <table>
     <tr>
         <th>Name</th>
         <th>Type</th>
         <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pchIcon</strong></td>
-        <td>const char *</td>
-        <td>
-            The name of the icon to show at the timeline at this point. This can be one of the icons
-            uploaded through the Steamworks partner Site for your title, or one of the provided
-            icons that start with <code class="bb_code bb_code_inline nohighlight">steam_</code>.
-            The Steam Timelines overview includes a
-            <a href="https://partner.steamgames.com/doc/features/timeline#icons" class="bb_doclink"
-                >list of available icons</a
-            >.
-        </td>
     </tr>
     <tr>
         <td><strong>pchTitle</strong></td>
@@ -118,6 +105,148 @@ Clears the previous set game state in the timeline.
             Title-provided localized string in the language returned by
             <code class="bb_code bb_code_inline nohighlight"
                 >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchIcon</strong></td>
+        <td>const char *</td>
+        <td>
+            The name of the icon to show at the timeline at this point. This can be one of the icons
+            uploaded through the Steamworks partner Site for your title, or one of the provided
+            icons that start with <code class="bb_code bb_code_inline nohighlight">steam_</code>.
+            The Steam Timelines overview includes a
+            <a href="https://partner.steamgames.com/doc/features/timeline#icons" class="bb_doclink"
+                >list of available icons</a
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>unPriority</strong></td>
+        <td>uint32</td>
+        <td>
+            Provide the priority to use when the UI is deciding which icons to display in crowded
+            parts of the timeline. Events with larger priority values will be displayed more
+            prominently than events with smaller priority values. This value must be between 0 and
+            <code class="bb_code bb_code_inline nohighlight">k_unMaxTimelinePriority</code>.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>flStartOffsetSeconds</strong></td>
+        <td>float</td>
+        <td>
+            The time offset in seconds to apply to the start of the event. Negative times indicate
+            an <br />
+            event that happened in the past.<br />
+            <br />
+            One use of this parameter is to handle events whose significance is not clear until
+            after the fact. For instance if the player starts a damage over time effect on another
+            player, which kills them 3.5 seconds later, the game could pass -3.5 as the start offset
+            and cause the event to appear in the timeline where the effect started.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>ePossibleClip </strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ETimelineEventClipPriority"
+                class="bb_apilink"
+                >ETimelineEventClipPriority</a
+            >
+        </td>
+        <td>
+            Allows the game to describe events that should be suggested to the user as possible
+            video clips.
+        </td>
+    </tr>
+</table>
+<br />
+Use this to mark an event <strong><span style="color: #ffd55f">(A)</span></strong> on the Timeline.
+This event will be instantaneous. (See
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#AddRangeTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::AddRangeTimelineEvent</a
+>
+to add events that happened over time.)<br />
+<br />
+Examples could include:<br />
+<ul class="bb_ul">
+    <li>picking up a new weapon or ammo<br /></li>
+    <li>scoring a goal</li>
+</ul>
+<br />
+The game can nominate an event as being suitable for a clip by passing
+<code class="bb_code bb_code_inline nohighlight">k_ETimelineEventClipPriority_Standard</code> or
+<code class="bb_code bb_code_inline nohighlight">k_ETimelineEventClipPriority_Featured</code> to
+<code class="bb_code bb_code_inline nohighlight">ePossibleClip</code>. Players can make clips of
+their own at any point, but this lets the game suggest some options to Steam to make that process
+easier for players.<br />
+<br />
+This function returns a
+<a href="https://partner.steamgames.com/doc/api/TimelineEventHandle_t" class="bb_apilink"
+    >TimelineEventHandle_t</a
+>
+that can be used with
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#RemoveTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::RemoveTimelineEvent</a
+>
+or the overlay functions
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#DoesEventRecordingExist"
+    class="bb_apilink"
+    >ISteamTimeline::DoesEventRecordingExist</a
+>
+and
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#OpenOverlayToTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::OpenOverlayToTimelineEvent</a
+>.
+<h2 class="bb_subsection"><a name="AddRangeTimelineEvent"></a>AddRangeTimelineEvent</h2>
+<div class="bb_code cpp">
+    TimelineEventHandle_t AddRangeTimelineEvent( const char *pchIcon, const char *pchTitle, const
+    char *pchDescription, uint32 unPriority, float flStartOffsetSeconds, float flDurationSeconds,
+    ETimelineEventClipPriority ePossibleClip );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchTitle</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchDescription</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchIcon</strong></td>
+        <td>const char *</td>
+        <td>
+            The name of the icon to show at the timeline at this point. This can be one of the icons
+            uploaded through the Steamworks partner Site for your title, or one of the provided
+            icons that start with <code class="bb_code bb_code_inline nohighlight">steam_</code>.
+            The Steam Timelines overview includes a
+            <a href="https://partner.steamgames.com/doc/features/timeline#icons" class="bb_doclink"
+                >list of available icons</a
             >.
         </td>
     </tr>
@@ -166,17 +295,14 @@ Clears the previous set game state in the timeline.
     </tr>
 </table>
 <br />
-Use this to mark an event <strong><span style="color: #ffd55f">(A)</span></strong> on the Timeline.
-The event can be instantaneous or take some amount of time to complete, depending on the value
-passed in flDurationSeconds.<br />
+Use this to mark an event <strong><span style="color: #ffd55f">(A)</span></strong> on the Timeline
+that takes some amount of time to complete.<br />
 <br />
 Examples could include:<br />
 <ul class="bb_ul">
     <li>a boss battle<br /></li>
-    <li>a cut scene<br /></li>
-    <li>a large team fight<br /></li>
-    <li>picking up a new weapon or ammo<br /></li>
-    <li>scoring a goal</li>
+    <li>an impressive combo<br /></li>
+    <li>a large team fight</li>
 </ul>
 <br />
 The game can nominate an event as being suitable for a clip by passing
@@ -184,7 +310,517 @@ The game can nominate an event as being suitable for a clip by passing
 <code class="bb_code bb_code_inline nohighlight">k_ETimelineEventClipPriority_Featured</code> to
 <code class="bb_code bb_code_inline nohighlight">ePossibleClip</code>. Players can make clips of
 their own at any point, but this lets the game suggest some options to Steam to make that process
+easier for players.<br />
+<br />
+This function returns a
+<code class="bb_code bb_code_inline nohighlight">TimelineEventHandle_t</code> that can be used with
+<code class="bb_code bb_code_inline nohighlight">RemoveTimelineEvent</code> or the overlay functions
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#DoesEventRecordingExist"
+    class="bb_apilink"
+    >ISteamTimeline::DoesEventRecordingExist</a
+>
+and
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#OpenOverlayToTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::OpenOverlayToTimelineEvent</a
+>.
+<h2 class="bb_subsection"><a name="StartRangeTimelineEvent"></a>StartRangeTimelineEvent</h2>
+<div class="bb_code cpp">
+    TimelineEventHandle_t StartRangeTimelineEvent( const char *pchIcon, const char *pchTitle, const
+    char *pchDescription, uint32 unPriority, float flStartOffsetSeconds, ETimelineEventClipPriority
+    ePossibleClip );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchTitle</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchDescription</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchIcon</strong></td>
+        <td>const char *</td>
+        <td>
+            The name of the icon to show at the timeline at this point. This can be one of the icons
+            uploaded through the Steamworks partner Site for your title, or one of the provided
+            icons that start with <code class="bb_code bb_code_inline nohighlight">steam_</code>.
+            The Steam Timelines overview includes a
+            <a href="https://partner.steamgames.com/doc/features/timeline#icons" class="bb_doclink"
+                >list of available icons</a
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>unPriority</strong></td>
+        <td>uint32</td>
+        <td>
+            Provide the priority to use when the UI is deciding which icons to display in crowded
+            parts of the timeline. Events with larger priority values will be displayed more
+            prominently than events with smaller priority values. This value must be between 0 and
+            <code class="bb_code bb_code_inline nohighlight">k_unMaxTimelinePriority</code>.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>flStartOffsetSeconds</strong></td>
+        <td>float</td>
+        <td>
+            The time offset in seconds to apply to the start of the event. Negative times indicate
+            an <br />
+            event that happened in the past.<br />
+            <br />
+            One use of this parameter is to handle events whose significance is not clear until
+            after the fact. For instance if the player starts a damage over time effect on another
+            player, which kills them 3.5 seconds later, the game could pass -3.5 as the start offset
+            and cause the event to appear in the timeline where the effect started.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>ePossibleClip </strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ETimelineEventClipPriority"
+                class="bb_apilink"
+                >ETimelineEventClipPriority</a
+            >
+        </td>
+        <td>
+            Allows the game to describe events that should be suggested to the user as possible
+            video clips.
+        </td>
+    </tr>
+</table>
+<br />
+Use this to mark the start of an event <strong><span style="color: #ffd55f">(A)</span></strong> on
+the Timeline that takes some amount of time to complete. The duration of the event is determined by
+a matching call to <code class="bb_code bb_code_inline nohighlight">EndRangeTimelineEvent</code>. If
+the game wants to cancel an event in progress, they can do that with a call to
+<code class="bb_code bb_code_inline nohighlight">RemoveTimelineEvent</code>.<br />
+<br />
+The event in progress can be updated any number of times with
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#UpdateRangeTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::UpdateRangeTimelineEvent</a
+>.<br />
+<br />
+The game can nominate an event as being suitable for a clip by passing
+<code class="bb_code bb_code_inline nohighlight">k_ETimelineEventClipPriority_Standard</code> or
+<code class="bb_code bb_code_inline nohighlight">k_ETimelineEventClipPriority_Featured</code> to
+<code class="bb_code bb_code_inline nohighlight">ePossibleClip</code>. Players can make clips of
+their own at any point, but this lets the game suggest some options to Steam to make that process
 easier for players.
+<h2 class="bb_subsection"><a name="UpdateRangeTimelineEvent"></a>UpdateRangeTimelineEvent</h2>
+<div class="bb_code cpp">
+    void UpdateRangeTimelineEvent( TimelineEventHandle_t ulEvent, const char *pchTitle, const char
+    *pchDescription, const char *pchIcon, uint32 unPriority, ETimelineEventClipPriority
+    ePossibleClip );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>ulEvent</strong></td>
+        <td>TimelineEventHandle_t</td>
+        <td>Handle of the event to update.</td>
+    </tr>
+    <tr>
+        <td><strong>pchTitle</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchDescription</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchIcon</strong></td>
+        <td>const char *</td>
+        <td>
+            The name of the icon to show at the timeline at this point. This can be one of the icons
+            uploaded through the Steamworks partner Site for your title, or one of the provided
+            icons that start with <code class="bb_code bb_code_inline nohighlight">steam_</code>.
+            The Steam Timelines overview includes a
+            <a href="https://partner.steamgames.com/doc/features/timeline#icons" class="bb_doclink"
+                >list of available icons</a
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>unPriority</strong></td>
+        <td>uint32</td>
+        <td>
+            Provide the priority to use when the UI is deciding which icons to display in crowded
+            parts of the timeline. Events with larger priority values will be displayed more
+            prominently than events with smaller priority values. This value must be between 0 and
+            <code class="bb_code bb_code_inline nohighlight">k_unMaxTimelinePriority</code>.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>flStartOffsetSeconds</strong></td>
+        <td>float</td>
+        <td>
+            The time offset in seconds to apply to the start of the event. Negative times indicate
+            an <br />
+            event that happened in the past.<br />
+            <br />
+            One use of this parameter is to handle events whose significance is not clear until
+            after the fact. For instance if the player starts a damage over time effect on another
+            player, which kills them 3.5 seconds later, the game could pass -3.5 as the start offset
+            and cause the event to appear in the timeline where the effect started.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>ePossibleClip </strong></td>
+        <td>
+            <a
+                href="https://partner.steamgames.com/doc/api/ETimelineEventClipPriority"
+                class="bb_apilink"
+                >ETimelineEventClipPriority</a
+            >
+        </td>
+        <td>
+            Allows the game to describe events that should be suggested to the user as possible
+            video clips.
+        </td>
+    </tr>
+</table>
+<br />
+Use this to update the details of an event that was started with
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#StartRangeTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::StartRangeTimelineEvent</a
+>.
+<h2 class="bb_subsection"><a name="EndRangeTimelineEvent"></a>EndRangeTimelineEvent</h2>
+<div class="bb_code cpp">
+    void EndRangeTimelineEvent( TimelineEventHandle_t ulEvent, const char *pchTitle, const char
+    *pchDescription, const char *pchIcon, uint32 unPriority, ETimelineEventClipPriority
+    ePossibleClip );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>ulEvent</strong></td>
+        <td>TimelineEventHandle_t</td>
+        <td>Handle of the event to end.</td>
+    </tr>
+    <tr>
+        <td><strong>flEndOffsetSeconds</strong></td>
+        <td>float</td>
+        <td>
+            The time offset in seconds to apply to the end of the event. Negative times indicate an
+            <br />
+            event that happened in the past.
+        </td>
+    </tr>
+</table>
+<br />
+Use this to identify the end of an event that was started with
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#StartRangeTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::StartRangeTimelineEvent</a
+>.
+<h2 class="bb_subsection"><a name="DoesEventRecordingExist"></a>DoesEventRecordingExist</h2>
+<div class="bb_code cpp">
+    SteamAPICall_t DoesEventRecordingExist( TimelineEventHandle_t ulEvent );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>ulEvent</strong></td>
+        <td>TimelineEventHandle_t</td>
+        <td>Handle of the event to check for recordings.</td>
+    </tr>
+</table>
+<br />
+Use this to determine if video recordings exist for the specified event. Steam will sent a
+<a
+    href="https://partner.steamgames.com/doc/api/SteamTimelineEventRecordingExists_t"
+    class="bb_apilink"
+    >SteamTimelineEventRecordingExists_t</a
+>
+callback with the result. This can be useful when the game needs to decide whether or not to show a
+control that will call
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#OpenOverlayToTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::OpenOverlayToTimelineEvent</a
+>.<br />
+<br />
+<strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
+    >SteamAPICall_t</a
+>
+to be used with a
+<a
+    href="https://partner.steamgames.com/doc/api/SteamTimelineEventRecordingExists_t"
+    class="bb_apilink"
+    >SteamTimelineEventRecordingExists_t</a
+>
+call result.
+<h2 class="bb_subsection"><a name="StartGamePhase"></a>StartGamePhase</h2>
+<div class="bb_code cpp">void StartGamePhase();</div>
+<br />
+Use this to start a game phase. Game phases allow the user to navigate their background recordings
+and clips. Exactly what a game phase means will vary game to game, but the game phase should be a
+section of gameplay that is usually between 10 minutes and a few hours in length, and should be the
+main way a user would think to divide up the game. These are presented to the user in a UI that
+shows the date the game was played, with one row per game slice. Game phases should be used to mark
+sections of gameplay that the user might be interested in watching.<br />
+<br />
+Examples could include:<br />
+<ul class="bb_ul">
+    <li>A single match in a multiplayer PvP game<br /></li>
+    <li>A chapter of a story-based singleplayer game<br /></li>
+    <li>A single run in a roguelike</li>
+</ul>
+<br />
+Game phases are started with StartGamePhase, and while a phase is still happening, they can have
+tags and attributes added to them with
+<a href="https://partner.steamgames.com/doc/api/ISteamTimeline#AddGamePhaseTag" class="bb_apilink"
+    >ISteamTimeline::AddGamePhaseTag</a
+>
+or
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#SetGamePhaseAttribute"
+    class="bb_apilink"
+    >ISteamTimeline::SetGamePhaseAttribute</a
+>. Only one game phase can be active at a time.
+<h2 class="bb_subsection"><a name="EndGamePhase"></a>EndGamePhase</h2>
+<div class="bb_code cpp">void EndGamePhase();</div>
+<br />
+Use this to end a game phase that was started with
+<a href="https://partner.steamgames.com/doc/api/ISteamTimeline#StartGamePhase" class="bb_apilink"
+    >ISteamTimeline::StartGamePhase</a
+>.
+<h2 class="bb_subsection"><a name="SetGamePhaseID"></a>SetGamePhaseID</h2>
+<div class="bb_code cpp">void SetGamePhaseID( const char *pchPhaseID) ;</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchPhaseID</strong></td>
+        <td>const char *</td>
+        <td>
+            A game-provided persistent ID for a game phase. This could be a the match ID in a
+            multiplayer game, a chapter name in a single player game, the ID of a character, etc.
+        </td>
+    </tr>
+</table>
+<br />
+The phase ID is used to let the game identify which phase it is referring to in calls to
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#DoesGamePhaseRecordingExist"
+    class="bb_apilink"
+    >ISteamTimeline::DoesGamePhaseRecordingExist</a
+>
+or
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#OpenOverlayToGamePhase"
+    class="bb_apilink"
+    >ISteamTimeline::OpenOverlayToGamePhase</a
+>. It may also be used to associated multiple phases with each other.
+<h2 class="bb_subsection"><a name="DoesGamePhaseRecordingExist"></a>DoesGamePhaseRecordingExist</h2>
+<div class="bb_code cpp">SteamAPICall_t DoesGamePhaseRecordingExist( const char *pchPhaseID );</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchPhaseID</strong></td>
+        <td>const char *</td>
+        <td>A game-provided persistent ID for a game phase.</td>
+    </tr>
+</table>
+<br />
+Use this to determine if video recordings exist for the specified game phase. Steam will sent a
+<a
+    href="https://partner.steamgames.com/doc/api/SteamTimelineGamePhaseRecordingExists_t"
+    class="bb_apilink"
+    >SteamTimelineGamePhaseRecordingExists_t</a
+>
+callback with the result. This can be useful when the game needs to decide whether or not to show a
+control that will call
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#OpenOverlayToGamePhase"
+    class="bb_apilink"
+    >ISteamTimeline::OpenOverlayToGamePhase</a
+>.<br />
+<br />
+<strong>Returns:</strong>
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
+    >SteamAPICall_t</a
+>
+to be used with a
+<a
+    href="https://partner.steamgames.com/doc/api/SteamTimelineGamePhaseRecordingExists_t"
+    class="bb_apilink"
+    >SteamTimelineGamePhaseRecordingExists_t</a
+>
+call result.
+<h2 class="bb_subsection"><a name="AddGamePhaseTag"></a>AddGamePhaseTag</h2>
+<div class="bb_code cpp">
+    void AddGamePhaseTag( const char *pchTagName, const char *pchTagIcon, const char *pchTagGroup,
+    uint32 unPriority );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchTagName</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchIcon</strong></td>
+        <td>const char *</td>
+        <td>
+            The name of the icon to show when the tag is shown in the UI. This can be one of the
+            icons uploaded through the Steamworks partner Site for your title, or one of the
+            provided icons that start with
+            <code class="bb_code bb_code_inline nohighlight">steam_</code>. The Steam Timelines
+            overview includes a
+            <a href="https://partner.steamgames.com/doc/features/timeline#icons" class="bb_doclink"
+                >list of available icons</a
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchTagGroup</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >. Tags within the same group will be shown together in the UI.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>unPriority</strong></td>
+        <td>uint32</td>
+        <td>
+            Provide the priority to use when the UI is deciding which icons to display. Tags with
+            larger priority values will be displayed more prominently than tags with smaller
+            priority values. This value must be between 0 and
+            <code class="bb_code bb_code_inline nohighlight">k_unMaxTimelinePriority</code>.
+        </td>
+    </tr>
+</table>
+<br />
+Use this to add a game phase tag. Phase tags represent data with a well defined set of options,
+which could be data such as match resolution, hero played, game mode, etc. Tags can have an icon in
+addition to a text name. Multiple tags within the same group may be added per phase and all will be
+remembered. For example, <code class="bb_code bb_code_inline nohighlight">AddGamePhaseTag</code> may
+be called multiple times for a "Bosses Defeated" group, with different names and icons for each boss
+defeated during the phase, all of which will be shown to the user.
+<h2 class="bb_subsection"><a name="SetGamePhaseAttribute"></a>SetGamePhaseAttribute</h2>
+<div class="bb_code cpp">
+    void SetGamePhaseAttribute( const char *pchAttributeGroup, const char *pchAttributeValue, uint32
+    unPriority );
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchAttributeGroup</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>pchAttributeValue</strong></td>
+        <td>const char *</td>
+        <td>
+            Title-provided localized string in the language returned by
+            <code class="bb_code bb_code_inline nohighlight"
+                >SteamUtils()-&gt;GetSteamUILanguage()</code
+            >.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>unPriority</strong></td>
+        <td>uint32</td>
+        <td>
+            Provide the priority to use when the UI is deciding which attributes to display.
+            Attributes with larger priority values will be displayed more prominently than
+            attributes with smaller priority values. This value must be between 0 and
+            <code class="bb_code bb_code_inline nohighlight">k_unMaxTimelinePriority</code>.
+        </td>
+    </tr>
+</table>
+<br />
+Use this to add a game phase attribute. Phase attributes represent generic text fields that can be
+updated throughout the duration of the phase. They are meant<br />
+to be used for phase metadata that is not part of a well defined set of options. For example, a KDA
+attribute that starts<br />
+with the value "0/0/0" and updates as the phase progresses, or something like a played-entered
+character name. Attributes<br />
+can be set as many times as the game likes with SetGamePhaseAttribute, and only the last value will
+be shown to the user.
 <h2 class="bb_subsection"><a name="SetTimelineGameMode"></a>SetTimelineGameMode</h2>
 <div class="bb_code cpp">void SetTimelineGameMode( ETimelineGameMode eMode );</div>
 <table>
@@ -210,23 +846,128 @@ Changes the color of the timeline bar <strong><span style="color: #ffd55f">(C)</
     >ETimelineGameMode</a
 >
 for how to use each value.
+<h2 class="bb_subsection"><a name="OpenOverlayToGamePhase"></a>OpenOverlayToGamePhase</h2>
+<div class="bb_code cpp">void OpenOverlayToGamePhase( const char *pchPhaseID );</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>pchPhaseID</strong></td>
+        <td>const char *pchPhaseID</td>
+        <td>The game phase to show in the overlay.</td>
+    </tr>
+</table>
+<br />
+Opens the Steam overlay to the section of the timeline represented by the game phase.
+<h2 class="bb_subsection"><a name="OpenOverlayToTimelineEvent"></a>OpenOverlayToTimelineEvent</h2>
+<div class="bb_code cpp">void OpenOverlayToTimelineEvent( const TimelineEventHandle_t );</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>ulEvent</strong></td>
+        <td>TimelineEventHandle_t</td>
+        <td>Handle of the event to show in the overlay.</td>
+    </tr>
+</table>
+<br />
+Opens the Steam overlay to the section of the timeline represented by the timeline event. This event
+must be in the current game session, since
+<a href="https://partner.steamgames.com/doc/api/TimelineEventHandle_t" class="bb_apilink"
+    >TimelineEventHandle_t</a
+>
+values are not valid for future runs of the game.
+<h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
+These are callbacks that can be fired by calling
+<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
+    >SteamAPI_RunCallbacks</a
+>. These will be fired directly in response to the member functions of
+<code class="bb_code bb_code_inline nohighlight">ISteamTimeline</code>.
+<h2 class="bb_subsection">
+    <a name="SteamTimelineGamePhaseRecordingExists_t"></a>SteamTimelineGamePhaseRecordingExists_t
+</h2>
+Called when asking if recordings exist for a game phase ID.<br />
+<br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_rgchPhaseID</strong></td>
+        <td>char[]</td>
+        <td>The phase ID that this result corresponds with</td>
+    </tr>
+    <tr>
+        <td><strong>m_ulRecordingMS</strong></td>
+        <td>uint64</td>
+        <td>The total length of the recordings in this phase in milliseconds</td>
+    </tr>
+    <tr>
+        <td><strong>m_ulLongestClipMS</strong></td>
+        <td>uint64</td>
+        <td>The total length of the longest clip in this phase in milliseconds</td>
+    </tr>
+    <tr>
+        <td><strong>m_unClipCount</strong></td>
+        <td>uint32</td>
+        <td>The number of clips that include video from this phase</td>
+    </tr>
+    <tr>
+        <td><strong>m_unScreenshotCount</strong></td>
+        <td>uint32</td>
+        <td>The number of screenshots the user has from this phase</td>
+    </tr>
+</table>
+<h2 class="bb_subsection">
+    <a name="SteamTimelineEventRecordingExists_t"></a>SteamTimelineEventRecordingExists_t
+</h2>
+Called when asking if recordings exist for an event handle.<br />
+<br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>m_ulEventID</strong></td>
+        <td>TimelineEventHandle_t</td>
+        <td>The handle of the event that was asked about</td>
+    </tr>
+    <tr>
+        <td><strong>m_bRecordingExists</strong></td>
+        <td>bool</td>
+        <td>This is true if recording exists for the requested event handle</td>
+    </tr>
+</table>
+<br />
+<strong>Associated Functions:</strong>
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#DoesEventRecordingExist"
+    class="bb_apilink"
+    >ISteamTimeline::DoesEventRecordingExist</a
+>
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamTimeline.
 <h2 class="bb_subsection"><a name="ETimelineGameMode"></a>ETimelineGameMode</h2>
 Controls the color of the timeline bar segments. The value names listed here map to a multiplayer
-game, where<br />
-the user starts a game (in menus), then joins a multiplayer session that first has a character
-selection lobby<br />
-then finally the multiplayer session starts. However, you can also map these values to any type of
-game. In a single<br />
-player game where you visit towns &amp; dungeons, you could set
-<code class="bb_code bb_code_inline nohighlight">k_ETimelineGameMode_Menus</code> when the player is
-in a town<br />
-buying items,
+game, where the user starts a game (in menus), then joins a multiplayer session that first has a
+character selection lobby then finally the multiplayer session starts. However, you can also map
+these values to any type of game. In a single player game where you visit towns &amp; dungeons, you
+could set <code class="bb_code bb_code_inline nohighlight">k_ETimelineGameMode_Menus</code> when the
+player is in a town buying items,
 <code class="bb_code bb_code_inline nohighlight">k_ETimelineGameMode_Staging</code> for when a
 dungeon is loading and
-<code class="bb_code bb_code_inline nohighlight">k_ETimelineGameMode_Playing</code> for when<br />
-inside the dungeon fighting monsters.<br />
+<code class="bb_code bb_code_inline nohighlight">k_ETimelineGameMode_Playing</code> for when inside
+the dungeon fighting monsters.<br />
 <br />
 <table>
     <tr>
@@ -255,6 +996,11 @@ inside the dungeon fighting monsters.<br />
         <td>The player is waiting for a loading screen.</td>
     </tr>
 </table>
+<br />
+End a timeline event that was started with
+<a href="https://partner.steamgames.com/doc/api/StartRangeTimelineEvent" class="bb_apilink"
+    >StartRangeTimelineEvent</a
+>
 <h2 class="bb_subsection"><a name="ETimelineEventClipPriority"></a>ETimelineEventClipPriority</h2>
 <br />
 Used in AddTimelineEvent, where Featured events will be offered before Standard events.<br />
@@ -288,6 +1034,11 @@ Used in AddTimelineEvent, where Featured events will be offered before Standard 
         </td>
     </tr>
 </table>
+<h2 class="bb_subsection"><a name="TimelineEventHandle_t"></a>TimelineEventHandle_t</h2>
+<br />
+Used to identify a single timeline event, which may still be in progress or may be completed. These
+handles are only valid for the current run of the game, and may not be used after the game is
+restarted.
 <h2 class="bb_section"><a name="functions"></a>Diagrams</h2>
 <br />
 <img
