@@ -261,7 +261,7 @@ handle.<br />
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    ControllerHandle_t *handlesOut = new ControllerHandle_t [];
+    ControllerHandle_t *handlesOut = new ControllerHandle_t [ STEAM_CONTROLLER_MAX_COUNT ];
     SteamController()-&gt;GetActiveActionSetLayers( controllerHandle1, &amp;handlesOut );
 </div>
 <h2 class="bb_subsection"><a name="GetActionSetHandle"></a>GetActionSetHandle</h2>
@@ -467,7 +467,7 @@ The number of origins supplied in
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    EControllerActionOrigin *origins = new EControllerActionOrigin[];
+    EControllerActionOrigin *origins = new EControllerActionOrigin[ STEAM_CONTROLLER_MAX_ORIGINS ];
     SteamController()-&gt;GetAnalogActionOrigins( controller1Handle, walkingSetHandle, moveHandle,
     origins );
 </div>
@@ -509,7 +509,7 @@ The number of handles written to
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    ControllerHandle_t *controllerHandles = new ControllerHandle_t[];
+    ControllerHandle_t *controllerHandles = new ControllerHandle_t[ STEAM_CONTROLLER_MAX_COUNT ];
     SteamController()-&gt;GetConnectedControllers( controllerHandles );
 </div>
 <h2 class="bb_subsection">
@@ -762,7 +762,7 @@ The number of origins supplied in
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    EControllerActionOrigin *origins = new EControllerActionOrigin[];
+    EControllerActionOrigin *origins = new EControllerActionOrigin[ STEAM_CONTROLLER_MAX_ORIGINS ];
     SteamController()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle,
     punchHandle, origins );
 </div>
@@ -835,17 +835,17 @@ E.g.
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    // Get origins for "punch" EControllerActionOrigin *origins = new EControllerActionOrigin[];
-    SteamController()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle,
-    punchHandle, origins ); EControllerActionOrigin firstOrigin = origins[0]; //i.e,
-    k_EControllerActionOrigin_PS4_X // This is a function from the game itself that tries to get
-    custom glyph art int glyphTextureID = getHardCodedButtonGlyphTexture( firstOrigin ); // We
-    didn't ship any art in our game for this origin! I guess Steam has added support for // a new
-    controller or we just forgot to add this art! //(i.e, we only have Steam Controller glyphs, but
-    it's a PlasyStation 4 Controller) if( glyphTextureID == -1 ) { // Just get the image from the
-    Steam client instead. const char *localGlyphPath =
-    SteamController()-&gt;GetGlyphForActionOrigin( firstOrigin ); printf( "path = %s\n",
-    localGlyphPath ); // "path = C:\Program Files
+    // Get origins for "punch" EControllerActionOrigin *origins = new EControllerActionOrigin[
+    STEAM_CONTROLLER_MAX_ORIGINS ]; SteamController()-&gt;GetDigitalActionOrigins(
+    controller1Handle, fightingSetHandle, punchHandle, origins ); EControllerActionOrigin
+    firstOrigin = origins[0]; //i.e, k_EControllerActionOrigin_PS4_X // This is a function from the
+    game itself that tries to get custom glyph art int glyphTextureID =
+    getHardCodedButtonGlyphTexture( firstOrigin ); // We didn't ship any art in our game for this
+    origin! I guess Steam has added support for // a new controller or we just forgot to add this
+    art! //(i.e, we only have Steam Controller glyphs, but it's a PlasyStation 4 Controller) if(
+    glyphTextureID == -1 ) { // Just get the image from the Steam client instead. const char
+    *localGlyphPath = SteamController()-&gt;GetGlyphForActionOrigin( firstOrigin ); printf( "path =
+    %s\n", localGlyphPath ); // "path = C:\Program Files
     (x86)\Steam\tenfoot\resource\images\library\controller\api\ps4_button_x.png" //a function from
     the game that turns a file path into a usable game texture glyphTextureID =
     loadButtonGlyphTextureFromLocalPath( localGlyphPath ); }
@@ -967,7 +967,7 @@ Returns a localized string (from Steam's language setting) for the specified ori
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    EControllerActionOrigin *origins = new EControllerActionOrigin[];
+    EControllerActionOrigin *origins = new EControllerActionOrigin[ STEAM_CONTROLLER_MAX_ORIGINS ];
     SteamController()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle,
     punchHandle, origins ); const char * punchString =
     SteamController()-&gt;GetStringForActionOrigin( origins[0] ); printf("punch =

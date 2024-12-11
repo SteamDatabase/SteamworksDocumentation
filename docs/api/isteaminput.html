@@ -448,8 +448,9 @@ The number of origins supplied in
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    EInputActionOrigin *origins = new EInputActionOrigin[]; SteamInput()-&gt;GetAnalogActionOrigins(
-    controller1Handle, walkingSetHandle, moveHandle, origins );
+    EInputActionOrigin *origins = new EInputActionOrigin[ STEAM_INPUT_MAX_ORIGINS ];
+    SteamInput()-&gt;GetAnalogActionOrigins( controller1Handle, walkingSetHandle, moveHandle,
+    origins );
 </div>
 <h2 class="bb_subsection"><a name="GetConnectedControllers"></a>GetConnectedControllers</h2>
 <div class="bb_code cpp">int GetConnectedControllers( InputHandle_t *handlesOut );</div>
@@ -489,8 +490,8 @@ The number of handles written to
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    InputHandle_t *inputHandles = new InputHandle_t[]; SteamInput()-&gt;GetConnectedControllers(
-    inputHandles );
+    InputHandle_t *inputHandles = new InputHandle_t[ STEAM_INPUT_MAX_COUNT ];
+    SteamInput()-&gt;GetConnectedControllers( inputHandles );
 </div>
 <h2 class="bb_subsection">
     <a name="GetControllerForGamepadIndex"></a>GetControllerForGamepadIndex
@@ -734,7 +735,7 @@ The number of origins supplied in
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    EInputActionOrigin *origins = new EInputActionOrigin[];
+    EInputActionOrigin *origins = new EInputActionOrigin[ STEAM_INPUT_MAX_ORIGINS ];
     SteamInput()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle, punchHandle,
     origins );
 </div>
@@ -803,16 +804,16 @@ E.g.
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    // Gets origins for "punch" EInputActionOrigin *origins = new EInputActionOrigin[];
-    SteamInput()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle, punchHandle,
-    origins ); EInputActionOrigin firstOrigin = origins[0]; //i.e, k_EInputActionOrigin_PS4_X //
-    This is a function from the game itself that tries to get custom glyph art int glyphTextureID =
-    getHardCodedButtonGlyphTexture( firstOrigin ); // We didn't ship any art in our game for this
-    origin! I guess Steam has added support for // a new controller or we just forgot to add this
-    art! //(i.e, we only have Steam Controller glyphs, but it's a PlayStation 4 Controller) if(
-    glyphTextureID == -1 ) { // Just get the image from the Steam client instead. const char
-    *localGlyphPath = SteamInput()-&gt;GetGlyphForActionOrigin( firstOrigin ); printf( "path =
-    %s\n", localGlyphPath ); // "path = C:\Program Files
+    // Gets origins for "punch" EInputActionOrigin *origins = new EInputActionOrigin[
+    STEAM_INPUT_MAX_ORIGINS ]; SteamInput()-&gt;GetDigitalActionOrigins( controller1Handle,
+    fightingSetHandle, punchHandle, origins ); EInputActionOrigin firstOrigin = origins[0]; //i.e,
+    k_EInputActionOrigin_PS4_X // This is a function from the game itself that tries to get custom
+    glyph art int glyphTextureID = getHardCodedButtonGlyphTexture( firstOrigin ); // We didn't ship
+    any art in our game for this origin! I guess Steam has added support for // a new controller or
+    we just forgot to add this art! //(i.e, we only have Steam Controller glyphs, but it's a
+    PlayStation 4 Controller) if( glyphTextureID == -1 ) { // Just get the image from the Steam
+    client instead. const char *localGlyphPath = SteamInput()-&gt;GetGlyphForActionOrigin(
+    firstOrigin ); printf( "path = %s\n", localGlyphPath ); // "path = C:\Program Files
     (x86)\Steam\tenfoot\resource\images\library\controller\api\ps4_button_x.png" //a function from
     the game that turns a file path into a usable game texture glyphTextureID =
     loadButtonGlyphTextureFromLocalPath( localGlyphPath ); }
@@ -918,7 +919,7 @@ Returns a localized string (from Steam's language setting) for the specified ori
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
-    EInputActionOrigin *origins = new EInputActionOrigin[];
+    EInputActionOrigin *origins = new EInputActionOrigin[ STEAM_INPUT_MAX_ORIGINS ];
     SteamInput()-&gt;GetDigitalActionOrigins( controller1Handle, fightingSetHandle, punchHandle,
     origins ); const char * punchString = SteamInput()-&gt;GetStringForActionOrigin( origins[0] );
     printf("punch = %s\n",punchString);
