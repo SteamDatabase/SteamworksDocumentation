@@ -78,8 +78,8 @@ Clears the previous set game state in the timeline.
     <a name="AddInstantaneousTimelineEvent"></a>AddInstantaneousTimelineEvent
 </h2>
 <div class="bb_code cpp">
-    TimelineEventHandle_t AddInstantaneousTimelineEvent( const char *pchIcon, const char *pchTitle,
-    const char *pchDescription, uint32 unPriority, float flStartOffsetSeconds,
+    TimelineEventHandle_t AddInstantaneousTimelineEvent( const char *pchTitle, const char
+    *pchDescription, const char *pchIcon, uint32 unPriority, float flStartOffsetSeconds,
     ETimelineEventClipPriority ePossibleClip );
 </div>
 <table>
@@ -149,9 +149,9 @@ Clears the previous set game state in the timeline.
         <td><strong>ePossibleClip </strong></td>
         <td>
             <a
-                href="https://partner.steamgames.com/doc/api/ETimelineEventClipPriority"
+                href="https://partner.steamgames.com/doc/api/ISteamTimeline#ETimelineEventClipPriority"
                 class="bb_apilink"
-                >ETimelineEventClipPriority</a
+                >ISteamTimeline::ETimelineEventClipPriority</a
             >
         </td>
         <td>
@@ -184,7 +184,9 @@ their own at any point, but this lets the game suggest some options to Steam to 
 easier for players.<br />
 <br />
 This function returns a
-<a href="https://partner.steamgames.com/doc/api/TimelineEventHandle_t" class="bb_apilink"
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#TimelineEventHandle_t"
+    class="bb_apilink"
     >TimelineEventHandle_t</a
 >
 that can be used with
@@ -207,8 +209,8 @@ and
 >.
 <h2 class="bb_subsection"><a name="AddRangeTimelineEvent"></a>AddRangeTimelineEvent</h2>
 <div class="bb_code cpp">
-    TimelineEventHandle_t AddRangeTimelineEvent( const char *pchIcon, const char *pchTitle, const
-    char *pchDescription, uint32 unPriority, float flStartOffsetSeconds, float flDurationSeconds,
+    TimelineEventHandle_t AddRangeTimelineEvent( const char *pchTitle, const char *pchDescription,
+    const char *pchIcon, uint32 unPriority, float flStartOffsetSeconds, float flDurationSeconds,
     ETimelineEventClipPriority ePossibleClip );
 </div>
 <table>
@@ -283,7 +285,7 @@ and
         <td><strong>ePossibleClip </strong></td>
         <td>
             <a
-                href="https://partner.steamgames.com/doc/api/ETimelineEventClipPriority"
+                href="https://partner.steamgames.com/doc/api/ISteamTimeline#ETimelineEventClipPriority"
                 class="bb_apilink"
                 >ETimelineEventClipPriority</a
             >
@@ -313,8 +315,13 @@ their own at any point, but this lets the game suggest some options to Steam to 
 easier for players.<br />
 <br />
 This function returns a
-<code class="bb_code bb_code_inline nohighlight">TimelineEventHandle_t</code> that can be used with
-<code class="bb_code bb_code_inline nohighlight">RemoveTimelineEvent</code> or the overlay functions
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#TimelineEventHandle_t"
+    class="bb_apilink"
+    >TimelineEventHandle_t</a
+>
+that can be used with <code class="bb_code bb_code_inline nohighlight">RemoveTimelineEvent</code> or
+the overlay functions
 <a
     href="https://partner.steamgames.com/doc/api/ISteamTimeline#DoesEventRecordingExist"
     class="bb_apilink"
@@ -328,8 +335,8 @@ and
 >.
 <h2 class="bb_subsection"><a name="StartRangeTimelineEvent"></a>StartRangeTimelineEvent</h2>
 <div class="bb_code cpp">
-    TimelineEventHandle_t StartRangeTimelineEvent( const char *pchIcon, const char *pchTitle, const
-    char *pchDescription, uint32 unPriority, float flStartOffsetSeconds, ETimelineEventClipPriority
+    TimelineEventHandle_t StartRangeTimelineEvent( const char *pchTitle, const char *pchDescription,
+    const char *pchIcon, uint32 unPriority, float flStartOffsetSeconds, ETimelineEventClipPriority
     ePossibleClip );
 </div>
 <table>
@@ -399,7 +406,7 @@ and
         <td><strong>ePossibleClip </strong></td>
         <td>
             <a
-                href="https://partner.steamgames.com/doc/api/ETimelineEventClipPriority"
+                href="https://partner.steamgames.com/doc/api/ISteamTimeline#ETimelineEventClipPriority"
                 class="bb_apilink"
                 >ETimelineEventClipPriority</a
             >
@@ -508,7 +515,7 @@ easier for players.
         <td><strong>ePossibleClip </strong></td>
         <td>
             <a
-                href="https://partner.steamgames.com/doc/api/ETimelineEventClipPriority"
+                href="https://partner.steamgames.com/doc/api/ISteamTimeline#ETimelineEventClipPriority"
                 class="bb_apilink"
                 >ETimelineEventClipPriority</a
             >
@@ -528,9 +535,7 @@ Use this to update the details of an event that was started with
 >.
 <h2 class="bb_subsection"><a name="EndRangeTimelineEvent"></a>EndRangeTimelineEvent</h2>
 <div class="bb_code cpp">
-    void EndRangeTimelineEvent( TimelineEventHandle_t ulEvent, const char *pchTitle, const char
-    *pchDescription, const char *pchIcon, uint32 unPriority, ETimelineEventClipPriority
-    ePossibleClip );
+    void EndRangeTimelineEvent( TimelineEventHandle_t ulEvent, float flEndOffsetSeconds );
 </div>
 <table>
     <tr>
@@ -553,8 +558,34 @@ Use this to update the details of an event that was started with
         </td>
     </tr>
 </table>
+<h2 class="bb_subsection"><a name="RemoveTimelineEvent"></a>RemoveTimelineEvent</h2>
+<div class="bb_code cpp">void RemoveTimelineEvent( TimelineEventHandle_t ulEvent );</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>ulEvent</strong></td>
+        <td>TimelineEventHandle_t</td>
+        <td>Handle of the event to remove.</td>
+    </tr>
+</table>
 <br />
-Use this to identify the end of an event that was started with
+Use this to remove an event that was added with
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#AddInstantaneousTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::AddInstantaneousTimelineEvent</a
+>
+or
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#AddRangeTimelineEvent"
+    class="bb_apilink"
+    >ISteamTimeline::AddRangeTimelineEvent</a
+>
+or an event that is in progress and was started with
 <a
     href="https://partner.steamgames.com/doc/api/ISteamTimeline#StartRangeTimelineEvent"
     class="bb_apilink"
@@ -579,7 +610,7 @@ Use this to identify the end of an event that was started with
 <br />
 Use this to determine if video recordings exist for the specified event. Steam will sent a
 <a
-    href="https://partner.steamgames.com/doc/api/SteamTimelineEventRecordingExists_t"
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#SteamTimelineEventRecordingExists_t"
     class="bb_apilink"
     >SteamTimelineEventRecordingExists_t</a
 >
@@ -597,7 +628,7 @@ control that will call
 >
 to be used with a
 <a
-    href="https://partner.steamgames.com/doc/api/SteamTimelineEventRecordingExists_t"
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#SteamTimelineEventRecordingExists_t"
     class="bb_apilink"
     >SteamTimelineEventRecordingExists_t</a
 >
@@ -684,7 +715,7 @@ or
 <br />
 Use this to determine if video recordings exist for the specified game phase. Steam will sent a
 <a
-    href="https://partner.steamgames.com/doc/api/SteamTimelineGamePhaseRecordingExists_t"
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#SteamTimelineGamePhaseRecordingExists_t"
     class="bb_apilink"
     >SteamTimelineGamePhaseRecordingExists_t</a
 >
@@ -702,7 +733,7 @@ control that will call
 >
 to be used with a
 <a
-    href="https://partner.steamgames.com/doc/api/SteamTimelineGamePhaseRecordingExists_t"
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#SteamTimelineGamePhaseRecordingExists_t"
     class="bb_apilink"
     >SteamTimelineGamePhaseRecordingExists_t</a
 >
@@ -834,7 +865,9 @@ be shown to the user.
     <tr>
         <td><strong>eMode</strong></td>
         <td>
-            <a href="https://partner.steamgames.com/doc/api/ETimelineGameMode" class="bb_apilink"
+            <a
+                href="https://partner.steamgames.com/doc/api/ISteamTimeline#ETimelineGameMode"
+                class="bb_apilink"
                 >ETimelineGameMode</a
             >
         </td>
@@ -844,7 +877,7 @@ be shown to the user.
 <br />
 Changes the color of the timeline bar <strong><span style="color: #ffd55f">(C)</span></strong
 >. See
-<a href="https://partner.steamgames.com/doc/api/ETimelineGameMode" class="bb_apilink"
+<a href="https://partner.steamgames.com/doc/api/ISteamTimeline#ETimelineGameMode" class="bb_apilink"
     >ETimelineGameMode</a
 >
 for how to use each value.
@@ -881,7 +914,9 @@ Opens the Steam overlay to the section of the timeline represented by the game p
 <br />
 Opens the Steam overlay to the section of the timeline represented by the timeline event. This event
 must be in the current game session, since
-<a href="https://partner.steamgames.com/doc/api/TimelineEventHandle_t" class="bb_apilink"
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamTimeline#TimelineEventHandle_t"
+    class="bb_apilink"
     >TimelineEventHandle_t</a
 >
 values are not valid for future runs of the game.
@@ -998,11 +1033,6 @@ the dungeon fighting monsters.<br />
         <td>The player is waiting for a loading screen.</td>
     </tr>
 </table>
-<br />
-End a timeline event that was started with
-<a href="https://partner.steamgames.com/doc/api/StartRangeTimelineEvent" class="bb_apilink"
-    >StartRangeTimelineEvent</a
->
 <h2 class="bb_subsection"><a name="ETimelineEventClipPriority"></a>ETimelineEventClipPriority</h2>
 <br />
 Used in AddTimelineEvent, where Featured events will be offered before Standard events.<br />
@@ -1036,6 +1066,7 @@ Used in AddTimelineEvent, where Featured events will be offered before Standard 
         </td>
     </tr>
 </table>
+<h2 class="bb_section"><a name="enums"></a>Typedefs</h2>
 <h2 class="bb_subsection"><a name="TimelineEventHandle_t"></a>TimelineEventHandle_t</h2>
 <br />
 Used to identify a single timeline event, which may still be in progress or may be completed. These
