@@ -1,0 +1,28 @@
+<h1>Steam Workshop Item Versioning</h1>
+By default, users who subscribe to a Steam Workshop item will download the latest version of that
+item. Any subsequent updates to the item will also be propagated to all current subscribers.<br />
+<br />
+With the release of version 1.60 of the Steamworks SDK, content creators can now specify that a
+specific version of their item is valid for a Steam (beta) branch. When uploading a version of an
+item, simply call
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamUGC#SetRequiredGameVersions"
+    class="bb_apilink"
+    >ISteamUGC::SetRequiredGameVersions</a
+>
+with a <i>minimum</i> and <i>maximum</i> Steam branch. These branches can be the same if the item is
+only valid for a specific Steam branch. If the <i>minimum</i> branch is not set, then the item is
+valid for all Steam branches older than the <i>maximum</i> branch, and vice-versa for when the
+<i>maximum</i> branch is not set. Content creators can also set the <i>minimum</i> and
+<i>maximum</i> branches for their items on the web page for their item under the "Change Notes"
+section.<br />
+<br />
+Users who have opted into Steam branch will download the version of the item that is valid for that
+branch. If the content creator updates a version of an item, all subscribers who have opted into the
+Steam branch associated with that item will download those changes.<br />
+<br />
+To get the most out of this feature, you will need to order your Steam branches on the Steamworks
+site by visiting the SteamPipe &gt; Builds page. From there you can re-order the branches you've
+created from oldest to newest. This is needed if you want users to be able to specify that a version
+of their item is valid for a range of branches (i.e. "minimum" and "maximum") instead of just one
+specific branch.

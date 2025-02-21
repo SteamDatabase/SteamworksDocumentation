@@ -1,0 +1,71 @@
+<h1>ITrustService Interface</h1>
+Provides access to the Steam Trust functionality. Steam Trust predicts the likelihood that an
+account will receive a permanent ban in an application. <br />
+<br />
+For more info on how to use the Steamworks Web API please see the
+<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
+>.
+<h2 class="bb_section"><a name="GetTrustScore"></a>GetTrustScore</h2>
+<div class="bb_code http">GET https://api.steampowered.com/ITrustService/GetTrustScore/v1/</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>key</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>Steamworks Web API publisher authentication key.</td>
+    </tr>
+    <tr>
+        <td><strong>appid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>App ID for which Trust is being requested.</td>
+    </tr>
+    <tr>
+        <td><strong>steamid</strong></td>
+        <td>uint32</td>
+        <td>✔</td>
+        <td>Steam ID of user for which Trust is being requested.</td>
+    </tr>
+</table>
+<br />
+The response will have the following fields:<br />
+<br />
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>trust_score</strong></td>
+        <td>uint32</td>
+        <td>The requested user's Trust score, which is a value in [0, 1000].</td>
+    </tr>
+    <tr>
+        <td><strong>precision</strong></td>
+        <td>uint32</td>
+        <td>
+            the precision provided for this calculation, which is a value in [1, 1000]. trust_score
+            will be rounded to the nearest precision.
+        </td>
+    </tr>
+</table>
+<br />
+Get the Trust Score for the specified user in the provided App ID. The returned trust_score is a
+value in the range [0, 1000], where 0 represents 0%, 745 represents 74.5%, 1000 represents 100%,
+etc. To mitigate bad actor behavior, the precision of the return values is gated by Steam on a
+variety of factors, and is returned in the precision field of the response. For example, if the
+returned precision value is 200 (the default), then the returned trust_score would be whichever of
+the following values was closest to the user's true trust_score: (0, 200, 400, 600, 800, 1000).<br />
+<br />
+<strong>NOTE:</strong> Trust can only be used as a factor in matchmaking.<br />
+<br />
+<strong>NOTE:</strong> This call requires the publisher API key that owns the specified App ID to
+use this method. As such this API <strong>MUST</strong> be called from a secure server, and can
+never be used directly by clients!

@@ -1,0 +1,139 @@
+<h1>Steam Input Stats And Reports</h1>
+This documentation describes the sales and activations report for Controller usage in your game.<br />
+<br />
+To find these new reports, simply navigate to your desired app in the
+<a href="https://partner.steampowered.com/" target="_blank" rel="noreferrer"
+    >Steamworks Sales &amp; Activations dashboard</a
+>, and click “Controller Stats” in the list of options on the right-hand side.
+<h2 class="bb_section"><a name="1"></a>Stats Page In Detail</h2>
+Let’s look at an example report, broken down by each section.
+<h2 class="bb_subsection"><a name="2"></a>Lifetime Controller Stats</h2>
+Breaking down the reports a little, the section at the top tells you how many of your customers have
+ever used a controller in any game on Steam as well as the number of your players that have used a
+controller in your game. This section can help you understand the potential number of players that
+could play your game with a controller if your game is reasonably fun to play with a controller.<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/controllerStats_Lifetime2.png"
+    alt="controllerStats_Lifetime2.png"
+    title="controllerStats_Lifetime2.png"
+/>
+<h2 class="bb_subsection"><a name="3"></a>Daily Active Controller Users</h2>
+Within the selected time range, the report will start by displaying your game’s daily active users
+(DAU’s) and the number of those players using a controller. We see across Steam that the average
+number of players using a controller is about 8%, but it can vary widely from game to game, and
+genre to genre.<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/controllerStats_DAU_overview2.png"
+    alt="controllerStats_DAU_overview2.png"
+    title="controllerStats_DAU_overview2.png"
+/><br />
+<br />
+This reporting also includes a graph (shown for any time range longer than a single day) that
+displays the usage of major controller types over time. This can be useful to see the impact of
+adding new controller support, or to visualize the number of players that are trying to play your
+game with certain types of controllers.<br />
+<br />
+This is a fairly typical graph, where about 20% of the controller sessions are on PlayStation
+controllers (the global average is 24%).<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/controllerStats_DAU_graph_default2.png"
+    alt="controllerStats_DAU_graph_default2.png"
+    title="controllerStats_DAU_graph_default2.png"
+/><br />
+<br />
+<br />
+If your graph looks more like the one below, where less than 10% of total controller sessions are
+PlayStation controller usage, then you may have some room to improve your support for PlayStation
+controllers.<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/controllerStats_DAU_graph_lowPS.png"
+    alt="controllerStats_DAU_graph_lowPS.png"
+    title="controllerStats_DAU_graph_lowPS.png"
+/><br />
+<br />
+<br />
+On the other end of the spectrum, here is an example of a game where 30% of total controller
+sessions are PlayStation controllers. This game likely has really good PS controller support. <br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/controllerStats_DAU_graph_goodPS.png"
+    alt="controllerStats_DAU_graph_goodPS.png"
+    title="controllerStats_DAU_graph_goodPS.png"
+/>
+<h2 class="bb_subsection"><a name="4"></a>Sessions Per Controller Model</h2>
+Next on the report is a table that breaks down the usage of controllers by model, and the percentage
+of sessions that are served by the one of the Steam Input services.<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/controllerStats_SessionsTable2.png"
+    alt="controllerStats_SessionsTable2.png"
+    title="controllerStats_SessionsTable2.png"
+/><br />
+<br />
+In this example, we can see that most controller sessions in this game (68%) are played with various
+Xbox controllers, which is pretty common for a lot of games. Xbox controller support is fairly easy
+for developers to add and is built into a lot of game engines. As a result, you see that a small
+percentage (17%) of Xbox sessions are using Steam Input – most players stick with the default Xbox
+controller support built into the game.<br />
+<br />
+This also shows that 21% of controller usage is on PlayStation controllers, and almost all (99%) of
+those sessions are served by the Steam Input services. That means this game is relying on Steam to
+support PlayStation controllers, either through emulation or through Steam Input API integration.
+<h2 class="bb_subsection"><a name="5"></a>Multi-Controller Sessions</h2>
+Lastly, if you have a game with local co-op support, you might find this section interesting. The
+first line shows number of total controller game sessions during a designated timeframe. The second
+line shows how many of those sessions were played over a local area network and/or coop.<br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/controllerStats_multiController2.png"
+    alt="controllerStats_multiController2.png"
+    title="controllerStats_multiController2.png"
+/>
+<h2 class="bb_section"><a name="6"></a>What Can You Do With This Information?</h2>
+If you have the kind of game that might play well with a controller, there are a few conclusions you
+could draw from this new reporting. Here are just a few examples:<br />
+<ul class="bb_ul">
+    <li>
+        If the number of customers with controllers is really high, but not many of them are using
+        controllers in your game, it might suggest that you haven’t done much (or any) work to
+        support controllers in your game.<br />
+    </li>
+    <li>
+        If usage of PlayStation controllers in your own game is far below the global average of 24%,
+        you might be lacking sufficient support to allow a good player experience with those
+        controllers. Integrating with the
+        <a
+            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs"
+            target="_blank"
+            rel="noreferrer"
+            >Steam Input API</a
+        >
+        can address almost all possible controller models with a single integration.<br />
+    </li>
+    <li>
+        Alternatively, if you see low PlayStation controller usage in your game and you don’t have
+        the resources to integrate the API solution (or you want to run a test before you do that
+        work), you could enable Steam Input Gamepad Emulation to get ‘pretty good’ PlayStation
+        controller support in your game without any additional development work. Remember, this
+        isn’t full integration and may result in things like the player seeing your existing button
+        icon prompts, which wouldn’t necessarily match up with the icons on the controller they are
+        using.
+    </li>
+</ul>
+<br />
+One final note: If we have just one thing we’d suggest and promote, it would be for more developers
+to display the corresponding PlayStation icons in game when there is a prompt for a player to hit a
+certain button. You can make your own or you can use the icons already provided with the Steam Input
+API integration.
+<h2 class="bb_subsection"><a name="7"></a>Learn More About Controller Support On Steam</h2>
+The Steam Input documentation is a great place to start. There are a couple of introductions to
+controller support, and a description of the features and services Steam provides to help offload
+much of the work. <br />
+See
+<a href="https://partner.steamgames.com/doc/features/steam_controller" class="bb_doclink"
+    >Steam Input Documentation</a
+><br />

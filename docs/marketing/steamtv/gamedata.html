@@ -1,0 +1,130 @@
+<h1>Game Data Integration</h1>
+<div class="bb_callout">
+    <div>
+        <i
+            >Note: This is a <strong>BETA</strong> feature. It may change at any time or it may be
+            discontinued.</i
+        >
+    </div>
+</div>
+<br />
+You can augment your live stream with localized markups that describe interesting moments to
+re-watch or moments for late comers to catch-up by watching. You do this by sending game data along
+with your live video data. The game data can be sent from the same machine or a different machine
+than the one used for live video data.
+<h2 class="bb_section"><a name="1"></a>Upload</h2>
+<br />
+The Steam end-point to upload game data is the following:<br />
+<br />
+<div class="bb_code">
+    https://&lt;rtmp hostname&gt;/broadcast/&lt;steamid of broadcaster&gt;/upload_gamedata
+</div>
+<br />
+All of the parameters are supplied with POST.
+<h2 class="bb_subsection"><a name="2"></a>Server Choice</h2>
+You need to send game data to the same RTMP server that you will send the live video data to. The
+game data should be sent after you have already begun your live stream otherwise you will receive
+412 HTTP status code. If you are getting 412 even though the live stream is running, it means you
+are sending the game data to a different RTMP server than the video data which may be caused by
+using a DNS round-robin URL for the RTMP. By looking at the
+<a href="http://steamcommunity.com/broadcast/upload/" target="_blank" rel="noreferrer"
+    >steamcommunity.com/broadcast/upload/</a
+>
+page, you want to use the explicit RTMP server as pointed to by the green arrow to ensure that the
+live video data and game data are going to the exact same RTMP server. The other table (red arrow)
+is a DNS round-robin of RTMP servers located in the same geographic region; using this may result in
+the game data going to a different server than the video data. <br />
+<br />
+<img
+    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/image2018-10-15_10-0-17.png"
+    alt="image2018-10-15_10-0-17.png"
+    title="image2018-10-15_10-0-17.png"
+/>
+<h2 class="bb_subsection"><a name="3"></a>Example</h2>
+Using the above as an example, I would send my live video stream to
+<a href="http://rtmp:/br1-sea1.broadcast.steamcontent.com/app" target="_blank" rel="noreferrer"
+    >rtmp:/br1-sea1.broadcast.steamcontent.com/app</a
+>
+and my game data to
+<a
+    href="https://br1-sea1.broadcast.steamcontent.com/broadcast/76561198348711414/upload_gamedata"
+    target="_blank"
+    rel="noreferrer"
+    >https://br1-sea1.broadcast.steamcontent.com/broadcast/76561198348711414/upload_gamedata</a
+>
+where '76561198348711414' is my steamid which I use for live streaming.<br />
+<br />
+We recommend you send your game data to this API every 2-5 seconds. The game data can be a complete
+representation from the beginning of the streaming event.
+<h2 class="bb_section"><a name="4"></a>POST Parameters</h2>
+All of the parameters are required<br />
+<ol class="bb_ol">
+    <li>
+        <strong>appid</strong> : The app being streamed. If this appid changes with subsequent calls
+        we will clear cache of any previous game data. <br />
+    </li>
+    <li>
+        <strong>rtmptoken</strong> : this is the stream key or the RTMP token you received from
+        <a href="http://steamcommunity.com/broadcast/upload" target="_blank" rel="noreferrer"
+            >steamcommunity.com/broadcast/upload</a
+        >. This is the same RTMP token used to permit you to upload your live video data.<br />
+    </li>
+    <li>
+        <strong>gamedata</strong> : JSON game data. The format is described in the next section.
+        Make sure to encode via base64
+    </li>
+</ol>
+<h2 class="bb_subsection"><a name="5"></a>Game Data Format</h2>
+<br />
+<div class="bb_code json">
+    { "appid": 220; "brackets": { "name": "#bcast_TeamVsTeamMap", "start": 1536104722301, // time is
+    in seconds from epoch, Jan 1, 1970 "end": 1536107426249, // optional parameter; Supply when you
+    know the bracket's end. We auto close a bracket if you open a new one. "params": { // optional
+    parameter; used when localizing your strings "team1": "Alpha", "team2": "Beta", "map": "dust2"
+    }, }, "markers": { "time": 1536107426249, "name": "round 1", // optional parameter; Only shows
+    as a tooltip when a user hovering over the tick marker. "params": { "loctoken": "loc token" },
+    }, }
+</div>
+<br />
+The string used for <strong>'name'</strong> can optionally be tokens for localization (as in the
+example above). The parser will replace the token with the translations for each language; English
+is used as the fallback language if the customers language is not provided. There are no general
+localize tokens. You must define the tokens via the Rich Presence for the app. You can edit your
+Rich Presence in App Data Admin for your app. The above example would have the following
+localization in the apps Rich Presence in the following way: <br />
+<br />
+<div class="bb_code">
+    "#bcast_TeamVsTeamMap" "%team1% vs %team2% | {#gamemap_%map%}" "#gamemap_dust2" "Dust 2"
+</div>
+<br />
+This would display on screen the following: 'Alpha vs Beta | Dust 2'<br />
+<br />
+More information about rich presence tokens can be found
+<a
+    href="https://partner.steamgames.com/doc/api/ISteamFriends#richpresencelocalization"
+    target="_blank"
+    rel="noreferrer"
+    >here</a
+>.
+<h2 class="bb_section"><a name="6"></a>Reference</h2>
+<br />
+To see how CSGO thinks about the game data integration, you can look at this document. They can
+configure their CSGO game client to send game state data to any web server. They show an
+<a
+    href="https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration"
+    target="_blank"
+    rel="noreferrer"
+    >https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration</a
+>
+to receive the data.<br />
+<br />
+Here is an example of the code that CSGO team used to upload the brackets and markers to Steam
+Broadcast (not complete example, just the upload code segment):
+<a
+    class="bb_docfile"
+    href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/ExampleUpload.js"
+    target="_blank"
+    >ExampleUpload.js</a
+><br />
+<br />
+<br />
