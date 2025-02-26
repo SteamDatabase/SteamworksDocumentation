@@ -70,6 +70,11 @@ The JSON response will contain the following fields:<br />
         <td>Time that the app was acquired.</td>
     </tr>
     <tr>
+        <td><strong>timeexpires</strong></td>
+        <td>bool</td>
+        <td>Time that the app license will expire. Permanent licenses are marked as "never"</td>
+    </tr>
+    <tr>
         <td><strong>ownersteamid</strong></td>
         <td>uint64</td>
         <td>
@@ -97,8 +102,9 @@ Change history:<br />
         <strong>Version 2</strong> - Adds element <strong>sitelicense </strong>to the response.<br />
     </li>
     <li>
-        <strong>Version 3</strong> - Adds element <strong>usercanceled</strong> to the response.
+        <strong>Version 3</strong> - Adds element <strong>usercanceled</strong> to the response.<br />
     </li>
+    <li><strong>Version 4</strong> - Adds element <strong>timeexpires</strong> to the response.</li>
 </ul>
 <br />
 <strong>NOTE:</strong> This call requires the publisher API key that owns the specified App ID to
@@ -307,18 +313,19 @@ Change history:<br />
 <ul class="bb_ul">
     <li><strong>Version 3</strong> - Adds element sitelicense to the response<br /></li>
     <li>
-        <strong>Version 4</strong> - Adds element <strong>usercanceled</strong> to the response.
+        <strong>Version 4</strong> - Adds element <strong>usercanceled</strong> to the response.<br />
     </li>
+    <li><strong>Version 5</strong> - Adds element <strong>timeexpires</strong> to the response.</li>
 </ul>
 <br />
 The response from the call will look something like this:<br />
 <br />
 <div class="bb_code">
     "appownership":{ "apps":[ { "appid": 60, "ownsapp": true, "permanent": true, "timestamp":
-    "2005-04-03T17:50:29Z", "ownersteamid": "76561197978236369", "sitelicense": false,
-    "usercanceled": false, }, { "appid": 220, "ownsapp": false, "permanent": false, "timestamp":
-    "2024-09-17T22:27:02Z", "ownersteamid": "0", "sitelicense": false, "usercanceled": true,
-    "timedtrial": false } ] }
+    "2005-04-03T17:50:29Z", "timeexpires": "2005-05-03T17:50:29Z", "ownersteamid":
+    "76561197978236369", "sitelicense": false, "usercanceled": false }, { "appid": 220, "ownsapp":
+    false, "permanent": false, "timestamp": "2024-09-17T22:27:02Z", "timeexpires": "never",
+    "ownersteamid": "0", "sitelicense": false, "usercanceled": true, "timedtrial": false } ] }
 </div>
 <br />
 In the above example, the steamID 76561197978236369 has purchased appID 60. They also had purchased
@@ -361,6 +368,11 @@ The JSON response will contain the following fields:<br />
         <td>GMT time for when the user first accquired the appID</td>
     </tr>
     <tr>
+        <td><strong>timeexpires</strong></td>
+        <td>bool</td>
+        <td>Time that the app license will expire. Permanent licenses are marked as "never"</td>
+    </tr>
+    <tr>
         <td><strong>ownersteamid</strong></td>
         <td>uint64</td>
         <td>
@@ -379,129 +391,6 @@ The JSON response will contain the following fields:<br />
         <td>Indicates if user self-canceled their license for this app.</td>
     </tr>
 </table>
-<br />
-<strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
-<strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
-<h2 class="bb_section">
-    <a name="GetPublisherAppOwnershipChanges"></a>GetPublisherAppOwnershipChanges
-</h2>
-<div class="bb_code http">
-    GET https://partner.steam-api.com/ISteamUser/GetPublisherAppOwnershipChanges/v1/
-</div>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>packagerowversion</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            The unsigned 64-bit row version to read package changes from. The row version of data
-            read up to will be returned for use in future calls.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>cdkeyrowversion</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            The unsigned 64-bit row version to read CD Key changes from. The row version of data
-            read up to will be returned for use in future calls.
-        </td>
-    </tr>
-</table>
-<br />
-This method can be used to determine what SteamIDs have ownership changes starting from a particular
-package or key row version number. From the list of SteamIDs returned, a call to
-<a href="#GetPublisherAppOwnership" class="bb_doclink">GetPublisherAppOwnership</a> can then return
-the associated ownership data for the applications in the group associated with the key passed in. A
-partner may wish to track this data in conjunction with linked Steam Accounts to better understand
-the state of product ownership on Steam.<br />
-<br />
-To begin, make a call to <strong>GetPublisherAppOwnershipChanges</strong> passing in
-<strong>packagerowversion </strong>and <strong>cdkeyrowversion</strong> with the values of 0 (zero).
-The response from the call will look something like this:<br />
-<br />
-<div class="bb_code">
-    "ownershipchanges": { "steamids": [ { "steamid": "76561198114498811" }, { "steamid":
-    "76561198114498812" }, ... ], "packagerowversion": "12448390228", "cdkeyrowversion":
-    "49857241147", "moredata": true }
-</div>
-<br />
-The JSON response will contain the following fields:<br />
-<br />
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamids/steamid</strong></td>
-        <td>string</td>
-        <td>
-            The list of SteamIDs for any accounts that have changed since the provided row versions.
-            Up to 10,000 SteamIDs will be returned per call.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>packagerowversion</strong></td>
-        <td>string</td>
-        <td>
-            The package row version that matches the last SteamID returned. Store this for future
-            calls to GetPublisherAppOwnershipChanges
-        </td>
-    </tr>
-    <tr>
-        <td><strong>cdkeyrowversion</strong></td>
-        <td>string</td>
-        <td>
-            The cd key row version that matches the last SteamID returned. Store this for future
-            calls to GetPublisherAppOwnershipChanges
-        </td>
-    </tr>
-    <tr>
-        <td><strong>moredata</strong></td>
-        <td>bool</td>
-        <td>Indicates if more and newer data is available.</td>
-    </tr>
-</table>
-<br />
-After this first call returns: <br />
-<ol class="bb_ol">
-    <li>
-        Make a call to
-        <a href="#GetPublisherAppOwnership" class="bb_doclink">GetPublisherAppOwnership</a> for each
-        SteamID to get the actual ownership per AppID. Store or use that data as needed.<br />
-    </li>
-    <li>
-        Once all the SteamIDs have been processed, check the value of <strong>moredata</strong>. If
-        it is true, make a new call to <strong>GetPublisherAppOwnershipChanges</strong> passing in
-        the <strong>packagerowversion</strong> and <strong>cdkeyrowversion</strong> as returned from
-        the previous call to <strong>GetPublisherAppOwnershipChanges</strong>.<br />
-    </li>
-    <li>Repeat Step 1 and 2 until <strong>moredata</strong> returns false. <br /></li>
-    <li>
-        Store the final <strong>packagerowversion </strong>and
-        <strong>cdkeyrowversion </strong>values for use in future
-        <strong>GetPublisherAppOwnershipChanges</strong> calls (e.g. 24 hours later) instead of
-        starting at 0 (zero) again.
-    </li>
-</ol>
-<br />
-This API returns app ownership changes for <strong>only</strong> the purchaser of a product or
-redeemer of a cd-key. This means that gift redemptions and accounts receiving guest passes will not
-be reflected in the dataset that is returned. <br />
 <br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
