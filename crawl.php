@@ -203,6 +203,12 @@ class Crawler
 		], $Html );
 		$Html = preg_replace( '/ id="dynamiclink_[0-9]+"/', '', $Html );
 
+		if( $Html === 'Sorry, an error occurred. Please try again later' )
+		{
+			$this->Err( 'An error occured on ' . $Doc );
+			return;
+		}
+
 		$Html .= "\n";
 
 		// Get title
