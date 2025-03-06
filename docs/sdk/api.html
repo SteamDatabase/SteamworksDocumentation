@@ -2,20 +2,12 @@
 <h2 class="bb_section"><a name="1"></a>Overview</h2>
 The Steamworks API allows your game to take full advantage of Steam by accessing all of the
 underlying systems provided through the API. This includes things such as pausing your game when the
-user opens the
-<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">Steam Overlay</a>,
-inviting friends to play, allowing players to unlock
-<a href="https://partner.steamgames.com/doc/features/achievements" class="bb_doclink"
-    >Steam Achievements</a
->, letting players compete on the
-<a href="https://partner.steamgames.com/doc/features/leaderboards" class="bb_doclink"
-    >Steam Leaderboards</a
->
-and much more.<br />
+user opens the <a href="/doc/features/overlay">Steam Overlay</a>, inviting friends to play, allowing
+players to unlock <a href="/doc/features/achievements">Steam Achievements</a>, letting players
+compete on the <a href="/doc/features/leaderboards">Steam Leaderboards</a> and much more.<br />
 <br />
-The
-<a href="https://partner.steamgames.com/doc/api" class="bb_doclink">Steamworks API Reference</a>
-catalogs and documents every interface, function, callback, and type supported in the API.<br />
+The <a href="/doc/api">Steamworks API Reference</a> catalogs and documents every interface,
+function, callback, and type supported in the API.<br />
 <br />
 Integration with the Steamworks API is never required to ship your product on Steam, but it is
 highly recommended as it allows you to accomplish many interactions that Steam users expect.
@@ -23,17 +15,14 @@ highly recommended as it allows you to accomplish many interactions that Steam u
 <strong>NOTE:</strong> The Steamworks API officially supports C++, using Microsoft Visual Studio
 2008+ on Microsoft Windows, GCC 4.6+ and Clang 3.0+ on macOS and SteamOS / Linux. If you're using a
 third party engine or a programming language other than C++ then you should first look at
-<a href="#thirdparty" class="bb_doclink">Commercial engine and non-C++ language support</a> to see
-if there are more specific instructions to get started with your engine or language of choice. In
-some cases you may be able to skip many of these steps.<br />
+<a href="#thirdparty">Commercial engine and non-C++ language support</a> to see if there are more
+specific instructions to get started with your engine or language of choice. In some cases you may
+be able to skip many of these steps.<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         If you haven't already,
-        <a
-            href="https://partner.steamgames.com/downloads/steamworks_sdk.zip"
-            target="_blank"
-            rel="noreferrer"
+        <a href="/downloads/steamworks_sdk.zip" target="_blank" rel="noreferrer"
             >download the Steamworks SDK</a
         >
         and unzip it.<br />
@@ -47,7 +36,7 @@ some cases you may be able to skip many of these steps.<br />
         Copy the relevant redistributable files from
         <code class="bb_code bb_code_inline nohighlight">redistributable_bin</code> into an
         appropriate place in your project folder.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <strong>Windows</strong><br />
                 You must have
@@ -92,13 +81,11 @@ some cases you may be able to skip many of these steps.<br />
 <h2 class="bb_section"><a name="initialization_and_shutdown"></a>Initialization and Shutdown</h2>
 <h2 class="bb_subsection"><a name="SteamAPI_Init"></a>SteamAPI_Init</h2>
 After you have the Steamworks API set up within your project you can start using it by calling
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->
-function to initialize the API. This will set up the global state and populate the interface
-pointers which are accessible via the global functions which match the name of the interface. This
-<strong>MUST</strong> be called and return successfully prior to accessing any of the
-<a href="#steamworks_interfaces" class="bb_doclink">Steamworks Interfaces</a>!<br />
+<a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a> function to initialize the API. This
+will set up the global state and populate the interface pointers which are accessible via the global
+functions which match the name of the interface. This <strong>MUST</strong> be called and return
+successfully prior to accessing any of the
+<a href="#steamworks_interfaces">Steamworks Interfaces</a>!<br />
 <br />
 The Steamworks API will not initialize if it does not know the App ID of your game. When you launch
 your app from Steam itself then it will automatically have the App ID available. While developing
@@ -109,7 +96,7 @@ should not ship this with your builds. Example:<br />
 <div class="bb_code">480</div>
 <br />
 A return of <strong>false</strong> indicates one of the following conditions:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         The Steam client isn't running. A running Steam client is required to provide
         implementations of the various Steamworks interfaces.<br />
@@ -138,18 +125,12 @@ A return of <strong>false</strong> indicates one of the following conditions:<br
     </li>
 </ul>
 If you're running into initialization issues then see the
-<a href="https://partner.steamgames.com/doc/sdk/api/debugging" class="bb_doclink"
-    >Debugging the Steamworks API</a
->
-documentation to learn about the various methods of debugging the Steamworks API.
+<a href="/doc/sdk/api/debugging">Debugging the Steamworks API</a> documentation to learn about the
+various methods of debugging the Steamworks API.
 <h2 class="bb_subsection">
     <a name="SteamAPI_RestartAppIfNecessary"></a>SteamAPI_RestartAppIfNecessary
 </h2>
-<a
-    href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RestartAppIfNecessary"
-    class="bb_apilink"
-    >SteamAPI_RestartAppIfNecessary</a
->
+<a href="/doc/api/steam_api#SteamAPI_RestartAppIfNecessary">SteamAPI_RestartAppIfNecessary</a>
 checks if your executable was launched through Steam and relaunches it through Steam if it
 wasn't.<br />
 <br />
@@ -158,10 +139,7 @@ This is optional but highly recommended as the Steam context associated with you
 occurs then <code class="bb_code bb_code_inline nohighlight">SteamAPI_Init</code> will fail and you
 will be unable to use the Steamworks API.<br />
 If you choose to use this then it should be the first Steamworks function call you make, right
-before
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->.<br />
+before <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a>.<br />
 <br />
 If this returns <strong>true</strong> then it starts the Steam client if required and launches your
 game again through it, and you should quit your process as soon as possible. This effectively runs
@@ -181,25 +159,22 @@ to your Steam depot!<br />
 is unnecessary as the DRM wrapper will perform this internally.
 <h2 class="bb_subsection"><a name="SteamAPI_Shutdown"></a>SteamAPI_Shutdown</h2>
 When you are done using the Steamworks API you should call
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink"
-    >SteamAPI_Shutdown</a
->
-to release the resources used by your application internally within Steam. You should call this
-during process shutdown if possible.<br />
+<a href="/doc/api/steam_api#SteamAPI_Shutdown">SteamAPI_Shutdown</a> to release the resources used
+by your application internally within Steam. You should call this during process shutdown if
+possible.<br />
 <br />
-This will not unhook the
-<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">Steam Overlay</a>
-from your game as there's no guarantee that your rendering API is done using it.
+This will not unhook the <a href="/doc/features/overlay">Steam Overlay</a> from your game as there's
+no guarantee that your rendering API is done using it.
 <h2 class="bb_section"><a name="steamworks_interfaces"></a>Steamworks Interfaces</h2>
 The Steamworks API is composed of multiple interfaces which all expose a limited, specific amount of
 functionality.<br />
 <br />
 After Steamworks has successfully initialized you can then access the interfaces via their global
 functions. The functions always match the name of their interface. As such you can access
-<a href="https://partner.steamgames.com/doc/api/ISteamApps" class="bb_apilink">ISteamApps</a>
-through the <code class="bb_code bb_code_inline nohighlight">SteamApps()</code> accessor and
-<a href="https://partner.steamgames.com/doc/api/ISteamFriends" class="bb_apilink">ISteamFriends</a>
-through <code class="bb_code bb_code_inline nohighlight">SteamFriends()</code>.<br />
+<a href="/doc/api/ISteamApps">ISteamApps</a> through the
+<code class="bb_code bb_code_inline nohighlight">SteamApps()</code> accessor and
+<a href="/doc/api/ISteamFriends">ISteamFriends</a> through
+<code class="bb_code bb_code_inline nohighlight">SteamFriends()</code>.<br />
 <br />
 You can use these interfaces to make calls like so:<br />
 <div class="bb_code cpp">
@@ -207,8 +182,7 @@ You can use these interfaces to make calls like so:<br />
 </div>
 <br />
 You can view the complete list of interfaces on the
-<a href="https://partner.steamgames.com/doc/api" class="bb_doclink">Steamworks API Reference</a> or
-by diving into the Steamworks API header files.
+<a href="/doc/api">Steamworks API Reference</a> or by diving into the Steamworks API header files.
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 Callbacks are one of the most important aspect of Steamworks, they allow you to retrieve data
 asynchronously from Steam without locking up your game. The goal of the callbacks are to provide a
@@ -226,7 +200,7 @@ To listen for a callback, a struct or class must use the macro
     >STEAM_CALLBACK( :classname, :functionname, :callbackname )</code
 >
 in it's declaration.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">:classname</code> must be the name of the
         struct or class where you are defining this. (eg.
@@ -253,22 +227,17 @@ listener with the Steamworks API; destruction of the object will cause it to de-
 that listen for callbacks.<br />
 <br />
 For callbacks to dispatch to registered listeners you must call the
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
-    >SteamAPI_RunCallbacks</a
->. It's best to call this frequently, as the more time between calls, the more latency between
-receiving events or results from the Steamworks API. Most games call this once per render-frame,
-it's highly recommended that you call this at least once a second. All registered listener functions
-will be invoked during this call, in the thread context where
+<a href="/doc/api/steam_api#SteamAPI_RunCallbacks">SteamAPI_RunCallbacks</a>. It's best to call this
+frequently, as the more time between calls, the more latency between receiving events or results
+from the Steamworks API. Most games call this once per render-frame, it's highly recommended that
+you call this at least once a second. All registered listener functions will be invoked during this
+call, in the thread context where
 <code class="bb_code bb_code_inline nohighlight">SteamAPI_RunCallbacks</code> was called from.
 <h4>Example</h4>
 One callback that you will likely wish to use is
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamFriends#GameOverlayActivated_t"
-    class="bb_apilink"
-    >ISteamFriends::GameOverlayActivated_t</a
->. As the name implies it sends you a callback every time the user activates or deactivates the
-<a href="https://partner.steamgames.com/doc/features/overlay" class="bb_doclink">Steam Overlay</a
->.<br />
+<a href="/doc/api/ISteamFriends#GameOverlayActivated_t">ISteamFriends::GameOverlayActivated_t</a>.
+As the name implies it sends you a callback every time the user activates or deactivates the
+<a href="/doc/features/overlay">Steam Overlay</a>.<br />
 <br />
 <div class="bb_code cpp">
     class CGameManager { private: STEAM_CALLBACK( CGameManager, OnGameOverlayActivated,
@@ -278,34 +247,21 @@ One callback that you will likely wish to use is
 </div>
 <br />
 One popular and recommended use case for the
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamFriends#GameOverlayActivated_t"
-    class="bb_apilink"
-    >ISteamFriends::GameOverlayActivated_t</a
->
+<a href="/doc/api/ISteamFriends#GameOverlayActivated_t">ISteamFriends::GameOverlayActivated_t</a>
 callback is to pause the game when the overlay opens.
 <h2 class="bb_section"><a name="callresults"></a>CallResults</h2>
 Many Steamworks methods use call results instead of a callback to asynchronously return results from
 a function call. The difference between a callback and call results is that callbacks are broadcast
 to all listeners, where-as call results only target a specific listener. Like callbacks, your game
-will need to call
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
-    >SteamAPI_RunCallbacks</a
->
-to dispatch call results to their listener.<br />
+will need to call <a href="/doc/api/steam_api#SteamAPI_RunCallbacks">SteamAPI_RunCallbacks</a> to
+dispatch call results to their listener.<br />
 <br />
 You can identify a function that provides a call result by inspecting it's return value; if it
-returns a
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-and has a <code class="bb_code bb_code_inline nohighlight">CALL_RESULT()</code> attribute then you
-must register to receive the call result. Note that a callback registered to a CCallResult will only
-be triggered for the most recent
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-set on it, so be aware if you are re-using one.<br />
+returns a <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> and has a
+<code class="bb_code bb_code_inline nohighlight">CALL_RESULT()</code> attribute then you must
+register to receive the call result. Note that a callback registered to a CCallResult will only be
+triggered for the most recent <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> set on
+it, so be aware if you are re-using one.<br />
 <br />
 <strong>NOTE:</strong> Callbacks and call results are not interchangeable. An event will only come
 through one or the other, not both. You must make sure that you are registering for the right type
@@ -317,7 +273,7 @@ also need to create the member function that will receive the callback.<br />
     void func( :callresultname *pCallback, bool bIOFailure ); CCallResult&lt; :classname,
     :callresultname &gt; m_callresultname;
 </div>
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">:classname</code> must be the name of the
         struct or class where you are defining this. (eg.
@@ -333,15 +289,11 @@ also need to create the member function that will receive the callback.<br />
 Feel free to name the function, function parameters, and CCallResult type anything you want.
 <h4>Example</h4>
 Here's an example of how to use the
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetNumberOfCurrentPlayers"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#GetNumberOfCurrentPlayers"
     >ISteamUserStats::GetNumberOfCurrentPlayers</a
 >
 API which produces a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#NumberOfCurrentPlayers_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#NumberOfCurrentPlayers_t"
     >ISteamUserStats::NumberOfCurrentPlayers_t</a
 >
 call result.<br />
@@ -362,19 +314,10 @@ call result.<br />
 </div>
 <br />
 <strong>NOTE:</strong> If you can't use the CCallResult system, then you may be able to use
-<a href="https://partner.steamgames.com/doc/api/ISteamUtils#IsAPICallCompleted" class="bb_apilink"
-    >ISteamUtils::IsAPICallCompleted</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAPICallResult" class="bb_apilink"
-    >ISteamUtils::GetAPICallResult</a
->
-and
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAPICallFailureReason"
-    class="bb_apilink"
-    >ISteamUtils::GetAPICallFailureReason</a
->
-to track the status of a call result.
+<a href="/doc/api/ISteamUtils#IsAPICallCompleted">ISteamUtils::IsAPICallCompleted</a>,
+<a href="/doc/api/ISteamUtils#GetAPICallResult">ISteamUtils::GetAPICallResult</a> and
+<a href="/doc/api/ISteamUtils#GetAPICallFailureReason">ISteamUtils::GetAPICallFailureReason</a> to
+track the status of a call result.
 <h2 class="bb_section"><a name="manual_dispatch"></a>Manual Callback Dispatch</h2>
 The classes and macros used to register callbacks are convenient in C++ code. But there is also a
 lower-level mechanism for dealing with callbacks. This mechanism operates more like a Windows event
@@ -396,86 +339,55 @@ To use the Steam Game Server API you must first include
 <code class="bb_code bb_code_inline nohighlight">steam_api.h</code>.<br />
 <br />
 Initializing and using the game server API is very similar to the normal API:<br />
-<ul class="bb_ul">
+<ul>
+    <li><a href="/doc/api/steam_gameserver#SteamGameServer_Init">SteamGameServer_Init</a><br /></li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_gameserver#SteamGameServer_Init"
-            class="bb_apilink"
-            >SteamGameServer_Init</a
+        <a href="/doc/api/steam_gameserver#SteamGameServer_Shutdown">SteamGameServer_Shutdown</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_gameserver#SteamGameServer_Shutdown"
-            class="bb_apilink"
-            >SteamGameServer_Shutdown</a
-        ><br />
-    </li>
-    <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_gameserver#SteamGameServer_RunCallbacks"
-            class="bb_apilink"
+        <a href="/doc/api/steam_gameserver#SteamGameServer_RunCallbacks"
             >SteamGameServer_RunCallbacks</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_gameserver#SteamGameServer_ReleaseCurrentThreadMemory"
-            class="bb_apilink"
+        <a href="/doc/api/steam_gameserver#SteamGameServer_ReleaseCurrentThreadMemory"
             >SteamGameServer_ReleaseCurrentThreadMemory</a
         >
     </li>
 </ul>
 <br />
 After initializing a game server you have access to the two game server exclusive interfaces
-<a href="https://partner.steamgames.com/doc/api/ISteamGameServer" class="bb_apilink"
-    >ISteamGameServer</a
->
-and
-<a href="https://partner.steamgames.com/doc/api/ISteamGameServerStats" class="bb_apilink"
-    >ISteamGameServerStats</a
->.<br />
+<a href="/doc/api/ISteamGameServer">ISteamGameServer</a> and
+<a href="/doc/api/ISteamGameServerStats">ISteamGameServerStats</a>.<br />
 <br />
 You can also access the following regular interfaces from the game server:<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamClient" class="bb_apilink"
-            >ISteamClient</a
-        >
-        which you can access via the global interface:
-        <code class="bb_code bb_code_inline nohighlight">SteamGameServerClient()</code><br />
+        <a href="/doc/api/ISteamClient">ISteamClient</a> which you can access via the global
+        interface: <code class="bb_code bb_code_inline nohighlight">SteamGameServerClient()</code
+        ><br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamUtils" class="bb_apilink"
-            >ISteamUtils</a
-        >
-        which you can access via the global interface:
-        <code class="bb_code bb_code_inline nohighlight">SteamGameServerUtils()</code><br />
+        <a href="/doc/api/ISteamUtils">ISteamUtils</a> which you can access via the global
+        interface: <code class="bb_code bb_code_inline nohighlight">SteamGameServerUtils()</code
+        ><br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamNetworking" class="bb_apilink"
-            >ISteamNetworking</a
-        >
-        which you can access via the global interface:
+        <a href="/doc/api/ISteamNetworking">ISteamNetworking</a> which you can access via the global
+        interface:
         <code class="bb_code bb_code_inline nohighlight">SteamGameServerNetworking()</code><br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamHTTP" class="bb_apilink"
-            >ISteamHTTP</a
-        >
-        which you can access via the global interface:
+        <a href="/doc/api/ISteamHTTP">ISteamHTTP</a> which you can access via the global interface:
         <code class="bb_code bb_code_inline nohighlight">SteamGameServerHTTP()</code><br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a>
-        which you can access via the global interface:
+        <a href="/doc/api/ISteamUGC">ISteamUGC</a> which you can access via the global interface:
         <code class="bb_code bb_code_inline nohighlight">SteamGameServerUGC()</code><br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamApps" class="bb_apilink"
-            >ISteamApps</a
-        >
-        which you can access via the global interface:
+        <a href="/doc/api/ISteamApps">ISteamApps</a> which you can access via the global interface:
         <code class="bb_code bb_code_inline nohighlight">SteamGameServerApps()</code>
     </li>
 </ul>
@@ -483,11 +395,8 @@ You can also access the following regular interfaces from the game server:<br />
 If you're running a dedicated game server (one which has no client component), you only have to
 initialize the game server API's, you don't have to initialize the normal user API.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
-    >Steamworks API Example Application (SpaceWar)</a
->
-for a fully loaded example of using the game server API.<br />
+See <a href="/doc/sdk/api/example">Steamworks API Example Application (SpaceWar)</a> for a fully
+loaded example of using the game server API.<br />
 <br />
 Unlike a game, a dedicated server will usually be run in an environment where there is no Steam
 Client installed to provide the latest steamworks binaries. In order for the dedicated server to
@@ -503,20 +412,14 @@ In some engines they provide native built-in support, for others you may need a 
 solution.<br />
 <br />
 If your engine does not have native support you can use the
-<a href="https://partner.steamgames.com/doc/webapi" class="bb_doclink">Steam Web API</a> to access
-many features that Steam supports.<br />
+<a href="/doc/webapi">Steam Web API</a> to access many features that Steam supports.<br />
 <br />
 Regardless of how the Steamworks SDK is implemented in your engine you will need to have the latest
-Steamworks SDK to
-<a href="https://partner.steamgames.com/doc/sdk/uploading" class="bb_doclink"
-    >upload your application to Steam</a
->.<br />
+Steamworks SDK to <a href="/doc/sdk/uploading">upload your application to Steam</a>.<br />
 <br />
 <strong>NOTE:</strong> If some of the software you are shipping on steam is available under a
 restrictive open source license then please see
-<a
-    href="https://partner.steamgames.com/doc/sdk/uploading/distributing_opensource"
-    class="bb_doclink"
+<a href="/doc/sdk/uploading/distributing_opensource"
     >Distributing Open Source Applications on Steam</a
 >.<br />
 <br />
@@ -529,9 +432,7 @@ as a starting guide. Engines will only be listed if they include native support 
 third-party solution that fits the guidelines. Third-party solutions will only be listed if they are
 kept reasonably up to date with the Steamworks SDK, are freely available under a permissive license
 (See:
-<a
-    href="https://partner.steamgames.com/doc/sdk/uploading/distributing_opensource"
-    class="bb_doclink"
+<a href="/doc/sdk/uploading/distributing_opensource"
     >Distributing Open Source Applications on Steam</a
 >), and have a thread on the
 <a href="http://steamcommunity.com/groups/steamworks/discussions/" target="_blank" rel="noreferrer"
@@ -540,189 +441,206 @@ kept reasonably up to date with the Steamworks SDK, are freely available under a
 setup.
 <h4>Engines:</h4>
 <table>
-    <tr>
-        <th>Engine</th>
-        <th>Native support?</th>
-        <th>Information</th>
-    </tr>
-    <tr>
-        <td>
-            <a href="https://store.steampowered.com/app/220980/" target="_blank" rel="noreferrer"
-                >CRYENGINE</a
-            >
-        </td>
-        <td>✔️</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>
-            <a href="https://store.steampowered.com/app/585410/" target="_blank" rel="noreferrer"
-                >GameMaker Studio 2</a
-            >
-        </td>
-        <td>✔️</td>
-        <td>
-            <a
-                href="https://help.yoyogames.com/hc/en-us/articles/216754138-Using-The-Steamworks-SDK-With-GameMaker-Studio"
-                target="_blank"
-                rel="noreferrer"
-                >Using The Steamworks SDK With GameMaker: Studio</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td><a href="https://godotengine.org/" target="_blank" rel="noreferrer">Godot</a></td>
-        <td>❌</td>
-        <td>
-            Third Party:
-            <a href="https://godotsteam.com" target="_blank" rel="noreferrer">GodotSteam</a> -
-            <a
-                href="http://steamcommunity.com/groups/steamworks/discussions/0/1319962244122216920/"
-                target="_blank"
-                rel="noreferrer"
-                >Steamworks Developer Discussions support thread</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td><a href="https://haxe.org" target="_blank" rel="noreferrer">Haxe</a></td>
-        <td>❌</td>
-        <td>
-            Third Party:
-            <a href="https://github.com/larsiusprime/SteamWrap" target="_blank" rel="noreferrer"
-                >SteamWrap</a
-            >
-            -
-            <a
-                href="http://steamcommunity.com/groups/steamworks/discussions/0/1327844097134144055/"
-                target="_blank"
-                rel="noreferrer"
-                >Steamworks Developer Discussions support thread</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="https://store.steampowered.com/app/251810/" target="_blank" rel="noreferrer"
-                >Leadwerks Game Engine</a
-            >
-        </td>
-        <td>✔️</td>
-        <td>
-            <a
-                href="https://leadwerks.com/werkspace/page/api-reference/_/steamworks/"
-                target="_blank"
-                rel="noreferrer"
-                >Leadwerks API Reference › Steamworks</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="https://store.steampowered.com/app/363890/" target="_blank" rel="noreferrer"
-                >RPG Maker MV</a
-            >
-        </td>
-        <td>❌</td>
-        <td>
-            Third party:
-            <a href="https://github.com/greenheartgames/greenworks" target="_blank" rel="noreferrer"
-                >Greenworks</a
-            >
-            -
-            <a
-                href="https://steamcommunity.com/groups/steamworks/discussions/0/666827316032532562/"
-                target="_blank"
-                rel="noreferrer"
-                >Steamworks Developer Discussions support thread</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a
-                href="https://developer.valvesoftware.com/wiki/SDK_Docs"
-                target="_blank"
-                rel="noreferrer"
-                >Source 2013</a
-            >
-        </td>
-        <td>✔️</td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/sdk/uploading/distributing_source_engine"
-                class="bb_doclink"
-                >Distributing Source Engine Games / Mods</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td><a href="https://unity3d.com" target="_blank" rel="noreferrer">Unity</a></td>
-        <td>❌</td>
-        <td>
-            Third party:
-            <a
-                href="https://github.com/Facepunch/Facepunch.Steamworks"
-                target="_blank"
-                rel="noreferrer"
-                >Facepunch.Steamworks</a
-            >
-            -
-            <a
-                href="https://steamcommunity.com/groups/steamworks/discussions/0/1319961618833314524/"
-                target="_blank"
-                rel="noreferrer"
-                >Steamworks Developer Discussions support thread</a
-            ><br />
-            Third party:
-            <a href="http://steamworks.github.io" target="_blank" rel="noreferrer"
-                >http://steamworks.github.io</a
-            >
-            -
-            <a
-                href="https://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/"
-                target="_blank"
-                rel="noreferrer"
-                >Steamworks Developer Discussions support thread</a
-            ><br />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="https://unrealengine.com" target="_blank" rel="noreferrer">Unreal Engine 4</a>
-        </td>
-        <td>✔️</td>
-        <td>
-            <a
-                href="https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Online/Steam/"
-                target="_blank"
-                rel="noreferrer"
-                >Online Subsystem Steam</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="http://visionaire-studio.net" target="_blank" rel="noreferrer"
-                >Visionaire Studio</a
-            >
-        </td>
-        <td>✔️</td>
-        <td>
-            <a
-                href="https://wiki.visionaire-tracker.net/wiki/Player_FAQ#Publish_on_Steam"
-                target="_blank"
-                rel="noreferrer"
-                >Publish on Steam</a
-            >
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Engine</th>
+            <th>Native support?</th>
+            <th>Information</th>
+        </tr>
+        <tr>
+            <td>
+                <a
+                    href="https://store.steampowered.com/app/220980/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >CRYENGINE</a
+                >
+            </td>
+            <td>✔️</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <a
+                    href="https://store.steampowered.com/app/585410/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >GameMaker Studio 2</a
+                >
+            </td>
+            <td>✔️</td>
+            <td>
+                <a
+                    href="https://help.yoyogames.com/hc/en-us/articles/216754138-Using-The-Steamworks-SDK-With-GameMaker-Studio"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Using The Steamworks SDK With GameMaker: Studio</a
+                >
+            </td>
+        </tr>
+        <tr>
+            <td><a href="https://godotengine.org/" target="_blank" rel="noreferrer">Godot</a></td>
+            <td>❌</td>
+            <td>
+                Third Party:
+                <a href="https://godotsteam.com" target="_blank" rel="noreferrer">GodotSteam</a> -
+                <a
+                    href="http://steamcommunity.com/groups/steamworks/discussions/0/1319962244122216920/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Steamworks Developer Discussions support thread</a
+                >
+            </td>
+        </tr>
+        <tr>
+            <td><a href="https://haxe.org" target="_blank" rel="noreferrer">Haxe</a></td>
+            <td>❌</td>
+            <td>
+                Third Party:
+                <a href="https://github.com/larsiusprime/SteamWrap" target="_blank" rel="noreferrer"
+                    >SteamWrap</a
+                >
+                -
+                <a
+                    href="http://steamcommunity.com/groups/steamworks/discussions/0/1327844097134144055/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Steamworks Developer Discussions support thread</a
+                >
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a
+                    href="https://store.steampowered.com/app/251810/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Leadwerks Game Engine</a
+                >
+            </td>
+            <td>✔️</td>
+            <td>
+                <a
+                    href="https://leadwerks.com/werkspace/page/api-reference/_/steamworks/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Leadwerks API Reference › Steamworks</a
+                >
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a
+                    href="https://store.steampowered.com/app/363890/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >RPG Maker MV</a
+                >
+            </td>
+            <td>❌</td>
+            <td>
+                Third party:
+                <a
+                    href="https://github.com/greenheartgames/greenworks"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Greenworks</a
+                >
+                -
+                <a
+                    href="https://steamcommunity.com/groups/steamworks/discussions/0/666827316032532562/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Steamworks Developer Discussions support thread</a
+                >
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a
+                    href="https://developer.valvesoftware.com/wiki/SDK_Docs"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Source 2013</a
+                >
+            </td>
+            <td>✔️</td>
+            <td>
+                <a href="/doc/sdk/uploading/distributing_source_engine"
+                    >Distributing Source Engine Games / Mods</a
+                >
+            </td>
+        </tr>
+        <tr>
+            <td><a href="https://unity3d.com" target="_blank" rel="noreferrer">Unity</a></td>
+            <td>❌</td>
+            <td>
+                Third party:
+                <a
+                    href="https://github.com/Facepunch/Facepunch.Steamworks"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Facepunch.Steamworks</a
+                >
+                -
+                <a
+                    href="https://steamcommunity.com/groups/steamworks/discussions/0/1319961618833314524/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Steamworks Developer Discussions support thread</a
+                ><br />
+                Third party:
+                <a href="http://steamworks.github.io" target="_blank" rel="noreferrer"
+                    >http://steamworks.github.io</a
+                >
+                -
+                <a
+                    href="https://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Steamworks Developer Discussions support thread</a
+                ><br />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://unrealengine.com" target="_blank" rel="noreferrer"
+                    >Unreal Engine 4</a
+                >
+            </td>
+            <td>✔️</td>
+            <td>
+                <a
+                    href="https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Online/Steam/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Online Subsystem Steam</a
+                >
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="http://visionaire-studio.net" target="_blank" rel="noreferrer"
+                    >Visionaire Studio</a
+                >
+            </td>
+            <td>✔️</td>
+            <td>
+                <a
+                    href="https://wiki.visionaire-tracker.net/wiki/Player_FAQ#Publish_on_Steam"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Publish on Steam</a
+                >
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h4>Languages:</h4>
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>ActionScript (Adobe Flash, AIR)</strong><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <a
                     href="https://steamcommunity.com/groups/steamworks/discussions/0/1354868867732086473/"
@@ -735,7 +653,7 @@ setup.
     </li>
     <li>
         <strong>C#</strong><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <a
                     href="https://steamcommunity.com/groups/steamworks/discussions/0/1354868867732095009/"
@@ -775,7 +693,7 @@ setup.
     </li>
     <li>
         <strong>D</strong><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <a
                     href="https://steamcommunity.com/groups/steamworks/discussions/0/1354868867732139048/"
@@ -803,7 +721,7 @@ setup.
     </li>
     <li>
         <strong>Java</strong><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <a
                     href="https://steamcommunity.com/groups/steamworks/discussions/0/1354868867732145070/"
@@ -831,7 +749,7 @@ setup.
     </li>
     <li>
         <strong>JavaScript</strong><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <a
                     href="https://steamcommunity.com/groups/steamworks/discussions/0/1354868867732147238/"
@@ -859,7 +777,7 @@ setup.
     </li>
     <li>
         <strong>Python</strong><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <a
                     href="https://steamcommunity.com/groups/steamworks/discussions/0/1354868867732150829/"
@@ -884,7 +802,7 @@ setup.
     </li>
     <li>
         <strong>Rust</strong><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <a
                     href="https://steamcommunity.com/groups/steamworks/discussions/0/1744469130478487829/"
@@ -916,7 +834,7 @@ setup.
 </h2>
 The SDK has a few features to facilitate the creation of binding layers for other languages.<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">steam_api_flat.h</code> declares a set of
         "flat" functions that mirror the interface functions in the SDK. This is not pure C code,
@@ -940,13 +858,9 @@ in planning out how to code your game with Steam integration in mind.<br />
 <br />
 When you link to
 <code class="bb_code bb_code_inline nohighlight">steam_api[64][.dll/.so/dylib]</code> it provides
-access to a
-<a href="https://partner.steamgames.com/doc/api/steam_api" class="bb_doclink"
-    >small number of C functions</a
->
-which are prefixed with the <code class="bb_code bb_code_inline nohighlight">S_API</code> macro,
-these functions are all exposed in
-<code class="bb_code bb_code_inline nohighlight">steam_api.h</code> and
+access to a <a href="/doc/api/steam_api">small number of C functions</a> which are prefixed with the
+<code class="bb_code bb_code_inline nohighlight">S_API</code> macro, these functions are all exposed
+in <code class="bb_code bb_code_inline nohighlight">steam_api.h</code> and
 <code class="bb_code bb_code_inline nohighlight">steam_gameserver.h</code>. The
 <code class="bb_code bb_code_inline nohighlight">steam_api</code> module itself is very small, it
 only exposes the base functionality to initialize and shutdown the Steamworks API.<br />
@@ -958,10 +872,7 @@ engine of the Steam client. It contains and maintains the information necessary 
 Steam client UI uses a similar set of functions as exposed here to access the data provided by
 <code class="bb_code bb_code_inline nohighlight">steamclient.dll</code>. Since this data is in the
 Steam process, all Steam API calls are transparently marshaled and sent via an RPC/IPC mechanism. (A
-cross-process pipe,
-<a href="https://partner.steamgames.com/doc/api/ISteamClient#HSteamPipe" class="bb_apilink"
-    >ISteamClient::HSteamPipe</a
->).<br />
+cross-process pipe, <a href="/doc/api/ISteamClient#HSteamPipe">ISteamClient::HSteamPipe</a>).<br />
 <br />
 The Steam process, via
 <code class="bb_code bb_code_inline nohighlight">steamclient.dll</code> maintains a constant

@@ -10,25 +10,19 @@ updates the content when a patch is available and installs the content when the 
 game.<br />
 <br />
 Some examples of additional content that could be delivered as DLC include:<br />
-<ul class="bb_ul">
+<ul>
     <li>Expansions<br /></li>
     <li>New maps or levels<br /></li>
     <li>Additional characters</li>
 </ul>
 DLC could be used for supplemental content that does not show up in-game such as<br />
-<ul class="bb_ul">
+<ul>
     <li>Artbooks or wallpapers</li>
 </ul>
-<a href="https://partner.steamgames.com/doc/store/application/soundtrackapp" class="bb_doclink"
-    >Game Soundtracks on Steam</a
->
-are handled with a special type of App ID that's different from DLC. Other types of in-game content
-such as cosmetics, consumable items or currencies may better be served by
-<a
-    href="https://partner.steamgames.com/doc/features/microtransactions/implementation"
-    class="bb_doclink"
-    >microtransactions</a
->.
+<a href="/doc/store/application/soundtrackapp">Game Soundtracks on Steam</a> are handled with a
+special type of App ID that's different from DLC. Other types of in-game content such as cosmetics,
+consumable items or currencies may better be served by
+<a href="/doc/features/microtransactions/implementation">microtransactions</a>.
 <h2 class="bb_section"><a name="2"></a>Best Practices</h2>
 DLC can be a great way to offer value to the customers that are interested in investing deeper in
 the product, it can also have non-monetary costs of customer perception that are harder to measure.
@@ -44,20 +38,14 @@ Steam.<br />
 <h2 class="bb_section"><a name="4"></a>Configuration</h2>
 Remember: your game will need to check whether or not a user owns the DLC. If you are operating an
 online game with a secure server and you use a WebAPI Key, you can rely on the
-<a href="https://partner.steamgames.com/doc//webapi/ISteamUser#CheckAppOwnership" class="bb_doclink"
-    >CheckAppOwnership</a
->
-web API call to securely verify if a user owns a DLC. <br />
+<a href="/doc//webapi/ISteamUser#CheckAppOwnership">CheckAppOwnership</a> web API call to securely
+verify if a user owns a DLC. <br />
 Other games can use the
-<a href="https://partner.steamgames.com/doc/api/ISteamApps#BIsSubscribedApp" class="bb_doclink"
-    >BIsSubscribedApp client API</a
->
-to check ownership of DLC. <br />
+<a href="/doc/api/ISteamApps#BIsSubscribedApp">BIsSubscribedApp client API</a> to check ownership of
+DLC. <br />
 <br />
 For more information about identifying users and verifying ownership, see the
-<a href="https://partner.steamgames.com/doc//features/auth" class="bb_doclink"
-    >Authentication and Ownership guide.</a
-><br />
+<a href="/doc//features/auth">Authentication and Ownership guide.</a><br />
 <br />
 In Steam, each piece of downloadable content is identified by its own app ID. Unlike the base game,
 the DLC uses the app ID as the depot ID.<br />
@@ -68,17 +56,13 @@ And Tools" and clicking on the "Add New DLC" button.<br />
 <br />
 When downloaded, the Steam client will store all downloadable content under your game's Steam
 directory. Your game can choose to distribute each piece of content in one of two ways:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         The content can be included with your game files that are distributed to all game owners.
         Your game can then use
-        <a
-            href="https://partner.steamgames.com/doc/webapi/ISteamApps::BIsDlcInstalled"
-            class="bb_apilink"
-            >ISteamApps::BIsDlcInstalled</a
-        >
-        to determine if the user owns the content. This method is useful when all players can view
-        the content, but a player needs to own the content to use it (such as RTS units, multiplayer
+        <a href="/doc/webapi/ISteamApps::BIsDlcInstalled">ISteamApps::BIsDlcInstalled</a> to
+        determine if the user owns the content. This method is useful when all players can view the
+        content, but a player needs to own the content to use it (such as RTS units, multiplayer
         skins, etc.).<br />
     </li>
     <li>
@@ -87,9 +71,7 @@ directory. Your game can choose to distribute each piece of content in one of tw
     </li>
 </ul>
 <br />
-See the
-<a href="https://partner.steamgames.com/doc/store/application/depots" class="bb_doclink">Depots</a>
-documentation for more information.
+See the <a href="/doc/store/application/depots">Depots</a> documentation for more information.
 <h2 class="bb_section"><a name="5"></a>In-Game Purchasing</h2>
 Steamworks games can support in-game downloadable content, which allows a user to browse, purchase,
 and download new content without leaving the game. Steam can display any available content to the
@@ -100,37 +82,29 @@ when the download is complete, and notify your game that the download has comple
 owns new content.<br />
 <br />
 Steamworks games can use
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToStore"
-    class="bb_apilink"
+<a href="/doc/api/ISteamFriends#ActivateGameOverlayToStore"
     >ISteamFriends::ActivateGameOverlayToStore</a
 >
 to display downloadable content in the Steam overlay.
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToStore"
-    class="bb_apilink"
+<a href="/doc/api/ISteamFriends#ActivateGameOverlayToStore"
     >ISteamFriends::ActivateGameOverlayToStore</a
 >
 can display all downloadable content for your game (pass in your game's app ID), or information
 about a specific piece of downloadable content (pass in the app ID of the downloadable content).
 Before directing a user to the store, Steamworks games should call
-<a href="https://partner.steamgames.com/doc/api/ISteamUtils#IsOverlayEnabled" class="bb_apilink"
-    >ISteamUtils::IsOverlayEnabled</a
->
-to determine if the user has disabled the Steam overlay through the Steam client settings.<br />
+<a href="/doc/api/ISteamUtils#IsOverlayEnabled">ISteamUtils::IsOverlayEnabled</a> to determine if
+the user has disabled the Steam overlay through the Steam client settings.<br />
 <br />
 Note: To prevent version incompatibilities with the executing version of a game and downloadable
 content, Steam will only download new content if the user is running the newest version of the game.
 <h2 class="bb_section"><a name="6"></a>Configuring Additional DLC Depots</h2>
-After following the
-<a href="https://partner.steamgames.com/doc/store/application/depots" class="bb_doclink">depot</a>
-documentation you should have one DLC Depot added to your Base App. If you need to add additional
-DLC depots to support alternate languages, OS's, or architectures, follow the steps below:<br />
-<ol class="bb_ol">
+After following the <a href="/doc/store/application/depots">depot</a> documentation you should have
+one DLC Depot added to your Base App. If you need to add additional DLC depots to support alternate
+languages, OS's, or architectures, follow the steps below:<br />
+<ol>
     <li>
-        Open the Steamworks
-        <a href="https://partner.steamgames.com/apps" target="_blank" rel="noreferrer">App Admin</a>
-        for the base App (All depots are managed in the base App, not in the DLC).<br />
+        Open the Steamworks <a href="/apps" target="_blank" rel="noreferrer">App Admin</a> for the
+        base App (All depots are managed in the base App, not in the DLC).<br />
     </li>
     <li>Navigate into Steamworks Settings, SteamPipe, Depots.<br /></li>
     <li>
@@ -164,10 +138,10 @@ can be marked to not download automatically so that the game has control of when
 occurs. This can be useful for supporting streaming installs or downloads based on game logic.<br />
 <br />
 You can configure DLC to be downloaded and installed on-demand by following the steps below.<br />
-<ol class="bb_ol">
+<ol>
     <li>
         Create up to 10 DLCs that can be used as downloadable chunks.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 From the app package landing page, click "All Associated Packages, DLC, Demos And
                 Tools", and use the "Add New DLC" button to add the DLCs.<br />
@@ -176,7 +150,7 @@ You can configure DLC to be downloaded and installed on-demand by following the 
     </li>
     <li>
         Configure each DLC so that the Steam Client does not automatically download it.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>For each DLC, go into Steamworks Settings -&gt; General.<br /></li>
             <li>Ensure “Disable Steam automatically downloading this DLC” is checked on.<br /></li>
         </ul>
@@ -185,7 +159,7 @@ You can configure DLC to be downloaded and installed on-demand by following the 
     <li>
         Add the DLCs to the appropriate packages (Steam Store, Retail, Beta Test, Developer Comp,
         etc.) so that they are accessible when the base app is purchased.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 From the app landing page, click "All Associated Packages, DLC, Demos And
                 Tools.".<br />
@@ -200,51 +174,32 @@ You can configure DLC to be downloaded and installed on-demand by following the 
     <li>
         Add the appropriate files for each DLC to the associated DLC depot as part of your Steampipe
         build process.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
-                See
-                <a
-                    href="https://partner.steamgames.com/doc/store/application/depots"
-                    class="bb_doclink"
-                    >Depots</a
-                >
-                documentation for more information.<br />
+                See <a href="/doc/store/application/depots">Depots</a> documentation for more
+                information.<br />
             </li>
         </ul>
     </li>
     <li>
         At the appropriate places in the code, implement the following APIs to trigger the DLC to be
         downloaded and installed.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
-                <a
-                    href="https://partner.steamgames.com/doc/api/ISteamApps#BIsDlcInstalled"
-                    class="bb_apilink"
-                    >ISteamApps::BIsDlcInstalled</a
-                >
-                to determine if each DLC is installed<br />
+                <a href="/doc/api/ISteamApps#BIsDlcInstalled">ISteamApps::BIsDlcInstalled</a> to
+                determine if each DLC is installed<br />
             </li>
             <li>
-                <a
-                    href="https://partner.steamgames.com/doc/api/ISteamApps#InstallDLC"
-                    class="bb_apilink"
-                    >ISteamApps::InstallDLC</a
-                >
-                to trigger the download and handle the callback
-                <a
-                    href="https://partner.steamgames.com/doc/api/ISteamApps#DlcInstalled_t"
-                    class="bb_apilink"
-                    >ISteamApps::DlcInstalled_t</a
-                ><br />
+                <a href="/doc/api/ISteamApps#InstallDLC">ISteamApps::InstallDLC</a> to trigger the
+                download and handle the callback
+                <a href="/doc/api/ISteamApps#DlcInstalled_t">ISteamApps::DlcInstalled_t</a><br />
             </li>
             <li>
                 Downloads triggered in this manner are pushed to the top of the download queue and
                 initiated immediately.<br />
             </li>
             <li>
-                <a
-                    href="https://partner.steamgames.com/doc/api/ISteamApps#GetDlcDownloadProgress"
-                    class="bb_apilink"
+                <a href="/doc/api/ISteamApps#GetDlcDownloadProgress"
                     >ISteamApps::GetDlcDownloadProgress</a
                 >
                 can be used to track the progress of optionally installed DLC.<br />
@@ -254,7 +209,7 @@ You can configure DLC to be downloaded and installed on-demand by following the 
 </ol>
 <br />
 Additional Notes:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         If you check the box “Disable Steam automatically downloading this DLC,” a player who owns
         the DLC can manually choose to install it from their library, even if your game does not
@@ -265,11 +220,8 @@ Additional Notes:<br />
         the Properties -&gt;DLC tab.<br />
     </li>
     <li>
-        You can also use
-        <a href="https://partner.steamgames.com/doc/api/ISteamApps#UninstallDLC" class="bb_apilink"
-            >ISteamApps::UninstallDLC</a
-        >
-        to remove the DLC content if needed.
+        You can also use <a href="/doc/api/ISteamApps#UninstallDLC">ISteamApps::UninstallDLC</a> to
+        remove the DLC content if needed.
     </li>
 </ul>
 <h2 class="bb_section"><a name="7"></a>Testing</h2>
@@ -283,7 +235,7 @@ to the content. Usually this package will have a name which contains "Developer 
 <br />
 You can temporarily disable owning the "Developer Comp" package, and then enable it again to
 simulate a purchase of your DLC. To do this, follow these steps:<br />
-<ul class="bb_ul">
+<ul>
     <li>Launch steam.exe with the command -console (or run steam://nav/console)<br /></li>
     <li>Navigate to the Console tab in the client<br /></li>
     <li>
@@ -312,11 +264,8 @@ Alternatively, fraudsters may attempt to sell the entire account, again while be
 the system. <br />
 <br />
 As such, we do not recommend including in-game currency or tradable items in DLC. Those sales are
-better served by
-<a href="https://partner.steamgames.com/doc/features/microtransactions" class="bb_doclink"
-    >Microtransactions</a
->
-and the suggestions outlined in that document.<br />
+better served by <a href="/doc/features/microtransactions">Microtransactions</a> and the suggestions
+outlined in that document.<br />
 <br />
 Steam catches most fraudulent transactions within 48 hours of the initial purchase. A DLC ownership
 check at launch or after 48 hours will reconcile changes to transactions according to their updated

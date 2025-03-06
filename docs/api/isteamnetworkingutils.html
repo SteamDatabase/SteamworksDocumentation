@@ -2,26 +2,18 @@
 Misc networking utilities for checking the local networking environment and estimating pings.<br />
 <br />
 Related documents:<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_doclink"
-            >ISteamNetworkingSockets Interface</a
-        >
+        <a href="/doc/api/ISteamNetworkingSockets">ISteamNetworkingSockets Interface</a>
         Connection-handle-oriented interface for sending and receiving messages.<br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/steamnetworkingtypes" class="bb_doclink"
-            >steamnetworkingtypes.h</a
-        >
-        Miscellaneous types and utilities.<br />
+        <a href="/doc/api/steamnetworkingtypes">steamnetworkingtypes.h</a> Miscellaneous types and
+        utilities.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/features/multiplayer/networking"
-            class="bb_doclink"
-            >Steam Networking</a
-        >
-        overview of the different networking APIs.
+        <a href="/doc/features/multiplayer/networking">Steam Networking</a> overview of the
+        different networking APIs.
     </li>
 </ul>
 <br />
@@ -39,17 +31,11 @@ You can also call this to force a retry if the previous attempt has failed. Perf
 that requires access to the relay network will also trigger a retry, and so calling this function is
 never strictly necessary, but it can be useful to call it a program launch time, if access to the
 relay network is anticipated. Use
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#GetRelayNetworkStatus"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingUtils#GetRelayNetworkStatus"
     >ISteamNetworkingUtils::GetRelayNetworkStatus</a
 >
 or listen for
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamRelayNetworkStatus_t%20"
-    class="bb_apilink"
-    >SteamRelayNetworkStatus_t
-</a>
+<a href="/doc/api/steamnetworkingtypes#SteamRelayNetworkStatus_t ">SteamRelayNetworkStatus_t </a>
 callbacks to know when initialization has completed. Typically initialization completes in a few
 seconds.<br />
 <br />
@@ -62,13 +48,9 @@ act as a "client" and this should be called.
 </div>
 Fetch current status of the relay network.<br />
 <br />
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamRelayNetworkStatus_t"
-    class="bb_apilink"
-    >SteamRelayNetworkStatus_t</a
->
-is also a callback. It will be triggered on both the user and gameserver interfaces any time the
-status changes, or ping measurement starts or stops.<br />
+<a href="/doc/api/steamnetworkingtypes#SteamRelayNetworkStatus_t">SteamRelayNetworkStatus_t</a> is
+also a callback. It will be triggered on both the user and gameserver interfaces any time the status
+changes, or ping measurement starts or stops.<br />
 <br />
 SteamRelayNetworkStatus_t::m_eAvail is returned. If you want more details, you can pass a non-NULL
 value.
@@ -85,9 +67,7 @@ This is extremely useful to select optional peers for matchmaking!<br />
 <br />
 The markers can also be converted to a string, so they can be transmitted. We have a separate
 library you can use on your backend to manipulate these objects. (See
-<a href="https://partner.steamgames.com/doc/api/steamdatagramrelay" class="bb_apilink"
-    >steamdatagramrelay</a
->)
+<a href="/doc/api/steamdatagramrelay">steamdatagramrelay</a>)
 <h2 class="bb_subsection"><a name="GetLocalPingLocation"></a>GetLocalPingLocation</h2>
 <div class="bb_code cpp">float GetLocalPingLocation( SteamNetworkPingLocation_t &amp;result );</div>
 <br />
@@ -96,9 +76,7 @@ Return location info for the current host. Returns the approximate age of the da
 <br />
 It takes a few seconds to initialize access to the relay network. If you call this very soon after
 calling
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#InitializeRelayNetworkAccess"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingUtils#InitializeRelayNetworkAccess"
     >ISteamNetworkingUtils::InitializeRelayNetworkAccess</a
 >, the data may not be available yet.<br />
 <br />
@@ -130,11 +108,8 @@ to ping, etc) k_nSteamNetworkingPing_Unknown is returned if we cannot currently 
 for some other reason.<br />
 <br />
 Do you need to be able to do this from a backend/matchmaking server? You are looking for the "game
-coordinator" library. See
-<a href="https://partner.steamgames.com/doc/api/steamdatagramrelay" class="bb_apilink"
-    >steamdatagramrelay</a
->
-for more info on how to obtain the game coordinator SDK.
+coordinator" library. See <a href="/doc/api/steamdatagramrelay">steamdatagramrelay</a> for more info
+on how to obtain the game coordinator SDK.
 <h2 class="bb_subsection">
     <a name="EstimatePingTimeFromLocalHost"></a>EstimatePingTimeFromLocalHost
 </h2>
@@ -163,9 +138,7 @@ Parse back SteamNetworkPingLocation_t string. Returns false if we couldn't under
 <h2 class="bb_section"><a name="ping_status_functions"></a>Ping Measurement Status Functions</h2>
 <br />
 Using the relay network requires latency measurements be taken. Aside from calling
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#InitializeRelayNetworkAccess"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingUtils#InitializeRelayNetworkAccess"
     >ISteamNetworkingUtils::InitializeRelayNetworkAccess</a
 >
 when your application boots (if you know you will need access to the relay network to send traffic
@@ -221,7 +194,7 @@ Control networking options. See ESteamNetworkingConfigValue for individual descr
 <br />
 <br />
 Set a configuration value.<br />
-<ul class="bb_ul">
+<ul>
     <li>eValue: which value is being set<br /></li>
     <li>eScope: Onto what type of object are you applying the setting?<br /></li>
     <li>
@@ -281,11 +254,8 @@ The following functions are handy shortcuts for common use cases.<br />
 <h2 class="bb_subsection"><a name="AllocateMessage"></a>AllocateMessage</h2>
 <div class="bb_code">SteamNetworkingMessage_t *AllocateMessage( int cbAllocateBuffer )</div>
 Allocate and initialize a message object. Usually the reason you call this is to pass it to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SendMessages"
-    class="bb_apilink"
-    >ISteamNetworkingSockets::SendMessages</a
->. The returned object will have all of the relevant fields cleared to zero.<br />
+<a href="/doc/api/ISteamNetworkingSockets#SendMessages">ISteamNetworkingSockets::SendMessages</a>.
+The returned object will have all of the relevant fields cleared to zero.<br />
 <br />
 Optionally you can also request that this system allocate space to hold the payload itself. If
 cbAllocateBuffer is nonzero, the system will allocate memory to hold a payload of at least
@@ -298,7 +268,7 @@ m_pfnFreeData will be NULL. You will need to set each of these.
 <div class="bb_code cpp">SteamNetworkingMicroseconds GetLocalTimestamp();</div>
 <br />
 A general purpose high resolution local timer with the following properties:<br />
-<ul class="bb_ul">
+<ul>
     <li>Monotonicity is guaranteed.<br /></li>
     <li>
         The initial value will be at least 24*3600*30*1e6, i.e. about 30 days worth of microseconds.
@@ -346,11 +316,8 @@ from within the handler.
 <h2 class="bb_section"><a name="1"></a>Fake IP</h2>
 <br />
 The "FakeIP" system is useful for interfacing with code that assumes peers are identified using an
-IPv4 address. See
-<a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
-    >ISteamNetworkingSockets</a
->
-for more information.
+IPv4 address. See <a href="/doc/api/ISteamNetworkingSockets">ISteamNetworkingSockets</a> for more
+information.
 <h2 class="bb_subsection"><a name="IsFakeIPv4"></a>IsFakeIPv4</h2>
 <div class="bb_code cpp">bool IsFakeIPv4( uint32 nIPv4 );</div>
 <br />
@@ -365,7 +332,7 @@ just does some logical tests on the IP and does not need to do any lookup operat
 Get the real identity associated with a given FakeIP.<br />
 <br />
 On failure, returns:<br />
-<ul class="bb_ul">
+<ul>
     <li>k_EResultInvalidParam: the IP is not a FakeIP.<br /></li>
     <li>
         k_EResultNoMatch: we don't recognize that FakeIP and don't know the corresponding identity.

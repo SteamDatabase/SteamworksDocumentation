@@ -6,48 +6,50 @@ This returns the all of the assets and currency in a particular context for a us
 <strong>HTTP Method:</strong> GET
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on
-            the partner site.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>32bit App ID of the application associated with the assets.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>64-bit Steam ID of the user to return assets for.</td>
-    </tr>
-    <tr>
-        <td><strong>contextid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The 64-bit ID of the context to return assets for.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                This is the "Asset Server Key" that you provided in your app's Steam Economy
+                Settings on the partner site.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>32bit App ID of the application associated with the assets.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>64-bit Steam ID of the user to return assets for.</td>
+        </tr>
+        <tr>
+            <td><strong>contextid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The 64-bit ID of the context to return assets for.</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="2"></a>Returns</h2>
 The output from this method should be encoded in the JSON format.<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">result</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set
@@ -62,7 +64,7 @@ The output from this method should be encoded in the JSON format.<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">assets</code> - An array of the
                 assets that are children of the specified context.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">id</code> - The 64-bit ID
                         of the asset.<br />
@@ -74,12 +76,10 @@ The output from this method should be encoded in the JSON format.<br />
                         reproduce the asset info<br />
                         (i.e. describe what kind of item it is) when the class identifiers are
                         passed back into
-                        <a
-                            href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo"
-                            class="bb_doclink"
+                        <a href="/doc/features/inventory/economy/GetAssetClassInfo"
                             >GetAssetClassInfo/v0001</a
                         >. Each identifier should contain the following fields:<br />
-                        <ul class="bb_ul">
+                        <ul>
                             <li>
                                 <code class="bb_code bb_code_inline nohighlight">name</code> - The
                                 name of this part of the class identifier.<br />
@@ -101,9 +101,7 @@ The output from this method should be encoded in the JSON format.<br />
                                     >market_hash_name</code
                                 >
                                 of an item in the
-                                <a
-                                    href="https://partner.steamgames.com/doc/features/inventory/economy/GetAssetClassInfo"
-                                    class="bb_doclink"
+                                <a href="/doc/features/inventory/economy/GetAssetClassInfo"
                                     >GetAssetClassInfo/v0001</a
                                 >
                                 response should never be considered instance data. The Community
@@ -139,7 +137,7 @@ The output from this method should be encoded in the JSON format.<br />
                 <code class="bb_code bb_code_inline nohighlight">class</code> and
                 <code class="bb_code bb_code_inline nohighlight">id</code> fields. In addition to
                 the other asset fields, the following two fields are used for currency:<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">id</code> - The unsigned
                         32-bit ID assigned to this kind of currency. This ID must be globally unique

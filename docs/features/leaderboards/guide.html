@@ -1,27 +1,19 @@
 <h1>Step by Step: Leaderboards</h1>
 <h2 class="bb_section"><a name="1"></a>Introduction</h2>
 The following is a quick step by step guide to integrating very basic Steam Leaderboards into your
-application in under 10 minutes. The
-<a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a> comes with a
-great example application called
-<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink">Spacewar</a> that
-shows off the full breadth of Steam features and should be your first stop to see all Steam features
-in action. This tutorial distills that information found in Spacewar and the leaderboards API found
-within
-<a href="https://partner.steamgames.com/doc/api/ISteamUserStats" class="bb_apilink"
-    >ISteamUserStats</a
->
-down to just the necessary information required for Steam Leaderboards to keep things as
-straightforward as possible.
+application in under 10 minutes. The <a href="/doc/sdk">Steamworks SDK</a> comes with a great
+example application called <a href="/doc/sdk/api/example">Spacewar</a> that shows off the full
+breadth of Steam features and should be your first stop to see all Steam features in action. This
+tutorial distills that information found in Spacewar and the leaderboards API found within
+<a href="/doc/api/ISteamUserStats">ISteamUserStats</a> down to just the necessary information
+required for Steam Leaderboards to keep things as straightforward as possible.
 <h2 class="bb_section"><a name="2"></a>Step 1 - Defining your game's Leaderboards</h2>
 Leaderboards are application specific and are setup on the
-<a href="https://partner.steamgames.com/apps/leaderboards/" target="_blank" rel="noreferrer"
-    >Leaderboard Configuration</a
->
-page in the Steamworks Partner Site.<br />
+<a href="/apps/leaderboards/" target="_blank" rel="noreferrer">Leaderboard Configuration</a> page in
+the Steamworks Partner Site.<br />
 <br />
 The following fields must be completed to define a leaderboard:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>Name</strong> - Set this to be a name that makes sense as part of internal
         development.<br />
@@ -50,7 +42,7 @@ The following fields must be completed to define a leaderboard:<br />
 </ul>
 <br />
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/spacewar_leaderboards"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/spacewar_leaderboards"
     alt="spacewar_leaderboards"
     title="spacewar_leaderboards"
 />
@@ -87,12 +79,10 @@ all of the Steam call result handlers.<br />
 "Feet Traveled")<br />
 <strong>Returns</strong> - Nothing<br />
 <strong>What it does</strong> - This method wraps a call to
-<a href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard" class="bb_apilink"
-    >ISteamUserStats::FindLeaderboard</a
->
-which is an asynchronous call to steam requesting a handle to the given leaderboard. This call needs
-to be made before you can retrieve or set leaderboard entries. This method also sets up the call
-return method to use.<br />
+<a href="/doc/api/ISteamUserStats#FindLeaderboard">ISteamUserStats::FindLeaderboard</a> which is an
+asynchronous call to steam requesting a handle to the given leaderboard. This call needs to be made
+before you can retrieve or set leaderboard entries. This method also sets up the call return method
+to use.<br />
 <div class="bb_code">
     void CSteamLeaderboards::FindLeaderboard( const char *pchLeaderboardName ) {
     m_CurrentLeaderboard = NULL; SteamAPICall_t hSteamAPICall =
@@ -118,9 +108,7 @@ leaderboard.<br />
 <strong>Returns</strong> - false if a leaderboard has not been selected yet, otherwise it returns
 true.<br />
 <strong>What it does</strong> - This method wraps a call to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#UploadLeaderboardScore"
     >ISteamUserStats::UploadLeaderboardScore</a
 >
 which is an asynchronous call to steam that uploads the score of the current user to the currently
@@ -149,9 +137,7 @@ upload a score to a leaderboard on Steam.<br />
 <strong>Returns</strong> - false if a leaderboard has not been selected yet, otherwise it returns
 true.<br />
 <strong>What it does</strong> - This method wraps a call to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
     >ISteamUserStats::DownloadLeaderboardEntries</a
 >
 that is an asynchronous call to steam downloading a set of entries from the currently selected
@@ -192,12 +178,8 @@ pointer to our helper object.<br />
     Object CSteamLeaderboards* g_SteamLeaderboards = NULL; ...
 </div>
 <h2 class="bb_subsection"><a name="8"></a>Initialization</h2>
-The call to
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->
-initializes all of Steam and must be called before anything else. If that call succeeds then we
-create the helper object.<br />
+The call to <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a> initializes all of Steam
+and must be called before anything else. If that call succeeds then we create the helper object.<br />
 <div class="bb_code cpp">
     ... // Initialize Steam bool bRet = SteamAPI_Init(); // Create the SteamLeaderboards object if
     Steam was successfully initialized if (bRet) { g_SteamLeaderboards = new CSteamLeaderboards(); }
@@ -208,12 +190,9 @@ To ensure that we process all Steam callbacks we need to regularly pump for new 
 achieved by adding this call to the game loop.<br />
 <div class="bb_code cpp">... SteamAPI_RunCallbacks(); ...</div>
 <h2 class="bb_subsection"><a name="10"></a>Shutdown</h2>
-The call to
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink"
-    >SteamAPI_Shutdown</a
->
-is probably something you already have in your code. It shuts down steam and must be called before
-you application exits. Finally we delete the helper object we created.<br />
+The call to <a href="/doc/api/steam_api#SteamAPI_Shutdown">SteamAPI_Shutdown</a> is probably
+something you already have in your code. It shuts down steam and must be called before you
+application exits. Finally we delete the helper object we created.<br />
 <div class="bb_code cpp">
     ... // Shutdown Steam SteamAPI_Shutdown(); // Delete the SteamLeaderboards object if
     (g_SteamLeaderboards) delete g_SteamLeaderboards; ...

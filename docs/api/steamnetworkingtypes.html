@@ -93,14 +93,10 @@ section 2.5.5.2.)<br />
 </div>
 <h2 class="bb_section"><a name="connection_status"></a>Connection status</h2>
 These types are used to describe the status of a connection. See
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamnetworkingSockets#GetConnectionInfo"
-    class="bb_apilink"
+<a href="/doc/api/ISteamnetworkingSockets#GetConnectionInfo"
     >ISteamnetworkingSockets::GetConnectionInfo</a
 >,
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamnetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamnetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
     >SteamNetConnectionStatusChangedCallback_t</a
 >
 <h2 class="bb_subsection">
@@ -358,348 +354,303 @@ A message that has been received<br />
 </div>
 <h2 class="bb_section"><a name="message_sending_flags"></a>Flags used for message sending</h2>
 These values are used in bitmask parameters to functions such as
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SendMessageToConnection"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#SendMessageToConnection"
     >ISteamNetworkingSockets::SendMessageToConnection</a
 ><br />
 <br />
 <div class="bb_code">const int k_nSteamNetworkingSend_Unreliable = 0;</div>
-<td>
-    Send the message unreliably. Can be lost. Messages *can* be larger than a single MTU (UDP
-    packet), but there is no retransmission, so if any piece of the message is lost, the entire
-    message will be dropped.<br />
-    <br />
-    The sending API does have some knowledge of the underlying connection, so if there is no
-    NAT-traversal accomplished or there is a recognized adjustment happening on the connection, the
-    packet will be batched until the connection is open again.<br />
-    <br />
-    Migration note: This is not exactly the same as k_EP2PSendUnreliable! You probably want
-    k_ESteamNetworkingSendType_UnreliableNoNagle<br />
-    <br />
-    <div class="bb_code">const int k_nSteamNetworkingSend_NoNagle = 1;</div>
-    Disable
-    <a href="https://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank" rel="noreferrer"
-        >Nagle's algorithm</a
-    >.<br />
-    <br />
-    By default, Nagle's algorithm is applied to all outbound messages. This means that the message
-    will NOT be sent immediately, in case further messages are sent soon after you send this, which
-    can be grouped together. Any time there is enough buffered data to fill a packet, the packets
-    will be pushed out immediately, but partially-full packets not be sent until the Nagle timer
-    expires. See
-    <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#FlushMessagesOnConnection"
-        class="bb_apilink"
-        >ISteamNetworkingSockets::FlushMessagesOnConnection</a
-    >,
-    <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#FlushMessagesToUser"
-        class="bb_apilink"
-        >ISteamNetworkingMessages::FlushMessagesToUser</a
-    ><br />
-    <br />
-    NOTE: Don't just send every message without Nagle because you want packets to "get there
-    quicker". Make sure you understand the problem that Nagle is solving before disabling it. If you
-    are sending small messages, often many at the same time, then it is very likely that it will be
-    more efficient to leave Nagle enabled. A typical proper use of this flag is when you are sending
-    what you know will be the last message sent for a while (e.g. the last in the server simulation
-    tick to a particular client), and you use this flag to flush all messages.<br />
-    <br />
-    <div class="bb_code">
-        const int k_nSteamNetworkingSend_UnreliableNoNagle =
-        k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoNagle;
-    </div>
-    Send a message unreliably, bypassing Nagle's algorithm for this message and any messages
-    currently pending on the Nagle timer. This is equivalent to using
-    steamnetworkingtypes::k_ESteamNetworkingSend_Unreliable and then immediately flushing the
-    messages using
-    <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#FlushMessagesOnConnection"
-        class="bb_apilink"
-        >ISteamNetworkingSockets::FlushMessagesOnConnection</a
-    >
-    or
-    <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#FlushMessagesToUser"
-        class="bb_apilink"
-        >ISteamNetworkingMessages::FlushMessagesToUser</a
-    >. (But using this flag is more efficient since you only make one API call.)<br />
-    <br />
-    <div class="bb_code">const int k_nSteamNetworkingSend_NoDelay = 4;</div>
-    If the message cannot be sent very soon (because the connection is still doing some initial
-    handshaking, route negotiations, etc), then just drop it. This is only applicable for unreliable
-    messages. Using this flag on reliable messages is invalid.<br />
-    <br />
-    <br />
-    <div class="bb_code">
-        const int k_nSteamNetworkingSend_UnreliableNoDelay =
-        k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoDelay|k_nSteamNetworkingSend_NoNagle;
-    </div>
-    Send an unreliable message, but if it cannot be sent relatively quickly, just drop it instead of
-    queuing it. This is useful for messages that are not useful if they are excessively delayed,
-    such as voice data.<br />
-    <br />
-    A message will be dropped under the following circumstances:<br />
-    <ul class="bb_ul">
-        <li>
-            the connection is not fully connected. (E.g. the "Connecting" or "FindingRoute"
-            states)<br />
-        </li>
-        <li>
-            there is a sufficiently large number of messages queued up already such that the current
-            messagewill not be placed on the wire in the next ~200ms or so.
-        </li>
-    </ul>
-    <br />
-    If a message is dropped for these reasons, k_EResultIgnored will be returned.<br />
-    <br />
-    NOTE: The Nagle algorithm is not used, and if the message is not dropped, any messages waiting
-    on the Nagle timer are immediately flushed.<br />
-    <br />
-    <div class="bb_code">const int k_nSteamNetworkingSend_Reliable = 8;</div>
-    Reliable message send. Can send up to k_cbMaxSteamNetworkingSocketsMessageSizeSend bytes in a
-    single message. Does fragmentation/re-assembly of messages under the hood, as well as a sliding
-    window for efficient sends of large chunks of data.<br />
-    <br />
-    The Nagle algorithm is used. See notes on k_ESteamNetworkingSendType_Unreliable for more
-    details. See k_ESteamNetworkingSendType_ReliableNoNagle,
-    <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#FlushMessagesOnConnection"
-        class="bb_apilink"
-        >ISteamNetworkingSockets::FlushMessagesOnConnection</a
-    >,
-    <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#FlushMessagesToUser"
-        class="bb_apilink"
-        >ISteamNetworkingMessages::FlushMessagesToUser</a
-    ><br />
-    <br />
-    Migration note: This is NOT the same as k_EP2PSendReliable, it's more like
-    k_EP2PSendReliableWithBuffering<br />
-    <br />
-    <div class="bb_code">
-        const int k_nSteamNetworkingSend_ReliableNoNagle =
-        k_nSteamNetworkingSend_Reliable|k_nSteamNetworkingSend_NoNagle;
-    </div>
-    Send a message reliably, but bypass Nagle's algorithm.<br />
-    <br />
-    Migration note: This is equivalent to k_EP2PSendReliable
-    <h2 class="bb_section"><a name="ping_location"></a>Ping location / measurement</h2>
-    <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingutils" class="bb_apilink"
-        >ISteamNetworkingutils</a
-    >
-    has functions for estimating the ping time between two Internet hosts without sending any
-    packets.
-    <h2 class="bb_subsection">
-        <a name="SteamNetworkPingLocation_t"></a>SteamNetworkingPingLocation_t
-    </h2>
-    <br />
-    <div class="bb_code">struct SteamNetworkPingLocation_t { uint8 m_data[ 512 ]; }</div>
-    Opaque object that describes a "location" on the Internet with sufficient detail that we can
-    reasonably estimate an upper bound on the ping between the two hosts, even if a direct route
-    between the hosts is not possible, and the connection must be routed through the Steam Datagram
-    Relay network.<br />
-    <br />
-    This does not contain any information that identifies the host. Indeed, if two hosts are in the
-    same building or otherwise have nearly identical networking characteristics, then it's valid to
-    use the same location object for both of them.<br />
-    <br />
-    NOTE: This object should only be used in the same process! Do not serialize it, send it over the
-    wire, or persist it in a file or database! If you need to do that, convert it to a string
-    representation using the methods in
-    <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils" class="bb_apilink"
-        >ISteamNetworkingUtils</a
-    >
-    <h2 class="bb_subsection">
-        <a name="k_cchMaxSteamNetworkingPingLocationString"></a
-        >k_cchMaxSteamNetworkingPingLocationString
-    </h2>
-    <br />
-    <div class="bb_code">const int k_cchMaxSteamNetworkingPingLocationString = 1024;</div>
-    Max possible length of a ping location, in string format. This is an extremely conservative
-    worst case value which leaves room for future syntax enhancements. Most strings in practice are
-    a lot shorter. If you are storing many of these, you will very likely benefit from using dynamic
-    memory.
-    <h2 class="bb_section"><a name="configuration"></a>Configuration</h2>
-    You can control different operating parameters, on a global or connection-specific basis. The
-    methdos to do this are in
-    <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils" class="bb_apilink"
-        >ISteamNetworkingUtils</a
-    >
-    <h2 class="bb_subsection">
-        <a name="ESteamNetworkingConfigScope"></a>ESteamNetworkingConfigScope
-    </h2>
-    <br />
-    Configuration values can be applied to different types of objects.<br />
-    <div class="bb_code">
-        enum ESteamNetworkingConfigScope { /// Get/set global option, or defaults. Even options that
-        apply to more specific scopes /// have global scope, and you may be able to just change the
-        global defaults. If you /// need different settings per connection (for example), then you
-        will need to set those /// options at the more specific scope.
-        k_ESteamNetworkingConfig_Global = 1, /// Some options are specific to a particular
-        interface. Note that all connection /// and listen socket settings can also be set at the
-        interface level, and they will /// apply to objects created through those interfaces.
-        k_ESteamNetworkingConfig_SocketsInterface = 2, /// Options for a listen socket. Listen
-        socket options can be set at the interface layer, /// if you have multiple listen sockets
-        and they all use the same options. /// You can also set connection options on a listen
-        socket, and they set the defaults /// for all connections accepted through this listen
-        socket. (They will be used if you don't /// set a connection option.)
-        k_ESteamNetworkingConfig_ListenSocket = 3, /// Options for a specific connection.
-        k_ESteamNetworkingConfig_Connection = 4, };
-    </div>
-    <h2 class="bb_subsection">
-        <a name="ESteamNetworkingConfigDataType"></a>ESteamNetworkingConfigDataType
-    </h2>
-    <br />
-    Different configuration values have different data types<br />
-    <div class="bb_code">
-        enum ESteamNetworkingConfigDataType { k_ESteamNetworkingConfig_Int32 = 1,
-        k_ESteamNetworkingConfig_Int64 = 2, k_ESteamNetworkingConfig_Float = 3,
-        k_ESteamNetworkingConfig_String = 4, k_ESteamNetworkingConfig_FunctionPtr = 5, // NOTE: When
-        setting callbacks, you should put the pointer into a variable and pass a pointer to that
-        variable. };
-    </div>
-    <h2 class="bb_subsection">
-        <a name="ESteamNetworkingConfigValue"></a>ESteamNetworkingConfigValue
-    </h2>
-    <br />
-    Configuration options<br />
-    <div class="bb_code">
-        enum ESteamNetworkingConfigValue { k_ESteamNetworkingConfig_Invalid = 0, /// [global float,
-        0--100] Randomly discard N pct of packets instead of sending/recv /// This is a global
-        option only, since it is applied at a low level /// where we don't have much context
-        k_ESteamNetworkingConfig_FakePacketLoss_Send = 2,
-        k_ESteamNetworkingConfig_FakePacketLoss_Recv = 3, /// [global int32]. Delay all
-        outbound/inbound packets by N ms k_ESteamNetworkingConfig_FakePacketLag_Send = 4,
-        k_ESteamNetworkingConfig_FakePacketLag_Recv = 5, /// [global float] 0-100 Percentage of
-        packets we will add additional delay /// to (causing them to be reordered)
-        k_ESteamNetworkingConfig_FakePacketReorder_Send = 6,
-        k_ESteamNetworkingConfig_FakePacketReorder_Recv = 7, /// [global int32] Extra delay, in ms,
-        to apply to reordered packets. k_ESteamNetworkingConfig_FakePacketReorder_Time = 8, ///
-        [global float 0--100] Globally duplicate some percentage of packets we send
-        k_ESteamNetworkingConfig_FakePacketDup_Send = 26,
-        k_ESteamNetworkingConfig_FakePacketDup_Recv = 27, /// [global int32] Amount of delay, in ms,
-        to delay duplicated packets. /// (We chose a random delay between 0 and this value)
-        k_ESteamNetworkingConfig_FakePacketDup_TimeMax = 28, /// [connection int32] Timeout value
-        (in ms) to use when first connecting k_ESteamNetworkingConfig_TimeoutInitial = 24, ///
-        [connection int32] Timeout value (in ms) to use after connection is established
-        k_ESteamNetworkingConfig_TimeoutConnected = 25, /// [connection int32] Upper limit of
-        buffered pending bytes to be sent, /// if this is reached SendMessage will return
-        k_EResultLimitExceeded /// Default is 512k (524288 bytes)
-        k_ESteamNetworkingConfig_SendBufferSize = 9, /// [connection int32] Minimum/maximum send
-        rate clamp, 0 is no limit. /// This value will control the min/max allowed sending rate that
-        /// bandwidth estimation is allowed to reach. Default is 0 (no-limit)
-        k_ESteamNetworkingConfig_SendRateMin = 10, k_ESteamNetworkingConfig_SendRateMax = 11, ///
-        [connection int32] Nagle time, in microseconds. When SendMessage is called, if /// the
-        outgoing message is less than the size of the MTU, it will be /// queued for a delay equal
-        to the Nagle timer value. This is to ensure /// that if the application sends several small
-        messages rapidly, they are /// coalesced into a single packet. /// See historical RFC 896.
-        Value is in microseconds. /// Default is 5000us (5ms). k_ESteamNetworkingConfig_NagleTime =
-        12, /// [connection int32] Don't automatically fail IP connections that don't have ///
-        strong auth. On clients, this means we will attempt the connection even if /// we don't know
-        our identity or can't get a cert. On the server, it means that /// we won't automatically
-        reject a connection due to a failure to authenticate. /// (You can examine the incoming
-        connection and decide whether to accept it.) k_ESteamNetworkingConfig_IP_AllowWithoutAuth =
-        23, // // Settings for SDR relayed connections // /// [int32 global] If the first N pings to
-        a port all fail, mark that port as unavailable for /// a while, and try a different one.
-        Some ISPs and routers may drop the first /// packet, so setting this to 1 may greatly
-        disrupt communications.
-        k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFailInitial = 19, /// [int32
-        global] If N consecutive pings to a port fail, after having received successful ///
-        communication, mark that port as unavailable for a while, and try a /// different one.
-        k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFail = 20, /// [int32 global]
-        Minimum number of lifetime pings we need to send, before we think our estimate /// is solid.
-        The first ping to each cluster is very often delayed because of NAT, /// routers not having
-        the best route, etc. Until we've sent a sufficient number /// of pings, our estimate is
-        often inaccurate. Keep pinging until we get this /// many pings.
-        k_ESteamNetworkingConfig_SDRClient_MinPingsBeforePingAccurate = 21, /// [int32 global] Set
-        all steam datagram traffic to originate from the same /// local port. By default, we open up
-        a new UDP socket (on a different local /// port) for each relay. This is slightly less
-        optimal, but it works around /// some routers that don't implement NAT properly. If you have
-        intermittent /// problems talking to relays that might be NAT related, try toggling /// this
-        flag k_ESteamNetworkingConfig_SDRClient_SingleSocket = 22, /// [global string] Code of relay
-        cluster to force use. If not empty, we will /// only use relays in that cluster. E.g. 'iad'
-        k_ESteamNetworkingConfig_SDRClient_ForceRelayCluster = 29, /// [connection string] For
-        debugging, generate our own (unsigned) ticket, using /// the specified gameserver address.
-        Router must be configured to accept unsigned /// tickets.
-        k_ESteamNetworkingConfig_SDRClient_DebugTicketAddress = 30, /// [global string] For
-        debugging. Override list of relays from the config with /// this set (maybe just one).
-        Comma-separated list. k_ESteamNetworkingConfig_SDRClient_ForceProxyAddr = 31, // // Log
-        levels for debuging information. A higher priority // (lower numeric value) will cause more
-        stuff to be printed. // k_ESteamNetworkingConfig_LogLevel_AckRTT = 13, // [connection int32]
-        RTT calculations for inline pings and replies k_ESteamNetworkingConfig_LogLevel_PacketDecode
-        = 14, // [connection int32] log SNP packets send k_ESteamNetworkingConfig_LogLevel_Message =
-        15, // [connection int32] log each message send/recv
-        k_ESteamNetworkingConfig_LogLevel_PacketGaps = 16, // [connection int32] dropped packets
-        k_ESteamNetworkingConfig_LogLevel_P2PRendezvous = 17, // [connection int32] P2P rendezvous
-        messages k_ESteamNetworkingConfig_LogLevel_SDRRelayPings = 18, // [global int32] Ping relays
-        };
-    </div>
-    <h2 class="bb_subsection">
-        <a name="ESteamNetworkingGetConfigValueResult"></a>ESteamNetworkingGetConfigValueResult
-    </h2>
-    <br />
-    Return value of
-    <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworkintgUtils#GetConfigValue"
-        class="bb_apilink"
-        >ISteamNetworkintgUtils::GetConfigValue</a
-    ><br />
-    <div class="bb_code">
-        enum ESteamNetworkingGetConfigValueResult { k_ESteamNetworkingGetConfigValue_BadValue = -1,
-        // No such configuration value k_ESteamNetworkingGetConfigValue_BadScopeObj = -2, // Bad
-        connection handle, etc k_ESteamNetworkingGetConfigValue_BufferTooSmall = -3, // Couldn't fit
-        the result in your buffer k_ESteamNetworkingGetConfigValue_OK = 1,
-        k_ESteamNetworkingGetConfigValue_OKInherited = 2, // A value was not set at this level, but
-        the effective (inherited) value was returned.
-        k_ESteamNetworkingGetConfigValueResult__Force32Bit = 0x7fffffff };
-    </div>
-    <h2 class="bb_subsection">
-        <a name="SteamNetworkingConfigValue_t"></a>SteamNetworkingConfigValue_t
-    </h2>
-    <br />
-    In a few places we need to set configuration options on listen sockets and connections, and have
-    them take effect <i>before</i> the listen socket or connection really starts doing anything.
-    Creating the object and then setting the options "immediately" after creation doesn't work
-    completely, because network packets could be received between the time the object is created and
-    when the options are applied. To set options at creation time in a reliable way, they must be
-    passed to the creation function. This structure is used to pass those options.<br />
-    <br />
-    For the meaning of these fields, see
-    <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#SetConfigValue"
-        class="bb_apilink"
-        >ISteamNetworkingUtils::SetConfigValue</a
-    >. Basically when the object is created, we just iterate over the list of options and call
-    <a
-        href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#SetConfigValueStruct"
-        class="bb_apilink"
-        >ISteamNetworkingUtils::SetConfigValueStruct</a
-    >, where the scope arguments are supplied by the object being created.<br />
-    <div class="bb_code">
-        struct SteamNetworkingConfigValue_t { /// Which option is being set
-        ESteamNetworkingConfigValue m_eValue; /// Which field below did you fill in?
-        ESteamNetworkingConfigDataType m_eDataType; /// Option value union { int32_t m_int32;
-        int64_t m_int64; float m_float; const char *m_string; // Points to your '\0'-terminated
-        buffer void *m_functionPtr; } m_val; };
-    </div>
-    <h2 class="bb_section"><a name="valve_data_centers"></a>Valve data centers</h2>
-    Used to describe the topology of the Valve network, identify data centers, etc.<br />
-    <br />
-    <div class="bb_code">typedef uint32 SteamNetworkingPOPID;</div>
-    Identifier used for a network location point of presence. (E.g. a Valve data center.)<br />
-    Typically you won't need to directly manipulate these.<br />
-    <br />
-    <div class="bb_code">
-        SteamNetworkingPOPID CalculateSteamNetworkingPOPIDFromString( const char *pszCode )
-    </div>
-    Convert 3- or 4-character ID to 32-bit int.<br />
-    <br />
-    <div class="bb_code">
-        template &lt;int N&gt; inline void GetSteamNetworkingLocationPOPStringFromID(
-        SteamNetworkingPOPID id, char (&amp;szCode)[N] )
-    </div>
-    Unpack integer to string representation, including terminating '\0'. Your string should be at
-    least 5 bytes large. (It will fail to compile if this is not the case.)<br />
-</td>
+Send the message unreliably. Can be lost. Messages *can* be larger than a single MTU (UDP packet),
+but there is no retransmission, so if any piece of the message is lost, the entire message will be
+dropped.<br />
+<br />
+The sending API does have some knowledge of the underlying connection, so if there is no
+NAT-traversal accomplished or there is a recognized adjustment happening on the connection, the
+packet will be batched until the connection is open again.<br />
+<br />
+Migration note: This is not exactly the same as k_EP2PSendUnreliable! You probably want
+k_ESteamNetworkingSendType_UnreliableNoNagle<br />
+<br />
+<div class="bb_code">const int k_nSteamNetworkingSend_NoNagle = 1;</div>
+Disable
+<a href="https://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank" rel="noreferrer"
+    >Nagle's algorithm</a
+>.<br />
+<br />
+By default, Nagle's algorithm is applied to all outbound messages. This means that the message will
+NOT be sent immediately, in case further messages are sent soon after you send this, which can be
+grouped together. Any time there is enough buffered data to fill a packet, the packets will be
+pushed out immediately, but partially-full packets not be sent until the Nagle timer expires. See
+<a href="/doc/api/ISteamNetworkingSockets#FlushMessagesOnConnection"
+    >ISteamNetworkingSockets::FlushMessagesOnConnection</a
+>,
+<a href="/doc/api/ISteamNetworkingMessages#FlushMessagesToUser"
+    >ISteamNetworkingMessages::FlushMessagesToUser</a
+><br />
+<br />
+NOTE: Don't just send every message without Nagle because you want packets to "get there quicker".
+Make sure you understand the problem that Nagle is solving before disabling it. If you are sending
+small messages, often many at the same time, then it is very likely that it will be more efficient
+to leave Nagle enabled. A typical proper use of this flag is when you are sending what you know will
+be the last message sent for a while (e.g. the last in the server simulation tick to a particular
+client), and you use this flag to flush all messages.<br />
+<br />
+<div class="bb_code">
+    const int k_nSteamNetworkingSend_UnreliableNoNagle =
+    k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoNagle;
+</div>
+Send a message unreliably, bypassing Nagle's algorithm for this message and any messages currently
+pending on the Nagle timer. This is equivalent to using
+steamnetworkingtypes::k_ESteamNetworkingSend_Unreliable and then immediately flushing the messages
+using
+<a href="/doc/api/ISteamNetworkingSockets#FlushMessagesOnConnection"
+    >ISteamNetworkingSockets::FlushMessagesOnConnection</a
+>
+or
+<a href="/doc/api/ISteamNetworkingMessages#FlushMessagesToUser"
+    >ISteamNetworkingMessages::FlushMessagesToUser</a
+>. (But using this flag is more efficient since you only make one API call.)<br />
+<br />
+<div class="bb_code">const int k_nSteamNetworkingSend_NoDelay = 4;</div>
+If the message cannot be sent very soon (because the connection is still doing some initial
+handshaking, route negotiations, etc), then just drop it. This is only applicable for unreliable
+messages. Using this flag on reliable messages is invalid.<br />
+<br />
+<br />
+<div class="bb_code">
+    const int k_nSteamNetworkingSend_UnreliableNoDelay =
+    k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoDelay|k_nSteamNetworkingSend_NoNagle;
+</div>
+Send an unreliable message, but if it cannot be sent relatively quickly, just drop it instead of
+queuing it. This is useful for messages that are not useful if they are excessively delayed, such as
+voice data.<br />
+<br />
+A message will be dropped under the following circumstances:<br />
+<ul>
+    <li>
+        the connection is not fully connected. (E.g. the "Connecting" or "FindingRoute" states)<br />
+    </li>
+    <li>
+        there is a sufficiently large number of messages queued up already such that the current
+        messagewill not be placed on the wire in the next ~200ms or so.
+    </li>
+</ul>
+<br />
+If a message is dropped for these reasons, k_EResultIgnored will be returned.<br />
+<br />
+NOTE: The Nagle algorithm is not used, and if the message is not dropped, any messages waiting on
+the Nagle timer are immediately flushed.<br />
+<br />
+<div class="bb_code">const int k_nSteamNetworkingSend_Reliable = 8;</div>
+Reliable message send. Can send up to k_cbMaxSteamNetworkingSocketsMessageSizeSend bytes in a single
+message. Does fragmentation/re-assembly of messages under the hood, as well as a sliding window for
+efficient sends of large chunks of data.<br />
+<br />
+The Nagle algorithm is used. See notes on k_ESteamNetworkingSendType_Unreliable for more details.
+See k_ESteamNetworkingSendType_ReliableNoNagle,
+<a href="/doc/api/ISteamNetworkingSockets#FlushMessagesOnConnection"
+    >ISteamNetworkingSockets::FlushMessagesOnConnection</a
+>,
+<a href="/doc/api/ISteamNetworkingMessages#FlushMessagesToUser"
+    >ISteamNetworkingMessages::FlushMessagesToUser</a
+><br />
+<br />
+Migration note: This is NOT the same as k_EP2PSendReliable, it's more like
+k_EP2PSendReliableWithBuffering<br />
+<br />
+<div class="bb_code">
+    const int k_nSteamNetworkingSend_ReliableNoNagle =
+    k_nSteamNetworkingSend_Reliable|k_nSteamNetworkingSend_NoNagle;
+</div>
+Send a message reliably, but bypass Nagle's algorithm.<br />
+<br />
+Migration note: This is equivalent to k_EP2PSendReliable
+<h2 class="bb_section"><a name="ping_location"></a>Ping location / measurement</h2>
+<a href="/doc/api/ISteamNetworkingutils">ISteamNetworkingutils</a> has functions for estimating the
+ping time between two Internet hosts without sending any packets.
+<h2 class="bb_subsection">
+    <a name="SteamNetworkPingLocation_t"></a>SteamNetworkingPingLocation_t
+</h2>
+<br />
+<div class="bb_code">struct SteamNetworkPingLocation_t { uint8 m_data[ 512 ]; }</div>
+Opaque object that describes a "location" on the Internet with sufficient detail that we can
+reasonably estimate an upper bound on the ping between the two hosts, even if a direct route between
+the hosts is not possible, and the connection must be routed through the Steam Datagram Relay
+network.<br />
+<br />
+This does not contain any information that identifies the host. Indeed, if two hosts are in the same
+building or otherwise have nearly identical networking characteristics, then it's valid to use the
+same location object for both of them.<br />
+<br />
+NOTE: This object should only be used in the same process! Do not serialize it, send it over the
+wire, or persist it in a file or database! If you need to do that, convert it to a string
+representation using the methods in
+<a href="/doc/api/ISteamNetworkingUtils">ISteamNetworkingUtils</a>
+<h2 class="bb_subsection">
+    <a name="k_cchMaxSteamNetworkingPingLocationString"></a
+    >k_cchMaxSteamNetworkingPingLocationString
+</h2>
+<br />
+<div class="bb_code">const int k_cchMaxSteamNetworkingPingLocationString = 1024;</div>
+Max possible length of a ping location, in string format. This is an extremely conservative worst
+case value which leaves room for future syntax enhancements. Most strings in practice are a lot
+shorter. If you are storing many of these, you will very likely benefit from using dynamic memory.
+<h2 class="bb_section"><a name="configuration"></a>Configuration</h2>
+You can control different operating parameters, on a global or connection-specific basis. The
+methdos to do this are in <a href="/doc/api/ISteamNetworkingUtils">ISteamNetworkingUtils</a>
+<h2 class="bb_subsection"><a name="ESteamNetworkingConfigScope"></a>ESteamNetworkingConfigScope</h2>
+<br />
+Configuration values can be applied to different types of objects.<br />
+<div class="bb_code">
+    enum ESteamNetworkingConfigScope { /// Get/set global option, or defaults. Even options that
+    apply to more specific scopes /// have global scope, and you may be able to just change the
+    global defaults. If you /// need different settings per connection (for example), then you will
+    need to set those /// options at the more specific scope. k_ESteamNetworkingConfig_Global = 1,
+    /// Some options are specific to a particular interface. Note that all connection /// and listen
+    socket settings can also be set at the interface level, and they will /// apply to objects
+    created through those interfaces. k_ESteamNetworkingConfig_SocketsInterface = 2, /// Options for
+    a listen socket. Listen socket options can be set at the interface layer, /// if you have
+    multiple listen sockets and they all use the same options. /// You can also set connection
+    options on a listen socket, and they set the defaults /// for all connections accepted through
+    this listen socket. (They will be used if you don't /// set a connection option.)
+    k_ESteamNetworkingConfig_ListenSocket = 3, /// Options for a specific connection.
+    k_ESteamNetworkingConfig_Connection = 4, };
+</div>
+<h2 class="bb_subsection">
+    <a name="ESteamNetworkingConfigDataType"></a>ESteamNetworkingConfigDataType
+</h2>
+<br />
+Different configuration values have different data types<br />
+<div class="bb_code">
+    enum ESteamNetworkingConfigDataType { k_ESteamNetworkingConfig_Int32 = 1,
+    k_ESteamNetworkingConfig_Int64 = 2, k_ESteamNetworkingConfig_Float = 3,
+    k_ESteamNetworkingConfig_String = 4, k_ESteamNetworkingConfig_FunctionPtr = 5, // NOTE: When
+    setting callbacks, you should put the pointer into a variable and pass a pointer to that
+    variable. };
+</div>
+<h2 class="bb_subsection"><a name="ESteamNetworkingConfigValue"></a>ESteamNetworkingConfigValue</h2>
+<br />
+Configuration options<br />
+<div class="bb_code">
+    enum ESteamNetworkingConfigValue { k_ESteamNetworkingConfig_Invalid = 0, /// [global float,
+    0--100] Randomly discard N pct of packets instead of sending/recv /// This is a global option
+    only, since it is applied at a low level /// where we don't have much context
+    k_ESteamNetworkingConfig_FakePacketLoss_Send = 2, k_ESteamNetworkingConfig_FakePacketLoss_Recv =
+    3, /// [global int32]. Delay all outbound/inbound packets by N ms
+    k_ESteamNetworkingConfig_FakePacketLag_Send = 4, k_ESteamNetworkingConfig_FakePacketLag_Recv =
+    5, /// [global float] 0-100 Percentage of packets we will add additional delay /// to (causing
+    them to be reordered) k_ESteamNetworkingConfig_FakePacketReorder_Send = 6,
+    k_ESteamNetworkingConfig_FakePacketReorder_Recv = 7, /// [global int32] Extra delay, in ms, to
+    apply to reordered packets. k_ESteamNetworkingConfig_FakePacketReorder_Time = 8, /// [global
+    float 0--100] Globally duplicate some percentage of packets we send
+    k_ESteamNetworkingConfig_FakePacketDup_Send = 26, k_ESteamNetworkingConfig_FakePacketDup_Recv =
+    27, /// [global int32] Amount of delay, in ms, to delay duplicated packets. /// (We chose a
+    random delay between 0 and this value) k_ESteamNetworkingConfig_FakePacketDup_TimeMax = 28, ///
+    [connection int32] Timeout value (in ms) to use when first connecting
+    k_ESteamNetworkingConfig_TimeoutInitial = 24, /// [connection int32] Timeout value (in ms) to
+    use after connection is established k_ESteamNetworkingConfig_TimeoutConnected = 25, ///
+    [connection int32] Upper limit of buffered pending bytes to be sent, /// if this is reached
+    SendMessage will return k_EResultLimitExceeded /// Default is 512k (524288 bytes)
+    k_ESteamNetworkingConfig_SendBufferSize = 9, /// [connection int32] Minimum/maximum send rate
+    clamp, 0 is no limit. /// This value will control the min/max allowed sending rate that ///
+    bandwidth estimation is allowed to reach. Default is 0 (no-limit)
+    k_ESteamNetworkingConfig_SendRateMin = 10, k_ESteamNetworkingConfig_SendRateMax = 11, ///
+    [connection int32] Nagle time, in microseconds. When SendMessage is called, if /// the outgoing
+    message is less than the size of the MTU, it will be /// queued for a delay equal to the Nagle
+    timer value. This is to ensure /// that if the application sends several small messages rapidly,
+    they are /// coalesced into a single packet. /// See historical RFC 896. Value is in
+    microseconds. /// Default is 5000us (5ms). k_ESteamNetworkingConfig_NagleTime = 12, ///
+    [connection int32] Don't automatically fail IP connections that don't have /// strong auth. On
+    clients, this means we will attempt the connection even if /// we don't know our identity or
+    can't get a cert. On the server, it means that /// we won't automatically reject a connection
+    due to a failure to authenticate. /// (You can examine the incoming connection and decide
+    whether to accept it.) k_ESteamNetworkingConfig_IP_AllowWithoutAuth = 23, // // Settings for SDR
+    relayed connections // /// [int32 global] If the first N pings to a port all fail, mark that
+    port as unavailable for /// a while, and try a different one. Some ISPs and routers may drop the
+    first /// packet, so setting this to 1 may greatly disrupt communications.
+    k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFailInitial = 19, /// [int32 global]
+    If N consecutive pings to a port fail, after having received successful /// communication, mark
+    that port as unavailable for a while, and try a /// different one.
+    k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFail = 20, /// [int32 global]
+    Minimum number of lifetime pings we need to send, before we think our estimate /// is solid. The
+    first ping to each cluster is very often delayed because of NAT, /// routers not having the best
+    route, etc. Until we've sent a sufficient number /// of pings, our estimate is often inaccurate.
+    Keep pinging until we get this /// many pings.
+    k_ESteamNetworkingConfig_SDRClient_MinPingsBeforePingAccurate = 21, /// [int32 global] Set all
+    steam datagram traffic to originate from the same /// local port. By default, we open up a new
+    UDP socket (on a different local /// port) for each relay. This is slightly less optimal, but it
+    works around /// some routers that don't implement NAT properly. If you have intermittent ///
+    problems talking to relays that might be NAT related, try toggling /// this flag
+    k_ESteamNetworkingConfig_SDRClient_SingleSocket = 22, /// [global string] Code of relay cluster
+    to force use. If not empty, we will /// only use relays in that cluster. E.g. 'iad'
+    k_ESteamNetworkingConfig_SDRClient_ForceRelayCluster = 29, /// [connection string] For
+    debugging, generate our own (unsigned) ticket, using /// the specified gameserver address.
+    Router must be configured to accept unsigned /// tickets.
+    k_ESteamNetworkingConfig_SDRClient_DebugTicketAddress = 30, /// [global string] For debugging.
+    Override list of relays from the config with /// this set (maybe just one). Comma-separated
+    list. k_ESteamNetworkingConfig_SDRClient_ForceProxyAddr = 31, // // Log levels for debuging
+    information. A higher priority // (lower numeric value) will cause more stuff to be printed. //
+    k_ESteamNetworkingConfig_LogLevel_AckRTT = 13, // [connection int32] RTT calculations for inline
+    pings and replies k_ESteamNetworkingConfig_LogLevel_PacketDecode = 14, // [connection int32] log
+    SNP packets send k_ESteamNetworkingConfig_LogLevel_Message = 15, // [connection int32] log each
+    message send/recv k_ESteamNetworkingConfig_LogLevel_PacketGaps = 16, // [connection int32]
+    dropped packets k_ESteamNetworkingConfig_LogLevel_P2PRendezvous = 17, // [connection int32] P2P
+    rendezvous messages k_ESteamNetworkingConfig_LogLevel_SDRRelayPings = 18, // [global int32] Ping
+    relays };
+</div>
+<h2 class="bb_subsection">
+    <a name="ESteamNetworkingGetConfigValueResult"></a>ESteamNetworkingGetConfigValueResult
+</h2>
+<br />
+Return value of
+<a href="/doc/api/ISteamNetworkintgUtils#GetConfigValue">ISteamNetworkintgUtils::GetConfigValue</a
+><br />
+<div class="bb_code">
+    enum ESteamNetworkingGetConfigValueResult { k_ESteamNetworkingGetConfigValue_BadValue = -1, //
+    No such configuration value k_ESteamNetworkingGetConfigValue_BadScopeObj = -2, // Bad connection
+    handle, etc k_ESteamNetworkingGetConfigValue_BufferTooSmall = -3, // Couldn't fit the result in
+    your buffer k_ESteamNetworkingGetConfigValue_OK = 1,
+    k_ESteamNetworkingGetConfigValue_OKInherited = 2, // A value was not set at this level, but the
+    effective (inherited) value was returned. k_ESteamNetworkingGetConfigValueResult__Force32Bit =
+    0x7fffffff };
+</div>
+<h2 class="bb_subsection">
+    <a name="SteamNetworkingConfigValue_t"></a>SteamNetworkingConfigValue_t
+</h2>
+<br />
+In a few places we need to set configuration options on listen sockets and connections, and have
+them take effect <i>before</i> the listen socket or connection really starts doing anything.
+Creating the object and then setting the options "immediately" after creation doesn't work
+completely, because network packets could be received between the time the object is created and
+when the options are applied. To set options at creation time in a reliable way, they must be passed
+to the creation function. This structure is used to pass those options.<br />
+<br />
+For the meaning of these fields, see
+<a href="/doc/api/ISteamNetworkingUtils#SetConfigValue">ISteamNetworkingUtils::SetConfigValue</a>.
+Basically when the object is created, we just iterate over the list of options and call
+<a href="/doc/api/ISteamNetworkingUtils#SetConfigValueStruct"
+    >ISteamNetworkingUtils::SetConfigValueStruct</a
+>, where the scope arguments are supplied by the object being created.<br />
+<div class="bb_code">
+    struct SteamNetworkingConfigValue_t { /// Which option is being set ESteamNetworkingConfigValue
+    m_eValue; /// Which field below did you fill in? ESteamNetworkingConfigDataType m_eDataType; ///
+    Option value union { int32_t m_int32; int64_t m_int64; float m_float; const char *m_string; //
+    Points to your '\0'-terminated buffer void *m_functionPtr; } m_val; };
+</div>
+<h2 class="bb_section"><a name="valve_data_centers"></a>Valve data centers</h2>
+Used to describe the topology of the Valve network, identify data centers, etc.<br />
+<br />
+<div class="bb_code">typedef uint32 SteamNetworkingPOPID;</div>
+Identifier used for a network location point of presence. (E.g. a Valve data center.)<br />
+Typically you won't need to directly manipulate these.<br />
+<br />
+<div class="bb_code">
+    SteamNetworkingPOPID CalculateSteamNetworkingPOPIDFromString( const char *pszCode )
+</div>
+Convert 3- or 4-character ID to 32-bit int.<br />
+<br />
+<div class="bb_code">
+    template &lt;int N&gt; inline void GetSteamNetworkingLocationPOPStringFromID(
+    SteamNetworkingPOPID id, char (&amp;szCode)[N] )
+</div>
+Unpack integer to string representation, including terminating '\0'. Your string should be at least
+5 bytes large. (It will fail to compile if this is not the case.)<br />

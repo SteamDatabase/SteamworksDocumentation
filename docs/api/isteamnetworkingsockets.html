@@ -1,7 +1,7 @@
 <h1>ISteamNetworkingSockets Interface</h1>
 Networking API similar to Berkeley sockets, but for games.<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         It's a connection-oriented API (like TCP, not UDP). When sending and receiving messages, the
         peer is identified using a connection handle.<br />
@@ -30,45 +30,31 @@ Networking API similar to Berkeley sockets, but for games.<br />
 </ul>
 <br />
 Related documents:<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/features/multiplayer/networking"
-            class="bb_doclink"
-            >Steam Networking</a
-        >
-        overview of the different networking APIs.<br />
+        <a href="/doc/features/multiplayer/networking">Steam Networking</a> overview of the
+        different networking APIs.<br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils" class="bb_apilink"
-            >ISteamNetworkingUtils</a
-        >
-        Utilities for measuring ping and estimating ping time between peers.<br />
+        <a href="/doc/api/ISteamNetworkingUtils">ISteamNetworkingUtils</a> Utilities for measuring
+        ping and estimating ping time between peers.<br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/steamnetworkingtypes" class="bb_apilink"
-            >steamnetworkingtypes</a
-        >
-        Miscellaneous types and utilities.<br />
+        <a href="/doc/api/steamnetworkingtypes">steamnetworkingtypes</a> Miscellaneous types and
+        utilities.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/features/multiplayer/steamdatagramrelay"
-            class="bb_doclink"
-            >Steam Datagram Relay</a
-        >
-        A service for relaying your game traffic over the Valve backbone. This prevents IP addresses
-        from being revealed and in many cases improves ping times and connection quality.<br />
+        <a href="/doc/features/multiplayer/steamdatagramrelay">Steam Datagram Relay</a> A service
+        for relaying your game traffic over the Valve backbone. This prevents IP addresses from
+        being revealed and in many cases improves ping times and connection quality.<br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages" class="bb_apilink"
-            >ISteamNetworkingMessages</a
-        >
-        is a UDP-style interface. Send and receive messages by specifying the destination peer in
-        each send call, instead of establishing a connection first. The same connections are still
-        used under the hood, so you still get the same performance, but the connections are created
-        and idle timed out for you automatically, and you do not receive quite as much control over
-        the connection, or feedback about its state.
+        <a href="/doc/api/ISteamNetworkingMessages">ISteamNetworkingMessages</a> is a UDP-style
+        interface. Send and receive messages by specifying the destination peer in each send call,
+        instead of establishing a connection first. The same connections are still used under the
+        hood, so you still get the same performance, but the connections are created and idle timed
+        out for you automatically, and you do not receive quite as much control over the connection,
+        or feedback about its state.
     </li>
 </ul>
 <br />
@@ -88,9 +74,7 @@ SteamNetworkingSockets().
 </div>
 <br />
 Creates a "server" socket that listens for clients to connect to by calling
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectByIPAddress"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#ConnectByIPAddress"
     >ISteamNetworkingSockets::ConnectByIPAddress</a
 >, over ordinary UDP (IPv4 or IPv6)<br />
 <br />
@@ -98,8 +82,7 @@ You must select a specific local port to listen on and set it as the port field 
 address.<br />
 <br />
 Usually you will set the IP portion of the address to zero, (<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingIPAddr"
-    class="bb_apilink"
+    href="/doc/api/steamnetworkingtypes#SteamNetworkingIPAddr"
     >SteamNetworkingIPAddr</a
 >::Clear()). This means that you will not bind to any particular local interface (i.e. the same as
 INADDR_ANY in plain socket code). Furthermore, if possible the socket will be bound in "dual stack"
@@ -107,17 +90,13 @@ mode, which means that it can accept both IPv4 and IPv6 client connections. If y
 bind a particular interface, then set the local address to the appropriate IPv4 or IPv6 IP.<br />
 <br />
 If you need to set any initial config options, pass them here. See
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
-    class="bb_apilink"
+<a href="/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
     >SteamNetworkingConfigValue_t</a
 >
 for more about why this is preferable to setting the options "immediately" after creation.<br />
 <br />
 When a client attempts to connect, a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
     >SteamNetConnectionStatusChangedCallback_t</a
 >
 will be posted. The connection will be in the k_ESteamNetworkingConnectionState_Connecting state.
@@ -129,17 +108,13 @@ will be posted. The connection will be in the k_ESteamNetworkingConnectionState_
 <br />
 Creates a connection and begins talking to a "server" over UDP at the given IPv4 or IPv6 address.
 The remote host must be listening with a matching call to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamnetworkingSockets#CreateListenSocketIP"
-    class="bb_apilink"
+<a href="/doc/api/ISteamnetworkingSockets#CreateListenSocketIP"
     >ISteamnetworkingSockets::CreateListenSocketIP</a
 >
 on the specified port.<br />
 <br />
 A
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
     >SteamNetConnectionStatusChangedCallback_t</a
 >
 callback will be triggered when we start connecting, and then another one on either timeout or
@@ -148,16 +123,12 @@ successful connection.<br />
 If the server does not have any identity configured, then their network address will be the only
 identity in use. Or, the network host may provide a platform-specific identity with or without a
 valid certificate to authenticate that identity. (These details will be contained in the
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
     >SteamNetConnectionStatusChangedCallback_t</a
 >.) It's up to your application to decide whether to allow the connection.<br />
 <br />
 If you need to set any initial config options, pass them here. See
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
-    class="bb_apilink"
+<a href="/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
     >SteamNetworkingConfigValue_t</a
 >
 for more about why this is preferable to setting the options "immediately" after creation.
@@ -168,28 +139,21 @@ for more about why this is preferable to setting the options "immediately" after
 </div>
 <br />
 Like
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#CreateListenSocketIP"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#CreateListenSocketIP"
     >ISteamNetworkingSockets::CreateListenSocketIP</a
 >, but clients will connect using
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectP2P"
-    class="bb_apilink"
-    >ISteamNetworkingSockets::ConnectP2P</a
->. The connection will be relayed through the Valve network.<br />
+<a href="/doc/api/ISteamNetworkingSockets#ConnectP2P">ISteamNetworkingSockets::ConnectP2P</a>. The
+connection will be relayed through the Valve network.<br />
 <br />
 nLocalVirtualPort specifies how clients can connect to this socket using
-<a href="https://partner.steamgames.com/doc/api/ConnectP2P" class="bb_apilink">ConnectP2P</a>. It's
-very common for applications to only have one listening socket; in that case, use zero. If you need
-to open multiple listen sockets and have clients be able to connect to one or the other, then
-nLocalVirtualPort should be a small integer (&lt;1000) unique to each listen socket you create.<br />
+<a href="/doc/api/ConnectP2P">ConnectP2P</a>. It's very common for applications to only have one
+listening socket; in that case, use zero. If you need to open multiple listen sockets and have
+clients be able to connect to one or the other, then nLocalVirtualPort should be a small integer
+(&lt;1000) unique to each listen socket you create.<br />
 <br />
 If you are listening on a dedicated servers in known data center, then you can listen using this
 function instead of
-<a
-    href="https://partner.steamgames.com/doc/api/CreateHostedDedicatedServerListenSocket"
-    class="bb_apilink"
+<a href="/doc/api/CreateHostedDedicatedServerListenSocket"
     >CreateHostedDedicatedServerListenSocket</a
 >, to allow clients to connect without a ticket. Any user that owns the app and is signed into Steam
 will be able to attempt to connect to your server. Also, a connection attempt may require the client
@@ -198,17 +162,13 @@ once a ticket is obtained, a client can connect to your server even if they got 
 Steam or Steam is offline.<br />
 <br />
 If you use this, you probably want to call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#InitRelayNetworkAccess"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingUtils#InitRelayNetworkAccess"
     >ISteamNetworkingUtils::InitRelayNetworkAccess</a
 >
 when your app initializes.<br />
 <br />
 If you need to set any initial config options, pass them here. See
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
-    class="bb_apilink"
+<a href="/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
     >SteamNetworkingConfigValue_t</a
 >
 for more about why this is preferable to setting the options "immediately" after creation.
@@ -222,17 +182,13 @@ default rendezvous service, which depends on the platform and library configurat
 it goes through the steam backend.) The traffic is relayed over the Steam Datagram Relay network.<br />
 <br />
 If you use this, you probably want to call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#InitRelayNetworkAccess"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingUtils#InitRelayNetworkAccess"
     >ISteamNetworkingUtils::InitRelayNetworkAccess</a
 >
 when your app initializes.<br />
 <br />
 If you need to set any initial config options, pass them here. See
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
-    class="bb_apilink"
+<a href="/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
     >SteamNetworkingConfigValue_t</a
 >
 for more about why this is preferable to setting the options "immediately" after creation.
@@ -244,9 +200,7 @@ Accept an incoming connection that has been received on a listen socket.<br />
 When a connection attempt is received (perhaps after a few basic handshake packets have been
 exchanged to prevent trivial spoofing), a connection interface object is created in the
 k_ESteamNetworkingConnectionState_Connecting state and a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
     >SteamNetConnectionStatusChangedCallback_t</a
 >
 is posted. At this point, your application MUST either accept or close the connection. (It may not
@@ -272,7 +226,7 @@ k_ESteamNetworkingConnectionState_ClosedByPeer is also possible depending the ex
 events.<br />
 <br />
 Returns:<br />
-<ul class="bb_ul">
+<ul>
     <li>k_EResultInvalidParam if the handle is invalid.<br /></li>
     <li>
         k_EResultInvalidState if the connection is not in the appropriate state. (Remember that the
@@ -297,13 +251,10 @@ connection is discarded.<br />
 <br />
 nReason is an application defined code that will be received on the other end and recorded (when
 possible) in backend analytics. The value should come from a restricted range. (See
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#ESteamNetConnectionEnd"
-    class="bb_apilink"
-    >ESteamNetConnectionEnd</a
->.) If you don't need to communicate any information to the remote host, and do not want analytics
-to be able to distinguish "normal" connection terminations from "exceptional" ones, you may pass
-zero, in which case the generic value of k_ESteamNetConnectionEnd_App_Generic will be used.<br />
+<a href="/doc/api/steamnetworkingtypes#ESteamNetConnectionEnd">ESteamNetConnectionEnd</a>.) If you
+don't need to communicate any information to the remote host, and do not want analytics to be able
+to distinguish "normal" connection terminations from "exceptional" ones, you may pass zero, in which
+case the generic value of k_ESteamNetConnectionEnd_App_Generic will be used.<br />
 <br />
 pszDebug is an optional human-readable diagnostic string that will be received by the remote host
 and recorded (when possible) in backend analytics.<br />
@@ -360,7 +311,7 @@ Send a message to the remote host on the specified connection.<br />
 <br />
 nSendFlags determines the delivery guarantees that will be provided, when data should be buffered,
 etc. E.g.:<br />
-<ul class="bb_ul">
+<ul>
     <li>k_nSteamNetworkingSend_Unreliable<br /></li>
     <li>k_nSteamNetworkingSend_Reliable<br /></li>
     <li>k_nSteamNetworkingSend_NoNagle<br /></li>
@@ -384,7 +335,7 @@ The pOutMessageNumber is an optional pointer to receive the message number assig
 if sending was successful.<br />
 <br />
 Returns:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         k_EResultInvalidParam: invalid connection handle, or the individual message is too big. (See
         k_cbMaxSteamNetworkingSocketsMessageSizeSend)<br />
@@ -407,11 +358,8 @@ Returns:<br />
 </div>
 Send one or more messages without copying the message payload. This is the most efficient way to
 send messages. To use this function, you must first allocate a message object using
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#AllocateMessage"
-    class="bb_apilink"
-    >ISteamNetworkingUtils::AllocateMessage</a
->. (Do not declare one on the stack or allocate your own.)<br />
+<a href="/doc/api/ISteamNetworkingUtils#AllocateMessage">ISteamNetworkingUtils::AllocateMessage</a>.
+(Do not declare one on the stack or allocate your own.)<br />
 <br />
 You should fill in the message payload. You can either let it allocate the buffer for you and then
 fill in the payload, or if you already have a buffer allocated, you can just point m_pData at your
@@ -421,7 +369,7 @@ invoked at any time from any thread (perhaps even before SendMessages returns!),
 and threadsafe.<br />
 <br />
 You MUST also fill in:<br />
-<ul class="bb_ul">
+<ul>
     <li>m_conn - the handle of the connection to send the message to<br /></li>
     <li>m_nFlags - bitmask of k_nSteamNetworkingSend_xxx flags.</li>
 </ul>
@@ -435,9 +383,7 @@ pOutMessageNumberOrResult is an optional array that will receive, for each messa
 number that was assigned to the message if sending was successful. If sending failed, then a
 negative EResult value is placed into the array. For example, the array will hold
 -k_EResultInvalidState if the connection was in an invalid state. See
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SendMessageToConnection"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#SendMessageToConnection"
     >ISteamNetworkingSockets::SendMessageToConnection</a
 >
 for possible failure codes.
@@ -451,7 +397,7 @@ be buffered, up to the Nagle time before being sent, to merge small messages int
 (See k_ESteamNetworkingConfig_NagleTime)<br />
 <br />
 Returns:<br />
-<ul class="bb_ul">
+<ul>
     <li>k_EResultInvalidParam: invalid connection handle<br /></li>
     <li>k_EResultInvalidState: connection is in an invalid state<br /></li>
     <li>k_EResultNoConnection: connection has ended<br /></li>
@@ -474,10 +420,7 @@ Unreliable messages may be dropped, or delivered out of order with respect to ea
 respect to reliable messages.<br />
 <br />
 If any messages are returned, you MUST call
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingMessage_t"
-    class="bb_apilink"
-    >SteamNetworkingMessage_t</a
+<a href="/doc/api/steamnetworkingtypes#SteamNetworkingMessage_t">SteamNetworkingMessage_t</a
 >::Release() to each of them free up resources after you are done. It is safe to keep the object
 alive for a little while (put it into some queue, etc), and you may call Release() from any thread.
 <h2 class="bb_section"><a name="functions_poll_groups"></a>Polling many connections efficiently</h2>
@@ -490,17 +433,13 @@ connection <i>state</i>, like BSD sockets.)
 Create a new poll group.<br />
 <br />
 You should destroy the poll group when you are done using
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#DestroyPollGroup"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#DestroyPollGroup"
     >ISteamNetworkingSockets::DestroyPollGroup</a
 >.
 <h2 class="bb_subsection"><a name="DestroyPollGroup"></a>DestroyPollGroup</h2>
 <div class="bb_code cpp">bool DestroyPollGroup( HSteamNetPollGroup hPollGroup )</div>
 Destroy a poll group created with
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#CreatePollGroup"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#CreatePollGroup"
     >ISteamNetworkingSockets::CreatePollGroup</a
 >.<br />
 <br />
@@ -530,18 +469,12 @@ k_HSteamNetPollGroup_Invalid).
 </div>
 <br />
 Same as
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ReceiveMessagesOnConnection"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#ReceiveMessagesOnConnection"
     >ISteamNetworkingSockets::ReceiveMessagesOnConnection</a
 >, but will return the next messages available on any connection in the poll group. Examine
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingMessage_t"
-    class="bb_apilink"
-    >SteamNetworkingMessage_t</a
+<a href="/doc/api/steamnetworkingtypes#SteamNetworkingMessage_t">SteamNetworkingMessage_t</a
 >::m_conn to know which connection. (<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingMessage_t"
-    class="bb_apilink"
+    href="/doc/api/steamnetworkingtypes#SteamNetworkingMessage_t"
     >SteamNetworkingMessage_t</a
 >::m_nConnUserData might also be useful.)<br />
 <br />
@@ -551,9 +484,7 @@ packets received right as a connection is being assigned to poll group.<br />
 <br />
 Delivery order of messages on the same connection is well defined and the same guarantees are
 present as mentioned in
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ReceiveMessagesOnConnection"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#ReceiveMessagesOnConnection"
     >ISteamNetworkingSockets::ReceiveMessagesOnConnection</a
 >. (But the messages are not grouped by connection, so they will not necessarily appear
 consecutively in the list; they may be interleaved with messages for other connections.)
@@ -584,7 +515,7 @@ pLanes points to an array that will receive lane-specific info. It can be NULL i
 needed.<br />
 <br />
 Return value:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         k_EResultNoConnection - connection handle is invalid or connection has been closed.<br />
     </li>
@@ -598,7 +529,7 @@ Returns very detailed connection stats in diagnostic text format. Useful for dum
 The format of this information is subject to change.<br />
 <br />
 Returns:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>-1</strong>: failure (bad connection handle)<br /></li>
     <li><strong>0</strong>: OK, your buffer was filled in and '\0'-terminated<br /></li>
     <li>
@@ -612,35 +543,27 @@ Returns:<br />
 </div>
 <br />
 Set connection user data. The data is used in the following places:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         You can query it using
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetConnectionUserData"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#GetConnectionUserData"
             >ISteamNetworkingSockets::GetConnectionUserData</a
         >.<br />
     </li>
     <li>
         The
-        <a
-            href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingMessage_t"
-            class="bb_apilink"
+        <a href="/doc/api/steamnetworkingtypes#SteamNetworkingMessage_t"
             >SteamNetworkingMessage_t</a
         >
         structure.<br />
     </li>
     <li>
         The
-        <a
-            href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetConnectionInfo_t"
-            class="bb_apilink"
+        <a href="/doc/api/steamnetworkingtypes#SteamNetConnectionInfo_t"
             >SteamNetConnectionInfo_t</a
         >
         structure. (Which is a member of
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#SteamNetConnectionStatusChangedCallback_t"
             >SteamNetConnectionStatusChangedCallback_t</a
         >.)
     </li>
@@ -705,7 +628,7 @@ bandwidth, with the second and third lanes sharing bandwidth using a ratio of ap
 (The weights { NA, 4, 1 } would be equivalent.)<br />
 <br />
 Notes:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         At the time of this writing, some code has performance cost that is linear in the number of
         lanes, so keep the number of lanes to an absolute minimum. 3 or so is fine; &gt;8 is a lot.
@@ -758,7 +681,7 @@ Notes:<br />
 </ul>
 <br />
 Return value:<br />
-<ul class="bb_ul">
+<ul>
     <li>k_EResultNoConnection - bad hConn<br /></li>
     <li>
         k_EResultInvalidParam - Invalid number of lanes, bad weights, or you tried to reduce the
@@ -768,7 +691,7 @@ Return value:<br />
 </ul>
 <br />
 See also:<br />
-<ul class="bb_ul">
+<ul>
     <li>SteamNetworkingMessage_t::m_idxLane</li>
 </ul>
 <h2 class="bb_section"><a name="functions_misc"></a>Misc</h2>
@@ -784,10 +707,7 @@ An IPv6 address of ::0 means "any IPv4 or IPv6"<br />
 An IPv6 address of ::ffff:0000:0000 means "any IPv4"<br />
 <br />
 NOTE: This is not how you find out your public IP that clients can connect to.<br />
-Try
-<a href="https://partner.steamgames.com/doc/api/ISteamGameServer#GetPublicIP" class="bb_apilink"
-    >ISteamGameServer::GetPublicIP</a
->.<br />
+Try <a href="/doc/api/ISteamGameServer#GetPublicIP">ISteamGameServer::GetPublicIP</a>.<br />
 <br />
 Returns false if the handle is invalid, or the information is not available for that type of listen
 socket.
@@ -818,23 +738,17 @@ and failing is the same as before the first attempt: attempting authenticated co
 calling this function will call the system to attempt to acquire the necessary resources.<br />
 <br />
 You can use
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetAuthenticationStatus"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#GetAuthenticationStatus"
     >ISteamNetworkingSockets::GetAuthenticationStatus</a
 >
 or listen for
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SteamNetAuthenticationStatus_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#SteamNetAuthenticationStatus_t"
     >SteamNetAuthenticationStatus_t</a
 >
 to monitor the status.<br />
 <br />
 Returns the current value that would be returned from
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetAuthenticationStatus"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#GetAuthenticationStatus"
     >ISteamNetworkingSockets::GetAuthenticationStatus</a
 >.
 <h2 class="bb_subsection"><a name="GetAuthenticationStatus"></a>GetAuthenticationStatus</h2>
@@ -844,9 +758,7 @@ Returns the current value that would be returned from
 </div>
 <br />
 Query our readiness to participate in authenticated communications. A
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SteamNetAuthenticationStatus_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#SteamNetAuthenticationStatus_t"
     >SteamNetAuthenticationStatus_t</a
 >
 callback is posted any time this status changes, but you can use this function to query it at any
@@ -859,11 +771,7 @@ status, you can pass NULL for pDetails. If you want further details, pass non-NU
 </h2>
 The following functions are used when your gameserver is in a data center known to Valve and game
 traffic is taking advantage of the Steam Datagram Relay network. For more information, see
-<a
-    href="https://partner.steamgames.com/doc/features/multiplayer/steamdatagramrelay"
-    class="bb_doclink"
-    >Steam Datagram Relay</a
->.
+<a href="/doc/features/multiplayer/steamdatagramrelay">Steam Datagram Relay</a>.
 <h2 class="bb_subsection"><a name="ReceivedRelayAuthTicket"></a>ReceivedRelayAuthTicket</h2>
 <div class="bb_code cpp">
     bool ReceivedRelayAuthTicket( const void *pvTicket, int cbTicket, SteamDatagramRelayAuthTicket
@@ -900,29 +808,22 @@ ConnectToHostedDedicatedServer to connect to the server.
 Client call to connect to a server hosted in a Valve data center, on the specified virtual port. You
 must have placed a ticket for this server into the cache, or else this connect attempt will fail! If
 you are not issuing your own tickets, then to connect to a dedicated server via SDR in auto-ticket
-mode, use
-<a href="https://partner.steamgames.com/doc/api/ConnectP2P" class="bb_apilink">ConnectP2P</a>. (The
-server must be configured to allow this type of connection by listening using
-<a href="https://partner.steamgames.com/doc/api/CreateListenSocketP2P" class="bb_apilink"
-    >CreateListenSocketP2P</a
->.)<br />
+mode, use <a href="/doc/api/ConnectP2P">ConnectP2P</a>. (The server must be configured to allow this
+type of connection by listening using
+<a href="/doc/api/CreateListenSocketP2P">CreateListenSocketP2P</a>.)<br />
 <br />
 You may wonder why tickets are stored in a cache, instead of simply being passed as an argument
 here. The reason is to make reconnection to a gameserver robust, even if the client computer loses
 connection to Steam or the central backend, or the app is restarted or crashes, etc.<br />
 <br />
 If you use this, you probably want to call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#InitRelayNetworkAccess"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingUtils#InitRelayNetworkAccess"
     >ISteamNetworkingUtils::InitRelayNetworkAccess</a
 >
 when your app initializes.<br />
 <br />
 If you need to set any initial config options, pass them here. See
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
-    class="bb_apilink"
+<a href="/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
     >SteamNetworkingConfigValue_t</a
 >
 for more about why this is preferable to setting the options "immediately" after creation.
@@ -934,12 +835,8 @@ Returns the value of the SDR_LISTEN_PORT environment variable. This is the UDP s
 will be listening on. This will configured automatically for you in production environments.<br />
 <br />
 In development, you'll need to set it yourself. See
-<a
-    href="https://partner.steamgames.com/doc/features/multiplayer/steamdatagramrelay"
-    class="bb_doclink"
-    >Steam Datagram Relay</a
->
-for more information on how to configure dev environments.
+<a href="/doc/features/multiplayer/steamdatagramrelay">Steam Datagram Relay</a> for more information
+on how to configure dev environments.
 <h2 class="bb_subsection">
     <a name="GetHostedDedicatedServerPOPID"></a>GetHostedDedicatedServerPOPID
 </h2>
@@ -957,22 +854,16 @@ information that can be used by the relays to send traffic to your server.<br />
 <br />
 You will need to send this information to your backend, and put it in tickets, so that the relays
 will know how to forward traffic from clients to your server. See
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamDatagramRelayAuthTicket"
-    class="bb_apilink"
+<a href="/doc/api/steamnetworkingtypes#SteamDatagramRelayAuthTicket"
     >SteamDatagramRelayAuthTicket</a
 >
 for more info.<br />
 <br />
 Also, note that the routing information is contained in
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamDatagramGameCoordinatorServerLogin"
-    class="bb_apilink"
+<a href="/doc/api/steamnetworkingtypes#SteamDatagramGameCoordinatorServerLogin"
     >SteamDatagramGameCoordinatorServerLogin</a
 >, so if possible, it's preferred to use
-<a
-    href="https://partner.steamgames.com/doc/api/SteamNetworkingSockets#GetGameCoordinatorServerLogin"
-    class="bb_apilink"
+<a href="/doc/api/SteamNetworkingSockets#GetGameCoordinatorServerLogin"
     >SteamNetworkingSockets::GetGameCoordinatorServerLogin</a
 >
 to send this info to your game coordinator service, and also login securely at the same time.<br />
@@ -980,7 +871,7 @@ to send this info to your game coordinator service, and also login securely at t
 On a successful exit, k_EResultOK is returned<br />
 <br />
 Unsuccessful exit:<br />
-<ul class="bb_ul">
+<ul>
     <li>Something other than k_EResultOK is returned.<br /></li>
     <li>
         k_EResultInvalidState: We are not configured to listen for SDR (SDR_LISTEN_SOCKET is not
@@ -988,9 +879,7 @@ Unsuccessful exit:<br />
     </li>
     <li>
         k_EResultPending: we do not (yet) have the authentication information needed. (See
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetAuthenticationStatus"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#GetAuthenticationStatus"
             >ISteamNetworkingSockets::GetAuthenticationStatus</a
         >.) If you use environment variables to pre-fetch the network config, this data should
         always be available immediately.<br />
@@ -1019,14 +908,10 @@ Note that this call MUST be made through the SteamGameServerNetworkingSockets() 
 This function should be used when you are using the ticket generator library to issue your own
 tickets. Clients connecting to the server on this virtual port will need a ticket, and they must
 connect using
-<a href="https://partner.steamgames.com/doc/api/ConnectToHostedDedicatedServer" class="bb_apilink"
-    >ConnectToHostedDedicatedServer</a
->.<br />
+<a href="/doc/api/ConnectToHostedDedicatedServer">ConnectToHostedDedicatedServer</a>.<br />
 <br />
 If you need to set any initial config options, pass them here. See
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
-    class="bb_apilink"
+<a href="/doc/api/steamnetworkingtypes#SteamNetworkingConfigValue_t"
     >SteamNetworkingConfigValue_t</a
 >
 for more about why this is preferable to setting the options "immediately" after creation.
@@ -1042,7 +927,7 @@ Generate an authentication blob that can be used to securely login with your bac
 SteamDatagram_ParseHostedServerLogin. (See steamdatagram_gamecoordinator.h)<br />
 <br />
 Before calling the function:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         Populate the app data in pLoginInfo (m_cbAppData and m_appData). You can leave all other
         fields uninitialized.<br />
@@ -1054,7 +939,7 @@ Before calling the function:<br />
 </ul>
 <br />
 On a successful exit:<br />
-<ul class="bb_ul">
+<ul>
     <li>k_EResultOK is returned<br /></li>
     <li>All of the remaining fields of pLoginInfo will be filled out.<br /></li>
     <li>
@@ -1063,14 +948,12 @@ On a successful exit:<br />
 </ul>
 <br />
 Unsuccessful exit:<br />
-<ul class="bb_ul">
+<ul>
     <li>Something other than k_EResultOK is returned.<br /></li>
     <li>k_EResultNotLoggedOn: you are not logged in (yet)<br /></li>
     <li>
         See
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetwrokingSockets#GetHostedDedicatedServerAddress"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetwrokingSockets#GetHostedDedicatedServerAddress"
             >ISteamNetwrokingSockets::GetHostedDedicatedServerAddress</a
         >
         for more potential failure return values.<br />
@@ -1082,9 +965,7 @@ Unsuccessful exit:<br />
 </ul>
 <br />
 This works by signing the contents of the
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetwrokingtypes#SteamDatagramGameCoordinatorServerLogin"
-    class="bb_apilink"
+<a href="/doc/api/steamnetwrokingtypes#SteamDatagramGameCoordinatorServerLogin"
     >SteamDatagramGameCoordinatorServerLogin</a
 >
 with the cert that is issued to this server. In dev environments, it's OK if you do not have a cert.
@@ -1106,10 +987,8 @@ Internet and LANs) in the same code as little as possible. At the time this comm
 written, they come from the 169.254.0.0/16 range, and the port number will always be &gt;1024.
 HOWEVER, this is subject to change! Do not make assumptions about these addresses, or your code
 might break in the future. In particular, you should use functions such as
-<a href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils#IsFakeIP" class="bb_apilink"
-    >ISteamNetworkingUtils::IsFakeIP</a
->
-to determine if an IP address is a "fake" one used by this system.
+<a href="/doc/api/ISteamNetworkingUtils#IsFakeIP">ISteamNetworkingUtils::IsFakeIP</a> to determine
+if an IP address is a "fake" one used by this system.
 <h2 class="bb_subsection"><a name="BeginAsyncRequestFakeIP"></a>BeginAsyncRequestFakeIP</h2>
 <div class="bb_code cpp">bool BeginAsyncRequestFakeIP( int nNumPorts );</div>
 <br />
@@ -1138,7 +1017,7 @@ attempted. This process may last several minutes. It is *highly* recommended to 
 fatal.<br />
 <br />
 To communicate using a connection-oriented (TCP-style) API:<br />
-<ul class="bb_ul">
+<ul>
     <li>Server creates a listen socket using CreateListenSocketP2PFakeIP<br /></li>
     <li>Client connects using ConnectByIPAddress, passing in the FakeIP address.<br /></li>
     <li>
@@ -1150,9 +1029,7 @@ To communicate using a connection-oriented (TCP-style) API:<br />
 </ul>
 <br />
 To communicate using an ad-hoc sendto/recv from (UDP-style) API, use
-<a href="https://partner.steamgames.com/doc/api/CreateFakeUDPPort" class="bb_apilink"
-    >CreateFakeUDPPort</a
->.
+<a href="/doc/api/CreateFakeUDPPort">CreateFakeUDPPort</a>.
 <h2 class="bb_subsection"><a name="GetFakeIP"></a>GetFakeIP</h2>
 <div class="bb_code cpp">
     void GetFakeIP( int idxFirstPort, SteamNetworkingFakeIPResult_t *pInfo );
@@ -1168,15 +1045,12 @@ currently reserved and must be zero. Make sure and check SteamNetworkingFakeIPRe
 <br />
 Create a listen socket that will listen for P2P connections sent to our FakeIP. A peer can initiate
 connections to this listen socket by calling
-<a href="https://partner.steamgames.com/doc/api/ConnectByIPAddress" class="bb_apilink"
-    >ConnectByIPAddress</a
->.<br />
+<a href="/doc/api/ConnectByIPAddress">ConnectByIPAddress</a>.<br />
 <br />
 idxFakePort refers to the *index* of the fake port requested, not the actual port number. For
 example, pass 0 to refer to the first port in the reservation. You must call this only after calling
-<a href="https://partner.steamgames.com/doc/api/BeginAsyncRequestFakeIP" class="bb_apilink"
-    >BeginAsyncRequestFakeIP</a
->. However, you do not need to wait for the request to complete before creating the listen socket.
+<a href="/doc/api/BeginAsyncRequestFakeIP">BeginAsyncRequestFakeIP</a>. However, you do not need to
+wait for the request to complete before creating the listen socket.
 <h2 class="bb_subsection">
     <a name="GetRemoteFakeIPForConnection"></a>GetRemoteFakeIPForConnection
 </h2>
@@ -1195,7 +1069,7 @@ connections are made to the same remote host, they *probably* will return the sa
 since the namespace is limited, this cannot be guaranteed.<br />
 <br />
 On failure, returns:<br />
-<ul class="bb_ul">
+<ul>
     <li>k_EResultInvalidParam: invalid connection handle<br /></li>
     <li>k_EResultIPNotFound: This connection wasn't made using FakeIP system</li>
 </ul>
@@ -1208,14 +1082,12 @@ Get an interface that can be used like a UDP port to send/receive datagrams to a
 This is intended to make it easy to port existing UDP-based code to take advantage of SDR.<br />
 <br />
 idxFakeServerPort refers to the *index* of the port allocated using
-<a href="https://partner.steamgames.com/doc/api/BeginAsyncRequestFakeIP" class="bb_apilink"
-    >BeginAsyncRequestFakeIP</a
->
-and is used to create "server" ports. You may call this before the allocation has completed.
-However, any attempts to send packets will fail until the allocation has succeeded. When the peer
-receives packets sent from this interface, the from address of the packet will be the
-globally-unique FakeIP. If you call this function multiple times and pass the same (nonnegative)
-fake port index, the same object will be returned, and this object is not reference counted.<br />
+<a href="/doc/api/BeginAsyncRequestFakeIP">BeginAsyncRequestFakeIP</a> and is used to create
+"server" ports. You may call this before the allocation has completed. However, any attempts to send
+packets will fail until the allocation has succeeded. When the peer receives packets sent from this
+interface, the from address of the packet will be the globally-unique FakeIP. If you call this
+function multiple times and pass the same (nonnegative) fake port index, the same object will be
+returned, and this object is not reference counted.<br />
 <br />
 To create a "client" port (e.g. the equivalent of an ephemeral UDP port) pass -1. In this case, a
 distinct object will be returned for each call. When the peer receives packets sent from this
@@ -1230,14 +1102,12 @@ field will contain a complete description of the connection at the time the chan
 callback was posted. In particular, m_info.m_eState will have the new connection state.<br />
 <br />
 You will usually need to listen for this callback to know when:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>A new connection arrives on a listen socket.</strong> m_info.m_hListenSocket will be
         set, m_eOldState = k_ESteamNetworkingConnectionState_None, and m_info.m_eState =
         k_ESteamNetworkingConnectionState_Connecting. See
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#AcceptConnection"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#AcceptConnection"
             >ISteamNetworkingSockets::AcceptConnection</a
         >.<br />
     </li>
@@ -1254,9 +1124,7 @@ You will usually need to listen for this callback to know when:<br />
         k_ESteamNetworkingConnectionState_ClosedByPeer. m_info.m_eEndReason and m_info.m_szEndDebug
         will have more details. NOTE: upon receiving this callback, you <i>must</i> still destroy
         the connection using
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#CloseConnection"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#CloseConnection"
             >ISteamNetworkingSockets::CloseConnection</a
         >
         to free up local resources. (The details passed to the function are not used in this case,
@@ -1273,9 +1141,7 @@ You will usually need to listen for this callback to know when:<br />
         k_ESteamNetworkingConnectionState_ProblemDetectedLocally. m_info.m_eEndReason and
         m_info.m_szEndDebug will have more details. NOTE: upon receiving this callback, you
         <i>must</i> still destroy the connection using
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#CloseConnection"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#CloseConnection"
             >ISteamNetworkingSockets::CloseConnection</a
         >
         to free up local resources. (The details passed to the function are not used in this case,
@@ -1300,7 +1166,7 @@ calls.<br />
 <br />
 A struct used to describe our readiness to participate in authenticated, encrypted communication. In
 order to do this we need:<br />
-<ul class="bb_ul">
+<ul>
     <li>The list of trusted CA certificates that might be relevant for this app.<br /></li>
     <li>A valid certificate issued by a CA.</li>
 </ul>

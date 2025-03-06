@@ -5,16 +5,12 @@ features (either the ISteamRemoteStorage API, or Steam Auto-Cloud). Non-Steam ve
 WebAPI to access the files and upload new versions.<br />
 <br />
 Your game will need to obtain permission from the user to access their Steam Cloud files. This can
-be done via
-<a href="https://partner.steamgames.com/doc/webapi_overview/OAuth" class="bb_doclink">OAuth</a>.
-Note that you will most likely want to request both
-<code class="bb_code bb_code_inline nohighlight">read_cloud</code> and
+be done via <a href="/doc/webapi_overview/OAuth">OAuth</a>. Note that you will most likely want to
+request both <code class="bb_code bb_code_inline nohighlight">read_cloud</code> and
 <code class="bb_code bb_code_inline nohighlight">write_cloud</code> permissions.<br />
 <br />
-Please also see the general Steam
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink"
-    >WebAPI overview documentation</a
->, specifically the section titled "Service Interfaces". GET requests can be done with parameters in
+Please also see the general Steam <a href="/doc/webapi_overview">WebAPI overview documentation</a>,
+specifically the section titled "Service Interfaces". GET requests can be done with parameters in
 the URL, however it is recommended for POST requests that all parameters are in the request body.
 The <code class="bb_code bb_code_inline nohighlight">access-token</code> parameter is directly
 form-encoded, and then the remaining parameters should be in a JSON structure set via the
@@ -25,8 +21,7 @@ Responses to well-formed and authenticated requests will usually be
 - the detailed Steam error code will be found in the
 <code class="bb_code bb_code_inline nohighlight">x-eresult</code> header. The value for "success" is
 1. All other values are likely to be errors; see the documentation for
-<a href="https://partner.steamgames.com/doc/api/steam_api" class="bb_doclink">steam_api.h</a> for
-details.
+<a href="/doc/api/steam_api">steam_api.h</a> for details.
 <h2 class="bb_section"><a name="EnumerateUserFiles"></a>Enumerating Files</h2>
 Requires <code class="bb_code bb_code_inline nohighlight">read_cloud</code> OAuth access.
 <h2 class="bb_subsection"><a name="1"></a>EnumerateUserFiles</h2>
@@ -39,42 +34,44 @@ Example:
 </div>
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>access_token</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>OAuth access token for the user</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Your App ID</td>
-    </tr>
-    <tr>
-        <td><strong>extended_details</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>Include details such as download links for the files</td>
-    </tr>
-    <tr>
-        <td><strong>count</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>Max number of file to enumerate (default 500)</td>
-    </tr>
-    <tr>
-        <td><strong>start_index</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>Beginning file index to enumerate (default 0)</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>access_token</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>OAuth access token for the user</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Your App ID</td>
+        </tr>
+        <tr>
+            <td><strong>extended_details</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Include details such as download links for the files</td>
+        </tr>
+        <tr>
+            <td><strong>count</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>Max number of file to enumerate (default 500)</td>
+        </tr>
+        <tr>
+            <td><strong>start_index</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>Beginning file index to enumerate (default 0)</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Enumerate the user's Steam Cloud files for your game. Begin with a "start_index" of zero, and
@@ -82,83 +79,87 @@ iterate if necessary if the user has more than "count" files.<br />
 <br />
 The response has two fields:<br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>files</strong></td>
-        <td>see below</td>
-        <td>A list of file details</td>
-    </tr>
-    <tr>
-        <td><strong>total_files</strong></td>
-        <td>uint32</td>
-        <td>The total number of files the user has in Steam Cloud for your app.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>files</strong></td>
+            <td>see below</td>
+            <td>A list of file details</td>
+        </tr>
+        <tr>
+            <td><strong>total_files</strong></td>
+            <td>uint32</td>
+            <td>The total number of files the user has in Steam Cloud for your app.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 The files list contains this data:<br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>same app id</td>
-    </tr>
-    <tr>
-        <td><strong>ugcid</strong></td>
-        <td>uint64</td>
-        <td>unique file ID</td>
-    </tr>
-    <tr>
-        <td><strong>filename</strong></td>
-        <td>string</td>
-        <td>the file name</td>
-    </tr>
-    <tr>
-        <td><strong>timestamp</strong></td>
-        <td>uint64</td>
-        <td>epoch time when the file was last modified</td>
-    </tr>
-    <tr>
-        <td><strong>file_size</strong></td>
-        <td>uint32</td>
-        <td>size of the file in bytes</td>
-    </tr>
-    <tr>
-        <td><strong>url</strong></td>
-        <td>string</td>
-        <td>a URL which can be used to download the file</td>
-    </tr>
-    <tr>
-        <td><strong>steamid_creator</strong></td>
-        <td>uint64</td>
-        <td>SteamID of the user</td>
-    </tr>
-    <tr>
-        <td><strong>flags</strong></td>
-        <td>uint32</td>
-        <td>Steam internal use only</td>
-    </tr>
-    <tr>
-        <td><strong>platforms_to_sync</strong></td>
-        <td>string</td>
-        <td>
-            List of platforms for which this file is valid. See Uploading Files for the list of
-            possible values.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>file_sha</strong></td>
-        <td>string</td>
-        <td>Hex string (40 digits) representing the SHA1 digest of the file.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>same app id</td>
+        </tr>
+        <tr>
+            <td><strong>ugcid</strong></td>
+            <td>uint64</td>
+            <td>unique file ID</td>
+        </tr>
+        <tr>
+            <td><strong>filename</strong></td>
+            <td>string</td>
+            <td>the file name</td>
+        </tr>
+        <tr>
+            <td><strong>timestamp</strong></td>
+            <td>uint64</td>
+            <td>epoch time when the file was last modified</td>
+        </tr>
+        <tr>
+            <td><strong>file_size</strong></td>
+            <td>uint32</td>
+            <td>size of the file in bytes</td>
+        </tr>
+        <tr>
+            <td><strong>url</strong></td>
+            <td>string</td>
+            <td>a URL which can be used to download the file</td>
+        </tr>
+        <tr>
+            <td><strong>steamid_creator</strong></td>
+            <td>uint64</td>
+            <td>SteamID of the user</td>
+        </tr>
+        <tr>
+            <td><strong>flags</strong></td>
+            <td>uint32</td>
+            <td>Steam internal use only</td>
+        </tr>
+        <tr>
+            <td><strong>platforms_to_sync</strong></td>
+            <td>string</td>
+            <td>
+                List of platforms for which this file is valid. See Uploading Files for the list of
+                possible values.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>file_sha</strong></td>
+            <td>string</td>
+            <td>Hex string (40 digits) representing the SHA1 digest of the file.</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="DownloadFiles"></a>Downloading Files</h2>
 <br />
@@ -176,14 +177,14 @@ likelihood of file conflicts.<br />
 <br />
 A full batch sequence will look like the following:<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">BeginAppUploadBatch</code> call, listing
         the intended uploads and deletes<br />
     </li>
     <li>
         0 or more <strong>uploads</strong>, using the sequence:<br />
-        <ul class="bb_ul">
+        <ul>
             <li><code class="bb_code bb_code_inline nohighlight">BeginHTTPUpload</code><br /></li>
             <li>
                 HTTP <code class="bb_code bb_code_inline nohighlight">PUT</code> operation to upload
@@ -223,45 +224,49 @@ Example:
 </div>
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>access_token</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>OAuth access token for the user</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Your App ID</td>
-    </tr>
-    <tr>
-        <td><strong>machine_name</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>A name for the source machine, preferably one the user has applied to the device</td>
-    </tr>
-    <tr>
-        <td><strong>files_to_upload</strong></td>
-        <td>string list</td>
-        <td>✔</td>
-        <td>
-            List of all files to be uploaded (new files or updates for existing files) as part of
-            this batch.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>files_to_delete</strong></td>
-        <td>string list</td>
-        <td>✔</td>
-        <td>List of all files to be deleted from Steam Cloud as part of this batch.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>access_token</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>OAuth access token for the user</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Your App ID</td>
+        </tr>
+        <tr>
+            <td><strong>machine_name</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                A name for the source machine, preferably one the user has applied to the device
+            </td>
+        </tr>
+        <tr>
+            <td><strong>files_to_upload</strong></td>
+            <td>string list</td>
+            <td>✔</td>
+            <td>
+                List of all files to be uploaded (new files or updates for existing files) as part
+                of this batch.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>files_to_delete</strong></td>
+            <td>string list</td>
+            <td>✔</td>
+            <td>List of all files to be deleted from Steam Cloud as part of this batch.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Call this API to begin the upload batch.<br />
@@ -275,24 +280,26 @@ In a JSON-encoded field in a POST param, it is as follows:<br />
 <br />
 The response data:<br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>batch_id</strong></td>
-        <td>uint64</td>
-        <td>
-            ID of this batch, to be used with the
-            <code class="bb_code bb_code_inline nohighlight">CompleteAppUploadBatch</code> call
-        </td>
-    </tr>
-    <tr>
-        <td><strong>app_change_number</strong></td>
-        <td>uint64</td>
-        <td>currently unused by this API</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>batch_id</strong></td>
+            <td>uint64</td>
+            <td>
+                ID of this batch, to be used with the
+                <code class="bb_code bb_code_inline nohighlight">CompleteAppUploadBatch</code> call
+            </td>
+        </tr>
+        <tr>
+            <td><strong>app_change_number</strong></td>
+            <td>uint64</td>
+            <td>currently unused by this API</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Your application must remember the
@@ -315,43 +322,45 @@ Example:
 </div>
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>access_token</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>OAuth access token for the user</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Your App ID</td>
-    </tr>
-    <tr>
-        <td><strong>batch_id</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The ID number of this batch</td>
-    </tr>
-    <tr>
-        <td><strong>batch_eresult</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Result of the batch (see remarks)</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>access_token</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>OAuth access token for the user</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Your App ID</td>
+        </tr>
+        <tr>
+            <td><strong>batch_id</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The ID number of this batch</td>
+        </tr>
+        <tr>
+            <td><strong>batch_eresult</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Result of the batch (see remarks)</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 The <code class="bb_code bb_code_inline nohighlight">batch_eresult</code> parameter should be either
 1 (success) or 2 (failure). Technically this is an
 <code class="bb_code bb_code_inline nohighlight">EResult</code> value (see
-<a href="https://partner.steamgames.com/doc/api/steam_api" class="bb_doclink">steam_api.h</a> for
-the list). Indicating success or failure to Steam is sufficient for this method.<br />
+<a href="/doc/api/steam_api">steam_api.h</a> for the list). Indicating success or failure to Steam
+is sufficient for this method.<br />
 <br />
 There's no body data in the response from this API.
 <h2 class="bb_subsection"><a name="4"></a>BeginHTTPUpload</h2>
@@ -370,60 +379,62 @@ Example:
 </div>
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>access_token</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>OAuth access token for the user</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Your App ID</td>
-    </tr>
-    <tr>
-        <td><strong>file_size</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>size of the file in bytes</td>
-    </tr>
-    <tr>
-        <td><strong>filename</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>the file name</td>
-    </tr>
-    <tr>
-        <td><strong>file_sha</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Hex string (40 digits) representing the SHA1 digest of the file.</td>
-    </tr>
-    <tr>
-        <td><strong>platforms_to_sync</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            List of platforms for which this file is valid. Possible values: All, Windows, MacOS,
-            linux, Android, iPhoneOS, Switch. Case-insensitive.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>upload_batch_id</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            The <code class="bb_code bb_code_inline nohighlight">batch_id</code> returned by
-            <code class="bb_code bb_code_inline nohighlight">BeginAppUploadBatch</code> above
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>access_token</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>OAuth access token for the user</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Your App ID</td>
+        </tr>
+        <tr>
+            <td><strong>file_size</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>size of the file in bytes</td>
+        </tr>
+        <tr>
+            <td><strong>filename</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>the file name</td>
+        </tr>
+        <tr>
+            <td><strong>file_sha</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Hex string (40 digits) representing the SHA1 digest of the file.</td>
+        </tr>
+        <tr>
+            <td><strong>platforms_to_sync</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                List of platforms for which this file is valid. Possible values: All, Windows,
+                MacOS, linux, Android, iPhoneOS, Switch. Case-insensitive.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>upload_batch_id</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                The <code class="bb_code bb_code_inline nohighlight">batch_id</code> returned by
+                <code class="bb_code bb_code_inline nohighlight">BeginAppUploadBatch</code> above
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Call this API to initiate uploading a new file (or new version of an existing file) to Steam Cloud
@@ -438,69 +449,73 @@ In a JSON-encoded field in a POST param, it is as follows:<br />
 <br />
 The response data:<br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>ugcid</strong></td>
-        <td>uint64</td>
-        <td>unique file id (not needed)</td>
-    </tr>
-    <tr>
-        <td><strong>timestamp</strong></td>
-        <td>uint32</td>
-        <td>epoch timestamp for this change</td>
-    </tr>
-    <tr>
-        <td><strong>url_host</strong></td>
-        <td>string</td>
-        <td>Host FQDN you will upload the file to</td>
-    </tr>
-    <tr>
-        <td><strong>url_path</strong></td>
-        <td>string</td>
-        <td>
-            path for request. Note that currently this includes a leading slash character (<code
-                class="bb_code bb_code_inline nohighlight"
-                >/</code
-            >) already.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>use_https</strong></td>
-        <td>bool</td>
-        <td>set to true if you must use HTTPS to perform the upload (generally always true)</td>
-    </tr>
-    <tr>
-        <td><strong>request_headers</strong></td>
-        <td>see below</td>
-        <td>list of HTTP headers you must set on the subsequent PUT request</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>ugcid</strong></td>
+            <td>uint64</td>
+            <td>unique file id (not needed)</td>
+        </tr>
+        <tr>
+            <td><strong>timestamp</strong></td>
+            <td>uint32</td>
+            <td>epoch timestamp for this change</td>
+        </tr>
+        <tr>
+            <td><strong>url_host</strong></td>
+            <td>string</td>
+            <td>Host FQDN you will upload the file to</td>
+        </tr>
+        <tr>
+            <td><strong>url_path</strong></td>
+            <td>string</td>
+            <td>
+                path for request. Note that currently this includes a leading slash character (<code
+                    class="bb_code bb_code_inline nohighlight"
+                    >/</code
+                >) already.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>use_https</strong></td>
+            <td>bool</td>
+            <td>set to true if you must use HTTPS to perform the upload (generally always true)</td>
+        </tr>
+        <tr>
+            <td><strong>request_headers</strong></td>
+            <td>see below</td>
+            <td>list of HTTP headers you must set on the subsequent PUT request</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 The "request_headers" list contains this data:<br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>name</strong></td>
-        <td>string</td>
-        <td>the header name</td>
-    </tr>
-    <tr>
-        <td><strong>value</strong></td>
-        <td>string</td>
-        <td>the header value</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>name</strong></td>
+            <td>string</td>
+            <td>the header name</td>
+        </tr>
+        <tr>
+            <td><strong>value</strong></td>
+            <td>string</td>
+            <td>the header value</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 To upload the file, make a PUT request to
-<a href="https://&lt;url_host&gt;&lt;url_path&gt;" target="_blank" rel="noreferrer"
+<a href="https://<url_host><url_path>" target="_blank" rel="noreferrer"
     >https://&lt;url_host&gt;&lt;url_path&gt;</a
 >, where each of the above specified HTTP headers has the specified value. On success you may
 receive a 200 OK, 201 Created, or 204 No Content response, depending on the storage provider. <br />
@@ -526,42 +541,44 @@ Example:
     "file_sha": "FDFE308499263F9361B472648E9F49DC0B8799C8" }
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>access_token</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>OAuth access token for the user</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Your App ID</td>
-    </tr>
-    <tr>
-        <td><strong>transfer_succeeded</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>true if the PUT request succeeded</td>
-    </tr>
-    <tr>
-        <td><strong>filename</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>the file name</td>
-    </tr>
-    <tr>
-        <td><strong>file_sha</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Hex string (40 digits) representing the SHA1 digest of the file.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>access_token</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>OAuth access token for the user</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Your App ID</td>
+        </tr>
+        <tr>
+            <td><strong>transfer_succeeded</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>true if the PUT request succeeded</td>
+        </tr>
+        <tr>
+            <td><strong>filename</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>the file name</td>
+        </tr>
+        <tr>
+            <td><strong>file_sha</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Hex string (40 digits) representing the SHA1 digest of the file.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 The response to this API currently has a single field, "file_committed", which will be true if Steam
@@ -579,30 +596,32 @@ Example:
 </div>
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>access_token</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>OAuth access token for the user</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Your App ID</td>
-    </tr>
-    <tr>
-        <td><strong>filename</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>filename of the file to delete</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>access_token</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>OAuth access token for the user</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Your App ID</td>
+        </tr>
+        <tr>
+            <td><strong>filename</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>filename of the file to delete</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 This API will delete the specified file from the user's Steam Cloud. Deleting files is permanent; no

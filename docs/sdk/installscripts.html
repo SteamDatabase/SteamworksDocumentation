@@ -1,9 +1,8 @@
 <h1>Creating and using InstallScripts</h1>
 <h2 class="bb_section"><a name="basics"></a>Overview</h2>
 While Steam can automatically install many
-<a href="https://partner.steamgames.com/doc/features/common_redist" class="bb_doclink"
-    >common redistributables</a
->, your application may have other first-run requirements.
+<a href="/doc/features/common_redist">common redistributables</a>, your application may have other
+first-run requirements.
 <div class="bb_callout">
     <div>
         NOTE: Install script functionality described below is primarily for Windows operating
@@ -16,9 +15,9 @@ An install script file is a configuration file that lets you run certain actions
 installation.<br />
 <br />
 Full games/applications and DLC packages may both have install scripts. If you
-<a href="#build" class="bb_doclink">integrate your install scripts into your build</a>, you may have
-any number of install scripts. For a SteamPlay app, it's recommended that you always use your
-OS-specific depots to contain your install scripts.
+<a href="#build">integrate your install scripts into your build</a>, you may have any number of
+install scripts. For a SteamPlay app, it's recommended that you always use your OS-specific depots
+to contain your install scripts.
 <h4>Example</h4>
 A basic one will look like this:<br />
 <div class="bb_code">
@@ -41,13 +40,10 @@ the file resides within the defined ContentRoot of the App or Depot.<br />
 Second, mark an install script using the
 <code class="bb_code bb_code_inline nohighlight">InstallScript</code> directive in a depot build
 script. You can see an example on the
-<a href="https://partner.steamgames.com/doc/sdk/uploading#5" class="bb_doclink"
-    >Uploading to Steam - Advanced Build Scripts</a
->
-page.<br />
+<a href="/doc/sdk/uploading#5">Uploading to Steam - Advanced Build Scripts</a> page.<br />
 <br />
 During the build process, two things take place:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         The install script is uploaded to Steam and cryptographically signed. This signature is
         validated by Steam before executing any install script, and is required to perform certain
@@ -89,11 +85,11 @@ your keyname as 1 in the registry.<br />
 Steam customers love a quick and silent install. Add silent or quiet parameters to all run process
 commands and only add what you absolutely need for the game.<br />
 The required Run Process key/values are:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Process 1</strong> - Path to the program you want to launch</li>
 </ul>
 The optional Run Process key/values are:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Command 1</strong> - Optional command you want to pass to the program.<br /></li>
     <li>
         <strong>HasRunKey</strong> - Optional registry key to check that the prereq is already
@@ -109,8 +105,7 @@ The optional Run Process key/values are:<br />
     </li>
     <li>
         <strong>Requirement_OS</strong> - Optional key to apply OS requirements. See
-        <a href="#requirement_os" class="bb_doclink">OS Specific Requirements</a> for more
-        details.<br />
+        <a href="#requirement_os">OS Specific Requirements</a> for more details.<br />
     </li>
     <li>
         <strong>AsCurrentUser</strong> - Optional flag, set it to 1 if it's important for that
@@ -126,7 +121,7 @@ windows automatically without forcing the user to accept the exception.<br />
 The Requirement_OS value is available to run different installs on different OS versions / SKUs. It
 requires a new key group called Requirement_OS, then additional key value pairs inside. Available OS
 options are listed below.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>Is64BitWindows</strong> - Specifies that the process will only run on a 64 bit
         version of the operating system. Values are 1 or 0.<br />
@@ -134,7 +129,7 @@ options are listed below.<br />
     <li>
         <strong>OSType</strong> - Specifies that the process will only run on a specific version of
         the operating system. Values are:<br />
-        <ul class="bb_ul">
+        <ul>
             <li>Windows 3.11<br /></li>
             <li>Windows 95<br /></li>
             <li>Windows 98<br /></li>
@@ -180,7 +175,7 @@ Environment variables are supported in an install script. All of the
     >standard environment variables available on Windows</a
 >
 can be used, along with a few others specific to an install script. They are:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>%INSTALLDIR%</strong> - The full path to where the application is installed, without
         a backslash.<br />
@@ -248,7 +243,7 @@ quiet flag.<br />
 <strong>Q. Why doesn't my registry key get written?</strong><br />
 <strong>A.</strong> Typically this is because the install script isn't signed and you're writing to
 HKLM.<br />
-See the section on <a href="#build" class="bb_doclink">build integration</a>, and ensure that a
+See the section on <a href="#build">build integration</a>, and ensure that a
 <code class="bb_code bb_code_inline nohighlight">"kvsignatures"</code> key was added to your script
 during the build, as Steam requires this signing to be completed to write to HKLM.<br />
 <br />

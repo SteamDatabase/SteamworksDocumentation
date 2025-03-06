@@ -1,111 +1,101 @@
 <h1>ISteamMicroTxn Interface</h1>
 This is the interface used to support
-<a href="https://partner.steamgames.com/doc/features/microtransactions" class="bb_doclink"
-    >Microtransactions (In-Game Purchases)</a
->.<br />
+<a href="/doc/features/microtransactions">Microtransactions (In-Game Purchases)</a>.<br />
 <br />
 See the
-<a
-    href="https://partner.steamgames.com/doc/features/microtransactions/implementation"
-    class="bb_doclink"
-    >Microtransactions Implementation Guide</a
->
+<a href="/doc/features/microtransactions/implementation">Microtransactions Implementation Guide</a>
 for more details.
 <div class="bb_callout bb_red bb_fixed">
     <div>
         <strong>NOTE:</strong> Use
-        <a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxnSandbox" class="bb_apilink"
-            >ISteamMicroTxnSandbox</a
-        >
-        while testing!
+        <a href="/doc/webapi/ISteamMicroTxnSandbox">ISteamMicroTxnSandbox</a> while testing!
     </div>
 </div>
 <br />
 For more info on how to use the Steamworks Web API please see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
->.
+<a href="/doc/webapi_overview">Web API Overview</a>.
 <h2 class="bb_section"><a name="AdjustAgreement"></a>AdjustAgreement</h2>
 <div class="bb_code http">
     POST https://partner.steam-api.com/ISteamMicroTxn/AdjustAgreement/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Steam ID of the client that is adjusting the agreement.</td>
-    </tr>
-    <tr>
-        <td><strong>agreementid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Unique 64-bit Steam billing agreement ID.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID of the game the agreement is for.</td>
-    </tr>
-    <tr>
-        <td><strong>nextprocessdate</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            Date that next recurring payment should be initiated. Format is YYYYMMDD.<br />
-            Date can only be adjusted forward indicating you want to add time to the subscription.
-            If the date exceeds the end date of the subscription, the end date will be extended.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>oldnextprocessdate</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>
-            Optional paramter that is the last known next recurring payment date that should be
-            checked against. Format is YYYYMMDD.<br />
-            If this parameter is provided, the API will verify that the current next recurring date
-            has not changed before attempting to adjust the agreement next process changes to the
-            agreement.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Steam ID of the client that is adjusting the agreement.</td>
+        </tr>
+        <tr>
+            <td><strong>agreementid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Unique 64-bit Steam billing agreement ID.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID of the game the agreement is for.</td>
+        </tr>
+        <tr>
+            <td><strong>nextprocessdate</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                Date that next recurring payment should be initiated. Format is YYYYMMDD.<br />
+                Date can only be adjusted forward indicating you want to add time to the
+                subscription. If the date exceeds the end date of the subscription, the end date
+                will be extended.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>oldnextprocessdate</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                Optional paramter that is the last known next recurring payment date that should be
+                checked against. Format is YYYYMMDD.<br />
+                If this parameter is provided, the API will verify that the current next recurring
+                date has not changed before attempting to adjust the agreement next process changes
+                to the agreement.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Add time to the payment schedule of an agreement with billing type "steam". The agreementid can be
 retrieved using
-<a
-    href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo"
-    class="bb_apilink"
-    >ISteamMicroTxn/GetUserAgreementInfo</a
+<a href="/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo">ISteamMicroTxn/GetUserAgreementInfo</a
 >.<br />
 <br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">agreementid</code> - Unique
                         64-bit Steam billing agreement ID.<br />
@@ -120,13 +110,11 @@ retrieved using
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>
@@ -144,60 +132,59 @@ retrieved using
     POST https://partner.steam-api.com/ISteamMicroTxn/CancelAgreement/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Steam ID of the client that is canceling the agreement.</td>
-    </tr>
-    <tr>
-        <td><strong>agreementid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Unique 64-bit Steam billing agreement ID.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID of the game the agreement is for.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Steam ID of the client that is canceling the agreement.</td>
+        </tr>
+        <tr>
+            <td><strong>agreementid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Unique 64-bit Steam billing agreement ID.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID of the game the agreement is for.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Cancels a recurring billing agreement (subscription). The agreementid can be retrieved using
-<a
-    href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo"
-    class="bb_apilink"
-    >ISteamMicroTxn/GetUserAgreementInfo</a
+<a href="/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo">ISteamMicroTxn/GetUserAgreementInfo</a
 >.<br />
 <br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">agreementid</code> - Unique
                         64-bit Steam billing agreement ID.<br />
@@ -207,13 +194,11 @@ Cancels a recurring billing agreement (subscription). The agreementid can be ret
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>
@@ -229,37 +214,36 @@ Cancels a recurring billing agreement (subscription). The agreementid can be ret
 <h2 class="bb_section"><a name="FinalizeTxn"></a>FinalizeTxn</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/ISteamMicroTxn/FinalizeTxn/v2/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>orderid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Unique 64-bit ID for order</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID for game.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>orderid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Unique 64-bit ID for order</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID for game.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Completes a purchase that was started by the
-<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink"
-    >ISteamMicroTxn/InitTxn</a
->
-API.<br />
+<a href="/doc/webapi/ISteamMicroTxn#InitTxn">ISteamMicroTxn/InitTxn</a> API.<br />
 <br />
 This command will capture funds for a transaction and should only be called after the user has
 authorized the transaction and you have received notification that the authorization was successful.
@@ -270,19 +254,14 @@ the notification mechanism.<br />
 <br />
 A successful response to this command means payment has been completed and you can safely grant
 items to the user. In the event of a timeout or some other communication error, use either the
-<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#QueryTxn" class="bb_apilink"
-    >ISteamMicroTxn/QueryTxn</a
->
-or
-<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport" class="bb_apilink"
-    >ISteamMicroTxn/GetReport</a
->
-APIs to get status on the transaction.<br />
+<a href="/doc/webapi/ISteamMicroTxn#QueryTxn">ISteamMicroTxn/QueryTxn</a> or
+<a href="/doc/webapi/ISteamMicroTxn#GetReport">ISteamMicroTxn/GetReport</a> APIs to get status on
+the transaction.<br />
 <br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.</li>
 </ul>
 <br />
@@ -290,17 +269,17 @@ Change history:<br />
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">orderid</code> - Unique
                         64-bit ID for order.<br />
@@ -314,13 +293,11 @@ Change history:<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>
@@ -343,55 +320,57 @@ Change history:<br />
 <h2 class="bb_section"><a name="GetReport"></a>GetReport</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamMicroTxn/GetReport/v5/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID of game to get reports for.</td>
-    </tr>
-    <tr>
-        <td><strong>type</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>
-            Report type (One of: <strong>"GAMESALES"</strong>, <strong>"STEAMSTORESALES"</strong>,
-            <strong>"SETTLEMENT"</strong>, <strong>"CHARGEBACK"</strong>,
-            <strong>"SUBSCRIPTION"</strong>)
-        </td>
-    </tr>
-    <tr>
-        <td><strong>time</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            Start time of the report. (RFC 3339 UTC formatted like:
-            <strong>2010-01-01T00:00:00Z</strong>)
-        </td>
-    </tr>
-    <tr>
-        <td><strong>maxresults</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            Maximum number of results to return in report. (Default is 1000 if no value is set) Note
-            that the number of results returned might be less than maxresults, even when they are
-            more results. Maximum number of results is 50000. The recommended number to use is
-            between 1000 and 10000, as that should provide the best response time and data to
-            manage.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID of game to get reports for.</td>
+        </tr>
+        <tr>
+            <td><strong>type</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                Report type (One of: <strong>"GAMESALES"</strong>,
+                <strong>"STEAMSTORESALES"</strong>, <strong>"SETTLEMENT"</strong>,
+                <strong>"CHARGEBACK"</strong>, <strong>"SUBSCRIPTION"</strong>)
+            </td>
+        </tr>
+        <tr>
+            <td><strong>time</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                Start time of the report. (RFC 3339 UTC formatted like:
+                <strong>2010-01-01T00:00:00Z</strong>)
+            </td>
+        </tr>
+        <tr>
+            <td><strong>maxresults</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                Maximum number of results to return in report. (Default is 1000 if no value is set)
+                Note that the number of results returned might be less than maxresults, even when
+                they are more results. Maximum number of results is 50000. The recommended number to
+                use is between 1000 and 10000, as that should provide the best response time and
+                data to manage.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Steam offers transaction reports that can be downloaded for reconciliation purposes. These reports
@@ -404,7 +383,7 @@ accounts.<br />
 <strong>NOTE:</strong> This method has previous versions which are no longer officially supported.
 They will continue to be usable but it's highly recommended that you use the latest version. Change
 history:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Version 2</strong> - Changed result to returns arrays.<br /></li>
     <li><strong>Version 3</strong> - Changed to string formatted 64 bit numbers.<br /></li>
     <li>
@@ -420,17 +399,17 @@ history:<br />
 </ul>
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">timecreated</code> - Time
                         of transaction (RFC 3339 UTC formatted like:
@@ -454,9 +433,7 @@ history:<br />
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">status</code> - Status of
                         the order. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#status_values"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#status_values"
                             >Appendix A: Status Values</a
                         ><br />
                     </li>
@@ -481,7 +458,7 @@ history:<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">items</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">itemid</code> - Game ID
                         number of item.<br />
@@ -508,7 +485,7 @@ history:<br />
                         >
                         - Optional, only returned if the purchase was via a DLC on the store that is
                         connected to an in-game microtransaction item id. <br />
-                        <ul class="bb_ul">
+                        <ul>
                             <li>
                                 <code class="bb_code bb_code_inline nohighlight">packageid</code> -
                                 The DLC package that was purchased on the store.<br />
@@ -541,13 +518,11 @@ history:<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>
@@ -586,30 +561,32 @@ history:<br />
     GET https://partner.steam-api.com/ISteamMicroTxn/GetUserAgreementInfo/v2/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Steam ID of the client.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID of the game the agreement is for.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Steam ID of the client.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID of the game the agreement is for.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Get detailed information of all recurring billing agreements (subscriptions) for a user.<br />
@@ -621,24 +598,24 @@ Get detailed information of all recurring billing agreements (subscriptions) for
 yet charged the user for the agreement. Previously the status value would be "active"<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">agreements</code><br />
-                        <ul class="bb_ul">
+                        <ul>
                             <li>
                                 <code class="bb_code bb_code_inline nohighlight">agreement</code
                                 ><br />
-                                <ul class="bb_ul">
+                                <ul>
                                     <li>
                                         <code class="bb_code bb_code_inline nohighlight"
                                             >agreementid</code
@@ -741,13 +718,11 @@ yet charged the user for the agreement. Previously the status value would be "ac
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>
@@ -763,45 +738,43 @@ yet charged the user for the agreement. Previously the status value would be "ac
 <h2 class="bb_section"><a name="GetUserInfo"></a>GetUserInfo</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamMicroTxn/GetUserInfo/v2/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>AppID of the game the user will make a purchase in.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td></td>
-        <td>Steam ID of user making purchase.</td>
-    </tr>
-    <tr>
-        <td><strong>ipaddress</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>
-            IP address of user in string format (xxx.xxx.xxx.xxx). Only required if
-            <code class="bb_code bb_code_inline nohighlight">usersession</code> in
-            <a
-                href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn"
-                class="bb_apilink"
-                >ISteamMicroTxn/InitTxn</a
-            >
-            was set to <strong>web</strong>.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>AppID of the game the user will make a purchase in.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td></td>
+            <td>Steam ID of user making purchase.</td>
+        </tr>
+        <tr>
+            <td><strong>ipaddress</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                IP address of user in string format (xxx.xxx.xxx.xxx). Only required if
+                <code class="bb_code bb_code_inline nohighlight">usersession</code> in
+                <a href="/doc/webapi/ISteamMicroTxn#InitTxn">ISteamMicroTxn/InitTxn</a> was set to
+                <strong>web</strong>.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Retrieves details for a user's purchasing info.<br />
@@ -816,7 +789,7 @@ return an error indicating the user is not logged in.<br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.</li>
 </ul>
 <br />
@@ -824,17 +797,17 @@ Change history:<br />
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">state</code> - US State.
                         Empty for non-US countries.<br />
@@ -861,13 +834,11 @@ Change history:<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>
@@ -890,205 +861,200 @@ Change history:<br />
 <h2 class="bb_section"><a name="InitTxn"></a>InitTxn</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/ISteamMicroTxn/InitTxn/v3/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>orderid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Unique 64-bit ID for order</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Steam ID of user making purchase.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID of game this transaction is for.</td>
-    </tr>
-    <tr>
-        <td><strong>itemcount</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Number of items in cart.</td>
-    </tr>
-    <tr>
-        <td><strong>language</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            ISO 639-1 language code of the item descriptions. Only works with the 28 fully supported
-            Steam languages.
-            <a
-                href="https://partner.steamgames.com/doc/store/localization/languages"
-                class="bb_doclink"
-                >See supported languages</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td><strong>currency</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            ISO 4217 currency code. See
-            <a href="https://partner.steamgames.com/doc/store/pricing/currencies" class="bb_doclink"
-                >Supported Currencies</a
-            >
-            for proper format of each currency.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>usersession</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>
-            Session where user will authorize the transaction. Valid options are
-            <strong>"client"</strong> or <strong>"web"</strong>. If this parameter is not supplied,
-            the interface will be assumed to be through a currently logged in Steam client session.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>ipaddress</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>
-            IP address of user in string format (xxx.xxx.xxx.xxx). Only required if
-            [param]usersession[/param] is set to <strong>web</strong>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>itemid[0]</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>3rd party ID for item.</td>
-    </tr>
-    <tr>
-        <td><strong>qty[0]</strong></td>
-        <td>int16</td>
-        <td>✔</td>
-        <td>Quantity of this item.</td>
-    </tr>
-    <tr>
-        <td><strong>amount[0]</strong></td>
-        <td>int64</td>
-        <td>✔</td>
-        <td>
-            Total cost (in cents) of item(s) to be charged at this time. See
-            <a href="https://partner.steamgames.com/doc/store/pricing/currencies" class="bb_doclink"
-                >Supported Currencies</a
-            >
-            for proper format of each amount. Note that the amount you pass needs to be in the
-            format that matches the "currency" code you pass.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>description[0]</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Description of item. Maximum length of 128 characters.</td>
-    </tr>
-    <tr>
-        <td><strong>category[0]</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>
-            Optional text description of a category that this item should be grouped with. This
-            value is used for grouping sales data in backend Steam reporting and is never displayed
-            to the user. Maximum length of 64 characters
-        </td>
-    </tr>
-    <tr>
-        <td><strong>associated_bundle[0]</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>Optional bundleid of associated bundle.</td>
-    </tr>
-    <tr>
-        <td><strong>billingtype[0]</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>
-            Optional recurring billing type. Valid options are: <strong>"Steam"</strong> or
-            <strong>"Game"</strong><br />
-            <ul class="bb_ul">
-                <li>Steam: Steam automatically re-bills</li>
-                <li>Game: Partner needs to call ProcessAgreement API to bill</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>period[0]</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>
-            Optional period for recurring billing. Valid options are: <strong>"Day"</strong>,
-            <strong>"Week"</strong>, <strong>"Month"</strong>, <strong>"Year"</strong>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>frequency[0]</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            Optional frequency (in number of days) for recurring billing. Supported values:
-            <strong>1 - 255</strong>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>recurringamt[0]</strong></td>
-        <td>int64</td>
-        <td></td>
-        <td>Optional amount to be billed for future recurring billing transactions.</td>
-    </tr>
-    <tr>
-        <td><strong>bundlecount</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>Number of bundles in cart.</td>
-    </tr>
-    <tr>
-        <td><strong>bundleid[0]</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>3rd party ID of the bundle. This shares the same ID space as 3rd party items.</td>
-    </tr>
-    <tr>
-        <td><strong>bundle_qty[0]</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>Quantity of this bundle.</td>
-    </tr>
-    <tr>
-        <td><strong>bundle_desc[0]</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>Description of bundle. Maximum length of 128 characters.</td>
-    </tr>
-    <tr>
-        <td><strong>bundle_category[0]</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>
-            Optional text description of a bundle category that this item should be grouped with.
-            This value is used for grouping sales data in backend Steam reporting and is never
-            displayed to the user. Maximum length of 64 characters.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>orderid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Unique 64-bit ID for order</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Steam ID of user making purchase.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID of game this transaction is for.</td>
+        </tr>
+        <tr>
+            <td><strong>itemcount</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Number of items in cart.</td>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                ISO 639-1 language code of the item descriptions. Only works with the 28 fully
+                supported Steam languages.
+                <a href="/doc/store/localization/languages">See supported languages</a>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>currency</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                ISO 4217 currency code. See
+                <a href="/doc/store/pricing/currencies">Supported Currencies</a> for proper format
+                of each currency.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>usersession</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                Session where user will authorize the transaction. Valid options are
+                <strong>"client"</strong> or <strong>"web"</strong>. If this parameter is not
+                supplied, the interface will be assumed to be through a currently logged in Steam
+                client session.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>ipaddress</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                IP address of user in string format (xxx.xxx.xxx.xxx). Only required if
+                [param]usersession[/param] is set to <strong>web</strong>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>itemid[0]</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>3rd party ID for item.</td>
+        </tr>
+        <tr>
+            <td><strong>qty[0]</strong></td>
+            <td>int16</td>
+            <td>✔</td>
+            <td>Quantity of this item.</td>
+        </tr>
+        <tr>
+            <td><strong>amount[0]</strong></td>
+            <td>int64</td>
+            <td>✔</td>
+            <td>
+                Total cost (in cents) of item(s) to be charged at this time. See
+                <a href="/doc/store/pricing/currencies">Supported Currencies</a> for proper format
+                of each amount. Note that the amount you pass needs to be in the format that matches
+                the "currency" code you pass.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>description[0]</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Description of item. Maximum length of 128 characters.</td>
+        </tr>
+        <tr>
+            <td><strong>category[0]</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                Optional text description of a category that this item should be grouped with. This
+                value is used for grouping sales data in backend Steam reporting and is never
+                displayed to the user. Maximum length of 64 characters
+            </td>
+        </tr>
+        <tr>
+            <td><strong>associated_bundle[0]</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>Optional bundleid of associated bundle.</td>
+        </tr>
+        <tr>
+            <td><strong>billingtype[0]</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                Optional recurring billing type. Valid options are: <strong>"Steam"</strong> or
+                <strong>"Game"</strong><br />
+                <ul>
+                    <li>Steam: Steam automatically re-bills</li>
+                    <li>Game: Partner needs to call ProcessAgreement API to bill</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>period[0]</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                Optional period for recurring billing. Valid options are: <strong>"Day"</strong>,
+                <strong>"Week"</strong>, <strong>"Month"</strong>, <strong>"Year"</strong>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>frequency[0]</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                Optional frequency (in number of days) for recurring billing. Supported values:
+                <strong>1 - 255</strong>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>recurringamt[0]</strong></td>
+            <td>int64</td>
+            <td></td>
+            <td>Optional amount to be billed for future recurring billing transactions.</td>
+        </tr>
+        <tr>
+            <td><strong>bundlecount</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>Number of bundles in cart.</td>
+        </tr>
+        <tr>
+            <td><strong>bundleid[0]</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>3rd party ID of the bundle. This shares the same ID space as 3rd party items.</td>
+        </tr>
+        <tr>
+            <td><strong>bundle_qty[0]</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>Quantity of this bundle.</td>
+        </tr>
+        <tr>
+            <td><strong>bundle_desc[0]</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>Description of bundle. Maximum length of 128 characters.</td>
+        </tr>
+        <tr>
+            <td><strong>bundle_category[0]</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                Optional text description of a bundle category that this item should be grouped
+                with. This value is used for grouping sales data in backend Steam reporting and is
+                never displayed to the user. Maximum length of 64 characters.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Creates a new purchase. Send the order information along with the Steam ID to seed the transaction
@@ -1104,9 +1070,7 @@ purchase in-game or from a web page.
         Note that certain currencies must be charged in specific increments. For example, Ukrainian
         Hryvnia (UAH) must be charged in increments of 100. So if you attempt to price an item at
         1050 UAH, InitTxn will fail with error result k_EMicroTxnResultInvalidParam. For a full list
-        of pricing requirements, see
-        <a href="https://partner.steamgames.com/doc/store/pricing/currencies" class="bb_doclink"
-            >Supported Currencies</a
+        of pricing requirements, see <a href="/doc/store/pricing/currencies">Supported Currencies</a
         ><br />
         <br />
         If you do not wish to price each transaction in the local user's currency, Steam can convert
@@ -1142,14 +1106,14 @@ option displayed.<br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.</li>
 </ul>
 <br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Version 3</strong> - Enforced quantity amounts to be a 16 bit number.</li>
 </ul>
 <br />
@@ -1157,17 +1121,17 @@ Change history:<br />
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">orderid</code> - Unique
                         64-bit ID for order.<br />
@@ -1191,13 +1155,11 @@ Change history:<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>
@@ -1225,94 +1187,89 @@ Change history:<br />
     POST https://partner.steam-api.com/ISteamMicroTxn/ProcessAgreement/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>orderid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            Unique 64-bit ID for order. If the recurring subscription was initiated from the Steam
-            store, then this field will be 0.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Steam ID of the client.</td>
-    </tr>
-    <tr>
-        <td><strong>agreementid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Unique 64-bit Steam billing agreement ID.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID of the game the agreement is for.</td>
-    </tr>
-    <tr>
-        <td><strong>amount</strong></td>
-        <td>int32</td>
-        <td>✔</td>
-        <td>
-            Total cost (in cents).<br />
-            <br />
-            This value corresponds to an initial one-time amount to be immediately charged to a
-            user.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>currency</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>ISO 4217 currency code of prices</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>orderid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                Unique 64-bit ID for order. If the recurring subscription was initiated from the
+                Steam store, then this field will be 0.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Steam ID of the client.</td>
+        </tr>
+        <tr>
+            <td><strong>agreementid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Unique 64-bit Steam billing agreement ID.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID of the game the agreement is for.</td>
+        </tr>
+        <tr>
+            <td><strong>amount</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td>
+                Total cost (in cents).<br />
+                <br />
+                This value corresponds to an initial one-time amount to be immediately charged to a
+                user.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>currency</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>ISO 4217 currency code of prices</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Initiate a recurring payment (subscription) for the user.<br />
 <br />
 A successful response means that Steam will initiate a billing cycle for the user. It does not mean
 that the actual billing cycle was completed successfully. Use the
-<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetReport" class="bb_apilink"
-    >ISteamMicroTxn/GetReport</a
->
-or
-<a
-    href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo"
-    class="bb_apilink"
-    >ISteamMicroTxn/GetUserAgreementInfo</a
->
+<a href="/doc/webapi/ISteamMicroTxn#GetReport">ISteamMicroTxn/GetReport</a> or
+<a href="/doc/webapi/ISteamMicroTxn#GetUserAgreementInfo">ISteamMicroTxn/GetUserAgreementInfo</a>
 APIs to check actual billing status.<br />
 <br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">orderid</code> - Unique
                         64-bit ID for order.<br />
@@ -1330,13 +1287,11 @@ APIs to check actual billing status.<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>
@@ -1352,47 +1307,47 @@ APIs to check actual billing status.<br />
 <h2 class="bb_section"><a name="QueryTxn"></a>QueryTxn</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamMicroTxn/QueryTxn/v3/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID of game this transaction is for.</td>
-    </tr>
-    <tr>
-        <td><strong>orderid</strong></td>
-        <td>uint64</td>
-        <td></td>
-        <td>Unique 64-bit ID for order.</td>
-    </tr>
-    <tr>
-        <td><strong>transid</strong></td>
-        <td>uint64</td>
-        <td></td>
-        <td>Unique 64-bit Steam transaction ID.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID of game this transaction is for.</td>
+        </tr>
+        <tr>
+            <td><strong>orderid</strong></td>
+            <td>uint64</td>
+            <td></td>
+            <td>Unique 64-bit ID for order.</td>
+        </tr>
+        <tr>
+            <td><strong>transid</strong></td>
+            <td>uint64</td>
+            <td></td>
+            <td>Unique 64-bit Steam transaction ID.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Query the status of an order that was previously created with
-<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink"
-    >ISteamMicroTxn/InitTxn</a
->.<br />
+<a href="/doc/webapi/ISteamMicroTxn#InitTxn">ISteamMicroTxn/InitTxn</a>.<br />
 <br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.<br /></li>
     <li>
         <strong>Version 3</strong> - Added new status values to for transactions to reflect
@@ -1404,17 +1359,17 @@ Change history:<br />
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">orderid</code> - Unique
                         64-bit ID for order.<br />
@@ -1430,9 +1385,7 @@ Change history:<br />
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">status</code> - Status of
                         the order. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#status_values"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#status_values"
                             >Appendix A: Status Values</a
                         ><br />
                     </li>
@@ -1456,7 +1409,7 @@ Change history:<br />
                     </li>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">items</code><br />
-                        <ul class="bb_ul">
+                        <ul>
                             <li>
                                 <code class="bb_code bb_code_inline nohighlight">itemid</code> -
                                 Game ID number of item.<br />
@@ -1484,13 +1437,11 @@ Change history:<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>
@@ -1520,30 +1471,32 @@ Change history:<br />
 <h2 class="bb_section"><a name="RefundTxn"></a>RefundTxn</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/ISteamMicroTxn/RefundTxn/v2/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>orderid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Unique 64-bit ID for order to refund.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID of the game.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>orderid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Unique 64-bit ID for order to refund.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID of the game.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Tells Steam to refund a user for a purchase. Refunds can only be made for the full value of the
@@ -1552,7 +1505,7 @@ original order.<br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Version 2</strong> - Changed to string formatted 64 bit numbers.</li>
 </ul>
 <br />
@@ -1560,17 +1513,17 @@ Change history:<br />
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">result</code> - Result of the
                 operation. (<strong>OK</strong> or <strong>Failure</strong>)<br />
             </li>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">params</code><br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">orderid</code> - Unique
                         64-bit ID for order.<br />
@@ -1584,13 +1537,11 @@ Change history:<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">error</code> - Optional, only
                 returned if result is <strong>Failure</strong>.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">errorcode</code> - Error or
                         event code. See:
-                        <a
-                            href="https://partner.steamgames.com/doc/features/microtransactions/implementation#error_codes"
-                            class="bb_doclink"
+                        <a href="/doc/features/microtransactions/implementation#error_codes"
                             >Appendix B: Error Codes</a
                         ><br />
                     </li>

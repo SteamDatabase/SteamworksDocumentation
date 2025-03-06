@@ -1,9 +1,6 @@
 <h1>Matchmaking based on skill</h1>
 The Steam matchmaking API has rich options for matching players based on skill. More information on
-the base toolset of matchmaking is
-<a href="https://partner.steamgames.com/doc/features/multiplayer/matchmaking" class="bb_doclink"
-    >here</a
->.
+the base toolset of matchmaking is <a href="/doc/features/multiplayer/matchmaking">here</a>.
 <h2 class="bb_section"><a name="1"></a>Overview</h2>
 A common problem in matching users for multiplayer gameplay is finding users of a similar
 skill-level, or playstyle, to try ensure users get the most out of each game. To solve this,
@@ -11,7 +8,7 @@ Steamworks provides a rich set of search options for finding games, built on the
 and the Stats API.
 <h2 class="bb_section"><a name="2"></a>Matchmaking process flow</h2>
 The usual model for getting groups together to play is as follows:<br />
-<ol class="bb_ol">
+<ol>
     <li>
         User selects in the game that they want to play multiplayer, and what kind of multiplayer
         they want (rules, scenario, etc.). They also set what skill level they'd like to match
@@ -42,40 +39,28 @@ possible marking these stats only settable by 'Official GS' so that players can 
 is highly preferable.<br />
 <br />
 Steps:<br />
-<ol class="bb_ol">
+<ol>
     <li>
         Create an increment-only stat for each skill axis you want to track through the 'Stats' tab
         for your game in the Steamworks Game Admin<br />
     </li>
     <li>
         In your game, retrieve the user's skill stat(s) by calling
-        <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetStat" class="bb_apilink"
-            >ISteamUserStats::GetStat</a
-        >
-        for each stat, then for use retrieved values when matchmaking<br />
+        <a href="/doc/api/ISteamUserStats#GetStat">ISteamUserStats::GetStat</a> for each stat, then
+        for use retrieved values when matchmaking<br />
     </li>
     <li>
         After a game has completed, update the user's skill stat(s) by calling
-        <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetStat" class="bb_apilink"
-            >ISteamUserStats::SetStat</a
-        >
-        for each stat followed by
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats"
-            class="bb_apilink"
-            >ISteamUserStats::StoreStats</a
-        >
+        <a href="/doc/api/ISteamUserStats#SetStat">ISteamUserStats::SetStat</a> for each stat
+        followed by <a href="/doc/api/ISteamUserStats#StoreStats">ISteamUserStats::StoreStats</a>
     </li>
 </ol>
 <h2 class="bb_section"><a name="4"></a>Finding a game session matching by skill</h2>
 To create a lobby for users of a particular skill level, once a lobby has been created, the owner
 should add their skill stat(s) to the lobby metadata by calling
-<a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#SetLobbyData" class="bb_apilink"
-    >ISteamMatchmaking::SetLobbyData</a
->. When another user searches for a game session using the lobby search API, the searcher can use
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamMatchmaking#AddRequestLobbyListNearValueFilter"
-    class="bb_apilink"
+<a href="/doc/api/ISteamMatchmaking#SetLobbyData">ISteamMatchmaking::SetLobbyData</a>. When another
+user searches for a game session using the lobby search API, the searcher can use
+<a href="/doc/api/ISteamMatchmaking#AddRequestLobbyListNearValueFilter"
     >ISteamMatchmaking::AddRequestLobbyListNearValueFilter</a
 >
 to find lobbies with skill levels near the user's level. The results returned will be sorted by the

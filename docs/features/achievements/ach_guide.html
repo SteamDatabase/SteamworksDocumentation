@@ -2,7 +2,7 @@
 <div class="bb_introblock">
     <div class="left">
         <img
-            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Achievements_1.gif"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Achievements_1.gif"
         />
     </div>
     <div class="introtext">
@@ -22,25 +22,21 @@ players' window and will be marked within an achievement page for that player.
 <h2 class="bb_section"><a name="2"></a>Technical Overview</h2>
 The following is a quick step by step guide to integrating very basic Steam Achievements into your
 application in under 10 minutes and under 10 lines of code integrated into your code base. The
-<a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a> comes with a
-great example application called
-<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink">Spacewar</a> that
-shows off the full breadth of Steam features and should be your first stop to see all Steam features
-in action. This tutorial distills the information found in Spacewar and the Stats and Achievements
-API down to just the necessary information required for Steam Stats to keep things as
-straightforward as possible. Please note that there is a considerable amount of overlap between
-stats and achievements, as such if you are integrating both be aware that a lot of calls can be
-consolidated.
+<a href="/doc/sdk">Steamworks SDK</a> comes with a great example application called
+<a href="/doc/sdk/api/example">Spacewar</a> that shows off the full breadth of Steam features and
+should be your first stop to see all Steam features in action. This tutorial distills the
+information found in Spacewar and the Stats and Achievements API down to just the necessary
+information required for Steam Stats to keep things as straightforward as possible. Please note that
+there is a considerable amount of overlap between stats and achievements, as such if you are
+integrating both be aware that a lot of calls can be consolidated.
 <h2 class="bb_section"><a name="3"></a>Step 1 - Defining your game's Achievements</h2>
 Achievements are application specific and are setup on the
-<a href="https://partner.steamgames.com/apps/achievements/" target="_blank" rel="noreferrer"
-    >Achievement Configuration</a
->
-page in the Steamworks App Admin backend. The following is the list of achievements from the
-Steamworks sample app Spacewar:<br />
+<a href="/apps/achievements/" target="_blank" rel="noreferrer">Achievement Configuration</a> page in
+the Steamworks App Admin backend. The following is the list of achievements from the Steamworks
+sample app Spacewar:<br />
 <br />
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/spacewar_achievement_examplescreenshot.jpg"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/spacewar_achievement_examplescreenshot.jpg"
     alt="spacewar_achievement_examplescreenshot.jpg"
     title="spacewar_achievement_examplescreenshot.jpg"
 />
@@ -52,9 +48,7 @@ taken directly from the Spacewar example files
 <h2 class="bb_subsection"><a name="5"></a>Header File</h2>
 We first define a structure to hold our achievement data received from Steam and provide a macro for
 creating objects of that type. This data maps directly to what is found on the
-<a href="https://partner.steamgames.com/apps/achievements/" target="_blank" rel="noreferrer"
-    >Achievement Configuration</a
->
+<a href="/apps/achievements/" target="_blank" rel="noreferrer">Achievement Configuration</a>
 page.<br />
 <div class="bb_code cpp">
     #define _ACH_ID( id, name ) { id, #id, name, "", 0, 0 } struct Achievement_t { int
@@ -63,9 +57,7 @@ page.<br />
 </div>
 <br />
 Next we define a helper class that will wrap all of the Steam Stats API calls as well as creating
-all of the
-<a href="https://partner.steamgames.com/doc/sdk/api#callbacks" class="bb_doclink">Steam callbacks</a
->.<br />
+all of the <a href="/doc/sdk/api#callbacks">Steam callbacks</a>.<br />
 <div class="bb_code cpp">
     class CSteamAchievements { private: int64 m_iAppID; // Our current AppID Achievement_t
     *m_pAchievements; // Achievements data int m_iNumAchievements; // The number of Achievements
@@ -99,17 +91,10 @@ for the current user.<br />
 <strong>Parameters</strong> - None<br />
 <strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then
 most likely Steam is not initialized. Make sure you have a Steam client open when you try to make
-this call and that
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->
-has been called before it.<br />
+this call and that <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a> has been called
+before it.<br />
 <strong>What it does</strong> - This method basically wraps a call to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
-    class="bb_apilink"
-    >ISteamUserStats::RequestCurrentStats</a
->
+<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>
 which is an asynchronous call to steam requesting the stats and achievements of the current user.
 This call needs to be made before you can set any stats or achievements. The initial call to this
 method is made in the constructor. You can call it again any time after that if you want to check on
@@ -198,13 +183,9 @@ achievements match those of the Admin page on Steamworks.<br />
     Global access to Achievements object CSteamAchievements* g_SteamAchievements = NULL; ...
 </div>
 <h2 class="bb_subsection"><a name="9"></a>Initialization</h2>
-The call to
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->
-initializes all of Steam and must be called before anything else. If that call succeeds then we
-create the helper object by passing in the array of achievements along with the size of the
-array.<br />
+The call to <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a> initializes all of Steam
+and must be called before anything else. If that call succeeds then we create the helper object by
+passing in the array of achievements along with the size of the array.<br />
 <div class="bb_code cpp">
     ... // Initialize Steam bool bRet = SteamAPI_Init(); // Create the SteamAchievements object if
     Steam was successfully initialized if (bRet) { g_SteamAchievements = new
@@ -220,12 +201,9 @@ Triggering an achievement is as simple as a single call passing along the achiev
     ... if (g_SteamAchievements) g_SteamAchievements-&gt;SetAchievement("ACH_WIN_100_GAMES"); ...
 </div>
 <h2 class="bb_subsection"><a name="12"></a>Shutdown</h2>
-The call to
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink"
-    >SteamAPI_Shutdown</a
->
-is probably something you already have in your code. It shuts down Steam and must be called before
-your application exits. Finally we delete the helper object we created.<br />
+The call to <a href="/doc/api/steam_api#SteamAPI_Shutdown">SteamAPI_Shutdown</a> is probably
+something you already have in your code. It shuts down Steam and must be called before your
+application exits. Finally we delete the helper object we created.<br />
 <div class="bb_code cpp">
     ... // Shutdown Steam SteamAPI_Shutdown(); // Delete the SteamAchievements object if
     (g_SteamAchievements) delete g_SteamAchievements; ...
@@ -234,7 +212,7 @@ your application exits. Finally we delete the helper object we created.<br />
 <br />
 To set or clear stats or an achievement without adding code to your game, you can use the Steam
 client console. Run with steam.exe -console, then:<br />
-<ul class="bb_ul">
+<ul>
     <li>achievement_clear &lt;appid&gt; &lt;achievement name&gt;<br /></li>
     <li>reset_all_stats &lt;appid&gt;</li>
 </ul>

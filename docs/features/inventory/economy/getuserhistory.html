@@ -8,66 +8,68 @@ before or at <code class="bb_code bb_code_inline nohighlight">endtime</code>.<br
 <strong>HTTP Method:</strong> GET
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on
-            the partner site.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>32bit App ID of the application associated with the assets.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The 64-bit Steam ID of the user to return assets for.</td>
-    </tr>
-    <tr>
-        <td><strong>contextid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The 64-bit ID of the context container to retrieve the assets for.</td>
-    </tr>
-    <tr>
-        <td><strong>starttime</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            The start time of the range to return history for. This time is expressed as seconds
-            since 1/1/1970.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>endtime</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            The end time of the range to return history for. This time is expressed as seconds since
-            1/1/1970.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                This is the "Asset Server Key" that you provided in your app's Steam Economy
+                Settings on the partner site.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>32bit App ID of the application associated with the assets.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The 64-bit Steam ID of the user to return assets for.</td>
+        </tr>
+        <tr>
+            <td><strong>contextid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The 64-bit ID of the context container to retrieve the assets for.</td>
+        </tr>
+        <tr>
+            <td><strong>starttime</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The start time of the range to return history for. This time is expressed as seconds
+                since 1/1/1970.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>endtime</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The end time of the range to return history for. This time is expressed as seconds
+                since 1/1/1970.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="2"></a>Returns</h2>
 The output from this method should be encoded in the JSON format.<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">result</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set
@@ -83,7 +85,7 @@ The output from this method should be encoded in the JSON format.<br />
                 <code class="bb_code bb_code_inline nohighlight">transactions</code> - An array of
                 transactions that occurred on the user's account in this context over the specified
                 time range.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">timestamp</code> - the time
                         when this event occurred. This is expressed as seconds since 1/1/1970.<br />
@@ -105,7 +107,7 @@ The output from this method should be encoded in the JSON format.<br />
                         <code class="bb_code bb_code_inline nohighlight">records</code> - An array
                         of detail records within a transaction. These records could represent assets
                         or any other unit of change to the context.<br />
-                        <ul class="bb_ul">
+                        <ul>
                             <li>
                                 <code class="bb_code bb_code_inline nohighlight">action</code> - The
                                 name of the action taken in this transaction.<br />
@@ -153,9 +155,7 @@ The output from this method should be encoded in the JSON format.<br />
                             <li>
                                 <code class="bb_code bb_code_inline nohighlight">has_details</code>
                                 - true if
-                                <a
-                                    href="https://partner.steamgames.com/doc/webapi/IGameInventory#SupportGetAssetHistory"
-                                    class="bb_apilink"
+                                <a href="/doc/webapi/IGameInventory#SupportGetAssetHistory"
                                     >IGameInventory/SupportGetAssetHistory</a
                                 >
                                 will return valid data for this asset.<br />
@@ -179,7 +179,7 @@ The output from this method should be encoded in the JSON format.<br />
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">commands</code> - A list of
                         commands to show on this transaction in the support tool<br />
-                        <ul class="bb_ul">
+                        <ul>
                             <li>
                                 <code class="bb_code bb_code_inline nohighlight">name</code> - The
                                 name of the command.<br />

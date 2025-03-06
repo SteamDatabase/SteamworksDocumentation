@@ -10,25 +10,23 @@ global accessor function
     bool ClearUserAchievement( CSteamID steamIDUser, const char *pchName );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user to clear the achievement for.</td>
-    </tr>
-    <tr>
-        <td><strong>pchName</strong></td>
-        <td>const char *</td>
-        <td>The 'API Name' of the Achievement to reset.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user to clear the achievement for.</td>
+        </tr>
+        <tr>
+            <td><strong>pchName</strong></td>
+            <td>const char *</td>
+            <td>The 'API Name' of the Achievement to reset.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Resets the unlock status of an achievement for the specified user.<br />
@@ -36,42 +34,33 @@ Resets the unlock status of an achievement for the specified user.<br />
 This is primarily only ever used for testing.<br />
 <br />
 You must have called
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-    class="bb_apilink"
+<a href="/doc/api/ISteamGameServerStats#RequestUserStats"
     >ISteamGameServerStats::RequestUserStats</a
 >
 and it needs to return successfully via its callback prior to calling this!<br />
 <br />
 This call only modifies Steam's in-memory state and is very cheap. To submit the stats to the server
 you must call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
-    class="bb_apilink"
-    >ISteamGameServerStats::StoreUserStats</a
+<a href="/doc/api/ISteamGameServerStats#StoreUserStats">ISteamGameServerStats::StoreUserStats</a
 >.<br />
 <br />
 <strong>NOTE:</strong> This will work only on achievements that game servers are allowed to set. If
 the "Set By" field for this achievement is "Official GS" then only game servers that have been
 declared as officially controlled by you will be able to set it. To do this you must set the IP
 range of your official servers in the
-<a href="https://partner.steamgames.com/apps/dedicatedservers/" target="_blank" rel="noreferrer"
-    >Dedicated Servers</a
->
-section of App Admin.<br />
+<a href="/apps/dedicatedservers/" target="_blank" rel="noreferrer">Dedicated Servers</a> section of
+App Admin.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 This function returns <strong>true</strong> upon success if all of the following conditions are met;
 otherwise, <strong>false</strong>.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         The specified achievement "API Name" exists in App Admin on the Steamworks website, and the
         changes are published.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamGameServerStats#RequestUserStats"
             >ISteamGameServerStats::RequestUserStats</a
         >
         has completed and successfully returned its callback for the specified user.<br />
@@ -83,30 +72,28 @@ otherwise, <strong>false</strong>.<br />
     bool GetUserAchievement( CSteamID steamIDUser, const char *pchName, bool *pbAchieved );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user to get the achievement for.</td>
-    </tr>
-    <tr>
-        <td><strong>pchName</strong></td>
-        <td>const char *</td>
-        <td>The 'API Name' of the achievement.</td>
-    </tr>
-    <tr>
-        <td><strong>pbAchieved</strong></td>
-        <td>bool *</td>
-        <td>Returns the unlock status of the achievement.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user to get the achievement for.</td>
+        </tr>
+        <tr>
+            <td><strong>pchName</strong></td>
+            <td>const char *</td>
+            <td>The 'API Name' of the achievement.</td>
+        </tr>
+        <tr>
+            <td><strong>pbAchieved</strong></td>
+            <td>bool *</td>
+            <td>Returns the unlock status of the achievement.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the unlock status of the Achievement.<br />
@@ -114,11 +101,9 @@ Gets the unlock status of the Achievement.<br />
 <strong>Returns:</strong> bool<br />
 This function returns <strong>true</strong> upon success if all of the following conditions are met;
 otherwise, <strong>false</strong>.<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamGameServerStats#RequestUserStats"
             >ISteamGameServerStats::RequestUserStats</a
         >
         has completed and successfully returned its callback.<br />
@@ -137,50 +122,37 @@ If the call is successful then the unlock status is returned via the
     CSteamID steamIDUser, const char *pchName, float *pData );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user to get the stat for.</td>
-    </tr>
-    <tr>
-        <td><strong>pchName</strong></td>
-        <td>const char *</td>
-        <td>
-            The 'API Name' of the stat. Must not be longer than
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
-                class="bb_apilink"
-                >k_cchStatNameMax</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pData</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink"
-                >int32</a
-            >
-            * / float *
-        </td>
-        <td>The variable to return the stat value into.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user to get the stat for.</td>
+        </tr>
+        <tr>
+            <td><strong>pchName</strong></td>
+            <td>const char *</td>
+            <td>
+                The 'API Name' of the stat. Must not be longer than
+                <a href="/doc/api/ISteamUserStats#k_cchStatNameMax">k_cchStatNameMax</a>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pData</strong></td>
+            <td><a href="/doc/api/steam_api#int32">int32</a> * / float *</td>
+            <td>The variable to return the stat value into.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the current value of the a stat for the specified user.<br />
 <br />
 You must have called
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-    class="bb_apilink"
+<a href="/doc/api/ISteamGameServerStats#RequestUserStats"
     >ISteamGameServerStats::RequestUserStats</a
 >
 and it needs to return successfully via its callback prior to calling this.<br />
@@ -188,15 +160,13 @@ and it needs to return successfully via its callback prior to calling this.<br /
 <strong>Returns:</strong> bool<br />
 This function returns <strong>true</strong> upon success if all of the following conditions are met;
 otherwise, <strong>false</strong>.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         The specified stat exists in App Admin on the Steamworks website, and the changes are
         published.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamGameServerStats#RequestUserStats"
             >ISteamGameServerStats::RequestUserStats</a
         >
         has completed and successfully returned its callback.<br />
@@ -209,20 +179,18 @@ otherwise, <strong>false</strong>.<br />
 <h2 class="bb_subsection"><a name="RequestUserStats"></a>RequestUserStats</h2>
 <div class="bb_code cpp">SteamAPICall_t RequestUserStats( CSteamID steamIDUser );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user to request the stats for.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user to request the stats for.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Asynchronously downloads stats and achievements for the specified user from the server.<br />
@@ -230,80 +198,60 @@ Asynchronously downloads stats and achievements for the specified user from the 
 These stats will only be auto-updated for clients currently playing on the server. For other users
 you'll need to call this function again to refresh any data.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-to be used with a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#GSStatsReceived_t"
-    class="bb_apilink"
-    >GSStatsReceived_t</a
->
-call result.
+<strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
+with a <a href="/doc/api/ISteamGameServerStats#GSStatsReceived_t">GSStatsReceived_t</a> call result.
 <h2 class="bb_subsection"><a name="SetUserAchievement"></a>SetUserAchievement</h2>
 <div class="bb_code cpp">bool SetUserAchievement( CSteamID steamIDUser, const char *pchName );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user to unlock the achievement for.</td>
-    </tr>
-    <tr>
-        <td><strong>pchName</strong></td>
-        <td>const char *</td>
-        <td>The 'API Name' of the Achievement to unlock.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user to unlock the achievement for.</td>
+        </tr>
+        <tr>
+            <td><strong>pchName</strong></td>
+            <td>const char *</td>
+            <td>The 'API Name' of the Achievement to unlock.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Unlocks an achievement for the specified user.<br />
 <br />
 You must have called
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-    class="bb_apilink"
+<a href="/doc/api/ISteamGameServerStats#RequestUserStats"
     >ISteamGameServerStats::RequestUserStats</a
 >
 and it needs to return successfully via its callback prior to calling this!<br />
 <br />
 This call only modifies Steam's in-memory state and is very cheap. To submit the stats to the server
 you must call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
-    class="bb_apilink"
-    >ISteamGameServerStats::StoreUserStats</a
+<a href="/doc/api/ISteamGameServerStats#StoreUserStats">ISteamGameServerStats::StoreUserStats</a
 >.<br />
 <br />
 <strong>NOTE:</strong> This will work only on achievements that game servers are allowed to set. If
 the "Set By" field for this achievement is "Official GS" then only game servers that have been
 declared as officially controlled by you will be able to set it. To do this you must set the IP
 range of your official servers in the
-<a href="https://partner.steamgames.com/apps/dedicatedservers/" target="_blank" rel="noreferrer"
-    >Dedicated Servers</a
->
-section of App Admin.<br />
+<a href="/apps/dedicatedservers/" target="_blank" rel="noreferrer">Dedicated Servers</a> section of
+App Admin.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 This function returns <strong>true</strong> upon success if all of the following conditions are met;
 otherwise, <strong>false</strong>.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         The specified achievement "API Name" exists in App Admin on the Steamworks website, and the
         changes are published.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamGameServerStats#RequestUserStats"
             >ISteamGameServerStats::RequestUserStats</a
         >
         has completed and successfully returned its callback for the specified user.<br />
@@ -316,86 +264,66 @@ otherwise, <strong>false</strong>.<br />
     CSteamID steamIDUser, const char *pchName, float fData );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user to set the stat on.</td>
-    </tr>
-    <tr>
-        <td><strong>pchName</strong></td>
-        <td>const char *</td>
-        <td>
-            The 'API Name' of the stat. Must not be longer than
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
-                class="bb_apilink"
-                >k_cchStatNameMax</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>nData</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink"
-                >int32</a
-            >
-            / float
-        </td>
-        <td>
-            The new value of the stat. This must be an absolute value, it will not increment or
-            decrement for you.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user to set the stat on.</td>
+        </tr>
+        <tr>
+            <td><strong>pchName</strong></td>
+            <td>const char *</td>
+            <td>
+                The 'API Name' of the stat. Must not be longer than
+                <a href="/doc/api/ISteamUserStats#k_cchStatNameMax">k_cchStatNameMax</a>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nData</strong></td>
+            <td><a href="/doc/api/steam_api#int32">int32</a> / float</td>
+            <td>
+                The new value of the stat. This must be an absolute value, it will not increment or
+                decrement for you.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Sets / updates the value of a given stat for the specified user.<br />
 <br />
 You must have called
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-    class="bb_apilink"
+<a href="/doc/api/ISteamGameServerStats#RequestUserStats"
     >ISteamGameServerStats::RequestUserStats</a
 >
 and it needs to return successfully via its callback prior to calling this!<br />
 <br />
 This call only modifies Steam's in-memory state and is very cheap. To submit the stats to the server
 you must call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
-    class="bb_apilink"
-    >ISteamGameServerStats::StoreUserStats</a
+<a href="/doc/api/ISteamGameServerStats#StoreUserStats">ISteamGameServerStats::StoreUserStats</a
 >.<br />
 <br />
 <strong>NOTE:</strong> These updates will work only on stats that game servers are allowed to edit.
 If the "Set By" field for this stat is "Official GS" then only game servers that have been declared
 as officially controlled by you will be able to set it. To do this you must set the IP range of your
 official servers in the
-<a href="https://partner.steamgames.com/apps/dedicatedservers/" target="_blank" rel="noreferrer"
-    >Dedicated Servers</a
->
-section of App Admin.<br />
+<a href="/apps/dedicatedservers/" target="_blank" rel="noreferrer">Dedicated Servers</a> section of
+App Admin.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 This function returns <strong>true</strong> upon success if all of the following conditions are met;
 otherwise, <strong>false</strong>.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         The specified stat exists in App Admin on the Steamworks website, and the changes are
         published.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamGameServerStats#RequestUserStats"
             >ISteamGameServerStats::RequestUserStats</a
         >
         has completed and successfully returned its callback for the specified user.<br />
@@ -409,20 +337,18 @@ otherwise, <strong>false</strong>.<br />
 <h2 class="bb_subsection"><a name="StoreUserStats"></a>StoreUserStats</h2>
 <div class="bb_code cpp">SteamAPICall_t StoreUserStats( CSteamID steamIDUser );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user to store the stats of.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user to store the stats of.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Send the changed stats and achievements data to the server for permanent storage for the specified
@@ -442,106 +368,80 @@ You can find additional debug information written to the
 <code class="bb_code bb_code_inline nohighlight">%steam_install%\logs\stats_log.txt</code>
 file.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-to be used with a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#GSStatsStored_t"
-    class="bb_apilink"
-    >GSStatsStored_t</a
->
-call result.<br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
+with a <a href="/doc/api/ISteamGameServerStats#GSStatsStored_t">GSStatsStored_t</a> call result.<br />
 If <code class="bb_code bb_code_inline nohighlight">m_eResult</code> has a result of
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_EResultInvalidParam" class="bb_apilink"
-    >k_EResultInvalidParam</a
->, then one or more stats uploaded has been rejected, either because they broke constraints or were
-out of date. In this case the server sends back updated values and the stats should be updated
-locally to keep in sync.
+<a href="/doc/api/steam_api#k_EResultInvalidParam">k_EResultInvalidParam</a>, then one or more stats
+uploaded has been rejected, either because they broke constraints or were out of date. In this case
+the server sends back updated values and the stats should be updated locally to keep in sync.
 <h2 class="bb_subsection"><a name="UpdateUserAvgRateStat"></a>UpdateUserAvgRateStat</h2>
 <div class="bb_code cpp">
     bool UpdateUserAvgRateStat( CSteamID steamIDUser, const char *pchName, float flCountThisSession,
     double dSessionLength );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user to update the AVGRATE stat for.</td>
-    </tr>
-    <tr>
-        <td><strong>pchName</strong></td>
-        <td>const char *</td>
-        <td>
-            The 'API Name' of the stat. Must not be longer than
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_cchStatNameMax"
-                class="bb_apilink"
-                >k_cchStatNameMax</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>flCountThisSession</strong></td>
-        <td>float</td>
-        <td>The value accumulation since the last call to this function.</td>
-    </tr>
-    <tr>
-        <td><strong>dSessionLength</strong></td>
-        <td>double</td>
-        <td>The amount of time in seconds since the last call to this function.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user to update the AVGRATE stat for.</td>
+        </tr>
+        <tr>
+            <td><strong>pchName</strong></td>
+            <td>const char *</td>
+            <td>
+                The 'API Name' of the stat. Must not be longer than
+                <a href="/doc/api/ISteamUserStats#k_cchStatNameMax">k_cchStatNameMax</a>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>flCountThisSession</strong></td>
+            <td>float</td>
+            <td>The value accumulation since the last call to this function.</td>
+        </tr>
+        <tr>
+            <td><strong>dSessionLength</strong></td>
+            <td>double</td>
+            <td>The amount of time in seconds since the last call to this function.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Updates an AVGRATE stat with new values for the specified user.<br />
 <br />
 You must have called
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-    class="bb_apilink"
+<a href="/doc/api/ISteamGameServerStats#RequestUserStats"
     >ISteamGameServerStats::RequestUserStats</a
 >
 and it needs to return successfully via its callback prior to calling this!<br />
 <br />
 This call only modifies Steam's in-memory state and is very cheap. To submit the stats to the server
 you must call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
-    class="bb_apilink"
-    >ISteamGameServerStats::StoreUserStats</a
+<a href="/doc/api/ISteamGameServerStats#StoreUserStats">ISteamGameServerStats::StoreUserStats</a
 >.<br />
 <br />
 <strong>NOTE:</strong> These updates will work only on stats that game servers are allowed to edit.
 If the "Set By" field for this stat is "Official GS" then only game servers that have been declared
 as officially controlled by you will be able to set it. To do this you must set the IP range of your
 official servers in the
-<a href="https://partner.steamgames.com/apps/dedicatedservers/" target="_blank" rel="noreferrer"
-    >Dedicated Servers</a
->
-section of App Admin.<br />
+<a href="/apps/dedicatedservers/" target="_blank" rel="noreferrer">Dedicated Servers</a> section of
+App Admin.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 This function returns <strong>true</strong> upon success if all of the following conditions are met;
 otherwise, <strong>false</strong>.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         The specified stat exists in App Admin on the Steamworks website, and the changes are
         published.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamGameServerStats#RequestUserStats"
             >ISteamGameServerStats::RequestUserStats</a
         >
         has completed and successfully returned its callback for the specified user.<br />
@@ -551,129 +451,103 @@ otherwise, <strong>false</strong>.<br />
 </ul>
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
-    >SteamAPI_RunCallbacks</a
->. Many of these will be fired directly in response to the member functions of
+<a href="/doc/api/steam_api#SteamAPI_RunCallbacks">SteamAPI_RunCallbacks</a>. Many of these will be
+fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamGameServerStats</code>.
 <h2 class="bb_subsection"><a name="GSStatsReceived_t"></a>GSStatsReceived_t</h2>
 Result when getting the latests stats and achievements for a user from the server.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_eResult</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>
-            Returns whether the call was successful or not. If the user has no stats, this will be
-            set to
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#k_EResultFail"
-                class="bb_apilink"
-                >k_EResultFail</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>m_steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The user whose stats were retrieved.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_eResult</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>
+                Returns whether the call was successful or not. If the user has no stats, this will
+                be set to <a href="/doc/api/steam_api#k_EResultFail">k_EResultFail</a>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The user whose stats were retrieved.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-    class="bb_apilink"
+<a href="/doc/api/ISteamGameServerStats#RequestUserStats"
     >ISteamGameServerStats::RequestUserStats</a
 >
 <h2 class="bb_subsection"><a name="GSStatsStored_t"></a>GSStatsStored_t</h2>
 Result of a request to store the user stats.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_eResult</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>Returns whether the call was successful or not.</td>
-    </tr>
-    <tr>
-        <td><strong>m_steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The user for whom the stats were stored</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_eResult</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>Returns whether the call was successful or not.</td>
+        </tr>
+        <tr>
+            <td><strong>m_steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The user for whom the stats were stored</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#StoreUserStats"
-    class="bb_apilink"
-    >ISteamGameServerStats::StoreUserStats</a
->
+<a href="/doc/api/ISteamGameServerStats#StoreUserStats">ISteamGameServerStats::StoreUserStats</a>
 <h2 class="bb_subsection"><a name="GSStatsUnloaded_t"></a>GSStatsUnloaded_t</h2>
 Callback indicating that a user's stats have been unloaded.<br />
 <br />
 Call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServerStats#RequestUserStats"
-    class="bb_apilink"
+<a href="/doc/api/ISteamGameServerStats#RequestUserStats"
     >ISteamGameServerStats::RequestUserStats</a
 >
 again to access stats for this user.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_steamIDUser</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>User whose stats have been unloaded.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_steamIDUser</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>User whose stats have been unloaded.</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamGameServerStats.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="STEAMGAMESERVERSTATS_INTERFACE_VERSION">
-        <td><strong>STEAMGAMESERVERSTATS_INTERFACE_VERSION</strong></td>
-        <td>const char *</td>
-        <td>"SteamGameServerStats001"</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="STEAMGAMESERVERSTATS_INTERFACE_VERSION">
+            <td><strong>STEAMGAMESERVERSTATS_INTERFACE_VERSION</strong></td>
+            <td>const char *</td>
+            <td>"SteamGameServerStats001"</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>

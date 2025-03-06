@@ -1,44 +1,29 @@
 <h1>ISteamNetworkingMessages Interface</h1>
 Networking API intended to make it easy to port non-connection-oriented code to take advantage of
 P2P connectivity and
-<a
-    href="https://partner.steamgames.com/doc/features/multiplayer/steamdatagramrelay"
-    class="bb_doclink"
-    >Steam Datagram Relay</a
->. <br />
+<a href="/doc/features/multiplayer/steamdatagramrelay">Steam Datagram Relay</a>. <br />
 <br />
-<a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
-    >ISteamNetworkingSockets</a
->
-is connection-oriented (like TCP), meaning you need to listen and connect, and then you send
-messages using a connection handle. ISteamNetworkingMessages, on the other hand, is more like UDP,
-in that you can just send messages to arbitrary peers at any time. The underlying connections are
-established implicitly.<br />
+<a href="/doc/api/ISteamNetworkingSockets">ISteamNetworkingSockets</a> is connection-oriented (like
+TCP), meaning you need to listen and connect, and then you send messages using a connection handle.
+ISteamNetworkingMessages, on the other hand, is more like UDP, in that you can just send messages to
+arbitrary peers at any time. The underlying connections are established implicitly.<br />
 <br />
 Under the hood ISteamNetworkingMessages works on top of the
-<a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
-    >ISteamNetworkingSockets</a
->
-code, so you get the same routing and messaging efficiency. The difference is mainly in your
-responsibility to explicitly establish a connection and the type of feedback you get about the state
-of the connection. Both interfaces can do "P2P" communications, both support both unreliable and
-reliable messages, fragmentation and reassembly, and both can be used to take advantage of
-<a
-    href="https://partner.steamgames.com/doc/features/multiplayer/steamdatagramrelay"
-    class="bb_doclink"
-    >Steam Datagram Relay</a
->
-to talk to dedicated servers.<br />
+<a href="/doc/api/ISteamNetworkingSockets">ISteamNetworkingSockets</a> code, so you get the same
+routing and messaging efficiency. The difference is mainly in your responsibility to explicitly
+establish a connection and the type of feedback you get about the state of the connection. Both
+interfaces can do "P2P" communications, both support both unreliable and reliable messages,
+fragmentation and reassembly, and both can be used to take advantage of
+<a href="/doc/features/multiplayer/steamdatagramrelay">Steam Datagram Relay</a> to talk to dedicated
+servers.<br />
 <br />
 The primary purpose of this interface is to be "like UDP", so that UDP-based code can be ported
 easily to take advantage of relayed connections. If you find yourself needing more low level
 information or control, or to be able to better handle failure, then you probably need to use
-<a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
-    >ISteamNetworkingSockets</a
->
-directly. Also, note that if your main goal is to obtain a connection between two peers without
-concerning yourself with assigning roles of "client" and "server", you may find the symmetric
-connection mode of ISteamNetworkingSockets useful.<br />
+<a href="/doc/api/ISteamNetworkingSockets">ISteamNetworkingSockets</a> directly. Also, note that if
+your main goal is to obtain a connection between two peers without concerning yourself with
+assigning roles of "client" and "server", you may find the symmetric connection mode of
+ISteamNetworkingSockets useful.<br />
 (See k_ESteamNetworkingConfig_SymmetricConnect.)<br />
 <br />
 Member functions for ISteamNetworkingMessages are called through the global accessor function
@@ -54,9 +39,7 @@ Sends a message to the specified host. If we don't already have a session with t
 is implicitly created. There might be some handshaking that needs to happen before we can actually
 begin sending message data. If this handshaking fails and we can't get through, an error will be
 posted via the callback
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#SteamNetworkingMessagesSessionFailed_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingMessages#SteamNetworkingMessagesSessionFailed_t"
     >SteamNetworkingMessagesSessionFailed_t</a
 >. <br />
 There is no notification when the operation succeeds. (You should have the peer send a reply for
@@ -65,18 +48,12 @@ this purpose.)<br />
 Sending a message to a host will also implicitly accept any incoming connection from that host.<br />
 <br />
 nSendFlags is a bitmask of
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#message_sending_flags"
-    class="bb_doclink"
-    >k_nSteamNetworkingSend_xxx</a
->
+<a href="/doc/api/steamnetworkingtypes#message_sending_flags">k_nSteamNetworkingSend_xxx</a>
 options<br />
 <br />
 nRemoteChannel is a routing number you can use to help route message to different systems. <br />
 You'll have to call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#ReceiveMessagesOnChannel"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingMessages#ReceiveMessagesOnChannel"
     >ISteamNetworkingMessages::ReceiveMessagesOnChannel</a
 >
 with the same channel number in order to retrieve the data on the other end.<br />
@@ -101,43 +78,32 @@ to also include a <i>source port</i> (so the recipient can route the reply), the
 your message. That is essentially how UDP works!<br />
 <br />
 Returns:<br />
-<ul class="bb_ul">
+<ul>
     <li>k_EREsultOK on success.<br /></li>
     <li>
         k_EResultNoConnection, if the session has failed or was closed by the peer and
         k_nSteamNetworkingSend_AutoRestartBrokenSession was not specified. (You can<br />
-        use
-        <a href="https://partner.steamgames.com/doc/api/GetSessionConnectionInfo" class="bb_apilink"
-            >GetSessionConnectionInfo</a
-        >
-        to get the details.) In order to acknowledge the broken session and start a new one, you
-        must call
-        <a href="https://partner.steamgames.com/doc/api/CloseSessionWithUser" class="bb_apilink"
-            >CloseSessionWithUser</a
-        >, or you may repeat the call with k_nSteamNetworkingSend_AutoRestartBrokenSession. See
+        use <a href="/doc/api/GetSessionConnectionInfo">GetSessionConnectionInfo</a> to get the
+        details.) In order to acknowledge the broken session and start a new one, you must call
+        <a href="/doc/api/CloseSessionWithUser">CloseSessionWithUser</a>, or you may repeat the call
+        with k_nSteamNetworkingSend_AutoRestartBrokenSession. See
         k_nSteamNetworkingSend_AutoRestartBrokenSession for more details.<br />
     </li>
     <li>
         k_EResultNoConnection will be returned if the session has failed or was closed by the peer,
         and k_nSteamNetworkingSend_AutoRestartBrokenSession is not used. (You can use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#GetSessionConnectionInfo"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingMessages#GetSessionConnectionInfo"
             >ISteamNetworkingMessages::GetSessionConnectionInfo</a
         >
         to get the details.) In order to acknowledge the broken session and start a new one, you
         must call
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#CloseSessionWithUser"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingMessages#CloseSessionWithUser"
             >ISteamNetworkingMessages::CloseSessionWithUser</a
         ><br />
     </li>
     <li>
         See
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SendMessageToConnection"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#SendMessageToConnection"
             >ISteamNetworkingSockets::SendMessageToConnection</a
         >
         for more possible return values.
@@ -160,9 +126,7 @@ Although this API allows for sending messages to peers ad-hoc, under the hood
 ISteamNetworkingSockets connections are used. We refer to these connections as "sessions" in this
 context. However, when a remote peer initiates contact, no messages can be received from the peer
 until the session is accepted, either by sending outbound communications to the peer, or with
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#AcceptSessionWithUser"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingMessages#AcceptSessionWithUser"
     >ISteamNetworkingMessages::AcceptSessionWithUser</a
 >. Sessions automatically time out when communications are idle, but you can terminate them early to
 free up resources, when you know you are finished.
@@ -172,9 +136,7 @@ free up resources, when you know you are finished.
 </div>
 <br />
 Call this in response to a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#SteamNetworkingMessagesSessionRequest_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingMessages#SteamNetworkingMessagesSessionRequest_t"
     >SteamNetworkingMessagesSessionRequest_t</a
 >
 callback.<br />
@@ -187,9 +149,7 @@ Returns false if there is no session with the user pending or otherwise. If ther
 active session, this function will return true, even if it is not pending.<br />
 <br />
 Calling
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#SendMessageToUser"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingMessages#SendMessageToUser"
     >ISteamNetworkingMessages::SendMessageToUser</a
 >
 will implicitly accepts any pending session request to that user.
@@ -201,9 +161,7 @@ will implicitly accepts any pending session request to that user.
 <br />
 Call this when you're done talking to a user to immediately free up resources under-the-hood. If the
 remote user tries to send data to you again, another
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#SteamNetworkingMessagesSessionRequest_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingMessages#SteamNetworkingMessagesSessionRequest_t"
     >SteamNetworkingMessagesSessionRequest_t</a
 >
 callback will be posted.<br />
@@ -218,9 +176,7 @@ Note that sessions that go unused for a few minutes are automatically timed out.
 Call this when you're done talking to a user on a specific channel. Once all open channels to a user
 have been closed, the open session to the user will be closed, and any new data from this user will
 trigger a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#SteamNetworkingMessagesSessionRequest_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingMessages#SteamNetworkingMessagesSessionRequest_t"
     >SteamNetworkingMessagesSessionRequest_t</a
 ><br />
 callback
@@ -234,24 +190,17 @@ callback
 Returns information about the latest state of a connection, if any, with the given peer. Primarily
 intended for debugging purposes, but can also be used to get more detailed failure information.<br />
 (See
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamnetworkingMessages#SendMessageToUser"
-    class="bb_apilink"
+<a href="/doc/api/ISteamnetworkingMessages#SendMessageToUser"
     >ISteamnetworkingMessages::SendMessageToUser</a
 >
 and k_nSteamNetworkingSend_AutoRestartBrokenSession.)<br />
 <br />
 Returns the value of
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtyupes#SteamNetConnectionInfo_t"
-    class="bb_apilink"
-    >SteamNetConnectionInfo_t</a
+<a href="/doc/api/steamnetworkingtyupes#SteamNetConnectionInfo_t">SteamNetConnectionInfo_t</a
 >::m_eState, or k_ESteamNetworkingConnectionState_None if no connection exists with specified peer.
 You may pass nullptr for either parameter if you do not need the corresponding details. Note that
 sessions time out after a while, so if a connection fails, or
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#SendMessageToUser"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingMessages#SendMessageToUser"
     >ISteamNetworkingMessages::SendMessageToUser</a
 >
 returns k_EResultNoConnection, you cannot wait indefinitely to obtain the reason for failure.
@@ -276,9 +225,7 @@ peer" is not a concept of UDP-style communications, and ISteamNetworkingMessages
 intended to make porting UDP code easy.)<br />
 <br />
 Remember: callbacks are asynchronous. See notes on
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages#SendMessageToUser"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingMessages#SendMessageToUser"
     >ISteamNetworkingMessages::SendMessageToUser</a
 >, and k_nSteamNetworkingSend_AutoRestartBrokenSession in particular.<br />
 <br />

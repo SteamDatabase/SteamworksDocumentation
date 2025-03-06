@@ -1,9 +1,7 @@
 <h1>ISteamUser Interface</h1>
 Functions for accessing and manipulating Steam user information.<br />
 <br />
-This is also where the APIs for
-<a href="https://partner.steamgames.com/doc/features/voice" class="bb_doclink">Steam Voice</a> are
-exposed.
+This is also where the APIs for <a href="/doc/features/voice">Steam Voice</a> are exposed.
 <h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
 Member functions for <code class="bb_code bb_code_inline nohighlight">ISteamUser</code> are called
 through the global accessor function
@@ -13,52 +11,33 @@ through the global accessor function
     void AdvertiseGame( CSteamID steamIDGameServer, uint32 unIPServer, uint16 usPortServer );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamIDGameServer</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>
-            This should be
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNonSteamGS"
-                class="bb_apilink"
-                >k_steamIDNonSteamGS</a
-            >
-            if you're setting the IP/Port, otherwise it should be
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil"
-                class="bb_apilink"
-                >k_steamIDNil</a
-            >
-            if you're clearing this.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>unIPServer</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>The IP of the game server in host order, i.e 127.0.0.1 == 0x7f000001.</td>
-    </tr>
-    <tr>
-        <td><strong>usPortServer</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
-                >uint16</a
-            >
-        </td>
-        <td>The connection port of the game server, in host order.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamIDGameServer</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>
+                This should be
+                <a href="/doc/api/steam_api#k_steamIDNonSteamGS">k_steamIDNonSteamGS</a> if you're
+                setting the IP/Port, otherwise it should be
+                <a href="/doc/api/steam_api#k_steamIDNil">k_steamIDNil</a> if you're clearing this.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>unIPServer</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>The IP of the game server in host order, i.e 127.0.0.1 == 0x7f000001.</td>
+        </tr>
+        <tr>
+            <td><strong>usPortServer</strong></td>
+            <td><a href="/doc/api/steam_api#uint16">uint16</a></td>
+            <td>The connection port of the game server, in host order.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Set the rich presence data for an unsecured game server that the user is playing on. This allows
@@ -72,94 +51,61 @@ automatically sets the appropriate rich presence.
     steamID );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pAuthTicket</strong></td>
-        <td>const void *</td>
-        <td>The auth ticket to validate.</td>
-    </tr>
-    <tr>
-        <td><strong>cbAuthTicket</strong></td>
-        <td>int</td>
-        <td>
-            The size in bytes of the auth ticket. This must be the
-            <code class="bb_code bb_code_inline nohighlight">pcbTicket</code> size provided by the
-            call that created this ticket.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>steamID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The entity's Steam ID that sent this ticket.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pAuthTicket</strong></td>
+            <td>const void *</td>
+            <td>The auth ticket to validate.</td>
+        </tr>
+        <tr>
+            <td><strong>cbAuthTicket</strong></td>
+            <td>int</td>
+            <td>
+                The size in bytes of the auth ticket. This must be the
+                <code class="bb_code bb_code_inline nohighlight">pcbTicket</code> size provided by
+                the call that created this ticket.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>steamID</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The entity's Steam ID that sent this ticket.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Authenticate the ticket from the entity Steam ID to be sure it is valid and isn't reused. Note that
 identity is not confirmed until the callback
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
-    class="bb_apilink"
-    >ValidateAuthTicketResponse_t</a
->
-is received and the return value in that callback is checked for success.<br />
+<a href="/doc/api/ISteamUser#ValidateAuthTicketResponse_t">ValidateAuthTicketResponse_t</a> is
+received and the return value in that callback is checked for success.<br />
 <br />
 The ticket is created on the entity with
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket" class="bb_apilink"
-    >ISteamUser::GetAuthSessionTicket</a
->
-or
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServer#GetAuthSessionTicket"
-    class="bb_apilink"
-    >ISteamGameServer::GetAuthSessionTicket</a
->
+<a href="/doc/api/ISteamUser#GetAuthSessionTicket">ISteamUser::GetAuthSessionTicket</a> or
+<a href="/doc/api/ISteamGameServer#GetAuthSessionTicket">ISteamGameServer::GetAuthSessionTicket</a>
 and then needs to be provided over the network for the other end to validate.<br />
 <br />
 This registers for additional
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
-    class="bb_apilink"
-    >ValidateAuthTicketResponse_t</a
->
+<a href="/doc/api/ISteamUser#ValidateAuthTicketResponse_t">ValidateAuthTicketResponse_t</a>
 callbacks if the entity goes offline or cancels the ticket. See
-<a href="https://partner.steamgames.com/doc/api/steam_api#EAuthSessionResponse" class="bb_apilink"
-    >EAuthSessionResponse</a
->
-for more information.<br />
+<a href="/doc/api/steam_api#EAuthSessionResponse">EAuthSessionResponse</a> for more information.<br />
 <br />
 When the multiplayer session terminates you must call
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#EndAuthSession" class="bb_apilink"
-    >ISteamUser::EndAuthSession</a
->.<br />
+<a href="/doc/api/ISteamUser#EndAuthSession">ISteamUser::EndAuthSession</a>.<br />
 <br />
 <strong>Returns:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/steam_api#EBeginAuthSessionResult"
-    class="bb_apilink"
-    >EBeginAuthSessionResult</a
-><br />
+<a href="/doc/api/steam_api#EBeginAuthSessionResult">EBeginAuthSessionResult</a><br />
 Triggers a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
-    class="bb_apilink"
-    >ValidateAuthTicketResponse_t</a
->
+<a href="/doc/api/ISteamUser#ValidateAuthTicketResponse_t">ValidateAuthTicketResponse_t</a>
 callback.<br />
 <br />
 <br />
 <br />
-<strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
-    >User Authentication and Ownership</a
->
+<strong>See Also:</strong> <a href="/doc/features/auth">User Authentication and Ownership</a>
 <h2 class="bb_subsection"><a name="BIsBehindNAT"></a>BIsBehindNAT</h2>
 <div class="bb_code cpp">bool BIsBehindNAT();</div>
 Checks if the current user looks like they are behind a NAT device.<br />
@@ -225,12 +171,8 @@ Checks if the current user's Steam client is connected to the Steam servers.<br 
 If it's not then no real-time services provided by the Steamworks API will be enabled. The Steam
 client will automatically be trying to recreate the connection as often as possible. When the
 connection is restored a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#SteamServersConnected_t"
-    class="bb_apilink"
-    >SteamServersConnected_t</a
->
-callback will be posted.<br />
+<a href="/doc/api/ISteamUser#SteamServersConnected_t">SteamServersConnected_t</a> callback will be
+posted.<br />
 <br />
 You usually don't need to check for this yourself. All of the API calls that rely on this will check
 internally. Forcefully disabling stuff when the player loses access is usually not a very good
@@ -250,270 +192,206 @@ on the local machine, or the Steam server is down/busy.
 Allows the game to specify the offline/online gameplay state for steam china duration control.<br />
 <br />
 <strong>Parameters:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#EDurationControlOnlineState"
-    class="bb_apilink"
-    >EDurationControlOnlineState</a
-><br />
+<a href="/doc/api/ISteamUser#EDurationControlOnlineState">EDurationControlOnlineState</a><br />
 <br />
 <strong>Returns:</strong> bool<br />
 <strong>true</strong> if the online state was set successfully; otherwise,
 <strong>false</strong>.<br />
 <br />
 <strong>Associated Functions:</strong><br />
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetDurationControl" class="bb_apilink"
-    >ISteamUser::GetDurationControl</a
->
+<a href="/doc/api/ISteamUser#GetDurationControl">ISteamUser::GetDurationControl</a>
 <h2 class="bb_subsection"><a name="CancelAuthTicket"></a>CancelAuthTicket</h2>
 <div class="bb_code cpp">void CancelAuthTicket( HAuthTicket hAuthTicket );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>hAuthTicket</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#HAuthTicket"
-                class="bb_apilink"
-                >HAuthTicket</a
-            >
-        </td>
-        <td>The active auth ticket to cancel.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>hAuthTicket</strong></td>
+            <td><a href="/doc/api/steam_api#HAuthTicket">HAuthTicket</a></td>
+            <td>The active auth ticket to cancel.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Cancels an auth ticket received from
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket" class="bb_apilink"
-    >ISteamUser::GetAuthSessionTicket</a
->. This should be called when no longer playing with the specified entity.<br />
+<a href="/doc/api/ISteamUser#GetAuthSessionTicket">ISteamUser::GetAuthSessionTicket</a>. This should
+be called when no longer playing with the specified entity.<br />
 <br />
-<strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
-    >User Authentication and Ownership</a
->
+<strong>See Also:</strong> <a href="/doc/features/auth">User Authentication and Ownership</a>
 <h2 class="bb_subsection"><a name="DecompressVoice"></a>DecompressVoice</h2>
 <div class="bb_code cpp">
     EVoiceResult DecompressVoice( const void *pCompressed, uint32 cbCompressed, void *pDestBuffer,
     uint32 cbDestBufferSize, uint32 *nBytesWritten, uint32 nDesiredSampleRate );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pCompressed</strong></td>
-        <td>const void *</td>
-        <td>
-            The compressed data received from
-            <a href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoice" class="bb_apilink"
-                >ISteamUser::GetVoice</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>cbCompressed</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The size of the buffer passed into
-            <code class="bb_code bb_code_inline nohighlight">pCompressed</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pDestBuffer</strong></td>
-        <td>void *</td>
-        <td>
-            The buffer where the raw audio data will be returned. This can then be passed to your
-            audio subsystems for playback.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>cbDestBufferSize</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The size of the buffer passed into
-            <code class="bb_code bb_code_inline nohighlight">pDestBuffer</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>nBytesWritten</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            Returns the number of bytes written to
-            <code class="bb_code bb_code_inline nohighlight">pDestBuffer</code>, or size of the
-            buffer required to decompress the given data if
-            <code class="bb_code bb_code_inline nohighlight">cbDestBufferSize</code> is not large
-            enough (and
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#k_EVoiceResultBufferTooSmall"
-                class="bb_apilink"
-                >k_EVoiceResultBufferTooSmall</a
-            >
-            is returned).
-        </td>
-    </tr>
-    <tr>
-        <td><strong>nDesiredSampleRate</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The sample rate that will be returned. This can be from <strong>11025</strong> to
-            <strong>48000</strong>, you should either use the rate that works best for your audio
-            playback system, which likely takes the users audio hardware into account, or you can
-            use
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoiceOptimalSampleRate"
-                class="bb_apilink"
-                >ISteamUser::GetVoiceOptimalSampleRate</a
-            >
-            to get the native sample rate of the Steam voice decoder.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pCompressed</strong></td>
+            <td>const void *</td>
+            <td>
+                The compressed data received from
+                <a href="/doc/api/ISteamUser#GetVoice">ISteamUser::GetVoice</a>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>cbCompressed</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The size of the buffer passed into
+                <code class="bb_code bb_code_inline nohighlight">pCompressed</code>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pDestBuffer</strong></td>
+            <td>void *</td>
+            <td>
+                The buffer where the raw audio data will be returned. This can then be passed to
+                your audio subsystems for playback.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>cbDestBufferSize</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The size of the buffer passed into
+                <code class="bb_code bb_code_inline nohighlight">pDestBuffer</code>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nBytesWritten</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                Returns the number of bytes written to
+                <code class="bb_code bb_code_inline nohighlight">pDestBuffer</code>, or size of the
+                buffer required to decompress the given data if
+                <code class="bb_code bb_code_inline nohighlight">cbDestBufferSize</code> is not
+                large enough (and
+                <a href="/doc/api/steam_api#k_EVoiceResultBufferTooSmall"
+                    >k_EVoiceResultBufferTooSmall</a
+                >
+                is returned).
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nDesiredSampleRate</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The sample rate that will be returned. This can be from <strong>11025</strong> to
+                <strong>48000</strong>, you should either use the rate that works best for your
+                audio playback system, which likely takes the users audio hardware into account, or
+                you can use
+                <a href="/doc/api/ISteamUser#GetVoiceOptimalSampleRate"
+                    >ISteamUser::GetVoiceOptimalSampleRate</a
+                >
+                to get the native sample rate of the Steam voice decoder.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Decodes the compressed voice data returned by
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoice" class="bb_apilink"
-    >ISteamUser::GetVoice</a
->.<br />
+<a href="/doc/api/ISteamUser#GetVoice">ISteamUser::GetVoice</a>.<br />
 <br />
 The output data is raw single-channel 16-bit PCM audio. The decoder supports any sample rate from
 11025 to 48000. See
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoiceOptimalSampleRate"
-    class="bb_apilink"
-    >ISteamUser::GetVoiceOptimalSampleRate</a
->
+<a href="/doc/api/ISteamUser#GetVoiceOptimalSampleRate">ISteamUser::GetVoiceOptimalSampleRate</a>
 for more information.<br />
 <br />
 It is recommended that you start with a 20KiB buffer and then reallocate as necessary.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/features/voice" class="bb_doclink">Steam Voice</a> for
-more information.<br />
+See <a href="/doc/features/voice">Steam Voice</a> for more information.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#EVoiceResult" class="bb_apilink"
-    >EVoiceResult</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#EVoiceResult">EVoiceResult</a><br />
 The internal sample rate of the Steam Voice decoder.
 <h2 class="bb_subsection"><a name="EndAuthSession"></a>EndAuthSession</h2>
 <div class="bb_code cpp">void EndAuthSession( CSteamID steamID );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The entity to end the active auth session with.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamID</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The entity to end the active auth session with.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Ends an auth session that was started with
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession" class="bb_apilink"
-    >ISteamUser::BeginAuthSession</a
->. This should be called when no longer playing with the specified entity.<br />
+<a href="/doc/api/ISteamUser#BeginAuthSession">ISteamUser::BeginAuthSession</a>. This should be
+called when no longer playing with the specified entity.<br />
 <br />
-<strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
-    >User Authentication and Ownership</a
->
+<strong>See Also:</strong> <a href="/doc/features/auth">User Authentication and Ownership</a>
 <h2 class="bb_subsection"><a name="GetAuthSessionTicket"></a>GetAuthSessionTicket</h2>
 <div class="bb_code cpp">
     HAuthTicket GetAuthSessionTicket( void *pTicket, int cbMaxTicket, uint32 *pcbTicket, const
     SteamNetworkingIdentity *pIdentityRemote );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pTicket</strong></td>
-        <td>void *</td>
-        <td>
-            The buffer where the new auth ticket will be copied into if the call was successful.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>cbMaxTicket</strong></td>
-        <td>int</td>
-        <td>
-            The size of the buffer allocated for
-            <code class="bb_code bb_code_inline nohighlight">pTicket</code>. Typically a buffer size
-            of <strong>1024</strong> will be sufficient. However, in certain cases (e.g., when an
-            application has a large amount of available DLC), a larger buffer size may be required.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pcbTicket</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>Returns the length of the actual ticket.</td>
-    </tr>
-    <tr>
-        <td><strong>pIdentityRemote </strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#SteamNetworkingIdentity%20"
-                class="bb_apilink"
-                >SteamNetworkingIdentity
-            </a>
-            *
-        </td>
-        <td>
-            The identity of the remote system that will authenticate the ticket. If it is
-            peer-to-peer then the user steam ID. If it is a game server, then the game server steam
-            ID may be used if it was obtained from a trusted 3rd party, otherwise use the IP
-            address. If it is a service, a string identifier of that service if one if provided.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pTicket</strong></td>
+            <td>void *</td>
+            <td>
+                The buffer where the new auth ticket will be copied into if the call was successful.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>cbMaxTicket</strong></td>
+            <td>int</td>
+            <td>
+                The size of the buffer allocated for
+                <code class="bb_code bb_code_inline nohighlight">pTicket</code>. Typically a buffer
+                size of <strong>1024</strong> will be sufficient. However, in certain cases (e.g.,
+                when an application has a large amount of available DLC), a larger buffer size may
+                be required.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pcbTicket</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>Returns the length of the actual ticket.</td>
+        </tr>
+        <tr>
+            <td><strong>pIdentityRemote </strong></td>
+            <td>
+                <a href="/doc/api/steam_api#SteamNetworkingIdentity ">SteamNetworkingIdentity </a> *
+            </td>
+            <td>
+                The identity of the remote system that will authenticate the ticket. If it is
+                peer-to-peer then the user steam ID. If it is a game server, then the game server
+                steam ID may be used if it was obtained from a trusted 3rd party, otherwise use the
+                IP address. If it is a service, a string identifier of that service if one if
+                provided.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <div class="bb_callout">
     <div>
         <strong>NOTE:</strong> This API can not be used to create a ticket for use by the
-        <a
-            href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
-            class="bb_apilink"
+        <a href="/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
             >ISteamUserAuth/AuthenticateUserTicket</a
         >
         Web API. Use the
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthTicketForWebApi"
-            class="bb_apilink"
-            >ISteamUser::GetAuthTicketForWebApi</a
-        >
+        <a href="/doc/api/ISteamUser#GetAuthTicketForWebApi">ISteamUser::GetAuthTicketForWebApi</a>
         call instead
     </div>
 </div>
@@ -521,80 +399,52 @@ Ends an auth session that was started with
 Retrieve an authentication ticket to be sent to the entity who wishes to authenticate you.<br />
 <br />
 After calling this you can send the ticket to the entity where they can then call
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession" class="bb_apilink"
-    >ISteamUser::BeginAuthSession</a
->/<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServer#BeginAuthSession"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUser#BeginAuthSession">ISteamUser::BeginAuthSession</a>/<a
+    href="/doc/api/ISteamGameServer#BeginAuthSession"
     >ISteamGameServer::BeginAuthSession</a
 >
 to verify this entity's integrity.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#HAuthTicket" class="bb_apilink"
-    >HAuthTicket</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#HAuthTicket">HAuthTicket</a><br />
 Triggers a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicketResponse_t"
-    class="bb_apilink"
-    >GetAuthSessionTicketResponse_t</a
->
+<a href="/doc/api/ISteamUser#GetAuthSessionTicketResponse_t">GetAuthSessionTicketResponse_t</a>
 callback.<br />
 A handle to the auth ticket. When you're done interacting with the entity you must call
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket" class="bb_apilink"
-    >ISteamUser::CancelAuthTicket</a
->
-on the handle.<br />
+<a href="/doc/api/ISteamUser#CancelAuthTicket">ISteamUser::CancelAuthTicket</a> on the handle.<br />
 <br />
-Returns
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_HAuthTicketInvalid" class="bb_apilink"
-    >k_HAuthTicketInvalid</a
->
-if the call fails.<br />
+Returns <a href="/doc/api/steam_api#k_HAuthTicketInvalid">k_HAuthTicketInvalid</a> if the call
+fails.<br />
 <br />
-<strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
-    >User Authentication and Ownership</a
->
+<strong>See Also:</strong> <a href="/doc/features/auth">User Authentication and Ownership</a>
 <h2 class="bb_subsection"><a name="GetAuthTicketForWebApi"></a>GetAuthTicketForWebApi</h2>
 <div class="bb_code cpp">HAuthTicket GetAuthTicketForWebApi( const char *pchIdentity );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>*pchIdentity </strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/const%20char%20" class="bb_apilink"
-                >const char
-            </a>
-            *
-        </td>
-        <td>
-            The identity of the remote service that will authenticate the ticket. The service should
-            provide a string identifier. Pass null if none was provided.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>*pchIdentity </strong></td>
+            <td><a href="/doc/api/const char ">const char </a> *</td>
+            <td>
+                The identity of the remote service that will authenticate the ticket. The service
+                should provide a string identifier. Pass null if none was provided.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Retrieve an authentication ticket to be sent to the entity that wishes to authenticate you using the
-<a
-    href="https://partner.steamgames.com/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
-    class="bb_apilink"
+<a href="/doc/webapi/ISteamUserAuth#AuthenticateUserTicket"
     >ISteamUserAuth/AuthenticateUserTicket</a
 >
 Web API.
 <div class="bb_callout">
     <div>
         The calling application must wait for the
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUser#GetTicketForWebApiResponse_t"
-            class="bb_apilink"
-            >GetTicketForWebApiResponse_t</a
-        >
+        <a href="/doc/api/ISteamUser#GetTicketForWebApiResponse_t">GetTicketForWebApiResponse_t</a>
         callback generated by the API call to access the ticket.
     </div>
 </div>
@@ -603,139 +453,81 @@ It is best practice to use an identity string for each service that will consume
 <div class="bb_callout">
     <div>
         <strong>NOTE:</strong> This API can not be used to create a ticket for use by the
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession"
-            class="bb_apilink"
-            >ISteamUser::BeginAuthSession</a
-        >/<a
-            href="https://partner.steamgames.com/doc/api/ISteamGameServer#BeginAuthSession"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamUser#BeginAuthSession">ISteamUser::BeginAuthSession</a>/<a
+            href="/doc/api/ISteamGameServer#BeginAuthSession"
             >ISteamGameServer::BeginAuthSession</a
         >
         . Use the
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket"
-            class="bb_apilink"
-            >ISteamUser::GetAuthSessionTicket</a
-        >
-        API instead
+        <a href="/doc/api/ISteamUser#GetAuthSessionTicket">ISteamUser::GetAuthSessionTicket</a> API
+        instead
     </div>
 </div>
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#HAuthTicket" class="bb_apilink"
-    >HAuthTicket</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#HAuthTicket">HAuthTicket</a><br />
 Triggers a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#GetTicketForWebApiResponse_t"
-    class="bb_apilink"
-    >GetTicketForWebApiResponse_t</a
->
+<a href="/doc/api/ISteamUser#GetTicketForWebApiResponse_t">GetTicketForWebApiResponse_t</a>
 callback.<br />
 A handle to the auth ticket. When you're done interacting with the entity you must call
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#CancelAuthTicket" class="bb_apilink"
-    >ISteamUser::CancelAuthTicket</a
->
-on the handle.<br />
+<a href="/doc/api/ISteamUser#CancelAuthTicket">ISteamUser::CancelAuthTicket</a> on the handle.<br />
 <br />
-Returns
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_HAuthTicketInvalid" class="bb_apilink"
-    >k_HAuthTicketInvalid</a
->
-if the call fails.<br />
+Returns <a href="/doc/api/steam_api#k_HAuthTicketInvalid">k_HAuthTicketInvalid</a> if the call
+fails.<br />
 <br />
-<strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
-    >User Authentication and Ownership</a
->
+<strong>See Also:</strong> <a href="/doc/features/auth">User Authentication and Ownership</a>
 <h2 class="bb_subsection"><a name="GetAvailableVoice"></a>GetAvailableVoice</h2>
 <div class="bb_code cpp">
     EVoiceResult GetAvailableVoice( uint32 *pcbCompressed, uint32 *pcbUncompressed_Deprecated = 0,
     uint32 nUncompressedVoiceDesiredSampleRate_Deprecated = 0 );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pcbCompressed</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>Returns the size of the available voice data in bytes.</td>
-    </tr>
-    <tr>
-        <td><strong>pcbUncompressed_Deprecated</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>Deprecated.</td>
-    </tr>
-    <tr>
-        <td><strong>nUncompressedVoiceDesiredSampleRate_Deprecated</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>Deprecated.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pcbCompressed</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>Returns the size of the available voice data in bytes.</td>
+        </tr>
+        <tr>
+            <td><strong>pcbUncompressed_Deprecated</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>Deprecated.</td>
+        </tr>
+        <tr>
+            <td><strong>nUncompressedVoiceDesiredSampleRate_Deprecated</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>Deprecated.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Checks to see if there is captured audio data available from
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoice" class="bb_apilink"
-    >ISteamUser::GetVoice</a
->, and gets the size of the data.<br />
+<a href="/doc/api/ISteamUser#GetVoice">ISteamUser::GetVoice</a>, and gets the size of the data.<br />
 <br />
 Most applications will only use compressed data and should ignore the other parameters, which exist
 primarily for backwards compatibility. See
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoice" class="bb_apilink"
-    >ISteamUser::GetVoice</a
->
-for further explanation of "uncompressed" data.<br />
+<a href="/doc/api/ISteamUser#GetVoice">ISteamUser::GetVoice</a> for further explanation of
+"uncompressed" data.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/features/voice" class="bb_doclink">Steam Voice</a> for
-more information.<br />
+See <a href="/doc/features/voice">Steam Voice</a> for more information.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#EVoiceResult" class="bb_apilink"
-    >EVoiceResult</a
->
+<strong>Returns:</strong> <a href="/doc/api/steam_api#EVoiceResult">EVoiceResult</a>
 <h2 class="bb_subsection"><a name="GetDurationControl"></a>GetDurationControl</h2>
 <div class="bb_code cpp">SteamAPICall_t GetDurationControl();</div>
 <br />
 Retrieves anti indulgence / duration control for current user / game combination.<br />
 <br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-to be used with a
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#DurationControl_t" class="bb_apilink"
-    >DurationControl_t</a
->
-call result.<br />
-Returns
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
-    >k_uAPICallInvalid</a
->
-if no connection to the Steam servers could be made.<br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
+with a <a href="/doc/api/ISteamUser#DurationControl_t">DurationControl_t</a> call result.<br />
+Returns <a href="/doc/api/steam_api#k_uAPICallInvalid">k_uAPICallInvalid</a> if no connection to the
+Steam servers could be made.<br />
 <br />
 <strong>Associated Functions:</strong><br />
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#BSetDurationControlOnlineState"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUser#BSetDurationControlOnlineState"
     >ISteamUser::BSetDurationControlOnlineState</a
 >
 <h2 class="bb_subsection"><a name="GetEncryptedAppTicket"></a>GetEncryptedAppTicket</h2>
@@ -743,75 +535,58 @@ if no connection to the Steam servers could be made.<br />
     bool GetEncryptedAppTicket( void *pTicket, int cbMaxTicket, uint32 *pcbTicket );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pTicket</strong></td>
-        <td>void *</td>
-        <td>The encrypted app ticket is copied into this buffer.</td>
-    </tr>
-    <tr>
-        <td><strong>cbMaxTicket</strong></td>
-        <td>int</td>
-        <td>
-            The total size of the
-            <code class="bb_code bb_code_inline nohighlight">pTicket</code> buffer in bytes.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pcbTicket</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            Returns the number of bytes copied into
-            <code class="bb_code bb_code_inline nohighlight">pTicket</code>.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pTicket</strong></td>
+            <td>void *</td>
+            <td>The encrypted app ticket is copied into this buffer.</td>
+        </tr>
+        <tr>
+            <td><strong>cbMaxTicket</strong></td>
+            <td>int</td>
+            <td>
+                The total size of the
+                <code class="bb_code bb_code_inline nohighlight">pTicket</code> buffer in bytes.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pcbTicket</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                Returns the number of bytes copied into
+                <code class="bb_code bb_code_inline nohighlight">pTicket</code>.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Retrieve an encrypted ticket.<br />
 <br />
 This should be called after requesting an encrypted app ticket with
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#RequestEncryptedAppTicket"
-    class="bb_apilink"
-    >ISteamUser::RequestEncryptedAppTicket</a
->
+<a href="/doc/api/ISteamUser#RequestEncryptedAppTicket">ISteamUser::RequestEncryptedAppTicket</a>
 and receiving the
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#EncryptedAppTicketResponse_t"
-    class="bb_apilink"
-    >EncryptedAppTicketResponse_t</a
->
-call result.<br />
+<a href="/doc/api/ISteamUser#EncryptedAppTicketResponse_t">EncryptedAppTicketResponse_t</a> call
+result.<br />
 <br />
 You should then pass this encrypted ticket to your secure servers to be decrypted using your secret
 key using
-<a
-    href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BDecryptTicket"
-    class="bb_apilink"
-    >SteamEncryptedAppTicket::BDecryptTicket</a
+<a href="/doc/api/SteamEncryptedAppTicket#BDecryptTicket">SteamEncryptedAppTicket::BDecryptTicket</a
 >.<br />
 <br />
 <strong>NOTE:</strong> If you call this without calling
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#RequestEncryptedAppTicket"
-    class="bb_apilink"
-    >ISteamUser::RequestEncryptedAppTicket</a
->, the call may succeed but you will likely get a stale ticket.<br />
+<a href="/doc/api/ISteamUser#RequestEncryptedAppTicket">ISteamUser::RequestEncryptedAppTicket</a>,
+the call may succeed but you will likely get a stale ticket.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 <strong>true</strong> if the call successfully returned an app ticket into
 <code class="bb_code bb_code_inline nohighlight">pTicket</code>.<br />
 <strong>false</strong> under the following conditions:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">pcbTicket</code> is <strong>NULL</strong
         ><br />
@@ -826,31 +601,30 @@ key using
     </li>
     <li>
         There was no ticket available. (Did you wait for
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUser#EncryptedAppTicketResponse_t"
-            class="bb_apilink"
-            >EncryptedAppTicketResponse_t</a
+        <a href="/doc/api/ISteamUser#EncryptedAppTicketResponse_t">EncryptedAppTicketResponse_t</a
         >?)
     </li>
 </ul>
 <h2 class="bb_subsection"><a name="GetGameBadgeLevel"></a>GetGameBadgeLevel</h2>
 <div class="bb_code cpp">int GetGameBadgeLevel( int nSeries, bool bFoil );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>nSeries</strong></td>
-        <td>int</td>
-        <td>If you only have one set of cards, the series will be <strong>1</strong>.</td>
-    </tr>
-    <tr>
-        <td><strong>bFoil</strong></td>
-        <td>bool</td>
-        <td>Check if they have received the foil badge.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>nSeries</strong></td>
+            <td>int</td>
+            <td>If you only have one set of cards, the series will be <strong>1</strong>.</td>
+        </tr>
+        <tr>
+            <td><strong>bFoil</strong></td>
+            <td>bool</td>
+            <td>Check if they have received the foil badge.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the level of the users Steam badge for your game.<br />
@@ -866,10 +640,7 @@ Gets Steam user handle that this interface represents.<br />
 <br />
 This is only used internally by the API, and by a few select interfaces that support multi-user.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamClient#HSteamUser" class="bb_apilink"
-    >HSteamUser</a
->
+<strong>Returns:</strong> <a href="/doc/api/ISteamClient#HSteamUser">HSteamUser</a>
 <h2 class="bb_subsection"><a name="GetPlayerSteamLevel"></a>GetPlayerSteamLevel</h2>
 <div class="bb_code cpp">int GetPlayerSteamLevel();</div>
 Gets the Steam level of the user, as shown on their Steam community profile.<br />
@@ -884,9 +655,7 @@ Gets the Steam ID of the account currently logged into the Steam client. This is
 A Steam ID is a unique identifier for a Steam accounts, Steam groups, Lobbies and Chat rooms, and
 used to differentiate users in all parts of the Steamworks API.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink">CSteamID</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#CSteamID">CSteamID</a><br />
 <br />
 <br />
 <strong>Example:</strong><br />
@@ -894,30 +663,27 @@ used to differentiate users in all parts of the Steamworks API.<br />
 <h2 class="bb_subsection"><a name="GetUserDataFolder"></a>GetUserDataFolder</h2>
 <div class="bb_code cpp">bool GetUserDataFolder( char *pchBuffer, int cubBuffer );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pchBuffer</strong></td>
-        <td>char *</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>cubBuffer</strong></td>
-        <td>int</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pchBuffer</strong></td>
+            <td>char *</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>cubBuffer</strong></td>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
-Deprecated - You should use the
-<a href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage" class="bb_apilink"
-    >ISteamRemoteStorage</a
->
-API from
-<a href="https://partner.steamgames.com/doc/features/cloud" class="bb_doclink">Steam Cloud</a>
-instead.<br />
+Deprecated - You should use the <a href="/doc/api/ISteamRemoteStorage">ISteamRemoteStorage</a> API
+from <a href="/doc/features/cloud">Steam Cloud</a> instead.<br />
 <br />
 <strong>Returns:</strong> bool
 <h2 class="bb_subsection"><a name="GetVoice"></a>GetVoice</h2>
@@ -929,97 +695,75 @@ instead.<br />
     nUncompressedVoiceDesiredSampleRate_Deprecated = 0 );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>bWantCompressed</strong></td>
-        <td>bool</td>
-        <td>This should always be <strong>true</strong>.</td>
-    </tr>
-    <tr>
-        <td><strong>pDestBuffer</strong></td>
-        <td>void *</td>
-        <td>The buffer where the audio data will be copied into.</td>
-    </tr>
-    <tr>
-        <td><strong>cbDestBufferSize</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The size of the buffer allocated for
-            <code class="bb_code bb_code_inline nohighlight">pDestBuffer</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>nBytesWritten</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            Returns the number of bytes written into
-            <code class="bb_code bb_code_inline nohighlight">pDestBuffer</code>. This should always
-            be the size returned by
-            <code class="bb_code bb_code_inline nohighlight">ISteamUser::GetAvailableVoice</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>bWantUncompressed_Deprecated</strong></td>
-        <td>bool</td>
-        <td>Deprecated.</td>
-    </tr>
-    <tr>
-        <td><strong>pUncompressedDestBuffer_Deprecated</strong></td>
-        <td>void *</td>
-        <td>Deprecated.</td>
-    </tr>
-    <tr>
-        <td><strong>cbUncompressedDestBufferSize_Deprecated</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>Deprecated.</td>
-    </tr>
-    <tr>
-        <td><strong>nUncompressBytesWritten_Deprecated</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>Deprecated.</td>
-    </tr>
-    <tr>
-        <td><strong>nUncompressedVoiceDesiredSampleRate_Deprecated</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>Deprecated.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>bWantCompressed</strong></td>
+            <td>bool</td>
+            <td>This should always be <strong>true</strong>.</td>
+        </tr>
+        <tr>
+            <td><strong>pDestBuffer</strong></td>
+            <td>void *</td>
+            <td>The buffer where the audio data will be copied into.</td>
+        </tr>
+        <tr>
+            <td><strong>cbDestBufferSize</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The size of the buffer allocated for
+                <code class="bb_code bb_code_inline nohighlight">pDestBuffer</code>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nBytesWritten</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                Returns the number of bytes written into
+                <code class="bb_code bb_code_inline nohighlight">pDestBuffer</code>. This should
+                always be the size returned by
+                <code class="bb_code bb_code_inline nohighlight">ISteamUser::GetAvailableVoice</code
+                >.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>bWantUncompressed_Deprecated</strong></td>
+            <td>bool</td>
+            <td>Deprecated.</td>
+        </tr>
+        <tr>
+            <td><strong>pUncompressedDestBuffer_Deprecated</strong></td>
+            <td>void *</td>
+            <td>Deprecated.</td>
+        </tr>
+        <tr>
+            <td><strong>cbUncompressedDestBufferSize_Deprecated</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>Deprecated.</td>
+        </tr>
+        <tr>
+            <td><strong>nUncompressBytesWritten_Deprecated</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>Deprecated.</td>
+        </tr>
+        <tr>
+            <td><strong>nUncompressedVoiceDesiredSampleRate_Deprecated</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>Deprecated.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Read captured audio data from the microphone buffer.<br />
 <br />
 The compressed data can be transmitted by your application and decoded back into raw audio data
-using
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#DecompressVoice" class="bb_apilink"
-    >ISteamUser::DecompressVoice</a
->
-on the other side. The compressed data provided is in an arbitrary format and is not meant to be
-played directly.<br />
+using <a href="/doc/api/ISteamUser#DecompressVoice">ISteamUser::DecompressVoice</a> on the other
+side. The compressed data provided is in an arbitrary format and is not meant to be played
+directly.<br />
 <br />
 This should be called once per frame, and at worst no more than four times a second to keep the
 microphone input delay as low as possible. Calling this any less may result in gaps in the returned
@@ -1028,10 +772,8 @@ stream.<br />
 It is recommended that you pass in an 8 kilobytes or larger destination buffer for compressed audio.
 Static buffers are recommended for performance reasons. However, if you would like to allocate
 precisely the right amount of space for a buffer before each call you may use
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAvailableVoice" class="bb_apilink"
-    >ISteamUser::GetAvailableVoice</a
->
-to find out how much data is available to be read.<br />
+<a href="/doc/api/ISteamUser#GetAvailableVoice">ISteamUser::GetAvailableVoice</a> to find out how
+much data is available to be read.<br />
 <br />
 <strong>NOTE:</strong> "Uncompressed" audio is a deprecated feature and should not be used by most
 applications. It is raw single-channel 16-bit PCM wave data which may have been run through
@@ -1039,98 +781,77 @@ preprocessing filters and/or had silence removed, so the uncompressed audio coul
 duration than you expect. There may be no data at all during long periods of silence. Also, fetching
 uncompressed audio will cause GetVoice to discard any leftover compressed audio, so you must fetch
 both types at once. Finally,
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAvailableVoice" class="bb_apilink"
-    >ISteamUser::GetAvailableVoice</a
->
-is not precisely accurate when the uncompressed size is requested. So if you really need to use
-uncompressed audio, you should call GetVoice frequently with two very large (20KiB+) output buffers
-instead of trying to allocate perfectly-sized buffers. But most applications should ignore all of
-these details and simply leave the "uncompressed" parameters as
-<strong>NULL</strong>/<strong>0</strong>.<br />
+<a href="/doc/api/ISteamUser#GetAvailableVoice">ISteamUser::GetAvailableVoice</a> is not precisely
+accurate when the uncompressed size is requested. So if you really need to use uncompressed audio,
+you should call GetVoice frequently with two very large (20KiB+) output buffers instead of trying to
+allocate perfectly-sized buffers. But most applications should ignore all of these details and
+simply leave the "uncompressed" parameters as <strong>NULL</strong>/<strong>0</strong>.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/features/voice" class="bb_doclink">Steam Voice</a> for
-more information.<br />
+See <a href="/doc/features/voice">Steam Voice</a> for more information.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#EVoiceResult" class="bb_apilink"
-    >EVoiceResult</a
->
+<strong>Returns:</strong> <a href="/doc/api/steam_api#EVoiceResult">EVoiceResult</a>
 <h2 class="bb_subsection"><a name="GetVoiceOptimalSampleRate"></a>GetVoiceOptimalSampleRate</h2>
 <div class="bb_code cpp">uint32 GetVoiceOptimalSampleRate();</div>
 Gets the native sample rate of the Steam voice decoder.<br />
 <br />
 Using this sample rate for
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#DecompressVoice" class="bb_apilink"
-    >ISteamUser::DecompressVoice</a
->
-will perform the least CPU processing. However, the final audio quality will depend on how well the
-audio device (and/or your application's audio output SDK) deals with lower sample rates. You may
-find that you get the best audio output quality when you ignore this function and use the native
-sample rate of your audio output device, which is usually 48000 or 44100.<br />
+<a href="/doc/api/ISteamUser#DecompressVoice">ISteamUser::DecompressVoice</a> will perform the least
+CPU processing. However, the final audio quality will depend on how well the audio device (and/or
+your application's audio output SDK) deals with lower sample rates. You may find that you get the
+best audio output quality when you ignore this function and use the native sample rate of your audio
+output device, which is usually 48000 or 44100.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/features/voice" class="bb_doclink">Steam Voice</a> for
-more information.<br />
+See <a href="/doc/features/voice">Steam Voice</a> for more information.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a>
+<strong>Returns:</strong> <a href="/doc/api/steam_api#uint32">uint32</a>
 <h2 class="bb_subsection"><a name="InitiateGameConnection"></a>InitiateGameConnection</h2>
 <div class="bb_code cpp">
     int InitiateGameConnection( void *pAuthBlob, int cbMaxAuthBlob, CSteamID steamIDGameServer,
     uint32 unIPServer, uint16 usPortServer, bool bSecure );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pAuthBlob</strong></td>
-        <td>void *</td>
-        <td>A pointer to empty memory that will be filled in with the authentication token.</td>
-    </tr>
-    <tr>
-        <td><strong>cbMaxAuthBlob</strong></td>
-        <td>int</td>
-        <td>The number of bytes of allocated memory in pBlob. Should be at least 2048 bytes.</td>
-    </tr>
-    <tr>
-        <td><strong>steamIDGameServer</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the game server, received from the game server by the client.</td>
-    </tr>
-    <tr>
-        <td><strong>unIPServer</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>The IP address of the game server in host order, i.e 127.0.0.1 == 0x7f000001.</td>
-    </tr>
-    <tr>
-        <td><strong>usPortServer</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
-                >uint16</a
-            >
-        </td>
-        <td>The connection port of the game server, in host order.</td>
-    </tr>
-    <tr>
-        <td><strong>bSecure</strong></td>
-        <td>bool</td>
-        <td>
-            Whether or not the client thinks that the game server is reporting itself as secure
-            (i.e. VAC is running.)
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pAuthBlob</strong></td>
+            <td>void *</td>
+            <td>A pointer to empty memory that will be filled in with the authentication token.</td>
+        </tr>
+        <tr>
+            <td><strong>cbMaxAuthBlob</strong></td>
+            <td>int</td>
+            <td>
+                The number of bytes of allocated memory in pBlob. Should be at least 2048 bytes.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>steamIDGameServer</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the game server, received from the game server by the client.</td>
+        </tr>
+        <tr>
+            <td><strong>unIPServer</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>The IP address of the game server in host order, i.e 127.0.0.1 == 0x7f000001.</td>
+        </tr>
+        <tr>
+            <td><strong>usPortServer</strong></td>
+            <td><a href="/doc/api/steam_api#uint16">uint16</a></td>
+            <td>The connection port of the game server, in host order.</td>
+        </tr>
+        <tr>
+            <td><strong>bSecure</strong></td>
+            <td>bool</td>
+            <td>
+                Whether or not the client thinks that the game server is reporting itself as secure
+                (i.e. VAC is running.)
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 This starts the state machine for authenticating the game client with the game server.<br />
@@ -1139,11 +860,7 @@ It is the client portion of a three-way handshake between the client, the game s
 servers.<br />
 <br />
 <strong>NOTE:</strong> When you're done with the connection you must call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#TerminateGameConnection"
-    class="bb_apilink"
-    >ISteamUser::TerminateGameConnection</a
->.<br />
+<a href="/doc/api/ISteamUser#TerminateGameConnection">ISteamUser::TerminateGameConnection</a>.<br />
 <br />
 <strong>NOTE:</strong> This is part of the old user authentication API and should not be mixed with
 the new API.<br />
@@ -1162,63 +879,47 @@ sent to the game server, for it to use to complete the authentication process.
     SteamAPICall_t RequestEncryptedAppTicket( void *pDataToInclude, int cbDataToInclude );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pDataToInclude</strong></td>
-        <td>void *</td>
-        <td>The data which will be encrypted into the ticket.</td>
-    </tr>
-    <tr>
-        <td><strong>cbDataToInclude</strong></td>
-        <td>int</td>
-        <td>
-            The total size in bytes of
-            <code class="bb_code bb_code_inline nohighlight">pDataToInclude</code>.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pDataToInclude</strong></td>
+            <td>void *</td>
+            <td>The data which will be encrypted into the ticket.</td>
+        </tr>
+        <tr>
+            <td><strong>cbDataToInclude</strong></td>
+            <td>int</td>
+            <td>
+                The total size in bytes of
+                <code class="bb_code bb_code_inline nohighlight">pDataToInclude</code>.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Requests an application ticket encrypted with the secret "encrypted app ticket key".<br />
 <br />
 The encryption key can be obtained from the
-<a href="https://partner.steamgames.com/apps/sdkauth/" target="_blank" rel="noreferrer"
-    >Encrypted App Ticket Key</a
->
-page on the App Admin for your app.<br />
+<a href="/apps/sdkauth/" target="_blank" rel="noreferrer">Encrypted App Ticket Key</a> page on the
+App Admin for your app.<br />
 <br />
 There can only be one
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#EncryptedAppTicketResponse_t"
-    class="bb_apilink"
-    >EncryptedAppTicketResponse_t</a
->
-pending, and this call is subject to a 60 second rate limit.<br />
+<a href="/doc/api/ISteamUser#EncryptedAppTicketResponse_t">EncryptedAppTicketResponse_t</a> pending,
+and this call is subject to a 60 second rate limit.<br />
 <br />
 After receiving the response you should call
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetEncryptedAppTicket" class="bb_apilink"
-    >ISteamUser::GetEncryptedAppTicket</a
->
-to get the ticket data, and then you need to send it to a secure server to be decrypted with the
-<a href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket" class="bb_apilink"
-    >SteamEncryptedAppTicket</a
->
-functions.<br />
+<a href="/doc/api/ISteamUser#GetEncryptedAppTicket">ISteamUser::GetEncryptedAppTicket</a> to get the
+ticket data, and then you need to send it to a secure server to be decrypted with the
+<a href="/doc/api/SteamEncryptedAppTicket">SteamEncryptedAppTicket</a> functions.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-to be used with a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#EncryptedAppTicketResponse_t"
-    class="bb_apilink"
-    >EncryptedAppTicketResponse_t</a
->
-call result.<br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
+with a
+<a href="/doc/api/ISteamUser#EncryptedAppTicketResponse_t">EncryptedAppTicketResponse_t</a> call
+result.<br />
 <br />
 <br />
 <strong>Example:</strong><br />
@@ -1248,16 +949,18 @@ call result.<br />
 <h2 class="bb_subsection"><a name="RequestStoreAuthURL"></a>RequestStoreAuthURL</h2>
 <div class="bb_code cpp">SteamAPICall_t RequestStoreAuthURL( const char *pchRedirectURL );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pchRedirectURL</strong></td>
-        <td>const char *</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pchRedirectURL</strong></td>
+            <td>const char *</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Requests a URL which authenticates an in-game browser for store check-out, and then redirects to the
@@ -1273,96 +976,59 @@ the result URL using a hidden browser window.<br />
 <strong>NOTE:</strong> The resulting authorization cookie has an expiration time of one day, so it
 would be a good idea to request and visit a new auth URL every 12 hours.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-to be used with a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#StoreAuthURLResponse_t"
-    class="bb_apilink"
-    >StoreAuthURLResponse_t</a
->
-call result.<br />
-Returns
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
-    >k_uAPICallInvalid</a
->
-if no connection to the Steam servers could be made.
+<strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
+with a <a href="/doc/api/ISteamUser#StoreAuthURLResponse_t">StoreAuthURLResponse_t</a> call
+result.<br />
+Returns <a href="/doc/api/steam_api#k_uAPICallInvalid">k_uAPICallInvalid</a> if no connection to the
+Steam servers could be made.
 <h2 class="bb_subsection"><a name="StartVoiceRecording"></a>StartVoiceRecording</h2>
 <div class="bb_code cpp">void StartVoiceRecording();</div>
 Starts voice recording.<br />
 <br />
 Once started, use
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAvailableVoice" class="bb_apilink"
-    >ISteamUser::GetAvailableVoice</a
->
-and
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoice" class="bb_apilink"
-    >ISteamUser::GetVoice</a
->
-to get the data, and then call
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#StopVoiceRecording" class="bb_apilink"
-    >ISteamUser::StopVoiceRecording</a
->
-when the user has released their push-to-talk hotkey or the game session has completed.<br />
+<a href="/doc/api/ISteamUser#GetAvailableVoice">ISteamUser::GetAvailableVoice</a> and
+<a href="/doc/api/ISteamUser#GetVoice">ISteamUser::GetVoice</a> to get the data, and then call
+<a href="/doc/api/ISteamUser#StopVoiceRecording">ISteamUser::StopVoiceRecording</a> when the user
+has released their push-to-talk hotkey or the game session has completed.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/features/voice" class="bb_doclink">Steam Voice</a> for
-more information.
+See <a href="/doc/features/voice">Steam Voice</a> for more information.
 <h2 class="bb_subsection"><a name="StopVoiceRecording"></a>StopVoiceRecording</h2>
 <div class="bb_code cpp">void StopVoiceRecording();</div>
 Stops voice recording.<br />
 <br />
 Because people often release push-to-talk keys early, the system will keep recording for a little
 bit after this function is called. As such,
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetVoice" class="bb_apilink"
-    >ISteamUser::GetVoice</a
->
-should continue to be called until it returns
-<a
-    href="https://partner.steamgames.com/doc/api/steam_api#k_EVoiceResultNotRecording"
-    class="bb_apilink"
-    >k_EVoiceResultNotRecording</a
->, only then will voice recording be stopped.
+<a href="/doc/api/ISteamUser#GetVoice">ISteamUser::GetVoice</a> should continue to be called until
+it returns <a href="/doc/api/steam_api#k_EVoiceResultNotRecording">k_EVoiceResultNotRecording</a>,
+only then will voice recording be stopped.
 <h2 class="bb_subsection"><a name="TerminateGameConnection"></a>TerminateGameConnection</h2>
 <div class="bb_code cpp">
     void TerminateGameConnection( uint32 unIPServer, uint16 usPortServer );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>unIPServer</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>usPortServer</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
-                >uint16</a
-            >
-        </td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>unIPServer</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>usPortServer</strong></td>
+            <td><a href="/doc/api/steam_api#uint16">uint16</a></td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Notify the game server that we are disconnecting.<br />
 <br />
 This needs to occur when the game client leaves the specified game server, needs to match with the
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#InitiateGameConnection"
-    class="bb_apilink"
-    >ISteamUser::InitiateGameConnection</a
->
+<a href="/doc/api/ISteamUser#InitiateGameConnection">ISteamUser::InitiateGameConnection</a>
 call.<br />
 <br />
 <strong>NOTE:</strong> This is part of the old user authentication API and should not be mixed with
@@ -1372,96 +1038,71 @@ the new API.
     void TrackAppUsageEvent( CGameID gameID, int eAppUsageEvent, const char *pchExtraInfo = "" );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>gameID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CGameID" class="bb_apilink"
-                >CGameID</a
-            >
-        </td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>eAppUsageEvent</strong></td>
-        <td>int</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>pchExtraInfo</strong></td>
-        <td>const char *</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>gameID</strong></td>
+            <td><a href="/doc/api/steam_api#CGameID">CGameID</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>eAppUsageEvent</strong></td>
+            <td>int</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>pchExtraInfo</strong></td>
+            <td>const char *</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Deprecated - Only used by only a few games to track usage events before
-<a href="https://partner.steamgames.com/doc/features/achievements" class="bb_doclink"
-    >Stats and Achievements</a
->
-was introduced.
+<a href="/doc/features/achievements">Stats and Achievements</a> was introduced.
 <h2 class="bb_subsection"><a name="UserHasLicenseForApp"></a>UserHasLicenseForApp</h2>
 <div class="bb_code cpp">
     EUserHasLicenseForAppResult UserHasLicenseForApp( CSteamID steamID, AppId_t appID );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user that sent the auth ticket.</td>
-    </tr>
-    <tr>
-        <td><strong>appID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#AppId_t" class="bb_apilink"
-                >AppId_t</a
-            >
-        </td>
-        <td>The DLC App ID to check if the user owns it.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamID</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user that sent the auth ticket.</td>
+        </tr>
+        <tr>
+            <td><strong>appID</strong></td>
+            <td><a href="/doc/api/steam_api#AppId_t">AppId_t</a></td>
+            <td>The DLC App ID to check if the user owns it.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Checks if the user owns a specific piece of
-<a href="https://partner.steamgames.com/doc/store/application/dlc" class="bb_doclink"
-    >Downloadable Content (DLC)</a
->.<br />
+<a href="/doc/store/application/dlc">Downloadable Content (DLC)</a>.<br />
 <br />
 This can only be called after sending the users auth ticket to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamGameServer#BeginAuthSession"
-    class="bb_apilink"
-    >ISteamGameServer::BeginAuthSession</a
-><br />
+<a href="/doc/api/ISteamGameServer#BeginAuthSession">ISteamGameServer::BeginAuthSession</a><br />
 <br />
 <strong>Returns:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/steam_api#EUserHasLicenseForAppResult"
-    class="bb_apilink"
-    >EUserHasLicenseForAppResult</a
-><br />
+<a href="/doc/api/steam_api#EUserHasLicenseForAppResult">EUserHasLicenseForAppResult</a><br />
 <br />
 <br />
-<strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
-    >User Authentication and Ownership</a
->
+<strong>See Also:</strong> <a href="/doc/features/auth">User Authentication and Ownership</a>
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
-    >SteamAPI_RunCallbacks</a
->. Many of these will be fired directly in response to the member functions of
+<a href="/doc/api/steam_api#SteamAPI_RunCallbacks">SteamAPI_RunCallbacks</a>. Many of these will be
+fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamUser</code>.
 <h2 class="bb_subsection"><a name="ClientGameServerDeny_t"></a>ClientGameServerDeny_t</h2>
 Sent by the Steam server to the client telling it to disconnect from the specified game server,
@@ -1470,66 +1111,47 @@ The game client should immediately disconnect upon receiving this message.<br />
 This can usually occur if the user doesn't have rights to play on the game server.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_uAppID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The App ID this call is for. Verify that it's the same as the current App ID with
-            <a href="https://partner.steamgames.com/doc/api/ISteamUtils#GetAppID" class="bb_apilink"
-                >ISteamUtils::GetAppID</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>m_unGameServerIP</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The IP of the game server that is telling us to disconnect, in host order, i.e 127.0.0.1
-            == 0x7f000001.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>m_usGameServerPort</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
-                >uint16</a
-            >
-        </td>
-        <td>The port of the game server that is telling us to disconnect, in host order.</td>
-    </tr>
-    <tr>
-        <td><strong>m_bSecure</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
-                >uint16</a
-            >
-        </td>
-        <td>
-            Is the game server VAC secure (<strong>true</strong>) or not (<strong>false</strong>)?
-        </td>
-    </tr>
-    <tr>
-        <td><strong>m_uReason</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_uAppID</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The App ID this call is for. Verify that it's the same as the current App ID with
+                <a href="/doc/api/ISteamUtils#GetAppID">ISteamUtils::GetAppID</a>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_unGameServerIP</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The IP of the game server that is telling us to disconnect, in host order, i.e
+                127.0.0.1 == 0x7f000001.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_usGameServerPort</strong></td>
+            <td><a href="/doc/api/steam_api#uint16">uint16</a></td>
+            <td>The port of the game server that is telling us to disconnect, in host order.</td>
+        </tr>
+        <tr>
+            <td><strong>m_bSecure</strong></td>
+            <td><a href="/doc/api/steam_api#uint16">uint16</a></td>
+            <td>
+                Is the game server VAC secure (<strong>true</strong>) or not
+                (<strong>false</strong>)?
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_uReason</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection"><a name="DurationControl_t"></a>DurationControl_t</h2>
 <br />
@@ -1541,134 +1163,103 @@ This callback is fired asynchronously in response to timers triggering. It is al
 to calls to GetDurationControl().<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_eResult</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>result of call (always k_EResultOK for asynchronous timer-based notifications)</td>
-    </tr>
-    <tr>
-        <td><strong>m_appid</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#AppId_t" class="bb_apilink"
-                >AppId_t</a
-            >
-        </td>
-        <td>appid generating playtime</td>
-    </tr>
-    <tr>
-        <td><strong>m_bApplicable</strong></td>
-        <td>bool</td>
-        <td>is duration control applicable to user + game combination</td>
-    </tr>
-    <tr>
-        <td><strong>m_csecsLast5h</strong></td>
-        <td>int32</td>
-        <td>playtime in trailing 5 hour window plus current session, in seconds</td>
-    </tr>
-    <tr>
-        <td><strong>m_progress</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamUser#EDurationControlProgress"
-                class="bb_apilink"
-                >EDurationControlProgress</a
-            >
-        </td>
-        <td>Description of whether the game should exit</td>
-    </tr>
-    <tr>
-        <td><strong>m_notification</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamUser#EDurationControlNotification"
-                class="bb_apilink"
-                >EDurationControlNotification</a
-            >
-        </td>
-        <td>
-            notification to show, if any (always k_EDurationControlNotification_None for API calls)
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_eResult</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>result of call (always k_EResultOK for asynchronous timer-based notifications)</td>
+        </tr>
+        <tr>
+            <td><strong>m_appid</strong></td>
+            <td><a href="/doc/api/steam_api#AppId_t">AppId_t</a></td>
+            <td>appid generating playtime</td>
+        </tr>
+        <tr>
+            <td><strong>m_bApplicable</strong></td>
+            <td>bool</td>
+            <td>is duration control applicable to user + game combination</td>
+        </tr>
+        <tr>
+            <td><strong>m_csecsLast5h</strong></td>
+            <td>int32</td>
+            <td>playtime in trailing 5 hour window plus current session, in seconds</td>
+        </tr>
+        <tr>
+            <td><strong>m_progress</strong></td>
+            <td>
+                <a href="/doc/api/ISteamUser#EDurationControlProgress">EDurationControlProgress</a>
+            </td>
+            <td>Description of whether the game should exit</td>
+        </tr>
+        <tr>
+            <td><strong>m_notification</strong></td>
+            <td>
+                <a href="/doc/api/ISteamUser#EDurationControlNotification"
+                    >EDurationControlNotification</a
+                >
+            </td>
+            <td>
+                notification to show, if any (always k_EDurationControlNotification_None for API
+                calls)
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetDurationControl" class="bb_apilink"
-    >ISteamUser::GetDurationControl</a
->
+<a href="/doc/api/ISteamUser#GetDurationControl">ISteamUser::GetDurationControl</a>
 <h2 class="bb_subsection">
     <a name="EncryptedAppTicketResponse_t"></a>EncryptedAppTicketResponse_t
 </h2>
 Called when an encrypted application ticket has been received.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_eResult</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>
-            Was the call successful?<br />
-            Possible results:<br />
-            <ul class="bb_ul">
-                <li>
-                    <a
-                        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
-                        class="bb_apilink"
-                        >k_EResultOK</a
-                    >
-                    - Success!<br />
-                </li>
-                <li>
-                    <a
-                        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultNoConnection"
-                        class="bb_apilink"
-                        >k_EResultNoConnection</a
-                    >
-                    - A connection to Steam could not be established.<br />
-                </li>
-                <li>
-                    <a
-                        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultDuplicateRequest"
-                        class="bb_apilink"
-                        >k_EResultDuplicateRequest</a
-                    >
-                    - There is already a pending request.<br />
-                </li>
-                <li>
-                    <a
-                        href="https://partner.steamgames.com/doc/api/steam_api#k_EResultLimitExceeded"
-                        class="bb_apilink"
-                        >k_EResultLimitExceeded</a
-                    >
-                    - This call is subject to a 60 second rate limit, and you have exceeded that.
-                </li>
-            </ul>
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_eResult</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>
+                Was the call successful?<br />
+                Possible results:<br />
+                <ul>
+                    <li>
+                        <a href="/doc/api/steam_api#k_EResultOK">k_EResultOK</a> - Success!<br />
+                    </li>
+                    <li>
+                        <a href="/doc/api/steam_api#k_EResultNoConnection">k_EResultNoConnection</a>
+                        - A connection to Steam could not be established.<br />
+                    </li>
+                    <li>
+                        <a href="/doc/api/steam_api#k_EResultDuplicateRequest"
+                            >k_EResultDuplicateRequest</a
+                        >
+                        - There is already a pending request.<br />
+                    </li>
+                    <li>
+                        <a href="/doc/api/steam_api#k_EResultLimitExceeded"
+                            >k_EResultLimitExceeded</a
+                        >
+                        - This call is subject to a 60 second rate limit, and you have exceeded
+                        that.
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#RequestEncryptedAppTicket"
-    class="bb_apilink"
-    >ISteamUser::RequestEncryptedAppTicket</a
->
+<a href="/doc/api/ISteamUser#RequestEncryptedAppTicket">ISteamUser::RequestEncryptedAppTicket</a>
 <h2 class="bb_subsection"><a name="GameWebCallback_t"></a>GameWebCallback_t</h2>
 Sent to your game in response to a steam://gamewebcallback/ command from a user clicking a link in
 the Steam overlay browser.<br />
@@ -1676,16 +1267,18 @@ You can use this to add support for external site signups where you want to pop 
 browser after some web page signup sequence, and optionally get back some detail about that.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_szURL</strong></td>
-        <td>char［256］</td>
-        <td>The complete url that the user clicked on.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_szURL</strong></td>
+            <td>char［256］</td>
+            <td>The complete url that the user clicked on.</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection">
     <a name="GetAuthSessionTicketResponse_t"></a>GetAuthSessionTicketResponse_t
@@ -1693,90 +1286,64 @@ browser after some web page signup sequence, and optionally get back some detail
 Result when creating an auth session ticket.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_hAuthTicket</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#HAuthTicket"
-                class="bb_apilink"
-                >HAuthTicket</a
-            >
-        </td>
-        <td>The handle to the ticket that was created.</td>
-    </tr>
-    <tr>
-        <td><strong>m_eResult</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>The result of the operation.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_hAuthTicket</strong></td>
+            <td><a href="/doc/api/steam_api#HAuthTicket">HAuthTicket</a></td>
+            <td>The handle to the ticket that was created.</td>
+        </tr>
+        <tr>
+            <td><strong>m_eResult</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>The result of the operation.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket" class="bb_apilink"
-    >ISteamUser::GetAuthSessionTicket</a
->
+<a href="/doc/api/ISteamUser#GetAuthSessionTicket">ISteamUser::GetAuthSessionTicket</a>
 <h2 class="bb_subsection">
     <a name="GetTicketForWebApiResponse_t"></a>GetTicketForWebApiResponse_t
 </h2>
 Result when creating an webapi ticket from GetAuthTicketForWebApi.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_hAuthTicket</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#HAuthTicket"
-                class="bb_apilink"
-                >HAuthTicket</a
-            >
-        </td>
-        <td>The handle to the ticket that was created.</td>
-    </tr>
-    <tr>
-        <td><strong>m_eResult</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>The result of the operation.</td>
-    </tr>
-    <tr>
-        <td><strong>m_cubTicket</strong></td>
-        <td><a href="https://partner.steamgames.com/doc/api/int%20" class="bb_apilink">int </a></td>
-        <td>The length of the ticket that was created.</td>
-    </tr>
-    <tr>
-        <td><strong>m_rgubTicket</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/uint8" class="bb_apilink"
-                >uint8[2560]</a
-            >
-        </td>
-        <td>The ticket that was created.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_hAuthTicket</strong></td>
+            <td><a href="/doc/api/steam_api#HAuthTicket">HAuthTicket</a></td>
+            <td>The handle to the ticket that was created.</td>
+        </tr>
+        <tr>
+            <td><strong>m_eResult</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>The result of the operation.</td>
+        </tr>
+        <tr>
+            <td><strong>m_cubTicket</strong></td>
+            <td><a href="/doc/api/int ">int </a></td>
+            <td>The length of the ticket that was created.</td>
+        </tr>
+        <tr>
+            <td><strong>m_rgubTicket</strong></td>
+            <td><a href="/doc/api/uint8">uint8[2560]</a></td>
+            <td>The ticket that was created.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#GetAuthTicketForWebApi"
-    class="bb_apilink"
-    >ISteamUser::GetAuthTicketForWebApi</a
->
+<a href="/doc/api/ISteamUser#GetAuthTicketForWebApi">ISteamUser::GetAuthTicketForWebApi</a>
 <h2 class="bb_subsection"><a name="IPCFailure_t"></a>IPCFailure_t</h2>
 Called when the callback system for this client is in an error state (and has flushed pending
 callbacks)<br />
@@ -1785,27 +1352,18 @@ reconnect.<br />
 This usually occurs in the rare event the Steam client has some kind of fatal error.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_eFailureType</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint8" class="bb_apilink"
-                >uint8</a
-            >
-        </td>
-        <td>
-            This is a
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamUser#EFailureType"
-                class="bb_apilink"
-                >EFailureType</a
-            >.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_eFailureType</strong></td>
+            <td><a href="/doc/api/steam_api#uint8">uint8</a></td>
+            <td>This is a <a href="/doc/api/ISteamUser#EFailureType">EFailureType</a>.</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection"><a name="LicensesUpdated_t"></a>LicensesUpdated_t</h2>
 Called whenever the users licenses (owned packages) changes.<br />
@@ -1817,40 +1375,31 @@ This callback has no fields.
 Called when a user has responded to a microtransaction authorization request.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_unAppID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>App ID for this microtransaction</td>
-    </tr>
-    <tr>
-        <td><strong>m_ulOrderID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint64" class="bb_apilink"
-                >uint64</a
-            >
-        </td>
-        <td>Order ID provided for the microtransaction.</td>
-    </tr>
-    <tr>
-        <td><strong>m_bAuthorized</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint8" class="bb_apilink"
-                >uint8</a
-            >
-        </td>
-        <td>
-            Did the user authorize the transaction (<strong>1</strong>) or not (<strong>0</strong>)?
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_unAppID</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>App ID for this microtransaction</td>
+        </tr>
+        <tr>
+            <td><strong>m_ulOrderID</strong></td>
+            <td><a href="/doc/api/steam_api#uint64">uint64</a></td>
+            <td>Order ID provided for the microtransaction.</td>
+        </tr>
+        <tr>
+            <td><strong>m_bAuthorized</strong></td>
+            <td><a href="/doc/api/steam_api#uint8">uint8</a></td>
+            <td>
+                Did the user authorize the transaction (<strong>1</strong>) or not
+                (<strong>0</strong>)?
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection"><a name="SteamServerConnectFailure_t"></a>SteamServerConnectFailure_t</h2>
 Called when a connection attempt has failed.<br />
@@ -1858,25 +1407,23 @@ This will occur periodically if the Steam client is not connected, and has faile
 establish a connection.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_eResult</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>The reason why the connection failed.</td>
-    </tr>
-    <tr>
-        <td><strong>m_bStillRetrying</strong></td>
-        <td>bool</td>
-        <td>Is the Steam client still trying to connect to the server?</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_eResult</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>The reason why the connection failed.</td>
+        </tr>
+        <tr>
+            <td><strong>m_bStillRetrying</strong></td>
+            <td>bool</td>
+            <td>Is the Steam client still trying to connect to the server?</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection"><a name="SteamServersConnected_t"></a>SteamServersConnected_t</h2>
 Called when a connections to the Steam back-end has been established.<br />
@@ -1888,207 +1435,172 @@ This callback has no fields.
 <h2 class="bb_subsection"><a name="SteamServersDisconnected_t"></a>SteamServersDisconnected_t</h2>
 Called if the client has lost connection to the Steam servers.<br />
 Real-time services will be disabled until a matching
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#SteamServersConnected_t"
-    class="bb_apilink"
-    >SteamServersConnected_t</a
->
-has been posted.<br />
+<a href="/doc/api/ISteamUser#SteamServersConnected_t">SteamServersConnected_t</a> has been
+posted.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_eResult</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>The reason we were disconnected from Steam.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_eResult</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>The reason we were disconnected from Steam.</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection"><a name="StoreAuthURLResponse_t"></a>StoreAuthURLResponse_t</h2>
 Response when we have recieved the authentication URL after a call to
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#RequestStoreAuthURL" class="bb_apilink"
-    >ISteamUser::RequestStoreAuthURL</a
->.<br />
+<a href="/doc/api/ISteamUser#RequestStoreAuthURL">ISteamUser::RequestStoreAuthURL</a>.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_szURL</strong></td>
-        <td>char［512］</td>
-        <td>The authentication URL.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_szURL</strong></td>
+            <td>char［512］</td>
+            <td>The authentication URL.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#RequestStoreAuthURL" class="bb_apilink"
-    >ISteamUser::RequestStoreAuthURL</a
->
+<a href="/doc/api/ISteamUser#RequestStoreAuthURL">ISteamUser::RequestStoreAuthURL</a>
 <h2 class="bb_subsection">
     <a name="ValidateAuthTicketResponse_t"></a>ValidateAuthTicketResponse_t
 </h2>
 Called when an auth ticket has been validated.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_SteamID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the entity that provided the auth ticket.</td>
-    </tr>
-    <tr>
-        <td><strong>m_eAuthSessionResponse</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#EAuthSessionResponse"
-                class="bb_apilink"
-                >EAuthSessionResponse</a
-            >
-        </td>
-        <td>The result of the validation.</td>
-    </tr>
-    <tr>
-        <td><strong>m_OwnerSteamID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>
-            The Steam ID that owns the game, this will be different from
-            <code class="bb_code bb_code_inline nohighlight">m_SteamID</code> if the game is being
-            accessed via Steam Family Sharing.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_SteamID</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the entity that provided the auth ticket.</td>
+        </tr>
+        <tr>
+            <td><strong>m_eAuthSessionResponse</strong></td>
+            <td><a href="/doc/api/steam_api#EAuthSessionResponse">EAuthSessionResponse</a></td>
+            <td>The result of the validation.</td>
+        </tr>
+        <tr>
+            <td><strong>m_OwnerSteamID</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>
+                The Steam ID that owns the game, this will be different from
+                <code class="bb_code bb_code_inline nohighlight">m_SteamID</code> if the game is
+                being accessed via Steam Family Sharing.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession" class="bb_apilink"
-    >ISteamUser::BeginAuthSession</a
->
+<a href="/doc/api/ISteamUser#BeginAuthSession">ISteamUser::BeginAuthSession</a>
 <h2 class="bb_section"><a name="structs"></a>Structs</h2>
 These are structs which functions in ISteamUser may return and/or interact with.
 <h2 class="bb_subsection"><a name="CallbackMsg_t"></a>CallbackMsg_t</h2>
 The structure that contains client callback data. This is only used internally inside
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
-    >SteamAPI_RunCallbacks</a
->.<br />
+<a href="/doc/api/steam_api#SteamAPI_RunCallbacks">SteamAPI_RunCallbacks</a>.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_hSteamUser</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamClient#HSteamUser"
-                class="bb_apilink"
-                >HSteamUser</a
-            >
-        </td>
-        <td>The user this callback is sent to.</td>
-    </tr>
-    <tr>
-        <td><strong>m_iCallback</strong></td>
-        <td>int</td>
-        <td>The unique ID of the callback.</td>
-    </tr>
-    <tr>
-        <td><strong>m_pubParam</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint8" class="bb_apilink"
-                >uint8</a
-            >
-            *
-        </td>
-        <td>The pointer to the callback data.</td>
-    </tr>
-    <tr>
-        <td><strong>m_cubParam</strong></td>
-        <td>int</td>
-        <td>The size of [param]m_pubParam[/param].</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_hSteamUser</strong></td>
+            <td><a href="/doc/api/ISteamClient#HSteamUser">HSteamUser</a></td>
+            <td>The user this callback is sent to.</td>
+        </tr>
+        <tr>
+            <td><strong>m_iCallback</strong></td>
+            <td>int</td>
+            <td>The unique ID of the callback.</td>
+        </tr>
+        <tr>
+            <td><strong>m_pubParam</strong></td>
+            <td><a href="/doc/api/steam_api#uint8">uint8</a> *</td>
+            <td>The pointer to the callback data.</td>
+        </tr>
+        <tr>
+            <td><strong>m_cubParam</strong></td>
+            <td>int</td>
+            <td>The size of [param]m_pubParam[/param].</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamUser.
 <h2 class="bb_subsection"><a name="EFailureType"></a>EFailureType</h2>
 Specifies what type of failure happened in
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#IPCFailure_t" class="bb_apilink"
-    >IPCFailure_t</a
->.<br />
+<a href="/doc/api/ISteamUser#IPCFailure_t">IPCFailure_t</a>.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="k_EFailureFlushedCallbackQueue">
-        <td><strong>k_EFailureFlushedCallbackQueue</strong></td>
-        <td>0</td>
-        <td></td>
-    </tr>
-    <tr id="k_EFailurePipeFail">
-        <td><strong>k_EFailurePipeFail</strong></td>
-        <td>1</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_EFailureFlushedCallbackQueue">
+            <td><strong>k_EFailureFlushedCallbackQueue</strong></td>
+            <td>0</td>
+            <td></td>
+        </tr>
+        <tr id="k_EFailurePipeFail">
+            <td><strong>k_EFailurePipeFail</strong></td>
+            <td>1</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection"><a name="EDurationControlProgress"></a>EDurationControlProgress</h2>
 Describes playtime restrictions that apply for games with duration control / anti-indulgence enabled
 for minor Steam China users.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="k_EDurationControlProgress_Full">
-        <td><strong>k_EDurationControlProgress_Full</strong></td>
-        <td>0</td>
-        <td>Normal play</td>
-    </tr>
-    <tr id="k_EDurationControlProgress_Half">
-        <td><strong>k_EDurationControlProgress_Half</strong></td>
-        <td>1</td>
-        <td>(This value is deprecated)</td>
-    </tr>
-    <tr id="k_EDurationControlProgress_None">
-        <td><strong>k_EDurationControlProgress_None</strong></td>
-        <td>2</td>
-        <td>User's playtime has run out. Steam will terminate the game soon</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_EDurationControlProgress_Full">
+            <td><strong>k_EDurationControlProgress_Full</strong></td>
+            <td>0</td>
+            <td>Normal play</td>
+        </tr>
+        <tr id="k_EDurationControlProgress_Half">
+            <td><strong>k_EDurationControlProgress_Half</strong></td>
+            <td>1</td>
+            <td>(This value is deprecated)</td>
+        </tr>
+        <tr id="k_EDurationControlProgress_None">
+            <td><strong>k_EDurationControlProgress_None</strong></td>
+            <td>2</td>
+            <td>User's playtime has run out. Steam will terminate the game soon</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong><br />
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetDurationControl" class="bb_apilink"
-    >ISteamUser::GetDurationControl</a
-><br />
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#BSetDurationControlOnlineState"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUser#GetDurationControl">ISteamUser::GetDurationControl</a><br />
+<a href="/doc/api/ISteamUser#BSetDurationControlOnlineState"
     >ISteamUser::BSetDurationControlOnlineState</a
 >
 <h2 class="bb_subsection">
@@ -2098,60 +1610,59 @@ Describes which notification timer has expired, for steam china duration control
 these notifications are deprecated and are no longer sent.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="k_EDurationControlNotification_None">
-        <td><strong>k_EDurationControlNotification_None</strong></td>
-        <td>0</td>
-        <td>Callback is just informing you about progress, no notification to show</td>
-    </tr>
-    <tr id="k_EDurationControlNotification_1Hour">
-        <td><strong>k_EDurationControlNotification_1Hour</strong></td>
-        <td>1</td>
-        <td>
-            player has been playing for an hour - game can show something at this time if desired
-        </td>
-    </tr>
-    <tr id="k_EDurationControlNotification_3Hours">
-        <td><strong>k_EDurationControlNotification_3Hours</strong></td>
-        <td>2</td>
-        <td>(deprecated)</td>
-    </tr>
-    <tr id="k_EDurationControlNotification_HalfProgress">
-        <td><strong>k_EDurationControlNotification_HalfProgress</strong></td>
-        <td>3</td>
-        <td>(deprecated)</td>
-    </tr>
-    <tr id="k_EDurationControlNotification_ExitSoon_3h">
-        <td><strong>k_EDurationControlNotification_ExitSoon_3h</strong></td>
-        <td>4</td>
-        <td>player has been playing for the allowed time and should exit the game</td>
-    </tr>
-    <tr id="k_EDurationControlNotification_ExitSoon_5h">
-        <td><strong>k_EDurationControlNotification_ExitSoon_5h</strong></td>
-        <td>4</td>
-        <td>player has been playing for the allowed time and should exit the game</td>
-    </tr>
-    <tr id="k_EDurationControlNotification_ExitSoon_Night">
-        <td><strong>k_EDurationControlNotification_ExitSoon_Night</strong></td>
-        <td>4</td>
-        <td>
-            player has been playing until the locally allowed time of day (10PM) and should exit the
-            game
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_EDurationControlNotification_None">
+            <td><strong>k_EDurationControlNotification_None</strong></td>
+            <td>0</td>
+            <td>Callback is just informing you about progress, no notification to show</td>
+        </tr>
+        <tr id="k_EDurationControlNotification_1Hour">
+            <td><strong>k_EDurationControlNotification_1Hour</strong></td>
+            <td>1</td>
+            <td>
+                player has been playing for an hour - game can show something at this time if
+                desired
+            </td>
+        </tr>
+        <tr id="k_EDurationControlNotification_3Hours">
+            <td><strong>k_EDurationControlNotification_3Hours</strong></td>
+            <td>2</td>
+            <td>(deprecated)</td>
+        </tr>
+        <tr id="k_EDurationControlNotification_HalfProgress">
+            <td><strong>k_EDurationControlNotification_HalfProgress</strong></td>
+            <td>3</td>
+            <td>(deprecated)</td>
+        </tr>
+        <tr id="k_EDurationControlNotification_ExitSoon_3h">
+            <td><strong>k_EDurationControlNotification_ExitSoon_3h</strong></td>
+            <td>4</td>
+            <td>player has been playing for the allowed time and should exit the game</td>
+        </tr>
+        <tr id="k_EDurationControlNotification_ExitSoon_5h">
+            <td><strong>k_EDurationControlNotification_ExitSoon_5h</strong></td>
+            <td>4</td>
+            <td>player has been playing for the allowed time and should exit the game</td>
+        </tr>
+        <tr id="k_EDurationControlNotification_ExitSoon_Night">
+            <td><strong>k_EDurationControlNotification_ExitSoon_Night</strong></td>
+            <td>4</td>
+            <td>
+                player has been playing until the locally allowed time of day (10PM) and should exit
+                the game
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong><br />
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetDurationControl" class="bb_apilink"
-    >ISteamUser::GetDurationControl</a
-><br />
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#BSetDurationControlOnlineState"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUser#GetDurationControl">ISteamUser::GetDurationControl</a><br />
+<a href="/doc/api/ISteamUser#BSetDurationControlOnlineState"
     >ISteamUser::BSetDurationControlOnlineState</a
 >
 <h2 class="bb_subsection"><a name="EDurationControlOnlineState"></a>EDurationControlOnlineState</h2>
@@ -2164,51 +1675,51 @@ DurationControl_t notifications to the game. If the game later calls BSetDuratio
 to remove the OnlineHighPri state, then Steam will force exit the game soon thereafter.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="k_EDurationControlOnlineState_Offline">
-        <td><strong>k_EDurationControlOnlineState_Offline</strong></td>
-        <td>1</td>
-        <td>Offline play</td>
-    </tr>
-    <tr id="k_EDurationControlOnlineState_Online">
-        <td><strong>k_EDurationControlOnlineState_Online</strong></td>
-        <td>2</td>
-        <td>Online play</td>
-    </tr>
-    <tr id="k_EDurationControlOnlineState_OnlineHighPri">
-        <td><strong>k_EDurationControlOnlineState_OnlineHighPri</strong></td>
-        <td>3</td>
-        <td>Online play - game requests that steam not force exit the game</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_EDurationControlOnlineState_Offline">
+            <td><strong>k_EDurationControlOnlineState_Offline</strong></td>
+            <td>1</td>
+            <td>Offline play</td>
+        </tr>
+        <tr id="k_EDurationControlOnlineState_Online">
+            <td><strong>k_EDurationControlOnlineState_Online</strong></td>
+            <td>2</td>
+            <td>Online play</td>
+        </tr>
+        <tr id="k_EDurationControlOnlineState_OnlineHighPri">
+            <td><strong>k_EDurationControlOnlineState_OnlineHighPri</strong></td>
+            <td>3</td>
+            <td>Online play - game requests that steam not force exit the game</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong><br />
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#GetDurationControl" class="bb_apilink"
-    >ISteamUser::GetDurationControl</a
-><br />
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#BSetDurationControlOnlineState"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUser#GetDurationControl">ISteamUser::GetDurationControl</a><br />
+<a href="/doc/api/ISteamUser#BSetDurationControlOnlineState"
     >ISteamUser::BSetDurationControlOnlineState</a
 >
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamUser.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="STEAMUSER_INTERFACE_VERSION">
-        <td><strong>STEAMUSER_INTERFACE_VERSION</strong></td>
-        <td>const char *</td>
-        <td>"SteamUser019"</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="STEAMUSER_INTERFACE_VERSION">
+            <td><strong>STEAMUSER_INTERFACE_VERSION</strong></td>
+            <td>const char *</td>
+            <td>"SteamUser019"</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>

@@ -3,58 +3,61 @@ Provides access to the Steam Trust functionality. Steam Trust predicts the likel
 account will receive a permanent ban in an application. <br />
 <br />
 For more info on how to use the Steamworks Web API please see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
->.
+<a href="/doc/webapi_overview">Web API Overview</a>.
 <h2 class="bb_section"><a name="GetTrustScore"></a>GetTrustScore</h2>
 <div class="bb_code http">GET https://api.steampowered.com/ITrustService/GetTrustScore/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App ID for which Trust is being requested.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Steam ID of user for which Trust is being requested.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App ID for which Trust is being requested.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Steam ID of user for which Trust is being requested.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 The response will have the following fields:<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>trust_score</strong></td>
-        <td>uint32</td>
-        <td>The requested user's Trust score, which is a value in [0, 1000].</td>
-    </tr>
-    <tr>
-        <td><strong>precision</strong></td>
-        <td>uint32</td>
-        <td>
-            the precision provided for this calculation, which is a value in [1, 1000]. trust_score
-            will be rounded to the nearest precision.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>trust_score</strong></td>
+            <td>uint32</td>
+            <td>The requested user's Trust score, which is a value in [0, 1000].</td>
+        </tr>
+        <tr>
+            <td><strong>precision</strong></td>
+            <td>uint32</td>
+            <td>
+                the precision provided for this calculation, which is a value in [1, 1000].
+                trust_score will be rounded to the nearest precision.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Get the Trust Score for the specified user in the provided App ID. The returned trust_score is a

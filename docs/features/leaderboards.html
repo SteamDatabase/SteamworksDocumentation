@@ -23,17 +23,17 @@ Leaderboards are application specific and are setup on the Game Admin page of th
 site, or via the API.
 <h2 class="bb_subsection"><a name="4"></a>Creating via the Web</h2>
 You can create and manage leaderboards in the Steamworks App Admin for your app ID by going to
-<a href="https://partner.steamgames.com/apps/leaderboards" target="_blank" rel="noreferrer"
+<a href="/apps/leaderboards" target="_blank" rel="noreferrer"
     >Stats &amp; Achievements -&gt; Leaderboards</a
 >.<br />
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/spacewar_leaderboards"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/spacewar_leaderboards"
     alt="spacewar_leaderboards"
     title="spacewar_leaderboards"
 /><br />
 <br />
 The following fields must be completed to define a leaderboard:<br />
-<ul class="bb_ul">
+<ul>
     <li>Name - Set this to be a name that makes sense as part of internal development.<br /></li>
     <li>
         Community Name - If the leaderboard is to be shown on the Community Hub, set the public
@@ -58,19 +58,15 @@ The following fields must be completed to define a leaderboard:<br />
 </ul>
 <h2 class="bb_subsection"><a name="5"></a>Creating via the API</h2>
 Leaderboards for your game can be created through the
-<a href="https://partner.steamgames.com/apps" target="_blank" rel="noreferrer"
-    >Steamworks App Admin</a
->
-or programmatically by calling
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
-    class="bb_apilink"
+<a href="/apps" target="_blank" rel="noreferrer">Steamworks App Admin</a> or programmatically by
+calling
+<a href="/doc/api/ISteamUserStats#FindOrCreateLeaderboard"
     >ISteamUserStats::FindOrCreateLeaderboard</a
 >. In Steam, all leaderboards for a Steamworks title are identified by a unique name. The
 leaderboard name is only used for identification in the Steamworks API, and is not presented to
 users through the Steam Community. When creating a leaderboard, you will need to choose a:<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         sort method -
         <code class="bb_code bb_code_inline cpp">k_ELeaderboardSortMethodAscending</code> (the top
@@ -86,16 +82,11 @@ users through the Steam Community. When creating a leaderboard, you will need to
 </ul>
 <br />
 If you choose to only create your leaderboards through the
-<a href="https://partner.steamgames.com/apps" target="_blank" rel="noreferrer">App Admin</a>, you
-can use
-<a href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard" class="bb_apilink"
-    >ISteamUserStats::FindLeaderboard</a
->
-to retrieve a handle for your leaderboard. FindLeaderboard and FindOrCreateLeaderboard are
-asynchronous methods, and return the leaderboard handle for the specified leaderboard through a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#LeaderboardFindResult_t"
-    class="bb_apilink"
+<a href="/apps" target="_blank" rel="noreferrer">App Admin</a>, you can use
+<a href="/doc/api/ISteamUserStats#FindLeaderboard">ISteamUserStats::FindLeaderboard</a> to retrieve
+a handle for your leaderboard. FindLeaderboard and FindOrCreateLeaderboard are asynchronous methods,
+and return the leaderboard handle for the specified leaderboard through a
+<a href="/doc/api/ISteamUserStats#LeaderboardFindResult_t"
     >ISteamUserStats::LeaderboardFindResult_t</a
 >
 call result.<br />
@@ -112,27 +103,21 @@ leaderboard, the sort method and display type parameters are ignored.
 </div>
 <h2 class="bb_section"><a name="6"></a>Uploading a Score</h2>
 To upload a leaderboard score, simply call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#UploadLeaderboardScore"
     >ISteamUserStats::UploadLeaderboardScore</a
 >
 passing the target leaderboard's handle (retrieved through FindLeaderboard), the user's score and
 optionally any associated data generated when setting the new score. If the user's leaderboard score
 is updated, the associated data passed to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#UploadLeaderboardScore"
     >ISteamUserStats::UploadLeaderboardScore</a
 >
 will replace any data previously stored. You can choose between two update methods when uploading a
 user's leaderboard score:<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_ELeaderboardUploadScoreMethodKeepBest"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamUserStats#k_ELeaderboardUploadScoreMethodKeepBest"
             >ISteamUserStats::k_ELeaderboardUploadScoreMethodKeepBest</a
         >
         - Steam will compare the user's new score with his score already stored in the leaderboard,
@@ -140,17 +125,13 @@ user's leaderboard score:<br />
         order; the highest score for leaderboards with a descending sort order).<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUserStats#k_ELeaderboardUploadScoreMethodForceUpdate"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamUserStats#k_ELeaderboardUploadScoreMethodForceUpdate"
             >ISteamUserStats::k_ELeaderboardUploadScoreMethodForceUpdate</a
         >
         - Steam will always replace the user's score for a leaderboard with the new score.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUserStats#UploadLeaderboardScore"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamUserStats#UploadLeaderboardScore"
             >ISteamUserStats::UploadLeaderboardScore</a
         >
         is an asynchronous call, and the result of the upload is returned in a
@@ -163,11 +144,7 @@ user's leaderboard score:<br />
 <h2 class="bb_section"><a name="7"></a>Attaching User Generated Content</h2>
 After a score has been uploaded you have the option to attach user generated content for the entry.
 To do so, simply call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#AttachLeaderboardUGC"
-    class="bb_apilink"
-    >ISteamUserStats::AttachLeaderboardUGC</a
->
+<a href="/doc/api/ISteamUserStats#AttachLeaderboardUGC">ISteamUserStats::AttachLeaderboardUGC</a>
 This content could be a replay of the user achieving the score or a ghost to race against. The
 attached handle will be available when the entry is retrieved and can be downloaded by other users.
 To create and download user generated content see the documentation for Steam Cloud.<br />
@@ -175,15 +152,11 @@ To create and download user generated content see the documentation for Steam Cl
 Once attached, the content will be available even if the underlying Cloud file is changed or deleted
 by the user.
 <h2 class="bb_section"><a name="8"></a>Retrieving Leaderboard Entries</h2>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#DownloadLeaderboardEntries"
     >ISteamUserStats::DownloadLeaderboardEntries</a
 >
 is used to retrieve leaderboard entries using the leaderboard handle retrieved through
-<a href="https://partner.steamgames.com/doc/api/ISteamUserStats#FindLeaderboard" class="bb_apilink"
-    >ISteamUserStats::FindLeaderboard</a
->. <br />
+<a href="/doc/api/ISteamUserStats#FindLeaderboard">ISteamUserStats::FindLeaderboard</a>. <br />
 <br />
 Once you have retrieved all downloaded entries from GetDownloadedLeaderboardEntry, the entry data
 will be freed and the SteamLeaderboardEntries_t in LeaderboardScoresDownloaded_t will no longer be
@@ -192,23 +165,13 @@ valid.
 With a leaderboard handle returned from FindLeaderboard, you can retrieve information about the
 leaderboard through the following:<br />
 <br />
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardName"
-    class="bb_apilink"
-    >ISteamUserStats::GetLeaderboardName</a
-><br />
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardEntryCount"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#GetLeaderboardName">ISteamUserStats::GetLeaderboardName</a><br />
+<a href="/doc/api/ISteamUserStats#GetLeaderboardEntryCount"
     >ISteamUserStats::GetLeaderboardEntryCount</a
 ><br />
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardSortMethod"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#GetLeaderboardSortMethod"
     >ISteamUserStats::GetLeaderboardSortMethod</a
 ><br />
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#GetLeaderboardDisplayType"
-    class="bb_apilink"
+<a href="/doc/api/ISteamUserStats#GetLeaderboardDisplayType"
     >ISteamUserStats::GetLeaderboardDisplayType</a
 >

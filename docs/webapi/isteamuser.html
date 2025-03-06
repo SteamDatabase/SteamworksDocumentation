@@ -1,42 +1,39 @@
 <h1>ISteamUser Interface</h1>
 Used to access information and interact with users.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/webapi/IPlayerService" class="bb_apilink"
-    >IPlayerService</a
->
-for additional methods.<br />
+See <a href="/doc/webapi/IPlayerService">IPlayerService</a> for additional methods.<br />
 <br />
 For more info on how to use the Steamworks Web API please see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
->.
+<a href="/doc/webapi_overview">Web API Overview</a>.
 <h2 class="bb_section"><a name="CheckAppOwnership"></a>CheckAppOwnership</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/CheckAppOwnership/v3/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>SteamID of user</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>AppID to check for ownership</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>SteamID of user</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>AppID to check for ownership</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Checks if the specified user owns the app. For checking if a user has a valid license, you should
@@ -46,58 +43,60 @@ purchaser of a game should be granted something, such as a grant of in-game curr
 The JSON response will contain the following fields:<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>ownsapp</strong></td>
-        <td>bool</td>
-        <td>Indicates if the user has an active license for this app.</td>
-    </tr>
-    <tr>
-        <td><strong>permanent</strong></td>
-        <td>bool</td>
-        <td>
-            Whether the user permanently owns your app. Not true for ownership via Family Sharing,
-            free weekends or PC Café program
-        </td>
-    </tr>
-    <tr>
-        <td><strong>timestamp</strong></td>
-        <td>string</td>
-        <td>Time that the app was acquired.</td>
-    </tr>
-    <tr>
-        <td><strong>timeexpires</strong></td>
-        <td>string</td>
-        <td>Time that the app license will expire. Permanent licenses are marked as "never"</td>
-    </tr>
-    <tr>
-        <td><strong>ownersteamid</strong></td>
-        <td>uint64</td>
-        <td>
-            Indicates the true owner if user is accessing this app via Family Sharing. Otherwise
-            will be the same steamID passed in.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>sitelicense</strong></td>
-        <td>bool</td>
-        <td>Indicates if user is accessing this app through the PC Cafe program.</td>
-    </tr>
-    <tr>
-        <td><strong>usercanceled</strong></td>
-        <td>bool</td>
-        <td>Indicates if user self-canceled their license for this app.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>ownsapp</strong></td>
+            <td>bool</td>
+            <td>Indicates if the user has an active license for this app.</td>
+        </tr>
+        <tr>
+            <td><strong>permanent</strong></td>
+            <td>bool</td>
+            <td>
+                Whether the user permanently owns your app. Not true for ownership via Family
+                Sharing, free weekends or PC Café program
+            </td>
+        </tr>
+        <tr>
+            <td><strong>timestamp</strong></td>
+            <td>string</td>
+            <td>Time that the app was acquired.</td>
+        </tr>
+        <tr>
+            <td><strong>timeexpires</strong></td>
+            <td>string</td>
+            <td>Time that the app license will expire. Permanent licenses are marked as "never"</td>
+        </tr>
+        <tr>
+            <td><strong>ownersteamid</strong></td>
+            <td>uint64</td>
+            <td>
+                Indicates the true owner if user is accessing this app via Family Sharing. Otherwise
+                will be the same steamID passed in.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>sitelicense</strong></td>
+            <td>bool</td>
+            <td>Indicates if user is accessing this app through the PC Cafe program.</td>
+        </tr>
+        <tr>
+            <td><strong>usercanceled</strong></td>
+            <td>bool</td>
+            <td>Indicates if user self-canceled their license for this app.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>Version 2</strong> - Adds element <strong>sitelicense </strong>to the response.<br />
     </li>
@@ -113,30 +112,32 @@ never be used directly by clients!
 <h2 class="bb_section"><a name="GetAppPriceInfo"></a>GetAppPriceInfo</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/GetAppPriceInfo/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>SteamID of user</td>
-    </tr>
-    <tr>
-        <td><strong>appids</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Comma-delimited list of appids (max: 100)</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>SteamID of user</td>
+        </tr>
+        <tr>
+            <td><strong>appids</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Comma-delimited list of appids (max: 100)</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
@@ -150,28 +151,31 @@ never be used directly by clients!
 <h2 class="bb_section"><a name="GetDeletedSteamIDs"></a>GetDeletedSteamIDs</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/GetDeletedSteamIDs/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>rowversion</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            An unsigned 64-bit value used to page through deleted accounts. Pass 0 when calling this
-            API for the first time, then pass the value returned from the previous call for each
-            additional request. This value will need to be stored on your server for future calls.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>rowversion</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                An unsigned 64-bit value used to page through deleted accounts. Pass 0 when calling
+                this API for the first time, then pass the value returned from the previous call for
+                each additional request. This value will need to be stored on your server for future
+                calls.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 You can use GetDeletedSteamIDs to retrieve a list of deleted accounts that owned your game(s) before
@@ -183,74 +187,80 @@ appids to check against.
 <h2 class="bb_section"><a name="GetFriendList"></a>GetFriendList</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/GetFriendList/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>SteamID of user</td>
-    </tr>
-    <tr>
-        <td><strong>relationship</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>relationship type (ex: friend)</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>SteamID of user</td>
+        </tr>
+        <tr>
+            <td><strong>relationship</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>relationship type (ex: friend)</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="GetPlayerBans"></a>GetPlayerBans</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/GetPlayerBans/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamids</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Comma-delimited list of SteamIDs</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamids</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Comma-delimited list of SteamIDs</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="GetPlayerSummaries"></a>GetPlayerSummaries</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/GetPlayerSummaries/v2/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamids</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Comma-delimited list of SteamIDs (max: 100)</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamids</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Comma-delimited list of SteamIDs (max: 100)</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>NOTE:</strong> This call should only be used if your website needs to display information
@@ -260,7 +270,7 @@ instead.<br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Version 2</strong> - Removes element names from arrays</li>
 </ul>
 <br />
@@ -270,15 +280,15 @@ The response from the call will look something like this:<br />
     "response":{ "players":[ { "steamid":"77561198355051011", "communityvisibilitystate":1,
     "profilestate":1, "personaname":"Mister Manager", "lastlogoff":1556305001,
     "profileurl":"https://steamcommunity.com/profiles/77561198355051011/",
-    "avatar":"https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/32/32f70a383a437d03af91d2f01a0776adf75201b5.jpg",
-    "avatarmedium":"https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/32/32f70a383a437d03af91d2f01a0776adf75201b5_medium.jpg",
-    "avatarfull":"https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/32/32f70a383a437d03af91d2f01a0776adf75201b5_full.jpg",
+    "avatar":"https://cdn.steamstatic.com/steamcommunity/public/images/avatars/32/32f70a383a437d03af91d2f01a0776adf75201b5.jpg",
+    "avatarmedium":"https://cdn.steamstatic.com/steamcommunity/public/images/avatars/32/32f70a383a437d03af91d2f01a0776adf75201b5_medium.jpg",
+    "avatarfull":"https://cdn.steamstatic.com/steamcommunity/public/images/avatars/32/32f70a383a437d03af91d2f01a0776adf75201b5_full.jpg",
     }, { "steamid":"77561197978236369", "communityvisibilitystate":3, "profilestate":1,
     "personaname":"Olive The Dog", "lastlogoff":1556239336,
     "profileurl":"https://steamcommunity.com/id/olive_the_dog/",
-    "avatar":"https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/41/555d2fbb879593c0565ce0489428a09c019feffa.jpg",
-    "avatarmedium":"https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/41/555d2fbb879593c0565ce0489428a09c019feffa_medium.jpg",
-    "avatarfull":"https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/41/555d2fbb879593c0565ce0489428a09c019feffa_full.jpg",
+    "avatar":"https://cdn.steamstatic.com/steamcommunity/public/images/avatars/41/555d2fbb879593c0565ce0489428a09c019feffa.jpg",
+    "avatarmedium":"https://cdn.steamstatic.com/steamcommunity/public/images/avatars/41/555d2fbb879593c0565ce0489428a09c019feffa_medium.jpg",
+    "avatarfull":"https://cdn.steamstatic.com/steamcommunity/public/images/avatars/41/555d2fbb879593c0565ce0489428a09c019feffa_full.jpg",
     } ] }
 </div>
 <h2 class="bb_section"><a name="GetPublisherAppOwnership"></a>GetPublisherAppOwnership</h2>
@@ -286,31 +296,33 @@ The response from the call will look something like this:<br />
     GET https://partner.steam-api.com/ISteamUser/GetPublisherAppOwnership/v4/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>SteamID of user</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>SteamID of user</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <br />
 This method has previous versions which are no longer officially supported. They will continue to be
 usable but it's highly recommended that you use the latest version.<br />
 Change history:<br />
-<ul class="bb_ul">
+<ul>
     <li><strong>Version 3</strong> - Adds element sitelicense to the response<br /></li>
     <li>
         <strong>Version 4</strong> - Adds element <strong>usercanceled</strong> to the response.<br />
@@ -336,60 +348,62 @@ field.<br />
 The JSON response will contain the following fields:<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>AppID associated with your WebAPI key</td>
-    </tr>
-    <tr>
-        <td><strong>ownsapp</strong></td>
-        <td>bool</td>
-        <td>
-            Whether the user currently owns your app. Will be true for ownership via purchases,
-            CD-keys, Family Sharing, free weekends or PC Café program
-        </td>
-    </tr>
-    <tr>
-        <td><strong>permanent</strong></td>
-        <td>bool</td>
-        <td>
-            Whether the user permanently owns your app. Not true for ownership via Family Sharing,
-            free weekends, or PC Café program
-        </td>
-    </tr>
-    <tr>
-        <td><strong>timestamp</strong></td>
-        <td>string</td>
-        <td>GMT time for when the user first accquired the appID</td>
-    </tr>
-    <tr>
-        <td><strong>timeexpires</strong></td>
-        <td>string</td>
-        <td>Time that the app license will expire. Permanent licenses are marked as "never"</td>
-    </tr>
-    <tr>
-        <td><strong>ownersteamid</strong></td>
-        <td>uint64</td>
-        <td>
-            Indicates the true owner if user is accessing this app via Family Sharing. Otherwise
-            will be the same steamID passed in
-        </td>
-    </tr>
-    <tr>
-        <td><strong>sitelicense</strong></td>
-        <td>bool</td>
-        <td>Indicates if user is accessing this app through the PC Cafe program</td>
-    </tr>
-    <tr>
-        <td><strong>usercanceled</strong></td>
-        <td>bool</td>
-        <td>Indicates if user self-canceled their license for this app.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>AppID associated with your WebAPI key</td>
+        </tr>
+        <tr>
+            <td><strong>ownsapp</strong></td>
+            <td>bool</td>
+            <td>
+                Whether the user currently owns your app. Will be true for ownership via purchases,
+                CD-keys, Family Sharing, free weekends or PC Café program
+            </td>
+        </tr>
+        <tr>
+            <td><strong>permanent</strong></td>
+            <td>bool</td>
+            <td>
+                Whether the user permanently owns your app. Not true for ownership via Family
+                Sharing, free weekends, or PC Café program
+            </td>
+        </tr>
+        <tr>
+            <td><strong>timestamp</strong></td>
+            <td>string</td>
+            <td>GMT time for when the user first accquired the appID</td>
+        </tr>
+        <tr>
+            <td><strong>timeexpires</strong></td>
+            <td>string</td>
+            <td>Time that the app license will expire. Permanent licenses are marked as "never"</td>
+        </tr>
+        <tr>
+            <td><strong>ownersteamid</strong></td>
+            <td>uint64</td>
+            <td>
+                Indicates the true owner if user is accessing this app via Family Sharing. Otherwise
+                will be the same steamID passed in
+            </td>
+        </tr>
+        <tr>
+            <td><strong>sitelicense</strong></td>
+            <td>bool</td>
+            <td>Indicates if user is accessing this app through the PC Cafe program</td>
+        </tr>
+        <tr>
+            <td><strong>usercanceled</strong></td>
+            <td>bool</td>
+            <td>Indicates if user self-canceled their license for this app.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
@@ -397,54 +411,58 @@ The JSON response will contain the following fields:<br />
 <h2 class="bb_section"><a name="GetUserGroupList"></a>GetUserGroupList</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/GetUserGroupList/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>SteamID of user</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>SteamID of user</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="ResolveVanityURL"></a>ResolveVanityURL</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/ISteamUser/ResolveVanityURL/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>vanityurl</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>The vanity URL to get a SteamID for</td>
-    </tr>
-    <tr>
-        <td><strong>url_type</strong></td>
-        <td>int32</td>
-        <td></td>
-        <td>
-            The type of vanity URL. 1 (default): Individual profile, 2: Group, 3: Official game
-            group
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>vanityurl</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>The vanity URL to get a SteamID for</td>
+        </tr>
+        <tr>
+            <td><strong>url_type</strong></td>
+            <td>int32</td>
+            <td></td>
+            <td>
+                The type of vanity URL. 1 (default): Individual profile, 2: Group, 3: Official game
+                group
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />

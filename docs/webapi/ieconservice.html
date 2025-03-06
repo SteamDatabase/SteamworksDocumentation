@@ -5,86 +5,87 @@ Additional Steam Economy methods that provide access to Steam Trading.<br />
 the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br />
 <br />
 For more info on how to use the Steamworks Web API please see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
->.
+<a href="/doc/webapi_overview">Web API Overview</a>.
 <h2 class="bb_section"><a name="GetTradeHistory"></a>GetTradeHistory</h2>
 <div class="bb_code http">GET https://api.steampowered.com/IEconService/GetTradeHistory/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>max_trades</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The number of trades to return information for</td>
-    </tr>
-    <tr>
-        <td><strong>start_after_time</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            The time of the last trade shown on the previous page of results, or the time of the
-            first trade if navigating back
-        </td>
-    </tr>
-    <tr>
-        <td><strong>start_after_tradeid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            The tradeid shown on the previous page of results, or the ID of the first trade if
-            navigating back
-        </td>
-    </tr>
-    <tr>
-        <td><strong>navigating_back</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            The user wants the previous page of results, so return the previous max_trades trades
-            before the start time and ID
-        </td>
-    </tr>
-    <tr>
-        <td><strong>get_descriptions</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            If set, the item display data for the items included in the returned trades will also be
-            returned
-        </td>
-    </tr>
-    <tr>
-        <td><strong>language</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>The language to use when loading item display data</td>
-    </tr>
-    <tr>
-        <td><strong>include_failed</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>include_total</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            If set, the total number of trades the account has participated in will be included in
-            the response
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>max_trades</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The number of trades to return information for</td>
+        </tr>
+        <tr>
+            <td><strong>start_after_time</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The time of the last trade shown on the previous page of results, or the time of the
+                first trade if navigating back
+            </td>
+        </tr>
+        <tr>
+            <td><strong>start_after_tradeid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                The tradeid shown on the previous page of results, or the ID of the first trade if
+                navigating back
+            </td>
+        </tr>
+        <tr>
+            <td><strong>navigating_back</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                The user wants the previous page of results, so return the previous max_trades
+                trades before the start time and ID
+            </td>
+        </tr>
+        <tr>
+            <td><strong>get_descriptions</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                If set, the item display data for the items included in the returned trades will
+                also be returned
+            </td>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>The language to use when loading item display data</td>
+        </tr>
+        <tr>
+            <td><strong>include_failed</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>include_total</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                If set, the total number of trades the account has participated in will be included
+                in the response
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets a history of trades
@@ -93,36 +94,38 @@ Gets a history of trades
     POST https://partner.steam-api.com/IEconService/FlushInventoryCache/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>User to clear cache for.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App to clear cache for.</td>
-    </tr>
-    <tr>
-        <td><strong>contextid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Context to clear cache for.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>User to clear cache for.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App to clear cache for.</td>
+        </tr>
+        <tr>
+            <td><strong>contextid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Context to clear cache for.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Flushes the cache for a user's inventory in a specific app context<br />
@@ -134,24 +137,26 @@ Flushes the cache for a user's inventory in a specific app context<br />
     POST https://partner.steam-api.com/IEconService/FlushAssetAppearanceCache/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Flushes the display cache for assets. This will result in calls to GetAssetClassInfo for each asset
@@ -164,24 +169,26 @@ class the next time it is displayed.<br />
     POST https://partner.steam-api.com/IEconService/FlushContextCache/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Flushes the cache of inventory contents. This will result in calls to GetContexts and
@@ -192,96 +199,100 @@ GetContextContents to get fresh data for each user next time Steam needs their i
 <h2 class="bb_section"><a name="GetTradeOffers"></a>GetTradeOffers</h2>
 <div class="bb_code http">GET https://api.steampowered.com/IEconService/GetTradeOffers/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>get_sent_offers</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Request the list of sent offers.</td>
-    </tr>
-    <tr>
-        <td><strong>get_received_offers</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Request the list of received offers.</td>
-    </tr>
-    <tr>
-        <td><strong>get_descriptions</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            If set, the item display data for the items included in the returned trade offers will
-            also be returned.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>language</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>The language to use when loading item display data.</td>
-    </tr>
-    <tr>
-        <td><strong>active_only</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            Indicates we should only return offers which are still active, or offers that have
-            changed in state since the time_historical_cutoff
-        </td>
-    </tr>
-    <tr>
-        <td><strong>historical_only</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Indicates we should only return offers which are not active.</td>
-    </tr>
-    <tr>
-        <td><strong>time_historical_cutoff</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>When active_only is set, offers updated since this time will also be returned</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>get_sent_offers</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Request the list of sent offers.</td>
+        </tr>
+        <tr>
+            <td><strong>get_received_offers</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Request the list of received offers.</td>
+        </tr>
+        <tr>
+            <td><strong>get_descriptions</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                If set, the item display data for the items included in the returned trade offers
+                will also be returned.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>The language to use when loading item display data.</td>
+        </tr>
+        <tr>
+            <td><strong>active_only</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                Indicates we should only return offers which are still active, or offers that have
+                changed in state since the time_historical_cutoff
+            </td>
+        </tr>
+        <tr>
+            <td><strong>historical_only</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Indicates we should only return offers which are not active.</td>
+        </tr>
+        <tr>
+            <td><strong>time_historical_cutoff</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>When active_only is set, offers updated since this time will also be returned</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Get a list of sent or received trade offers
 <h2 class="bb_section"><a name="GetTradeOffer"></a>GetTradeOffer</h2>
 <div class="bb_code http">GET https://api.steampowered.com/IEconService/GetTradeOffer/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>tradeofferid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>language</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>tradeofferid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets a specific trade offer
@@ -290,27 +301,29 @@ Gets a specific trade offer
     GET https://api.steampowered.com/IEconService/GetTradeOffersSummary/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>time_last_visit</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            The time the user last visited. If not passed, will use the time the user last visited
-            the trade offer page.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>time_last_visit</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The time the user last visited. If not passed, will use the time the user last
+                visited the trade offer page.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Get counts of pending and new trade offers

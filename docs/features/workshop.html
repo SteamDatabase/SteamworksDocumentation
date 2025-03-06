@@ -2,7 +2,7 @@
 <div class="bb_introblock">
     <div class="left">
         <img
-            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/SteamWorkshop.gif"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/SteamWorkshop.gif"
         />
     </div>
     <div class="introtext">
@@ -23,9 +23,7 @@ game.<br />
 <br />
 This page is intended as an overview of the Steam Workshop and the different models available. For
 technical details on implementing Steam Workshop with your title, please see the
-<a href="https://partner.steamgames.com/doc/features/workshop/implementation" class="bb_doclink"
-    >Steam Workshop Implementation Guide</a
->.
+<a href="/doc/features/workshop/implementation">Steam Workshop Implementation Guide</a>.
 <h4>Video: Introduction to User Generated Content and the Steam Workshop.</h4>
 <a href="https://www.youtube.com/watch?v=SRyUpR4qOxU" target="_blank" rel="noreferrer"
     >https://www.youtube.com/watch?v=SRyUpR4qOxU</a
@@ -42,45 +40,40 @@ happen.<br />
 You are welcome to use Steam Workshop branding when promoting your Workshop.
 <a
     class="bb_docfile"
-    href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/SteamWorkshopAssets.zip"
+    href="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/SteamWorkshopAssets.zip"
     target="_blank"
     >Click here</a
 >
 to download Workshop branding assets. For more information about general Steam branding, refer to
-the
-<a href="https://partner.steamgames.com/doc/marketing/branding" class="bb_doclink"
-    >Steam Branding Guidelines</a
->.
+the <a href="/doc/marketing/branding">Steam Branding Guidelines</a>.
 <h2 class="bb_section"><a name="3"></a>Workshop Types</h2>
 There are two main types of Steam Workshop integration options available. Each has benefits and
 trade-offs, so you should think carefully about which option makes the most sense for your
 product.<br />
-<ol class="bb_ol">
+<ol>
     <li>
-        <a href="#ready-to-use_workshop" class="bb_doclink">Ready-to-use Workshop</a> - Anyone can
-        upload content and players can download content without any curation. This is best suited
-        for supporting a larger number of items, mods, or maps in your game, that are either simple
-        or complex in nature. You will likely need to do more work ahead of time to make an
-        appropriate editor or validation tool to make sure that authored content will function
-        properly in your game. Authors of these items will be able to update their content any
-        time.<br />
+        <a href="#ready-to-use_workshop">Ready-to-use Workshop</a> - Anyone can upload content and
+        players can download content without any curation. This is best suited for supporting a
+        larger number of items, mods, or maps in your game, that are either simple or complex in
+        nature. You will likely need to do more work ahead of time to make an appropriate editor or
+        validation tool to make sure that authored content will function properly in your game.
+        Authors of these items will be able to update their content any time.<br />
         <br />
     </li>
     <li>
-        <a href="#curated_workshop" class="bb_doclink">Curated Workshop</a> - This is best suited to
-        maintaining tighter control over the items that are added and made available in your game,
-        but requires work and an update to add each item to your game. This is typically better for
-        smaller and less complex pieces of content such as weapons, hats, or other accessory items.
-        If these items are sold, a persistent item storage service (such as
-        <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-            >Steam Inventory Service</a
-        >) must be used to keep track of which users have authority to equip items in-game, and a
-        store must be built in-game to sell items. Pricing is controlled by the developer.
+        <a href="#curated_workshop">Curated Workshop</a> - This is best suited to maintaining
+        tighter control over the items that are added and made available in your game, but requires
+        work and an update to add each item to your game. This is typically better for smaller and
+        less complex pieces of content such as weapons, hats, or other accessory items. If these
+        items are sold, a persistent item storage service (such as
+        <a href="/doc/features/inventory">Steam Inventory Service</a>) must be used to keep track of
+        which users have authority to equip items in-game, and a store must be built in-game to sell
+        items. Pricing is controlled by the developer.
     </li>
 </ol>
 <h2 class="bb_section"><a name="ready-to-use_workshop"></a>Ready-To-Use Workshop</h2>
 <h2 class="bb_subsection"><a name="4"></a>Why To Use</h2>
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>Want to support a larger number of items.</strong> A Ready-To-Use workshop makes it
         easier to support a large number of items, mods, or maps in your game, that are either
@@ -104,16 +97,16 @@ large scale modding of your game, you'll find it useful to release as much of yo
 tools as possible to aid in the creation of content and modification of your game logic.<br />
 <br />
 Once you've got basic modding up and running, then you'll need to integrate the
-<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API so
-that your client can know which Workshop files the user is subscribed to and can download content as
-necessary. From there, enabling the option to sell items in this environment is trivial. The Steam
-Workshop takes care of collecting bank and tax info from authors, provides the tools for specifying
-pricing, provides the necessary user agreements, and handles all the backend payment processing and
-tax witholding. Your game just needs to figure out which files to load into your game client.
+<a href="/doc/api/ISteamUGC">ISteamUGC</a> API so that your client can know which Workshop files the
+user is subscribed to and can download content as necessary. From there, enabling the option to sell
+items in this environment is trivial. The Steam Workshop takes care of collecting bank and tax info
+from authors, provides the tools for specifying pricing, provides the necessary user agreements, and
+handles all the backend payment processing and tax witholding. Your game just needs to figure out
+which files to load into your game client.
 <h2 class="bb_subsection"><a name="6"></a>Integration Work</h2>
 Here are some of the typical components to think about for integration of the Ready-To-Use Workshop
 model with your game:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>Loading content into a single-player game client</strong> - If you intend for
         content submitted by customers to be ready to use within your game, then you'll need to
@@ -135,52 +128,43 @@ model with your game:<br />
     <li>
         <strong>Uploading entries from item authors</strong> - You'll need a tool for item authors
         to upload their entries to your Workshop using the
-        <a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a>
-        API. This can be as simple as a form in your game or it can be a stand-alone app. Since the
-        items you are accepting should be ready-to-use, then your submission tool should accept just
-        the file formats your game client expects to load, along with an preview image. Depending on
-        the content you are asking authors to upload, you might need your own editing tools
-        (especially necessary for any large-scale modding of your game such as game logic, gameplay,
-        or anything beyond changes to existing visuals). For example, most moddable games have
-        released their own developer tools so that mod-authors can utilize the same tools that the
-        developer has used. These tools can also restrict and validate the content being submitted
-        if you wish to control things like which files can be overwritten or what aspects of the
-        game can be changed. As part of the information you provide to potential Workshop item
-        authors, you'll also want to create a style guide and potentially a set of guidelines about
-        the kinds of content you are looking for and the kinds of content you don't wish to see
-        posted.<br />
+        <a href="/doc/api/ISteamUGC">ISteamUGC</a> API. This can be as simple as a form in your game
+        or it can be a stand-alone app. Since the items you are accepting should be ready-to-use,
+        then your submission tool should accept just the file formats your game client expects to
+        load, along with an preview image. Depending on the content you are asking authors to
+        upload, you might need your own editing tools (especially necessary for any large-scale
+        modding of your game such as game logic, gameplay, or anything beyond changes to existing
+        visuals). For example, most moddable games have released their own developer tools so that
+        mod-authors can utilize the same tools that the developer has used. These tools can also
+        restrict and validate the content being submitted if you wish to control things like which
+        files can be overwritten or what aspects of the game can be changed. As part of the
+        information you provide to potential Workshop item authors, you'll also want to create a
+        style guide and potentially a set of guidelines about the kinds of content you are looking
+        for and the kinds of content you don't wish to see posted.<br />
         <br />
         See the
-        <a
-            href="https://partner.steamgames.com/doc/features/workshop/implementation"
-            class="bb_doclink"
-            >Steam Workshop Implementation Guide</a
-        >
-        for detailed information on how to get started using the Steam Workshop portion of the
-        <a href="https://partner.steamgames.com/doc/sdk/api" class="bb_doclink">Steamworks API</a>.
+        <a href="/doc/features/workshop/implementation">Steam Workshop Implementation Guide</a> for
+        detailed information on how to get started using the Steam Workshop portion of the
+        <a href="/doc/sdk/api">Steamworks API</a>.
     </li>
 </ul>
 <h2 class="bb_subsection"><a name="7"></a>Getting Items to Customers</h2>
 With the Ready-To-Use Workshop model, items listed in the Workshop are automatically available to
 subscribe to (if free) or to purchase (if paid) and then are automatically downloaded via the Steam
-client (Integration of the
-<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API with
-your product is necessary for this to work correctly. See the technical documentation on the
-<a href="https://partner.steamgames.com/doc/features/workshop/implementation" class="bb_doclink"
-    >Steam Workshop Implementation Guide</a
->). The Steam Workshop handles keeping the client up to date with any mod updates. If the mod was
-purchased, then Steam handles purchase of the item, payment processing, payments to the authors,
-payments to the game developer, and any necessary tax withholding.<br />
+client (Integration of the <a href="/doc/api/ISteamUGC">ISteamUGC</a> API with your product is
+necessary for this to work correctly. See the technical documentation on the
+<a href="/doc/features/workshop/implementation">Steam Workshop Implementation Guide</a>). The Steam
+Workshop handles keeping the client up to date with any mod updates. If the mod was purchased, then
+Steam handles purchase of the item, payment processing, payments to the authors, payments to the
+game developer, and any necessary tax withholding.<br />
 <br />
 If you wish, you can build an in-game Workshop browser to list the same set of items.
 <h2 class="bb_section"><a name="curated_workshop"></a>Curated Workshop</h2>
 The defining characteristic of a curated Steam Workshop is that as the developer, you will need to
 approve each item and you'll probably need an item server (Or to use the
-<a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-    >Steam Inventory Service</a
->) for managing ownership of the items. This process affords a lot of control over the items that
-get added to your game, but typically involves at least a small amount of work to accept each new
-item.<br />
+<a href="/doc/features/inventory">Steam Inventory Service</a>) for managing ownership of the items.
+This process affords a lot of control over the items that get added to your game, but typically
+involves at least a small amount of work to accept each new item.<br />
 <br />
 Within a Curated Workshop, the items posted in the Workshop are not available for direct use by
 other customers via the Workshop, but are instead presented in a queue for customers to vote on.
@@ -188,7 +172,7 @@ This voting gives you data on which items are desired by the most users and help
 incomplete or inappropriate submissions.
 <h2 class="bb_subsection"><a name="8"></a>Why To Use</h2>
 The Curated Workshop model is useful for your game if you:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>Need to assign specific attributes to each item.</strong> If you are accepting items
         such as weapons via the Workshop, it may be important for you to be able to assign the
@@ -198,7 +182,7 @@ The Curated Workshop model is useful for your game if you:<br />
     <li>
         <strong>Want tight control over the content added to your game.</strong> Depending on how
         you've set up your game, you can accept items in two different ways:<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <strong>Download and build</strong> - If you want to download the assets to your
                 local machine and include it in your game depots. This gives you the opportunity to
@@ -216,31 +200,23 @@ The Curated Workshop model is useful for your game if you:<br />
 <h2 class="bb_subsection"><a name="9"></a>Getting Started</h2>
 You can get started right away by setting up your curated Workshop page, adding a simple form within
 your game, and posting guidelines and style guide information for potential item creators. To upload
-content to the Workshop, you'll need to integrate the
-<a href="https://partner.steamgames.com/doc/api/ISteamUGC" class="bb_apilink">ISteamUGC</a> API (See
-the
-<a href="https://partner.steamgames.com/doc/features/workshop/implementation" class="bb_doclink"
-    >Steam Workshop Implementation Guide</a
->). This will let item authors start coming up with ideas and posting their items to your Workshop
-for evaluation by the community. We typically suggest that you ask item authors to post finished
-items to the Workshop. If you allow users to post incomplete work or mere concepts, then you will
-need to figure out what the process would be that those concepts get turned into real items, which
-typically becomes a difficult to scale up in any meaningful way.<br />
+content to the Workshop, you'll need to integrate the <a href="/doc/api/ISteamUGC">ISteamUGC</a> API
+(See the <a href="/doc/features/workshop/implementation">Steam Workshop Implementation Guide</a>).
+This will let item authors start coming up with ideas and posting their items to your Workshop for
+evaluation by the community. We typically suggest that you ask item authors to post finished items
+to the Workshop. If you allow users to post incomplete work or mere concepts, then you will need to
+figure out what the process would be that those concepts get turned into real items, which typically
+becomes a difficult to scale up in any meaningful way.<br />
 <br />
 Once you have your Workshop up and running, you can be working on integrating with the
-<a href="https://partner.steamgames.com/doc/features/microtransactions" class="bb_doclink"
-    >Steam Microtransactions</a
->
-API and the
-<a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-    >Steam Inventory Service</a
->
-in anticipation of selling the accepted items. When you have your store ready to go, you can then
-start accepting items, setting payment rules, and selling those items.
+<a href="/doc/features/microtransactions">Steam Microtransactions</a> API and the
+<a href="/doc/features/inventory">Steam Inventory Service</a> in anticipation of selling the
+accepted items. When you have your store ready to go, you can then start accepting items, setting
+payment rules, and selling those items.
 <h2 class="bb_subsection"><a name="10"></a>Integration Work</h2>
 Here are some of the typical components to think about for integration of the Curated Workshop model
 with your game:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>Accepting entries from item authors</strong> - You'll need a tool for item authors
         to upload their entries to your Workshop. This can be as simple as a form in your game or it
@@ -273,38 +249,25 @@ with your game:<br />
         <strong>Or, download on the fly</strong> - If you don't need to clean up items or set
         special attributes to items yourself, you can make calls to get the owned items directly
         from the Workshop content servers. You'll use ISteamInventory (if using the
-        <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-            >Steam Inventory Service</a
-        >), get a list of items that the user owns. Then for each item that the user owns, check to
-        see if it is a Workshop item, then:<br />
-        <ul class="bb_ul">
+        <a href="/doc/features/inventory">Steam Inventory Service</a>), get a list of items that the
+        user owns. Then for each item that the user owns, check to see if it is a Workshop item,
+        then:<br />
+        <ul>
             <li>
-                Call
-                <a
-                    href="https://partner.steamgames.com/doc/api/ISteamUGC#GetItemState"
-                    class="bb_apilink"
-                    >ISteamUGC::GetItemState</a
-                >
-                with the workshop item ID and see if
+                Call <a href="/doc/api/ISteamUGC#GetItemState">ISteamUGC::GetItemState</a> with the
+                workshop item ID and see if
                 <code class="bb_code bb_code_inline nohighlight">k_EItemStateNeedsUpdate</code> is
                 set or if
                 <code class="bb_code bb_code_inline nohighlight">k_EItemStateInstalled</code> is not
                 set.<br />
             </li>
             <li>
-                Call
-                <a
-                    href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItem"
-                    class="bb_apilink"
-                    >ISteamUGC::DownloadItem</a
-                >
-                if appropriate<br />
+                Call <a href="/doc/api/ISteamUGC#DownloadItem">ISteamUGC::DownloadItem</a> if
+                appropriate<br />
             </li>
             <li>
                 Wait for the
-                <a
-                    href="https://partner.steamgames.com/doc/api/ISteamUGC#DownloadItemResult_t"
-                    class="bb_apilink"
+                <a href="/doc/api/ISteamUGC#DownloadItemResult_t"
                     >ISteamUGC::DownloadItemResult_t</a
                 >
                 callback and make the content available in game<br />
@@ -314,27 +277,21 @@ with your game:<br />
     <li>
         <strong>Inventory Service &amp; Creating item definitions</strong> - If your items are to be
         sold in-game or otherwise granted to a limited number of users, then you'll need an item
-        server (or you can use the
-        <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-            >Steam Inventory Service</a
-        >) to track ownership of each item so your game knows which clients have permission to equip
-        the item. This inventory service will also be necessary for selling these items or for
-        managing random drops or other events that trigger drops of items to customers.<br />
+        server (or you can use the <a href="/doc/features/inventory">Steam Inventory Service</a>) to
+        track ownership of each item so your game knows which clients have permission to equip the
+        item. This inventory service will also be necessary for selling these items or for managing
+        random drops or other events that trigger drops of items to customers.<br />
     </li>
     <li>
         <strong>Adding Payment Rules</strong> - Once you are ready to start selling your items,
         Steam will need to know which Workshop items are associated with which item definitions in
-        your item server or in the
-        <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-            >Steam Inventory Service</a
-        >. This link establishes payment rules so that Steam knows which users to allocate the
+        your item server or in the <a href="/doc/features/inventory">Steam Inventory Service</a>.
+        This link establishes payment rules so that Steam knows which users to allocate the
         appropriate portion of revenue from each sale of the item. So when your inventory service
         triggers a sale through the
-        <a href="https://partner.steamgames.com/doc/features/microtransactions" class="bb_doclink"
-            >Steam Microtransactions</a
-        >
-        API, Steam will know which Workshop item has been purchased and will take care of the right
-        revenue calculation and payments to the author(s) of that item.<br />
+        <a href="/doc/features/microtransactions">Steam Microtransactions</a> API, Steam will know
+        which Workshop item has been purchased and will take care of the right revenue calculation
+        and payments to the author(s) of that item.<br />
         <br />
         You can manage your payment rules by clicking on the "Enter New Payment Rules" option under
         the Workshop tab of the Steamworks settings page for your app.<br />
@@ -345,7 +302,7 @@ with your game:<br />
         can create the UI for the store yourself within your own game or you can make use of the
         Steam Item Store. For each purchase, Steam will take care of the back-end details such
         as:<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 Collecting and maintaining bank and tax information on each Workshop item author<br />
             </li>
@@ -361,23 +318,18 @@ with your game:<br />
 <h2 class="bb_subsection"><a name="11"></a>Getting Items to Customers</h2>
 With the Curated Workshop model, there are a number of ways you can allow customers to get the
 items:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>Sold in an in-game store via microtransactions</strong> - If you are using your own
         inventory service, this will require integration with the
-        <a href="https://partner.steamgames.com/doc/features/microtransactions" class="bb_doclink"
-            >Steam Microtransactions</a
-        >
-        API. Or you can use the
-        <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-            >Steam Inventory Service</a
-        >, which also includes a customizable Item Store to easily list and sell items.<br />
+        <a href="/doc/features/microtransactions">Steam Microtransactions</a> API. Or you can use
+        the <a href="/doc/features/inventory">Steam Inventory Service</a>, which also includes a
+        customizable Item Store to easily list and sell items.<br />
     </li>
     <li>
         <strong>Random item drops</strong> - This will require an item server (or you can use the
-        <a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-            >Steam Inventory Service</a
-        >) to manage the drops and to keep a record of ownership for each item.<br />
+        <a href="/doc/features/inventory">Steam Inventory Service</a>) to manage the drops and to
+        keep a record of ownership for each item.<br />
     </li>
     <li>
         <strong>Bundled as DLC</strong> - This typically involves less overall infrastructure, but
@@ -397,13 +349,13 @@ items:<br />
 <h2 class="bb_section"><a name="announcing_and_launching"></a>Announcing and Launching</h2>
 <h2 class="bb_subsection"><a name="marketing"></a>Necessary Marketing Materials</h2>
 To prepare your Workshop for launch, you'll need to supply the following items:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>Workshop Header Image</strong> - This image is intended to give a recognizable feel
         of your product to the home page. We have a Photoshop template for this
         <a
             class="bb_docfile"
-            href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Workshop_header_template.psd"
+            href="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Workshop_header_template.psd"
             target="_blank"
             >here</a
         >. This should use some recognizable artwork from your game as well as your game logo.
@@ -428,16 +380,11 @@ When you launch your Workshop integration, it may be a great opportunity to run 
 product to capitalize on the additional buzz of the new Workshop and to get a bunch of new players
 to use the Workshop. You can configure your own discount to run in conjunction with your Workshop
 launch. For more details, please see the
-<a href="https://partner.steamgames.com/doc/marketing/discounts" class="bb_doclink">Discounting</a>
-documentation.<br />
+<a href="/doc/marketing/discounts">Discounting</a> documentation.<br />
 <br />
 Additionally, you can use an Update Visibility Round to get front-page visibility for your game to
 promote your new Workshop and sale (if you are running one). For more information on Visibility
-Rounds, please see
-<a href="https://partner.steamgames.com/doc/marketing/visibility" class="bb_doclink"
-    >Visibility on Steam</a
->
-documentation.<br />
+Rounds, please see <a href="/doc/marketing/visibility">Visibility on Steam</a> documentation.<br />
 <br />
 With a broad announcement of Workshop as a marketing tool, we find it helpful for potential
 customers if there is some amount of content already available in the Workshop for your game. It
@@ -448,7 +395,7 @@ need to be published in your Workshop for your game to appear at all in the list
 of the Steam Workshop.<br />
 <br />
 There are a couple ways to accomplish this:<br />
-<ol class="bb_ol">
+<ol>
     <li>
         It is possible to run a closed beta and invite some number of users in if you’d like to test
         with a small group and generate content quietly before launch. More information on running
@@ -466,7 +413,7 @@ feedback on the flow of generating content and publishing and also to potentiall
 Workshop with a collection of items ready for fans to check out.<br />
 <br />
 There are two parts to this:<br />
-<ol class="bb_ol">
+<ol>
     <li>
         Beta of your game (via Steam) - The first step is to create an updated build of your game
         and set it as a beta in Steam. This enables Steam to deliver a separate version of your game
@@ -476,7 +423,7 @@ There are two parts to this:<br />
         Beta of your Workshop (via Group) - You can set up a group in the Steam Community and use
         membership in that group to gate access to the Steam Workshop. Or, you can simply open
         access to all customers that own your application.<br />
-        <ol class="bb_ol">
+        <ol>
             <li>
                 Create a Steam Community group to use for testing. You might want to leave it
                 private if you plan to restrict access to only people you want to select.<br />
@@ -490,7 +437,7 @@ There are two parts to this:<br />
                 then set the Visibility State to "Developers &amp; Testers". You will be prompted to
                 enter that ID. Publish your changes.<br />
                 <img
-                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/workshopvisibilitystate.PNG"
+                    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/workshopvisibilitystate.PNG"
                     alt="workshopvisibilitystate.PNG"
                     title="workshopvisibilitystate.PNG"
                 />
@@ -500,9 +447,7 @@ There are two parts to this:<br />
 </ol>
 <h2 class="bb_section"><a name="14"></a>Technical Implementation</h2>
 For technical details on implementing Steam Workshop with your title, please see the
-<a href="https://partner.steamgames.com/doc/features/workshop/implementation" class="bb_doclink"
-    >Steam Workshop Implementation Guide</a
->.
+<a href="/doc/features/workshop/implementation">Steam Workshop Implementation Guide</a>.
 <h2 class="bb_section"><a name="15"></a>Frequently Asked Questions</h2>
 <strong>Q. Can uploads be made from a game or tool via Family Sharing?</strong><br />
 A. No, uploading to the Steam Workshop cannot be done by a user that has a temporary license for the

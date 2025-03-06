@@ -1,86 +1,85 @@
 <h1>IInventoryService Interface</h1>
 This is the interface used to access the
-<a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-    >Steam Inventory Service</a
->.<br />
+<a href="/doc/features/inventory">Steam Inventory Service</a>.<br />
 <br />
 <strong>NOTE:</strong> This is a Service interface, methods in this interface should be called with
 the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br />
 <br />
 For more info on how to use the Steamworks Web API please see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
->.
+<a href="/doc/webapi_overview">Web API Overview</a>.
 <h2 class="bb_section"><a name="AddItem"></a>AddItem</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/AddItem/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The ID of the application associated with the item.</td>
-    </tr>
-    <tr>
-        <td><strong>itemdefid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            List of the itemdefid's to grant. This should be specified as a series of parameters
-            named 'itemdefid[0]', 'itemdefid[1]', etc.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>itempropsjson</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>SteamID of the player to receive the items.</td>
-    </tr>
-    <tr>
-        <td><strong>notify</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            Optional, default 0. Set to 1 to indicate the user is not in-game and should see a Steam
-            notification.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>requestid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            Optional, default 0. Clients may provide a unique identifier for a request to perform at
-            most once execution. When a requestid is resubmitted, it will not cause the work to be
-            performed again; the response message will be the current state of items affected by the
-            original successful execution.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>trade_restriction</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            Optional, default 0. Set to 1 to have Steam apply market and trade cooldowns as if this
-            was a purchased item.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The ID of the application associated with the item.</td>
+        </tr>
+        <tr>
+            <td><strong>itemdefid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                List of the itemdefid's to grant. This should be specified as a series of parameters
+                named 'itemdefid[0]', 'itemdefid[1]', etc.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>itempropsjson</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>SteamID of the player to receive the items.</td>
+        </tr>
+        <tr>
+            <td><strong>notify</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                Optional, default 0. Set to 1 to indicate the user is not in-game and should see a
+                Steam notification.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>requestid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                Optional, default 0. Clients may provide a unique identifier for a request to
+                perform at most once execution. When a requestid is resubmitted, it will not cause
+                the work to be performed again; the response message will be the current state of
+                items affected by the original successful execution.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>trade_restriction</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                Optional, default 0. Set to 1 to have Steam apply market and trade cooldowns as if
+                this was a purchased item.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 AddItem is used to add new items directly in a user's inventory. For each itemdef, an instance of
@@ -113,10 +112,10 @@ also fail.<br />
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set
@@ -161,53 +160,55 @@ also fail.<br />
     POST https://partner.steam-api.com/IInventoryService/AddPromoItem/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>itemdefid</strong></td>
-        <td>uint64</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>notify</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>Should notify the user that the item was added to their Steam Inventory.</td>
-    </tr>
-    <tr>
-        <td><strong>requestid</strong></td>
-        <td>uint64</td>
-        <td>
-            Clients may provide a unique identifier for a request to perform at most once execution.
-            When a requestid is resubmitted, it will not cause the work to be performed again; the
-            response message will be the current state of items affected by the original successful
-            execution.
-        </td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>itemdefid</strong></td>
+            <td>uint64</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>notify</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Should notify the user that the item was added to their Steam Inventory.</td>
+        </tr>
+        <tr>
+            <td><strong>requestid</strong></td>
+            <td>uint64</td>
+            <td>
+                Clients may provide a unique identifier for a request to perform at most once
+                execution. When a requestid is resubmitted, it will not cause the work to be
+                performed again; the response message will be the current state of items affected by
+                the original successful execution.
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Adds a promo item to a user's inventory. If called without the itemdefid parameter, checks for and
@@ -217,55 +218,57 @@ grants available promo items for the given player.<br />
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!
 <h2 class="bb_section"><a name="ConsumeItem"></a>ConsumeItem</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/ConsumeItem/v1/</div>
+<br />
 <table>
-    <br />
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>itemid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Item ID to be consumed</td>
-    </tr>
-    <tr>
-        <td><strong>quantity</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Amount of the given item stack to be consumed</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>requestid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            Clients may provide a unique identifier for a request to perform at most once execution.
-            When a requestid is resubmitted, it will not cause the work to be performed again; the
-            response message will be the current state of items affected by the original successful
-            execution.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>itemid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Item ID to be consumed</td>
+        </tr>
+        <tr>
+            <td><strong>quantity</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Amount of the given item stack to be consumed</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>requestid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                Clients may provide a unique identifier for a request to perform at most once
+                execution. When a requestid is resubmitted, it will not cause the work to be
+                performed again; the response message will be the current state of items affected by
+                the original successful execution.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Marks an item as wholly or partially consumed. This action cannot be reversed.<br />
@@ -274,65 +277,65 @@ Marks an item as wholly or partially consumed. This action cannot be reversed.<b
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 A client SDK version of this call is also available:
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ConsumeItem" class="bb_apilink"
-    >ISteamInventory::ConsumeItem</a
->
+<a href="/doc/api/ISteamInventory#ConsumeItem">ISteamInventory::ConsumeItem</a>
 <h2 class="bb_section"><a name="ExchangeItem"></a>ExchangeItem</h2>
 <div class="bb_code http">
     POST https://partner.steam-api.com/IInventoryService/ExchangeItem/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The ID of the application associated with the item.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>SteamID of the player that owns the items.</td>
-    </tr>
-    <tr>
-        <td><strong>materialsitemid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            The unique ID an item in the player's inventory to be converted to the target item type.
-            This should be provided as
-            <code class="bb_code bb_code_inline nohighlight">materialsitemid[0]</code>,
-            <code class="bb_code bb_code_inline nohighlight">materialsitemid[1]</code>, etc.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>materialsquantity</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            The quantity of the matching item that should be used in this recipe. This array must be
-            the same length as
-            <code class="bb_code bb_code_inline nohighlight">materialsitemid</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>outputitemdefid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The ItemDef of the item to be created.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The ID of the application associated with the item.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>SteamID of the player that owns the items.</td>
+        </tr>
+        <tr>
+            <td><strong>materialsitemid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                The unique ID an item in the player's inventory to be converted to the target item
+                type. This should be provided as
+                <code class="bb_code bb_code_inline nohighlight">materialsitemid[0]</code>,
+                <code class="bb_code bb_code_inline nohighlight">materialsitemid[1]</code>, etc.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>materialsquantity</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The quantity of the matching item that should be used in this recipe. This array
+                must be the same length as
+                <code class="bb_code bb_code_inline nohighlight">materialsitemid</code>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>outputitemdefid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The ItemDef of the item to be created.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 ExchangeItem is used for crafting - converting items using a predefined recipe. A successful
@@ -346,12 +349,8 @@ ExchangeItems call does not satisfy any recipe, the call fails and no changes ar
 inventory.<br />
 <br />
 See the Inventory Service
-<a
-    href="https://partner.steamgames.com/doc/features/inventory/schema#ExchangeFormat"
-    class="bb_doclink"
-    >Schema documentation</a
->
-for more detail on crafting recipes.<br />
+<a href="/doc/features/inventory/schema#ExchangeFormat">Schema documentation</a> for more detail on
+crafting recipes.<br />
 <br />
 The crafting operation will take trade and market restrictions into account; the created item will
 have the latest trade restriction of any item used to create it.<br />
@@ -366,16 +365,14 @@ call - the consumed items and the newly created one.
 </div>
 <br />
 A client SDK version of this call is also available:
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
-    >ISteamInventory::ExchangeItems</a
-><br />
+<a href="/doc/api/ISteamInventory#ExchangeItems">ISteamInventory::ExchangeItems</a><br />
 <br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">item_json</code> - details of all
                 items affected by the exchange. This is returned as a string which contains encoded
@@ -405,30 +402,32 @@ A client SDK version of this call is also available:
 <h2 class="bb_section"><a name="GetInventory"></a>GetInventory</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/IInventoryService/GetInventory/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The ID of the application associated with the item.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>64-bit Steam ID of the user whose inventory you are requesting.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The ID of the application associated with the item.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>64-bit Steam ID of the user whose inventory you are requesting.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 GetInventory is used to retrieve a user's inventory.<br />
@@ -437,10 +436,10 @@ GetInventory is used to retrieve a user's inventory.<br />
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set
@@ -462,10 +461,7 @@ GetInventory is used to retrieve a user's inventory.<br />
 </ul>
 <br />
 For detailed description on the output values, refer to the
-<a href="https://partner.steamgames.com/doc/features/inventory/schema" class="bb_doclink"
-    >Core Schema</a
->
-documentation.<br />
+<a href="/doc/features/inventory/schema">Core Schema</a> documentation.<br />
 <br />
 <strong>Example Response:</strong><br />
 <div class="bb_code xml">
@@ -487,51 +483,53 @@ documentation.<br />
 <h2 class="bb_section"><a name="GetItemDefs"></a>GetItemDefs</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/IInventoryService/GetItemDefs/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The ID of the application associated with the item.</td>
-    </tr>
-    <tr>
-        <td><strong>modifiedsince</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            Use to retrieve just updates to the itemdefs since a given time. Format is
-            yyyymmddThhmmssZ (E.g. 20140808T010203Z).
-        </td>
-    </tr>
-    <tr>
-        <td><strong>itemdefids</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Use to retrieve just specific itemdefs by itemdefid</td>
-    </tr>
-    <tr>
-        <td><strong>workshopids</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Use to retrieve just specific itemdefs by workshopid</td>
-    </tr>
-    <tr>
-        <td><strong>cache_max_age_seconds</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>Allow stale data to be returned for the specified number of seconds.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The ID of the application associated with the item.</td>
+        </tr>
+        <tr>
+            <td><strong>modifiedsince</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                Use to retrieve just updates to the itemdefs since a given time. Format is
+                yyyymmddThhmmssZ (E.g. 20140808T010203Z).
+            </td>
+        </tr>
+        <tr>
+            <td><strong>itemdefids</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Use to retrieve just specific itemdefs by itemdefid</td>
+        </tr>
+        <tr>
+            <td><strong>workshopids</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Use to retrieve just specific itemdefs by workshopid</td>
+        </tr>
+        <tr>
+            <td><strong>cache_max_age_seconds</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>Allow stale data to be returned for the specified number of seconds.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 GetItemDefs is used to retrieve the itemdefs for a given application.<br />
@@ -540,10 +538,10 @@ GetItemDefs is used to retrieve the itemdefs for a given application.<br />
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">response</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set
@@ -629,66 +627,70 @@ GetItemDefs is used to retrieve the itemdefs for a given application.<br />
 <h2 class="bb_section"><a name="GetPriceSheet"></a>GetPriceSheet</h2>
 <div class="bb_code http">GET https://api.steampowered.com/IInventoryService/GetPriceSheet/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>ecurrency</strong></td>
-        <td>int32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>ecurrency</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Get the Inventory Service price sheet
 <h2 class="bb_section"><a name="Consolidate"></a>Consolidate</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/Consolidate/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>itemdefid</strong></td>
-        <td>uint64 array</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>force</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>itemdefid</strong></td>
+            <td>uint64 array</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>force</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Consolidate items of the given type within an user's inventory.<br />
@@ -702,45 +704,47 @@ trade restriction, unless 'force' is set to true.<br />
 <h2 class="bb_section"><a name="GetQuantity"></a>GetQuantity</h2>
 <div class="bb_code http">GET https://partner.steam-api.com/IInventoryService/GetQuantity/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>itemdefid</strong></td>
-        <td>uint64[]</td>
-        <td>✔</td>
-        <td>
-            List of the itemdefid's to query. This should be specified as a series of parameters
-            named 'itemdefid[0]', 'itemdefid[1]', etc.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>force</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>itemdefid</strong></td>
+            <td>uint64[]</td>
+            <td>✔</td>
+            <td>
+                List of the itemdefid's to query. This should be specified as a series of parameters
+                named 'itemdefid[0]', 'itemdefid[1]', etc.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>force</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Get the total number of available items of the given type<br />
@@ -750,118 +754,119 @@ Get the total number of available items of the given type<br />
 <h2 class="bb_section"><a name="ModifyItems"></a>ModifyItems</h2>
 <div class="bb_code http">POST https://partner.steam-api.com/IInventoryService/ModifyItems/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>input_json</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            The steamid of the user who owns the items. Must be specified in the
-            <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>timestamp</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            Unix timestamp of the request. An error will be returned if the items have been modified
-            since this request time. Must be specified in the
-            <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>updates</strong></td>
-        <td>message</td>
-        <td>✔</td>
-        <td>
-            The list of items and properties being modified. Must be specified in the
-            <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>input_json</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                The steamid of the user who owns the items. Must be specified in the
+                <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>timestamp</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                Unix timestamp of the request. An error will be returned if the items have been
+                modified since this request time. Must be specified in the
+                <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>updates</strong></td>
+            <td>message</td>
+            <td>✔</td>
+            <td>
+                The list of items and properties being modified. Must be specified in the
+                <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Structure of the <code class="bb_code bb_code_inline nohighlight">updates</code> property:<br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>itemid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The id of the item being modified.</td>
-    </tr>
-    <tr>
-        <td><strong>property_name</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>The name of the dynamic property being added/updated/removed.</td>
-    </tr>
-    <tr>
-        <td><strong>property_value_string</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>The string value of the property to set.</td>
-    </tr>
-    <tr>
-        <td><strong>property_value_bool</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>The boolean value of the property to set.</td>
-    </tr>
-    <tr>
-        <td><strong>property_value_int</strong></td>
-        <td>int64</td>
-        <td></td>
-        <td>The 64 bit integer value of the property to set.</td>
-    </tr>
-    <tr>
-        <td><strong>property_value_float</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>The 32 bit float value of the property to set.</td>
-    </tr>
-    <tr>
-        <td><strong>remove_property</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>Set to true if the property should be removed.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>itemid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The id of the item being modified.</td>
+        </tr>
+        <tr>
+            <td><strong>property_name</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>The name of the dynamic property being added/updated/removed.</td>
+        </tr>
+        <tr>
+            <td><strong>property_value_string</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>The string value of the property to set.</td>
+        </tr>
+        <tr>
+            <td><strong>property_value_bool</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>The boolean value of the property to set.</td>
+        </tr>
+        <tr>
+            <td><strong>property_value_int</strong></td>
+            <td>int64</td>
+            <td></td>
+            <td>The 64 bit integer value of the property to set.</td>
+        </tr>
+        <tr>
+            <td><strong>property_value_float</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>The 32 bit float value of the property to set.</td>
+        </tr>
+        <tr>
+            <td><strong>remove_property</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Set to true if the property should be removed.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
-Modify the
-<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
-    >dynamic properties</a
->
-on items for the given user. This call is rate-limited per user and currently only 100 items can be
-modified in one call.<br />
+Modify the <a href="/doc/features/inventory/dynamicproperties">dynamic properties</a> on items for
+the given user. This call is rate-limited per user and currently only 100 items can be modified in
+one call.<br />
 <br />
 <strong>Example <code class="bb_code bb_code_inline nohighlight">input_json</code></strong
 >:<br />

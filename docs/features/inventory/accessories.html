@@ -10,7 +10,7 @@ different accessory types might have. You may also choose to support different t
 on different item types in your game.<br />
 <br />
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/backpackcomic_resize30.png"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/backpackcomic_resize30.png"
     alt="backpackcomic_resize30.png"
     title="backpackcomic_resize30.png"
 /><br />
@@ -18,7 +18,7 @@ on different item types in your game.<br />
 As a concrete example, we'll look at defining a familiar type of accessory item - stickers.<br />
 <br />
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Unique_backpack.png"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/Unique_backpack.png"
     alt="Unique_backpack.png"
     title="Unique_backpack.png"
 /><br />
@@ -67,9 +67,8 @@ Any method that adds per-item tags can be used to attach accessories. The most i
 defining a consumable accessory that players can earn or buy, trade, and then use.<br />
 <br />
 This functionality is provided by the
-<a href="https://partner.steamgames.com/doc/features/inventory/tools" class="bb_doclink"
-    >"tag_tool" item type</a
->. The tag_tool is consumed in order to modify a target item.<br />
+<a href="/doc/features/inventory/tools">"tag_tool" item type</a>. The tag_tool is consumed in order
+to modify a target item.<br />
 <br />
 First, to enable the tag tool, we need to enable the accessory tag on the customizable item (in our
 example, this is the backpack):<br />
@@ -94,29 +93,23 @@ Also note that accessory items support all the normal Inventory actions and drop
 defining price categories and selling them on the Item Store.
 <h2 class="bb_subsection"><a name="4"></a>Using accessories</h2>
 To actually apply the sticker to an item, call the
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_doclink"
-    >ExchangeItems</a
->
-(crafting) method from the Steamworks SDK (or via the WebAPI from a trusted server). Pass the
-sticker and the customizable item as materials, and set the target ItemDef type to match the
-original customizable item. This will apply the tag_tool and update the target.<br />
+<a href="/doc/api/ISteamInventory#ExchangeItems">ExchangeItems</a> (crafting) method from the
+Steamworks SDK (or via the WebAPI from a trusted server). Pass the sticker and the customizable item
+as materials, and set the target ItemDef type to match the original customizable item. This will
+apply the tag_tool and update the target.<br />
 <br />
 If the request is valid, the ExchangeItems call will atomically consume the sticker and update the
 tags on the target item.<br />
 <br />
 Per-item tags can also be set other ways, including by item generators - see
-<a href="https://partner.steamgames.com/doc/features/inventory/itemtags" class="bb_doclink"
-    >the Item Tag page</a
->.
+<a href="/doc/features/inventory/itemtags">the Item Tag page</a>.
 <h2 class="bb_subsection"><a name="5"></a>Localization and appearance</h2>
 Accessories are automatically rendered in the web view including the users' backpack and the
 Community Market. The description block will include a small version of the icon for each attached
 accessory, and list the localized names of each accessory.<br />
 <br />
 As usual, item names are localized by providing values in the
-<a href="https://partner.steamgames.com/doc/features/inventory/schema" class="bb_doclink"
-    >ItemDef Schema</a
->.<br />
+<a href="/doc/features/inventory/schema">ItemDef Schema</a>.<br />
 <br />
 See the "Item Tags" section on the Steam Inventory Service page to provide localized text for the
 internal name. In our example, the internal name "sticker" is simply mapped to "Sticker" in all
@@ -125,15 +118,10 @@ supported languages.<br />
 You can also specify special text that will be displayed before the aforementioned special
 description block. Simply provide a
 <code class="bb_code bb_code_inline nohighlight">accessory_description_&lt;language&gt;</code>
-<a
-    href="https://partner.steamgames.com/doc/store/localization/languages#supported_languages"
-    class="bb_doclink"
-    >API language code</a
->
-property on your item description; in combination with
-<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
-    >dynamic properties</a
->, you can set tokens that will be replaced with dynamic property values.
+<a href="/doc/store/localization/languages#supported_languages">API language code</a> property on
+your item description; in combination with
+<a href="/doc/features/inventory/dynamicproperties">dynamic properties</a>, you can set tokens that
+will be replaced with dynamic property values.
 <h4>Example:</h4>
 <br />
 If the item instance (that has the "sticker" accessory attached) has the dynamic property

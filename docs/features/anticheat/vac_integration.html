@@ -12,7 +12,7 @@ account, so the only way for the user get un-banned is by creating a new Steam a
 another copy of the game.<br />
 <br />
 When a user is VAC Banned, the following happens:<br />
-<ul class="bb_ul">
+<ul>
     <li>The account cannot join secure servers for the AppIDs they are banned<br /></li>
     <li>The ban is publicly displayed on their Steam Community profile<br /></li>
     <li>The account can no longer share VAC enabled games<br /></li>
@@ -47,24 +47,18 @@ multi-player games and does nothing for single player games.<br />
 <br />
 <strong>VAC requires the Steamworks authentication APIs</strong><br />
 Authentication must be enforced in the game client and server via the
-<a href="https://partner.steamgames.com/doc/features/auth" class="bb_doclink"
-    >Steam Authentication APIs</a
->.<br />
+<a href="/doc/features/auth">Steam Authentication APIs</a>.<br />
 <br />
 <strong>Enable Anti-Cheat APIs</strong><br />
 This can be done from the
-<a href="https://partner.steamgames.com/apps/vac/" target="_blank" rel="noreferrer"
-    >Anti-Cheat Configuration</a
->
-page in the App Admin panel. These APIs must be enabled to apply Game bans and for VAC to detect
-cheats in your app.<br />
+<a href="/apps/vac/" target="_blank" rel="noreferrer">Anti-Cheat Configuration</a> page in the App
+Admin panel. These APIs must be enabled to apply Game bans and for VAC to detect cheats in your
+app.<br />
 <br />
 <strong>An active developer looking for cheats</strong><br />
 VAC only attempts to detect cheats reported by the developer. Valve does not actively seek out
 cheats either automatically or through manual digging. Please report cheats by using the
-<a
-    href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#ReportCheatData"
-    class="bb_apilink"
+<a href="/doc/webapi/ICheatReportingService#ReportCheatData"
     >ICheatReportingService/ReportCheatData</a
 >
 Web API and with a notification to
@@ -80,82 +74,60 @@ cheats.
 <h2 class="bb_section"><a name="4"></a>Integration</h2>
 VAC cheat detection is independent of your game client; that work is done by Steam. The game should
 use best practices and protect its assets and internal state. The game needs to use the
-<a href="https://partner.steamgames.com/doc/api" class="bb_doclink">Steamworks API</a> to find out
-whether or not a user is VAC banned. There are 3 results returned in the
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
-    class="bb_apilink"
+<a href="/doc/api">Steamworks API</a> to find out whether or not a user is VAC banned. There are 3
+results returned in the
+<a href="/doc/api/ISteamUser#ValidateAuthTicketResponse_t"
     >ISteamUser::ValidateAuthTicketResponse_t</a
 >
-callback from
-<a href="https://partner.steamgames.com/doc/api/ISteamUser#BeginAuthSession" class="bb_apilink"
-    >ISteamUser::BeginAuthSession</a
->
-that are specific to VAC. The VAC specific authentication results are:<br />
-<ul class="bb_ul">
+callback from <a href="/doc/api/ISteamUser#BeginAuthSession">ISteamUser::BeginAuthSession</a> that
+are specific to VAC. The VAC specific authentication results are:<br />
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_api#k_EAuthSessionResponseVACBanned"
-            class="bb_apilink"
+        <a href="/doc/api/steam_api#k_EAuthSessionResponseVACBanned"
             >k_EAuthSessionResponseVACBanned</a
         >
         - Returned when the player is VAC banned for cheating.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_api#k_EAuthSessionResponseVACCheckTimedOut"
-            class="bb_apilink"
+        <a href="/doc/api/steam_api#k_EAuthSessionResponseVACCheckTimedOut"
             >k_EAuthSessionResponseVACCheckTimedOut</a
         >
         - Returned when the players system is not allowing VAC to scan for cheats, and the player
         should be kicked from the game when this happens.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_api#k_EAuthSessionResponsePublisherIssuedBan"
-            class="bb_apilink"
+        <a href="/doc/api/steam_api#k_EAuthSessionResponsePublisherIssuedBan"
             >k_EAuthSessionResponsePublisherIssuedBan</a
         >
         - Returned when the user is banned via the RequestPlayerGameBan webapi.
     </li>
 </ul>
 <h2 class="bb_section"><a name="5"></a>Related Web APIs</h2>
-See the
-<a href="https://partner.steamgames.com/doc/webapi" class="bb_doclink">Web API</a> documentation for
-more information on how to use the following Web APIs.<br />
-<ul class="bb_ul">
+See the <a href="/doc/webapi">Web API</a> documentation for more information on how to use the
+following Web APIs.<br />
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#ReportCheatData"
-            class="bb_apilink"
+        <a href="/doc/webapi/ICheatReportingService#ReportCheatData"
             >ICheatReportingService/ReportCheatData</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#ReportPlayerCheating"
-            class="bb_apilink"
+        <a href="/doc/webapi/ICheatReportingService#ReportPlayerCheating"
             >ICheatReportingService/ReportPlayerCheating</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#GetCheatingReports"
-            class="bb_apilink"
+        <a href="/doc/webapi/ICheatReportingService#GetCheatingReports"
             >ICheatReportingService/GetCheatingReports</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#RequestPlayerGameBan"
-            class="bb_apilink"
+        <a href="/doc/webapi/ICheatReportingService#RequestPlayerGameBan"
             >ICheatReportingService/RequestPlayerGameBan</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#RemovePlayerGameBan"
-            class="bb_apilink"
+        <a href="/doc/webapi/ICheatReportingService#RemovePlayerGameBan"
             >ICheatReportingService/RemovePlayerGameBan</a
         >
     </li>

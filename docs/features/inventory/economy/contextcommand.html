@@ -1,88 +1,85 @@
 <h1>ContextCommand/v0001</h1>
 This is called by the support tool when the support agent clicks on one of the context commands
-returned by
-<a
-    href="https://partner.steamgames.com/doc/features/inventory/economy/GetContexts"
-    class="bb_doclink"
-    >GetContexts/v0001</a
->.<br />
+returned by <a href="/doc/features/inventory/economy/GetContexts">GetContexts/v0001</a>.<br />
 <br />
 <strong>Called by:</strong> Support Tool<br />
 <br />
 <strong>HTTP Method:</strong> POST
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on
-            the partner site.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The 64-bit Steam ID of the user to run the command on.</td>
-    </tr>
-    <tr>
-        <td><strong>contextid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The 64-bit ID of the context that asset exists in.</td>
-    </tr>
-    <tr>
-        <td><strong>actorid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            A 32-bit ID for the support agent executing this command. Use this for auditing purposes
-            when you log this action.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>command</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>The name of the command being executed.</td>
-    </tr>
-    <tr>
-        <td><strong>assetid</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            The asset ID of the asset to perform this command on. This parameter will only be
-            present if asset_command was returned as true when the command was returned from
-            GetContexts.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>(other arguments)</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            Any options in the command will be returned with the option name as the key and the
-            selected option value as the value. Any spaces in the option name will be replaced by
-            underscores.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                This is the "Asset Server Key" that you provided in your app's Steam Economy
+                Settings on the partner site.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The 64-bit Steam ID of the user to run the command on.</td>
+        </tr>
+        <tr>
+            <td><strong>contextid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The 64-bit ID of the context that asset exists in.</td>
+        </tr>
+        <tr>
+            <td><strong>actorid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                A 32-bit ID for the support agent executing this command. Use this for auditing
+                purposes when you log this action.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>command</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>The name of the command being executed.</td>
+        </tr>
+        <tr>
+            <td><strong>assetid</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                The asset ID of the asset to perform this command on. This parameter will only be
+                present if asset_command was returned as true when the command was returned from
+                GetContexts.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>(other arguments)</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                Any options in the command will be returned with the option name as the key and the
+                selected option value as the value. Any spaces in the option name will be replaced
+                by underscores.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="2"></a>Returns</h2>
 The output from this method should be encoded in the JSON format.<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">result</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set

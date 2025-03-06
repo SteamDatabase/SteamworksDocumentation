@@ -3,90 +3,57 @@
 The Steam HTML Surface API enables the display and render of HTML-based pages directly in a game or
 application. It is built upon the Chromium Embedded Framework and supports HTML5 markup.
 <h2 class="bb_section"><a name="GettingStarted"></a>Getting Started with ISteamHTMLSurface</h2>
-The
-<a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface" class="bb_apilink"
-    >ISteamHTMLSurface</a
->
-interface is implemented in
+The <a href="/doc/api/ISteamHTMLSurface">ISteamHTMLSurface</a> interface is implemented in
 <code class="bb_code bb_code_inline nohighlight">isteamhtmlsurface.h</code> and can be found in the
 <code class="bb_code bb_code_inline nohighlight">public/steam</code> folder in the
-<a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a>. The
-interface can be accessed through the
+<a href="/doc/sdk">Steamworks SDK</a>. The interface can be accessed through the
 <code class="bb_code bb_code_inline nohighlight">SteamHTMLSurface()</code> interface pointer.<br />
 Below is a list of the most commonly used methods in this API. Please refer to the API reference for
 details on interacting with the web page (scrolling, clicking links), using javascript, file
 dialogs, etc.<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Init" class="bb_apilink"
-            >ISteamHTMLSurface::Init</a
-        ><br />
+        <a href="/doc/api/ISteamHTMLSurface#Init">ISteamHTMLSurface::Init</a><br />
         Please ensure Init is called before any use of this interface.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#Shutdown"
-            class="bb_apilink"
-            >ISteamHTMLSurface::Shutdown</a
-        ><br />
+        <a href="/doc/api/ISteamHTMLSurface#Shutdown">ISteamHTMLSurface::Shutdown</a><br />
         Please ensure Shutdown is called when no longer using this interface.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#CreateBrowser"
-            class="bb_apilink"
-            >ISteamHTMLSurface::CreateBrowser</a
+        <a href="/doc/api/ISteamHTMLSurface#CreateBrowser">ISteamHTMLSurface::CreateBrowser</a
         ><br />
         This function will create a browser object for display of an HTML page and return a
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_BrowserReady_t"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamHTMLSurface#HTML_BrowserReady_t"
             >ISteamHTMLSurface::HTML_BrowserReady_t</a
         >
         handle to the created browser which can then be used in a CallResult for
         ::OnBrowserReady.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#RemoveBrowser"
-            class="bb_apilink"
-            >ISteamHTMLSurface::RemoveBrowser</a
+        <a href="/doc/api/ISteamHTMLSurface#RemoveBrowser">ISteamHTMLSurface::RemoveBrowser</a
         ><br />
         Call this when you are done with an HTML surface. This frees the resources being used by
         it.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#SetSize"
-            class="bb_apilink"
-            >ISteamHTMLSurface::SetSize</a
-        ><br />
+        <a href="/doc/api/ISteamHTMLSurface#SetSize">ISteamHTMLSurface::SetSize</a><br />
         Call this to set the size of the HTML rendering area.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#LoadURL"
-            class="bb_apilink"
-            >ISteamHTMLSurface::LoadURL</a
-        ><br />
+        <a href="/doc/api/ISteamHTMLSurface#LoadURL">ISteamHTMLSurface::LoadURL</a><br />
         Navigate to the URL. Results in a
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
             >ISteamHTMLSurface::HTML_StartRequest_t</a
         >
         as the request commences.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#AllowStartRequest"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamHTMLSurface#AllowStartRequest"
             >ISteamHTMLSurface::AllowStartRequest</a
         ><br />
         You must call this in response to a
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamHTMLSurface#HTML_StartRequest_t"
             >ISteamHTMLSurface::HTML_StartRequest_t</a
         >
         callback.
@@ -98,20 +65,12 @@ There are a series of callbacks that can be setup to determine when certain brow
 list). The Steamworks Example demonstrates implementing and using some of these callbacks in
 <code class="bb_code bb_code_inline nohighlight">htmlsurface.h/.cpp</code>.<br />
 To complete a simple HTML Surface implementation, a CallBack for
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamHTMLSurface#HTML_NeedsPaint_t"
-    class="bb_apilink"
-    >ISteamHTMLSurface::HTML_NeedsPaint_t</a
->
-must be implemented to retrieve the image data for rendering.
+<a href="/doc/api/ISteamHTMLSurface#HTML_NeedsPaint_t">ISteamHTMLSurface::HTML_NeedsPaint_t</a> must
+be implemented to retrieve the image data for rendering.
 <h2 class="bb_section"><a name="sample"></a>Steamworks Example Implementation</h2>
-The
-<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink"
-    >Steamworks API Example Application (SpaceWar)</a
->
-that ships with the SDK contains a basic implementation of the Steam HTML Surface API. Upon
-launching the sample, scroll down and select HTML Page. The Steam Community home page will then load
-in the game.<br />
+The <a href="/doc/sdk/api/example">Steamworks API Example Application (SpaceWar)</a> that ships with
+the SDK contains a basic implementation of the Steam HTML Surface API. Upon launching the sample,
+scroll down and select HTML Page. The Steam Community home page will then load in the game.<br />
 You can find the integration of the Steam HTML Surface API in the
 <code class="bb_code bb_code_inline nohighlight">htmlsurface.h</code> and
 <code class="bb_code bb_code_inline nohighlight">htmlsurface.cpp</code> files.<br />

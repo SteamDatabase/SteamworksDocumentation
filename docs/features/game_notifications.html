@@ -25,17 +25,16 @@ In order to call the Game Notifications APIs, you must first establish the ident
 user logged into your game. You can do this one of two ways: a client game can generate an
 authentication session ticket and pass it back to your server, or a web based game can verify the
 user by using OpenID. Instructions to do so are available in
-<a href="https://partner.steamgames.com/doc/features/auth#account_linking" class="bb_doclink"
-    >Linking third-party accounts to Steam accounts</a
->. It is important that you do not trust user identity in messages sent directly from the game
-client to your game server, as these messages can be tampered with.<br />
+<a href="/doc/features/auth#account_linking">Linking third-party accounts to Steam accounts</a>. It
+is important that you do not trust user identity in messages sent directly from the game client to
+your game server, as these messages can be tampered with.<br />
 For games that use 3rd party accounts, use the instructions provided above but cache the user’s
 Steam ID in your system.
 <h2 class="bb_section"><a name="API"></a>Game Notifications API</h2>
 <h2 class="bb_subsection"><a name="TechOverview"></a>Technical Overview</h2>
 The Game Notifications API is written and exposed through Web APIs and require 4 parameters passed
 in each method:<br />
-<ul class="bb_ul">
+<ul>
     <li>appid (the application id for your game)<br /></li>
     <li>format (the format of the result. We recommend json as the return value)<br /></li>
     <li>input_json ( json encoding of all the parameters required for a method)<br /></li>
@@ -46,7 +45,7 @@ applicable).
 <h2 class="bb_subsection"><a name="ConstantValues"></a>Constant Values</h2>
 <h4>UserState</h4>
 A string value defined as one of below:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>waiting</strong> - The user is waiting for other players and not blocking any
         action. No notification will be sent to the user because he is waiting for something to
@@ -88,51 +87,36 @@ All data structures are represented in JSON format.
 <h4>RequestedSession</h4>
 <div class="bb_code">{ "sessionid": "1", // uint64 "include_all_user_messages": "0" // bool }</div>
 <h2 class="bb_section"><a name="APIs"></a>Common APIs available.</h2>
-See
-<a href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService" class="bb_apilink"
-    >IGameNotificationsService</a
->
-for the full list.<br />
-<ul class="bb_ul">
+See <a href="/doc/webapi/IGameNotificationsService">IGameNotificationsService</a> for the full
+list.<br />
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#RequestNotifications"
-            class="bb_apilink"
+        <a href="/doc/webapi/IGameNotificationsService#RequestNotifications"
             >IGameNotificationsService/RequestNotifications</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#CreateSession"
-            class="bb_apilink"
+        <a href="/doc/webapi/IGameNotificationsService#CreateSession"
             >IGameNotificationsService/CreateSession</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#DeleteSession"
-            class="bb_apilink"
+        <a href="/doc/webapi/IGameNotificationsService#DeleteSession"
             >IGameNotificationsService/DeleteSession</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#UpdateSession"
-            class="bb_apilink"
+        <a href="/doc/webapi/IGameNotificationsService#UpdateSession"
             >IGameNotificationsService/UpdateSession</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#EnumerateSessionsForApp"
-            class="bb_apilink"
+        <a href="/doc/webapi/IGameNotificationsService#EnumerateSessionsForApp"
             >IGameNotificationsService/EnumerateSessionsForApp</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/webapi/IGameNotificationsService#GetSessionDetailsForApp"
-            class="bb_apilink"
+        <a href="/doc/webapi/IGameNotificationsService#GetSessionDetailsForApp"
             >IGameNotificationsService/GetSessionDetailsForApp</a
         >
     </li>
@@ -142,9 +126,7 @@ Users will be able to view all their active game sessions on their community pro
 Along with game status, there is a button to instruct steam to launch the game with specific launch
 parameters to define the game session. When a game is launched this way, a launch parameter of
 "_sessionid" will be provided to the game, you can receive this parameter using
-<a href="https://partner.steamgames.com/doc/api/ISteamApps#GetLaunchQueryParam" class="bb_apilink"
-    >ISteamApps::GetLaunchQueryParam</a
->.<br />
+<a href="/doc/api/ISteamApps#GetLaunchQueryParam">ISteamApps::GetLaunchQueryParam</a>.<br />
 Like so:<br />
 <div class="bb_code">
     const char *pchSessionID = ISteamApps()-&gt;GetLaunchQueryParam("_sessionid");
@@ -158,27 +140,26 @@ application configuration. You are responsible for setting each language transla
 string entered into the localization tool. Any strings that are not translated to a player’s
 language will be rendered in English.<br />
 Game notification supports localization for the following properties:<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a href="#DataStructures" class="bb_doclink">Session</a><br />
-        <ul class="bb_ul">
+        <a href="#DataStructures">Session</a><br />
+        <ul>
             <li>Title</li>
         </ul>
     </li>
     <li>
-        <a href="#DataStructures" class="bb_doclink">UserStatus</a><br />
-        <ul class="bb_ul">
+        <a href="#DataStructures">UserStatus</a><br />
+        <ul>
             <li>Title<br /></li>
             <li>Message</li>
         </ul>
     </li>
 </ul>
 <br />
-Each <a href="#DataStructures" class="bb_doclink">localized text</a> is comprised of two
-components:<br />
-<ul class="bb_ul">
+Each <a href="#DataStructures">localized text</a> is comprised of two components:<br />
+<ul>
     <li>Token<br /></li>
-    <li>List of <a href="#DataStructures" class="bb_doclink">Variables</a></li>
+    <li>List of <a href="#DataStructures">Variables</a></li>
 </ul>
 <br />
 A token is a key that begins with the "#" symbol, and represents a string that is localized in

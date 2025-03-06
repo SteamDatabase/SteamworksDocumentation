@@ -9,33 +9,21 @@ it in their Steam-&gt;Settings dialog.
 <h2 class="bb_section"><a name="requirements"></a>Requirements</h2>
 Your game does not need to do anything special for the overlay to work, it automatically hooks into
 any game launched from Steam! While in development and running your game in a debugger, the overlay
-is loaded when you call
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->. As such you'll need to make sure to call
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->
-prior to initializing the OpenGL/D3D device, otherwise it won't be able to hook the device
-creation.<br />
+is loaded when you call <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a>. As such you'll
+need to make sure to call <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a> prior to
+initializing the OpenGL/D3D device, otherwise it won't be able to hook the device creation.<br />
 <br />
 The overlay supports games that use DirectX 7 - 12, OpenGL, Metal, and Vulkan. The overlay will not
 be active in software-rasterized games.<br />
 <br />
 macOS: Overlay support for 10.15 (Catalina) requires adding entitlements to your build
 configuration. Details are provided on the
-<a
-    href="https://partner.steamgames.com/doc/store/application/platforms"
-    target="_blank"
-    rel="noreferrer"
-    >platforms</a
->
-page.
+<a href="/doc/store/application/platforms" target="_blank" rel="noreferrer">platforms</a> page.
 <div class="bb_callout">
     <div>
         <strong>NOTE:</strong> The overlay is automatically disabled for 'Software' app types. If
         you need the overlay enabled, you can do so by:<br />
-        <ul class="bb_ul">
+        <ul>
             <li>Making sure your Steam account has the Edit App Metadata permission<br /></li>
             <li>
                 Navigate from the App's landing page to &gt; Edit Steamworks Settings &gt;
@@ -49,28 +37,21 @@ page.
 <h2 class="bb_section"><a name="activating"></a>Activating the overlay from your app</h2>
 There are a set of functions in the Steamworks API that give you direct access to triggering the
 game overlay.<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlay"
-            class="bb_apilink"
-            >ISteamFriends::ActivateGameOverlay</a
+        <a href="/doc/api/ISteamFriends#ActivateGameOverlay">ISteamFriends::ActivateGameOverlay</a
         ><br />
         This function can open the game overlay to the dialog specified.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToUser"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamFriends#ActivateGameOverlayToUser"
             >ISteamFriends::ActivateGameOverlayToUser</a
         ><br />
         This function can open the game overlay to the dialog specified, with the user passed in as
         context.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToWebPage"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamFriends#ActivateGameOverlayToWebPage"
             >ISteamFriends::ActivateGameOverlayToWebPage</a
         ><br />
         This function can open the game overlay to its web browser, and loads the specified url. It
@@ -80,32 +61,21 @@ game overlay.<br />
         >.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToStore"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamFriends#ActivateGameOverlayToStore"
             >ISteamFriends::ActivateGameOverlayToStore</a
         ><br />
         This function can open the game overlay to the buy DLC for the current game (see
-        <a href="https://partner.steamgames.com/doc/store/application/dlc" class="bb_doclink"
-            >Downloadable Content (DLC)</a
-        >
-        for more info)<br />
+        <a href="/doc/store/application/dlc">Downloadable Content (DLC)</a> for more info)<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUtils#SetOverlayNotificationPosition"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamUtils#SetOverlayNotificationPosition"
             >ISteamUtils::SetOverlayNotificationPosition</a
         ><br />
         Sets which corner of the screen you want notifications ('toasts') to appear. Default is the
         bottom-right corner of the screen.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUtils#IsOverlayEnabled"
-            class="bb_apilink"
-            >ISteamUtils::IsOverlayEnabled</a
-        ><br />
+        <a href="/doc/api/ISteamUtils#IsOverlayEnabled">ISteamUtils::IsOverlayEnabled</a><br />
         Returns true if the overlay is running &amp; the user can access it. The overlay process
         could take a few seconds to start &amp; hook the game process, so this function will
         initially return false while the overlay is loading.
@@ -114,31 +84,20 @@ game overlay.<br />
 <h2 class="bb_section"><a name="callbacks"></a>Communication from the overlay to your game</h2>
 The following signals (callbacks) are sent from Steam to your game, based on user action in the
 overlay:<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamFriends#GameOverlayActivated_t"
-            class="bb_apilink"
-            >GameOverlayActivated_t</a
-        ><br />
+        <a href="/doc/api/ISteamFriends#GameOverlayActivated_t">GameOverlayActivated_t</a><br />
         Posted when game overlay activates or deactivates. The game can use this to pause or resume
         single player games.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamFriends#GameServerChangeRequested_t"
-            class="bb_apilink"
-            >GameServerChangeRequested_t</a
+        <a href="/doc/api/ISteamFriends#GameServerChangeRequested_t">GameServerChangeRequested_t</a
         ><br />
         Posted when the user selects a friends game to join, contains details about the game server
         to join.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamFriends#GameLobbyJoinRequested_t"
-            class="bb_apilink"
-            >GameLobbyJoinRequested_t</a
-        ><br />
+        <a href="/doc/api/ISteamFriends#GameLobbyJoinRequested_t">GameLobbyJoinRequested_t</a><br />
         Posted when the user selects a friends game to join, contains details about the lobby to
         join.
     </li>
@@ -169,15 +128,10 @@ If after debugging the app is still crashing in the overlay, please notify us in
     >Steamworks Development Group</a
 >.
 <h4>Q. Why isn't the Steam overlay showing up in my app?</h4>
-<strong>A.</strong> First ensure that you meet the
-<a href="#requirements" class="bb_doclink">Requirements</a> above. If you do meet the requirements
-and it's still not showing up, make sure you're launching the app through the Steam client, either
-directly from the lobby/quick launch list, or by calling
-<a
-    href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RestartAppIfNecessary"
-    class="bb_apilink"
-    >SteamAPI_RestartAppIfNecessary</a
->.
+<strong>A.</strong> First ensure that you meet the <a href="#requirements">Requirements</a> above.
+If you do meet the requirements and it's still not showing up, make sure you're launching the app
+through the Steam client, either directly from the lobby/quick launch list, or by calling
+<a href="/doc/api/steam_api#SteamAPI_RestartAppIfNecessary">SteamAPI_RestartAppIfNecessary</a>.
 <h4>Q. My game is using D3D12 on Win7, and the Steam overlay is not working. Why?</h4>
 <strong>A.</strong> Please refer to this
 <a

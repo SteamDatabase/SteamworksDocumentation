@@ -6,79 +6,82 @@ This returns the contexts that exist for the specified user.<br />
 <strong>HTTP Method:</strong> GET
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on
-            the partner site.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>32bit App ID of the application associated with the contexts.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>64bit Steam ID of the user to return contexts for.</td>
-    </tr>
-    <tr>
-        <td><strong>parent</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            The 64-bit ID of the parent context to return children for. If this parameter is zero,
-            return the root level contexts.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>category</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            "history" or "assets" if this is being called from the support tool. If this call is
-            being made from the trading or inventory UIs the category will be "trading". This can be
-            useful if you have contexts that only make sense to appear in certain categories. It is
-            also likely that some context commands only make sense in certain categories, so you can
-            filter which commands you send based on the category. If you don't support the support
-            tool APIs, it is fine to treat all categories the same.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>commands</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>True if context commands should be included in the output.</td>
-    </tr>
-    <tr>
-        <td><strong>language</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the language to return
-            strings in. Some examples include en_US, de_DE, zh_CN, and ko_KR. Default: en_US
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                This is the "Asset Server Key" that you provided in your app's Steam Economy
+                Settings on the partner site.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>32bit App ID of the application associated with the contexts.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>64bit Steam ID of the user to return contexts for.</td>
+        </tr>
+        <tr>
+            <td><strong>parent</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                The 64-bit ID of the parent context to return children for. If this parameter is
+                zero, return the root level contexts.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>category</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                "history" or "assets" if this is being called from the support tool. If this call is
+                being made from the trading or inventory UIs the category will be "trading". This
+                can be useful if you have contexts that only make sense to appear in certain
+                categories. It is also likely that some context commands only make sense in certain
+                categories, so you can filter which commands you send based on the category. If you
+                don't support the support tool APIs, it is fine to treat all categories the same.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>commands</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>True if context commands should be included in the output.</td>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the language to
+                return strings in. Some examples include en_US, de_DE, zh_CN, and ko_KR. Default:
+                en_US
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="2"></a>Returns</h2>
 The output from this method should be encoded in the JSON format.<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">result</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set
@@ -93,13 +96,11 @@ The output from this method should be encoded in the JSON format.<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">contexts</code> - an array of the
                 contexts that are children of the specified parent.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">id</code> - The 64-bit ID
                         of the context within this game for this steam ID. See
-                        <a
-                            href="https://partner.steamgames.com/doc/features/inventory/economy/contextid"
-                            class="bb_doclink"
+                        <a href="/doc/features/inventory/economy/contextid"
                             >Steam Economy Context IDs</a
                         >
                         for more information.<br />
@@ -138,7 +139,7 @@ The output from this method should be encoded in the JSON format.<br />
                 <code class="bb_code bb_code_inline nohighlight">alerts</code>(optional) - An array
                 of alerts to show for this game in the trade UI. This node is ignored for categories
                 other than "trading"<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">text</code> - Localized
                         string to show in the trade UI for this game.<br />
@@ -170,13 +171,9 @@ The output from this method should be encoded in the JSON format.<br />
 Each context can contain commands that allow support agents to manipulate the user's assets. These
 only appear on the Economy page in the support tool. They are used for operations like adding new
 items, reloading the account, and deleting items. When a command is executed
-<a
-    href="https://partner.steamgames.com/doc/features/inventory/economy/ContextCommand"
-    class="bb_doclink"
-    >ContextCommand/v0001</a
->
-will be called. Each command is specified as follows:<br />
-<ul class="bb_ul">
+<a href="/doc/features/inventory/economy/ContextCommand">ContextCommand/v0001</a> will be called.
+Each command is specified as follows:<br />
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">name</code> - Name of the command. This is
         displayed in the support tool and will be returned to
@@ -208,7 +205,7 @@ will be called. Each command is specified as follows:<br />
     <li>
         <code class="bb_code bb_code_inline nohighlight">options</code> - An array of options to
         display in the confirmation dialog.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">name</code> - Name of the
                 option.<br />
@@ -236,7 +233,7 @@ will be called. Each command is specified as follows:<br />
                 possible values for
                 <code class="bb_code bb_code_inline nohighlight">dropdown</code> options. This is
                 not used for other option types.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">name</code> - Name to show
                         the support agent for this value.<br />
@@ -255,7 +252,7 @@ will be called. Each command is specified as follows:<br />
                 display in
                 <code class="bb_code bb_code_inline nohighlight">type_picker</code> options. This is
                 not used for other option types.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">name</code> - Name of the
                         type<br />

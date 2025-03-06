@@ -3,12 +3,9 @@ New to the Steam Inventory Service is the ability to store arbitrary string, int
 float properties on any item instance.<br />
 <br />
 These properties are similar to
-<a
-    href="https://partner.steamgames.com/doc/features/inventory/itemtags#PerItemTags"
-    class="bb_doclink"
-    >per item tags</a
->. However, unlike per item tags which are considered immutable, these properties are dynamic
-because they can be modified either through a secure Web API call or through the Steamworks API.<br />
+<a href="/doc/features/inventory/itemtags#PerItemTags">per item tags</a>. However, unlike per item
+tags which are considered immutable, these properties are dynamic because they can be modified
+either through a secure Web API call or through the Steamworks API.<br />
 <br />
 Also unlike item tags, dynamic item properties are cleared when an item is traded. Dynamic item
 properties are not currently visible when inspecting an item in a user's Steam Inventory or on the
@@ -17,11 +14,7 @@ Steam Community Market.
 <br />
 Dynamic item properties are automatically sent along with other item attributes to the Steam Client
 and can be retrieved by calling
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#GetResultItemProperty"
-    class="bb_apilink"
-    >ISteamInventory::GetResultItemProperty</a
->
+<a href="/doc/api/ISteamInventory#GetResultItemProperty">ISteamInventory::GetResultItemProperty</a>
 with the property name <code class="bb_code bb_code_inline nohighlight">dynamic_props</code>. The
 provided buffer will be filled with the string representation of the JSON for all the dynamic
 properties for the item. It is up to your application to parse this string appropriately.<br />
@@ -32,27 +25,14 @@ JSON object containing the dynamic item properties.
 <h2 class="bb_subsection"><a name="2"></a>Modifying Item Properties</h2>
 <br />
 From one of your secure servers, you can modify items using the
-<a href="https://partner.steamgames.com/doc/webapi/IInventoryService#ModifyItems" class="bb_apilink"
-    >IInventoryService/ModifyItems</a
->
-Web API and your secure publisher key.<br />
+<a href="/doc/webapi/IInventoryService#ModifyItems">IInventoryService/ModifyItems</a> Web API and
+your secure publisher key.<br />
 <br />
 You can also modify item properties from the Steam Client via the Steamworks API and calls to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#StartUpdateProperties"
-    class="bb_apilink"
-    >ISteamInventory::StartUpdateProperties</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RemoveProperty" class="bb_apilink"
-    >ISteamInventory::RemoveProperty</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#SetProperty" class="bb_apilink"
-    >ISteamInventory::SetProperty</a
->, and
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SubmitUpdateProperties"
-    class="bb_apilink"
-    >ISteamInventory::SubmitUpdateProperties</a
+<a href="/doc/api/ISteamInventory#StartUpdateProperties">ISteamInventory::StartUpdateProperties</a>,
+<a href="/doc/api/ISteamInventory#RemoveProperty">ISteamInventory::RemoveProperty</a>,
+<a href="/doc/api/ISteamInventory#SetProperty">ISteamInventory::SetProperty</a>, and
+<a href="/doc/api/ISteamInventory#SubmitUpdateProperties">ISteamInventory::SubmitUpdateProperties</a
 >. However, you will first need to white-list what properties can be set from the client on the
 Steam Inventory Service configuration page on the partner site. We recommend that you only
 white-list properties that you are fine with an untrusted client setting (i.e. the user can spoof
@@ -77,10 +57,8 @@ property modifications, as the calls to modify item properties are rate limited 
 <h4>WebAPI</h4>
 On your secure game server, you can accumulate that statistic and at the end of the game round or
 other appropriate time, you can POST the results to the
-<a href="https://partner.steamgames.com/doc/webapi/IInventoryService#ModifyItems" class="bb_apilink"
-    >IInventoryService/ModifyItems</a
->
-Web API using your secure publisher key.<br />
+<a href="/doc/webapi/IInventoryService#ModifyItems">IInventoryService/ModifyItems</a> Web API using
+your secure publisher key.<br />
 <br />
 Example form-data for the POST call:<br />
 <div class="bb_code">
@@ -103,11 +81,8 @@ start an update, set properties, and then submit the update to Steam.<br />
 </div>
 <br />
 Then in your callback handler for
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResultReady_t"
-    class="bb_apilink"
-    >SteamInventoryResultReady_t</a
->, you will get the results of the call to update those item properties.
+<a href="/doc/api/ISteamInventory#SteamInventoryResultReady_t">SteamInventoryResultReady_t</a>, you
+will get the results of the call to update those item properties.
 <h2 class="bb_subsection"><a name="4"></a>Localization</h2>
 Dynamic properties are not normally rendered in the web view of the user's backpack. However, you
 can use the values in your item's description if you specify the dynamic property name as a

@@ -1,11 +1,7 @@
 <h1>ISteamInventory Interface</h1>
 Steam Inventory query and manipulation API.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/features/inventory" class="bb_doclink"
-    >Steam Inventory Service</a
->
-for more information.
+See <a href="/doc/features/inventory">Steam Inventory Service</a> for more information.
 <h2 class="bb_section"><a name="functions"></a>Member Functions</h2>
 Member functions for <code class="bb_code bb_code_inline nohighlight">ISteamInventory</code> are
 called through the global accessor function
@@ -15,34 +11,26 @@ called through the global accessor function
     bool AddPromoItem( SteamInventoryResult_t *pResultHandle, SteamItemDef_t itemDef );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
-    <tr>
-        <td><strong>itemDef</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-        </td>
-        <td>The ItemDef to grant the player.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+        <tr>
+            <td><strong>itemDef</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a></td>
+            <td>The ItemDef to grant the player.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Grant a specific one-time promotional item to the current user.<br />
@@ -51,13 +39,8 @@ This can be safely called from the client because the items it can grant can be 
 policies in the itemdefs. One of the primary scenarios for this call is to grant an item to users
 who also own a specific other game. This can be useful if your game has custom UI for showing a
 specific promo item to the user otherwise if you want to grant multiple promotional items then use
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItems" class="bb_apilink"
-    >ISteamInventory::AddPromoItems</a
->
-or
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#GrantPromoItems" class="bb_apilink"
-    >ISteamInventory::GrantPromoItems</a
->.<br />
+<a href="/doc/api/ISteamInventory#AddPromoItems">ISteamInventory::AddPromoItems</a> or
+<a href="/doc/api/ISteamInventory#GrantPromoItems">ISteamInventory::GrantPromoItems</a>.<br />
 <br />
 Any items that can be granted MUST have a "promo" attribute in their itemdef. That promo item list a
 set of APPIDs that the user must own to be granted this given item. This version will grant all
@@ -78,10 +61,8 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.<br />
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
@@ -94,48 +75,34 @@ on the provided inventory result when you are done with it.<br />
     uint32 unArrayLength );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
-    <tr>
-        <td><strong>pArrayItemDefs</strong></td>
-        <td>
-            const
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-            *
-        </td>
-        <td>The list of items to grant the user.</td>
-    </tr>
-    <tr>
-        <td><strong>unArrayLength</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The number of items in
-            <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code>.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+        <tr>
+            <td><strong>pArrayItemDefs</strong></td>
+            <td>const <a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a> *</td>
+            <td>The list of items to grant the user.</td>
+        </tr>
+        <tr>
+            <td><strong>unArrayLength</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The number of items in
+                <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code>.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Grant a specific one-time promotional item to the current user.<br />
@@ -143,12 +110,9 @@ Grant a specific one-time promotional item to the current user.<br />
 This can be safely called from the client because the items it can grant can be locked down via
 policies in the itemdefs. One of the primary scenarios for this call is to grant an item to users
 who also own a specific other game. If you want to grant a single promotional item then use
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem" class="bb_apilink"
-    >ISteamInventory::AddPromoItem</a
->. If you want to grant all possible promo items then use
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#GrantPromoItems" class="bb_apilink"
-    >ISteamInventory::GrantPromoItems</a
->.<br />
+<a href="/doc/api/ISteamInventory#AddPromoItem">ISteamInventory::AddPromoItem</a>. If you want to
+grant all possible promo items then use
+<a href="/doc/api/ISteamInventory#GrantPromoItems">ISteamInventory::GrantPromoItems</a>.<br />
 <br />
 Any items that can be granted MUST have a "promo" attribute in their itemdef. That promo item list a
 set of APPIDs that the user must own to be granted this given item. This version will grant all
@@ -169,10 +133,8 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.<br />
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
@@ -184,41 +146,32 @@ on the provided inventory result when you are done with it.<br />
     bool CheckResultSteamID( SteamInventoryResult_t resultHandle, CSteamID steamIDExpected );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>resultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>The inventory result handle to check the Steam ID on.</td>
-    </tr>
-    <tr>
-        <td><strong>steamIDExpected</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID to verify.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>resultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>The inventory result handle to check the Steam ID on.</td>
+        </tr>
+        <tr>
+            <td><strong>steamIDExpected</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID to verify.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Checks whether an inventory result handle belongs to the specified Steam ID.<br />
 <br />
 This is important when using
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#DeserializeResult"
-    class="bb_apilink"
-    >ISteamInventory::DeserializeResult</a
->, to verify that a remote player is not pretending to have a different user's inventory.<br />
+<a href="/doc/api/ISteamInventory#DeserializeResult">ISteamInventory::DeserializeResult</a>, to
+verify that a remote player is not pretending to have a different user's inventory.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 <strong>true</strong> if the result belongs to the target steam ID; otherwise,
@@ -229,43 +182,33 @@ This is important when using
     uint32 unQuantity );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
-    <tr>
-        <td><strong>itemConsume</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemInstanceID_t"
-                class="bb_apilink"
-                >SteamItemInstanceID_t</a
-            >
-        </td>
-        <td>The item instance id to consume.</td>
-    </tr>
-    <tr>
-        <td><strong>unQuantity</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>The number of items in that stack to consume.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+        <tr>
+            <td><strong>itemConsume</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamItemInstanceID_t">SteamItemInstanceID_t</a>
+            </td>
+            <td>The item instance id to consume.</td>
+        </tr>
+        <tr>
+            <td><strong>unQuantity</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>The number of items in that stack to consume.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Consumes items from a user's inventory. If the quantity of the given item goes to zero, it is
@@ -282,19 +225,12 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.<br />
 <br />
 <strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
-    >ISteamInventory::ExchangeItems</a
->,
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#TransferItemQuantity"
-    class="bb_apilink"
-    >ISteamInventory::TransferItemQuantity</a
+<a href="/doc/api/ISteamInventory#ExchangeItems">ISteamInventory::ExchangeItems</a>,
+<a href="/doc/api/ISteamInventory#TransferItemQuantity">ISteamInventory::TransferItemQuantity</a
 ><br />
 <br />
 <strong>Example:</strong><br />
@@ -308,114 +244,87 @@ on the provided inventory result when you are done with it.<br />
     unBufferSize, bool bRESERVED_MUST_BE_FALSE = false );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pOutResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
-    <tr>
-        <td><strong>pBuffer</strong></td>
-        <td>const void *</td>
-        <td>The buffer to deserialize.</td>
-    </tr>
-    <tr>
-        <td><strong>unBufferSize</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>The size of <code class="bb_code bb_code_inline nohighlight">pBuffer</code>.</td>
-    </tr>
-    <tr>
-        <td><strong>bRESERVED_MUST_BE_FALSE</strong></td>
-        <td>bool</td>
-        <td>This must be <strong>false</strong>!</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pOutResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+        <tr>
+            <td><strong>pBuffer</strong></td>
+            <td>const void *</td>
+            <td>The buffer to deserialize.</td>
+        </tr>
+        <tr>
+            <td><strong>unBufferSize</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>The size of <code class="bb_code bb_code_inline nohighlight">pBuffer</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>bRESERVED_MUST_BE_FALSE</strong></td>
+            <td>bool</td>
+            <td>This must be <strong>false</strong>!</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Deserializes a result set and verifies the signature bytes.<br />
 <br />
 This call has a potential soft-failure mode where the handle status is set to
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_EResultExpired" class="bb_apilink"
-    >k_EResultExpired</a
->.
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#GetResultItems" class="bb_apilink"
-    >ISteamInventory::GetResultItems</a
->
-will still succeed in this mode. The "expired" result could indicate that the data may be out of
-date - not just due to timed expiration (one hour), but also because one of the items in the result
-set may have been traded or consumed since the result set was generated. You could compare the
-timestamp from
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#GetResultTimestamp"
-    class="bb_apilink"
-    >ISteamInventory::GetResultTimestamp</a
->
-to
-<a href="https://partner.steamgames.com/doc/api/ISteamUtils#GetServerRealTime" class="bb_apilink"
-    >ISteamUtils::GetServerRealTime</a
->
-to determine how old the data is. You could simply ignore the "expired" result code and continue as
-normal, or you could request the player with expired data to send an updated result set.<br />
+<a href="/doc/api/steam_api#k_EResultExpired">k_EResultExpired</a>.
+<a href="/doc/api/ISteamInventory#GetResultItems">ISteamInventory::GetResultItems</a> will still
+succeed in this mode. The "expired" result could indicate that the data may be out of date - not
+just due to timed expiration (one hour), but also because one of the items in the result set may
+have been traded or consumed since the result set was generated. You could compare the timestamp
+from
+<a href="/doc/api/ISteamInventory#GetResultTimestamp">ISteamInventory::GetResultTimestamp</a> to
+<a href="/doc/api/ISteamUtils#GetServerRealTime">ISteamUtils::GetServerRealTime</a> to determine how
+old the data is. You could simply ignore the "expired" result code and continue as normal, or you
+could request the player with expired data to send an updated result set.<br />
 <br />
 You should call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#CheckResultSteamID"
-    class="bb_apilink"
-    >ISteamInventory::CheckResultSteamID</a
->
-on the result handle when it completes to verify that a remote player is not pretending to have a
-different user's inventory.<br />
+<a href="/doc/api/ISteamInventory#CheckResultSteamID">ISteamInventory::CheckResultSteamID</a> on the
+result handle when it completes to verify that a remote player is not pretending to have a different
+user's inventory.<br />
 <br />
 NOTE: The <code class="bb_code bb_code_inline nohighlight">bRESERVED_MUST_BE_FALSE</code> parameter
 is reserved for future use and should never be set to true.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 Always returns <strong>true</strong> and then delivers error codes via
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#GetResultStatus" class="bb_apilink"
-    >ISteamInventory::GetResultStatus</a
->.<br />
+<a href="/doc/api/ISteamInventory#GetResultStatus">ISteamInventory::GetResultStatus</a>.<br />
 <br />
 Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.
 <h2 class="bb_subsection"><a name="DestroyResult"></a>DestroyResult</h2>
 <div class="bb_code cpp">void DestroyResult( SteamInventoryResult_t resultHandle );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>resultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>The inventory result handle to destroy.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>resultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>The inventory result handle to destroy.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Destroys a result handle and frees all associated memory.
@@ -427,105 +336,72 @@ Destroys a result handle and frees all associated memory.
     unArrayDestroyLength );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
-    <tr>
-        <td><strong>pArrayGenerate</strong></td>
-        <td>
-            const
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-            *
-        </td>
-        <td>The list of items that will be created by this call. Currently can only be 1 item!</td>
-    </tr>
-    <tr>
-        <td><strong>punArrayGenerateQuantity</strong></td>
-        <td>
-            const
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            The quantity of each item in
-            <code class="bb_code bb_code_inline nohighlight">pArrayGenerate</code> to create.
-            Currently can only be 1 item and it must be set to <strong>1</strong>!
-        </td>
-    </tr>
-    <tr>
-        <td><strong>unArrayGenerateLength</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The number of items in
-            <code class="bb_code bb_code_inline nohighlight">pArrayGenerate</code> and
-            <code class="bb_code bb_code_inline nohighlight">punArrayGenerateQuantity</code>.
-            Currently must be <strong>1</strong>!
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pArrayDestroy</strong></td>
-        <td>
-            const
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemInstanceID_t"
-                class="bb_apilink"
-                >SteamItemInstanceID_t</a
-            >
-            *
-        </td>
-        <td>The list of items that will be destroyed by this call.</td>
-    </tr>
-    <tr>
-        <td><strong>punArrayDestroyQuantity</strong></td>
-        <td>
-            const
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            The quantity of each item in
-            <code class="bb_code bb_code_inline nohighlight">pArrayDestroy</code> to destroy.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>unArrayDestroyLength</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The number of items in
-            <code class="bb_code bb_code_inline nohighlight">pArrayDestroy</code> and
-            <code class="bb_code bb_code_inline nohighlight">punArrayDestroyQuantity</code>.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+        <tr>
+            <td><strong>pArrayGenerate</strong></td>
+            <td>const <a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a> *</td>
+            <td>
+                The list of items that will be created by this call. Currently can only be 1 item!
+            </td>
+        </tr>
+        <tr>
+            <td><strong>punArrayGenerateQuantity</strong></td>
+            <td>const <a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                The quantity of each item in
+                <code class="bb_code bb_code_inline nohighlight">pArrayGenerate</code> to create.
+                Currently can only be 1 item and it must be set to <strong>1</strong>!
+            </td>
+        </tr>
+        <tr>
+            <td><strong>unArrayGenerateLength</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The number of items in
+                <code class="bb_code bb_code_inline nohighlight">pArrayGenerate</code> and
+                <code class="bb_code bb_code_inline nohighlight">punArrayGenerateQuantity</code>.
+                Currently must be <strong>1</strong>!
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pArrayDestroy</strong></td>
+            <td>
+                const
+                <a href="/doc/api/ISteamInventory#SteamItemInstanceID_t">SteamItemInstanceID_t</a> *
+            </td>
+            <td>The list of items that will be destroyed by this call.</td>
+        </tr>
+        <tr>
+            <td><strong>punArrayDestroyQuantity</strong></td>
+            <td>const <a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                The quantity of each item in
+                <code class="bb_code bb_code_inline nohighlight">pArrayDestroy</code> to destroy.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>unArrayDestroyLength</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The number of items in
+                <code class="bb_code bb_code_inline nohighlight">pArrayDestroy</code> and
+                <code class="bb_code bb_code_inline nohighlight">punArrayDestroyQuantity</code>.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Grant one item in exchange for a set of other items.<br />
@@ -547,10 +423,8 @@ For example:<br />
 <br />
 Will allow the item to be exchanged for either one #101 and one #102, five #103s or three #104s and
 three #105s. See the
-<a href="https://partner.steamgames.com/doc/features/inventory/schema" class="bb_doclink"
-    >Steam Inventory Schema</a
->
-documentation for more details.<br />
+<a href="/doc/features/inventory/schema">Steam Inventory Schema</a> documentation for more
+details.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 This function returns <strong>true</strong> indicating success, and returns
@@ -565,19 +439,12 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.<br />
 <br />
 <strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ConsumeItem" class="bb_apilink"
-    >ISteamInventory::ConsumeItem</a
->,
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#TransferItemQuantity"
-    class="bb_apilink"
-    >ISteamInventory::TransferItemQuantity</a
+<a href="/doc/api/ISteamInventory#ConsumeItem">ISteamInventory::ConsumeItem</a>,
+<a href="/doc/api/ISteamInventory#TransferItemQuantity">ISteamInventory::TransferItemQuantity</a
 ><br />
 <br />
 <strong>Example:</strong><br />
@@ -597,63 +464,43 @@ on the provided inventory result when you are done with it.<br />
     const uint32 *punArrayQuantity, uint32 unArrayLength );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
-    <tr>
-        <td><strong>pArrayItemDefs</strong></td>
-        <td>
-            const
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-            *
-        </td>
-        <td>The list of items to grant the user.</td>
-    </tr>
-    <tr>
-        <td><strong>punArrayQuantity</strong></td>
-        <td>
-            const
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            The quantity of each item in
-            <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code> to grant. This is
-            optional, pass in <strong>NULL</strong> to specify 1 of each item.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>unArrayLength</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The number of items in
-            <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code>.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+        <tr>
+            <td><strong>pArrayItemDefs</strong></td>
+            <td>const <a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a> *</td>
+            <td>The list of items to grant the user.</td>
+        </tr>
+        <tr>
+            <td><strong>punArrayQuantity</strong></td>
+            <td>const <a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                The quantity of each item in
+                <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code> to grant.
+                This is optional, pass in <strong>NULL</strong> to specify 1 of each item.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>unArrayLength</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The number of items in
+                <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code>.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Grants specific items to the current user, for developers only.<br />
@@ -662,11 +509,8 @@ This API is only intended for prototyping - it is only usable by Steam accounts 
 publisher group for your game.<br />
 <br />
 You can pass in an array of items, identified by their
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t" class="bb_apilink"
-    >SteamItemDef_t</a
->
-and optionally a second array of corresponding quantities for each item. The length of these arrays
-MUST match!<br />
+<a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a> and optionally a second array
+of corresponding quantities for each item. The length of these arrays MUST match!<br />
 <br />
 <strong>Returns:</strong> bool<br />
 This function always returns <strong>true</strong> when called by a regular user, and always returns
@@ -676,10 +520,8 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.<br />
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
@@ -690,23 +532,21 @@ on the provided inventory result when you are done with it.<br />
 <h2 class="bb_subsection"><a name="GetAllItems"></a>GetAllItems</h2>
 <div class="bb_code cpp">bool GetAllItems( SteamInventoryResult_t *pResultHandle );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Start retrieving all items in the current users inventory.<br />
@@ -723,10 +563,8 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.<br />
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
@@ -741,61 +579,45 @@ on the provided inventory result when you are done with it.<br />
     *punItemDefIDsArraySize );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>
-            The Steam ID of the user who these items are for. This should be the same as
-            <code class="bb_code bb_code_inline nohighlight"
-                >SteamInventoryEligiblePromoItemDefIDs_t.m_steamID</code
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pItemDefIDs</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-            *
-        </td>
-        <td>Returns the item definition ids by copying them into this array.</td>
-    </tr>
-    <tr>
-        <td><strong>punItemDefIDsArraySize</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            This should be the length of
-            <code class="bb_code bb_code_inline nohighlight">pItemDefIDs</code> and the same as
-            <code class="bb_code bb_code_inline nohighlight"
-                >SteamInventoryEligiblePromoItemDefIDs_t.m_numEligiblePromoItemDefs</code
-            >.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamID</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>
+                The Steam ID of the user who these items are for. This should be the same as
+                <code class="bb_code bb_code_inline nohighlight"
+                    >SteamInventoryEligiblePromoItemDefIDs_t.m_steamID</code
+                >.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pItemDefIDs</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a> *</td>
+            <td>Returns the item definition ids by copying them into this array.</td>
+        </tr>
+        <tr>
+            <td><strong>punItemDefIDsArraySize</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                This should be the length of
+                <code class="bb_code bb_code_inline nohighlight">pItemDefIDs</code> and the same as
+                <code class="bb_code bb_code_inline nohighlight"
+                    >SteamInventoryEligiblePromoItemDefIDs_t.m_numEligiblePromoItemDefs</code
+                >.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Get the list of item definition ids that a user can be granted.<br />
 <br />
 You should call this while handling a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryEligiblePromoItemDefIDs_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#SteamInventoryEligiblePromoItemDefIDs_t"
     >SteamInventoryEligiblePromoItemDefIDs_t</a
 >
 call result to pull out the item definition ids.<br />
@@ -804,50 +626,36 @@ call result to pull out the item definition ids.<br />
 <br />
 <br />
 <strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem" class="bb_apilink"
-    >ISteamInventory::AddPromoItem</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItems" class="bb_apilink"
-    >ISteamInventory::AddPromoItems</a
->
+<a href="/doc/api/ISteamInventory#AddPromoItem">ISteamInventory::AddPromoItem</a>,
+<a href="/doc/api/ISteamInventory#AddPromoItems">ISteamInventory::AddPromoItems</a>
 <h2 class="bb_subsection"><a name="GetItemDefinitionIDs"></a>GetItemDefinitionIDs</h2>
 <div class="bb_code cpp">
     bool GetItemDefinitionIDs( SteamItemDef_t *pItemDefIDs, uint32 *punItemDefIDsArraySize );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pItemDefIDs</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-            *
-        </td>
-        <td>Returns the item definitions by copying them into this array.</td>
-    </tr>
-    <tr>
-        <td><strong>punItemDefIDsArraySize</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            This should be set to the length of
-            <code class="bb_code bb_code_inline nohighlight">pItemDefIDs</code>. If
-            <code class="bb_code bb_code_inline nohighlight">pItemDefIDs</code> is
-            <strong>NULL</strong> then this will return the number of elements the array needs to
-            hold.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pItemDefIDs</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a> *</td>
+            <td>Returns the item definitions by copying them into this array.</td>
+        </tr>
+        <tr>
+            <td><strong>punItemDefIDsArraySize</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                This should be set to the length of
+                <code class="bb_code bb_code_inline nohighlight">pItemDefIDs</code>. If
+                <code class="bb_code bb_code_inline nohighlight">pItemDefIDs</code> is
+                <strong>NULL</strong> then this will return the number of elements the array needs
+                to hold.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Returns the set of all item definition IDs which are defined in the App Admin panel of the
@@ -856,9 +664,7 @@ Steamworks website.<br />
 These item definitions may not necessarily be contiguous integers.<br />
 <br />
 This should be called in response to a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryDefinitionUpdate_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#SteamInventoryDefinitionUpdate_t"
     >SteamInventoryDefinitionUpdate_t</a
 >
 callback. There is no reason to call this function if your game hardcodes the numeric definition IDs
@@ -879,53 +685,44 @@ number of item definitions available.
     *pchValueBuffer, uint32 *punValueBufferSizeOut );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>iDefinition</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-        </td>
-        <td>The item definition to get the properties for.</td>
-    </tr>
-    <tr>
-        <td><strong>pchPropertyName</strong></td>
-        <td>const char *</td>
-        <td>
-            The property name to get the value for. If you pass in <strong>NULL</strong> then
-            <code class="bb_code bb_code_inline nohighlight">pchValueBuffer</code> will contain a
-            comma-separated list of all the available names.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pchValueBuffer</strong></td>
-        <td>char *</td>
-        <td>
-            Returns the value associated with
-            <code class="bb_code bb_code_inline nohighlight">pchPropertyName</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>punValueBufferSizeOut</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            This should be set to the size of
-            <code class="bb_code bb_code_inline nohighlight">pchValueBuffer</code>, and returns the
-            number of bytes required to hold the value.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>iDefinition</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a></td>
+            <td>The item definition to get the properties for.</td>
+        </tr>
+        <tr>
+            <td><strong>pchPropertyName</strong></td>
+            <td>const char *</td>
+            <td>
+                The property name to get the value for. If you pass in <strong>NULL</strong> then
+                <code class="bb_code bb_code_inline nohighlight">pchValueBuffer</code> will contain
+                a comma-separated list of all the available names.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pchValueBuffer</strong></td>
+            <td>char *</td>
+            <td>
+                Returns the value associated with
+                <code class="bb_code bb_code_inline nohighlight">pchPropertyName</code>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>punValueBufferSizeOut</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                This should be set to the size of
+                <code class="bb_code bb_code_inline nohighlight">pchValueBuffer</code>, and returns
+                the number of bytes required to hold the value.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets a string property from the specified item definition.<br />
@@ -933,11 +730,8 @@ Gets a property value for a specific item definition.<br />
 <br />
 Note that some properties (for example, "name") may be localized and will depend on the current
 Steam language settings (see
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamApps#GetCurrentGameLanguage"
-    class="bb_apilink"
-    >ISteamApps::GetCurrentGameLanguage</a
->). Property names are always ASCII alphanumeric and underscores.<br />
+<a href="/doc/api/ISteamApps#GetCurrentGameLanguage">ISteamApps::GetCurrentGameLanguage</a>).
+Property names are always ASCII alphanumeric and underscores.<br />
 <br />
 Pass in <strong>NULL</strong> for
 <code class="bb_code bb_code_inline nohighlight">pchPropertyName</code> to get a comma-separated
@@ -970,11 +764,7 @@ The output looks something like this:<br />
 <code class="bb_code bb_code_inline nohighlight">SW_DECORATION_HAT</code><br />
 <br />
 <strong>NOTE:</strong> Call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#LoadItemDefinitions"
-    class="bb_apilink"
-    >ISteamInventory::LoadItemDefinitions</a
->
+<a href="/doc/api/ISteamInventory#LoadItemDefinitions">ISteamInventory::LoadItemDefinitions</a>
 first, to ensure that items are ready to be used before calling GetItemDefinitionProperty.
 <h2 class="bb_subsection"><a name="GetItemsByID"></a>GetItemsByID</h2>
 <div class="bb_code cpp">
@@ -982,48 +772,37 @@ first, to ensure that items are ready to be used before calling GetItemDefinitio
     *pInstanceIDs, uint32 unCountInstanceIDs );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
-    <tr>
-        <td><strong>pInstanceIDs</strong></td>
-        <td>
-            const
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemInstanceID_t"
-                class="bb_apilink"
-                >SteamItemInstanceID_t</a
-            >
-            *
-        </td>
-        <td>A list of the item instance ids to update the state of.</td>
-    </tr>
-    <tr>
-        <td><strong>unCountInstanceIDs</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The number of items in
-            <code class="bb_code bb_code_inline nohighlight">pInstanceIDs</code>.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+        <tr>
+            <td><strong>pInstanceIDs</strong></td>
+            <td>
+                const
+                <a href="/doc/api/ISteamInventory#SteamItemInstanceID_t">SteamItemInstanceID_t</a> *
+            </td>
+            <td>A list of the item instance ids to update the state of.</td>
+        </tr>
+        <tr>
+            <td><strong>unCountInstanceIDs</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The number of items in
+                <code class="bb_code bb_code_inline nohighlight">pInstanceIDs</code>.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the state of a subset of the current user's inventory.<br />
@@ -1031,13 +810,11 @@ Gets the state of a subset of the current user's inventory.<br />
 The subset is specified by an array of item instance IDs.<br />
 <br />
 The results from this call can be serialized using
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#SerializeResult" class="bb_apilink"
-    >ISteamInventory::SerializeResult</a
->
-and passed to other players to "prove" that the current user owns specific items, without exposing
-the user's entire inventory. For example, you could call this with the IDs of the user's currently
-equipped items and serialize this to a buffer, and then transmit this buffer to other players upon
-joining a game.<br />
+<a href="/doc/api/ISteamInventory#SerializeResult">ISteamInventory::SerializeResult</a> and passed
+to other players to "prove" that the current user owns specific items, without exposing the user's
+entire inventory. For example, you could call this with the IDs of the user's currently equipped
+items and serialize this to a buffer, and then transmit this buffer to other players upon joining a
+game.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 This function always returns <strong>true</strong> when called by a regular user, and always returns
@@ -1047,49 +824,36 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.
 <h2 class="bb_subsection"><a name="GetItemPrice"></a>GetItemPrice</h2>
 <div class="bb_code cpp">bool GetItemPrice( SteamItemDef_t iDefinition, uint64 *pPrice );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>iDefinition</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-        </td>
-        <td>The item definition id to retrieve the price for</td>
-    </tr>
-    <tr>
-        <td><strong>pPrice</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint64" class="bb_apilink"
-                >uint64</a
-            >*
-        </td>
-        <td>
-            The price pointer to populate. Prices are rendered in the user's
-            <a href="https://partner.steamgames.com/doc/store/pricing/currencies" class="bb_doclink"
-                >local currency</a
-            >.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>iDefinition</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a></td>
+            <td>The item definition id to retrieve the price for</td>
+        </tr>
+        <tr>
+            <td><strong>pPrice</strong></td>
+            <td><a href="/doc/api/steam_api#uint64">uint64</a>*</td>
+            <td>
+                The price pointer to populate. Prices are rendered in the user's
+                <a href="/doc/store/pricing/currencies">local currency</a>.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 After a successful call to
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RequestPrices" class="bb_apilink"
-    >ISteamInventory::RequestPrices</a
->, you can call this method to get the pricing for a specific item definition.<br />
+<a href="/doc/api/ISteamInventory#RequestPrices">ISteamInventory::RequestPrices</a>, you can call
+this method to get the pricing for a specific item definition.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 <strong>true</strong> upon success, indicating that
@@ -1099,79 +863,54 @@ price for the given item definition id.<br />
 definition id.<br />
 <br />
 <strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RequestPrices" class="bb_apilink"
-    >ISteamInventory::RequestPrices</a
->
+<a href="/doc/api/ISteamInventory#RequestPrices">ISteamInventory::RequestPrices</a>
 <h2 class="bb_subsection"><a name="GetItemsWithPrices"></a>GetItemsWithPrices</h2>
 <div class="bb_code cpp">
     bool GetItemsWithPrices( SteamItemDef_t *pArrayItemDefs, uint64 *pPrices, uint32 unArrayLength
     );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pArrayItemDefs</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-            *
-        </td>
-        <td>The array of item definition ids to populate</td>
-    </tr>
-    <tr>
-        <td><strong>pPrices</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint64" class="bb_apilink"
-                >uint64</a
-            >*
-        </td>
-        <td>
-            The array of prices for each corresponding item definition id in pArrayItemDefs. Prices
-            are rendered in the user's
-            <a href="https://partner.steamgames.com/doc/store/pricing/currencies" class="bb_doclink"
-                >local currency</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>unArrayLength</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            This should be the length of
-            <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code> and
-            <code class="bb_code bb_code_inline nohighlight">pPrices</code> arrays, which are
-            derived from the result of calling
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#GetNumItemsWithPrices"
-                class="bb_apilink"
-                >ISteamInventory::GetNumItemsWithPrices</a
-            >
-            .
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pArrayItemDefs</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a> *</td>
+            <td>The array of item definition ids to populate</td>
+        </tr>
+        <tr>
+            <td><strong>pPrices</strong></td>
+            <td><a href="/doc/api/steam_api#uint64">uint64</a>*</td>
+            <td>
+                The array of prices for each corresponding item definition id in pArrayItemDefs.
+                Prices are rendered in the user's
+                <a href="/doc/store/pricing/currencies">local currency</a>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>unArrayLength</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                This should be the length of
+                <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code> and
+                <code class="bb_code bb_code_inline nohighlight">pPrices</code> arrays, which are
+                derived from the result of calling
+                <a href="/doc/api/ISteamInventory#GetNumItemsWithPrices"
+                    >ISteamInventory::GetNumItemsWithPrices</a
+                >
+                .
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 After a successful call to
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RequestPrices" class="bb_apilink"
-    >ISteamInventory::RequestPrices</a
->, you can call this method to get all the pricing for applicable item definitions. Use the result
-of
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#GetNumItemsWithPrices"
-    class="bb_apilink"
-    >ISteamInventory::GetNumItemsWithPrices</a
->
+<a href="/doc/api/ISteamInventory#RequestPrices">ISteamInventory::RequestPrices</a>, you can call
+this method to get all the pricing for applicable item definitions. Use the result of
+<a href="/doc/api/ISteamInventory#GetNumItemsWithPrices">ISteamInventory::GetNumItemsWithPrices</a>
 as the the size of the arrays that you pass in.<br />
 <br />
 <strong>Returns:</strong> bool<br />
@@ -1182,94 +921,70 @@ the item definition ids and prices of items that are for sale.<br />
 <strong>false</strong> if the parameters are invalid<br />
 <br />
 <strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RequestPrices" class="bb_apilink"
-    >ISteamInventory::RequestPrices</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#GetItemPrice" class="bb_apilink"
-    >ISteamInventory::GetItemPrice</a
->
+<a href="/doc/api/ISteamInventory#RequestPrices">ISteamInventory::RequestPrices</a>,
+<a href="/doc/api/ISteamInventory#GetItemPrice">ISteamInventory::GetItemPrice</a>
 <h2 class="bb_subsection"><a name="GetNumItemsWithPrices"></a>GetNumItemsWithPrices</h2>
 <div class="bb_code cpp">uint32 GetNumItemsWithPrices();</div>
 After a successful call to
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RequestPrices" class="bb_apilink"
-    >ISteamInventory::RequestPrices</a
->, this will return the number of item definitions with valid pricing.<br />
+<a href="/doc/api/ISteamInventory#RequestPrices">ISteamInventory::RequestPrices</a>, this will
+return the number of item definitions with valid pricing.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#uint32">uint32</a><br />
 <br />
 <strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RequestPrices" class="bb_apilink"
-    >ISteamInventory::RequestPrices</a
->,
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#GetItemsWithPrices"
-    class="bb_apilink"
-    >ISteamInventory::GetItemsWithPrices</a
->
+<a href="/doc/api/ISteamInventory#RequestPrices">ISteamInventory::RequestPrices</a>,
+<a href="/doc/api/ISteamInventory#GetItemsWithPrices">ISteamInventory::GetItemsWithPrices</a>
 <h2 class="bb_subsection"><a name="GetResultItemProperty"></a>GetResultItemProperty</h2>
 <div class="bb_code cpp">
     bool GetResultItemProperty( SteamInventoryResult_t resultHandle, uint32 unItemIndex, const char
     *pchPropertyName, char *pchValueBuffer, uint32 *punValueBufferSizeOut );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>resultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>The result handle containing the item to get the properties of.</td>
-    </tr>
-    <tr>
-        <td><strong>unItemIndex</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>pchPropertyName</strong></td>
-        <td>const char *</td>
-        <td>
-            The property name to get the value for. If you pass in <strong>NULL</strong> then
-            <code class="bb_code bb_code_inline nohighlight">pchValueBuffer</code> will contain a
-            comma-separated list of all the available names.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pchValueBuffer</strong></td>
-        <td>char *</td>
-        <td>
-            Returns the value associated with
-            <code class="bb_code bb_code_inline nohighlight">pchPropertyName</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>punValueBufferSizeOut</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            This should be set to the size of
-            <code class="bb_code bb_code_inline nohighlight">pchValueBuffer</code>, and returns the
-            number of bytes required to hold the value.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>resultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>The result handle containing the item to get the properties of.</td>
+        </tr>
+        <tr>
+            <td><strong>unItemIndex</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>pchPropertyName</strong></td>
+            <td>const char *</td>
+            <td>
+                The property name to get the value for. If you pass in <strong>NULL</strong> then
+                <code class="bb_code bb_code_inline nohighlight">pchValueBuffer</code> will contain
+                a comma-separated list of all the available names.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pchValueBuffer</strong></td>
+            <td>char *</td>
+            <td>
+                Returns the value associated with
+                <code class="bb_code bb_code_inline nohighlight">pchPropertyName</code>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>punValueBufferSizeOut</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                This should be set to the size of
+                <code class="bb_code bb_code_inline nohighlight">pchValueBuffer</code>, and returns
+                the number of bytes required to hold the value.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the dynamic properties from an item in an inventory result set.<br />
@@ -1287,50 +1002,36 @@ the inventory result handle was invalid or the provided index does not contain a
     uint32 *punOutItemsArraySize );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>resultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>The inventory result handle to get the items for.</td>
-    </tr>
-    <tr>
-        <td><strong>pOutItemsArray</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDetails_t"
-                class="bb_apilink"
-                >SteamItemDetails_t</a
-            >
-            *
-        </td>
-        <td>The details are returned by copying them into this array.</td>
-    </tr>
-    <tr>
-        <td><strong>punOutItemsArraySize</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            This should be set to the length of
-            <code class="bb_code bb_code_inline nohighlight">pOutItemsArray</code>. If
-            <code class="bb_code bb_code_inline nohighlight">pOutItemsArray</code> is
-            <strong>NULL</strong> then this will return the number of elements the array needs to
-            hold.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>resultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>The inventory result handle to get the items for.</td>
+        </tr>
+        <tr>
+            <td><strong>pOutItemsArray</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDetails_t">SteamItemDetails_t</a> *</td>
+            <td>The details are returned by copying them into this array.</td>
+        </tr>
+        <tr>
+            <td><strong>punOutItemsArraySize</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                This should be set to the length of
+                <code class="bb_code bb_code_inline nohighlight">pOutItemsArray</code>. If
+                <code class="bb_code bb_code_inline nohighlight">pOutItemsArray</code> is
+                <strong>NULL</strong> then this will return the number of elements the array needs
+                to hold.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Get the items associated with an inventory result handle.<br />
@@ -1338,7 +1039,7 @@ Get the items associated with an inventory result handle.<br />
 <strong>Returns:</strong> bool<br />
 <strong>true</strong> if the call was successful, otherwise <strong>false</strong>.<br />
 Potential failure reasons include:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">resultHandle</code> is invalid or the
         inventory result handle is not ready.<br />
@@ -1364,92 +1065,57 @@ number of item definitions available.<br />
 <h2 class="bb_subsection"><a name="GetResultStatus"></a>GetResultStatus</h2>
 <div class="bb_code cpp">EResult GetResultStatus( SteamInventoryResult_t resultHandle );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>resultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>The inventory result handle to get the status for.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>resultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>The inventory result handle to get the status for.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Find out the status of an asynchronous inventory result handle.<br />
 <br />
 This is a polling equivalent to registering a callback function for
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResultReady_t"
-    class="bb_apilink"
-    >SteamInventoryResultReady_t</a
+<a href="/doc/api/ISteamInventory#SteamInventoryResultReady_t">SteamInventoryResultReady_t</a
 >.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink">EResult</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#EResult">EResult</a><br />
 Whether the call was successful or not.<br />
 <br />
 Possible values:<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultPending"
-            class="bb_apilink"
-            >k_EResultPending</a
-        >
-        - Still in progress.<br />
+        <a href="/doc/api/steam_api#k_EResultPending">k_EResultPending</a> - Still in progress.<br />
     </li>
     <li>
-        <a href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK" class="bb_apilink"
-            >k_EResultOK</a
-        >
-        - Done, the request has completed successfully and the result is ready.<br />
+        <a href="/doc/api/steam_api#k_EResultOK">k_EResultOK</a> - Done, the request has completed
+        successfully and the result is ready.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultExpired"
-            class="bb_apilink"
-            >k_EResultExpired</a
-        >
-        - Done, result ready, maybe out of date (see DeserializeResult)<br />
+        <a href="/doc/api/steam_api#k_EResultExpired">k_EResultExpired</a> - Done, result ready,
+        maybe out of date (see DeserializeResult)<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultInvalidParam"
-            class="bb_apilink"
-            >k_EResultInvalidParam</a
-        >
-        - ERROR: Invalid API call parameters.<br />
+        <a href="/doc/api/steam_api#k_EResultInvalidParam">k_EResultInvalidParam</a> - ERROR:
+        Invalid API call parameters.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultServiceUnavailable"
-            class="bb_apilink"
-            >k_EResultServiceUnavailable</a
-        >
-        - ERROR: Service temporarily down, you may retry later.<br />
+        <a href="/doc/api/steam_api#k_EResultServiceUnavailable">k_EResultServiceUnavailable</a> -
+        ERROR: Service temporarily down, you may retry later.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_api#k_EResultLimitExceeded"
-            class="bb_apilink"
-            >k_EResultLimitExceeded</a
-        >
-        - ERROR: Operation would exceed per-user inventory limits.<br />
+        <a href="/doc/api/steam_api#k_EResultLimitExceeded">k_EResultLimitExceeded</a> - ERROR:
+        Operation would exceed per-user inventory limits.<br />
     </li>
-    <li>
-        <a href="https://partner.steamgames.com/doc/api/steam_api#k_EResultFail" class="bb_apilink"
-            >k_EResultFail</a
-        >
-        - ERROR: Generic error.
-    </li>
+    <li><a href="/doc/api/steam_api#k_EResultFail">k_EResultFail</a> - ERROR: Generic error.</li>
 </ul>
 <br />
 <strong>Example:</strong><br />
@@ -1461,56 +1127,48 @@ Possible values:<br />
 <h2 class="bb_subsection"><a name="GetResultTimestamp"></a>GetResultTimestamp</h2>
 <div class="bb_code cpp">uint32 GetResultTimestamp( SteamInventoryResult_t resultHandle );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>resultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>The inventory result handle to get the timestamp for.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>resultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>The inventory result handle to get the timestamp for.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the server time at which the result was generated.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink">uint32</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#uint32">uint32</a><br />
 The timestamp is provided as Unix epoch time (Time since Jan 1st, 1970)<br />
 <br />
 You can compare this value against
-<a href="https://partner.steamgames.com/doc/api/ISteamUtils#GetServerRealTime" class="bb_apilink"
-    >ISteamUtils::GetServerRealTime</a
->
-to determine the age of the result.
+<a href="/doc/api/ISteamUtils#GetServerRealTime">ISteamUtils::GetServerRealTime</a> to determine the
+age of the result.
 <h2 class="bb_subsection"><a name="GrantPromoItems"></a>GrantPromoItems</h2>
 <div class="bb_code cpp">bool GrantPromoItems( SteamInventoryResult_t *pResultHandle );</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Grant all potential one-time promotional items to the current user.<br />
@@ -1518,14 +1176,8 @@ Grant all potential one-time promotional items to the current user.<br />
 This can be safely called from the client because the items it can grant can be locked down via
 policies in the itemdefs. One of the primary scenarios for this call is to grant an item to users
 who also own a specific other game. If you want to grant specific promotional items rather than all
-of them see:
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem" class="bb_apilink"
-    >ISteamInventory::AddPromoItem</a
->
-and
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItems" class="bb_apilink"
-    >ISteamInventory::AddPromoItems</a
->.<br />
+of them see: <a href="/doc/api/ISteamInventory#AddPromoItem">ISteamInventory::AddPromoItem</a> and
+<a href="/doc/api/ISteamInventory#AddPromoItems">ISteamInventory::AddPromoItems</a>.<br />
 <br />
 Any items that can be granted MUST have a "promo" attribute in their itemdef. That promo item list a
 set of APPIDs that the user must own to be granted this given item. This version will grant all
@@ -1546,10 +1198,8 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.<br />
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
@@ -1568,9 +1218,7 @@ and does not allow for adding new item types without a client patch.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 Triggers a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryDefinitionUpdate_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#SteamInventoryDefinitionUpdate_t"
     >SteamInventoryDefinitionUpdate_t</a
 >
 callback.<br />
@@ -1582,20 +1230,18 @@ This call will always return <strong>true</strong>.
     SteamAPICall_t RequestEligiblePromoItemDefinitionsIDs( CSteamID steamID );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>steamID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user to request the eligible promo items for.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>steamID</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user to request the eligible promo items for.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Request the list of "eligible" promo items that can be manually granted to the given user.<br />
@@ -1604,88 +1250,46 @@ These are promo items of type "manual" that won't be granted automatically. An e
 is an item that becomes available every week.<br />
 <br />
 After calling this function you need to call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#GetEligiblePromoItemDefinitionIDs"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#GetEligiblePromoItemDefinitionIDs"
     >ISteamInventory::GetEligiblePromoItemDefinitionIDs</a
 >
 to get the actual item definition ids.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-to be used with a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryEligiblePromoItemDefIDs_t"
-    class="bb_apilink"
+<strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
+with a
+<a href="/doc/api/ISteamInventory#SteamInventoryEligiblePromoItemDefIDs_t"
     >SteamInventoryEligiblePromoItemDefIDs_t</a
 >
 call result.<br />
-Returns
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
-    >k_uAPICallInvalid</a
->
-if the <code class="bb_code bb_code_inline nohighlight">steamID</code> is not a valid individual
-account.
+Returns <a href="/doc/api/steam_api#k_uAPICallInvalid">k_uAPICallInvalid</a> if the
+<code class="bb_code bb_code_inline nohighlight">steamID</code> is not a valid individual account.
 <h2 class="bb_subsection"><a name="RequestPrices"></a>RequestPrices</h2>
 <div class="bb_code cpp">SteamAPICall_t RequestPrices();</div>
 <br />
 Request prices for all item definitions that can be purchased in the user's local currency. A
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryRequestPricesResult_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#SteamInventoryRequestPricesResult_t"
     >SteamInventoryRequestPricesResult_t</a
 >
 call result will be returned with the user's local currency code. After that, you can call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#GetNumItemsWithPrices"
-    class="bb_apilink"
-    >ISteamInventory::GetNumItemsWithPrices</a
->
-and
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#GetItemsWithPrices"
-    class="bb_apilink"
-    >ISteamInventory::GetItemsWithPrices</a
->
-to get prices for all the known item definitions, or
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#GetItemPrice" class="bb_apilink"
-    >ISteamInventory::GetItemPrice</a
->
-for a specific item definition.<br />
+<a href="/doc/api/ISteamInventory#GetNumItemsWithPrices">ISteamInventory::GetNumItemsWithPrices</a>
+and <a href="/doc/api/ISteamInventory#GetItemsWithPrices">ISteamInventory::GetItemsWithPrices</a> to
+get prices for all the known item definitions, or
+<a href="/doc/api/ISteamInventory#GetItemPrice">ISteamInventory::GetItemPrice</a> for a specific
+item definition.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-to be used with a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryRequestPricesResult_t"
-    class="bb_apilink"
+<strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
+with a
+<a href="/doc/api/ISteamInventory#SteamInventoryRequestPricesResult_t"
     >SteamInventoryRequestPricesResult_t</a
 >
 call result.<br />
-Returns
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
-    >k_uAPICallInvalid</a
->
-if there was an internal problem.<br />
+Returns <a href="/doc/api/steam_api#k_uAPICallInvalid">k_uAPICallInvalid</a> if there was an
+internal problem.<br />
 <br />
 <strong>See Also:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#GetNumItemsWithPrices"
-    class="bb_apilink"
-    >ISteamInventory::GetNumItemsWithPrices</a
->,
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#GetItemsWithPrices"
-    class="bb_apilink"
-    >ISteamInventory::GetItemsWithPrices</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#GetItemPrice" class="bb_apilink"
-    >ISteamInventory::GetItemPrice</a
->
+<a href="/doc/api/ISteamInventory#GetNumItemsWithPrices">ISteamInventory::GetNumItemsWithPrices</a>,
+<a href="/doc/api/ISteamInventory#GetItemsWithPrices">ISteamInventory::GetItemsWithPrices</a>,
+<a href="/doc/api/ISteamInventory#GetItemPrice">ISteamInventory::GetItemPrice</a>
 <h2 class="bb_subsection"><a name="SendItemDropHeartbeat"></a>SendItemDropHeartbeat</h2>
 <div class="bb_code cpp">void SendItemDropHeartbeat();</div>
 Deprecated.
@@ -1695,42 +1299,35 @@ Deprecated.
     *punOutBufferSize );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>resultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>The inventory result handle to serialize.</td>
-    </tr>
-    <tr>
-        <td><strong>pOutBuffer</strong></td>
-        <td>void *</td>
-        <td>The buffer that the serialized result will be copied into.</td>
-    </tr>
-    <tr>
-        <td><strong>punOutBufferSize</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>
-            This should be set to the size of
-            <code class="bb_code bb_code_inline nohighlight">pOutBuffer</code>. If
-            <code class="bb_code bb_code_inline nohighlight">pOutBuffer</code> is
-            <strong>NULL</strong> then this will return the size required to hold the buffer.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>resultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>The inventory result handle to serialize.</td>
+        </tr>
+        <tr>
+            <td><strong>pOutBuffer</strong></td>
+            <td>void *</td>
+            <td>The buffer that the serialized result will be copied into.</td>
+        </tr>
+        <tr>
+            <td><strong>punOutBufferSize</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                This should be set to the size of
+                <code class="bb_code bb_code_inline nohighlight">pOutBuffer</code>. If
+                <code class="bb_code bb_code_inline nohighlight">pOutBuffer</code> is
+                <strong>NULL</strong> then this will return the size required to hold the buffer.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Serialized result sets contain a short signature which can't be forged or replayed across different
@@ -1741,18 +1338,12 @@ networking, and deserialized by the remote players. This is a secure way of prev
 lying about posessing rare/high-value items. Serializes a result set with signature bytes to an
 output buffer. The size of a serialized result depends on the number items which are being
 serialized. When securely transmitting items to other players, it is recommended to use
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#GetItemsByID" class="bb_apilink"
-    >ISteamInventory::GetItemsByID</a
->
-first to create a minimal result set.<br />
+<a href="/doc/api/ISteamInventory#GetItemsByID">ISteamInventory::GetItemsByID</a> first to create a
+minimal result set.<br />
 <br />
 Results have a built-in timestamp which will be considered "expired" after an hour has elapsed. See
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#DeserializeResult"
-    class="bb_apilink"
-    >ISteamInventory::DeserializeResult</a
->
-for expiration handling.<br />
+<a href="/doc/api/ISteamInventory#DeserializeResult">ISteamInventory::DeserializeResult</a> for
+expiration handling.<br />
 <br />
 If this is set <code class="bb_code bb_code_inline nohighlight">pOutBuffer</code> to
 <strong>NULL</strong> then
@@ -1766,7 +1357,7 @@ filled with the size of the buffer, and if
 <code class="bb_code bb_code_inline nohighlight">pOutBuffer</code> points to a buffer of sufficient
 size then it is filled out as well.<br />
 <strong>false</strong> under the following conditions:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         The function was not called by a regular user. This call is not supported on GameServers.<br />
     </li>
@@ -1787,46 +1378,34 @@ size then it is filled out as well.<br />
     *punArrayQuantity, uint32 unArrayLength );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pArrayItemDefs</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-            *
-        </td>
-        <td>The array of item definition ids that the user wants to purchase.</td>
-    </tr>
-    <tr>
-        <td><strong>punArrayQuantity</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-            *
-        </td>
-        <td>The array of quantities of each item definition that the user wants to purchase.</td>
-    </tr>
-    <tr>
-        <td><strong>unArrayLength</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            This should be the length of
-            <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code> and
-            <code class="bb_code bb_code_inline nohighlight">punArrayQuantity</code> arrays.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pArrayItemDefs</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a> *</td>
+            <td>The array of item definition ids that the user wants to purchase.</td>
+        </tr>
+        <tr>
+            <td><strong>punArrayQuantity</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a> *</td>
+            <td>
+                The array of quantities of each item definition that the user wants to purchase.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>unArrayLength</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                This should be the length of
+                <code class="bb_code bb_code_inline nohighlight">pArrayItemDefs</code> and
+                <code class="bb_code bb_code_inline nohighlight">punArrayQuantity</code> arrays.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Starts the purchase process for the user, given a "shopping cart" of item definitions that the user
@@ -1837,42 +1416,26 @@ If the purchase process was started successfully, then
 <code class="bb_code bb_code_inline nohighlight">m_ulOrderID</code> and
 <code class="bb_code bb_code_inline nohighlight">m_ulTransID</code><br />
 will be valid in the
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryStartPurchaseResult_t"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#SteamInventoryStartPurchaseResult_t"
     >SteamInventoryStartPurchaseResult_t</a
 >
 call result.<br />
 <br />
 If the user authorizes the transaction and completes the purchase, then the callback
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResultReady_t"
-    class="bb_apilink"
-    >SteamInventoryResultReady_t</a
->
-will be triggered and you can then retrieve what new items the user has acquired.
+<a href="/doc/api/ISteamInventory#SteamInventoryResultReady_t">SteamInventoryResultReady_t</a> will
+be triggered and you can then retrieve what new items the user has acquired.
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the inventory result for when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the inventory
+result for when you are done with it.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPICall_t" class="bb_apilink"
-    >SteamAPICall_t</a
->
-to be used with a
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryStartPurchaseResult_t"
-    class="bb_apilink"
+<strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
+with a
+<a href="/doc/api/ISteamInventory#SteamInventoryStartPurchaseResult_t"
     >SteamInventoryStartPurchaseResult_t</a
 >
 call result.<br />
-Returns
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_uAPICallInvalid" class="bb_apilink"
-    >k_uAPICallInvalid</a
->
-if the input was invalid.
+Returns <a href="/doc/api/steam_api#k_uAPICallInvalid">k_uAPICallInvalid</a> if the input was
+invalid.
 <div class="bb_callout">
     <div>
         <strong>Testing while in Development:</strong> When testing StartPurchase before your app is
@@ -1887,66 +1450,50 @@ if the input was invalid.
     itemIdSource, uint32 unQuantity, SteamItemInstanceID_t itemIdDest );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
-    <tr>
-        <td><strong>itemIdSource</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemInstanceID_t"
-                class="bb_apilink"
-                >SteamItemInstanceID_t</a
-            >
-        </td>
-        <td>The source item to transfer.</td>
-    </tr>
-    <tr>
-        <td><strong>unQuantity</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint32" class="bb_apilink"
-                >uint32</a
-            >
-        </td>
-        <td>
-            The quantity of the item that will be transfered from
-            <code class="bb_code bb_code_inline nohighlight">itemIdSource</code> to
-            <code class="bb_code bb_code_inline nohighlight">itemIdDest</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>itemIdDest</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemInstanceID_t"
-                class="bb_apilink"
-                >SteamItemInstanceID_t</a
-            >
-        </td>
-        <td>
-            The destination item. You can pass
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#k_SteamItemInstanceIDInvalid"
-                class="bb_apilink"
-                >k_SteamItemInstanceIDInvalid</a
-            >
-            to split the source stack into a new item stack with the requested quantity.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+        <tr>
+            <td><strong>itemIdSource</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamItemInstanceID_t">SteamItemInstanceID_t</a>
+            </td>
+            <td>The source item to transfer.</td>
+        </tr>
+        <tr>
+            <td><strong>unQuantity</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                The quantity of the item that will be transfered from
+                <code class="bb_code bb_code_inline nohighlight">itemIdSource</code> to
+                <code class="bb_code bb_code_inline nohighlight">itemIdDest</code>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>itemIdDest</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamItemInstanceID_t">SteamItemInstanceID_t</a>
+            </td>
+            <td>
+                The destination item. You can pass
+                <a href="/doc/api/ISteamInventory#k_SteamItemInstanceIDInvalid"
+                    >k_SteamItemInstanceIDInvalid</a
+                >
+                to split the source stack into a new item stack with the requested quantity.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Transfer items between stacks within a user's inventory.<br />
@@ -1954,11 +1501,7 @@ Transfer items between stacks within a user's inventory.<br />
 This can be used to stack, split, and moving items. The source and destination items must have the
 same itemdef id. To move items onto a destination stack specify the source, the quantity to move,
 and the destination item id. To split an existing stack, pass
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#k_SteamItemInstanceIDInvalid"
-    class="bb_apilink"
-    >k_SteamItemInstanceIDInvalid</a
->
+<a href="/doc/api/ISteamInventory#k_SteamItemInstanceIDInvalid">k_SteamItemInstanceIDInvalid</a>
 into <code class="bb_code bb_code_inline nohighlight">itemIdDest</code>. A new item stack will be
 generated with the requested quantity.<br />
 <br />
@@ -1974,18 +1517,12 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.<br />
 <br />
 <strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ConsumeItem" class="bb_apilink"
-    >ISteamInventory::ConsumeItem</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
-    >ISteamInventory::ExchangeItems</a
-><br />
+<a href="/doc/api/ISteamInventory#ConsumeItem">ISteamInventory::ConsumeItem</a>,
+<a href="/doc/api/ISteamInventory#ExchangeItems">ISteamInventory::ExchangeItems</a><br />
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
@@ -2003,48 +1540,35 @@ on the provided inventory result when you are done with it.<br />
     );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
-    <tr>
-        <td><strong>dropListDefinition</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-        </td>
-        <td>
-            This must refer to an itemdefid of the type "playtimegenerator". See the
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema"
-                class="bb_doclink"
-                >inventory schema</a
-            >
-            for more details.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+        <tr>
+            <td><strong>dropListDefinition</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a></td>
+            <td>
+                This must refer to an itemdefid of the type "playtimegenerator". See the
+                <a href="/doc/features/inventory/schema">inventory schema</a> for more details.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Trigger an item drop if the user has played a long enough period of time.<br />
 <br />
 This period can be customized in two places:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         At the application level within Inventory Service: Playtime Item Grants. This will
         automatically apply to all "playtimegenerator" items that do not specify any overrides.<br />
@@ -2071,10 +1595,8 @@ Returns a new result handle via
 <code class="bb_code bb_code_inline nohighlight">pResultHandle</code>.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result when you are done with it.<br />
 <br />
 The inventory result returned by this function will be the new item granted if the player is
 eligible. If the user is not eligible then it will return an empty result ('[]').<br />
@@ -2088,30 +1610,17 @@ eligible. If the user is not eligible then it will return an empty result ('[]')
 <div class="bb_code cpp">SteamInventoryUpdateHandle_t StartUpdateProperties();</div>
 <br />
 Starts a transaction request to update
-<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
-    >dynamic properties</a
->
-on items for the current user. This call is rate-limited by user, so property modifications should
-be batched as much as possible (e.g. at the end of a map or game session). After calling
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#SetProperty" class="bb_apilink"
-    >ISteamInventory::SetProperty</a
->
-or
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RemoveProperty" class="bb_apilink"
-    >ISteamInventory::RemoveProperty</a
->
-for all the items that you want to modify, you will need to call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SubmitUpdateProperties"
-    class="bb_apilink"
+<a href="/doc/features/inventory/dynamicproperties">dynamic properties</a> on items for the current
+user. This call is rate-limited by user, so property modifications should be batched as much as
+possible (e.g. at the end of a map or game session). After calling
+<a href="/doc/api/ISteamInventory#SetProperty">ISteamInventory::SetProperty</a> or
+<a href="/doc/api/ISteamInventory#RemoveProperty">ISteamInventory::RemoveProperty</a> for all the
+items that you want to modify, you will need to call
+<a href="/doc/api/ISteamInventory#SubmitUpdateProperties"
     >ISteamInventory::SubmitUpdateProperties</a
 >
 to send the request to the Steam servers. A
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResultReady_t"
-    class="bb_apilink"
-    >SteamInventoryResultReady_t</a
->
+<a href="/doc/api/ISteamInventory#SteamInventoryResultReady_t">SteamInventoryResultReady_t</a>
 callback will be fired with the results of the operation.<br />
 <br />
 <strong>Example:</strong><br />
@@ -2127,34 +1636,21 @@ callback will be fired with the results of the operation.<br />
 </div>
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result for
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SubmitUpdateProperties"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result for
+<a href="/doc/api/ISteamInventory#SubmitUpdateProperties"
     >ISteamInventory::SubmitUpdateProperties</a
 >
 when you are done with it.<br />
 <br />
 <strong>Returns:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryUpdateHandle_t"
-    class="bb_apilink"
-    >SteamInventoryUpdateHandle_t</a
+<a href="/doc/api/ISteamInventory#SteamInventoryUpdateHandle_t">SteamInventoryUpdateHandle_t</a
 ><br />
 <br />
 <strong>See Also:</strong>
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#SetProperty" class="bb_apilink"
-    >ISteamInventory::SetProperty</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RemoveProperty" class="bb_apilink"
-    >ISteamInventory::RemoveProperty</a
->,
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SubmitUpdateProperties"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#SetProperty">ISteamInventory::SetProperty</a>,
+<a href="/doc/api/ISteamInventory#RemoveProperty">ISteamInventory::RemoveProperty</a>,
+<a href="/doc/api/ISteamInventory#SubmitUpdateProperties"
     >ISteamInventory::SubmitUpdateProperties</a
 >
 <h2 class="bb_subsection"><a name="SubmitUpdateProperties"></a>SubmitUpdateProperties</h2>
@@ -2163,141 +1659,103 @@ when you are done with it.<br />
     pResultHandle );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>handle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryUpdateHandle_t"
-                class="bb_apilink"
-                >SteamInventoryUpdateHandle_t</a
-            >
-        </td>
-        <td>
-            The update handle corresponding to the transaction request, returned from
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#StartUpdateProperties"
-                class="bb_apilink"
-                >ISteamInventory::StartUpdateProperties</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pResultHandle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-            *
-        </td>
-        <td>Returns a new inventory result handle.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>handle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryUpdateHandle_t"
+                    >SteamInventoryUpdateHandle_t</a
+                >
+            </td>
+            <td>
+                The update handle corresponding to the transaction request, returned from
+                <a href="/doc/api/ISteamInventory#StartUpdateProperties"
+                    >ISteamInventory::StartUpdateProperties</a
+                >.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pResultHandle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+                *
+            </td>
+            <td>Returns a new inventory result handle.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Submits the transaction request to modify
-<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
-    >dynamic properties</a
->
-on items for the current user. See
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#StartUpdateProperties"
-    class="bb_apilink"
-    >ISteamInventory::StartUpdateProperties</a
+<a href="/doc/features/inventory/dynamicproperties">dynamic properties</a> on items for the current
+user. See
+<a href="/doc/api/ISteamInventory#StartUpdateProperties">ISteamInventory::StartUpdateProperties</a
 >.<br />
 <br />
 <strong>NOTE:</strong> You must call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#DestroyResult" class="bb_apilink"
-    >ISteamInventory::DestroyResult</a
->
-on the provided inventory result for when you are done with it.<br />
+<a href="/doc/api/ISteamInventory#DestroyResult">ISteamInventory::DestroyResult</a> on the provided
+inventory result for when you are done with it.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 <br />
 <strong>See Also:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#StartUpdateProperties"
-    class="bb_apilink"
-    >ISteamInventory::StartUpdateProperties</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#SetProperty" class="bb_apilink"
-    >ISteamInventory::SetProperty</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RemoveProperty" class="bb_apilink"
-    >ISteamInventory::RemoveProperty</a
->
+<a href="/doc/api/ISteamInventory#StartUpdateProperties">ISteamInventory::StartUpdateProperties</a>,
+<a href="/doc/api/ISteamInventory#SetProperty">ISteamInventory::SetProperty</a>,
+<a href="/doc/api/ISteamInventory#RemoveProperty">ISteamInventory::RemoveProperty</a>
 <h2 class="bb_subsection"><a name="RemoveProperty"></a>RemoveProperty</h2>
 <div class="bb_code cpp">
     bool RemoveProperty( SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, const
     char *pchPropertyName );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>handle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryUpdateHandle_t"
-                class="bb_apilink"
-                >SteamInventoryUpdateHandle_t</a
-            >
-        </td>
-        <td>
-            The update handle corresponding to the transaction request, returned from
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#StartUpdateProperties"
-                class="bb_apilink"
-                >ISteamInventory::StartUpdateProperties</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>nItemID</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemInstanceID_t"
-                class="bb_apilink"
-                >SteamItemInstanceID_t</a
-            >
-        </td>
-        <td>ID of the item being modified.</td>
-    </tr>
-    <tr>
-        <td><strong>pchPropertyName</strong></td>
-        <td>const char*</td>
-        <td>The dynamic property being removed.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>handle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryUpdateHandle_t"
+                    >SteamInventoryUpdateHandle_t</a
+                >
+            </td>
+            <td>
+                The update handle corresponding to the transaction request, returned from
+                <a href="/doc/api/ISteamInventory#StartUpdateProperties"
+                    >ISteamInventory::StartUpdateProperties</a
+                >.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nItemID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamItemInstanceID_t">SteamItemInstanceID_t</a>
+            </td>
+            <td>ID of the item being modified.</td>
+        </tr>
+        <tr>
+            <td><strong>pchPropertyName</strong></td>
+            <td>const char*</td>
+            <td>The dynamic property being removed.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
-Removes a
-<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
-    >dynamic property</a
->
-for the given item.<br />
+Removes a <a href="/doc/features/inventory/dynamicproperties">dynamic property</a> for the given
+item.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 <br />
 <strong>See Also:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#StartUpdateProperties"
-    class="bb_apilink"
-    >ISteamInventory::StartUpdateProperties</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#SetProperty" class="bb_apilink"
-    >ISteamInventory::SetProperty</a
->,
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SubmitUpdateProperties"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#StartUpdateProperties">ISteamInventory::StartUpdateProperties</a>,
+<a href="/doc/api/ISteamInventory#SetProperty">ISteamInventory::SetProperty</a>,
+<a href="/doc/api/ISteamInventory#SubmitUpdateProperties"
     >ISteamInventory::SubmitUpdateProperties</a
 >
 <h2 class="bb_subsection"><a name="SetProperty"></a>SetProperty</h2>
@@ -2310,121 +1768,90 @@ for the given item.<br />
     SteamItemInstanceID_t nItemID, const char *pchPropertyName, float flValue );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>handle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryUpdateHandle_t"
-                class="bb_apilink"
-                >SteamInventoryUpdateHandle_t</a
-            >
-        </td>
-        <td>
-            The update handle corresponding to the transaction request, returned from
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#StartUpdateProperties"
-                class="bb_apilink"
-                >ISteamInventory::StartUpdateProperties</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>nItemID</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemInstanceID_t"
-                class="bb_apilink"
-                >SteamItemInstanceID_t</a
-            >
-        </td>
-        <td>ID of the item being modified.</td>
-    </tr>
-    <tr>
-        <td><strong>pchPropertyName</strong></td>
-        <td>const char*</td>
-        <td>The dynamic property being added or updated.</td>
-    </tr>
-    <tr>
-        <td><strong>pchPropertyValue</strong></td>
-        <td>const char*</td>
-        <td>The string value being set.</td>
-    </tr>
-    <tr>
-        <td><strong>bValue</strong></td>
-        <td>bool</td>
-        <td>The boolean value being set.</td>
-    </tr>
-    <tr>
-        <td><strong>nValue</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#int64" class="bb_apilink"
-                >int64</a
-            >
-        </td>
-        <td>The 64 bit integer value being set.</td>
-    </tr>
-    <tr>
-        <td><strong>flValue</strong></td>
-        <td>float</td>
-        <td>The floating point number value being set.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>handle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryUpdateHandle_t"
+                    >SteamInventoryUpdateHandle_t</a
+                >
+            </td>
+            <td>
+                The update handle corresponding to the transaction request, returned from
+                <a href="/doc/api/ISteamInventory#StartUpdateProperties"
+                    >ISteamInventory::StartUpdateProperties</a
+                >.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nItemID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamItemInstanceID_t">SteamItemInstanceID_t</a>
+            </td>
+            <td>ID of the item being modified.</td>
+        </tr>
+        <tr>
+            <td><strong>pchPropertyName</strong></td>
+            <td>const char*</td>
+            <td>The dynamic property being added or updated.</td>
+        </tr>
+        <tr>
+            <td><strong>pchPropertyValue</strong></td>
+            <td>const char*</td>
+            <td>The string value being set.</td>
+        </tr>
+        <tr>
+            <td><strong>bValue</strong></td>
+            <td>bool</td>
+            <td>The boolean value being set.</td>
+        </tr>
+        <tr>
+            <td><strong>nValue</strong></td>
+            <td><a href="/doc/api/steam_api#int64">int64</a></td>
+            <td>The 64 bit integer value being set.</td>
+        </tr>
+        <tr>
+            <td><strong>flValue</strong></td>
+            <td>float</td>
+            <td>The floating point number value being set.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
-Sets a
-<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
-    >dynamic property</a
->
-for the given item. Supported value types are strings, boolean, 64 bit integers, and 32 bit
-floats.<br />
+Sets a <a href="/doc/features/inventory/dynamicproperties">dynamic property</a> for the given item.
+Supported value types are strings, boolean, 64 bit integers, and 32 bit floats.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 <br />
 <strong>See Also:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#StartUpdateProperties"
-    class="bb_apilink"
-    >ISteamInventory::StartUpdateProperties</a
->,
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RemoveProperty" class="bb_apilink"
-    >ISteamInventory::RemoveProperty</a
->,
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SubmitUpdateProperties"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#StartUpdateProperties">ISteamInventory::StartUpdateProperties</a>,
+<a href="/doc/api/ISteamInventory#RemoveProperty">ISteamInventory::RemoveProperty</a>,
+<a href="/doc/api/ISteamInventory#SubmitUpdateProperties"
     >ISteamInventory::SubmitUpdateProperties</a
 >
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks" class="bb_apilink"
-    >SteamAPI_RunCallbacks</a
->. Many of these will be fired directly in response to the member functions of
+<a href="/doc/api/steam_api#SteamAPI_RunCallbacks">SteamAPI_RunCallbacks</a>. Many of these will be
+fired directly in response to the member functions of
 <code class="bb_code bb_code_inline nohighlight">ISteamInventory</code>.
 <h2 class="bb_subsection">
     <a name="SteamInventoryDefinitionUpdate_t"></a>SteamInventoryDefinitionUpdate_t
 </h2>
 This callback is triggered whenever item definitions have been updated, which could be in response
 to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#LoadItemDefinitions"
-    class="bb_apilink"
-    >ISteamInventory::LoadItemDefinitions</a
->
-or any time new item definitions are available (eg, from the dynamic addition of new item types
-while players are still in-game).<br />
+<a href="/doc/api/ISteamInventory#LoadItemDefinitions">ISteamInventory::LoadItemDefinitions</a> or
+any time new item definitions are available (eg, from the dynamic addition of new item types while
+players are still in-game).<br />
 <br />
 This callback has no fields.<br />
 <br />
 <strong>Associated Functions:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#LoadItemDefinitions"
-    class="bb_apilink"
-    >ISteamInventory::LoadItemDefinitions</a
->
+<a href="/doc/api/ISteamInventory#LoadItemDefinitions">ISteamInventory::LoadItemDefinitions</a>
 <h2 class="bb_subsection">
     <a name="SteamInventoryEligiblePromoItemDefIDs_t"></a>SteamInventoryEligiblePromoItemDefIDs_t
 </h2>
@@ -2433,70 +1860,52 @@ the given user. These are promo items of type "manual" that won't be granted aut
 example usage of this is an item that becomes available every week.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_result</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
-                class="bb_apilink"
-                >k_EResultOK</a
-            >
-            upon success, any other value indicates failure.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>m_steamID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#CSteamID" class="bb_apilink"
-                >CSteamID</a
-            >
-        </td>
-        <td>The Steam ID of the user who these items are for.</td>
-    </tr>
-    <tr>
-        <td><strong>m_numEligiblePromoItemDefs</strong></td>
-        <td>int</td>
-        <td>
-            The number of eligible promo items available for this user. You should use this to
-            create a
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-            buffer to use with
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#GetEligiblePromoItemDefinitionIDs"
-                class="bb_apilink"
-                >ISteamInventory::GetEligiblePromoItemDefinitionIDs</a
-            >
-            to get the actual ItemDefs.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>m_bCachedData</strong></td>
-        <td>bool</td>
-        <td>
-            Indicates that the data was retrieved from the cache and not the server. This happens if
-            the user is not logged on or can not otherwise connect to the Steam servers.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_result</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>
+                <a href="/doc/api/steam_api#k_EResultOK">k_EResultOK</a> upon success, any other
+                value indicates failure.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_steamID</strong></td>
+            <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
+            <td>The Steam ID of the user who these items are for.</td>
+        </tr>
+        <tr>
+            <td><strong>m_numEligiblePromoItemDefs</strong></td>
+            <td>int</td>
+            <td>
+                The number of eligible promo items available for this user. You should use this to
+                create a <a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a> buffer
+                to use with
+                <a href="/doc/api/ISteamInventory#GetEligiblePromoItemDefinitionIDs"
+                    >ISteamInventory::GetEligiblePromoItemDefinitionIDs</a
+                >
+                to get the actual ItemDefs.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_bCachedData</strong></td>
+            <td>bool</td>
+            <td>
+                Indicates that the data was retrieved from the cache and not the server. This
+                happens if the user is not logged on or can not otherwise connect to the Steam
+                servers.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#RequestEligiblePromoItemDefinitionsIDs"
-    class="bb_apilink"
+<a href="/doc/api/ISteamInventory#RequestEligiblePromoItemDefinitionsIDs"
     >ISteamInventory::RequestEligiblePromoItemDefinitionsIDs</a
 >
 <h2 class="bb_subsection"><a name="SteamInventoryFullUpdate_t"></a>SteamInventoryFullUpdate_t</h2>
@@ -2505,169 +1914,121 @@ known result. (It will not trigger if the inventory hasn't changed, or if result
 overlapping calls are reversed in flight and the earlier result is already known to be
 stale/out-of-date.)<br />
 The regular
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResultReady_t"
-    class="bb_apilink"
-    >SteamInventoryResultReady_t</a
->
+<a href="/doc/api/ISteamInventory#SteamInventoryResultReady_t">SteamInventoryResultReady_t</a>
 callback will still be triggered immediately afterwards; this is an additional notification for your
 convenience.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_handle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>A new inventory result handle.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_handle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>A new inventory result handle.</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection"><a name="SteamInventoryResultReady_t"></a>SteamInventoryResultReady_t</h2>
 This is fired whenever an inventory result transitions from
-<a href="https://partner.steamgames.com/doc/api/steam_api#k_EResultPending" class="bb_apilink"
-    >k_EResultPending</a
->
-to any other completed state, see
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#GetResultStatus" class="bb_apilink"
-    >ISteamInventory::GetResultStatus</a
->
-for the complete list of states. There will always be exactly one callback per handle.<br />
+<a href="/doc/api/steam_api#k_EResultPending">k_EResultPending</a> to any other completed state, see
+<a href="/doc/api/ISteamInventory#GetResultStatus">ISteamInventory::GetResultStatus</a> for the
+complete list of states. There will always be exactly one callback per handle.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_handle</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>The inventory result which is now ready.</td>
-    </tr>
-    <tr>
-        <td><strong>m_result</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>
-            The new status of the handle. This is equivalent to calling
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#GetResultStatus"
-                class="bb_apilink"
-                >ISteamInventory::GetResultStatus</a
-            >.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_handle</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>The inventory result which is now ready.</td>
+        </tr>
+        <tr>
+            <td><strong>m_result</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>
+                The new status of the handle. This is equivalent to calling
+                <a href="/doc/api/ISteamInventory#GetResultStatus"
+                    >ISteamInventory::GetResultStatus</a
+                >.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection">
     <a name="SteamInventoryStartPurchaseResult_t"></a>SteamInventoryStartPurchaseResult_t
 </h2>
 Returned after
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#StartPurchase" class="bb_apilink"
-    >ISteamInventory::StartPurchase</a
->
-is called.<br />
+<a href="/doc/api/ISteamInventory#StartPurchase">ISteamInventory::StartPurchase</a> is called.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_result</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
-                class="bb_apilink"
-                >k_EResultOK</a
-            >
-            upon success, any other value indicates failure.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>m_ulOrderID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint64" class="bb_apilink"
-                >uint64</a
-            >
-        </td>
-        <td>The auto-generated order id for the initiated purchase.</td>
-    </tr>
-    <tr>
-        <td><strong>m_ulTransID</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint64" class="bb_apilink"
-                >uint64</a
-            >
-        </td>
-        <td>The auto-generated transaction id for the initiated purchase.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_result</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>
+                <a href="/doc/api/steam_api#k_EResultOK">k_EResultOK</a> upon success, any other
+                value indicates failure.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_ulOrderID</strong></td>
+            <td><a href="/doc/api/steam_api#uint64">uint64</a></td>
+            <td>The auto-generated order id for the initiated purchase.</td>
+        </tr>
+        <tr>
+            <td><strong>m_ulTransID</strong></td>
+            <td><a href="/doc/api/steam_api#uint64">uint64</a></td>
+            <td>The auto-generated transaction id for the initiated purchase.</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection">
     <a name="SteamInventoryRequestPricesResult_t"></a>SteamInventoryRequestPricesResult_t
 </h2>
 Returned after
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#RequestPrices" class="bb_apilink"
-    >ISteamInventory::RequestPrices</a
->
-is called.<br />
+<a href="/doc/api/ISteamInventory#RequestPrices">ISteamInventory::RequestPrices</a> is called.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_result</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#EResult" class="bb_apilink"
-                >EResult</a
-            >
-        </td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#k_EResultOK"
-                class="bb_apilink"
-                >k_EResultOK</a
-            >
-            upon success, any other value indicates failure.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>m_rgchCurrency</strong></td>
-        <td>char</td>
-        <td>
-            The string representing the user's
-            <a href="https://partner.steamgames.com/doc/store/pricing/currencies" class="bb_doclink"
-                >local currency</a
-            >
-            code.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_result</strong></td>
+            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
+            <td>
+                <a href="/doc/api/steam_api#k_EResultOK">k_EResultOK</a> upon success, any other
+                value indicates failure.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_rgchCurrency</strong></td>
+            <td>char</td>
+            <td>
+                The string representing the user's
+                <a href="/doc/store/pricing/currencies">local currency</a> code.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="structs"></a>Structs</h2>
 These are structs which functions in ISteamInventory may return and/or interact with.
@@ -2675,210 +2036,162 @@ These are structs which functions in ISteamInventory may return and/or interact 
 <br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>m_itemId</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemInstanceID_t"
-                class="bb_apilink"
-                >SteamItemInstanceID_t</a
-            >
-        </td>
-        <td>The globally unique item instance handle.</td>
-    </tr>
-    <tr>
-        <td><strong>m_iDefinition</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDef_t"
-                class="bb_apilink"
-                >SteamItemDef_t</a
-            >
-        </td>
-        <td>The item definition number for this item.</td>
-    </tr>
-    <tr>
-        <td><strong>m_unQuantity</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
-                >uint16</a
-            >
-        </td>
-        <td>The current quantity of the item.</td>
-    </tr>
-    <tr>
-        <td><strong>m_unFlags</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint16" class="bb_apilink"
-                >uint16</a
-            >
-        </td>
-        <td>
-            This is a bitmasked collection of
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#ESteamItemFlags"
-                class="bb_apilink"
-                >ESteamItemFlags</a
-            >.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_itemId</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamItemInstanceID_t">SteamItemInstanceID_t</a>
+            </td>
+            <td>The globally unique item instance handle.</td>
+        </tr>
+        <tr>
+            <td><strong>m_iDefinition</strong></td>
+            <td><a href="/doc/api/ISteamInventory#SteamItemDef_t">SteamItemDef_t</a></td>
+            <td>The item definition number for this item.</td>
+        </tr>
+        <tr>
+            <td><strong>m_unQuantity</strong></td>
+            <td><a href="/doc/api/steam_api#uint16">uint16</a></td>
+            <td>The current quantity of the item.</td>
+        </tr>
+        <tr>
+            <td><strong>m_unFlags</strong></td>
+            <td><a href="/doc/api/steam_api#uint16">uint16</a></td>
+            <td>
+                This is a bitmasked collection of
+                <a href="/doc/api/ISteamInventory#ESteamItemFlags">ESteamItemFlags</a>.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="enums"></a>Enums</h2>
 These are enums which are defined for use with ISteamInventory.
 <h2 class="bb_subsection"><a name="ESteamItemFlags"></a>ESteamItemFlags</h2>
 These are bitflags that are set in
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemDetails_t"
-    class="bb_apilink"
-    >SteamItemDetails_t</a
->.<br />
+<a href="/doc/api/ISteamInventory#SteamItemDetails_t">SteamItemDetails_t</a>.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="k_ESteamItemNoTrade">
-        <td><strong>k_ESteamItemNoTrade</strong></td>
-        <td>1 &lt;&lt; 0</td>
-        <td>
-            This item is account-locked and cannot be traded or given away. This is an item status
-            flag which is permanently attached to specific item instances.
-        </td>
-    </tr>
-    <tr id="k_ESteamItemRemoved">
-        <td><strong>k_ESteamItemRemoved</strong></td>
-        <td>1 &lt;&lt; 8</td>
-        <td>
-            The item has been destroyed, traded away, expired, or otherwise invalidated. This is an
-            action confirmation flag which is only set one time, as part of a result set.
-        </td>
-    </tr>
-    <tr id="k_ESteamItemConsumed">
-        <td><strong>k_ESteamItemConsumed</strong></td>
-        <td>1 &lt;&lt; 9</td>
-        <td>
-            The item quantity has been decreased by 1 via
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#ConsumeItem"
-                class="bb_apilink"
-                >ISteamInventory::ConsumeItem</a
-            >
-            API. This is an action confirmation flag which is only set one time, as part of a result
-            set.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_ESteamItemNoTrade">
+            <td><strong>k_ESteamItemNoTrade</strong></td>
+            <td>1 &lt;&lt; 0</td>
+            <td>
+                This item is account-locked and cannot be traded or given away. This is an item
+                status flag which is permanently attached to specific item instances.
+            </td>
+        </tr>
+        <tr id="k_ESteamItemRemoved">
+            <td><strong>k_ESteamItemRemoved</strong></td>
+            <td>1 &lt;&lt; 8</td>
+            <td>
+                The item has been destroyed, traded away, expired, or otherwise invalidated. This is
+                an action confirmation flag which is only set one time, as part of a result set.
+            </td>
+        </tr>
+        <tr id="k_ESteamItemConsumed">
+            <td><strong>k_ESteamItemConsumed</strong></td>
+            <td>1 &lt;&lt; 9</td>
+            <td>
+                The item quantity has been decreased by 1 via
+                <a href="/doc/api/ISteamInventory#ConsumeItem">ISteamInventory::ConsumeItem</a> API.
+                This is an action confirmation flag which is only set one time, as part of a result
+                set.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
 These are typedefs which are defined for use with ISteamInventory.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Base type</th>
-        <th>Description</th>
-    </tr>
-    <tr id="SteamInventoryResult_t">
-        <td><strong>SteamInventoryResult_t</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink"
-                >int32</a
-            >
-        </td>
-        <td>A handle to an asyncronous inventory result.</td>
-    </tr>
-    <tr id="SteamItemDef_t">
-        <td><strong>SteamItemDef_t</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#int32" class="bb_apilink"
-                >int32</a
-            >
-        </td>
-        <td>
-            Types of items in your game are identified by a 32-bit "item definition number".<br />
-            Valid definition numbers are between 1 and 999999999; numbers less than or equal to zero
-            are invalid, and numbers greater than or equal to one billion (1x10^9) are reserved for
-            internal Steam use.
-        </td>
-    </tr>
-    <tr id="SteamItemInstanceID_t">
-        <td><strong>SteamItemInstanceID_t</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint64" class="bb_apilink"
-                >uint64</a
-            >
-        </td>
-        <td>
-            Every individual instance of an item has a globally-unique instance ID.<br />
-            This ID is unique to the combination of a player and specific item instance, and will
-            not be transferred to another player or re-used for another item.
-        </td>
-    </tr>
-    <tr id="SteamInventoryUpdateHandle_t">
-        <td><strong>SteamInventoryUpdateHandle_t</strong></td>
-        <td>
-            <a href="https://partner.steamgames.com/doc/api/steam_api#uint64" class="bb_apilink"
-                >uint64</a
-            >
-        </td>
-        <td>
-            Returned from the call
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#StartUpdateProperties"
-                class="bb_apilink"
-                >ISteamInventory::StartUpdateProperties</a
-            >, which starts a transaction request to modify dynamic properties on items for the
-            current user.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Base type</th>
+            <th>Description</th>
+        </tr>
+        <tr id="SteamInventoryResult_t">
+            <td><strong>SteamInventoryResult_t</strong></td>
+            <td><a href="/doc/api/steam_api#int32">int32</a></td>
+            <td>A handle to an asyncronous inventory result.</td>
+        </tr>
+        <tr id="SteamItemDef_t">
+            <td><strong>SteamItemDef_t</strong></td>
+            <td><a href="/doc/api/steam_api#int32">int32</a></td>
+            <td>
+                Types of items in your game are identified by a 32-bit "item definition number".<br />
+                Valid definition numbers are between 1 and 999999999; numbers less than or equal to
+                zero are invalid, and numbers greater than or equal to one billion (1x10^9) are
+                reserved for internal Steam use.
+            </td>
+        </tr>
+        <tr id="SteamItemInstanceID_t">
+            <td><strong>SteamItemInstanceID_t</strong></td>
+            <td><a href="/doc/api/steam_api#uint64">uint64</a></td>
+            <td>
+                Every individual instance of an item has a globally-unique instance ID.<br />
+                This ID is unique to the combination of a player and specific item instance, and
+                will not be transferred to another player or re-used for another item.
+            </td>
+        </tr>
+        <tr id="SteamInventoryUpdateHandle_t">
+            <td><strong>SteamInventoryUpdateHandle_t</strong></td>
+            <td><a href="/doc/api/steam_api#uint64">uint64</a></td>
+            <td>
+                Returned from the call
+                <a href="/doc/api/ISteamInventory#StartUpdateProperties"
+                    >ISteamInventory::StartUpdateProperties</a
+                >, which starts a transaction request to modify dynamic properties on items for the
+                current user.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="constants"></a>Constants</h2>
 These are constants which are defined for use with ISteamInventory.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="k_SteamInventoryResultInvalid">
-        <td><strong>k_SteamInventoryResultInvalid</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResult_t"
-                class="bb_apilink"
-                >SteamInventoryResult_t</a
-            >
-        </td>
-        <td>-1</td>
-        <td>An invalid Steam inventory result handle.</td>
-    </tr>
-    <tr id="k_SteamItemInstanceIDInvalid">
-        <td><strong>k_SteamItemInstanceIDInvalid</strong></td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamItemInstanceID_t"
-                class="bb_apilink"
-                >SteamItemInstanceID_t</a
-            >
-        </td>
-        <td>(SteamItemInstanceID_t)~0</td>
-        <td>
-            An invalid item instance id. This is usually returned when an operation has failed. It's
-            recommended that you initialize all new item instances with this value.
-        </td>
-    </tr>
-    <tr id="STEAMINVENTORY_INTERFACE_VERSION">
-        <td><strong>STEAMINVENTORY_INTERFACE_VERSION</strong></td>
-        <td>const char *</td>
-        <td>"STEAMINVENTORY_INTERFACE_V002"</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_SteamInventoryResultInvalid">
+            <td><strong>k_SteamInventoryResultInvalid</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamInventoryResult_t">SteamInventoryResult_t</a>
+            </td>
+            <td>-1</td>
+            <td>An invalid Steam inventory result handle.</td>
+        </tr>
+        <tr id="k_SteamItemInstanceIDInvalid">
+            <td><strong>k_SteamItemInstanceIDInvalid</strong></td>
+            <td>
+                <a href="/doc/api/ISteamInventory#SteamItemInstanceID_t">SteamItemInstanceID_t</a>
+            </td>
+            <td>(SteamItemInstanceID_t)~0</td>
+            <td>
+                An invalid item instance id. This is usually returned when an operation has failed.
+                It's recommended that you initialize all new item instances with this value.
+            </td>
+        </tr>
+        <tr id="STEAMINVENTORY_INTERFACE_VERSION">
+            <td><strong>STEAMINVENTORY_INTERFACE_VERSION</strong></td>
+            <td>const char *</td>
+            <td>"STEAMINVENTORY_INTERFACE_V002"</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>

@@ -4,7 +4,7 @@
 The Steam Input API is designed to allow you to easily enable <i>full support</i> for Steam Input
 devices in your game. We define full support as the follows:<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         Your game uses the proper controller-specific glyphs when showing in-game input prompts.<br />
     </li>
@@ -19,12 +19,8 @@ devices in your game. We define full support as the follows:<br />
     </li>
     <li>
         When your game wants keyboard input (e.g. when naming avatars), you
-        <a
-            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#6"
-            class="bb_doclink"
-            >use the API</a
-        >
-        to automatically bring up the text entry UI.<br />
+        <a href="/doc/features/steam_controller/getting_started_for_devs#6">use the API</a> to
+        automatically bring up the text entry UI.<br />
     </li>
     <li>
         Your game has no launchers that require mouse or KB input - or even better, no launcher at
@@ -34,7 +30,7 @@ devices in your game. We define full support as the follows:<br />
 <br />
 To ensure users have a good experience from the couch, we also recommend the following:<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         Make your UI readable from several feet away. Our rule of thumb: when your game is running
         at 1920x1080, your fonts should be a minimum of 24px in size.<br />
@@ -54,9 +50,7 @@ To ensure users have a good experience from the couch, we also recommend the fol
 </h2>
 <br />
 Great! Follow the technical directions in
-<a
-    href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#implement_steam_input"
-    class="bb_doclink"
+<a href="/doc/features/steam_controller/getting_started_for_devs#implement_steam_input"
     >Implementing Steam Input API support</a
 >.
 <h2 class="bb_subsection">
@@ -69,7 +63,7 @@ could easily find yourself in this situation. There's a few things to keep in mi
 <br />
 <strong> 1. Be deliberate with your analog action choices</strong><br />
 We'll be going into further detail on this topic later but the quick summary is:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         You should always include a mouse-style action for cursor or precision camera controls. It
         may be acceptable to skip mouse-like input in Twin Stick or Sports titles where the joystick
@@ -91,13 +85,9 @@ We'll be going into further detail on this topic later but the quick summary is:
 If you have any auto-aim or aim-assist applied to XInput analog sticks, consider applying that to
 Steam Input devices as well, at least for traditional controller models configured through Steam
 Input. You can call
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInput#GetInputTypeForHandle"
-    class="bb_apilink"
-    >GetInputTypeForHandle</a
->
-to determine an individual controller's model type or implement separate mouse-style and
-joystick-style camera actions.<br />
+<a href="/doc/api/ISteamInput#GetInputTypeForHandle">GetInputTypeForHandle</a> to determine an
+individual controller's model type or implement separate mouse-style and joystick-style camera
+actions.<br />
 <br />
 <strong> 3. Use SDL version 2.0.8 or above, if possible</strong><br />
 If you're using <a href="https://www.libsdl.org/" target="_blank" rel="noreferrer">SDL</a> (Simple
@@ -125,7 +115,7 @@ First of all, I highly recommend reading Zach Burke's
 <br />
 To summarize, they are:<br />
 <br />
-<ol class="bb_ol">
+<ol>
     <li><strong>On-screen icons should match the input device</strong><br /></li>
     <li><strong>Mouse cursor should match the input device</strong><br /></li>
     <li><strong>All devices should work 100% of the time</strong><br /></li>
@@ -142,7 +132,7 @@ cause of compatibility issues with the Steam Input system. <br />
 <br />
 Additionally:<br />
 <br />
-<ol class="bb_ol">
+<ol>
     <li>
         <strong>Set a recommended controller configuration for all controller types</strong><br />
         This way Steam doesn't have to prompt the user to select a configuration on startup. By the
@@ -154,12 +144,8 @@ Additionally:<br />
         ><br />
         If you don't have built-in support for these controller types, you should use the partner
         site to opt them in to using Steam Input. See the bottom of
-        <a
-            href="https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs#21"
-            class="bb_doclink"
-            >this section</a
-        >
-        for more on that.<br />
+        <a href="/doc/features/steam_controller/getting_started_for_devs#21">this section</a> for
+        more on that.<br />
     </li>
     <li>
         <strong>If you're not going to allow simultaneous gamepad/mouse...</strong><br />
@@ -190,42 +176,24 @@ Additionally:<br />
 </ol>
 <br />
 You can read more about this on the
-<a
-    href="https://partner.steamgames.com/doc/features/steam_controller/steam_input_gamepad_emulation_bestpractices"
-    class="bb_doclink"
+<a href="/doc/features/steam_controller/steam_input_gamepad_emulation_bestpractices"
     >Steam Input Gamepad Emulation Best Practices</a
 >
 page.
 <h2 class="bb_section"><a name="6"></a>Text Input</h2>
 <br />
-On-screen text input is not technically part of the
-<a href="https://partner.steamgames.com/doc/api/ISteamInput" class="bb_apilink">ISteamInput</a>, but
-is found instead in
-<a href="https://partner.steamgames.com/doc/api/ISteamUtils" class="bb_apilink">ISteamUtils</a
->.<br />
+On-screen text input is not technically part of the <a href="/doc/api/ISteamInput">ISteamInput</a>,
+but is found instead in <a href="/doc/api/ISteamUtils">ISteamUtils</a>.<br />
 <br />
 Some quick references:<br />
-<ul class="bb_ul">
+<ul>
+    <li><a href="/doc/api/ISteamUtils#ShowGamepadTextInput">ShowGamepadTextInput</a><br /></li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUtils#ShowGamepadTextInput"
-            class="bb_apilink"
-            >ShowGamepadTextInput</a
+        <a href="/doc/api/ISteamUtils#GetEnteredGamepadTextLength">GetEnteredGamepadTextLength</a
         ><br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUtils#GetEnteredGamepadTextLength"
-            class="bb_apilink"
-            >GetEnteredGamepadTextLength</a
-        ><br />
-    </li>
-    <li>
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamUtils#GetEnteredGamepadTextInput"
-            class="bb_apilink"
-            >GetEnteredGamepadTextInput</a
-        >
+        <a href="/doc/api/ISteamUtils#GetEnteredGamepadTextInput">GetEnteredGamepadTextInput</a>
     </li>
 </ul>
 <br />
@@ -235,7 +203,7 @@ You might find these useful regardless of whether you're using Steam Input in an
 The implementation process is straightforward, and shouldn't take more than a few days of work. Four
 steps are involved:<br />
 <br />
-<ol class="bb_ol">
+<ol>
     <li>
         In a text editor, create an in-game actions file, which tells Steam what in-game actions
         your players can bind to the controller.<br />
@@ -256,7 +224,7 @@ steps are involved:<br />
 <br />
 Start by downloading the starting
 <a
-    href="https://cdn.cloudflare.steamstatic.com/steam/partner/controller/game_actions_X.vdf"
+    href="https://cdn.steamstatic.com/steam/partner/controller/game_actions_X.vdf"
     target="_blank"
     rel="noreferrer"
     >in-game actions (IGA) file</a
@@ -267,25 +235,17 @@ logging into your Steam partner site.<br />
 <br />
 Now open up the file in your favorite text editor. The file is in a standard Valve format called
 KeyValues, which is a simple &amp; easily read format. You might also find it useful to download one
-of our
+of our <a href="/doc/features/steam_controller/iga_examples">In-Game Actions File Templates</a> or
+the
 <a
-    href="https://partner.steamgames.com/doc/features/steam_controller/iga_examples"
-    class="bb_doclink"
-    >In-Game Actions File Templates</a
->
-or the
-<a
-    href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/portal2_actions.vdf"
+    href="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/portal2_actions.vdf"
     target="_blank"
     rel="noreferrer"
     >Portal 2 IGA</a
 >
 for a reference.<br />
 <br />
-For more details see:
-<a href="https://partner.steamgames.com/doc/features/steam_controller/iga_file" class="bb_doclink"
-    >In-Game Actions File</a
->
+For more details see: <a href="/doc/features/steam_controller/iga_file">In-Game Actions File</a>
 <h2 class="bb_subsection"><a name="7"></a>File Format</h2>
 <br />
 IGA files contain an "actions" section, which should list all the in-game action sets (IGAS) in your
@@ -314,11 +274,7 @@ set layers retain any settings of the parent action set and can make understandi
 configurations more manageable for both your development team and your users.<br />
 <br />
 For more information on action set layers see:
-<a
-    href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
-    class="bb_doclink"
-    >Action set layers</a
->
+<a href="/doc/features/steam_controller/action_set_layers">Action set layers</a>
 <div class="bb_callout bb_red">
     <div>
         <h3><strong>Limits on the number of actions </strong></h3>
@@ -364,7 +320,7 @@ input API.<br />
 Valid <code class="bb_code bb_code_inline nohighlight">&lt;analog modes&gt;</code> are as
 follows:<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">"absolute_mouse"</code> - for when you're
         expecting the action to behave like a mouse. Useful for first or third person camera, or an
@@ -411,7 +367,7 @@ Here's an example: <br />
 <div class="bb_callout bb_red">
     <div>
         <h3>Warning</h3>
-        <ol class="bb_ol">
+        <ol>
             <li>
                 We <strong>strongly discourage</strong> using the "os_mouse" option for
                 <strong>camera controls</strong>. If specific parts of your game are hard to patch,
@@ -447,9 +403,7 @@ localization keys:<br />
 If the language the game is running under is not found in the localization section, English will be
 used as a fallback. If English is not found, the string will be shown as is. For details on
 supported languages, please see
-<a href="https://partner.steamgames.com/doc/store/localization/languages" class="bb_doclink"
-    >Fully supported languages</a
->
+<a href="/doc/store/localization/languages">Fully supported languages</a>
 <h2 class="bb_subsection"><a name="13"></a>Step 1.2 - Titles &amp; Descriptions</h2>
 <br />
 Configurations also need a localized title and description. If you're only making a single official
@@ -471,9 +425,8 @@ with <code class="bb_code bb_code_inline nohighlight">"Description_"</code>. Her
     is setup for Southpaw users." "Action_Jump" "Jump" "Action_Camera" "Camera" } }
 </div>
 <br />
-When you publish a configuration (see
-<a href="#publishing" class="bb_doclink">Step 4 - Publishing</a>), you'll be able to select which of
-these localized titles and descriptions you want to use.
+When you publish a configuration (see <a href="#publishing">Step 4 - Publishing</a>), you'll be able
+to select which of these localized titles and descriptions you want to use.
 <h2 class="bb_section"><a name="14"></a>Step 2 - Creating a Default Configuration</h2>
 <br />
 Once you've created your IGA file, and ensured it's in the right directory &amp; named to match your
@@ -495,10 +448,7 @@ ready to receive IGAs.
 <h2 class="bb_section"><a name="15"></a>Step 3 - The Steam Input API</h2>
 <br />
 Make sure you have the latest version of the Steamworks API - Grab it from the
-<a
-    href="https://partner.steamgames.com/documentation/getting_started"
-    target="_blank"
-    rel="noreferrer"
+<a href="/documentation/getting_started" target="_blank" rel="noreferrer"
     >Getting Started With SteamWorks</a
 >
 page.<br />
@@ -524,156 +474,91 @@ or add the following command line parameters to your Steam shortcut: <br />
 <br />
 You can also download the
 <a
-    href="https://cdn.cloudflare.steamstatic.com/steam/partner/controller/SteamControllerGlyphs_v1.zip"
+    href="https://cdn.steamstatic.com/steam/partner/controller/SteamControllerGlyphs_v1.zip"
     target="_blank"
     rel="noreferrer"
     >official controller glyph renders</a
 >
 or their
 <a
-    href="https://cdn.cloudflare.steamstatic.com/steam/partner/controller/controller_api_icons.psd"
+    href="https://cdn.steamstatic.com/steam/partner/controller/controller_api_icons.psd"
     target="_blank"
     rel="noreferrer"
     >PSD source</a
 >. This is only really necessary if you want to use these as a starting point for your own art.
-Otherwise, you can just
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInput#GetGlyphForActionOrigin"
-    class="bb_doclink"
-    >use the API</a
->
-to get a direct file path to appropriate art for any controller input (the image files are shipped
-with the Steam client itself).
+Otherwise, you can just <a href="/doc/api/ISteamInput#GetGlyphForActionOrigin">use the API</a> to
+get a direct file path to appropriate art for any controller input (the image files are shipped with
+the Steam client itself).
 <h2 class="bb_subsection"><a name="16"></a>Step 3.1 - API Overview</h2>
 <br />
 The Steam Input API is built around the in-game actions &amp; sets that you specified in your
 in-game actions file in Step 1. <br />
 <br />
-For a complete API reference, see
-<a href="https://partner.steamgames.com/doc/api/ISteamInput" class="bb_doclink"
-    >ISteamInput Interface</a
-><br />
+For a complete API reference, see <a href="/doc/api/ISteamInput">ISteamInput Interface</a><br />
 <br />
 The functionality overview is as follows: <br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         On game startup, initialize Steam Input with
-        <a href="https://partner.steamgames.com/doc/api/ISteamInput#Init" class="bb_apilink"
-            >ISteamInput::Init</a
-        >, use the
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetActionSetHandle"
-            class="bb_apilink"
-            >ISteamInput::GetActionSetHandle</a
-        >,
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionHandle"
-            class="bb_apilink"
-            >ISteamInput::GetDigitalActionHandle</a
+        <a href="/doc/api/ISteamInput#Init">ISteamInput::Init</a>, use the
+        <a href="/doc/api/ISteamInput#GetActionSetHandle">ISteamInput::GetActionSetHandle</a>,
+        <a href="/doc/api/ISteamInput#GetDigitalActionHandle">ISteamInput::GetDigitalActionHandle</a
         >, and
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionHandle"
-            class="bb_apilink"
-            >ISteamInput::GetAnalogActionHandle</a
-        >
+        <a href="/doc/api/ISteamInput#GetAnalogActionHandle">ISteamInput::GetAnalogActionHandle</a>
         functions to resolve the action &amp; set names into handles. Use these handles to identify
         actions &amp; sets throughout the rest of the API.<br />
     </li>
     <li>
         Use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetConnectedControllers"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamInput#GetConnectedControllers"
             >ISteamInput::GetConnectedControllers</a
         >
         to detect when a controller exists. Use the handles it returns to identify controllers
         throughout the rest of the API.<br />
     </li>
     <li>
-        Use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#ActivateActionSet"
-            class="bb_apilink"
-            >ISteamInput::ActivateActionSet</a
-        >
-        /
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#DeactivateActionSet"
-            class="bb_apilink"
-            >ISteamInput::DeactivateActionSet</a
-        >
-        to control which controllers are bound to different action sets, and if you're using
-        <a
-            href="https://partner.steamgames.com/doc/features/steam_controller/action_set_layers"
-            class="bb_doclink"
-            >action set layers</a
-        >, use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#ActivateActionSetLayer"
-            class="bb_apilink"
+        Use <a href="/doc/api/ISteamInput#ActivateActionSet">ISteamInput::ActivateActionSet</a> /
+        <a href="/doc/api/ISteamInput#DeactivateActionSet">ISteamInput::DeactivateActionSet</a> to
+        control which controllers are bound to different action sets, and if you're using
+        <a href="/doc/features/steam_controller/action_set_layers">action set layers</a>, use
+        <a href="/doc/api/ISteamInput#ActivateActionSetLayer"
             >ISteamInput::ActivateActionSetLayer</a
         >
         /
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#DeactivateActionSetLayer"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamInput#DeactivateActionSetLayer"
             >ISteamInput::DeactivateActionSetLayer</a
         >.<br />
     </li>
     <li>
         Use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionData"
-            class="bb_apilink"
-            >ISteamInput::GetDigitalActionData</a
-        >
+        <a href="/doc/api/ISteamInput#GetDigitalActionData">ISteamInput::GetDigitalActionData</a>
         and
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionData"
-            class="bb_apilink"
-            >ISteamInput::GetAnalogActionData</a
-        >
-        to read the input state of all your in-game actions. You may call
-        <a href="https://partner.steamgames.com/doc/api/ISteamInput#RunFrame" class="bb_apilink"
-            >ISteamInput::RunFrame</a
-        >
-        right before to get the freshest data or you may rely on calling SteamAPI_RunCallbacks
-        elsewhere in your game.<br />
+        <a href="/doc/api/ISteamInput#GetAnalogActionData">ISteamInput::GetAnalogActionData</a> to
+        read the input state of all your in-game actions. You may call
+        <a href="/doc/api/ISteamInput#RunFrame">ISteamInput::RunFrame</a> right before to get the
+        freshest data or you may rely on calling SteamAPI_RunCallbacks elsewhere in your game.<br />
     </li>
     <li>
         Use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionOrigins"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamInput#GetDigitalActionOrigins"
             >ISteamInput::GetDigitalActionOrigins</a
         >
         and
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionOrigins"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamInput#GetAnalogActionOrigins"
             >ISteamInput::GetAnalogActionOrigins</a
         >
         to get the origin(s) that the player has assigned to your in-game actions, and show the
         appropriate glyphs in your onscreen UI.<br />
     </li>
     <li>
-        Use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#ShowBindingPanel"
-            class="bb_apilink"
-            >ISteamInput::ShowBindingPanel</a
-        >
-        to pop up the Steam overlay directly into the controller configuration for a specified
-        controller. This means you won't need to make a customization UI.<br />
+        Use <a href="/doc/api/ISteamInput#ShowBindingPanel">ISteamInput::ShowBindingPanel</a> to pop
+        up the Steam overlay directly into the controller configuration for a specified controller.
+        This means you won't need to make a customization UI.<br />
     </li>
     <li>
         Use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetInputTypeForHandle"
-            class="bb_apilink"
-            >ISteamInput::GetInputTypeForHandle</a
-        >
+        <a href="/doc/api/ISteamInput#GetInputTypeForHandle">ISteamInput::GetInputTypeForHandle</a>
         if you want to identify each controller's device model so you can use matching art in game.
         This is useful for e.g. player seat selection screens as seen in couch co-op games, sports
         games, etc.
@@ -683,20 +568,12 @@ The functionality overview is as follows: <br />
     <div>
         <h3>Safe Interfaces</h3>
         Controller data is gathered when
-        <a href="https://partner.steamgames.com/doc/api/ISteamInput#RunFrame" class="bb_apilink"
-            >ISteamInput::RunFrame</a
-        >
-        is called. This is normally done for you every frame by
-        <a
-            href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RunCallbacks"
-            class="bb_doclink"
-            >SteamAPI_RunCallbacks</a
-        >. However, if you have version-safe interfaces enabled and find you're not getting good
-        polling data you will need to call
-        <a href="https://partner.steamgames.com/doc/api/ISteamInput#RunFrame" class="bb_apilink"
-            >ISteamInput::RunFrame</a
-        >
-        every frame.<br />
+        <a href="/doc/api/ISteamInput#RunFrame">ISteamInput::RunFrame</a> is called. This is
+        normally done for you every frame by
+        <a href="/doc/api/steam_api#SteamAPI_RunCallbacks">SteamAPI_RunCallbacks</a>. However, if
+        you have version-safe interfaces enabled and find you're not getting good polling data you
+        will need to call <a href="/doc/api/ISteamInput#RunFrame">ISteamInput::RunFrame</a> every
+        frame.<br />
         <br />
         You can tell if you have version-safe interfaces enabled by seeing if you have this #define
         in your code:<br />
@@ -706,10 +583,8 @@ The functionality overview is as follows: <br />
 <h2 class="bb_subsection"><a name="17"></a>Step 3.2 - Input Handling</h2>
 <br />
 For digital actions, the data returned by
-<a href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionData" class="bb_apilink"
-    >ISteamInput::GetDigitalActionData</a
->
-is straightforward:<br />
+<a href="/doc/api/ISteamInput#GetDigitalActionData">ISteamInput::GetDigitalActionData</a> is
+straightforward:<br />
 <br />
 <div class="bb_code html">
     bState: will be true if the action is being sent by the controller (button is pressed, trigger
@@ -717,10 +592,8 @@ is straightforward:<br />
 </div>
 <br />
 For analog actions, the data returned by
-<a href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionData" class="bb_apilink"
-    >ISteamInput::GetAnalogActionData</a
->
-is only slightly more complex:<br />
+<a href="/doc/api/ISteamInput#GetAnalogActionData">ISteamInput::GetAnalogActionData</a> is only
+slightly more complex:<br />
 <br />
 <div class="bb_code html">
     x,y: will depend on the mode you assigned the game action to in your IGA File. -
@@ -736,28 +609,15 @@ when they see mouse &amp; KB, or vice versa.
 To display an on-screen prompt for your controller, you need to get the physical origins that are
 bound to an in-game action. The player may have bound more than one physical origin to the same
 action, so it's best to have your UI cycle through displaying each origin.
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionOrigins"
-    class="bb_apilink"
-    >ISteamInput::GetDigitalActionOrigins</a
->
-and
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionOrigins"
-    class="bb_apilink"
-    >ISteamInput::GetAnalogActionOrigins</a
->
-will return the count of origins for the specified action, and fill out the passed in
+<a href="/doc/api/ISteamInput#GetDigitalActionOrigins">ISteamInput::GetDigitalActionOrigins</a> and
+<a href="/doc/api/ISteamInput#GetAnalogActionOrigins">ISteamInput::GetAnalogActionOrigins</a> will
+return the count of origins for the specified action, and fill out the passed in
 <code class="bb_code bb_code_inline nohighlight">originsOut</code> array.<br />
 <br />
 For each origin, you can use the
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamInput#EControllerActionOrigin"
-    class="bb_apilink"
-    >ISteamInput::EControllerActionOrigin</a
->
-enum to remap the origin to a corresponding image. When you call this function with an origin enum,
-it will return a local filepath to a .png or .svg file for the corresponding controller glyph from
+<a href="/doc/api/ISteamInput#EControllerActionOrigin">ISteamInput::EControllerActionOrigin</a> enum
+to remap the origin to a corresponding image. When you call this function with an origin enum, it
+will return a local filepath to a .png or .svg file for the corresponding controller glyph from
 Valve's official image set (located in the Steam client's install folder). This method supports all
 hardware devices recognized by Steam Input (so a PlayStation controller will show PlayStation
 buttons, and an Xbox controller will show Xbox buttons, etc). Even better, it's future proof -- when
@@ -768,23 +628,17 @@ You may provide your own images for the controller glyphs, but we strongly recom
 do some future-proofing as Steam Input is always adding support for new devices and the only thing
 stopping them from working well with your game is if glyph images are broken or blank. You can
 either:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         fall back to the image returned by
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetGlyphForActionOrigin"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamInput#GetGlyphForActionOrigin"
             >ISteamInput::GetGlyphForActionOrigin</a
         >
         when you don't recognize an action origin<br />
     </li>
     <li>
         call
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#TranslateActionOrigin"
-            class="bb_apilink"
-            >ISteamInput::TranslateActionOrigin</a
-        >
+        <a href="/doc/api/ISteamInput#TranslateActionOrigin">ISteamInput::TranslateActionOrigin</a>
         to get the closest equivalent glyph that existed when the version of the Steamworks SDK
         existed, ex: PS6 Cross Button translated into PS5 Cross Button
     </li>
@@ -794,15 +648,11 @@ either:<br />
         <h3>Poll continuously!</h3>
         Please note that the user can change their configuration at any time. To help with this,
         we've ensured the
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetDigitalActionOrigins"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamInput#GetDigitalActionOrigins"
             >ISteamInput::GetDigitalActionOrigins</a
         >
         and
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInput#GetAnalogActionOrigins"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamInput#GetAnalogActionOrigins"
             >ISteamInput::GetAnalogActionOrigins</a
         >
         functions are extremely cheap to call. <br />
@@ -823,11 +673,11 @@ simply fire up your game and play without needing to go into the configuration s
 <br />
 Here's the recommended process:
 <h2 class="bb_subsection"><a name="19"></a>Step 4.1 - Update your game</h2>
-<ul class="bb_ul">
+<ul>
     <li>Update your Steam depot with your new version of the game</li>
 </ul>
 <h2 class="bb_subsection"><a name="20"></a>Step 4.2 - Publish your configuration</h2>
-<ul class="bb_ul">
+<ul>
     <li>
         Run Steam in Big Picture mode and navigate to the default configuration you created in the
         controller configuration.<br />
@@ -842,13 +692,13 @@ Here's the recommended process:
     </li>
 </ul>
 <h2 class="bb_subsection"><a name="21"></a>Step 4.3 - Make the configuration official</h2>
-<ul class="bb_ul">
+<ul>
     <li>Open up your game's page on the Steamworks partner website.<br /></li>
     <li>
         Select "Steam Input" from the "Application" tab.<br />
         <br />
         <img
-            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input.png"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input.png"
             alt="steamworks_steam_input.png"
             title="steamworks_steam_input.png"
         /><br />
@@ -860,7 +710,7 @@ Here's the recommended process:
         select from common legacy mode presets, here is where you would do so).<br />
         <br />
         <img
-            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_custom_config.png"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_custom_config.png"
             alt="steamworks_steam_input_custom_config.png"
             title="steamworks_steam_input_custom_config.png"
         /><br />
@@ -868,7 +718,7 @@ Here's the recommended process:
         And from the selection below, select "Add Custom Configuration."<br />
         <br />
         <img
-            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom2.png"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom2.png"
             alt="steamworks_steam_controller_custom2.png"
             title="steamworks_steam_controller_custom2.png"
         /><br />
@@ -878,7 +728,7 @@ Here's the recommended process:
         Paste the file ID of your public configuration into the box, and click the OK button.<br />
         <br />
         <img
-            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom3.png"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom3.png"
             alt="steamworks_steam_controller_custom3.png"
             title="steamworks_steam_controller_custom3.png"
         /><br />
@@ -894,10 +744,7 @@ To do this, simply create multiple configurations and publish them each via step
 4.3, paste all the file IDs for your configurations into the box, separated by the comma character
 (,) characters. The first one on the list will be considered the highest priority, and will be
 picked by default for new players. Don't forget to make
-<a
-    href="https://partner.steamgames.com/documentation/steamcontroller#step12"
-    target="_blank"
-    rel="noreferrer"
+<a href="/documentation/steamcontroller#step12" target="_blank" rel="noreferrer"
     >Titles &amp; Descriptions</a
 >
 for each of them. <br />
@@ -906,7 +753,7 @@ When your official configurations have been posted they will appear in the "Cust
 section:<br />
 <br />
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_branch_settings.png"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_branch_settings.png"
     alt="steamworks_steam_input_branch_settings.png"
     title="steamworks_steam_input_branch_settings.png"
 /><br />
@@ -921,7 +768,7 @@ you'll want to make sure to check the "Any Future Devices" option to make sure n
 by default without you having to adjust settings after support ships in Steam.<br />
 <br />
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_optin_settings.png"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_optin_settings.png"
     alt="steamworks_steam_input_optin_settings.png"
     title="steamworks_steam_input_optin_settings.png"
 /><br />
@@ -930,7 +777,7 @@ Checking these boxes will cause those controller types to make use of Steam Inpu
 standard gamepad input protocols.
 <h2 class="bb_subsection"><a name="23"></a>Updating your official configurations</h2>
 There are two ways to update your configuration. <br />
-<ol class="bb_ol">
+<ol>
     <li>
         To make a breaking change such as adding/removing a new action set or adding actions that
         must be bound upload a new configuration for each supported controller type and remove the
@@ -938,7 +785,7 @@ There are two ways to update your configuration. <br />
         account that created the configuration and mark it deleted by hitting:<br />
         <br />
         <img
-            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_remove_community_config.png"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_remove_community_config.png"
             alt="steamworks_remove_community_config.png"
             title="steamworks_remove_community_config.png"
         /><br />
@@ -950,7 +797,7 @@ There are two ways to update your configuration. <br />
         action block of that configuration is used preferentially on the selected branches.<br />
         <br />
         <img
-            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_use_action_block.png"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_use_action_block.png"
             alt="steamworks_steam_input_use_action_block.png"
             title="steamworks_steam_input_use_action_block.png"
         />

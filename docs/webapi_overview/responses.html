@@ -12,10 +12,10 @@ following response formats.<br />
 </div>
 <br />
 The following values can be passed for this parameter:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <h4>JSON</h4>
-        <ul class="bb_ul">
+        <ul>
             <li>
                 The API always returns an object containing the named object with the result
                 data.<br />
@@ -34,7 +34,7 @@ The following values can be passed for this parameter:<br />
                     "http://store.steampowered.com/news/externalpost/tf2_blog/1904306376092568991",
                     "is_external_url": true, "author": "", "contents": "&lt;a
                     href=/"http://rgl.gg/default.aspx/"&gt;&lt;img
-                    src=/"https://cdn.cloudflare.steamstatic.com/steam/news/29555/prince.png?t=1495219023/"&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;/n&lt;p&gt;&lt;b&gt;This
+                    src=/"https://cdn.steamstatic.com/steam/news/29555/prince.png?t=1495219023/"&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;/n&lt;p&gt;&lt;b&gt;This
                     Sunday at 4:30pm EST&lt;/b&gt; &lt;a href=/"http://rgl.gg/default.aspx/"
                     target=\"_blank\"&gt;RGL.gg&lt;/a&gt; is hosting their Prince of Prolander
                     event. See legendary players &lt;a
@@ -54,7 +54,7 @@ The following values can be passed for this parameter:<br />
     </li>
     <li>
         <h4>XML</h4>
-        <ul class="bb_ul">
+        <ul>
             <li>XML Attributes are not used.<br /></li>
             <li>
                 Arrays are represented as a series of sub-elements in the containing element of the
@@ -71,7 +71,7 @@ The following values can be passed for this parameter:<br />
                     &lt;url&gt;http://store.steampowered.com/news/externalpost/tf2_blog/1904306376092568991&lt;/url&gt;
                     &lt;is_external_url&gt;true&lt;/is_external_url&gt; &lt;author/&gt;
                     &lt;contents&gt;&amp;lt;a href="http://rgl.gg/default.aspx"&amp;gt;&amp;lt;img
-                    src="https://cdn.cloudflare.steamstatic.com/steam/news/29555/prince.png?t=1495219023"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;
+                    src="https://cdn.steamstatic.com/steam/news/29555/prince.png?t=1495219023"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;
                     &amp;lt;p&amp;gt;&amp;lt;b&amp;gt;This Sunday at 4:30pm EST&amp;lt;/b&amp;gt;
                     &amp;lt;a href="http://rgl.gg/default.aspx"
                     target="_blank"&amp;gt;RGL.gg&amp;lt;/a&amp;gt; is hosting their Prince of
@@ -95,7 +95,7 @@ The following values can be passed for this parameter:<br />
     </li>
     <li>
         <h4>VDF (Valve Data Format)</h4>
-        <ul class="bb_ul">
+        <ul>
             <li>
                 This is Valve's internal data format as used in the Source Engine games. TF2's
                 GetSchema returns data similar to "items/items_game.txt" (although qualities are not
@@ -131,7 +131,7 @@ The following values can be passed for this parameter:<br />
                     "http://store.steampowered.com/news/externalpost/tf2_blog/1904306376092568991"
                     "is_external_url" "1" "author" "" "contents" "&lt;a
                     href=/"http://rgl.gg/default.aspx/"&gt;&lt;img
-                    src=/"https://cdn.cloudflare.steamstatic.com/steam/news/29555/prince.png?t=1495219023/"&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+                    src=/"https://cdn.steamstatic.com/steam/news/29555/prince.png?t=1495219023/"&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;
                     &lt;p&gt;&lt;b&gt;This Sunday at 4:30pm EST&lt;/b&gt; &lt;a
                     href=/"http://rgl.gg/default.aspx/" target=\"_blank\"&gt;RGL.gg&lt;/a&gt; is
                     hosting their Prince of Prolander event. See legendary players &lt;a
@@ -158,73 +158,75 @@ The Steamworks Web API attempts to return appropriate HTTP status codes when pos
 <br />
 Some of the common ones are:<br />
 <table>
-    <tr>
-        <th>Code</th>
-        <th>Text</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td>200</td>
-        <td>OK</td>
-        <td>Success!</td>
-    </tr>
-    <tr>
-        <td>400</td>
-        <td>Bad Request</td>
-        <td>Please verify that all required parameters are being sent.</td>
-    </tr>
-    <tr>
-        <td>401</td>
-        <td>Unauthorized</td>
-        <td>
-            Access is denied. Retrying will not help. Please verify your
-            <code class="bb_code bb_code_inline nohighlight">key=</code> parameter.
-        </td>
-    </tr>
-    <tr>
-        <td>403</td>
-        <td>Forbidden</td>
-        <td>
-            Access is denied. Retrying will not help. Please verify your
-            <code class="bb_code bb_code_inline nohighlight">key=</code> parameter.
-        </td>
-    </tr>
-    <tr>
-        <td>404</td>
-        <td>Not Found</td>
-        <td>The API requested does not exists.</td>
-    </tr>
-    <tr>
-        <td>405</td>
-        <td>Method Not Allowed</td>
-        <td>This API has been called with a the wrong HTTP method like GET or PUSH.</td>
-    </tr>
-    <tr>
-        <td>429</td>
-        <td>Too Many Requests</td>
-        <td>You are being rate limited.</td>
-    </tr>
-    <tr>
-        <td>500</td>
-        <td>Internal Server Error</td>
-        <td>
-            An unrecoverable error has occurred, please try again. If this continues to persist then
-            please post to the
-            <a
-                href="https://steamcommunity.com/groups/steamworks/discussions"
-                target="_blank"
-                rel="noreferrer"
-                >Steamworks developer discussion</a
-            >
-            with additional details of your request.
-        </td>
-    </tr>
-    <tr>
-        <td>503</td>
-        <td>Service Unavailable</td>
-        <td>
-            Server is temporarily unavailable, or too busy to respond. Please wait and try again
-            later.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Code</th>
+            <th>Text</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>200</td>
+            <td>OK</td>
+            <td>Success!</td>
+        </tr>
+        <tr>
+            <td>400</td>
+            <td>Bad Request</td>
+            <td>Please verify that all required parameters are being sent.</td>
+        </tr>
+        <tr>
+            <td>401</td>
+            <td>Unauthorized</td>
+            <td>
+                Access is denied. Retrying will not help. Please verify your
+                <code class="bb_code bb_code_inline nohighlight">key=</code> parameter.
+            </td>
+        </tr>
+        <tr>
+            <td>403</td>
+            <td>Forbidden</td>
+            <td>
+                Access is denied. Retrying will not help. Please verify your
+                <code class="bb_code bb_code_inline nohighlight">key=</code> parameter.
+            </td>
+        </tr>
+        <tr>
+            <td>404</td>
+            <td>Not Found</td>
+            <td>The API requested does not exists.</td>
+        </tr>
+        <tr>
+            <td>405</td>
+            <td>Method Not Allowed</td>
+            <td>This API has been called with a the wrong HTTP method like GET or PUSH.</td>
+        </tr>
+        <tr>
+            <td>429</td>
+            <td>Too Many Requests</td>
+            <td>You are being rate limited.</td>
+        </tr>
+        <tr>
+            <td>500</td>
+            <td>Internal Server Error</td>
+            <td>
+                An unrecoverable error has occurred, please try again. If this continues to persist
+                then please post to the
+                <a
+                    href="https://steamcommunity.com/groups/steamworks/discussions"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Steamworks developer discussion</a
+                >
+                with additional details of your request.
+            </td>
+        </tr>
+        <tr>
+            <td>503</td>
+            <td>Service Unavailable</td>
+            <td>
+                Server is temporarily unavailable, or too busy to respond. Please wait and try again
+                later.
+            </td>
+        </tr>
+    </tbody>
 </table>

@@ -9,71 +9,70 @@ before or at <code class="bb_code bb_code_inline nohighlight">endtime</code>.<br
 This returns a list of detailed actions that the asset server is going to perform if this command is
 confirmed. For complex actions the support agent can optionally enable or disable pieces of the
 transaction command. If the support agent confirms the details,
-<a
-    href="https://partner.steamgames.com/doc/features/inventory/economy/HistoryExecuteCommands"
-    class="bb_doclink"
-    >HistoryExecuteCommand/v0001</a
->
-is called.
+<a href="/doc/features/inventory/economy/HistoryExecuteCommands">HistoryExecuteCommand/v0001</a> is
+called.
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on
-            the partner site.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>32bit App ID of the application associated with the assets.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The 64-bit Steam ID of the user to return assets for.</td>
-    </tr>
-    <tr>
-        <td><strong>contextid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The 64-bit ID of the context the assets can be found in.</td>
-    </tr>
-    <tr>
-        <td><strong>command</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>The name of the history command.</td>
-    </tr>
-    <tr>
-        <td><strong>arguments</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            The arguments string that was returned from
-            <code class="bb_code bb_code_inline nohighlight">GetUserHistory</code> for this command.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                This is the "Asset Server Key" that you provided in your app's Steam Economy
+                Settings on the partner site.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>32bit App ID of the application associated with the assets.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The 64-bit Steam ID of the user to return assets for.</td>
+        </tr>
+        <tr>
+            <td><strong>contextid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The 64-bit ID of the context the assets can be found in.</td>
+        </tr>
+        <tr>
+            <td><strong>command</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>The name of the history command.</td>
+        </tr>
+        <tr>
+            <td><strong>arguments</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The arguments string that was returned from
+                <code class="bb_code bb_code_inline nohighlight">GetUserHistory</code> for this
+                command.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="2"></a>Returns</h2>
 The output from this method should be encoded in the JSON format.<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">result</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set
@@ -88,7 +87,7 @@ The output from this method should be encoded in the JSON format.<br />
             <li>
                 <code class="bb_code bb_code_inline nohighlight">actions</code> - An array of
                 actions the asset server will perform if the agent confirms the command.<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         <code class="bb_code bb_code_inline nohighlight">id</code> - ID of the asset
                         that will be affected by this action.<br />

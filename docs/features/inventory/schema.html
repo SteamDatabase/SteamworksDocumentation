@@ -4,438 +4,347 @@
 These are the core properties that are understood &amp; interpreted by Steam and are necessary for
 the correct operation of economy, trading and inventory display. Many of these properties are the
 same as those returned by the
-<a
-    href="https://partner.steamgames.com/doc/webapi/ISteamEconomy#GetAssetClassInfo"
-    class="bb_apilink"
-    >ISteamEconomy/GetAssetClassInfo</a
->
-Web API.
+<a href="/doc/webapi/ISteamEconomy#GetAssetClassInfo">ISteamEconomy/GetAssetClassInfo</a> Web API.
 <h4>An ItemDef must be one of the following types:</h4>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td>item</td>
-        <td>an item type that can be found in a player inventory.</td>
-    </tr>
-    <tr>
-        <td>bundle</td>
-        <td>
-            represents a collection of ItemDefs, with an associated quantity of each type. When this
-            item is granted, it automatically expands into the set of items configured in the
-            <code class="bb_code bb_code_inline nohighlight">bundle</code> property.
-        </td>
-    </tr>
-    <tr>
-        <td>generator</td>
-        <td>
-            represents a random item. Granting this item will randomly select one item type from the
-            <code class="bb_code bb_code_inline nohighlight">bundle</code> property, and create an
-            instance of that type. (For example: imagine when a crate is unlocked, then one of the
-            possible items is created)
-        </td>
-    </tr>
-    <tr>
-        <td>playtimegenerator</td>
-        <td>
-            this is a special form of
-            <code class="bb_code bb_code_inline nohighlight">generator</code> that can be granted by
-            the
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#TriggerItemDrop"
-                class="bb_apilink"
-                >ISteamInventory::TriggerItemDrop</a
-            >
-            call from the application.
-        </td>
-    </tr>
-    <tr>
-        <td>tag_generator</td>
-        <td>
-            special item definition that applies tags to item instances (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/itemtags"
-                class="bb_doclink"
-                >Steam Inventory Item Tags</a
-            >
-            for more details).
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>item</td>
+            <td>an item type that can be found in a player inventory.</td>
+        </tr>
+        <tr>
+            <td>bundle</td>
+            <td>
+                represents a collection of ItemDefs, with an associated quantity of each type. When
+                this item is granted, it automatically expands into the set of items configured in
+                the <code class="bb_code bb_code_inline nohighlight">bundle</code> property.
+            </td>
+        </tr>
+        <tr>
+            <td>generator</td>
+            <td>
+                represents a random item. Granting this item will randomly select one item type from
+                the <code class="bb_code bb_code_inline nohighlight">bundle</code> property, and
+                create an instance of that type. (For example: imagine when a crate is unlocked,
+                then one of the possible items is created)
+            </td>
+        </tr>
+        <tr>
+            <td>playtimegenerator</td>
+            <td>
+                this is a special form of
+                <code class="bb_code bb_code_inline nohighlight">generator</code> that can be
+                granted by the
+                <a href="/doc/api/ISteamInventory#TriggerItemDrop"
+                    >ISteamInventory::TriggerItemDrop</a
+                >
+                call from the application.
+            </td>
+        </tr>
+        <tr>
+            <td>tag_generator</td>
+            <td>
+                special item definition that applies tags to item instances (see
+                <a href="/doc/features/inventory/itemtags">Steam Inventory Item Tags</a> for more
+                details).
+            </td>
+        </tr>
+    </tbody>
 </table>
-See
-<a
-    href="https://partner.steamgames.com/doc/features/inventory/schema#SpecifyBundles"
-    class="bb_doclink"
-    >below</a
->
-for detail on specifying complex item types.
+See <a href="/doc/features/inventory/schema#SpecifyBundles">below</a> for detail on specifying
+complex item types.
 <h4>ItemDef Properties</h4>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td>appid</td>
-        <td>The ID of your application</td>
-    </tr>
-    <tr>
-        <td>name</td>
-        <td>
-            The <strong>English</strong> name of your item. You can provide localized versions of
-            the name of your item using the following example as a guide:<br />
-            <div class="bb_code">name_english: "Hat" name_french: "Chapeau"</div>
-            See the
-            <a href="https://partner.steamgames.com/doc/store/localization" class="bb_doclink"
-                >Localization and Languages</a
-            >
-            documentation for valid language names to use as the suffix.
-        </td>
-    </tr>
-    <tr>
-        <td>description</td>
-        <td>
-            The <strong>English</strong> description of your item.<br />
-            You can provide localized versions of the description of your item using the following
-            example as a guide:<br />
-            <div class="bb_code">
-                description_english: "This is a tall hat" description_french: "Ceci est un chapeau
-                haut de forme"
-            </div>
-            See the
-            <a href="https://partner.steamgames.com/doc/store/localization" class="bb_doclink"
-                >Localization and Languages</a
-            >
-            documentation for valid language names to use as the suffix.
-        </td>
-    </tr>
-    <tr>
-        <td>display_type</td>
-        <td>
-            The <strong>English</strong> description of item's "type".<br />
-            You can provide localized versions of the type of your item using the following example
-            as a guide:<br />
-            <div class="bb_code">display_type_english: "Weapon" display_type_french: "Arme"</div>
-            See the
-            <a href="https://partner.steamgames.com/doc/store/localization" class="bb_doclink"
-                >Localization and Languages</a
-            >
-            documentation for valid language names to use as the suffix.
-        </td>
-    </tr>
-    <tr>
-        <td>itemdefid</td>
-        <td>The ID of this itemdef. This must be lower than 1,000,000 for non-workshop items.</td>
-    </tr>
-    <tr>
-        <td>type</td>
-        <td>
-            Internal value. ('item' | 'bundle' | 'generator' | 'playtimegenerator' |
-            'tag_generator')
-        </td>
-    </tr>
-    <tr>
-        <td>bundle</td>
-        <td>
-            (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#SpecifyBundles"
-                class="bb_doclink"
-                >bundle or generator items</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>promo</td>
-        <td>
-            (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#PromoItems"
-                class="bb_doclink"
-                >promo format</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>drop_start_time</td>
-        <td>
-            UTC timestamp - prevent promo grants before this time, only applicable when promo =
-            manual (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#PromoItems"
-                class="bb_doclink"
-                >promo format</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>exchange</td>
-        <td>
-            (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#ExchangeFormat"
-                class="bb_doclink"
-                >exchange format</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>price</td>
-        <td>
-            (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#SpecifyPrices"
-                class="bb_doclink"
-                >price format</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>price_category</td>
-        <td>
-            A preset price, where we handle the various currency values for you. (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#SpecifyPrices"
-                class="bb_doclink"
-                >price format</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>background_color</td>
-        <td>The color to display in the inventory background as 6 hex digits.</td>
-    </tr>
-    <tr>
-        <td>name_color</td>
-        <td>The color to display the name in the inventory as 6 hex digits.</td>
-    </tr>
-    <tr>
-        <td>icon_url</td>
-        <td>
-            The URL to the item's small icon. The URL should be publicly accessible because the
-            Steam servers will download and cache. Recommended size is 200x200.
-        </td>
-    </tr>
-    <tr>
-        <td>icon_url_large</td>
-        <td>
-            The URL to the item's large image. The URL should be publicly accessible because the
-            Steam servers will download and cache. Recommended size is 2048x2048.
-        </td>
-    </tr>
-    <tr>
-        <td>marketable</td>
-        <td>
-            false / true . Whether this item can be sold to other users in the Steam Community
-            Market.
-        </td>
-    </tr>
-    <tr>
-        <td>tradable</td>
-        <td>false / true . Whether this item can be traded to other users using Steam Trading.</td>
-    </tr>
-    <tr>
-        <td>tags</td>
-        <td>
-            (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/itemtags"
-                class="bb_doclink"
-                >Steam Inventory Item Tags</a
-            >)
-        </td>
-    </tr>
-    <tr>
-        <td>tag_generators</td>
-        <td>
-            List of tag_generator item definition ids to apply (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/itemtags"
-                class="bb_doclink"
-                >Steam Inventory Item Tags</a
-            >)
-        </td>
-    </tr>
-    <tr>
-        <td>tag_generator_name</td>
-        <td>
-            Name of the tag category token (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/itemtags"
-                class="bb_doclink"
-                >Steam Inventory Item Tags</a
-            >)
-        </td>
-    </tr>
-    <tr>
-        <td>tag_generator_values</td>
-        <td>
-            List of tag values and the chance that they will be picked (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/itemtags"
-                class="bb_doclink"
-                >Steam Inventory Item Tags</a
-            >)
-        </td>
-    </tr>
-    <tr>
-        <td>store_tags</td>
-        <td>
-            String with "tags" delimited by ";" character. These tags will be used to
-            categorize/filter items in the Steam item store for your app.
-        </td>
-    </tr>
-    <tr>
-        <td>store_images</td>
-        <td>
-            Image URLs delimited by ";" character. These images will be proxied and used on the
-            detail page of the Steam item store for your app.
-        </td>
-    </tr>
-    <tr>
-        <td>game_only</td>
-        <td>
-            false / true . If true, then items will not be shown in the user's Steam Backpack,
-            including new item notifications. Common uses for this are items that you grant, that
-            are immediately consumed.
-        </td>
-    </tr>
-    <tr>
-        <td>hidden</td>
-        <td>
-            false / true . If true, the item definition will not be shown to clients or purchasable.
-            Use this to hide unused, or under-development, itemdefs.
-        </td>
-    </tr>
-    <tr>
-        <td>store_hidden</td>
-        <td>
-            false / true . If true, this item will be hidden in the Steam Item Store for your app.
-            By default, any items with a price will be shown in the store.
-        </td>
-    </tr>
-    <tr>
-        <td>use_drop_limit</td>
-        <td>
-            false / true . If true, then we rely on
-            <code class="bb_code bb_code_inline nohighlight">drop_limit</code> to limit the items
-            grant via
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#TriggerItemDrop"
-                class="bb_apilink"
-                >ISteamInventory::TriggerItemDrop</a
-            >. (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#PlaytimeDrops"
-                class="bb_doclink"
-                >Playtime Item Drops</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>drop_limit</td>
-        <td>
-            integer . Limits for a specific user the number of times this item will be dropped via
-            <a
-                href="https://partner.steamgames.com/doc/api/ISteamInventory#TriggerItemDrop"
-                class="bb_apilink"
-                >ISteamInventory::TriggerItemDrop</a
-            >. Setting to zero will prevent any future drops of this item. (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#PlaytimeDrops"
-                class="bb_doclink"
-                >Playtime Item Drops</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>drop_interval</td>
-        <td>
-            integer . Playtime in minutes before the item can be granted to the user. (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#PlaytimeDrops"
-                class="bb_doclink"
-                >Playtime Item Drops</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>use_drop_window</td>
-        <td>
-            false / true . If true, we will use the "drop_window" for this itemdef. (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#PlaytimeDrops"
-                class="bb_doclink"
-                >Playtime Item Drops</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>drop_window</td>
-        <td>
-            integer . Elapsed time in minutes of a cool-down window before we will grant an item.
-            (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#PlaytimeDrops"
-                class="bb_doclink"
-                >Playtime Item Drops</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>drop_max_per_window</td>
-        <td>
-            integer . Numbers of grants within the window permitted before Cool-down applies.
-            Default value is 1. (see
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#PlaytimeDrops"
-                class="bb_doclink"
-                >Playtime Item Drops</a
-            >
-            below)
-        </td>
-    </tr>
-    <tr>
-        <td>granted_manually</td>
-        <td>
-            false / true. If true, will only be granted when AddPromoItem() or AddPromoItems() are
-            called with the explicit item definition id. Otherwise, it may be granted via the
-            GrantPromoItems() call. Defaults to false.
-        </td>
-    </tr>
-    <tr>
-        <td>use_bundle_price</td>
-        <td>
-            false / true. See
-            <a
-                href="https://partner.steamgames.com/doc/features/inventory/schema#SellingBundles"
-                class="bb_doclink"
-                >selling bundle items</a
-            >
-            below. Defaults to false.
-        </td>
-    </tr>
-    <tr>
-        <td>auto_stack</td>
-        <td>
-            false / true. If true, item grants will automatically be added to a single stack of the
-            given type. Grants will be visible in inventory callbacks as quantity changes. Defaults
-            to false.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>appid</td>
+            <td>The ID of your application</td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>
+                The <strong>English</strong> name of your item. You can provide localized versions
+                of the name of your item using the following example as a guide:<br />
+                <div class="bb_code">name_english: "Hat" name_french: "Chapeau"</div>
+                See the
+                <a href="/doc/store/localization">Localization and Languages</a> documentation for
+                valid language names to use as the suffix.
+            </td>
+        </tr>
+        <tr>
+            <td>description</td>
+            <td>
+                The <strong>English</strong> description of your item.<br />
+                You can provide localized versions of the description of your item using the
+                following example as a guide:<br />
+                <div class="bb_code">
+                    description_english: "This is a tall hat" description_french: "Ceci est un
+                    chapeau haut de forme"
+                </div>
+                See the
+                <a href="/doc/store/localization">Localization and Languages</a> documentation for
+                valid language names to use as the suffix.
+            </td>
+        </tr>
+        <tr>
+            <td>display_type</td>
+            <td>
+                The <strong>English</strong> description of item's "type".<br />
+                You can provide localized versions of the type of your item using the following
+                example as a guide:<br />
+                <div class="bb_code">
+                    display_type_english: "Weapon" display_type_french: "Arme"
+                </div>
+                See the
+                <a href="/doc/store/localization">Localization and Languages</a> documentation for
+                valid language names to use as the suffix.
+            </td>
+        </tr>
+        <tr>
+            <td>itemdefid</td>
+            <td>
+                The ID of this itemdef. This must be lower than 1,000,000 for non-workshop items.
+            </td>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td>
+                Internal value. ('item' | 'bundle' | 'generator' | 'playtimegenerator' |
+                'tag_generator')
+            </td>
+        </tr>
+        <tr>
+            <td>bundle</td>
+            <td>
+                (see
+                <a href="/doc/features/inventory/schema#SpecifyBundles"
+                    >bundle or generator items</a
+                >
+                below)
+            </td>
+        </tr>
+        <tr>
+            <td>promo</td>
+            <td>
+                (see <a href="/doc/features/inventory/schema#PromoItems">promo format</a> below)
+            </td>
+        </tr>
+        <tr>
+            <td>drop_start_time</td>
+            <td>
+                UTC timestamp - prevent promo grants before this time, only applicable when promo =
+                manual (see
+                <a href="/doc/features/inventory/schema#PromoItems">promo format</a> below)
+            </td>
+        </tr>
+        <tr>
+            <td>exchange</td>
+            <td>
+                (see
+                <a href="/doc/features/inventory/schema#ExchangeFormat">exchange format</a> below)
+            </td>
+        </tr>
+        <tr>
+            <td>price</td>
+            <td>
+                (see <a href="/doc/features/inventory/schema#SpecifyPrices">price format</a> below)
+            </td>
+        </tr>
+        <tr>
+            <td>price_category</td>
+            <td>
+                A preset price, where we handle the various currency values for you. (see
+                <a href="/doc/features/inventory/schema#SpecifyPrices">price format</a> below)
+            </td>
+        </tr>
+        <tr>
+            <td>background_color</td>
+            <td>The color to display in the inventory background as 6 hex digits.</td>
+        </tr>
+        <tr>
+            <td>name_color</td>
+            <td>The color to display the name in the inventory as 6 hex digits.</td>
+        </tr>
+        <tr>
+            <td>icon_url</td>
+            <td>
+                The URL to the item's small icon. The URL should be publicly accessible because the
+                Steam servers will download and cache. Recommended size is 200x200.
+            </td>
+        </tr>
+        <tr>
+            <td>icon_url_large</td>
+            <td>
+                The URL to the item's large image. The URL should be publicly accessible because the
+                Steam servers will download and cache. Recommended size is 2048x2048.
+            </td>
+        </tr>
+        <tr>
+            <td>marketable</td>
+            <td>
+                false / true . Whether this item can be sold to other users in the Steam Community
+                Market.
+            </td>
+        </tr>
+        <tr>
+            <td>tradable</td>
+            <td>
+                false / true . Whether this item can be traded to other users using Steam Trading.
+            </td>
+        </tr>
+        <tr>
+            <td>tags</td>
+            <td>(see <a href="/doc/features/inventory/itemtags">Steam Inventory Item Tags</a>)</td>
+        </tr>
+        <tr>
+            <td>tag_generators</td>
+            <td>
+                List of tag_generator item definition ids to apply (see
+                <a href="/doc/features/inventory/itemtags">Steam Inventory Item Tags</a>)
+            </td>
+        </tr>
+        <tr>
+            <td>tag_generator_name</td>
+            <td>
+                Name of the tag category token (see
+                <a href="/doc/features/inventory/itemtags">Steam Inventory Item Tags</a>)
+            </td>
+        </tr>
+        <tr>
+            <td>tag_generator_values</td>
+            <td>
+                List of tag values and the chance that they will be picked (see
+                <a href="/doc/features/inventory/itemtags">Steam Inventory Item Tags</a>)
+            </td>
+        </tr>
+        <tr>
+            <td>store_tags</td>
+            <td>
+                String with "tags" delimited by ";" character. These tags will be used to
+                categorize/filter items in the Steam item store for your app.
+            </td>
+        </tr>
+        <tr>
+            <td>store_images</td>
+            <td>
+                Image URLs delimited by ";" character. These images will be proxied and used on the
+                detail page of the Steam item store for your app.
+            </td>
+        </tr>
+        <tr>
+            <td>game_only</td>
+            <td>
+                false / true . If true, then items will not be shown in the user's Steam Backpack,
+                including new item notifications. Common uses for this are items that you grant,
+                that are immediately consumed.
+            </td>
+        </tr>
+        <tr>
+            <td>hidden</td>
+            <td>
+                false / true . If true, the item definition will not be shown to clients or
+                purchasable. Use this to hide unused, or under-development, itemdefs.
+            </td>
+        </tr>
+        <tr>
+            <td>store_hidden</td>
+            <td>
+                false / true . If true, this item will be hidden in the Steam Item Store for your
+                app. By default, any items with a price will be shown in the store.
+            </td>
+        </tr>
+        <tr>
+            <td>use_drop_limit</td>
+            <td>
+                false / true . If true, then we rely on
+                <code class="bb_code bb_code_inline nohighlight">drop_limit</code> to limit the
+                items grant via
+                <a href="/doc/api/ISteamInventory#TriggerItemDrop"
+                    >ISteamInventory::TriggerItemDrop</a
+                >. (see
+                <a href="/doc/features/inventory/schema#PlaytimeDrops">Playtime Item Drops</a>
+                below)
+            </td>
+        </tr>
+        <tr>
+            <td>drop_limit</td>
+            <td>
+                integer . Limits for a specific user the number of times this item will be dropped
+                via
+                <a href="/doc/api/ISteamInventory#TriggerItemDrop"
+                    >ISteamInventory::TriggerItemDrop</a
+                >. Setting to zero will prevent any future drops of this item. (see
+                <a href="/doc/features/inventory/schema#PlaytimeDrops">Playtime Item Drops</a>
+                below)
+            </td>
+        </tr>
+        <tr>
+            <td>drop_interval</td>
+            <td>
+                integer . Playtime in minutes before the item can be granted to the user. (see
+                <a href="/doc/features/inventory/schema#PlaytimeDrops">Playtime Item Drops</a>
+                below)
+            </td>
+        </tr>
+        <tr>
+            <td>use_drop_window</td>
+            <td>
+                false / true . If true, we will use the "drop_window" for this itemdef. (see
+                <a href="/doc/features/inventory/schema#PlaytimeDrops">Playtime Item Drops</a>
+                below)
+            </td>
+        </tr>
+        <tr>
+            <td>drop_window</td>
+            <td>
+                integer . Elapsed time in minutes of a cool-down window before we will grant an
+                item. (see
+                <a href="/doc/features/inventory/schema#PlaytimeDrops">Playtime Item Drops</a>
+                below)
+            </td>
+        </tr>
+        <tr>
+            <td>drop_max_per_window</td>
+            <td>
+                integer . Numbers of grants within the window permitted before Cool-down applies.
+                Default value is 1. (see
+                <a href="/doc/features/inventory/schema#PlaytimeDrops">Playtime Item Drops</a>
+                below)
+            </td>
+        </tr>
+        <tr>
+            <td>granted_manually</td>
+            <td>
+                false / true. If true, will only be granted when AddPromoItem() or AddPromoItems()
+                are called with the explicit item definition id. Otherwise, it may be granted via
+                the GrantPromoItems() call. Defaults to false.
+            </td>
+        </tr>
+        <tr>
+            <td>use_bundle_price</td>
+            <td>
+                false / true. See
+                <a href="/doc/features/inventory/schema#SellingBundles">selling bundle items</a>
+                below. Defaults to false.
+            </td>
+        </tr>
+        <tr>
+            <td>auto_stack</td>
+            <td>
+                false / true. If true, item grants will automatically be added to a single stack of
+                the given type. Grants will be visible in inventory callbacks as quantity changes.
+                Defaults to false.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h4>Extended Schema</h4>
 You can also define any additional properties that you need that are specific to your game.
@@ -460,7 +369,7 @@ If quantity is not supplied explicitly, "1" is used as a default.
     bundle_def : item_recipe , { ";" , item_recipe } item_recipe : item_def , [ "x" , quantity ]
 </div>
 <h4>Bundle examples</h4>
-<ul class="bb_ul">
+<ul>
     <li>
         Grant one each of itemdef 201, itemdef 202, itemdef 203:<br />
         <div class="bb_code">type: bundle bundle: 201;202;203</div>
@@ -529,7 +438,7 @@ If not explicitly given, required quantity is 1.
 <h2 class="bb_subsection"><a name="PromoItems"></a>Promo Items</h2>
 Promotional items can be granted to players based on a few different criteria:<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>Ownership of an appid (including a DLC appid)<br /></li>
     <li>An achievement<br /></li>
     <li>Playtime in an appid<br /></li>
@@ -537,11 +446,9 @@ Promotional items can be granted to players based on a few different criteria:<b
 </ul>
 <br />
 The promotional item checks are done by Steam - so these items can be requested safely from the
-client; see
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#AddPromoItem" class="bb_apilink"
-    >ISteamInventory::AddPromoItem</a
->. To define a promotional item, set one or more rules for granting the item in the "promo" property
-of the item definition.<br />
+client; see <a href="/doc/api/ISteamInventory#AddPromoItem">ISteamInventory::AddPromoItem</a>. To
+define a promotional item, set one or more rules for granting the item in the "promo" property of
+the item definition.<br />
 <br />
 Note that a promotional item may also be a bundle.<br />
 <br />
@@ -576,11 +483,9 @@ The timestamp needs to be specified in the ISO 8601 format in the UTC time zone:
 <h2 class="bb_subsection"><a name="PlaytimeDrops"></a>Playtime Item Drops</h2>
 The playtime item drops feature allows the steam servers to track and to manage item drops based on
 the user's playtime. Your game only needs to call the function
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#TriggerItemDrop" class="bb_apilink"
-    >ISteamInventory::TriggerItemDrop</a
->
-when you believe a grant should occur. You need to create items of type "playtimegenerator" to
-perform the drop.<br />
+<a href="/doc/api/ISteamInventory#TriggerItemDrop">ISteamInventory::TriggerItemDrop</a> when you
+believe a grant should occur. You need to create items of type "playtimegenerator" to perform the
+drop.<br />
 The playtime grant is controlled by your application. There is no support for automatic grants based
 entirely on the users playtime. In other words, playtime is a condition for granting, while your
 application is the trigger for the grant evaluation.<br />
@@ -604,7 +509,7 @@ Otherwise, if the itemdef <strong>does</strong> explicitly specify any drop sett
 are granted/tracked separately at the generator level, independent of the application or other
 itemdef playtime generators.
 <h4>Playtime ItemDef Grant Example</h4>
-<ol class="bb_ol">
+<ol>
     <li>
         Allow the user to be granted an item after 30 minutes of playtime. A downside of this
         setting alone is that it allows<br />
@@ -645,32 +550,31 @@ zero. We will only acknowledge this setting if the
 <h2 class="bb_section"><a name="SellingItems"></a>Selling Items</h2>
 To make certain game items available for sale, simply define prices or price categories in the
 appropriate itemdefs.<br />
-See the Steam
-<a href="https://partner.steamgames.com/doc/features/inventory/itemstore" class="bb_doclink"
-    >Item Store</a
->
-documentation for more information on enabling and customizing your store page.
+See the Steam <a href="/doc/features/inventory/itemstore">Item Store</a> documentation for more
+information on enabling and customizing your store page.
 <h2 class="bb_subsection"><a name="SpecifyPrices"></a>Specifying Prices</h2>
 Item prices can be defined in either of the following fields, but not both.<br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td>price</td>
-        <td>
-            define a specific price for each currency. Any currencies not defined will be
-            automatically converted at time of purchase.
-        </td>
-    </tr>
-    <tr>
-        <td>price_category</td>
-        <td>
-            define one price, which will be presented in every supported currency using a
-            Valve-maintained pricing table.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>price</td>
+            <td>
+                define a specific price for each currency. Any currencies not defined will be
+                automatically converted at time of purchase.
+            </td>
+        </tr>
+        <tr>
+            <td>price_category</td>
+            <td>
+                define one price, which will be presented in every supported currency using a
+                Valve-maintained pricing table.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 The <code class="bb_code bb_code_inline nohighlight">price_category</code> field is specified in the
@@ -694,7 +598,7 @@ characters.<br />
 <br />
 The list of dateranges must be in descending order (future dates first).
 <h4>Price Examples</h4>
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">price_category: 1;VLV100</code><br />
         Preset price category using the Valve-maintained pricing table.<br />
@@ -736,7 +640,7 @@ bundle can easily mix content from different Workshop contributors, or include W
 your own first-party content.<br />
 <br />
 To price a bundled item:<br />
-<ul class="bb_ul">
+<ul>
     <li>Specify price information for each item within the bundle.<br /></li>
     <li>
         If any of the contained items should not be available for individual sale, set
@@ -763,7 +667,7 @@ specify. However, the individual item prices are still used to proportionately a
 revenue, so they must be provided.<br />
 <br />
 To override the automatic bundle price:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         Specify your desired price in the
         <code class="bb_code bb_code_inline nohighlight">price</code> or
@@ -784,190 +688,189 @@ To sell an item with a random component (a chest), you should define the chest i
 accepts the chest as input for an exchange recipe.<br />
 <br />
 After purchase, the player can choose to "open" the chest, at which time you can call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
-    >ISteamInventory::ExchangeItems</a
->
-to execute the generator. The chest purchase will no longer be refundable once the chest has been
-opened.
+<a href="/doc/api/ISteamInventory#ExchangeItems">ISteamInventory::ExchangeItems</a> to execute the
+generator. The chest purchase will no longer be refundable once the chest has been opened.
 <h2 class="bb_subsection"><a name="VlvPricing"></a>VLV Preset Pricing Table</h2>
 Here are the current possible values you can use to specify a price_category for your item.<br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Price in USD</th>
-    </tr>
-    <tr>
-        <td>VLV25</td>
-        <td>$0.25 USD</td>
-    </tr>
-    <tr>
-        <td>VLV50</td>
-        <td>$0.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV75</td>
-        <td>$0.75 USD</td>
-    </tr>
-    <tr>
-        <td>VLV100</td>
-        <td>$0.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV150</td>
-        <td>$1.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV200</td>
-        <td>$1.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV250</td>
-        <td>$2.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV300</td>
-        <td>$2.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV350</td>
-        <td>$3.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV400</td>
-        <td>$3.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV450</td>
-        <td>$4.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV500</td>
-        <td>$4.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV550</td>
-        <td>$5.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV600</td>
-        <td>$5.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV650</td>
-        <td>$6.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV700</td>
-        <td>$6.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV750</td>
-        <td>$7.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV800</td>
-        <td>$7.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV850</td>
-        <td>$8.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV900</td>
-        <td>$8.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV950</td>
-        <td>$9.49 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1000</td>
-        <td>$9.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1100</td>
-        <td>$10.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1200</td>
-        <td>$11.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1300</td>
-        <td>$12.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1400</td>
-        <td>$13.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1500</td>
-        <td>$14.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1600</td>
-        <td>$15.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1700</td>
-        <td>$16.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1800</td>
-        <td>$17.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV1900</td>
-        <td>$18.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV2000</td>
-        <td>$19.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV2500</td>
-        <td>$24.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV3000</td>
-        <td>$29.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV3500</td>
-        <td>$34.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV4000</td>
-        <td>$39.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV4500</td>
-        <td>$44.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV5000</td>
-        <td>$49.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV6000</td>
-        <td>$59.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV7000</td>
-        <td>$69.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV8000</td>
-        <td>$79.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV9000</td>
-        <td>$89.99 USD</td>
-    </tr>
-    <tr>
-        <td>VLV10000</td>
-        <td>$99.99 USD</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Price in USD</th>
+        </tr>
+        <tr>
+            <td>VLV25</td>
+            <td>$0.25 USD</td>
+        </tr>
+        <tr>
+            <td>VLV50</td>
+            <td>$0.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV75</td>
+            <td>$0.75 USD</td>
+        </tr>
+        <tr>
+            <td>VLV100</td>
+            <td>$0.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV150</td>
+            <td>$1.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV200</td>
+            <td>$1.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV250</td>
+            <td>$2.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV300</td>
+            <td>$2.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV350</td>
+            <td>$3.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV400</td>
+            <td>$3.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV450</td>
+            <td>$4.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV500</td>
+            <td>$4.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV550</td>
+            <td>$5.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV600</td>
+            <td>$5.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV650</td>
+            <td>$6.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV700</td>
+            <td>$6.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV750</td>
+            <td>$7.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV800</td>
+            <td>$7.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV850</td>
+            <td>$8.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV900</td>
+            <td>$8.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV950</td>
+            <td>$9.49 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1000</td>
+            <td>$9.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1100</td>
+            <td>$10.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1200</td>
+            <td>$11.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1300</td>
+            <td>$12.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1400</td>
+            <td>$13.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1500</td>
+            <td>$14.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1600</td>
+            <td>$15.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1700</td>
+            <td>$16.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1800</td>
+            <td>$17.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV1900</td>
+            <td>$18.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV2000</td>
+            <td>$19.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV2500</td>
+            <td>$24.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV3000</td>
+            <td>$29.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV3500</td>
+            <td>$34.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV4000</td>
+            <td>$39.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV4500</td>
+            <td>$44.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV5000</td>
+            <td>$49.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV6000</td>
+            <td>$59.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV7000</td>
+            <td>$69.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV8000</td>
+            <td>$79.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV9000</td>
+            <td>$89.99 USD</td>
+        </tr>
+        <tr>
+            <td>VLV10000</td>
+            <td>$99.99 USD</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="Example"></a>ItemDef Schema Example:</h2>
 <div class="bb_code json">

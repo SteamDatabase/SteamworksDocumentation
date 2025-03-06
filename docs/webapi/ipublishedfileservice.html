@@ -1,48 +1,43 @@
 <h1>IPublishedFileService Interface</h1>
 Provides additional methods for interacting with Steam Workshop items.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/webapi/ISteamRemoteStorage" class="bb_apilink"
-    >ISteamRemoteStorage</a
->
-for the primary interface, and also
-<a href="https://partner.steamgames.com/doc/webapi/ICloudService" class="bb_apilink"
-    >ICloudService</a
->. <br />
+See <a href="/doc/webapi/ISteamRemoteStorage">ISteamRemoteStorage</a> for the primary interface, and
+also <a href="/doc/webapi/ICloudService">ICloudService</a>. <br />
 <br />
 <strong>NOTE:</strong> This is a Service interface, methods in this interface should be called with
 the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br />
 <br />
 For more info on how to use the Steamworks Web API please see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
->.
+<a href="/doc/webapi_overview">Web API Overview</a>.
 <h2 class="bb_section"><a name="Delete"></a>Delete</h2>
 <div class="bb_code http">GET https://api.steampowered.com/IPublishedFileService/Delete/v1/</div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>publishedfileid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Item to delete</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App the item belongs to</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>publishedfileid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Item to delete</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App the item belongs to</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Deletes an item.<br />
@@ -54,239 +49,239 @@ Deletes an item.<br />
     GET https://api.steampowered.com/IPublishedFileService/QueryFiles/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>query_type</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/webapi/IPublishedFileService#EPublishedFileQueryType"
-                class="bb_apilink"
-                >IPublishedFileService#EPublishedFileQueryType</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td><strong>page</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Current page. Currently there is an upper limit of 1000.</td>
-    </tr>
-    <tr>
-        <td><strong>cursor</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            Cursor to paginate through the results (set to '*' for the first request). Prefer this
-            over using the page parameter, as it will allow you to do deep pagination. When used,
-            the page parameter will be ignored. Use the "next_cursor" value returned in the response
-            to set up the next query to get the next set of results.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>numperpage</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>(Optional) The number of results, per page to return.</td>
-    </tr>
-    <tr>
-        <td><strong>creator_appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App that created the files</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>App that consumes the files</td>
-    </tr>
-    <tr>
-        <td><strong>requiredtags</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Tags to match on. See match_all_tags parameter below</td>
-    </tr>
-    <tr>
-        <td><strong>excludedtags</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>(Optional) Tags that must NOT be present on a published file to satisfy the query.</td>
-    </tr>
-    <tr>
-        <td><strong>match_all_tags</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>
-            If true, then items must have all the tags specified, otherwise they must have at least
-            one of the tags.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>required_flags</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Required flags that must be set on any returned items</td>
-    </tr>
-    <tr>
-        <td><strong>omitted_flags</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Flags that must not be set on any returned items</td>
-    </tr>
-    <tr>
-        <td><strong>search_text</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Text to match in the item's title or description</td>
-    </tr>
-    <tr>
-        <td><strong>filetype</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            <a
-                href="https://partner.steamgames.com/doc/webapi/IPublishedFileService#EPublishedFileInfoMatchingFileType"
-                class="bb_apilink"
-                >IPublishedFileService#EPublishedFileInfoMatchingFileType</a
-            >
-        </td>
-    </tr>
-    <tr>
-        <td><strong>child_publishedfileid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Find all items that reference the given item.</td>
-    </tr>
-    <tr>
-        <td><strong>days</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            If query_type is k_PublishedFileQueryType_RankedByTrend, then this is the number of days
-            to get votes for [1,7].
-        </td>
-    </tr>
-    <tr>
-        <td><strong>include_recent_votes_only</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            If query_type is k_PublishedFileQueryType_RankedByTrend, then limit result set just to
-            items that have votes within the day range given
-        </td>
-    </tr>
-    <tr>
-        <td><strong>cache_max_age_seconds</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>Allow stale data to be returned for the specified number of seconds.</td>
-    </tr>
-    <tr>
-        <td><strong>language</strong></td>
-        <td>int32</td>
-        <td></td>
-        <td>Language to search in and also what gets returned. Defaults to English.</td>
-    </tr>
-    <tr>
-        <td><strong>required_kv_tags</strong></td>
-        <td>{message}</td>
-        <td>✔</td>
-        <td>Required key-value tags to match on.</td>
-    </tr>
-    <tr>
-        <td><strong>totalonly</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>(Optional) If true, only return the total number of files that satisfy this query.</td>
-    </tr>
-    <tr>
-        <td><strong>ids_only</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            (Optional) If true, only return the published file ids of files that satisfy this query.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>return_vote_data</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Return vote data</td>
-    </tr>
-    <tr>
-        <td><strong>return_tags</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Return tags in the file details</td>
-    </tr>
-    <tr>
-        <td><strong>return_kv_tags</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Return key-value tags in the file details</td>
-    </tr>
-    <tr>
-        <td><strong>return_previews</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Return preview image and video details in the file details</td>
-    </tr>
-    <tr>
-        <td><strong>return_children</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Return child item ids in the file details</td>
-    </tr>
-    <tr>
-        <td><strong>return_short_description</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Populate the short_description field instead of file_description</td>
-    </tr>
-    <tr>
-        <td><strong>return_for_sale_data</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Return pricing information, if applicable</td>
-    </tr>
-    <tr>
-        <td><strong>return_metadata</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>Populate the metadata</td>
-    </tr>
-    <tr>
-        <td><strong>return_playtime_stats</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Return playtime stats for the specified number of days before today.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>query_type</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                <a href="/doc/webapi/IPublishedFileService#EPublishedFileQueryType"
+                    >IPublishedFileService#EPublishedFileQueryType</a
+                >
+            </td>
+        </tr>
+        <tr>
+            <td><strong>page</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Current page. Currently there is an upper limit of 1000.</td>
+        </tr>
+        <tr>
+            <td><strong>cursor</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                Cursor to paginate through the results (set to '*' for the first request). Prefer
+                this over using the page parameter, as it will allow you to do deep pagination. When
+                used, the page parameter will be ignored. Use the "next_cursor" value returned in
+                the response to set up the next query to get the next set of results.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>numperpage</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>(Optional) The number of results, per page to return.</td>
+        </tr>
+        <tr>
+            <td><strong>creator_appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App that created the files</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>App that consumes the files</td>
+        </tr>
+        <tr>
+            <td><strong>requiredtags</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Tags to match on. See match_all_tags parameter below</td>
+        </tr>
+        <tr>
+            <td><strong>excludedtags</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                (Optional) Tags that must NOT be present on a published file to satisfy the query.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>match_all_tags</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>
+                If true, then items must have all the tags specified, otherwise they must have at
+                least one of the tags.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>required_flags</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Required flags that must be set on any returned items</td>
+        </tr>
+        <tr>
+            <td><strong>omitted_flags</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Flags that must not be set on any returned items</td>
+        </tr>
+        <tr>
+            <td><strong>search_text</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Text to match in the item's title or description</td>
+        </tr>
+        <tr>
+            <td><strong>filetype</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                <a href="/doc/webapi/IPublishedFileService#EPublishedFileInfoMatchingFileType"
+                    >IPublishedFileService#EPublishedFileInfoMatchingFileType</a
+                >
+            </td>
+        </tr>
+        <tr>
+            <td><strong>child_publishedfileid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Find all items that reference the given item.</td>
+        </tr>
+        <tr>
+            <td><strong>days</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                If query_type is k_PublishedFileQueryType_RankedByTrend, then this is the number of
+                days to get votes for [1,7].
+            </td>
+        </tr>
+        <tr>
+            <td><strong>include_recent_votes_only</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                If query_type is k_PublishedFileQueryType_RankedByTrend, then limit result set just
+                to items that have votes within the day range given
+            </td>
+        </tr>
+        <tr>
+            <td><strong>cache_max_age_seconds</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>Allow stale data to be returned for the specified number of seconds.</td>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>int32</td>
+            <td></td>
+            <td>Language to search in and also what gets returned. Defaults to English.</td>
+        </tr>
+        <tr>
+            <td><strong>required_kv_tags</strong></td>
+            <td>{message}</td>
+            <td>✔</td>
+            <td>Required key-value tags to match on.</td>
+        </tr>
+        <tr>
+            <td><strong>totalonly</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                (Optional) If true, only return the total number of files that satisfy this query.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>ids_only</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                (Optional) If true, only return the published file ids of files that satisfy this
+                query.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>return_vote_data</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Return vote data</td>
+        </tr>
+        <tr>
+            <td><strong>return_tags</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Return tags in the file details</td>
+        </tr>
+        <tr>
+            <td><strong>return_kv_tags</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Return key-value tags in the file details</td>
+        </tr>
+        <tr>
+            <td><strong>return_previews</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Return preview image and video details in the file details</td>
+        </tr>
+        <tr>
+            <td><strong>return_children</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Return child item ids in the file details</td>
+        </tr>
+        <tr>
+            <td><strong>return_short_description</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Populate the short_description field instead of file_description</td>
+        </tr>
+        <tr>
+            <td><strong>return_for_sale_data</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Return pricing information, if applicable</td>
+        </tr>
+        <tr>
+            <td><strong>return_metadata</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Populate the metadata</td>
+        </tr>
+        <tr>
+            <td><strong>return_playtime_stats</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Return playtime stats for the specified number of days before today.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Performs a search query for published files
 <div class="bb_callout">
     <div>
         <strong>NOTE</strong>: While you can query by the "filetype" parameters (<a
-            href="https://partner.steamgames.com/doc/webapi/IPublishedFileService#EPublishedFileInfoMatchingFileType"
-            class="bb_apilink"
+            href="/doc/webapi/IPublishedFileService#EPublishedFileInfoMatchingFileType"
             >IPublishedFileService#EPublishedFileInfoMatchingFileType</a
         >), the results will contain a "file_type" value. That value will correspond to
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamRemoteStorage#EWorkshopFileType"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamRemoteStorage#EWorkshopFileType"
             >ISteamRemoteStorage#EWorkshopFileType</a
         >
     </div>
@@ -296,36 +291,38 @@ Performs a search query for published files
     POST https://partner.steam-api.com/IPublishedFileService/SetDeveloperMetadata/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>publishedfileid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>metadata</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>publishedfileid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>metadata</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Sets the metadata for a developer on the published file<br />
@@ -337,42 +334,44 @@ Sets the metadata for a developer on the published file<br />
     POST https://partner.steam-api.com/IPublishedFileService/UpdateAppUGCBan/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>SteamID of the user</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>expiration_time</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Unix timestamp when the ban expires, 0 to remove</td>
-    </tr>
-    <tr>
-        <td><strong>reason</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>Reason the user was banned. Will be displayed to the user.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>SteamID of the user</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>expiration_time</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Unix timestamp when the ban expires, 0 to remove</td>
+        </tr>
+        <tr>
+            <td><strong>reason</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>Reason the user was banned. Will be displayed to the user.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Adds/updates/removes a user's UGC ban in the app. Set expiration_time = 0 to remove the ban.<br />
@@ -384,42 +383,44 @@ Adds/updates/removes a user's UGC ban in the app. Set expiration_time = 0 to rem
     POST https://partner.steam-api.com/IPublishedFileService/UpdateBanStatus/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>publishedfileid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>banned</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>reason</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Reason why the item was banned. Only visible to admins.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>publishedfileid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>banned</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>reason</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Reason why the item was banned. Only visible to admins.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Updates the ban status on the published file<br />
@@ -431,36 +432,38 @@ Updates the ban status on the published file<br />
     POST https://partner.steam-api.com/IPublishedFileService/UpdateIncompatibleStatus/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>publishedfileid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>incompatible</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>publishedfileid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>incompatible</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Updates the incompatible status on the published file. "Incompatible" items are hidden from
@@ -473,42 +476,44 @@ community hubs and user profiles, but can still be accessed by a direct link.<br
     POST https://partner.steam-api.com/IPublishedFileService/UpdateTags/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>publishedfileid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><strong>add_tags</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>Tags to add</td>
-    </tr>
-    <tr>
-        <td><strong>remove_tags</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>Tags to remove</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>publishedfileid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>add_tags</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>Tags to add</td>
+        </tr>
+        <tr>
+            <td><strong>remove_tags</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>Tags to remove</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Updates tags on the published file. Existing tags will not be removed unless they are specified in
@@ -522,100 +527,108 @@ These are enums which are defined for use with ISteamRemoteStorage.
 Ways you can query for UGC items.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Value</th>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByVote">
-        <td><strong>k_PublishedFileQueryType_RankedByVote</strong></td>
-        <td>0</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByPublicationDate">
-        <td><strong>k_PublishedFileQueryType_RankedByPublicationDate</strong></td>
-        <td>1</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_AcceptedForGameRankedByAcceptanceDate">
-        <td><strong>k_PublishedFileQueryType_AcceptedForGameRankedByAcceptanceDate</strong></td>
-        <td>2</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByTrend">
-        <td><strong>k_PublishedFileQueryType_RankedByTrend</strong></td>
-        <td>3</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_FavoritedByFriendsRankedByPublicationDate">
-        <td><strong>k_PublishedFileQueryType_FavoritedByFriendsRankedByPublicationDate</strong></td>
-        <td>4</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_CreatedByFriendsRankedByPublicationDate">
-        <td><strong>k_PublishedFileQueryType_CreatedByFriendsRankedByPublicationDate</strong></td>
-        <td>5</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByNumTimesReported">
-        <td><strong>k_PublishedFileQueryType_RankedByNumTimesReported</strong></td>
-        <td>6</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_CreatedByFollowedUsersRankedByPublicationDate">
-        <td>
-            <strong>k_PublishedFileQueryType_CreatedByFollowedUsersRankedByPublicationDate</strong>
-        </td>
-        <td>7</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_NotYetRated">
-        <td><strong>k_PublishedFileQueryType_NotYetRated</strong></td>
-        <td>8</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByTotalUniqueSubscriptions">
-        <td><strong>k_PublishedFileQueryType_RankedByTotalUniqueSubscriptions</strong></td>
-        <td>9</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByTotalVotesAsc">
-        <td><strong>k_PublishedFileQueryType_RankedByTotalVotesAsc</strong></td>
-        <td>10</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByVotesUp">
-        <td><strong>k_PublishedFileQueryType_RankedByVotesUp</strong></td>
-        <td>11</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByTextSearch">
-        <td><strong>k_PublishedFileQueryType_RankedByTextSearch</strong></td>
-        <td>12</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByPlaytimeTrend">
-        <td><strong>k_PublishedFileQueryType_RankedByPlaytimeTrend</strong></td>
-        <td>13</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByTotalPlaytime">
-        <td><strong>k_PublishedFileQueryType_RankedByTotalPlaytime</strong></td>
-        <td>14</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByAveragePlaytimeTrend">
-        <td><strong>k_PublishedFileQueryType_RankedByAveragePlaytimeTrend</strong></td>
-        <td>15</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByLifetimeAveragePlaytime">
-        <td><strong>k_PublishedFileQueryType_RankedByLifetimeAveragePlaytime</strong></td>
-        <td>16</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByPlaytimeSessionsTrend">
-        <td><strong>k_PublishedFileQueryType_RankedByPlaytimeSessionsTrend</strong></td>
-        <td>17</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByLifetimePlaytimeSessions">
-        <td><strong>k_PublishedFileQueryType_RankedByLifetimePlaytimeSessions</strong></td>
-        <td>18</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByInappropriateContentRating">
-        <td><strong>k_PublishedFileQueryType_RankedByInappropriateContentRating</strong></td>
-        <td>19</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByBanContentCheck">
-        <td><strong>k_PublishedFileQueryType_RankedByBanContentCheck</strong></td>
-        <td>20</td>
-    </tr>
-    <tr id="k_PublishedFileQueryType_RankedByLastUpdatedDate">
-        <td><strong>k_PublishedFileQueryType_RankedByLastUpdatedDate</strong></td>
-        <td>21</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByVote">
+            <td><strong>k_PublishedFileQueryType_RankedByVote</strong></td>
+            <td>0</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByPublicationDate">
+            <td><strong>k_PublishedFileQueryType_RankedByPublicationDate</strong></td>
+            <td>1</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_AcceptedForGameRankedByAcceptanceDate">
+            <td><strong>k_PublishedFileQueryType_AcceptedForGameRankedByAcceptanceDate</strong></td>
+            <td>2</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByTrend">
+            <td><strong>k_PublishedFileQueryType_RankedByTrend</strong></td>
+            <td>3</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_FavoritedByFriendsRankedByPublicationDate">
+            <td>
+                <strong>k_PublishedFileQueryType_FavoritedByFriendsRankedByPublicationDate</strong>
+            </td>
+            <td>4</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_CreatedByFriendsRankedByPublicationDate">
+            <td>
+                <strong>k_PublishedFileQueryType_CreatedByFriendsRankedByPublicationDate</strong>
+            </td>
+            <td>5</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByNumTimesReported">
+            <td><strong>k_PublishedFileQueryType_RankedByNumTimesReported</strong></td>
+            <td>6</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_CreatedByFollowedUsersRankedByPublicationDate">
+            <td>
+                <strong
+                    >k_PublishedFileQueryType_CreatedByFollowedUsersRankedByPublicationDate</strong
+                >
+            </td>
+            <td>7</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_NotYetRated">
+            <td><strong>k_PublishedFileQueryType_NotYetRated</strong></td>
+            <td>8</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByTotalUniqueSubscriptions">
+            <td><strong>k_PublishedFileQueryType_RankedByTotalUniqueSubscriptions</strong></td>
+            <td>9</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByTotalVotesAsc">
+            <td><strong>k_PublishedFileQueryType_RankedByTotalVotesAsc</strong></td>
+            <td>10</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByVotesUp">
+            <td><strong>k_PublishedFileQueryType_RankedByVotesUp</strong></td>
+            <td>11</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByTextSearch">
+            <td><strong>k_PublishedFileQueryType_RankedByTextSearch</strong></td>
+            <td>12</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByPlaytimeTrend">
+            <td><strong>k_PublishedFileQueryType_RankedByPlaytimeTrend</strong></td>
+            <td>13</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByTotalPlaytime">
+            <td><strong>k_PublishedFileQueryType_RankedByTotalPlaytime</strong></td>
+            <td>14</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByAveragePlaytimeTrend">
+            <td><strong>k_PublishedFileQueryType_RankedByAveragePlaytimeTrend</strong></td>
+            <td>15</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByLifetimeAveragePlaytime">
+            <td><strong>k_PublishedFileQueryType_RankedByLifetimeAveragePlaytime</strong></td>
+            <td>16</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByPlaytimeSessionsTrend">
+            <td><strong>k_PublishedFileQueryType_RankedByPlaytimeSessionsTrend</strong></td>
+            <td>17</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByLifetimePlaytimeSessions">
+            <td><strong>k_PublishedFileQueryType_RankedByLifetimePlaytimeSessions</strong></td>
+            <td>18</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByInappropriateContentRating">
+            <td><strong>k_PublishedFileQueryType_RankedByInappropriateContentRating</strong></td>
+            <td>19</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByBanContentCheck">
+            <td><strong>k_PublishedFileQueryType_RankedByBanContentCheck</strong></td>
+            <td>20</td>
+        </tr>
+        <tr id="k_PublishedFileQueryType_RankedByLastUpdatedDate">
+            <td><strong>k_PublishedFileQueryType_RankedByLastUpdatedDate</strong></td>
+            <td>21</td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_subsection">
     <a name="EPublishedFileInfoMatchingFileType"></a>EPublishedFileInfoMatchingFileType
@@ -623,114 +636,116 @@ Ways you can query for UGC items.<br />
 The way that a shared file can be queried by QueryFile.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Items">
-        <td><strong>k_PFI_MatchingFileType_Items</strong></td>
-        <td>0</td>
-        <td>Items.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Collections">
-        <td><strong>k_PFI_MatchingFileType_Collections</strong></td>
-        <td>1</td>
-        <td>A collection of Workshop items.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Art">
-        <td><strong>k_PFI_MatchingFileType_Art</strong></td>
-        <td>2</td>
-        <td>Artwork.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Videos">
-        <td><strong>k_PFI_MatchingFileType_Videos</strong></td>
-        <td>3</td>
-        <td>Videos.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Screenshots">
-        <td><strong>k_PFI_MatchingFileType_Screenshots</strong></td>
-        <td>4</td>
-        <td>Screenshots.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_CollectionEligible">
-        <td><strong>k_PFI_MatchingFileType_CollectionEligible</strong></td>
-        <td>5</td>
-        <td>Items that can be put inside a collection.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Games">
-        <td><strong>k_PFI_MatchingFileType_Games</strong></td>
-        <td>6</td>
-        <td>Unused.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Software">
-        <td><strong>k_PFI_MatchingFileType_Software</strong></td>
-        <td>7</td>
-        <td>Unused</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Concepts">
-        <td><strong>k_PFI_MatchingFileType_Concepts</strong></td>
-        <td>8</td>
-        <td>Unused</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_GreenlightItems">
-        <td><strong>k_PFI_MatchingFileType_GreenlightItems</strong></td>
-        <td>9</td>
-        <td>Unused</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_AllGuides">
-        <td><strong>k_PFI_MatchingFileType_AllGuides</strong></td>
-        <td>10</td>
-        <td>Guides.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_WebGuides">
-        <td><strong>k_PFI_MatchingFileType_WebGuides</strong></td>
-        <td>11</td>
-        <td>Steam web guide.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_IntegratedGuides">
-        <td><strong>k_PFI_MatchingFileType_IntegratedGuides</strong></td>
-        <td>12</td>
-        <td>Application integrated guide.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_UsableInGame">
-        <td><strong>k_PFI_MatchingFileType_UsableInGame</strong></td>
-        <td>13</td>
-        <td></td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Merch">
-        <td><strong>k_PFI_MatchingFileType_Merch</strong></td>
-        <td>14</td>
-        <td>Workshop merchandise meant to be voted on for the purpose of being sold</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_ControllerBindings">
-        <td><strong>k_PFI_MatchingFileType_ControllerBindings</strong></td>
-        <td>15</td>
-        <td>Steam Controller bindings.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_SteamworksAccessInvites">
-        <td><strong>k_PFI_MatchingFileType_SteamworksAccessInvites</strong></td>
-        <td>16</td>
-        <td>Used internally.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Items_Mtx">
-        <td><strong>k_PFI_MatchingFileType_Items_Mtx</strong></td>
-        <td>17</td>
-        <td>Workshop items that can be sold in-game.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_Items_ReadyToUse">
-        <td><strong>k_PFI_MatchingFileType_Items_ReadyToUse</strong></td>
-        <td>18</td>
-        <td>Workshop items that can be used right away by the user.</td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_WorkshopShowcase">
-        <td><strong>k_PFI_MatchingFileType_WorkshopShowcase</strong></td>
-        <td>19</td>
-        <td></td>
-    </tr>
-    <tr id="k_PFI_MatchingFileType_GameManagedItems">
-        <td><strong>k_PFI_MatchingFileType_GameManagedItems</strong></td>
-        <td>20</td>
-        <td>Managed completely by the game, not the user, and not shown on the web.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Items">
+            <td><strong>k_PFI_MatchingFileType_Items</strong></td>
+            <td>0</td>
+            <td>Items.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Collections">
+            <td><strong>k_PFI_MatchingFileType_Collections</strong></td>
+            <td>1</td>
+            <td>A collection of Workshop items.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Art">
+            <td><strong>k_PFI_MatchingFileType_Art</strong></td>
+            <td>2</td>
+            <td>Artwork.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Videos">
+            <td><strong>k_PFI_MatchingFileType_Videos</strong></td>
+            <td>3</td>
+            <td>Videos.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Screenshots">
+            <td><strong>k_PFI_MatchingFileType_Screenshots</strong></td>
+            <td>4</td>
+            <td>Screenshots.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_CollectionEligible">
+            <td><strong>k_PFI_MatchingFileType_CollectionEligible</strong></td>
+            <td>5</td>
+            <td>Items that can be put inside a collection.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Games">
+            <td><strong>k_PFI_MatchingFileType_Games</strong></td>
+            <td>6</td>
+            <td>Unused.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Software">
+            <td><strong>k_PFI_MatchingFileType_Software</strong></td>
+            <td>7</td>
+            <td>Unused</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Concepts">
+            <td><strong>k_PFI_MatchingFileType_Concepts</strong></td>
+            <td>8</td>
+            <td>Unused</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_GreenlightItems">
+            <td><strong>k_PFI_MatchingFileType_GreenlightItems</strong></td>
+            <td>9</td>
+            <td>Unused</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_AllGuides">
+            <td><strong>k_PFI_MatchingFileType_AllGuides</strong></td>
+            <td>10</td>
+            <td>Guides.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_WebGuides">
+            <td><strong>k_PFI_MatchingFileType_WebGuides</strong></td>
+            <td>11</td>
+            <td>Steam web guide.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_IntegratedGuides">
+            <td><strong>k_PFI_MatchingFileType_IntegratedGuides</strong></td>
+            <td>12</td>
+            <td>Application integrated guide.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_UsableInGame">
+            <td><strong>k_PFI_MatchingFileType_UsableInGame</strong></td>
+            <td>13</td>
+            <td></td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Merch">
+            <td><strong>k_PFI_MatchingFileType_Merch</strong></td>
+            <td>14</td>
+            <td>Workshop merchandise meant to be voted on for the purpose of being sold</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_ControllerBindings">
+            <td><strong>k_PFI_MatchingFileType_ControllerBindings</strong></td>
+            <td>15</td>
+            <td>Steam Controller bindings.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_SteamworksAccessInvites">
+            <td><strong>k_PFI_MatchingFileType_SteamworksAccessInvites</strong></td>
+            <td>16</td>
+            <td>Used internally.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Items_Mtx">
+            <td><strong>k_PFI_MatchingFileType_Items_Mtx</strong></td>
+            <td>17</td>
+            <td>Workshop items that can be sold in-game.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_Items_ReadyToUse">
+            <td><strong>k_PFI_MatchingFileType_Items_ReadyToUse</strong></td>
+            <td>18</td>
+            <td>Workshop items that can be used right away by the user.</td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_WorkshopShowcase">
+            <td><strong>k_PFI_MatchingFileType_WorkshopShowcase</strong></td>
+            <td>19</td>
+            <td></td>
+        </tr>
+        <tr id="k_PFI_MatchingFileType_GameManagedItems">
+            <td><strong>k_PFI_MatchingFileType_GameManagedItems</strong></td>
+            <td>20</td>
+            <td>Managed completely by the game, not the user, and not shown on the web.</td>
+        </tr>
+    </tbody>
 </table>

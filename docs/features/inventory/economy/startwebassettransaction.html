@@ -1,132 +1,126 @@
 <h1>StartWebAssetTransaction/v0001</h1>
 This starts a transaction on behalf of a user for the items specified.<br />
 Implementations should call
-<a href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn" class="bb_apilink"
-    >ISteamMicroTxn/InitTxn</a
->
-to have Steam setup the transaction and obtain a forwarding URL.<br />
+<a href="/doc/webapi/ISteamMicroTxn#InitTxn">ISteamMicroTxn/InitTxn</a> to have Steam setup the
+transaction and obtain a forwarding URL.<br />
 <br />
 <strong>Called by:</strong> Web Purchasing<br />
 <br />
 <strong>HTTP Method:</strong> POST
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on
-            the partner site.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>32bit App ID of the application associated with the asset.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>64bit Steam ID of the user to setup a transaction for.</td>
-    </tr>
-    <tr>
-        <td><strong>language</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the language to return
-            strings in. Some examples include en_US, de_DE, zh_CN, and ko_KR. Default: en_US
-        </td>
-    </tr>
-    <tr>
-        <td><strong>asset[n]</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            A string representing an item the user wishes to buy. This can be an item definition
-            index, item name, or any other unique representation the game wishes to use.
-            <code class="bb_code bb_code_inline nohighlight">n</code> is a 0-based index and there
-            will be one for each item the user wishes to buy. The value should match the value of
-            the <code class="bb_code bb_code_inline nohighlight">name</code> parameter of
-            <code class="bb_code bb_code_inline nohighlight">GetAssetPrices</code> and is the same
-            string the user passes in to the buyitem URL.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>quantity[n]</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            An optional unsigned integer specifying the quantity the user wants to purchase for the
-            n'th item. If the parameter is missing for any of the items being purchased, a value of
-            one should be assumed.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>currency</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>ISO 4217 currency code to use for the transaction.</td>
-    </tr>
-    <tr>
-        <td><strong>ipaddress</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            The user's IP address as a string. The IP address is expected to match the IP address
-            that accesses the forwarding URL and is expected to remain the same throughout the
-            transaction.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>referrer</strong></td>
-        <td>string</td>
-        <td></td>
-        <td>An optional string containing the URL that referred the user to the transaction.</td>
-    </tr>
-    <tr>
-        <td><strong>sandbox</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            Non-zero if this transaction will use the microtransaction "sandbox" which will not
-            deduct funds from the user's wallet. In this case you should call
-            <a
-                href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxnSandbox#InitTxn"
-                class="bb_apilink"
-                >ISteamMicroTxnSandbox/InitTxn</a
-            >, instead of
-            <a
-                href="https://partner.steamgames.com/doc/webapi/ISteamMicroTxn#InitTxn"
-                class="bb_apilink"
-                >ISteamMicroTxn/InitTxn</a
-            >. See
-            <a
-                href="https://partner.steamgames.com/doc/features/microtransactions/implementation"
-                class="bb_doclink"
-                >Microtransactions Implementation Guide</a
-            >
-            for more details.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                This is the "Asset Server Key" that you provided in your app's Steam Economy
+                Settings on the partner site.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>32bit App ID of the application associated with the asset.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>64bit Steam ID of the user to setup a transaction for.</td>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                ISO639-1 language code plus ISO 3166-1 alpha 2 country code of the language to
+                return strings in. Some examples include en_US, de_DE, zh_CN, and ko_KR. Default:
+                en_US
+            </td>
+        </tr>
+        <tr>
+            <td><strong>asset[n]</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                A string representing an item the user wishes to buy. This can be an item definition
+                index, item name, or any other unique representation the game wishes to use.
+                <code class="bb_code bb_code_inline nohighlight">n</code> is a 0-based index and
+                there will be one for each item the user wishes to buy. The value should match the
+                value of the <code class="bb_code bb_code_inline nohighlight">name</code> parameter
+                of <code class="bb_code bb_code_inline nohighlight">GetAssetPrices</code> and is the
+                same string the user passes in to the buyitem URL.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>quantity[n]</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                An optional unsigned integer specifying the quantity the user wants to purchase for
+                the n'th item. If the parameter is missing for any of the items being purchased, a
+                value of one should be assumed.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>currency</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>ISO 4217 currency code to use for the transaction.</td>
+        </tr>
+        <tr>
+            <td><strong>ipaddress</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                The user's IP address as a string. The IP address is expected to match the IP
+                address that accesses the forwarding URL and is expected to remain the same
+                throughout the transaction.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>referrer</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>
+                An optional string containing the URL that referred the user to the transaction.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>sandbox</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                Non-zero if this transaction will use the microtransaction "sandbox" which will not
+                deduct funds from the user's wallet. In this case you should call
+                <a href="/doc/webapi/ISteamMicroTxnSandbox#InitTxn">ISteamMicroTxnSandbox/InitTxn</a
+                >, instead of
+                <a href="/doc/webapi/ISteamMicroTxn#InitTxn">ISteamMicroTxn/InitTxn</a>. See
+                <a href="/doc/features/microtransactions/implementation"
+                    >Microtransactions Implementation Guide</a
+                >
+                for more details.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="2"></a>Returns</h2>
 The output from this method should be encoded in the JSON format.<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">result</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set

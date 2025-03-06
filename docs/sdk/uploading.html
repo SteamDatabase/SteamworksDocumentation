@@ -1,13 +1,11 @@
 <h1>Uploading to Steam</h1>
 Below is a guide to using SteamPipe, Valve's tool for delivering content to Steam. For more
 information on best practices for updating your game, see
-<a href="https://partner.steamgames.com/doc/store/updates" class="bb_doclink"
-    >Updating Your Game - Best Practices</a
->.
+<a href="/doc/store/updates">Updating Your Game - Best Practices</a>.
 <h2 class="bb_section"><a name="Introduction"></a>Introduction to the SteamPipe Content System</h2>
 SteamPipe is the game/application content system that powers Steam. SteamPipe includes the following
 features:<br />
-<ul class="bb_ul">
+<ul>
     <li>Efficient and fast content delivery.<br /></li>
     <li>Public and private "beta" branches, allowing multiple builds to be tested.<br /></li>
     <li>
@@ -17,33 +15,25 @@ features:<br />
     <li>Ability to see the update size of a build before setting it live.<br /></li>
     <li>Ability to share content between multiple applications.<br /></li>
     <li>
-        Ability to
-        <a href="#Building_Retail_Install_Discs" class="bb_doclink">build installer discs</a> from
-        public or beta content.<br />
+        Ability to <a href="#Building_Retail_Install_Discs">build installer discs</a> from public or
+        beta content.<br />
     </li>
     <li>Games/apps stay available offline even after an update download has been started.<br /></li>
     <li>
         All content is always encrypted, and non-active versions are not visible to customers.<br />
     </li>
     <li>
-        A
-        <a
-            href="https://partner.steamgames.com/doc/sdk/uploading/local_content_server"
-            class="bb_doclink"
-            >SteamPipe Local Content Server</a
-        >
-        which can be used during development.
+        A <a href="/doc/sdk/uploading/local_content_server">SteamPipe Local Content Server</a> which
+        can be used during development.
     </li>
 </ul>
 <div class="bb_callout bb_yellow">
     <div>
         <strong>NOTE:</strong> There are a few concepts which are integral to SteamPipe, before
         getting started you should be familiar with all of the concepts outlined in the
-        <a href="https://partner.steamgames.com/doc/store/application" class="bb_doclink"
-            >Applications</a
-        >
-        documentation. Having even a basic understanding of how these pieces fit together will be
-        very useful when uploading your product to Steam.
+        <a href="/doc/store/application">Applications</a> documentation. Having even a basic
+        understanding of how these pieces fit together will be very useful when uploading your
+        product to Steam.
     </div>
 </div>
 <h2 class="bb_section">
@@ -76,7 +66,7 @@ update process as large amounts of local disk IO are necessary.<br />
 <br />
 If your game uses pack files, here are some general guidelines.<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         Ensure asset changes are <strong>localized</strong> within the pack file as much as
         possible<br />
@@ -213,11 +203,8 @@ consumer firewalls allow HTTP traffic and won't block downloads.<br />
 SteamPipe has an efficient patching algorithm based on binary deltas, only changing the modified
 portions of existing content files. When this content is updated, only these deltas need be sent.
 This means both developer and user transfers are smaller and faster. Most partners will find that
-using a
-<a href="https://partner.steamgames.com/doc/sdk/uploading/local_content_server" class="bb_doclink"
-    >SteamPipe Local Content Server</a
->
-not necessary since they can efficiently patch builds on private branches.
+using a <a href="/doc/sdk/uploading/local_content_server">SteamPipe Local Content Server</a> not
+necessary since they can efficiently patch builds on private branches.
 <h2 class="bb_section"><a name="Build_Account"></a>Steam Build Account</h2>
 Before you can create any builds on Steam, you must have a Steam account in your Steamworks account
 with the "Edit App Metadata" and "Publish App Changes To Steam" permissions granted. For security
@@ -229,13 +216,11 @@ may create a new Steam account for this purpose at
 <br />
 Any administrator of your Steamworks account can add a Steam account and grant the necessary
 permissions. More information on this process can be found in the
-<a href="https://partner.steamgames.com/doc/gettingstarted/managing_users" class="bb_doclink"
-    >Managing Your Steamworks Account</a
->
-documentation. An example of what this account might look like is:<br />
+<a href="/doc/gettingstarted/managing_users">Managing Your Steamworks Account</a> documentation. An
+example of what this account might look like is:<br />
 <br />
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/create_build_account.png"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/create_build_account.png"
     alt="create_build_account.png"
     title="create_build_account.png"
 />
@@ -252,16 +237,14 @@ documentation. An example of what this account might look like is:<br />
 </div>
 <h2 class="bb_section"><a name="Initial_Setup_New_App"></a>Initial Setup for New SteamPipe Apps</h2>
 Follow these steps to set up new SteamPipe apps:<br />
-<ol class="bb_ol">
+<ol>
     <li>
         Find the app ID for your application (this can be found by selecting the application on your
         homepage in Steamworks)<br />
     </li>
     <li>
         Go to the
-        <a href="https://partner.steamgames.com/apps/config/" target="_blank" rel="noreferrer"
-            >General Installation Settings</a
-        >
+        <a href="/apps/config/" target="_blank" rel="noreferrer">General Installation Settings</a>
         page for your app.<br />
     </li>
     <li>
@@ -272,19 +255,16 @@ Follow these steps to set up new SteamPipe apps:<br />
         Launch option 3 will only be shown on Windows if the user also owns the DLC specified.<br />
         <br />
         <img
-            src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/updatedlaunchoptions_3.png"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/updatedlaunchoptions_3.png"
             alt="updatedlaunchoptions_3.png"
             title="updatedlaunchoptions_3.png"
         /><br />
     </li>
     <li>
-        Go to the
-        <a href="https://partner.steamgames.com/apps/depots/" target="_blank" rel="noreferrer"
-            >Depots</a
-        >
-        page and add depots as needed for this app. By default, a depot may already be configured
-        for your application.<br />
-        <ol class="bb_ol">
+        Go to the <a href="/apps/depots/" target="_blank" rel="noreferrer">Depots</a> page and add
+        depots as needed for this app. By default, a depot may already be configured for your
+        application.<br />
+        <ol>
             <li>
                 Click the default depot and change the name of the depot to a proper and
                 recognizable name (such as "Base Content" or "Windows Content").<br />
@@ -304,10 +284,7 @@ Follow these steps to set up new SteamPipe apps:<br />
     </li>
     <li>
         Once you are done defining your depots, publish the changes that you have made from the
-        <a href="https://partner.steamgames.com/apps/publishing" target="_blank" rel="noreferrer"
-            >Publish</a
-        >
-        page.<br />
+        <a href="/apps/publishing" target="_blank" rel="noreferrer">Publish</a> page.<br />
     </li>
     <li>
         Your newly defined depots will need to be included in a package to grant you ownership of
@@ -315,7 +292,7 @@ Follow these steps to set up new SteamPipe apps:<br />
         to the accounts listed within your publisher group.<br />
         You can add the new depots to that package (and/or other packages that should have these
         depots) on the
-        <a href="https://partner.steamgames.com/apps/associated" target="_blank" rel="noreferrer"
+        <a href="/apps/associated" target="_blank" rel="noreferrer"
             >Associated Packages &amp; DLC</a
         >
         page.
@@ -352,7 +329,7 @@ sub-directories. <br />
 The <code class="bb_code bb_code_inline nohighlight">ContentBuilder</code> directory is where your
 game content and SteamPipe build tools will live. This directory contains the following
 sub-directories:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>builder</strong> - This directory initially contains just steamcmd.exe which is the
         command line version of Steam.<br />
@@ -374,7 +351,7 @@ sub-directories:<br />
     </li>
 </ul>
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steampipebuilddir.png"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steampipebuilddir.png"
     alt="steampipebuilddir.png"
     title="steampipebuilddir.png"
 /><br />
@@ -385,13 +362,11 @@ to build depots.<br />
 <br />
 The <code class="bb_code bb_code_inline nohighlight">ContentServer</code> directory contains the
 tools for running your own
-<a href="https://partner.steamgames.com/doc/sdk/uploading/local_content_server" class="bb_doclink"
-    >SteamPipe Local Content Server</a
->
-if you choose to do so.
+<a href="/doc/sdk/uploading/local_content_server">SteamPipe Local Content Server</a> if you choose
+to do so.
 <h2 class="bb_subsection"><a name="2"></a>SteamCmd on macOS</h2>
 To enable SteamCmd on macOS you must complete the following steps:<br />
-<ol class="bb_ol">
+<ol>
     <li>From the terminal, browse to the tools\ContentBuilder\builder_osx<br /></li>
     <li>Run chmod +x steamcmd<br /></li>
     <li>Type bash ./steamcmd.sh<br /></li>
@@ -439,7 +414,7 @@ and pass a couple of parameters :<br />
 </div>
 <br />
 The following steps occur during a SteamPipe build:<br />
-<ol class="bb_ol">
+<ol>
     <li>steamcmd.exe will update itself to the latest version.<br /></li>
     <li>
         steamcmd.exe is logging into the Steam backend using the given builder Steam account.<br />
@@ -473,7 +448,7 @@ The following steps occur during a SteamPipe build:<br />
 <br />
 <br />
 Once the build is complete you can see it on your app builds page, in this case it would be
-<a href="https://partner.steamgames.com/apps/builds/1000" target="_blank" rel="noreferrer"
+<a href="/apps/builds/1000" target="_blank" rel="noreferrer"
     >https://partner.steamgames.com/apps/builds/1000</a
 >. There you can set that build live for the default branch or any beta branch and users will be
 able to download this update within a couple of minutes.
@@ -483,7 +458,7 @@ If your app has a lot of depots with complex file mapping rules, you can create 
 for each depot which will be referenced by the app build script. First let's take a look at
 available parameters in the app build script:<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight"> AppID </code> - The AppID of your game.
         The uploading Steam partner account needs 'Edit App Metadata' privileges<br />
@@ -513,13 +488,9 @@ available parameters in the app build script:<br />
     <li>
         <code class="bb_code bb_code_inline nohighlight"> Local </code> - Set this to the htdocs
         path of your
-        <a
-            href="https://partner.steamgames.com/doc/sdk/uploading/local_content_server"
-            class="bb_doclink"
-            >SteamPipe Local Content Server</a
-        >
-        (LCS). LCS builds put content only on your own HTTP server and allow you to test the
-        installation of your game using the Steam client. <br />
+        <a href="/doc/sdk/uploading/local_content_server">SteamPipe Local Content Server</a> (LCS).
+        LCS builds put content only on your own HTTP server and allow you to test the installation
+        of your game using the Steam client. <br />
     </li>
     <li>
         <code class="bb_code bb_code_inline nohighlight"> SetLive </code> - Beta branch name to
@@ -551,7 +522,7 @@ This app build script references two depot build script files that specify all f
 file properties. The following instructions are available in a depot build script ( and also if the
 section is included directly into the app build script).<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight"> DepotID </code> - The DepotID for this
         section<br />
@@ -577,17 +548,14 @@ section is included directly into the app build script).<br />
     </li>
     <li>
         <code class="bb_code bb_code_inline nohighlight"> InstallScript </code> - will mark a file
-        as
-        <a href="https://partner.steamgames.com/doc/sdk/installscripts" class="bb_doclink"
-            >install scripts</a
-        >
-        and will sign the file during the build process. The Steam client knows to run them for any
-        application which mounts this depot.<br />
+        as <a href="/doc/sdk/installscripts">install scripts</a> and will sign the file during the
+        build process. The Steam client knows to run them for any application which mounts this
+        depot.<br />
     </li>
     <li>
         <code class="bb_code bb_code_inline nohighlight"> FileProperties </code> - will mark a file
         with special flags:<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight"> userconfig </code> - This file is
                 modified by the user or game. It cannot be overridden by an update, and it won't
@@ -635,7 +603,7 @@ To setup steamcmd for continuous integration, or just on a machine or VM that wi
 frequently, you'll need to include the config file that contains your login token. Follow these
 steps so that your initial login token is properly saved:<br />
 <br />
-<ol class="bb_ol">
+<ol>
     <li>
         Run "steamcmd.exe +login &lt;username&gt; on the machine that will be preforming the
         build"<br />
@@ -660,13 +628,13 @@ be issued and required to login.
 After your app releases to customers, your customers will be receiving the build marked as the
 Default build. When uploading a new build it's always a good idea to test it before shipping it to
 your customers, for more information on how to successfully do this see
-<a href="https://partner.steamgames.com/doc/store/testing" class="bb_doclink">Testing On Steam</a>.
+<a href="/doc/store/testing">Testing On Steam</a>.
 <h2 class="bb_section"><a name="Debugging_Build_Issues"></a>Debugging Build Issues</h2>
 If your build wasn't successful, you should look in your output directory for error information, not
 the console where the build script was run. Most error information can be found in the *.log
 files.<br />
 You can use these Steam client commands and client-side files to debug issues:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">"app_status [appid]"</code> - Shows the
         current state of the app on this client.<br />
@@ -700,7 +668,7 @@ In this example, the SKU file is called "sku_goldmaster.txt":<br />
     "1" "202931" "2" "202932" } }
 </div>
 Some tips to keep in mind:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         Create a new folder where the retail disc images will be written to, e.g.,
         "D:\retail_disks". Only depots in the included_depots sections are added; there is no
@@ -787,11 +755,8 @@ To build a GM containing multiple Steam Pipe apps. Build each app installer one 
 them all to the same output folder. Each build will merge itself with the already existing install
 image.
 <h2 class="bb_subsection"><a name="9"></a>Customizing a Retail install disk</h2>
-See
-<a href="https://partner.steamgames.com/doc/sdk/goldmaster" class="bb_doclink"
-    >Customizing a gold master</a
->
-for more details on customizing your retail install disk.
+See <a href="/doc/sdk/goldmaster">Customizing a gold master</a> for more details on customizing your
+retail install disk.
 <h2 class="bb_section"><a name="Preloading"></a>Preloading Games before Release</h2>
 By default, all content is always encrypted, on all retail discs and on all content servers.
 Switching a game to preload mode means owners can download the content, but it stays encrypted on
@@ -799,7 +764,7 @@ the users' disk and can't be played. Once the game becomes officially released, 
 the preloaded content and the user can play the game.<br />
 <br />
 Switching a game to preload mode is recommended in these cases:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         Shipping retail discs with product keys before the game is actually available (0-day
         piracy).<br />
@@ -810,14 +775,12 @@ Switching a game to preload mode is recommended in these cases:<br />
 Please submit a ticket to Steam Publishing if you believe your game requires preloading.
 <h2 class="bb_section"><a name="Building_DLC"></a>Building DLC</h2>
 DLC is built as a depot of the base game. See the
-<a href="https://partner.steamgames.com/doc/store/application/dlc" class="bb_doclink"
-    >Downloadable Content (DLC)</a
->
-documentation for more information.
+<a href="/doc/store/application/dlc">Downloadable Content (DLC)</a> documentation for more
+information.
 <h2 class="bb_section"><a name="Troubleshooting_SteamPipe"></a>Troubleshooting SteamPipe</h2>
 <h4>"Login Failure: Account Login Denied Failed" when logging in via steamcmd</h4>
 Cause: Probably SteamGuard is preventing login. Resolution:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         Check the email associated with the account you are trying to log on with and look for an
         email from Steam Support. Copy the code from that email.<br />
@@ -835,7 +798,7 @@ Cause: Probably SteamGuard is preventing login. Resolution:<br />
     </li>
 </ul>
 <h4>General Troubleshooting for Download Issues</h4>
-<ul class="bb_ul">
+<ul>
     <li>Restart computer, modem, router, etc.<br /></li>
     <li>
         Verify firewall settings. The new system requires port 80 (HTTP) and all other Steam ports,
@@ -867,7 +830,7 @@ you may run into a situation where the build deploys on Windows but doesn't depl
 or Linux despite your SteamPipe process being setup to upload Mac and/or Linux depots. There is a
 step that is easily missed which involves adding your alternate Depots to the Package being
 deployed. You can check what depots are included in a package via the following steps:<br />
-<ol class="bb_ol">
+<ol>
     <li>Navigate to your <i>App Admin</i> page<br /></li>
     <li>
         From the View Associated Items section, click
@@ -881,7 +844,7 @@ deployed. You can check what depots are included in a package via the following 
     </li>
 </ol>
 There are a number of discussion threads about this that may also assist:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <a
             href="http://steamcommunity.com/groups/steamworks/discussions/0/864972621123948611"
@@ -920,20 +883,20 @@ and check <strong>Automatically detect settings</strong>.
     scriptname.vdf' - status = 6."
 </h4>
 Possible Causes:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         Account does not have permissions for the app.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>Check that the app ID is correct in the app_build.vdf.<br /></li>
             <li>
-                Check that the build account has
-                <a href="#Build_Account" class="bb_doclink">proper permissions</a> to the app ID.<br />
+                Check that the build account has <a href="#Build_Account">proper permissions</a> to
+                the app ID.<br />
             </li>
         </ul>
     </li>
     <li>
         Steamcmd cannot find the depot contents.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 Check that the "contentroot" value in the app_build script is a valid path relative
                 to the location of the script file.<br />
@@ -951,7 +914,7 @@ Possible Causes:<br />
 </h4>
 This means that Steam can't retrieve information about the app, either because it doesn't exist or
 the user doesn't have access to the app.<br />
-<ul class="bb_ul">
+<ul>
     <li>Check that the NNNNN is the app ID you were assigned for the app.<br /></li>
     <li>Check that the app ID is correct in the app_build.vdf.<br /></li>
     <li>
@@ -967,37 +930,27 @@ the user doesn't have access to the app.<br />
     "An error occurred while installing [AppName] (Invalid content configuration)" at launch time
 </h4>
 Possible Causes:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         No build has been set live on the branch you're trying to install from.<br />
         Resolution: Set your build live on a branch by going to
-        <a
-            href="https://partner.steamgames.com/apps/builds/&lt;YourGameAppId&gt;"
-            target="_blank"
-            rel="noreferrer"
+        <a href="/apps/builds/<YourGameAppId>" target="_blank" rel="noreferrer"
             >https://partner.steamgames.com/apps/builds/&lt;YourGameAppId&gt;</a
         >, and select that branch in the Steam client (as described
-        <a href="#Building_Depots" class="bb_doclink">here</a>).<br />
+        <a href="#Building_Depots">here</a>).<br />
     </li>
     <li>
         Invalid game launch options.<br />
         Resolution: Verify the launch options on the Installation tab in the app admin for your game
-        <a
-            href="https://partner.steamgames.com/apps/config/&lt;YourGameAppId&gt;"
-            target="_blank"
-            rel="noreferrer"
+        <a href="/apps/config/<YourGameAppId>" target="_blank" rel="noreferrer"
             >https://partner.steamgames.com/apps/config/&lt;YourGameAppId&gt;</a
         >.<br />
     </li>
     <li>
         You don't own the Depot IDs that make up the game.<br />
         Resolution: Make sure the necessary depots are added to the development subscription (See
-        <a
-            href="https://partner.steamgames.com/doc/store/application/packages#editing_packages"
-            class="bb_doclink"
-            >Editing packages</a
-        >
-        for additional details).
+        <a href="/doc/store/application/packages#editing_packages">Editing packages</a> for
+        additional details).
     </li>
 </ul>
 <h4>I can't remember what that steamcmd command was or how it worked</h4>

@@ -1,16 +1,10 @@
 <h1>Steam Inventory Item Tools</h1>
 You can define "tool" items use to modify
-<a href="https://partner.steamgames.com/doc/features/inventory/itemtags" class="bb_doclink"
-    >Steam Inventory Item Tags</a
->
-on other items.<br />
+<a href="/doc/features/inventory/itemtags">Steam Inventory Item Tags</a> on other items.<br />
 <br />
-Using the
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
-    >ISteamInventory::ExchangeItems</a
->
-call, you then pass in both the tool and the target item--tags will be transferred or generated and
-a new item (copied from the target item) will be created.<br />
+Using the <a href="/doc/api/ISteamInventory#ExchangeItems">ISteamInventory::ExchangeItems</a> call,
+you then pass in both the tool and the target item--tags will be transferred or generated and a new
+item (copied from the target item) will be created.<br />
 <br />
 These tags are automatically sent along with other item attributes to the Steam Client and can be
 retrieved by calling ISteamInventory::GetResultItemProperty() with the property name "tags". The
@@ -35,13 +29,10 @@ On the target item, you'll need to specify that it can take the tag "paint_color
 <br />
 <div class="bb_code">itemdefid: 200 type: item name: Hat allowed_tags_from_tools: paint_color</div>
 <br />
-Then using
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
-    >ISteamInventory::ExchangeItems</a
->
-call, a user could apply the "Red Paint Can" tool to their "Hat" and the resulting item should have
-the tag "paint_color:red". Note that the expected item definition id should match the target item's
-item definition id.<br />
+Then using <a href="/doc/api/ISteamInventory#ExchangeItems">ISteamInventory::ExchangeItems</a> call,
+a user could apply the "Red Paint Can" tool to their "Hat" and the resulting item should have the
+tag "paint_color:red". Note that the expected item definition id should match the target item's item
+definition id.<br />
 <br />
 <div class="bb_code">
     SteamItemInstanceID_t inputItems[2] = { unPaintCanItemDefID, unHatItemDefID }; uint32
@@ -53,10 +44,8 @@ item definition id.<br />
 <br />
 If you wanted to have a tool that just removed a tag, you can define something like this "Paint
 Stripper." You would call
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
-    >ISteamInventory::ExchangeItems</a
->
-in the same manner described above. Your item definition would just have the
+<a href="/doc/api/ISteamInventory#ExchangeItems">ISteamInventory::ExchangeItems</a> in the same
+manner described above. Your item definition would just have the
 <code class="bb_code bb_code_inline nohighlight">tags_to_remove_on_tool_use</code> property set.<br />
 <br />
 <div class="bb_code">
@@ -74,20 +63,15 @@ Instead of a specific paint color, you can set up a tool that can apply tags fro
 </div>
 <br />
 Then when a user applies the "Random Paint Can" tool to their "Hat" using the
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#ExchangeItems" class="bb_apilink"
-    >ISteamInventory::ExchangeItems</a
->
-call, they have a 33% chance to get either "red," "green," or "blue" and a 1% chance to get "gold."
+<a href="/doc/api/ISteamInventory#ExchangeItems">ISteamInventory::ExchangeItems</a> call, they have
+a 33% chance to get either "red," "green," or "blue" and a 1% chance to get "gold."
 <h2 class="bb_subsection"><a name="3"></a>Dynamic Properties Restriction Example</h2>
 <br />
 You can restrict the modification of certain
-<a href="https://partner.steamgames.com/doc/features/inventory/dynamicproperties" class="bb_doclink"
-    >dynamic properties</a
->
-on an item using tags. With a <code class="bb_code bb_code_inline nohighlight">tag_tool</code>, you
-can now allow those properties to be set on an item where previously it would not be allowed if that
-item did not have the required tags. Here's an example of an item that keeps track of kills on a
-rocket launcher.<br />
+<a href="/doc/features/inventory/dynamicproperties">dynamic properties</a> on an item using tags.
+With a <code class="bb_code bb_code_inline nohighlight">tag_tool</code>, you can now allow those
+properties to be set on an item where previously it would not be allowed if that item did not have
+the required tags. Here's an example of an item that keeps track of kills on a rocket launcher.<br />
 <br />
 <div class="bb_code">
     itemdefid: 100 type: item name: Rocket Launcher itemdefid: 200 type: tag_tool name: Kill Stat

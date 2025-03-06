@@ -22,10 +22,9 @@ in the Steam community.<br />
 However because the client can't be trusted (and the keys in a client can always be captured by an
 attacker) you can't give users specific items in this scheme. Rather you select certain items that
 can be dropped, and configure a drop frequency. At appropriate times, the game client invokes
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory#TriggerItemDrop" class="bb_apilink"
-    >ISteamInventory::TriggerItemDrop</a
->. Steam servers manage the playtime and drop frequency per-player. These APIs are called using an
-internal "Client API Key" that is assumed to be untrusted.<br />
+<a href="/doc/api/ISteamInventory#TriggerItemDrop">ISteamInventory::TriggerItemDrop</a>. Steam
+servers manage the playtime and drop frequency per-player. These APIs are called using an internal
+"Client API Key" that is assumed to be untrusted.<br />
 <br />
 If you have a participating trusted server then you can use a privileged Steam API key on the server
 and grant explicit items for appropriate situations. It is still important to keep in mind that you
@@ -33,16 +32,8 @@ can't trust your own clients so you can only do this when the server is the mast
 the game.<br />
 <br />
 Finally in conjunction with the Inventory Service you can sell an individual item or a cart of
-items,
-<a
-    href="https://partner.steamgames.com/doc/features/inventory/webfunctions#BuyItem"
-    class="bb_doclink"
-    >in-game</a
->
-or through a web-based
-<a href="https://partner.steamgames.com/doc/features/inventory/itemstore" class="bb_doclink"
-    >storefront</a
->.<br />
+items, <a href="/doc/features/inventory/webfunctions#BuyItem">in-game</a> or through a web-based
+<a href="/doc/features/inventory/itemstore">storefront</a>.<br />
 <br />
 Check out this presentation from Steam Dev Days 2016 for an implementation overview, details on the
 specific problems that the Inventory Service solves for developers, and demonstration on how
@@ -52,22 +43,16 @@ partners are already using the system to serve their customers.<br />
     >https://www.youtube.com/watch?v=jDfhPTSOLis</a
 >
 <h2 class="bb_section"><a name="ImplementationOverview"></a>Implementation Overview</h2>
-<ol class="bb_ol">
+<ol>
     <li>
         <strong>Create Item Definitions</strong><br />
         You'll need to start by creating and uploading some
-        <a href="https://partner.steamgames.com/doc/features/inventory/schema" class="bb_doclink"
-            >item definitions</a
-        >
-        (ItemDefs).<br />
+        <a href="/doc/features/inventory/schema">item definitions</a> (ItemDefs).<br />
         These describe the possible set of items in your game. You don't need to use these from your
         game itself but Steam needs them to display inventory correctly. To create ItemDefs, go to
         the Steam Inventory section of your Steamworks configuration area. You can get there from
         here:
-        <a
-            href="https://partner.steamgames.com/apps/inventoryservice/"
-            target="_blank"
-            rel="noreferrer"
+        <a href="/apps/inventoryservice/" target="_blank" rel="noreferrer"
             >https://partner.steamgames.com/apps/inventoryservice/</a
         ><br />
     </li>
@@ -81,20 +66,13 @@ partners are already using the system to serve their customers.<br />
     <li>
         <strong>Set Asset Server Key</strong><br />
         First generate a Publisher Web API key for your application (instructions:
-        <a
-            href="https://partner.steamgames.com/doc/webapi_overview/auth#create_publisher_key"
-            class="bb_doclink"
-            >Creating a Publisher Web API Key</a
+        <a href="/doc/webapi_overview/auth#create_publisher_key">Creating a Publisher Web API Key</a
         >) and put it into the Asset Server Key field in the Steam Economy Settings.<br />
     </li>
     <li>
         <strong>Download Users Inventory</strong><br />
         Have your game client download the users inventory by calling
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInventory#GetAllItems"
-            class="bb_apilink"
-            >ISteamInventory::GetAllItems</a
-        >.<br />
+        <a href="/doc/api/ISteamInventory#GetAllItems">ISteamInventory::GetAllItems</a>.<br />
         Its usually good to do this periodically in case the user has added more items via trading
         or purchase.<br />
         Depending on your game, a check at the beginning of each game or level might be
@@ -102,82 +80,57 @@ partners are already using the system to serve their customers.<br />
     </li>
     <li>
         <strong>Grant Test Items</strong><br />
-        Use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInventory#GenerateItems"
-            class="bb_apilink"
-            >ISteamInventory::GenerateItems</a
-        >
-        to add specific items to the current players account for development purposes.<br />
+        Use <a href="/doc/api/ISteamInventory#GenerateItems">ISteamInventory::GenerateItems</a> to
+        add specific items to the current players account for development purposes.<br />
     </li>
     <li>
         <strong>Grant User a Playtime Drop (optional)</strong><br />
         At appropriate times (typically the end of a match/phase) call
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamInventory#TriggerItemDrop"
-            class="bb_apilink"
-            >ISteamInventory::TriggerItemDrop</a
-        >
-        to see if the user has earned a new drop.<br />
+        <a href="/doc/api/ISteamInventory#TriggerItemDrop">ISteamInventory::TriggerItemDrop</a> to
+        see if the user has earned a new drop.<br />
     </li>
     <li>
         <strong>Sell Items (optional)</strong><br />
         To add microtransaction support, define prices in your itemdefs. You can then have people
         purchase them in a few different ways:<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 Using the customizable, web-based
-                <a
-                    href="https://partner.steamgames.com/doc/features/inventory/itemstore"
-                    class="bb_doclink"
-                    >Item Store</a
-                ><br />
+                <a href="/doc/features/inventory/itemstore">Item Store</a><br />
             </li>
             <li>
                 Implement your own in-game store:<br />
-                <ul class="bb_ul">
+                <ul>
                     <li>
                         Retrieve the user's local currency and prices by calling
-                        <a
-                            href="https://partner.steamgames.com/doc/api/ISteamInventory#RequestPrices"
-                            class="bb_apilink"
+                        <a href="/doc/api/ISteamInventory#RequestPrices"
                             >ISteamInventory::RequestPrices</a
                         ><br />
                     </li>
                     <li>
                         Display prices returned by
-                        <a
-                            href="https://partner.steamgames.com/doc/api/ISteamInventory#GetItemPrice"
-                            class="bb_apilink"
+                        <a href="/doc/api/ISteamInventory#GetItemPrice"
                             >ISteamInventory::GetItemPrice</a
                         >
                         or
-                        <a
-                            href="https://partner.steamgames.com/doc/api/ISteamInventory#GetNumItemsWithPrices"
-                            class="bb_apilink"
+                        <a href="/doc/api/ISteamInventory#GetNumItemsWithPrices"
                             >ISteamInventory::GetNumItemsWithPrices</a
                         >
                         &amp;
-                        <a
-                            href="https://partner.steamgames.com/doc/api/ISteamInventory#GetItemsWithPrices"
-                            class="bb_apilink"
+                        <a href="/doc/api/ISteamInventory#GetItemsWithPrices"
                             >ISteamInventory::GetItemsWithPrices</a
                         ><br />
                     </li>
                     <li>
                         Call
-                        <a
-                            href="https://partner.steamgames.com/doc/api/ISteamInventory#StartPurchase"
-                            class="bb_apilink"
+                        <a href="/doc/api/ISteamInventory#StartPurchase"
                             >ISteamInventory::StartPurchase</a
                         >
                         with the item definitions that the user wants to purchase<br />
                     </li>
                     <li>
                         Handle the
-                        <a
-                            href="https://partner.steamgames.com/doc/api/ISteamInventory#SteamInventoryResultReady_t"
-                            class="bb_apilink"
+                        <a href="/doc/api/ISteamInventory#SteamInventoryResultReady_t"
                             >SteamInventoryResultReady_t</a
                         >
                         callback to give users any items they have purchased or acquired.
@@ -186,9 +139,7 @@ partners are already using the system to serve their customers.<br />
             </li>
             <li>
                 Use the
-                <a
-                    href="https://partner.steamgames.com/doc/features/inventory/webfunctions#BuyItem"
-                    class="bb_doclink"
+                <a href="/doc/features/inventory/webfunctions#BuyItem"
                     >simple Steam purchase web UI</a
                 >
                 by linking to
@@ -201,31 +152,19 @@ partners are already using the system to serve their customers.<br />
 </ol>
 <h2 class="bb_section"><a name="APIs"></a>APIs</h2>
 Documentation for the Steam Inventory API's is available on the API Reference here:
-<a href="https://partner.steamgames.com/doc/api/ISteamInventory" class="bb_apilink"
-    >ISteamInventory</a
->
+<a href="/doc/api/ISteamInventory">ISteamInventory</a>
 <h2 class="bb_section"><a name="1"></a>Web APIs</h2>
 Documentation for the Steam Inventory Web API is available on the Web API Reference here:
-<a href="https://partner.steamgames.com/doc/webapi/IInventoryService" class="bb_apilink"
-    >IInventoryService</a
->
+<a href="/doc/webapi/IInventoryService">IInventoryService</a>
 <h2 class="bb_section"><a name="2"></a>Web Functions</h2>
 These are structured web pages that you can redirect the user to.<br />
-<ul class="bb_ul">
+<ul>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/features/inventory/webfunctions#ItemCart"
-            class="bb_doclink"
-            >ItemCart</a
-        >
-        - Can be used to send a cart full of items to be purchased through Steam.<br />
+        <a href="/doc/features/inventory/webfunctions#ItemCart">ItemCart</a> - Can be used to send a
+        cart full of items to be purchased through Steam.<br />
     </li>
     <li>
-        <a
-            href="https://partner.steamgames.com/doc/features/inventory/webfunctions#BuyItem"
-            class="bb_doclink"
-            >BuyItem</a
-        >
-        - Can be used to purchase a single item through Steam.
+        <a href="/doc/features/inventory/webfunctions#BuyItem">BuyItem</a> - Can be used to purchase
+        a single item through Steam.
     </li>
 </ul>

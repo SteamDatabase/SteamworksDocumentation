@@ -1,68 +1,68 @@
 <h1>IGameNotificationsService Interface</h1>
 This is the interface used to interact with
-<a href="https://partner.steamgames.com/doc/features/game_notifications" class="bb_doclink"
-    >Game Notifications</a
->.<br />
+<a href="/doc/features/game_notifications">Game Notifications</a>.<br />
 <br />
 <strong>NOTE:</strong> This is a Service interface, methods in this interface should be called with
 the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br />
 <br />
 For more info on how to use the Steamworks Web API please see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
->.
+<a href="/doc/webapi_overview">Web API Overview</a>.
 <h2 class="bb_section"><a name="CreateSession"></a>CreateSession</h2>
 <div class="bb_code http">
     POST https://partner.steam-api.com/IGameNotificationsService/CreateSession/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID to create the session for.</td>
-    </tr>
-    <tr>
-        <td><strong>context</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            Game-specified context value the game can use to associate the session with some object
-            on their backend.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>title</strong></td>
-        <td>{message}</td>
-        <td>✔</td>
-        <td>The title of the session to be displayed within each user's list of sessions.</td>
-    </tr>
-    <tr>
-        <td><strong>users</strong></td>
-        <td>{message}</td>
-        <td>✔</td>
-        <td>The initial state of all users in the session.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td></td>
-        <td>
-            (Optional) Steam ID to make the request on behalf of -- if specified, the user must be
-            in the session and all users being added to the session must be friends with the user.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID to create the session for.</td>
+        </tr>
+        <tr>
+            <td><strong>context</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                Game-specified context value the game can use to associate the session with some
+                object on their backend.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>title</strong></td>
+            <td>{message}</td>
+            <td>✔</td>
+            <td>The title of the session to be displayed within each user's list of sessions.</td>
+        </tr>
+        <tr>
+            <td><strong>users</strong></td>
+            <td>{message}</td>
+            <td>✔</td>
+            <td>The initial state of all users in the session.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td></td>
+            <td>
+                (Optional) Steam ID to make the request on behalf of -- if specified, the user must
+                be in the session and all users being added to the session must be friends with the
+                user.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Creates a brand new async session with the players specified in the request.<br />
@@ -89,57 +89,59 @@ game, as it will be used to reference other calls in the Game Notifications API<
     POST https://partner.steam-api.com/IGameNotificationsService/UpdateSession/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>sessionid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The sessionid to update.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID of the session to update.</td>
-    </tr>
-    <tr>
-        <td><strong>title</strong></td>
-        <td>{message}</td>
-        <td>✔</td>
-        <td>
-            (Optional) The new title of the session. If not specified, the title will not be
-            changed.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>users</strong></td>
-        <td>{message}</td>
-        <td>✔</td>
-        <td>
-            (Optional) A list of users whose state will be updated to reflect the given state. If
-            the users are not already in the session, they will be added to it.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            (Optional) Steam ID to make the request on behalf of -- if specified, the user must be
-            in the session.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>sessionid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The sessionid to update.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID of the session to update.</td>
+        </tr>
+        <tr>
+            <td><strong>title</strong></td>
+            <td>{message}</td>
+            <td>✔</td>
+            <td>
+                (Optional) The new title of the session. If not specified, the title will not be
+                changed.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>users</strong></td>
+            <td>{message}</td>
+            <td>✔</td>
+            <td>
+                (Optional) A list of users whose state will be updated to reflect the given state.
+                If the users are not already in the session, they will be added to it.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                (Optional) Steam ID to make the request on behalf of -- if specified, the user must
+                be in the session.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Update a game session whenever the state of the game changes.<br />
@@ -172,56 +174,59 @@ specified state.<br />
     GET https://partner.steam-api.com/IGameNotificationsService/EnumerateSessionsForApp/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            The sessionid to request details for. Optional. If not specified, all the user's
-            sessions will be returned.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The user whose sessions are to be enumerated.</td>
-    </tr>
-    <tr>
-        <td><strong>include_all_user_messages</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            (Optional) Set whether the message for all users should be included. Defaults to false.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>include_auth_user_message</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            (Optional) Set whether the message for the authenticated user should be included.
-            Defaults to false.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>language</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>(Optional) Language to localize the text in.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The sessionid to request details for. Optional. If not specified, all the user's
+                sessions will be returned.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The user whose sessions are to be enumerated.</td>
+        </tr>
+        <tr>
+            <td><strong>include_all_user_messages</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                (Optional) Set whether the message for all users should be included. Defaults to
+                false.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>include_auth_user_message</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                (Optional) Set whether the message for the authenticated user should be included.
+                Defaults to false.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>(Optional) Language to localize the text in.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 This returns a list of sessions that a Steam ID is part of.<br />
@@ -254,36 +259,38 @@ The optional bools will return further details about each session if set.<br />
     GET https://partner.steam-api.com/IGameNotificationsService/GetSessionDetailsForApp/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>sessions</strong></td>
-        <td>{message}</td>
-        <td>✔</td>
-        <td>The session(s) to receive the details for</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The appid for the sessions.</td>
-    </tr>
-    <tr>
-        <td><strong>language</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Language to localize the text in.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>sessions</strong></td>
+            <td>{message}</td>
+            <td>✔</td>
+            <td>The session(s) to receive the details for</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The appid for the sessions.</td>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Language to localize the text in.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Returns details about specific session(s).<br />
@@ -314,30 +321,32 @@ Returns details about specific session(s).<br />
     POST https://partner.steam-api.com/IGameNotificationsService/RequestNotifications/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The Steam ID to request notifications for.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID to request notifications for.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The Steam ID to request notifications for.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID to request notifications for.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Requests that a user receive game notifications for an app.<br />
@@ -361,39 +370,41 @@ in if the user has decided to opt out.<br />
     POST https://partner.steam-api.com/IGameNotificationsService/DeleteSession/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>sessionid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The sessionid to delete.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID of the session to delete.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            (Optional) Steam ID to make the request on behalf of -- if specified, the user must be
-            in the session.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>sessionid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The sessionid to delete.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID of the session to delete.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                (Optional) Steam ID to make the request on behalf of -- if specified, the user must
+                be in the session.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Delete an active async game session. This will remove all notifications to any user that is part of
@@ -412,30 +423,32 @@ the game session.<br />
     POST https://partner.steam-api.com/IGameNotificationsService/DeleteSessionBatch/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>sessionid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The sessionid to delete.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The appid of the session to delete.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>sessionid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The sessionid to delete.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The appid of the session to delete.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Deletes a batch of async game sessions<br />

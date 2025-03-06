@@ -22,45 +22,29 @@ connectivity.<br />
 First, any place where network hosts are identified by a public IP (almost always the case for
 gameservers) will need to be changed to use a different identifier instead. There are several
 options for this:<br />
-<ul class="bb_ul">
+<ul>
     <li>For clients and gameservers that signin into Steam, you will usually the SteamID.<br /></li>
     <li>
         If your gameserver does not signin to Steam, and you are using the ticket-based
         authentication flow, you can use any other identifier that is meaningful to you. See
-        <a
-            href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingIdentity"
-            class="bb_apilink"
-            >SteamNetworkingIdentity</a
+        <a href="/doc/api/steamnetworkingtypes#SteamNetworkingIdentity">SteamNetworkingIdentity</a
         >.<br />
     </li>
     <li>
         In some codebases, the assumption that network hosts and gameservers are identified using an
         IPv4 address is ubiquitous, and changing this assumption is a significant amount of work.
-        Indeed, the Steamworks
-        <a href="https://partner.steamgames.com/doc/api/ISteamMatchmaking" class="bb_apilink"
-            >ISteamMatchmaking</a
-        >
-        and
-        <a href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers" class="bb_apilink"
-            >ISteamMatchmakingServers</a
-        >
-        APIs have this property, as do some of our own games, such as Team Fortress 2. In this case,
-        you can use the Steamworks "Fake IP" system. A FakeIP is an IP that "looks" like a valid
-        IPv4 address for most purposes, but comes from a reserved address space that is not used on
-        the Internet. By assigning your server a FakeIP, your server can still be addressed using an
-        IPv4 address, and almost everything will "just work". The
-        <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
-            >ISteamNetworkingSockets</a
-        >
-        and
-        <a href="https://partner.steamgames.com/doc/api/ISteamMatchmakingServers" class="bb_apilink"
-            >ISteamMatchmakingServers</a
-        >
-        systems recognize these special IPs and take appropriate action. They are not routable and
-        do not work for general internet purposes (e.g. you cannot ping them). See
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#BeginAsyncRequestFakeIP"
-            class="bb_apilink"
+        Indeed, the Steamworks <a href="/doc/api/ISteamMatchmaking">ISteamMatchmaking</a> and
+        <a href="/doc/api/ISteamMatchmakingServers">ISteamMatchmakingServers</a> APIs have this
+        property, as do some of our own games, such as Team Fortress 2. In this case, you can use
+        the Steamworks "Fake IP" system. A FakeIP is an IP that "looks" like a valid IPv4 address
+        for most purposes, but comes from a reserved address space that is not used on the Internet.
+        By assigning your server a FakeIP, your server can still be addressed using an IPv4 address,
+        and almost everything will "just work". The
+        <a href="/doc/api/ISteamNetworkingSockets">ISteamNetworkingSockets</a> and
+        <a href="/doc/api/ISteamMatchmakingServers">ISteamMatchmakingServers</a> systems recognize
+        these special IPs and take appropriate action. They are not routable and do not work for
+        general internet purposes (e.g. you cannot ping them). See
+        <a href="/doc/api/ISteamNetworkingSockets#BeginAsyncRequestFakeIP"
             >ISteamNetworkingSockets::BeginAsyncRequestFakeIP</a
         >
         for more info.
@@ -69,13 +53,11 @@ options for this:<br />
 <br />
 Second, you'll need to modify any low-level socket code to use one of the Steamworks APIs for
 connectivity.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         Ideally, you can use one of the connection-oriented API
-        <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
-            >ISteamNetworkingSockets</a
-        >
-        interfaces that returns an HSteamNetConnection.<br />
+        <a href="/doc/api/ISteamNetworkingSockets">ISteamNetworkingSockets</a> interfaces that
+        returns an HSteamNetConnection.<br />
         (Note that these API also supports plain UDP transport, which is very useful for testing.
         Also, there's an opensource version.)<br />
     </li>
@@ -83,18 +65,11 @@ connectivity.<br />
         Some codebases are written in a more UDP-like manner, where packets can be sent ad-hoc to
         any remote host at any time, and not all messages are sent to an established "connection".
         In these situations, there are two Steamworks features that might be useful.<br />
-        <ul class="bb_ul">
+        <ul>
             <li>
-                Use
-                <a
-                    href="https://partner.steamgames.com/doc/api/ISteamNetworkingMessages"
-                    class="bb_apilink"
-                    >ISteamNetworkingMessages</a
-                >
-                to communicate with hosts identified using a
-                <a
-                    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingIdentity"
-                    class="bb_apilink"
+                Use <a href="/doc/api/ISteamNetworkingMessages">ISteamNetworkingMessages</a> to
+                communicate with hosts identified using a
+                <a href="/doc/api/steamnetworkingtypes#SteamNetworkingIdentity"
                     >SteamNetworkingIdentity</a
                 >
                 type, such as a SteamID.<br />
@@ -109,7 +84,7 @@ connectivity.<br />
 A Networking API and DDoS solution for a cross-platform game is useless if it only works on one
 platform. In most cases, your players on other platforms and stores can access the relay network,
 provided that your game meets some basic conditions.<br />
-<ul class="bb_ul">
+<ul>
     <li>Have a version of your game shipping on Steam.<br /></li>
     <li>
         Agree to update your game within a reasonable time frame (say, a few months) when asked, if
@@ -144,18 +119,12 @@ the relay network.
 <h2 class="bb_section"><a name="3"></a>Peer-to-peer games</h2>
 For peer-to-peer traffic on Steam, all you need to do to take advantage of SDR is to use APIs such
 as
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#CreateListenSocketP2P"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#CreateListenSocketP2P"
     >ISteamNetworkingSockets::CreateListenSocketP2P</a
 >
-and
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectP2P"
-    class="bb_apilink"
-    >ISteamNetworkingSockets::ConnectP2P</a
->. Steam will take care of everything else. For other platforms and stores, read more about
-additional technical requirements below.
+and <a href="/doc/api/ISteamNetworkingSockets#ConnectP2P">ISteamNetworkingSockets::ConnectP2P</a>.
+Steam will take care of everything else. For other platforms and stores, read more about additional
+technical requirements below.
 <h2 class="bb_section"><a name="4"></a>Dedicated Servers in Known Data Centers</h2>
 The peer-to-peer APIs work just fine even when one "peer" is a dedicated server! But there's one
 important catch: if your dedicated server is not near one of the data centers where we are running
@@ -184,25 +153,19 @@ party hosting companies, however we are interested in doing this.
 If you don't have your own central matchmaking / login service (we sometimes call this the "game
 coordinator") that assigns players to servers, or just want to keep things as simple as possible,
 then you can connect to a dedicated server in a known data center using
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#CreateListenSocketP2P"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#CreateListenSocketP2P"
     >ISteamNetworkingSockets::CreateListenSocketP2P</a
 >
-and
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectP2P"
-    class="bb_apilink"
-    >ISteamNetworkingSockets::ConnectP2P</a
->. In this case, the connection begins on the client just like an ordinary P2P connection.
-Rendezvous messages are sent through Steam, so if the player or server loses their connection to
-Steam, the connection cannot be made. Also, Steam does not restrict who can attempt to connect,
-aside from verifying that the player is signed into Steam and owns the game.
+and <a href="/doc/api/ISteamNetworkingSockets#ConnectP2P">ISteamNetworkingSockets::ConnectP2P</a>.
+In this case, the connection begins on the client just like an ordinary P2P connection. Rendezvous
+messages are sent through Steam, so if the player or server loses their connection to Steam, the
+connection cannot be made. Also, Steam does not restrict who can attempt to connect, aside from
+verifying that the player is signed into Steam and owns the game.
 <h2 class="bb_section"><a name="6"></a>Ticket-Based Server Connection Flow</h2>
 If you do have your own game coordinator service, it is recommended to use a ticket-based connection
 flow. It's usually only a bit more work compared to a simple P2P-style connection flow, and it
 offers two important advantages:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         You only issue tickets to players who should be allowed to attempt to connect, so unwanted
         connection attempts do not even reach your server.<br />
@@ -216,45 +179,35 @@ offers two important advantages:<br />
 </ul>
 <br />
 A ticket-based connection to a dedicated server over SDR works like this:<br />
-<ul class="bb_ul">
+<ul>
     <li>
         When your game server logs into your game coordinator, it sends up its
-        <a
-            href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamDatagramHostedAddress"
-            class="bb_apilink"
+        <a href="/doc/api/steamnetworkingtypes#SteamDatagramHostedAddress"
             >SteamDatagramHostedAddress</a
         >, which is an opaque blob that contains physical routing information. (See
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetHostedDedicatedServerAddress"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#GetHostedDedicatedServerAddress"
             >ISteamNetworkingSockets::GetHostedDedicatedServerAddress</a
         >). Also, note that we have some tools you can use to assist with authenticated login to
         your game coordinator.<br />
     </li>
     <li>
         The server begins listening for relayed traffic using
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#CreateHostedDedicatedServerListenSocket"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#CreateHostedDedicatedServerListenSocket"
             >ISteamNetworkingSockets::CreateHostedDedicatedServerListenSocket</a
         >.<br />
     </li>
     <li>At some point, your client wants to enter matchmaking or connect to a server.<br /></li>
     <li>
         The client can use the methods in the
-        <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingUtils" class="bb_apilink"
-            >ISteamNetworkingUtils</a
-        >
-        interface to obtain ping times to data centers and check connectivity. You will probably
-        want the client to send this information to your game coordinator, so it can make good
-        decisions about how to assign players to data centers.<br />
+        <a href="/doc/api/ISteamNetworkingUtils">ISteamNetworkingUtils</a> interface to obtain ping
+        times to data centers and check connectivity. You will probably want the client to send this
+        information to your game coordinator, so it can make good decisions about how to assign
+        players to data centers.<br />
     </li>
     <li>
         When your game coordinator is ready to authorize a client to connect to a server, it
         generates a
-        <a
-            href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamDatagramRelayAuthTicket"
-            class="bb_apilink"
+        <a href="/doc/api/steamnetworkingtypes#SteamDatagramRelayAuthTicket"
             >SteamDatagramRelayAuthTicket</a
         >
         and signs it with your secret key. This ticket authorizes a specific client to talk to a
@@ -263,25 +216,19 @@ A ticket-based connection to a dedicated server over SDR works like this:<br />
     </li>
     <li>
         The client caches the ticket in a local cache. (See
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ReceivedRelayAuthTicket"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#ReceivedRelayAuthTicket"
             >ISteamNetworkingSockets::ReceivedRelayAuthTicket</a
         >
         for more information, including why the extra complication of the cache is useful.)<br />
     </li>
     <li>
         The client uses
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectToHostedDedicatedServer"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#ConnectToHostedDedicatedServer"
             >ISteamNetworkingSockets::ConnectToHostedDedicatedServer</a
         >
         to connect to the server. See
-        <a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
-            >ISteamNetworkingSockets</a
-        >
-        for further details about how to send and receive messages.
+        <a href="/doc/api/ISteamNetworkingSockets">ISteamNetworkingSockets</a> for further details
+        about how to send and receive messages.
     </li>
 </ul>
 <br />
@@ -290,16 +237,11 @@ system.
 <h2 class="bb_section"><a name="7"></a>Game Coordinator SDK</h2>
 "Game Coordinator" is the term we use to refer to your backend / matchmaking services. There is a
 separate, small SDK that you can link with your game coordinator which can be used to:<br />
-<ul class="bb_ul">
+<ul>
     <li>Issue tickets to give clients access to gameservers hosted behind SDR<br /></li>
     <li>
-        Parse
-        <a
-            href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#PingLocation_t"
-            class="bb_apilink"
-            >PingLocation_t</a
-        >
-        strings and calculate ping times between these objects<br />
+        Parse <a href="/doc/api/steamnetworkingtypes#PingLocation_t">PingLocation_t</a> strings and
+        calculate ping times between these objects<br />
     </li>
     <li>Issue identity certificates for players on other platforms and stores<br /></li>
     <li>Take advantage of certain other advanced features.</li>
@@ -315,7 +257,7 @@ The SDK is available
 <h2 class="bb_subsection"><a name="8"></a>Authentication using the Game Coordinator SDK</h2>
 SDR uses two authentication mechanisms:<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         <i>Hosted server tickets</i> are issued by your game coordinator and authorize a specific
         client to talk to a specific dedicated server for a period of time. Relay tickets are only
@@ -326,9 +268,7 @@ SDR uses two authentication mechanisms:<br />
         exchange to establish an encrypted channel. Certificates are an end-to-end concept, and can
         be used in all forms of SteamNetworkingSockets communication, including direct UDP
         connectivity or P2P. See SteamDatagram_CreateCert from the Game Coordinator SDK and
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetCertificateRequest"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#GetCertificateRequest"
             >ISteamNetworkingSockets::GetCertificateRequest</a
         >.
     </li>
@@ -355,7 +295,7 @@ to be revoked and replaced, it could lead to a disruption.
 Your clients on other platforms and stores will not sign into Steam, and so you will need to provide
 a few services for those players that Steam provides for Steam players.
 <h2 class="bb_subsection"><a name="10"></a>Game coordinator initialization</h2>
-<ul class="bb_ul">
+<ul>
     <li>
         Your matchmaking service (referred to as the "game coordinator") will need to link with the
         game coordinator SDK. The header file steamdatagram_gamecoordinator.h has more details. The
@@ -377,12 +317,10 @@ a few services for those players that Steam provides for Steam players.
     </li>
 </ul>
 <h2 class="bb_subsection"><a name="11"></a>Client signon</h2>
-<ul class="bb_ul">
+<ul>
     <li>
         The client will call
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetCertificateRequest"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#GetCertificateRequest"
             >ISteamNetworkingSockets::GetCertificateRequest</a
         >
         to get a blob and send it along with the signon request message to your game coordinator.<br />
@@ -394,9 +332,7 @@ a few services for those players that Steam provides for Steam players.
     <li>
         Send the generated certificate back to the client in the logon response. The client should
         install their certificate using
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#SetCertificate"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#SetCertificate"
             >ISteamNetworkingSockets::SetCertificate</a
         ><br />
     </li>
@@ -415,11 +351,7 @@ often, for example at the start of every match, that is OK.<br />
 Every client must have a unique identity. If possible, use the platform-specific identities. (For
 Steam clients, this is a requirement.) However, if this is not possible, you can use a "generic
 string" identity that is meaningful to your matchmaker. See
-<a
-    href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingIdentity"
-    class="bb_apilink"
-    >SteamNetworkingIdentity</a
->.
+<a href="/doc/api/steamnetworkingtypes#SteamNetworkingIdentity">SteamNetworkingIdentity</a>.
 <h2 class="bb_subsection"><a name="12"></a>Peer-to-peer games</h2>
 P2P connections require a "signaling" service. This is a low-bandwidth, non-latency-sensitive,
 best-effort-delivery channel capable of forwarding occasional rendezvous messages used to negotiate
@@ -429,12 +361,10 @@ your game coordinator using a request/response pattern, for example through http
 You only need to provide "best effort" delivery, meaning that the library is tolerant of messages
 dropping or being delivered multiple times.<br />
 <br />
-<ul class="bb_ul">
+<ul>
     <li>
         To initiate a connection, use
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ConnectP2PCustomSignaling"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#ConnectP2PCustomSignaling"
             >ISteamNetworkingSockets::ConnectP2PCustomSignaling</a
         >. You will need to implement a subclass of ISteamNetworkingConnectionSignaling, and when
         SendSignal is called, the client should send the message to your backend, and your backend
@@ -444,9 +374,7 @@ dropping or being delivered multiple times.<br />
     </li>
     <li>
         When a client receives a signal, call
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#ReceivedP2PCustomSignal"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#ReceivedP2PCustomSignal"
             >ISteamNetworkingSockets::ReceivedP2PCustomSignal</a
         >. The library will decode the message. If it is concerning an existing connection, the
         signal will be processed internally. If the signal is for a new connection,
@@ -461,14 +389,12 @@ centers.
 <h2 class="bb_subsection"><a name="14"></a>Environment variables</h2>
 The dedicated server gets its configuration from environment variables. Note that in Valve data
 centers, all of these values will be set automatically for you.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         <strong>SDR_LISTEN_PORT</strong>: The UDP port where your server will receive traffic from
         relays. The dedicated server only uses a single socket. (But you can have more than one
         logical "listen socket" by using "virtual ports". See
-        <a
-            href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#CreateHostedDedicatedServerListenSocket"
-            class="bb_apilink"
+        <a href="/doc/api/ISteamNetworkingSockets#CreateHostedDedicatedServerListenSocket"
             >ISteamNetworkingSockets::CreateHostedDedicatedServerListenSocket</a
         >.) In our data centers, we typically use the 30xxx range.<br />
     </li>
@@ -477,9 +403,7 @@ centers, all of these values will be set automatically for you.<br />
         traffic from relays. If the server only has one interface with a public IP, then this will
         be used. Otherwise, you will need to tell the gameserver what IP to use. The SDR socket will
         be bound to INADDR_ANY, but this information is needed to fill out the server's
-        <a
-            href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamDatagramHostedAddress"
-            class="bb_apilink"
+        <a href="/doc/api/steamnetworkingtypes#SteamDatagramHostedAddress"
             >SteamDatagramHostedAddress</a
         >. Note in particular that this will usually need to be set in dev environments, where your
         server is behind a corporate firewall. (See below.) You can also specify a port, if the
@@ -487,8 +411,7 @@ centers, all of these values will be set automatically for you.<br />
     </li>
     <li>
         <strong>SDR_POPID</strong>: The 3- or 4-letter alphanumeric code (<a
-            href="https://partner.steamgames.com/doc/api/steamnetworkingtypes#SteamNetworkingPOPID"
-            class="bb_apilink"
+            href="/doc/api/steamnetworkingtypes#SteamNetworkingPOPID"
             >SteamNetworkingPOPID</a
         >) of the data center, in production. In development environment, leave this blank.<br />
     </li>
@@ -510,18 +433,13 @@ centers, all of these values will be set automatically for you.<br />
     </li>
 </ul>
 <h2 class="bb_subsection"><a name="15"></a>Running in a dev environment</h2>
-Because
-<a href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets" class="bb_apilink"
-    >ISteamNetworkingSockets</a
->
-supports plain UDP connectivity, it's usually best to start by getting your code working through
-this interface over UDP, without worrying about relays.<br />
+Because <a href="/doc/api/ISteamNetworkingSockets">ISteamNetworkingSockets</a> supports plain UDP
+connectivity, it's usually best to start by getting your code working through this interface over
+UDP, without worrying about relays.<br />
 <br />
 We suggest that your server code use the presence of the SDR_LISTEN_PORT environment variable to
 decide whether your server should listen for SDR. You can use
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamNetworkingSockets#GetHostedDedicatedServerPort"
-    class="bb_apilink"
+<a href="/doc/api/ISteamNetworkingSockets#GetHostedDedicatedServerPort"
     >ISteamNetworkingSockets::GetHostedDedicatedServerPort</a
 >
 to fetch the value.<br />

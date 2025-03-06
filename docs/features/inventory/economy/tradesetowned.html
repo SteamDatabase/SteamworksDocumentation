@@ -14,14 +14,9 @@ example, if somebody puts a large stack of items on the market in a single listi
 smaller purchases may come in.<br />
 <br />
 The asset server will receive one
-<a
-    href="https://partner.steamgames.com/doc/features/inventory/economy/TradeSetUnowned"
-    class="bb_doclink"
-    >TradeSetUnowned</a
->
-call when the listing is created, and then one
-<code class="bb_code bb_code_inline nohighlight">TradeSetOwned</code> call for each purchase. When
-someone makes the first purchase for the listing on the market, the
+<a href="/doc/features/inventory/economy/TradeSetUnowned">TradeSetUnowned</a> call when the listing
+is created, and then one <code class="bb_code bb_code_inline nohighlight">TradeSetOwned</code> call
+for each purchase. When someone makes the first purchase for the listing on the market, the
 <code class="bb_code bb_code_inline nohighlight">audit_reference</code> value in the
 <code class="bb_code bb_code_inline nohighlight">TradeSetOwned</code> call will match the
 <code class="bb_code bb_code_inline nohighlight">audit_reference</code> value from the
@@ -42,140 +37,142 @@ created.<br />
 <strong>HTTP Method:</strong> POST
 <h2 class="bb_section"><a name="1"></a>Parameters:</h2>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>
-            This is the "Asset Server Key" that you provided in your app's Steam Economy Settings on
-            the partner site.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>32bit App ID of the application associated with the assets.</td>
-    </tr>
-    <tr>
-        <td><strong>owner</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The 64-bit Steam ID of the new owner of the asset or currency.</td>
-    </tr>
-    <tr>
-        <td><strong>contextid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The 64-bit ID of the context in which this asset or currency can be found.</td>
-    </tr>
-    <tr>
-        <td><strong>assetid</strong></td>
-        <td>uint64</td>
-        <td></td>
-        <td>
-            The 64-bit asset ID being transferred. Either assetid or currencyid will be set to
-            indicate which kind of object should be set to owned.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>currencyid</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            The 32-bit currency ID being removed. Either assetid or currencyid will be set to
-            indicate which kind of object should be set to owned.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>amount</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            The number of the asset or currency to transfer. This number will always be 1 for
-            non-stackable assets.<br />
-            It will always be less or equal to the amount that the Steam Economy server believes is
-            present for this asset/currency in this context. Defaults to 1.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>trade_start_time</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            The time the trade session responsible for this action started, expressed in seconds
-            from Jan. 1, 1970.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>audit_action</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            A 32-bit number that specifies what kind of action is causing this asset or currency to
-            be set owned.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>audit_reference</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            A 64-bit number that identifies which event action is associated with. The asset server
-            may wish to record this number for auditing and debugging purposes.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>leave_original</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            If this boolean parameter is set to 1 (to indicate true), then the asset server is being
-            asked to duplicate the item and create a new owned item that is a copy of the asset
-            specified. This will only be true for one-sided undos of a trade by a support agent.
-            Defaults to 0 (false).
-        </td>
-    </tr>
-    <tr>
-        <td><strong>request_repeated</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            If this is set to 1 (to indicate true), then the Steam Economy server is indicating that
-            it has made an identical request to this one at some point in the past but did not
-            receive a clear success or failure. If it appears that the asset or currency has already
-            been set to owned for the same audit_action and audit_reference, the asset server should
-            return success and set new_assetid and new_contextid to whatever was returned on the
-            first request.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>is_market</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>
-            If this is set to 1 (to indicate true), then the request is being performed in response
-            to some activity on the Steam Community Market. When audit_action is 101 (Trade Commit),
-            this indicates the user has purchased this item. When audit_action is 102, this
-            indicates the user is canceling their market listing or the item is being returned to
-            the user because of an error creating the listing.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                This is the "Asset Server Key" that you provided in your app's Steam Economy
+                Settings on the partner site.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>32bit App ID of the application associated with the assets.</td>
+        </tr>
+        <tr>
+            <td><strong>owner</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The 64-bit Steam ID of the new owner of the asset or currency.</td>
+        </tr>
+        <tr>
+            <td><strong>contextid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The 64-bit ID of the context in which this asset or currency can be found.</td>
+        </tr>
+        <tr>
+            <td><strong>assetid</strong></td>
+            <td>uint64</td>
+            <td></td>
+            <td>
+                The 64-bit asset ID being transferred. Either assetid or currencyid will be set to
+                indicate which kind of object should be set to owned.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>currencyid</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                The 32-bit currency ID being removed. Either assetid or currencyid will be set to
+                indicate which kind of object should be set to owned.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>amount</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                The number of the asset or currency to transfer. This number will always be 1 for
+                non-stackable assets.<br />
+                It will always be less or equal to the amount that the Steam Economy server believes
+                is present for this asset/currency in this context. Defaults to 1.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>trade_start_time</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The time the trade session responsible for this action started, expressed in seconds
+                from Jan. 1, 1970.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>audit_action</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                A 32-bit number that specifies what kind of action is causing this asset or currency
+                to be set owned.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>audit_reference</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                A 64-bit number that identifies which event action is associated with. The asset
+                server may wish to record this number for auditing and debugging purposes.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>leave_original</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                If this boolean parameter is set to 1 (to indicate true), then the asset server is
+                being asked to duplicate the item and create a new owned item that is a copy of the
+                asset specified. This will only be true for one-sided undos of a trade by a support
+                agent. Defaults to 0 (false).
+            </td>
+        </tr>
+        <tr>
+            <td><strong>request_repeated</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                If this is set to 1 (to indicate true), then the Steam Economy server is indicating
+                that it has made an identical request to this one at some point in the past but did
+                not receive a clear success or failure. If it appears that the asset or currency has
+                already been set to owned for the same audit_action and audit_reference, the asset
+                server should return success and set new_assetid and new_contextid to whatever was
+                returned on the first request.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>is_market</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>
+                If this is set to 1 (to indicate true), then the request is being performed in
+                response to some activity on the Steam Community Market. When audit_action is 101
+                (Trade Commit), this indicates the user has purchased this item. When audit_action
+                is 102, this indicates the user is canceling their market listing or the item is
+                being returned to the user because of an error creating the listing.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <h2 class="bb_section"><a name="2"></a>Returns</h2>
 The output from this method should be encoded in the JSON format.<br />
 <br />
 <strong>Response:</strong><br />
-<ul class="bb_ul">
+<ul>
     <li>
         <code class="bb_code bb_code_inline nohighlight">result</code><br />
-        <ul class="bb_ul">
+        <ul>
             <li>
                 <code class="bb_code bb_code_inline nohighlight">success</code> - True if the method
                 was successful. If the asset server is returning false, it should set
@@ -218,7 +215,7 @@ The output from this method should be encoded in the JSON format.<br />
 This is the current list of audit actions that could be passed with this method. New audit types
 could be added to this list at any time, so asset servers should be ready to deal with any unsigned
 32-bit number as an audit action.<br />
-<ul class="bb_ul">
+<ul>
     <li>
         101 - Trade Commit - The request is part of committing a trade. audit_reference is a trade
         ID.<br />

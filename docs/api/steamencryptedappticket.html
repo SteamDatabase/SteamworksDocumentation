@@ -1,11 +1,8 @@
 <h1>SteamEncryptedAppTicket</h1>
 Utilities to decode/decrypt encrypted application tickets.<br />
 <br />
-See
-<a href="https://partner.steamgames.com/doc/features/auth#encryptedapptickets" class="bb_doclink"
-    >Encrypted Application Tickets</a
->
-for more information.<br />
+See <a href="/doc/features/auth#encryptedapptickets">Encrypted Application Tickets</a> for more
+information.<br />
 <br />
 To use these functions you must include the
 <code class="bb_code bb_code_inline nohighlight">steamencryptedappticket.h</code> header, and link
@@ -27,66 +24,66 @@ These are global functions which do not require an interface to use.
     rgubKey[k_nSteamEncryptedAppTicketSymmetricKeyLen], int cubKey );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>rgubTicketEncrypted</strong></td>
-        <td>const uint8 *</td>
-        <td>The encrypted user authentication ticket that will be decrypted.</td>
-    </tr>
-    <tr>
-        <td><strong>cubTicketEncrypted</strong></td>
-        <td>uint32</td>
-        <td>
-            The size of
-            <code class="bb_code bb_code_inline nohighlight">rgubTicketEncrypted</code> in bytes.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>rgubTicketDecrypted</strong></td>
-        <td>uint8 *</td>
-        <td>The buffer where the decrypted ticket will get copied into.</td>
-    </tr>
-    <tr>
-        <td><strong>pcubTicketDecrypted</strong></td>
-        <td>uint32 *</td>
-        <td>
-            The size of
-            <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in bytes.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>rgubKey</strong></td>
-        <td>
-            const
-            uint8[[apitype]SteamEncryptedAppTicket::k_nSteamEncryptedAppTicketSymmetricKeyLen[/apitype]]
-        </td>
-        <td>
-            The key used to encrypt/decrypt the ticket. This can not be longer than
-            <a
-                href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#k_nSteamEncryptedAppTicketSymmetricKeyLen"
-                class="bb_apilink"
-                >k_nSteamEncryptedAppTicketSymmetricKeyLen</a
-            >.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>cubKey</strong></td>
-        <td>int</td>
-        <td>The length of <code class="bb_code bb_code_inline nohighlight">rgubKey</code>.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>rgubTicketEncrypted</strong></td>
+            <td>const uint8 *</td>
+            <td>The encrypted user authentication ticket that will be decrypted.</td>
+        </tr>
+        <tr>
+            <td><strong>cubTicketEncrypted</strong></td>
+            <td>uint32</td>
+            <td>
+                The size of
+                <code class="bb_code bb_code_inline nohighlight">rgubTicketEncrypted</code> in
+                bytes.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>rgubTicketDecrypted</strong></td>
+            <td>uint8 *</td>
+            <td>The buffer where the decrypted ticket will get copied into.</td>
+        </tr>
+        <tr>
+            <td><strong>pcubTicketDecrypted</strong></td>
+            <td>uint32 *</td>
+            <td>
+                The size of
+                <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in
+                bytes.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>rgubKey</strong></td>
+            <td>
+                const
+                uint8[[apitype]SteamEncryptedAppTicket::k_nSteamEncryptedAppTicketSymmetricKeyLen[/apitype]]
+            </td>
+            <td>
+                The key used to encrypt/decrypt the ticket. This can not be longer than
+                <a href="/doc/api/SteamEncryptedAppTicket#k_nSteamEncryptedAppTicketSymmetricKeyLen"
+                    >k_nSteamEncryptedAppTicketSymmetricKeyLen</a
+                >.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>cubKey</strong></td>
+            <td>int</td>
+            <td>The length of <code class="bb_code bb_code_inline nohighlight">rgubKey</code>.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Decrypts an encrypted application ticket.<br />
 <br />
 The encryption key can be obtained from the
-<a href="https://partner.steamgames.com/apps/sdkauth/" target="_blank" rel="noreferrer"
-    >Encrypted App Ticket Key</a
->
-page on the App Admin for your app.<br />
+<a href="/apps/sdkauth/" target="_blank" rel="noreferrer">Encrypted App Ticket Key</a> page on the
+App Admin for your app.<br />
 <br />
 If this call succeeded then you can use the other SteamEncryptedAppTicket functions to get more info
 about the decrypted ticket.<br />
@@ -94,7 +91,7 @@ about the decrypted ticket.<br />
 <strong>Returns:</strong> bool<br />
 <strong>true</strong> if the ticket has been decrypted successfully.<br />
 <strong>false</strong> under the following conditions:<br />
-<ul class="bb_ul">
+<ul>
     <li><code class="bb_code bb_code_inline nohighlight">cubKey</code> was 0.<br /></li>
     <li>
         The size of the output buffer
@@ -110,10 +107,7 @@ about the decrypted ticket.<br />
 </ul>
 <br />
 <strong>See Also:</strong>
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUser#RequestEncryptedAppTicket"
-    class="bb_apilink"
-    >ISteamUser::RequestEncryptedAppTicket</a
+<a href="/doc/api/ISteamUser#RequestEncryptedAppTicket">ISteamUser::RequestEncryptedAppTicket</a
 ><br />
 <br />
 <strong>Example:</strong><br />
@@ -140,29 +134,32 @@ about the decrypted ticket.<br />
     cubTicketDecrypted, AppId_t nAppID );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>rgubTicketDecrypted</strong></td>
-        <td>uint8 *</td>
-        <td>The decrypted ticket to check.</td>
-    </tr>
-    <tr>
-        <td><strong>pcubTicketDecrypted</strong></td>
-        <td>uint32 *</td>
-        <td>
-            The size of
-            <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in bytes.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>nAppID</strong></td>
-        <td>AppId_t</td>
-        <td>The App ID to compare against.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>rgubTicketDecrypted</strong></td>
+            <td>uint8 *</td>
+            <td>The decrypted ticket to check.</td>
+        </tr>
+        <tr>
+            <td><strong>pcubTicketDecrypted</strong></td>
+            <td>uint32 *</td>
+            <td>
+                The size of
+                <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in
+                bytes.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nAppID</strong></td>
+            <td>AppId_t</td>
+            <td>The App ID to compare against.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Verifies that a decrypted app ticket is for the expected application.<br />
@@ -178,33 +175,33 @@ Verifies that a decrypted app ticket is for the expected application.<br />
     cubTicketDecrypted );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>rgubTicketDecrypted</strong></td>
-        <td>uint8 *</td>
-        <td>The decrypted ticket to check.</td>
-    </tr>
-    <tr>
-        <td><strong>pcubTicketDecrypted</strong></td>
-        <td>uint32 *</td>
-        <td>
-            The size of
-            <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in bytes.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>rgubTicketDecrypted</strong></td>
+            <td>uint8 *</td>
+            <td>The decrypted ticket to check.</td>
+        </tr>
+        <tr>
+            <td><strong>pcubTicketDecrypted</strong></td>
+            <td>uint32 *</td>
+            <td>
+                The size of
+                <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in
+                bytes.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Checks if the user associated with the ticket is
-<a href="https://partner.steamgames.com/doc/features/anticheat#VAC" class="bb_doclink">VAC</a>
-banned.<br />
+<a href="/doc/features/anticheat#VAC">VAC</a> banned.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#AppId_t" class="bb_apilink">AppId_t</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#AppId_t">AppId_t</a><br />
 <strong>true</strong> if the user is VAC banned; otherwise, <strong>false</strong> if the user is
 not VAC banned, the ticket is not valid, or if the ticket doesn't have this information.
 <h2 class="bb_subsection">
@@ -215,29 +212,32 @@ not VAC banned, the ticket is not valid, or if the ticket doesn't have this info
     cubTicketDecrypted, AppId_t nAppID );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>rgubTicketDecrypted</strong></td>
-        <td>uint8 *</td>
-        <td>The decrypted ticket to check.</td>
-    </tr>
-    <tr>
-        <td><strong>pcubTicketDecrypted</strong></td>
-        <td>uint32 *</td>
-        <td>
-            The size of
-            <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in bytes.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>nAppID</strong></td>
-        <td>AppId_t</td>
-        <td>The App ID to check if the user owns it.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>rgubTicketDecrypted</strong></td>
+            <td>uint8 *</td>
+            <td>The decrypted ticket to check.</td>
+        </tr>
+        <tr>
+            <td><strong>pcubTicketDecrypted</strong></td>
+            <td>uint32 *</td>
+            <td>
+                The size of
+                <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in
+                bytes.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nAppID</strong></td>
+            <td>AppId_t</td>
+            <td>The App ID to check if the user owns it.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Check that the ticket proves the user owns the given App ID.<br />
@@ -254,31 +254,32 @@ App ID.<br />
     cubTicketDecrypted );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>rgubTicketDecrypted</strong></td>
-        <td>uint8 *</td>
-        <td>The decrypted ticket to check.</td>
-    </tr>
-    <tr>
-        <td><strong>pcubTicketDecrypted</strong></td>
-        <td>uint32 *</td>
-        <td>
-            The size of
-            <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in bytes.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>rgubTicketDecrypted</strong></td>
+            <td>uint8 *</td>
+            <td>The decrypted ticket to check.</td>
+        </tr>
+        <tr>
+            <td><strong>pcubTicketDecrypted</strong></td>
+            <td>uint32 *</td>
+            <td>
+                The size of
+                <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in
+                bytes.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the App ID associated with a ticket.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#AppId_t" class="bb_apilink">AppId_t</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#AppId_t">AppId_t</a><br />
 Returns the App ID linked to the ticket. Returns 0 if the ticket is not valid.
 <h2 class="bb_subsection">
     <a name="GetTicketIssueTime"></a>SteamEncryptedAppTicket_GetTicketIssueTime
@@ -288,31 +289,32 @@ Returns the App ID linked to the ticket. Returns 0 if the ticket is not valid.
     cubTicketDecrypted );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>rgubTicketDecrypted</strong></td>
-        <td>uint8 *</td>
-        <td>The decrypted ticket to check.</td>
-    </tr>
-    <tr>
-        <td><strong>pcubTicketDecrypted</strong></td>
-        <td>uint32 *</td>
-        <td>
-            The size of
-            <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in bytes.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>rgubTicketDecrypted</strong></td>
+            <td>uint8 *</td>
+            <td>The decrypted ticket to check.</td>
+        </tr>
+        <tr>
+            <td><strong>pcubTicketDecrypted</strong></td>
+            <td>uint32 *</td>
+            <td>
+                The size of
+                <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code> in
+                bytes.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the time that a ticket was issued.<br />
 <br />
-<strong>Returns:</strong>
-<a href="https://partner.steamgames.com/doc/api/steam_api#RTime32" class="bb_apilink">RTime32</a
-><br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#RTime32">RTime32</a><br />
 Returns the time as Unix epoch time (time since Jan 1st, 1970). Returns 0 if the ticket is not
 valid.
 <h2 class="bb_subsection">
@@ -323,37 +325,34 @@ valid.
     cubTicketDecrypted, CSteamID *psteamID );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>rgubTicketDecrypted</strong></td>
-        <td>uint8 *</td>
-        <td>The decrypted ticket to check.</td>
-    </tr>
-    <tr>
-        <td><strong>pcubTicketDecrypted</strong></td>
-        <td>uint32 *</td>
-        <td>
-            The size in bytes of the
-            <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>psteamID</strong></td>
-        <td>CSteamID *</td>
-        <td>
-            Returns the Steam ID associated with the ticket. Returns
-            <a
-                href="https://partner.steamgames.com/doc/api/steam_api#k_steamIDNil"
-                class="bb_apilink"
-                >k_steamIDNil</a
-            >
-            if the ticket is invalid.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>rgubTicketDecrypted</strong></td>
+            <td>uint8 *</td>
+            <td>The decrypted ticket to check.</td>
+        </tr>
+        <tr>
+            <td><strong>pcubTicketDecrypted</strong></td>
+            <td>uint32 *</td>
+            <td>
+                The size in bytes of the
+                <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>psteamID</strong></td>
+            <td>CSteamID *</td>
+            <td>
+                Returns the Steam ID associated with the ticket. Returns
+                <a href="/doc/api/steam_api#k_steamIDNil">k_steamIDNil</a> if the ticket is invalid.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the Steam ID associated with a ticket.
@@ -365,29 +364,31 @@ Gets the Steam ID associated with a ticket.
     uint32 cubTicketDecrypted, uint32 *pcubUserData );
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>rgubTicketDecrypted</strong></td>
-        <td>uint8 *</td>
-        <td>The decrypted ticket to check.</td>
-    </tr>
-    <tr>
-        <td><strong>pcubTicketDecrypted</strong></td>
-        <td>uint32 *</td>
-        <td>
-            The size in bytes of the
-            <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code>.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>pcubUserData</strong></td>
-        <td>uint32 *</td>
-        <td>Returns the size of the user data.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>rgubTicketDecrypted</strong></td>
+            <td>uint8 *</td>
+            <td>The decrypted ticket to check.</td>
+        </tr>
+        <tr>
+            <td><strong>pcubTicketDecrypted</strong></td>
+            <td>uint32 *</td>
+            <td>
+                The size in bytes of the
+                <code class="bb_code bb_code_inline nohighlight">rgubTicketDecrypted</code>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pcubUserData</strong></td>
+            <td>uint32 *</td>
+            <td>Returns the size of the user data.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Gets the variable length user data supplied when creating the ticket.<br />
@@ -399,23 +400,23 @@ Returns a pointer to the user data. Returns the size of this data via
 These are constants which are defined for use with SteamEncryptedAppTicket.<br />
 <br />
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Value</th>
-        <th>Description</th>
-    </tr>
-    <tr id="k_nSteamEncryptedAppTicketSymmetricKeyLen">
-        <td><strong>k_nSteamEncryptedAppTicketSymmetricKeyLen</strong></td>
-        <td>int</td>
-        <td>32</td>
-        <td>
-            The length of a key used with
-            <a
-                href="https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BDecryptTicket"
-                class="bb_apilink"
-                >SteamEncryptedAppTicket::BDecryptTicket</a
-            >.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_nSteamEncryptedAppTicketSymmetricKeyLen">
+            <td><strong>k_nSteamEncryptedAppTicketSymmetricKeyLen</strong></td>
+            <td>int</td>
+            <td>32</td>
+            <td>
+                The length of a key used with
+                <a href="/doc/api/SteamEncryptedAppTicket#BDecryptTicket"
+                    >SteamEncryptedAppTicket::BDecryptTicket</a
+                >.
+            </td>
+        </tr>
+    </tbody>
 </table>

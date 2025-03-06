@@ -1,12 +1,9 @@
 <h1>ICheatReportingService Interface</h1>
 This service allows your game to report cheats and cheaters to the
-<a href="https://partner.steamgames.com/doc/features/anticheat#VAC" class="bb_doclink">VAC</a>
-system and provides the toolset behind the
-<a href="https://partner.steamgames.com/doc/features/anticheat#GameBans" class="bb_doclink"
-    >Game Bans</a
->
-system. It enables two independent workflows for detecting and managing cheating in your game:<br />
-<ul class="bb_ul">
+<a href="/doc/features/anticheat#VAC">VAC</a> system and provides the toolset behind the
+<a href="/doc/features/anticheat#GameBans">Game Bans</a> system. It enables two independent
+workflows for detecting and managing cheating in your game:<br />
+<ul>
     <li>
         Gather community reports of cheating and request bans/suspensions based upon this
         information.<br />
@@ -18,114 +15,122 @@ system. It enables two independent workflows for detecting and managing cheating
 </ul>
 <br />
 To use this interface you must first opt in to VAC support. This can be done from the
-<a href="https://partner.steamgames.com/apps/vac/" target="_blank" rel="noreferrer"
-    >Anti-Cheat Configuration</a
->
-page in the App Admin panel.<br />
+<a href="/apps/vac/" target="_blank" rel="noreferrer">Anti-Cheat Configuration</a> page in the App
+Admin panel.<br />
 <br />
 <strong>NOTE:</strong> This is a Service interface, methods in this interface should be called with
 the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br />
 <br />
 For more info on how to use the Steamworks Web API please see the
-<a href="https://partner.steamgames.com/doc/webapi_overview" class="bb_doclink">Web API Overview</a
->.
+<a href="/doc/webapi_overview">Web API Overview</a>.
 <h2 class="bb_section"><a name="ReportPlayerCheating"></a>ReportPlayerCheating</h2>
 <div class="bb_code http">
     POST https://partner.steam-api.com/ICheatReportingService/ReportPlayerCheating/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The Steam ID of the user who is being reported for cheating.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID for the game.</td>
-    </tr>
-    <tr>
-        <td><strong>steamidreporter</strong></td>
-        <td>uint64</td>
-        <td></td>
-        <td>(Optional) The Steam ID of the user or game server who is reporting the cheating.</td>
-    </tr>
-    <tr>
-        <td><strong>appdata</strong></td>
-        <td>uint64</td>
-        <td></td>
-        <td>
-            (Optional) App specific data about the type of cheating set by developer. (ex 1 =
-            Aimbot, 2 = Wallhack, 3 = Griefing)
-        </td>
-    </tr>
-    <tr>
-        <td><strong>heuristic</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>(Optional) Extra information about the source of the cheating - was it a heuristic.</td>
-    </tr>
-    <tr>
-        <td><strong>detection</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>(Optional) Extra information about the source of the cheating - was it a detection.</td>
-    </tr>
-    <tr>
-        <td><strong>playerreport</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>
-            (Optional) Extra information about the source of the cheating - was it a player report.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>noreportid</strong></td>
-        <td>bool</td>
-        <td></td>
-        <td>
-            (Optional) Don't return reportid. This should only be passed if you don't intend to
-            issue a ban based on this report.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>gamemode</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            (Optional) Extra information about state of game - was it a specific type of game play
-            or game mode. (0 = generic)
-        </td>
-    </tr>
-    <tr>
-        <td><strong>suspicionstarttime</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>
-            (Optional) Extra information indicating how far back the game thinks is interesting for
-            this user. Unix epoch time (time since Jan 1st, 1970).
-        </td>
-    </tr>
-    <tr>
-        <td><strong>severity</strong></td>
-        <td>uint32</td>
-        <td></td>
-        <td>(Optional) Level of severity of bad action being reported. Scale set by developer.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The Steam ID of the user who is being reported for cheating.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID for the game.</td>
+        </tr>
+        <tr>
+            <td><strong>steamidreporter</strong></td>
+            <td>uint64</td>
+            <td></td>
+            <td>
+                (Optional) The Steam ID of the user or game server who is reporting the cheating.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>appdata</strong></td>
+            <td>uint64</td>
+            <td></td>
+            <td>
+                (Optional) App specific data about the type of cheating set by developer. (ex 1 =
+                Aimbot, 2 = Wallhack, 3 = Griefing)
+            </td>
+        </tr>
+        <tr>
+            <td><strong>heuristic</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>
+                (Optional) Extra information about the source of the cheating - was it a heuristic.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>detection</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>
+                (Optional) Extra information about the source of the cheating - was it a detection.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>playerreport</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>
+                (Optional) Extra information about the source of the cheating - was it a player
+                report.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>noreportid</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>
+                (Optional) Don't return reportid. This should only be passed if you don't intend to
+                issue a ban based on this report.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>gamemode</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                (Optional) Extra information about state of game - was it a specific type of game
+                play or game mode. (0 = generic)
+            </td>
+        </tr>
+        <tr>
+            <td><strong>suspicionstarttime</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                (Optional) Extra information indicating how far back the game thinks is interesting
+                for this user. Unix epoch time (time since Jan 1st, 1970).
+            </td>
+        </tr>
+        <tr>
+            <td><strong>severity</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>
+                (Optional) Level of severity of bad action being reported. Scale set by developer.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 ReportPlayerCheating is designed to gather community reports of cheating, where one player reports
@@ -143,71 +148,71 @@ or additional evidence ( an identifier pointing to the match/demo for further re
     POST https://partner.steam-api.com/ICheatReportingService/RequestPlayerGameBan/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Steam ID of the user who is reported as cheating.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The appid of the game.</td>
-    </tr>
-    <tr>
-        <td><strong>reportid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The reportid originally used to report cheating.</td>
-    </tr>
-    <tr>
-        <td><strong>cheatdescription</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Text describing cheating infraction.</td>
-    </tr>
-    <tr>
-        <td><strong>duration</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            Ban duration requested in seconds. (duration 0 will issue infinite - less than a year is
-            a suspension and not visible on profile)
-        </td>
-    </tr>
-    <tr>
-        <td><strong>delayban</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>Delay the ban according to default ban delay rules.</td>
-    </tr>
-    <tr>
-        <td><strong>flags</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Additional information about the ban request. (Unused)</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Steam ID of the user who is reported as cheating.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The appid of the game.</td>
+        </tr>
+        <tr>
+            <td><strong>reportid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The reportid originally used to report cheating.</td>
+        </tr>
+        <tr>
+            <td><strong>cheatdescription</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Text describing cheating infraction.</td>
+        </tr>
+        <tr>
+            <td><strong>duration</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                Ban duration requested in seconds. (duration 0 will issue infinite - less than a
+                year is a suspension and not visible on profile)
+            </td>
+        </tr>
+        <tr>
+            <td><strong>delayban</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>Delay the ban according to default ban delay rules.</td>
+        </tr>
+        <tr>
+            <td><strong>flags</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Additional information about the ban request. (Unused)</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Requests a game ban on a specific player.<br />
 <br />
 This is designed to be used after the incidents from
-<a
-    href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#ReportPlayerCheating"
-    class="bb_apilink"
+<a href="/doc/webapi/ICheatReportingService#ReportPlayerCheating"
     >ICheatReportingService/ReportPlayerCheating</a
 >
 have been reviewed and cheating has been confirmed.<br />
@@ -219,30 +224,32 @@ have been reviewed and cheating has been confirmed.<br />
     POST https://partner.steam-api.com/ICheatReportingService/RemovePlayerGameBan/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The Steam ID of the user to remove the game ban on.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID of the game.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The Steam ID of the user to remove the game ban on.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID of the game.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Remove a game ban on a player.<br />
@@ -256,63 +263,67 @@ This is used if a Game ban is determined to be a false positive.<br />
     GET https://partner.steam-api.com/ICheatReportingService/GetCheatingReports/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID for the game.</td>
-    </tr>
-    <tr>
-        <td><strong>timeend</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The end of the time range. Formatted as Unix epoch time (time since Jan 1st, 1970).</td>
-    </tr>
-    <tr>
-        <td><strong>timebegin</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>
-            The beginning of the time range. Formatted as Unix epoch time (time since Jan 1st,
-            1970).
-        </td>
-    </tr>
-    <tr>
-        <td><strong>reportidmin</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Minimum reportID to include. (can pass 0 - end of previous report range)</td>
-    </tr>
-    <tr>
-        <td><strong>includereports</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>(Optional) Include reports. If false includebans must be true.</td>
-    </tr>
-    <tr>
-        <td><strong>includebans</strong></td>
-        <td>bool</td>
-        <td>✔</td>
-        <td>(Optional) Include ban requests? If false includereports must be true.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>(Optional) Query just for this Steam ID.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID for the game.</td>
+        </tr>
+        <tr>
+            <td><strong>timeend</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The end of the time range. Formatted as Unix epoch time (time since Jan 1st, 1970).
+            </td>
+        </tr>
+        <tr>
+            <td><strong>timebegin</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>
+                The beginning of the time range. Formatted as Unix epoch time (time since Jan 1st,
+                1970).
+            </td>
+        </tr>
+        <tr>
+            <td><strong>reportidmin</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Minimum reportID to include. (can pass 0 - end of previous report range)</td>
+        </tr>
+        <tr>
+            <td><strong>includereports</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>(Optional) Include reports. If false includebans must be true.</td>
+        </tr>
+        <tr>
+            <td><strong>includebans</strong></td>
+            <td>bool</td>
+            <td>✔</td>
+            <td>(Optional) Include ban requests? If false includereports must be true.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>(Optional) Query just for this Steam ID.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Get a list of cheating reports submitted for this app.<br />
@@ -326,96 +337,98 @@ Used to gather the cheating reports so that they may be reviewed and a determina
     POST https://api.steampowered.com/ICheatReportingService/ReportCheatData/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API user authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Steam ID of the user running and reporting the cheat.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID of the game.</td>
-    </tr>
-    <tr>
-        <td><strong>pathandfilename</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Path and file name of the cheat executable.</td>
-    </tr>
-    <tr>
-        <td><strong>webcheaturl</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Web url where the cheat was found and downloaded.</td>
-    </tr>
-    <tr>
-        <td><strong>time_now</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Local system time now. 64 bit windows system time.</td>
-    </tr>
-    <tr>
-        <td><strong>time_started</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            Local system time when cheat process started. ( 0 if not yet run ) 64 bit windows system
-            time.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>time_stopped</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            Local system time when cheat process stopped. ( 0 if still running ) 64 bit windows
-            system time.
-        </td>
-    </tr>
-    <tr>
-        <td><strong>cheatname</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Descriptive name for the cheat.</td>
-    </tr>
-    <tr>
-        <td><strong>game_process_id</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Process ID of the running game.</td>
-    </tr>
-    <tr>
-        <td><strong>cheat_process_id</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>Process ID of the cheat process that ran.</td>
-    </tr>
-    <tr>
-        <td><strong>cheat_param_1</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Extra cheat data.</td>
-    </tr>
-    <tr>
-        <td><strong>cheat_param_2</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>Extra cheat data.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API user authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Steam ID of the user running and reporting the cheat.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID of the game.</td>
+        </tr>
+        <tr>
+            <td><strong>pathandfilename</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Path and file name of the cheat executable.</td>
+        </tr>
+        <tr>
+            <td><strong>webcheaturl</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Web url where the cheat was found and downloaded.</td>
+        </tr>
+        <tr>
+            <td><strong>time_now</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Local system time now. 64 bit windows system time.</td>
+        </tr>
+        <tr>
+            <td><strong>time_started</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                Local system time when cheat process started. ( 0 if not yet run ) 64 bit windows
+                system time.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>time_stopped</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                Local system time when cheat process stopped. ( 0 if still running ) 64 bit windows
+                system time.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>cheatname</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Descriptive name for the cheat.</td>
+        </tr>
+        <tr>
+            <td><strong>game_process_id</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Process ID of the running game.</td>
+        </tr>
+        <tr>
+            <td><strong>cheat_process_id</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>Process ID of the cheat process that ran.</td>
+        </tr>
+        <tr>
+            <td><strong>cheat_param_1</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Extra cheat data.</td>
+        </tr>
+        <tr>
+            <td><strong>cheat_param_2</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>Extra cheat data.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Reports cheat data. Only use on test account that is running the game but not in a multiplayer
@@ -493,43 +506,43 @@ If the call does not report success, then the report has been ignored.<br />
     POST https://partner.steam-api.com/ICheatReportingService/RequestVacStatusForUser/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>The Steam ID of the user.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID of the game the user is playing.</td>
-    </tr>
-    <tr>
-        <td><strong>session_id</strong></td>
-        <td>uint64</td>
-        <td></td>
-        <td>
-            The Session ID that was obtained from the call to
-            <a
-                href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#StartSecureMultiplayerSession"
-                class="bb_apilink"
-                >ICheatReportingService/StartSecureMultiplayerSession</a
-            >.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>The Steam ID of the user.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID of the game the user is playing.</td>
+        </tr>
+        <tr>
+            <td><strong>session_id</strong></td>
+            <td>uint64</td>
+            <td></td>
+            <td>
+                The Session ID that was obtained from the call to
+                <a href="/doc/webapi/ICheatReportingService#StartSecureMultiplayerSession"
+                    >ICheatReportingService/StartSecureMultiplayerSession</a
+                >.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Checks a user's VAC ban status and verifies a user's VAC session status. If verification fails, then
@@ -555,10 +568,7 @@ follow later.<br />
     <div>
         <strong>NOTE:</strong> For games that have integrated Steam Authentication the following API
         calls should not be used. These games should use the
-        <a
-            href="https://partner.steamgames.com/doc/features/auth#client_to_client"
-            target="_blank"
-            rel="noreferrer"
+        <a href="/doc/features/auth#client_to_client" target="_blank" rel="noreferrer"
             >ISteamUser interface P2P or Game Servers</a
         >
         setup instead. Access to the following set of calls must be manually enabled by Valve and
@@ -573,30 +583,32 @@ follow later.<br />
     POST https://partner.steam-api.com/ICheatReportingService/StartSecureMultiplayerSession/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>steamid of the user.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID of the game.</td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>steamid of the user.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID of the game.</td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Tell the VAC servers that a secure multiplayer session has started.<br />
@@ -608,43 +620,43 @@ Tell the VAC servers that a secure multiplayer session has started.<br />
     POST https://partner.steam-api.com/ICheatReportingService/EndSecureMultiplayerSession/v1/
 </div>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>key</strong></td>
-        <td>string</td>
-        <td>✔</td>
-        <td>Steamworks Web API publisher authentication key.</td>
-    </tr>
-    <tr>
-        <td><strong>steamid</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>steamid of the user.</td>
-    </tr>
-    <tr>
-        <td><strong>appid</strong></td>
-        <td>uint32</td>
-        <td>✔</td>
-        <td>The App ID of the game.</td>
-    </tr>
-    <tr>
-        <td><strong>session_id</strong></td>
-        <td>uint64</td>
-        <td>✔</td>
-        <td>
-            The Session ID that was obtained from the call to
-            <a
-                href="https://partner.steamgames.com/doc/webapi/ICheatReportingService#StartSecureMultiplayerSession"
-                class="bb_apilink"
-                >ICheatReportingService/StartSecureMultiplayerSession</a
-            >.
-        </td>
-    </tr>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key.</td>
+        </tr>
+        <tr>
+            <td><strong>steamid</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>steamid of the user.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The App ID of the game.</td>
+        </tr>
+        <tr>
+            <td><strong>session_id</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                The Session ID that was obtained from the call to
+                <a href="/doc/webapi/ICheatReportingService#StartSecureMultiplayerSession"
+                    >ICheatReportingService/StartSecureMultiplayerSession</a
+                >.
+            </td>
+        </tr>
+    </tbody>
 </table>
 <br />
 Tell the VAC servers that a secure multiplayer session has ended.<br />

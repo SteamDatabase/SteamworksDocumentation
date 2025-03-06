@@ -2,24 +2,20 @@
 <h2 class="bb_section"><a name="1"></a>Introduction</h2>
 The following is a quick step by step guide to integrating very basic Steam Stats into your
 application in under 10 minutes and under 10 lines of code integrated into your code base. The
-<a href="https://partner.steamgames.com/doc/sdk" class="bb_doclink">Steamworks SDK</a> comes with a
-great example application called
-<a href="https://partner.steamgames.com/doc/sdk/api/example" class="bb_doclink">Spacewar</a> that
-shows off the full breadth of Steam features and should be your first stop to see all Steam features
-in action. This tutorial distills the information found in Spacewar and the Stats and Achievements
-API down to just the necessary information required for Steam Stats to keep things as
-straightforward as possible. Please note that there is a considerable amount of overlap between
-stats and achievements, as such if you are integrating both be aware that a lot of calls can be
-consolidated.
+<a href="/doc/sdk">Steamworks SDK</a> comes with a great example application called
+<a href="/doc/sdk/api/example">Spacewar</a> that shows off the full breadth of Steam features and
+should be your first stop to see all Steam features in action. This tutorial distills the
+information found in Spacewar and the Stats and Achievements API down to just the necessary
+information required for Steam Stats to keep things as straightforward as possible. Please note that
+there is a considerable amount of overlap between stats and achievements, as such if you are
+integrating both be aware that a lot of calls can be consolidated.
 <h2 class="bb_section"><a name="2"></a>Step 1 - Defining your game's Stats</h2>
 Stats are application specific and are setup on the
-<a href="https://partner.steamgames.com/apps/stats/" target="_blank" rel="noreferrer"
-    >Stats Configuration</a
->
-page in the Steamworks App Admin backend. The following is the list of stats from the Steamworks
-sample app Spacewar:<br />
+<a href="/apps/stats/" target="_blank" rel="noreferrer">Stats Configuration</a> page in the
+Steamworks App Admin backend. The following is the list of stats from the Steamworks sample app
+Spacewar:<br />
 <img
-    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/stats_spacewar.png"
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/stats_spacewar.png"
     alt="stats_spacewar.png"
     title="stats_spacewar.png"
 />
@@ -31,11 +27,7 @@ taken directly from the Spacewar example files
 <h2 class="bb_subsection"><a name="4"></a>Header File</h2>
 We first define a structure to hold our stats data received from steam, define stat types in a handy
 enum and then provide a macro for creating stats objects. This data maps directly to what is found
-on the
-<a href="https://partner.steamgames.com/apps/stats/" target="_blank" rel="noreferrer"
-    >Stats Configuration</a
->
-page.<br />
+on the <a href="/apps/stats/" target="_blank" rel="noreferrer">Stats Configuration</a> page.<br />
 <div class="bb_code cpp">
     #define _STAT_ID( id,type,name ) { id, type, name, 0, 0, 0, 0 } enum EStatTypes { STAT_INT = 0,
     STAT_FLOAT = 1, STAT_AVGRATE = 2, }; struct Stat_t { int m_ID; EStatTypes m_eStatType; const
@@ -44,9 +36,7 @@ page.<br />
 </div>
 <br />
 Next we define a helper class that will wrap all of the Steam Stats API calls as well as creating
-all of the
-<a href="https://partner.steamgames.com/doc/sdk/api#callbacks" class="bb_doclink">Steam callbacks</a
->.<br />
+all of the <a href="/doc/sdk/api#callbacks">Steam callbacks</a>.<br />
 <div class="bb_code cpp">
     class CSteamStats { private: int64 m_iAppID; // Our current AppID Stat_t *m_pStats; // Stats
     data int m_iNumStats; // The number of Stats bool m_bInitialized; // Have we called Request
@@ -75,17 +65,10 @@ for the current user.<br />
 <strong>Parameters</strong> - None<br />
 <strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then
 most likely Steam is not initialized. Make sure you have a steam client open when you try to make
-this call and that
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->
-has been called before it.<br />
+this call and that <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a> has been called
+before it.<br />
 <strong>What it does</strong> - This method basically wraps a call to
-<a
-    href="https://partner.steamgames.com/doc/api/ISteamUserStats#RequestCurrentStats"
-    class="bb_apilink"
-    >ISteamUserStats::RequestCurrentStats</a
->
+<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>
 which is an asynchronous call to steam requesting the stats of the current user. This call needs to
 be made before you can set any stats or achievements. The initial call to this method is made in the
 constructor. You can call it again any time after that if you want to check on updated stats or
@@ -100,17 +83,12 @@ achievements.<br />
 <strong>Parameters</strong> - None<br />
 <strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then
 most likely Steam is not initialized. Make sure you have a steam client open when you try to make
-this call and that
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->
-has been called before it.<br />
+this call and that <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a> has been called
+before it.<br />
 <strong>What it does</strong> - This method basically wraps a call to
-<a href="https://partner.steamgames.com/doc/api/ISteamUserStats#StoreStats" class="bb_apilink"
-    >ISteamUserStats::StoreStats</a
->
-which is an asynchronous call to steam that stores the stats of the current user on the server. This
-call needs to be made anytime you want to update the stats of the user.<br />
+<a href="/doc/api/ISteamUserStats#StoreStats">ISteamUserStats::StoreStats</a> which is an
+asynchronous call to steam that stores the stats of the current user on the server. This call needs
+to be made anytime you want to update the stats of the user.<br />
 <div class="bb_code cpp">
     bool CSteamStats::StoreStats() { if ( m_bInitialized ) { // load stats for ( int iStat = 0;
     iStat &lt; m_NumStats; ++iStat ) { Stat_t &amp;stat = m_pStats[iStat]; switch (stat.m_eStatType)
@@ -173,12 +151,9 @@ the Admin page on Steamworks.<br />
     NULL; ...
 </div>
 <h2 class="bb_subsection"><a name="8"></a>Initialization</h2>
-The call to
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Init" class="bb_apilink"
-    >SteamAPI_Init</a
->
-initializes all of Steam and must be called before anything else. If that call succeeds then we
-create the helper object by passing in the array of stats along with the size of the array.<br />
+The call to <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a> initializes all of Steam
+and must be called before anything else. If that call succeeds then we create the helper object by
+passing in the array of stats along with the size of the array.<br />
 <div class="bb_code cpp">
     ... // Initialize Steam bool bRet = SteamAPI_Init(); // Create the SteamStats object if Steam
     was successfully initialized if (bRet) { g_SteamStats = new CSteamStats(g_Stats, 6); } ...
@@ -192,12 +167,9 @@ Stats are saved by making an single call to
 <code class="bb_code bb_code_inline nohighlight">StoreStats()</code>.<br />
 <div class="bb_code cpp">... if (g_SteamStats) g_SteamStats-&gt;StoreStats(); ...</div>
 <h2 class="bb_subsection"><a name="11"></a>Shutdown</h2>
-The call to
-<a href="https://partner.steamgames.com/doc/api/steam_api#SteamAPI_Shutdown" class="bb_apilink"
-    >SteamAPI_Shutdown</a
->
-is probably something you already have in your code. It shuts down steam and must be called before
-you application exits. Finally we delete the helper object we created.<br />
+The call to <a href="/doc/api/steam_api#SteamAPI_Shutdown">SteamAPI_Shutdown</a> is probably
+something you already have in your code. It shuts down steam and must be called before you
+application exits. Finally we delete the helper object we created.<br />
 <div class="bb_code cpp">
     ... // Shutdown Steam SteamAPI_Shutdown(); // Delete the SteamStats object if (g_SteamStats)
     delete g_SteamStats; ...
