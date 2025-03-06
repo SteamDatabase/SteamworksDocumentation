@@ -1,18 +1,13 @@
 <?php
 declare(strict_types=1);
 
-libxml_use_internal_errors( true );
-
 $Crawler = new Crawler();
 $Crawler->DiscoverFromSearch();
 $Crawler->Crawl();
 
 class Crawler
 {
-	private const CDN = 'cdn.cloudflare.steamstatic.com';
-
-	/** @var \CurlHandle */
-	private $CurlHandle;
+	private \CurlHandle $CurlHandle;
 
 	/** @var array<string, bool> */
 	private array $Links = [];
@@ -68,6 +63,8 @@ class Crawler
 		{
 			$Links = [ 'home' ];
 		}
+
+		/** @var string[] $Links */
 
 		foreach( $Links as $Link )
 		{
@@ -143,10 +140,11 @@ class Crawler
 
 			echo curl_getinfo( $this->CurlHandle, CURLINFO_HTTP_CODE ) . PHP_EOL;
 
-			$XPath = $this->DataToXPath( $Content );
-			$this->DiscoverLinks( $XPath );
+			$Document = \Dom\HTMLDocument::createFromString( $Content, \LIBXML_COMPACT | \LIBXML_NOERROR, 'UTF-8' );
 
-			if( !$XPath->evaluate( 'boolean(//a[@class="docSearchResultLink"])', null, false ) )
+			$this->DiscoverLinks( $Document );
+
+			if( $Document->querySelector( 'a.docSearchResultLink' ) === null )
 			{
 				break;
 			}
@@ -171,37 +169,86 @@ class Crawler
 
 	public function Process( string $Doc, string $Content ) : void
 	{
-		$XPath = $this->DataToXPath( $Content );
+		if( empty( $Content ) )
+		{
+			$this->Err( 'No html fetched on ' . $Doc );
+			return;
+		}
 
-		$this->DiscoverLinks( $XPath );
+		$Document = \Dom\HTMLDocument::createFromString( $Content, \LIBXML_COMPACT | \LIBXML_NOERROR, 'UTF-8' );
 
-		$Content = $XPath->query( '//div[@class="documentation_bbcode"]', null, false );
+		$this->DiscoverLinks( $Document );
 
-		if( $Content === false || $Content->length === 0 )
+		$Content = $Document->querySelector( '.documentation_bbcode' );
+
+		if( $Content === null )
 		{
 			$this->Err( 'Did not find content tag on ' . $Doc );
 			return;
 		}
 
-		$Html = $this->DOMinnerHTML( $Content[ 0 ] );
+		// Cleanup html
+		$Elements = $Document->getElementsByTagName( 'a' );
+
+		foreach( $Elements as $Element )
+		{
+			$LinkHref = $Element->getAttribute( 'href' ) ?? '';
+
+			if( str_starts_with( $LinkHref, 'https://partner.steamgames.com/' ) )
+			{
+				$Element->setAttribute( 'href', substr( $LinkHref, 30 ) );
+			}
+
+			$Element->classList->remove( 'bb_doclink', 'bb_apilink' );
+
+			if( $Element->classList->length === 0 )
+			{
+				$Element->removeAttribute( 'class' );
+			}
+		}
+
+		$Elements = $Document->getElementsByTagName( 'ol' );
+
+		foreach( $Elements as $Element )
+		{
+			$Element->classList->remove( 'bb_ol' );
+
+			if( $Element->classList->length === 0 )
+			{
+				$Element->removeAttribute( 'class' );
+			}
+		}
+
+		$Elements = $Document->getElementsByTagName( 'ul' );
+
+		foreach( $Elements as $Element )
+		{
+			$Element->classList->remove( 'bb_ul' );
+
+			if( $Element->classList->length === 0 )
+			{
+				$Element->removeAttribute( 'class' );
+			}
+		}
+
+		$Html = $Content->innerHTML;
+
+		// Add new line after breaks, cleanup cdn subdomains
 		$Html = str_replace( [
-			'</track>',
 			'<br>',
 			'steamcdn-a.akamaihd.net',
-			'cdn.steamstatic.com',
-			'cdn.fastly.steamstatic.com',
-			'cdn.akamai.steamstatic.com',
 			'media.st.dl.pinyuncloud.com',
 			'media.st.dl.eccdnx.com',
 		], [
-			'',
 			"<br>\n",
-			self::CDN,
-			self::CDN,
-			self::CDN,
-			self::CDN,
+			'cdn.steamstatic.com',
+			'cdn.steamstatic.com',
+			'cdn.steamstatic.com',
 		], $Html );
+		/** @var string */
 		$Html = preg_replace( '/ id="dynamiclink_[0-9]+"/', '', $Html );
+		/** @var string */
+		$Html = preg_replace( '/(?<type>[a-z]+)\.[a-z]+(?<domain>\.steamstatic\.com)/', '$1$2', $Html );
 
 		if( $Html === 'Sorry, an error occurred. Please try again later' )
 		{
@@ -212,11 +259,11 @@ class Crawler
 		$Html .= "\n";
 
 		// Get title
-		$Content = $XPath->query( '//div[@class="docPageTitle"]', null, false );
+		$Content = $Document->querySelector( '.docPageTitle' );
 
-		if( $Content !== false && $Content->length > 0 )
+		if( $Content?->innerHTML !== null )
 		{
-			$Title = trim( $this->DOMinnerHTML( $Content[ 0 ] ) );
+			$Title = trim( $Content->innerHTML );
 
 			if( !empty( $Title ) )
 			{
@@ -235,22 +282,15 @@ class Crawler
 		file_put_contents( $FullPath, $Html );
 	}
 
-	public function DiscoverLinks( \DOMXPath $XPath ) : void
+	public function DiscoverLinks( \Dom\HTMLDocument $Document ) : void
 	{
-		$Links = $XPath->query( '//a/@href', null, false );
+		$Links = $Document->getElementsByTagName( 'a' );
 
-		if( $Links === false )
-		{
-			return;
-		}
-
-		/** @var \DOMAttr $Link */
 		foreach( $Links as $Link )
 		{
-			if( preg_match( "~/doc/(?<href>.+?)(?=#|\?|$)~S", $Link->value, $Match ) === 1 )
+			if( preg_match( "~/doc/(?<href>.+?)(?=#|\?|$)~S", $Link->getAttribute( 'href' ) ?? '', $Match ) === 1 )
 			{
 				$Doc = trim( $Match[ 'href' ], '/' );
-				$Doc = str_replace( '%3Fbeta%3D1', '', $Doc );
 
 				if( strpos( $Doc, '%' ) !== false )
 				{
@@ -276,45 +316,6 @@ class Crawler
 				}
 			}
 		}
-	}
-
-	private function DataToXPath( string $Data ) : \DOMXPath
-	{
-		$DOM = new DOMDocument();
-		$DOM->strictErrorChecking = false;
-		$DOM->loadHTML( '<?xml encoding="UTF-8">' . $Data, LIBXML_COMPACT | LIBXML_PARSEHUGE | LIBXML_NOWARNING | LIBXML_NOERROR );
-
-		foreach( $DOM->childNodes as $Item )
-		{
-			if( $Item->nodeType == XML_PI_NODE )
-			{
-				$DOM->removeChild( $Item );
-			}
-		}
-
-		$DOM->encoding = 'UTF-8';
-
-		libxml_clear_errors();
-
-		return new DOMXPath( $DOM );
-	}
-
-	private function DOMinnerHTML( DOMNode $Element ) : string
-	{
-		if( $Element->ownerDocument === null )
-		{
-			return '';
-		}
-
-		$InnerHTML = '';
-		$Children  = $Element->childNodes;
-
-		foreach( $Children as $Child )
-		{
-			$InnerHTML .= $Element->ownerDocument->saveHTML( $Child );
-		}
-
-		return $InnerHTML;
 	}
 
 	private function Err( string $Message ) : void
