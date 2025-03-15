@@ -1696,17 +1696,6 @@ Returns <strong>0</strong> if no avatar is set for the user.<br />
 <strong>See Also:</strong>
 <a href="/doc/api/ISteamFriends#GetLargeFriendAvatar">ISteamFriends::GetLargeFriendAvatar</a>,
 <a href="/doc/api/ISteamFriends#GetMediumFriendAvatar">ISteamFriends::GetMediumFriendAvatar</a>
-<h2 class="bb_subsection"><a name="GetUserRestrictions"></a>GetUserRestrictions</h2>
-<div class="bb_code cpp">uint32 GetUserRestrictions();</div>
-Checks if current user is chat restricted.<br />
-<br />
-If they are restricted, then they can't send or receive any text/voice chat messages, can't see
-custom avatars.<br />
-A chat restricted user can't add friends or join any groups.<br />
-Restricted users can still be online and send/receive game invites.<br />
-<br />
-<strong>Returns:</strong> <a href="/doc/api/steam_api#uint32">uint32</a><br />
-See: <a href="/doc/api/ISteamFriends#EUserRestriction">EUserRestriction</a>
 <h2 class="bb_subsection"><a name="HasFriend"></a>HasFriend</h2>
 <div class="bb_code cpp">bool HasFriend( CSteamID steamIDFriend, int iFriendFlags );</div>
 <table>
@@ -2377,40 +2366,6 @@ Triggers a
 <a href="/doc/api/ISteamFriends#GameConnectedFriendChatMsg_t">GameConnectedFriendChatMsg_t</a>
 callback.<br />
 Always returns <strong>true</strong>.
-<h2 class="bb_subsection"><a name="SetPersonaName"></a>SetPersonaName</h2>
-<div class="bb_code cpp">SteamAPICall_t SetPersonaName( const char *pchPersonaName );</div>
-<table>
-    <tbody>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td><strong>pchPersonaName</strong></td>
-            <td>const char *</td>
-            <td>
-                The users new persona name. Can not be longer than
-                <code class="bb_code bb_code_inline nohighlight">k_cchPersonaNameMax</code> bytes.
-            </td>
-        </tr>
-    </tbody>
-</table>
-<br />
-Sets the current user's persona name, stores it on the server and publishes the changes to all
-friends who are online.<br />
-<br />
-Changes take place locally immediately, and a
-<a href="/doc/api/ISteamFriends#PersonaStateChange_t">PersonaStateChange_t</a> callback is posted,
-presuming success.<br />
-<br />
-If the name change fails to happen on the server, then an additional
-<a href="/doc/api/ISteamFriends#PersonaStateChange_t">PersonaStateChange_t</a> callback will be
-posted to change the name back, in addition to the final result available in the call result.<br />
-<br />
-<strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
-with a <a href="/doc/api/ISteamFriends#SetPersonaNameResponse_t">SetPersonaNameResponse_t</a> call
-result.
 <h2 class="bb_subsection"><a name="SetPlayedWith"></a>SetPlayedWith</h2>
 <div class="bb_code cpp">void SetPlayedWith( CSteamID steamIDUserPlayedWith );</div>
 <table>
@@ -3281,39 +3236,6 @@ Called whenever a friends' status changes.<br />
 <br />
 <strong>Associated Functions:</strong>
 <a href="/doc/api/ISteamFriends#RequestUserInformation">ISteamFriends::RequestUserInformation</a>
-<h2 class="bb_subsection"><a name="SetPersonaNameResponse_t"></a>SetPersonaNameResponse_t</h2>
-Reports the result of an attempt to change the current user's persona name.<br />
-<br />
-<table>
-    <tbody>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td><strong>m_bSuccess</strong></td>
-            <td>bool</td>
-            <td><strong>true</strong> if name change completed successfully.</td>
-        </tr>
-        <tr>
-            <td><strong>m_bLocalSuccess</strong></td>
-            <td>bool</td>
-            <td>
-                <strong>true</strong> if name change was retained locally. We might not have been
-                able to communicate with Steam.
-            </td>
-        </tr>
-        <tr>
-            <td><strong>m_result</strong></td>
-            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
-            <td>The result of the operation.</td>
-        </tr>
-    </tbody>
-</table>
-<br />
-<strong>Associated Functions:</strong>
-<a href="/doc/api/ISteamFriends#SetPersonaName">ISteamFriends::SetPersonaName</a>
 <h2 class="bb_section"><a name="structs"></a>Structs</h2>
 These are structs which functions in ISteamFriends may return and/or interact with.
 <h2 class="bb_subsection"><a name="FriendGameInfo_t"></a>FriendGameInfo_t</h2>
@@ -3753,61 +3675,6 @@ List of states a Steam friend can be in.<br />
             <td><strong>k_EPersonaStateMax</strong></td>
             <td>7</td>
             <td>The total number of states. Only used for looping and validation.</td>
-        </tr>
-    </tbody>
-</table>
-<h2 class="bb_subsection"><a name="EUserRestriction"></a>EUserRestriction</h2>
-User restriction flags. These are returned by
-<a href="/doc/api/ISteamFriends#GetUserRestrictions">ISteamFriends::GetUserRestrictions</a>.<br />
-<br />
-<table>
-    <tbody>
-        <tr>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Description</th>
-        </tr>
-        <tr id="k_nUserRestrictionNone">
-            <td><strong>k_nUserRestrictionNone</strong></td>
-            <td>0</td>
-            <td>No known chat/content restriction.</td>
-        </tr>
-        <tr id="k_nUserRestrictionUnknown">
-            <td><strong>k_nUserRestrictionUnknown</strong></td>
-            <td>1</td>
-            <td>We don't know yet, the user is offline.</td>
-        </tr>
-        <tr id="k_nUserRestrictionAnyChat">
-            <td><strong>k_nUserRestrictionAnyChat</strong></td>
-            <td>2</td>
-            <td>User is not allowed to (or can't) send/recv any chat.</td>
-        </tr>
-        <tr id="k_nUserRestrictionVoiceChat">
-            <td><strong>k_nUserRestrictionVoiceChat</strong></td>
-            <td>4</td>
-            <td>User is not allowed to (or can't) send/recv voice chat.</td>
-        </tr>
-        <tr id="k_nUserRestrictionGroupChat">
-            <td><strong>k_nUserRestrictionGroupChat</strong></td>
-            <td>8</td>
-            <td>User is not allowed to (or can't) send/recv group chat.</td>
-        </tr>
-        <tr id="k_nUserRestrictionRating">
-            <td><strong>k_nUserRestrictionRating</strong></td>
-            <td>16</td>
-            <td>User is too young according to rating in current region.</td>
-        </tr>
-        <tr id="k_nUserRestrictionGameInvites">
-            <td><strong>k_nUserRestrictionGameInvites</strong></td>
-            <td>32</td>
-            <td>User cannot send or recv game invites, for example if they are on mobile.</td>
-        </tr>
-        <tr id="k_nUserRestrictionTrading">
-            <td><strong>k_nUserRestrictionTrading</strong></td>
-            <td>64</td>
-            <td>
-                User cannot participate in trading, for example if they are on a console or mobile.
-            </td>
         </tr>
     </tbody>
 </table>

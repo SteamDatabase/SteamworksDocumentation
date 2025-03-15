@@ -23,7 +23,7 @@ The number of currently connected Steam Remote Play sessions<br />
     return true; } return false; }
 </div>
 <h2 class="bb_subsection"><a name="GetSessionID"></a>GetSessionID</h2>
-<div class="bb_code cpp">uint32 GetSessionID( int iSessionIndex );</div>
+<div class="bb_code cpp">RemotePlaySessionID_t GetSessionID( int iSessionIndex );</div>
 <table>
     <tbody>
         <tr>
@@ -41,12 +41,13 @@ The number of currently connected Steam Remote Play sessions<br />
 <br />
 Get the currently connected Steam Remote Play session ID at the specified index<br />
 <br />
-<strong>Returns:</strong> uint32<br />
+<strong>Returns:</strong>
+<a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a><br />
 The session ID of the session at the specified index, or 0 if the index is less than 0 or greater
 than or equal to
 <a href="/doc/api/ISteamRemotePlay#GetSessionCount">ISteamRemotePlay::GetSessionCount</a>()
 <h2 class="bb_subsection"><a name="GetSessionSteamID"></a>GetSessionSteamID</h2>
-<div class="bb_code cpp">CSteamID GetSessionSteamID( uint32 unSessionID );</div>
+<div class="bb_code cpp">CSteamID GetSessionSteamID( RemotePlaySessionID_t unSessionID );</div>
 <table>
     <tbody>
         <tr>
@@ -56,7 +57,9 @@ than or equal to
         </tr>
         <tr>
             <td><strong>unSessionID</strong></td>
-            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
             <td>The session ID to get information about</td>
         </tr>
     </tbody>
@@ -68,7 +71,9 @@ Get the SteamID of the connected user<br />
 The Steam ID of the user associated with the Remote Play session. This would normally be the logged
 in user, or a friend in the case of Remote Play Together.
 <h2 class="bb_subsection"><a name="GetSessionClientName"></a>GetSessionClientName</h2>
-<div class="bb_code cpp">const char *GetSessionClientName( uint32 unSessionID );</div>
+<div class="bb_code cpp">
+    const char *GetSessionClientName( RemotePlaySessionID_t unSessionID );
+</div>
 <table>
     <tbody>
         <tr>
@@ -78,7 +83,9 @@ in user, or a friend in the case of Remote Play Together.
         </tr>
         <tr>
             <td><strong>unSessionID</strong></td>
-            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
             <td>The session ID to get information about</td>
         </tr>
     </tbody>
@@ -91,7 +98,7 @@ The name of the device associated with the Remote Play session, or NULL if the s
 valid.
 <h2 class="bb_subsection"><a name="GetSessionClientFormFactor"></a>GetSessionClientFormFactor</h2>
 <div class="bb_code cpp">
-    ESteamDeviceFormFactor GetSessionClientFormFactor( uint32 unSessionID );
+    ESteamDeviceFormFactor GetSessionClientFormFactor( RemotePlaySessionID_t unSessionID );
 </div>
 <table>
     <tbody>
@@ -102,7 +109,9 @@ valid.
         </tr>
         <tr>
             <td><strong>unSessionID</strong></td>
-            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
             <td>The session ID to get information about</td>
         </tr>
     </tbody>
@@ -127,7 +136,8 @@ session ID is not valid.<br />
 </div>
 <h2 class="bb_subsection"><a name="BGetSessionClientResolution"></a>BGetSessionClientResolution</h2>
 <div class="bb_code cpp">
-    bool BGetSessionClientResolution( uint32 unSessionID, int *pnResolutionX, int *pnResolutionY );
+    bool BGetSessionClientResolution( RemotePlaySessionID_t unSessionID, int *pnResolutionX, int
+    *pnResolutionY );
 </div>
 <table>
     <tbody>
@@ -138,7 +148,9 @@ session ID is not valid.<br />
         </tr>
         <tr>
             <td><strong>unSessionID</strong></td>
-            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
             <td>The session ID to get information about</td>
         </tr>
         <tr>
@@ -173,10 +185,10 @@ not available.<br />
     nMaxResolutionX; } if ( pnY ) { *pnY = nMaxResolutionY; } return ( nMaxResolutionX &gt; 0
     &amp;&amp; nMaxResolutionY &gt; 0 ); }
 </div>
-<h2 class="bb_subsection"><a name="BStartRemotePlayTogether"></a>BStartRemotePlayTogether</h2>
-<div class="bb_code cpp">bool BStartRemotePlayTogether();</div>
+<h2 class="bb_subsection"><a name="ShowRemotePlayTogetherUI"></a>ShowRemotePlayTogetherUI</h2>
+<div class="bb_code cpp">bool ShowRemotePlayTogetherUI();</div>
 <br />
-Show the Remote Play Together UI.<br />
+Show the Remote Play Together UI in the game overlay.<br />
 <br />
 <strong>Returns:</strong> bool<br />
 <strong>true</strong> if your game is configured for Remote Play Together; otherwise,
@@ -193,9 +205,12 @@ Show the Remote Play Together UI.<br />
             <th>Description</th>
         </tr>
         <tr>
-            <td><strong>steamIDFriend </strong></td>
+            <td><strong>steamIDFriend</strong></td>
             <td><a href="/doc/api/steam_api#CSteamID">CSteamID</a></td>
-            <td>The Steam ID of the friend you'd like to invite</td>
+            <td>
+                The Steam ID of the friend you'd like to invite, or create a guest invite if
+                steamIDFriend is CSteamID()
+            </td>
         </tr>
     </tbody>
 </table>
@@ -204,12 +219,223 @@ Invite a friend to join the game using Remote Play Together<br />
 <br />
 <strong>Returns:</strong> bool<br />
 <strong>true</strong> if the invite was successfully sent; otherwise, <strong>false</strong>.
+<h2 class="bb_subsection">
+    <a name="BEnableRemotePlayTogetherDirectInput"></a>BEnableRemotePlayTogetherDirectInput
+</h2>
+<div class="bb_code cpp">bool BEnableRemotePlayTogetherDirectInput();</div>
+<br />
+Make mouse and keyboard input for Remote Play Together sessions available via GetInput() instead of
+being merged with local input.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if mouse and keyboard events are now available; otherwise,
+<strong>false</strong>.
+<h2 class="bb_subsection">
+    <a name="DisableRemotePlayTogetherDirectInput"></a>DisableRemotePlayTogetherDirectInput
+</h2>
+<div class="bb_code cpp">void DisableRemotePlayTogetherDirectInput();</div>
+<br />
+Merge Remote Play Together mouse and keyboard input with local input.
+<h2 class="bb_subsection"><a name="GetInput"></a>GetInput</h2>
+<div class="bb_code cpp">uint32 GetInput( RemotePlayInput_t *pInput, uint32 unMaxEvents );</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pInput</strong></td>
+            <td><a href="/doc/api/ISteamRemotePlay#RemotePlayInput_t">RemotePlayInput_t</a></td>
+            <td>
+                An array of input events that will be filled in by this function, up to unMaxEvents
+            </td>
+        </tr>
+        <tr>
+            <td><strong>unMaxEvents</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>The maximum number of events to read</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Get input events from Remote Play Together sessions. This is available after calling
+<a href="/doc/api/ISteamRemotePlay#BEnableRemotePlayTogetherDirectInput"
+    >ISteamRemotePlay::BEnableRemotePlayTogetherDirectInput</a
+>().<br />
+<br />
+<br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#uint32">uint32</a><br />
+The number of events copied to pInput, or the number of events available if pInput is nullptr.
+<h2 class="bb_subsection"><a name="SetMouseVisibility"></a>SetMouseVisibility</h2>
+<div class="bb_code cpp">
+    void SetMouseVisibility( RemotePlaySessionID_t unSessionID, bool bVisible );
+</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>unSessionID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
+            <td>The session to affect.</td>
+        </tr>
+        <tr>
+            <td><strong>bVisible</strong></td>
+            <td>bool</td>
+            <td>True to show the mouse cursor, false to hide it.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Set the mouse cursor visibility for a remote player. This is available after calling
+<a href="/doc/api/ISteamRemotePlay#BEnableRemotePlayTogetherDirectInput"
+    >ISteamRemotePlay::BEnableRemotePlayTogetherDirectInput</a
+>().
+<h2 class="bb_subsection"><a name="SetMousePosition"></a>SetMousePosition</h2>
+<div class="bb_code cpp">
+    void SetMousePosition( RemotePlaySessionID_t unSessionID, float flNormalizedX, float
+    flNormalizedY );
+</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>unSessionID </strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
+            <td>The session to affect.</td>
+        </tr>
+        <tr>
+            <td><strong>flNormalizedX</strong></td>
+            <td>float</td>
+            <td>The normalized X position of the mouse cursor.</td>
+        </tr>
+        <tr>
+            <td><strong>flNormalizedY</strong></td>
+            <td>float</td>
+            <td>The normalized Y position of the mouse cursor.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Set the mouse cursor position for a remote player. This is available after calling
+<a href="/doc/api/ISteamRemotePlay#BEnableRemotePlayTogetherDirectInput"
+    >ISteamRemotePlay::BEnableRemotePlayTogetherDirectInput</a
+>(). This is used to warp the cursor to a specific location and isn't needed during normal event
+processing. The position is normalized relative to the window, where 0,0 is the upper left, and 1,1
+is the lower right.
+<h2 class="bb_subsection"><a name="CreateMouseCursor"></a>CreateMouseCursor</h2>
+<div class="bb_code cpp">
+    RemotePlayCursorID_t CreateMouseCursor( int nWidth, int nHeight, int nHotX, int nHotY, const
+    void *pBGRA, int nPitch = 0 );
+</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>nWidth</strong></td>
+            <td>int</td>
+            <td>The width of the cursor, in pixels</td>
+        </tr>
+        <tr>
+            <td><strong>nHeight</strong></td>
+            <td>int</td>
+            <td>The height of the cursor, in pixels</td>
+        </tr>
+        <tr>
+            <td><strong>nHotX</strong></td>
+            <td>int</td>
+            <td>
+                The X coordinate of the cursor hot spot in pixels, offset from the left of the
+                cursor
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nHotY</strong></td>
+            <td>int</td>
+            <td>
+                The Y coordinate of the cursor hot spot in pixels, offset from the top of the cursor
+            </td>
+        </tr>
+        <tr>
+            <td><strong>pBGRA</strong></td>
+            <td>const void *</td>
+            <td>
+                A pointer to the cursor pixels, with the color channels in red, green, blue, alpha
+                order
+            </td>
+        </tr>
+        <tr>
+            <td><strong>nPitch</strong></td>
+            <td>int</td>
+            <td>The distance between pixel rows in bytes, defaults to nWidth * 4</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Create a cursor that can be used with SetMouseCursor(). This is available after calling
+<a href="/doc/api/ISteamRemotePlay#BEnableRemotePlayTogetherDirectInput"
+    >ISteamRemotePlay::BEnableRemotePlayTogetherDirectInput</a
+>().<br />
+<br />
+<br />
+<strong>Returns:</strong>
+<a href="/doc/api/ISteamRemotePlay#RemotePlayCursorID_t">RemotePlayCursorID_t</a>
+<h2 class="bb_subsection"><a name="SetMouseCursor"></a>SetMouseCursor</h2>
+<div class="bb_code cpp">
+    void SetMouseCursor( RemotePlaySessionID_t unSessionID, RemotePlayCursorID_t unCursorID );
+</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>unSessionID </strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
+            <td>The session to affect.</td>
+        </tr>
+        <tr>
+            <td><strong>unCursorID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlayCursorID_t">RemotePlayCursorID_t</a>
+            </td>
+            <td>The normalized X position of the mouse cursor.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Set the mouse cursor for a remote player. This is available after calling
+<a href="/doc/api/ISteamRemotePlay#BEnableRemotePlayTogetherDirectInput"
+    >ISteamRemotePlay::BEnableRemotePlayTogetherDirectInput</a
+>().
 <h2 class="bb_section"><a name="callbacks"></a>Callbacks</h2>
 These are callbacks which can be fired by calling
 <a href="/doc/api/steam_api#SteamAPI_RunCallbacks">SteamAPI_RunCallbacks</a>.
 <h2 class="bb_subsection">
     <a name="SteamRemotePlaySessionConnected_t"></a>SteamRemotePlaySessionConnected_t
 </h2>
+Sent when a client connected to a session.<br />
 <br />
 <table>
     <tbody>
@@ -220,7 +446,9 @@ These are callbacks which can be fired by calling
         </tr>
         <tr>
             <td><strong>m_unSessionID</strong></td>
-            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
             <td>The session ID of the session that just connected</td>
         </tr>
     </tbody>
@@ -228,6 +456,7 @@ These are callbacks which can be fired by calling
 <h2 class="bb_subsection">
     <a name="SteamRemotePlaySessionDisconnected_t"></a>SteamRemotePlaySessionDisconnected_t
 </h2>
+Sent when a client disconnected from a session.<br />
 <br />
 <table>
     <tbody>
@@ -238,8 +467,212 @@ These are callbacks which can be fired by calling
         </tr>
         <tr>
             <td><strong>m_unSessionID</strong></td>
-            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
             <td>The session ID of the session that just disconnected</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection">
+    <a name="SteamRemotePlayTogetherGuestInvite_t"></a>SteamRemotePlayTogetherGuestInvite_t
+</h2>
+Sent when a guest invitation is created, and includes the guest invite URL.<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_szConnectURL</strong></td>
+            <td>char *</td>
+            <td>The URL that can be used to connect to this guest session</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_section"><a name="structs"></a>Structs</h2>
+These are structs which functions in ISteamRemotePlay may return and/or interact with.
+<h2 class="bb_subsection">
+    <a name="RemotePlayInputMouseMotion_t"></a>RemotePlayInputMouseMotion_t
+</h2>
+Mouse motion event data, valid when RemotePlayInput_t::m_eType is k_ERemotePlayInputMouseMotion.<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_bAbsolute</strong></td>
+            <td>bool</td>
+            <td>
+                True if this is absolute mouse motion and m_flNormalizedX and m_flNormalizedY are
+                valid.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_flNormalizedX</strong></td>
+            <td>float</td>
+            <td>
+                The absolute X position of the mouse, normalized to the display, if m_bAbsolute is
+                true.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_flNormalizedY</strong></td>
+            <td>float</td>
+            <td>
+                The absolute Y position of the mouse, normalized to the display, if m_bAbsolute is
+                true.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_nDeltaX</strong></td>
+            <td>int</td>
+            <td>Relative mouse motion in the X direction.</td>
+        </tr>
+        <tr>
+            <td><strong>m_nDeltaY</strong></td>
+            <td>int</td>
+            <td>Relative mouse motion in the Y direction.</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection"><a name="RemotePlayInputMouseWheel_t"></a>RemotePlayInputMouseWheel_t</h2>
+Mouse wheel event data, valid when RemotePlayInput_t::m_eType is k_ERemotePlayInputMouseWheel.<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_eDirection</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#ERemotePlayMouseWheelDirection"
+                    >ERemotePlayMouseWheelDirection</a
+                >
+            </td>
+            <td>The mouse wheel direction.</td>
+        </tr>
+        <tr>
+            <td><strong>m_flAmount</strong></td>
+            <td>float</td>
+            <td>1.0f is a single click of the wheel, 120 units on Windows.</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection"><a name="RemotePlayInputKey_t"></a>RemotePlayInputKey_t</h2>
+Key event data, valid when RemotePlayInput_t::m_eType is k_ERemotePlayInputKeyDown or
+k_ERemotePlayInputKeyUp.<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_eScancode</strong></td>
+            <td>int</td>
+            <td>
+                Keyboard scancode, common values are defined in
+                <a href="/doc/api/ISteamRemotePlay#ERemotePlayScancode">ERemotePlayScancode</a>.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_unModifiers</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                Mask of
+                <a href="/doc/api/ISteamRemotePlay#ERemotePlayKeyModifier"
+                    >ERemotePlayKeyModifier</a
+                >
+                active for this key event.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_unKeycode</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>
+                UCS-4 character generated by the keypress, or 0 if it wasn't a character key, e.g.
+                Delete or Left Arrow.
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection"><a name="RemotePlayInput_t"></a>RemotePlayInput_t</h2>
+Remote input events, enabled with
+<a href="/doc/api/ISteamRemotePlay#BEnableRemotePlayTogetherDirectInput"
+    >ISteamRemotePlay::BEnableRemotePlayTogetherDirectInput</a
+>().<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_unSessionID</strong></td>
+            <td><a href="/doc/api/ISteamRemotePlay#RemotePlayInput_t">RemotePlayInput_t</a></td>
+            <td>The session that sent this input.</td>
+        </tr>
+        <tr>
+            <td><strong>m_eType</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#ERemotePlayInputType">ERemotePlayInputType</a>
+            </td>
+            <td>The type of input in this event.</td>
+        </tr>
+        <tr>
+            <td><strong>m_MouseMotion</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlayInputMouseMotion_t"
+                    >RemotePlayInputMouseMotion_t</a
+                >
+            </td>
+            <td>Mouse motion event data, valid when m_eType is k_ERemotePlayInputMouseMotion.</td>
+        </tr>
+        <tr>
+            <td><strong>m_eMouseButton</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#ERemotePlayMouseButton"
+                    >ERemotePlayMouseButton</a
+                >
+            </td>
+            <td>
+                Mouse button event data, valid when m_eType is k_ERemotePlayInputMouseButtonDown or
+                k_ERemotePlayInputMouseButtonUp.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_MouseWheel</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlayInputMouseWheel_t"
+                    >RemotePlayInputMouseWheel_t</a
+                >
+            </td>
+            <td>Mouse wheel event data, valid when m_eType is k_ERemotePlayInputMouseWheel.</td>
+        </tr>
+        <tr>
+            <td><strong>m_Key</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlayInputKey_t">RemotePlayInputKey_t</a>
+            </td>
+            <td>
+                Key event data, valid when m_eType is k_ERemotePlayInputKeyDown or
+                k_ERemotePlayInputKeyUp.
+            </td>
         </tr>
     </tbody>
 </table>
@@ -279,6 +712,655 @@ The form factor of a device<br />
             <td><strong>k_ESteamDeviceFormFactorTV</strong></td>
             <td>4</td>
             <td>The device is a TV.</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection"><a name="ERemotePlayInputType"></a>ERemotePlayInputType</h2>
+The type of input in <a href="/doc/api/ISteamRemotePlay#RemotePlayInput_t">RemotePlayInput_t</a
+><br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_ERemotePlayInputUnknown">
+            <td><strong>k_ERemotePlayInputUnknown</strong></td>
+            <td>0</td>
+            <td>Unknown input.</td>
+        </tr>
+        <tr id="k_ERemotePlayInputMouseMotion">
+            <td><strong>k_ERemotePlayInputMouseMotion</strong></td>
+            <td>1</td>
+            <td>Mouse motion event.</td>
+        </tr>
+        <tr id="k_ERemotePlayInputMouseButtonDown">
+            <td><strong>k_ERemotePlayInputMouseButtonDown</strong></td>
+            <td>2</td>
+            <td>Mouse button down event.</td>
+        </tr>
+        <tr id="k_ERemotePlayInputMouseButtonUp">
+            <td><strong>k_ERemotePlayInputMouseButtonUp</strong></td>
+            <td>3</td>
+            <td>Mouse button up event.</td>
+        </tr>
+        <tr id="k_ERemotePlayInputMouseWheel">
+            <td><strong>k_ERemotePlayInputMouseWheel</strong></td>
+            <td>4</td>
+            <td>Mouse wheel event.</td>
+        </tr>
+        <tr id="k_ERemotePlayInputKeyDown">
+            <td><strong>k_ERemotePlayInputKeyDown</strong></td>
+            <td>5</td>
+            <td>Keyboard key down event.</td>
+        </tr>
+        <tr id="k_ERemotePlayInputKeyUp">
+            <td><strong>k_ERemotePlayInputKeyUp</strong></td>
+            <td>6</td>
+            <td>Keyboard key up event.</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection"><a name="ERemotePlayMouseButton"></a>ERemotePlayMouseButton</h2>
+Mouse buttons in <a href="/doc/api/ISteamRemotePlay#RemotePlayInput_t">RemotePlayInput_t</a><br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_ERemotePlayMouseButtonLeft">
+            <td><strong>k_ERemotePlayMouseButtonLeft</strong></td>
+            <td>0x0001</td>
+            <td>The left mouse button.</td>
+        </tr>
+        <tr id="k_ERemotePlayMouseButtonRight">
+            <td><strong>k_ERemotePlayMouseButtonRight</strong></td>
+            <td>0x0002</td>
+            <td>The right mouse button.</td>
+        </tr>
+        <tr id="k_ERemotePlayMouseButtonMiddle">
+            <td><strong>k_ERemotePlayMouseButtonMiddle</strong></td>
+            <td>0x0010</td>
+            <td>The middle mouse button.</td>
+        </tr>
+        <tr id="k_ERemotePlayMouseButtonX1">
+            <td><strong>k_ERemotePlayMouseButtonX1</strong></td>
+            <td>0x0020</td>
+            <td>The first extended mouse button.</td>
+        </tr>
+        <tr id="k_ERemotePlayMouseButtonX2">
+            <td><strong>k_ERemotePlayMouseButtonX2</strong></td>
+            <td>0x0040</td>
+            <td>The second extended mouse button.</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection">
+    <a name="ERemotePlayMouseWheelDirection"></a>ERemotePlayMouseWheelDirection
+</h2>
+Mouse wheel direction in <a href="/doc/api/ISteamRemotePlay#RemotePlayInput_t">RemotePlayInput_t</a
+><br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_ERemotePlayMouseWheelUp">
+            <td><strong>k_ERemotePlayMouseWheelUp</strong></td>
+            <td>1</td>
+            <td>Mouse wheel scrolled away from the user.</td>
+        </tr>
+        <tr id="k_ERemotePlayMouseWheelDown">
+            <td><strong>k_ERemotePlayMouseWheelDown</strong></td>
+            <td>2</td>
+            <td>Mouse wheel scrolled towards the user.</td>
+        </tr>
+        <tr id="k_ERemotePlayMouseWheelLeft">
+            <td><strong>k_ERemotePlayMouseWheelLeft</strong></td>
+            <td>3</td>
+            <td>Mouse wheel scrolled to the left.</td>
+        </tr>
+        <tr id="k_ERemotePlayMouseWheelRight">
+            <td><strong>k_ERemotePlayMouseWheelRight</strong></td>
+            <td>4</td>
+            <td>Mouse wheel scrolled to the right.</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection"><a name="ERemotePlayScancode"></a>ERemotePlayScancode</h2>
+Key scancode in <a href="/doc/api/ISteamRemotePlay#RemotePlayInput_t">RemotePlayInput_t</a><br />
+<br />
+This is a USB scancode value as defined for the Keyboard/Keypad Page (0x07). This enumeration isn't
+a complete list, just the most commonly used keys.<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_ERemotePlayScancodeUnknown">
+            <td><strong>k_ERemotePlayScancodeUnknown</strong></td>
+            <td>0</td>
+            <td>Unknown key.</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeA">
+            <td><strong>k_ERemotePlayScancodeA</strong></td>
+            <td>4</td>
+            <td>A</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeB">
+            <td><strong>k_ERemotePlayScancodeB</strong></td>
+            <td>5</td>
+            <td>B</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeC">
+            <td><strong>k_ERemotePlayScancodeC</strong></td>
+            <td>6</td>
+            <td>C</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeD">
+            <td><strong>k_ERemotePlayScancodeD</strong></td>
+            <td>7</td>
+            <td>D</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeE">
+            <td><strong>k_ERemotePlayScancodeE</strong></td>
+            <td>8</td>
+            <td>E</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF">
+            <td><strong>k_ERemotePlayScancodeF</strong></td>
+            <td>9</td>
+            <td>F</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeG">
+            <td><strong>k_ERemotePlayScancodeG</strong></td>
+            <td>10</td>
+            <td>G</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeH">
+            <td><strong>k_ERemotePlayScancodeH</strong></td>
+            <td>11</td>
+            <td>H</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeI">
+            <td><strong>k_ERemotePlayScancodeI</strong></td>
+            <td>12</td>
+            <td>I</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeJ">
+            <td><strong>k_ERemotePlayScancodeJ</strong></td>
+            <td>13</td>
+            <td>J</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeK">
+            <td><strong>k_ERemotePlayScancodeK</strong></td>
+            <td>14</td>
+            <td>K</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeL">
+            <td><strong>k_ERemotePlayScancodeL</strong></td>
+            <td>15</td>
+            <td>L</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeM">
+            <td><strong>k_ERemotePlayScancodeM</strong></td>
+            <td>16</td>
+            <td>M</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeN">
+            <td><strong>k_ERemotePlayScancodeN</strong></td>
+            <td>17</td>
+            <td>N</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeO">
+            <td><strong>k_ERemotePlayScancodeO</strong></td>
+            <td>18</td>
+            <td>O</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeP">
+            <td><strong>k_ERemotePlayScancodeP</strong></td>
+            <td>19</td>
+            <td>P</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeQ">
+            <td><strong>k_ERemotePlayScancodeQ</strong></td>
+            <td>20</td>
+            <td>Q</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeR">
+            <td><strong>k_ERemotePlayScancodeR</strong></td>
+            <td>21</td>
+            <td>R</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeS">
+            <td><strong>k_ERemotePlayScancodeS</strong></td>
+            <td>22</td>
+            <td>S</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeT">
+            <td><strong>k_ERemotePlayScancodeT</strong></td>
+            <td>23</td>
+            <td>T</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeU">
+            <td><strong>k_ERemotePlayScancodeU</strong></td>
+            <td>24</td>
+            <td>U</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeV">
+            <td><strong>k_ERemotePlayScancodeV</strong></td>
+            <td>25</td>
+            <td>V</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeW">
+            <td><strong>k_ERemotePlayScancodeW</strong></td>
+            <td>26</td>
+            <td>W</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeX">
+            <td><strong>k_ERemotePlayScancodeX</strong></td>
+            <td>27</td>
+            <td>X</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeY">
+            <td><strong>k_ERemotePlayScancodeY</strong></td>
+            <td>28</td>
+            <td>Y</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeZ">
+            <td><strong>k_ERemotePlayScancodeZ</strong></td>
+            <td>29</td>
+            <td>Z</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode1">
+            <td><strong>k_ERemotePlayScancode1</strong></td>
+            <td>30</td>
+            <td>1</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode2">
+            <td><strong>k_ERemotePlayScancode2</strong></td>
+            <td>31</td>
+            <td>2</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode3">
+            <td><strong>k_ERemotePlayScancode3</strong></td>
+            <td>32</td>
+            <td>3</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode4">
+            <td><strong>k_ERemotePlayScancode4</strong></td>
+            <td>33</td>
+            <td>4</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode5">
+            <td><strong>k_ERemotePlayScancode5</strong></td>
+            <td>34</td>
+            <td>5</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode6">
+            <td><strong>k_ERemotePlayScancode6</strong></td>
+            <td>35</td>
+            <td>6</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode7">
+            <td><strong>k_ERemotePlayScancode7</strong></td>
+            <td>36</td>
+            <td>7</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode8">
+            <td><strong>k_ERemotePlayScancode8</strong></td>
+            <td>37</td>
+            <td>8</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode9">
+            <td><strong>k_ERemotePlayScancode9</strong></td>
+            <td>38</td>
+            <td>9</td>
+        </tr>
+        <tr id="k_ERemotePlayScancode0">
+            <td><strong>k_ERemotePlayScancode0</strong></td>
+            <td>39</td>
+            <td>0</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeReturn">
+            <td><strong>k_ERemotePlayScancodeReturn</strong></td>
+            <td>40</td>
+            <td>Return</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeEscape">
+            <td><strong>k_ERemotePlayScancodeEscape</strong></td>
+            <td>41</td>
+            <td>Escape</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeBackspace">
+            <td><strong>k_ERemotePlayScancodeBackspace</strong></td>
+            <td>42</td>
+            <td>Backspace</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeTab">
+            <td><strong>k_ERemotePlayScancodeTab</strong></td>
+            <td>43</td>
+            <td>Tab</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeSpace">
+            <td><strong>k_ERemotePlayScancodeSpace</strong></td>
+            <td>44</td>
+            <td>Space</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeMinus">
+            <td><strong>k_ERemotePlayScancodeMinus</strong></td>
+            <td>45</td>
+            <td>Minus</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeEquals">
+            <td><strong>k_ERemotePlayScancodeEquals</strong></td>
+            <td>46</td>
+            <td>Equals</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeLeftBracket">
+            <td><strong>k_ERemotePlayScancodeLeftBracket</strong></td>
+            <td>47</td>
+            <td>Left Bracket</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeRightBracket">
+            <td><strong>k_ERemotePlayScancodeRightBracket</strong></td>
+            <td>48</td>
+            <td>Right Bracket</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeBackslash">
+            <td><strong>k_ERemotePlayScancodeBackslash</strong></td>
+            <td>49</td>
+            <td>Backslash</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeSemicolon">
+            <td><strong>k_ERemotePlayScancodeSemicolon</strong></td>
+            <td>51</td>
+            <td>Semicolon</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeApostrophe">
+            <td><strong>k_ERemotePlayScancodeApostrophe</strong></td>
+            <td>52</td>
+            <td>Apostrophe</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeGrave">
+            <td><strong>k_ERemotePlayScancodeGrave</strong></td>
+            <td>53</td>
+            <td>Grave</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeComma">
+            <td><strong>k_ERemotePlayScancodeComma</strong></td>
+            <td>54</td>
+            <td>Comma</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodePeriod">
+            <td><strong>k_ERemotePlayScancodePeriod</strong></td>
+            <td>55</td>
+            <td>Period</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeSlash">
+            <td><strong>k_ERemotePlayScancodeSlash</strong></td>
+            <td>56</td>
+            <td>Slash</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeCapsLock">
+            <td><strong>k_ERemotePlayScancodeCapsLock</strong></td>
+            <td>57</td>
+            <td>CapsLock</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF1">
+            <td><strong>k_ERemotePlayScancodeF1</strong></td>
+            <td>58</td>
+            <td>F1</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF2">
+            <td><strong>k_ERemotePlayScancodeF2</strong></td>
+            <td>59</td>
+            <td>F2</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF3">
+            <td><strong>k_ERemotePlayScancodeF3</strong></td>
+            <td>60</td>
+            <td>F3</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF4">
+            <td><strong>k_ERemotePlayScancodeF4</strong></td>
+            <td>61</td>
+            <td>F4</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF5">
+            <td><strong>k_ERemotePlayScancodeF5</strong></td>
+            <td>62</td>
+            <td>F5</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF6">
+            <td><strong>k_ERemotePlayScancodeF6</strong></td>
+            <td>63</td>
+            <td>F6</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF7">
+            <td><strong>k_ERemotePlayScancodeF7</strong></td>
+            <td>64</td>
+            <td>F7</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF8">
+            <td><strong>k_ERemotePlayScancodeF8</strong></td>
+            <td>65</td>
+            <td>F8</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF9">
+            <td><strong>k_ERemotePlayScancodeF9</strong></td>
+            <td>66</td>
+            <td>F9</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF10">
+            <td><strong>k_ERemotePlayScancodeF10</strong></td>
+            <td>67</td>
+            <td>F10</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF11">
+            <td><strong>k_ERemotePlayScancodeF11</strong></td>
+            <td>68</td>
+            <td>F11</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeF12">
+            <td><strong>k_ERemotePlayScancodeF12</strong></td>
+            <td>69</td>
+            <td>F12</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeInsert">
+            <td><strong>k_ERemotePlayScancodeInsert</strong></td>
+            <td>73</td>
+            <td>Insert</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeHome">
+            <td><strong>k_ERemotePlayScancodeHome</strong></td>
+            <td>74</td>
+            <td>Home</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodePageUp">
+            <td><strong>k_ERemotePlayScancodePageUp</strong></td>
+            <td>75</td>
+            <td>Page Up</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeDelete">
+            <td><strong>k_ERemotePlayScancodeDelete</strong></td>
+            <td>76</td>
+            <td>Delete</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeEnd">
+            <td><strong>k_ERemotePlayScancodeEnd</strong></td>
+            <td>77</td>
+            <td>End</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodePageDown">
+            <td><strong>k_ERemotePlayScancodePageDown</strong></td>
+            <td>78</td>
+            <td>Page Down</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeRight">
+            <td><strong>k_ERemotePlayScancodeRight</strong></td>
+            <td>79</td>
+            <td>Right</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeLeft">
+            <td><strong>k_ERemotePlayScancodeLeft</strong></td>
+            <td>80</td>
+            <td>Left</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeDown">
+            <td><strong>k_ERemotePlayScancodeDown</strong></td>
+            <td>81</td>
+            <td>Down</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeUp">
+            <td><strong>k_ERemotePlayScancodeUp</strong></td>
+            <td>82</td>
+            <td>Up</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeLeftControl">
+            <td><strong>k_ERemotePlayScancodeLeftControl</strong></td>
+            <td>224</td>
+            <td>Left Control</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeLeftShift">
+            <td><strong>k_ERemotePlayScancodeLeftShift</strong></td>
+            <td>225</td>
+            <td>Left Shift</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeLeftAlt">
+            <td><strong>k_ERemotePlayScancodeLeftAlt</strong></td>
+            <td>226</td>
+            <td>Left Alt</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeLeftGUI">
+            <td><strong>k_ERemotePlayScancodeLeftGUI</strong></td>
+            <td>227</td>
+            <td>Left GUI (windows, command, meta, etc.)</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeRightControl">
+            <td><strong>k_ERemotePlayScancodeRightControl</strong></td>
+            <td>228</td>
+            <td>Right Control</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeRightShift">
+            <td><strong>k_ERemotePlayScancodeRightShift</strong></td>
+            <td>229</td>
+            <td>Right Shift</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeRightALT">
+            <td><strong>k_ERemotePlayScancodeRightALT</strong></td>
+            <td>230</td>
+            <td>Right ALT</td>
+        </tr>
+        <tr id="k_ERemotePlayScancodeRightGUI">
+            <td><strong>k_ERemotePlayScancodeRightGUI</strong></td>
+            <td>231</td>
+            <td>Right GUI (windows, command, meta, etc.)</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection"><a name="ERemotePlayKeyModifier"></a>ERemotePlayKeyModifier</h2>
+Key modifier in <a href="/doc/api/ISteamRemotePlay#RemotePlayInput_t">RemotePlayInput_t</a><br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierNone">
+            <td><strong>k_ERemotePlayKeyModifierNone</strong></td>
+            <td>0x0000</td>
+            <td>No modifiers are active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierLeftShift">
+            <td><strong>k_ERemotePlayKeyModifierLeftShift</strong></td>
+            <td>0x0001</td>
+            <td>Left shift is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierRightShift">
+            <td><strong>k_ERemotePlayKeyModifierRightShift</strong></td>
+            <td>0x0002</td>
+            <td>Right shift is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierLeftControl">
+            <td><strong>k_ERemotePlayKeyModifierLeftControl</strong></td>
+            <td>0x0040</td>
+            <td>Left control is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierRightControl">
+            <td><strong>k_ERemotePlayKeyModifierRightControl</strong></td>
+            <td>0x0080</td>
+            <td>Right control is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierLeftAlt">
+            <td><strong>k_ERemotePlayKeyModifierLeftAlt</strong></td>
+            <td>0x0100</td>
+            <td>Left Alt is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierRightAlt">
+            <td><strong>k_ERemotePlayKeyModifierRightAlt</strong></td>
+            <td>0x0200</td>
+            <td>Right Alt is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierLeftGUI">
+            <td><strong>k_ERemotePlayKeyModifierLeftGUI</strong></td>
+            <td>0x0400</td>
+            <td>Left GUI is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierRightGUI">
+            <td><strong>k_ERemotePlayKeyModifierRightGUI</strong></td>
+            <td>0x0800</td>
+            <td>Right GUI is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierNumLock">
+            <td><strong>k_ERemotePlayKeyModifierNumLock</strong></td>
+            <td>0x1000</td>
+            <td>NumLock is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierCapsLock">
+            <td><strong>k_ERemotePlayKeyModifierCapsLock</strong></td>
+            <td>0x2000</td>
+            <td>CapsLock is active.</td>
+        </tr>
+        <tr id="k_ERemotePlayKeyModifierMask">
+            <td><strong>k_ERemotePlayKeyModifierMask</strong></td>
+            <td>0xFFFF</td>
+            <td>A mask of all modifiers.</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_section"><a name="typedefs"></a>Typedefs</h2>
+These are typedefs which are defined for use with ISteamRemotePlay.<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Base type</th>
+            <th>Description</th>
+        </tr>
+        <tr id="RemotePlaySessionID_t">
+            <td><strong>RemotePlaySessionID_t</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>A Steam Remote Play session ID.</td>
+        </tr>
+        <tr id="RemotePlayCursorID_t">
+            <td><strong>RemotePlayCursorID_t</strong></td>
+            <td><a href="/doc/api/steam_api#uint32">uint32</a></td>
+            <td>A Steam Remote Play mouse cursor ID.</td>
         </tr>
     </tbody>
 </table>

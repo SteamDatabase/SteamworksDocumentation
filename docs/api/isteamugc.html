@@ -1075,11 +1075,33 @@ The current status.<br />
 <strong>See Also:</strong>
 <a href="/doc/api/ISteamUGC#SubmitItemUpdate">ISteamUGC::SubmitItemUpdate</a>
 <h2 class="bb_subsection"><a name="GetNumSubscribedItems"></a>GetNumSubscribedItems</h2>
-<div class="bb_code cpp">uint32 GetNumSubscribedItems();</div>
-Gets the total number of items the current user is subscribed to for the game or application.<br />
+<div class="bb_code cpp">uint32 GetNumSubscribedItems( bool bIncludeLocallyDisabled = false );</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>bIncludeLocallyDisabled</strong></td>
+            <td>bool</td>
+            <td>
+                Whether to include locally disabled items in the return value or not. Defaults to
+                false.
+            </td>
+        </tr>
+    </tbody>
+</table>
+Gets the total number of items the current user is subscribed to for the game or application. By
+default, this function will return exclude locally disabled items.<br />
 <br />
 <strong>Returns:</strong> <a href="/doc/api/steam_api#uint32">uint32</a><br />
-Returns <strong>0</strong> if called from a game server.
+Returns <strong>0</strong> if called from a game server.<br />
+<br />
+<strong>See Also:</strong>
+<a href="/doc/api/ISteamUGC#SetItemsDisabledLocally">ISteamUGC::SetItemsDisabledLocally</a>,
+<a href="/doc/api/ISteamUGC#GetSubscribedItems">ISteamUGC::GetSubscribedItems</a>
 <h2 class="bb_subsection">
     <a name="GetQueryUGCAdditionalPreview"></a>GetQueryUGCAdditionalPreview
 </h2>
@@ -1905,7 +1927,8 @@ Return true if the item version at the given index version exists, false otherwi
 <a href="/doc/api/ISteamUGC#SetRequiredGameVersions">ISteamUGC::SetRequiredGameVersions</a>
 <h2 class="bb_subsection"><a name="GetSubscribedItems"></a>GetSubscribedItems</h2>
 <div class="bb_code cpp">
-    uint32 GetSubscribedItems( PublishedFileId_t*pvecPublishedFileID, uint32 cMaxEntries );
+    uint32 GetSubscribedItems( PublishedFileId_t*pvecPublishedFileID, uint32 cMaxEntries, bool
+    bIncludeLocallyDisabled = false );
 </div>
 <table>
     <tbody>
@@ -1933,19 +1956,37 @@ Return true if the item version at the given index version exists, false otherwi
                 <code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code>.
             </td>
         </tr>
+        <tr>
+            <td><strong>bIncludeLocallyDisabled</strong></td>
+            <td>bool</td>
+            <td>
+                Whether to include locally disabled items in the return value or not. Defaults to
+                false.
+            </td>
+        </tr>
     </tbody>
 </table>
 <br />
-Gets a list of all of the items the current user is subscribed to for the current game.<br />
+Gets a list of all of the items the current user is subscribed to for the current game, excluding
+any that have been locally disabled by the user.<br />
 <br />
 You create an array with the size provided by
 <code class="bb_code bb_code_inline nohighlight">GetNumSubscribedItems</code> before calling
 this.<br />
 <br />
+By default, the items are return in the order that user subscribed to them. Users can change the
+ordering in the Steam Client, or you can do so via the
+<code class="bb_code bb_code_inline nohighlight">SetSubscriptionsLoadOrder</code> call.<br />
+<br />
 <strong>Returns:</strong> <a href="/doc/api/steam_api#uint32">uint32</a><br />
 The number of subscribed workshop items that were populated into
 <code class="bb_code bb_code_inline nohighlight">pvecPublishedFileID</code>.<br />
-Returns <strong>0</strong> if called from a game server.
+Returns <strong>0</strong> if called from a game server.<br />
+<br />
+<strong>See Also:</strong>
+<a href="/doc/api/ISteamUGC#GetNumSubscribedItems">ISteamUGC::GetNumSubscribedItems</a>,
+<a href="/doc/api/ISteamUGC#SetItemsDisabledLocally">ISteamUGC::SetItemsDisabledLocally</a>,
+<a href="/doc/api/ISteamUGC#SetSubscriptionsLoadOrder">ISteamUGC::SetSubscriptionsLoadOrder</a>
 <h2 class="bb_subsection"><a name="GetUserItemVote"></a>GetUserItemVote</h2>
 <div class="bb_code cpp">SteamAPICall_t GetUserItemVote( PublishedFileId_t nPublishedFileID );</div>
 <table>
@@ -2723,6 +2764,45 @@ If this is not set then "english" is assumed.<br />
 <strong>See Also:</strong> <a href="/doc/api/ISteamUGC#SetItemTitle">ISteamUGC::SetItemTitle</a>,
 <a href="/doc/api/ISteamUGC#SetItemDescription">ISteamUGC::SetItemDescription</a>,
 <a href="/doc/api/ISteamUGC#SetLanguage">ISteamUGC::SetLanguage</a>
+<h2 class="bb_subsection"><a name="SetItemsDisabledLocally"></a>SetItemsDisabledLocally</h2>
+<div class="bb_code cpp">
+    bool SetItemsDisabledLocally( PublishedFileId_t *pvecPublishedFileIDs, uint32
+    unNumPublishedFileIDs, bool bDisabledLocally );
+</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pvecPublishedFileIDs</strong></td>
+            <td><a href="/doc/api/ISteamRemoteStorage#PublishedFileId_t">PublishedFileId_t</a>*</td>
+            <td>Array of PublishedFileId_t</td>
+        </tr>
+        <tr>
+            <td><strong>unNumPublishedFileIDs </strong></td>
+            <td>uint32</td>
+            <td>Number of elements in the pvecPublishedFileIDs array</td>
+        </tr>
+        <tr>
+            <td><strong>bDisabledLocally</strong></td>
+            <td>bool</td>
+            <td>Whether the items should be disabled locally or not</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Sets whether the items should be disabled locally or not. This means that it will not be returned in
+GetNumSubscribedItems() and GetSubscribedItems() by default.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<br />
+<strong>See Also:</strong>
+<a href="/doc/api/ISteamUGC#GetNumSubscribedItems">ISteamUGC::GetNumSubscribedItems</a>,
+<a href="/doc/api/ISteamUGC#GetSubscribedItems">ISteamUGC::GetSubscribedItems</a>
 <h2 class="bb_subsection"><a name="SetItemVisibility"></a>SetItemVisibility</h2>
 <div class="bb_code cpp">
     bool SetItemVisibility( UGCUpdateHandle_t handle, ERemoteStoragePublishedFileVisibility
@@ -3220,6 +3300,40 @@ Query.<br />
 is not from
 <a href="/doc/api/ISteamUGC#CreateQueryAllUGCRequest">ISteamUGC::CreateQueryAllUGCRequest</a> or if
 <code class="bb_code bb_code_inline nohighlight">pSearchText</code> is <strong>NULL</strong>.
+<h2 class="bb_subsection"><a name="SetSubscriptionsLoadOrder"></a>SetSubscriptionsLoadOrder</h2>
+<div class="bb_code cpp">
+    bool SetSubscriptionsLoadOrder( PublishedFileId_t *pvecPublishedFileIDs, uint32
+    unNumPublishedFileIDs );
+</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pvecPublishedFileIDs</strong></td>
+            <td><a href="/doc/api/ISteamRemoteStorage#PublishedFileId_t">PublishedFileId_t</a>*</td>
+            <td>Array of PublishedFileId_t</td>
+        </tr>
+        <tr>
+            <td><strong>unNumPublishedFileIDs </strong></td>
+            <td>uint32</td>
+            <td>Number of elements in the pvecPublishedFileIDs array</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Set the local load order for these items. If there are any items not in the given list, they will
+sort by the time subscribed.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<br />
+<strong>See Also:</strong>
+<a href="/doc/api/ISteamUGC#GetNumSubscribedItems">ISteamUGC::GetNumSubscribedItems</a>,
+<a href="/doc/api/ISteamUGC#GetSubscribedItems">ISteamUGC::GetSubscribedItems</a>
 <h2 class="bb_subsection"><a name="SetUserItemVote"></a>SetUserItemVote</h2>
 <div class="bb_code cpp">
     SteamAPICall_t SetUserItemVote( PublishedFileId_t nPublishedFileID, bool bVoteUp );
