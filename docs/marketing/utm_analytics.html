@@ -113,9 +113,11 @@ permission for the game as that permission is required.<br />
 Links with UTM parameters are recorded by Steam if the following criteria is met:<br />
 <ul>
     <li>
-        Must refer to an <strong>app</strong> page on Steam. Links to other pages on Steam are not
-        currently supported.
+        Must refer to an <strong>app</strong> page or <strong>sale</strong> page on Steam. Links to
+        other pages on Steam are not currently supported.
         <div class="bb_code">store.steampowered.com/app/YOUR_APP_ID</div>
+        or
+        <div class="bb_code">store.steampowered.com/sale/SALE_NAME</div>
     </li>
     <li>Must include the <strong>utm_source</strong> or <strong>utm_campaign </strong>parameter</li>
 </ul>
@@ -142,8 +144,30 @@ There are two ways to evaluate the data reported by UTM Analytics<br />
 A tool to test if your link is valid is available on the UTM report via the "Test a UTM Link"
 button. It's also a good idea to test links in a web browser. Note: visit counts on the UTM
 dashboard are updated hourly. Conversions are finalized 4 days after the visit.
-<h2 class="bb_section"><a name="13"></a>Known Challenges</h2>
-<h2 class="bb_subsection"><a name="14"></a>Tracked Visits</h2>
+<h2 class="bb_section"><a name="13"></a>UTM works with Steam sale pages</h2>
+Starting April 22nd, 2025, UTM parameters included on external links that point to a sale page on
+Steam will now pass those parameters through to individual games on the sale page. This includes
+regional events such as "Made in Brazil", themed events such as the "Cozy &amp; Family Friendly
+Celebration", showcase events such as "The Game Awards", and also developer/publisher sale pages.
+External traffic through these sale pages and subsequent conversions can then appear in your game's
+UTM reporting.
+<h2 class="bb_section"><a name="14"></a>UTM works with Steam store widgets</h2>
+It is possible to include UTM parameters when embedding a store widget on pages outside Steam.
+Traffic through these widgets and subsequent conversions can then appear in your UTM reporting.<br />
+<br />
+For this to work, simply add your UTM parameters to the end of the URL in the iframe code. For
+example:<br />
+<div class="bb_code">
+    &lt;iframe
+    src="https://store.steampowered.com/widget/546560/?utm_source=mywebsite&amp;utm_campaign=summer_sale&amp;utm_medium=web"
+    frameborder="0" width="646" height="190"&gt;&lt;/iframe&gt;
+</div>
+For more details, please see Store Page Widget documentation:
+<a href="/doc/marketing/widget" target="_blank" rel="noreferrer"
+    >https://partner.steamgames.com/doc/marketing/widget</a
+>
+<h2 class="bb_section"><a name="15"></a>Known Challenges</h2>
+<h2 class="bb_subsection"><a name="16"></a>Tracked Visits</h2>
 Tracked Traffic reports the users that are signed in to Steam in some way, including the desktop
 client, desktop web browser, mobile app, or mobile web browser. Many social media mobile apps, where
 you may be running advertisements, make it really hard to direct traffic outside their app. It is
@@ -189,7 +213,7 @@ any conversions: <br />
     </li>
 </ul>
 <h2 class="bb_subsection">
-    <a name="15"></a>Discrepancies Between UTM Analytics and Traffic Breakdown
+    <a name="17"></a>Discrepancies Between UTM Analytics and Traffic Breakdown
 </h2>
 Steamworks has two main traffic reports:
 <a href="/doc/c/marketing/traffic_reporting">Store &amp; Steam Platform Traffic Breakdown</a> and
@@ -203,7 +227,7 @@ This variance arises from two factors:
         The reports track different types of traffic—total visits versus those from UTM links.<br />
     </li>
     <li>
-        A customer's choices in the
+        A customer's choice in the
         <a
             href="https://store.steampowered.com/account/cookiepreferences"
             target="_blank"
@@ -217,7 +241,7 @@ This variance arises from two factors:
 Though it's rare, UTM Analytics may report more visits than the Traffic Report if significant
 traffic comes from users who’ve opted out of the Valve Analytics Cookies used by the Traffic
 Breakdown.
-<h2 class="bb_section"><a name="16"></a>FAQ</h2>
+<h2 class="bb_section"><a name="18"></a>FAQ</h2>
 <h4>Q. Why is Steam providing UTM Analytics?</h4>
 A. This was built in response to the frequent requests from game developers for UTM reporting tools
 in Steamworks.
@@ -258,15 +282,18 @@ this.
 A. Demo and DLC downloads which do not include the base game are not currently included as
 conversions for UTM links to the base game page. If a DLC package includes the base game it will be
 counted as a conversion.
-<h4>Q. Do you track conversion via in-game purchases?</h4>
-A. We do not currently report conversion for in-game purchases.
-<h4>Q. Do you track conversion via CD-Keys/Steam Retail Keys?</h4>
+<h4>Q. Does Steam track conversion via in-game purchases?</h4>
+A. Steam does not currently report conversion for in-game purchases.
+<h4>Q. Does Steam track conversion via CD-Keys/Steam Retail Keys?</h4>
 A. Yes, these conversions are tracked in the "Activations" section of the UTM Dashboard.
-<h4>Q. Do you track conversions for playtest apps?</h4>
-A. We do not currently report conversions for playtest apps.
-<h4>Q. Do you support other community and store page links such as sub, curator, bundle?</h4>
-A. At this time only app pages are supported. We hope to expand support for additional page types in
-the future.
+<h4>Q. Does Steam track conversions for playtest apps?</h4>
+A. Steam does not currently report conversions for playtest apps.
+<h4>
+    Q. Does Steam support UTM reporting for other community and store pages such as developer
+    homepages or bundles?
+</h4>
+A. At this time only app and sale pages are supported. We hope to expand support for additional page
+types in the future.
 <h4>Q. Do UTM links get recorded if the store page opens an age gate?</h4>
 A. Yes, the UTM click event is recorded for the app when the age gate page is shown. Customers who
 decide to stop at the age gate are still recorded as having clicked the UTM link.
