@@ -1,0 +1,769 @@
+<h1>IPartnerFinancialsService</h1>
+Used to access information on financial reporting. For more info on how to use the Steamworks Web
+API please see the <a href="/doc/webapi_overview">Web API Overview</a>.
+<h2 class="bb_section"><a name="GetChangedDatesForPartner"></a>GetChangedDatesForPartner</h2>
+<br />
+<div class="bb_code http">
+    GET https://partner.steam-api.com/IPartnerFinancialsService/GetChangedDatesForPartner/v001/
+</div>
+<br />
+<br />
+<strong>Request values</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key</td>
+        </tr>
+        <tr>
+            <td><strong>highwatermark</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                A unique identifier, the point at which to query data forward from. Should be set to
+                0 on first run.
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Retrieves the set of dates for which financial data has changed since the given highwatermark, for
+the given PartnerID. The dates can be passed to GetDetailedSales to retrieve financial data.
+PartnerID can be found at the top of the
+<a href="/dashboard" target="_blank" rel="noreferrer">Steamworks Homepage</a> when logged in. <br />
+<br />
+<strong>Return values</strong>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>dates</strong></td>
+            <td>string</td>
+            <td>
+                A repeating field of unique dates that have newly calculated or recalculated
+                financial data. If this field is empty, no new data is available.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>result_highwatermark</strong></td>
+            <td>string</td>
+            <td>
+                A unique identifier, marks the maximum point that the financial data has been
+                analyzed to for the provided partner. This value should be used as the
+                "highwatermark" value for subsequent calls to GetChangedDatesForPartner to avoid
+                doing unnecessary work. If the value is unchanged from the provided "highwatermark"
+                value then there is no new financial data for the partnerid being called.
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>Example response: </strong><br />
+<div class="bb_code">
+    "response": { "dates": [ "2025/04/28", "2025/05/04", "2025/05/05", "2025/05/06", "2025/05/07",
+    "2025/05/08" ], "result_highwatermark": "1841518117865" }
+</div>
+<h2 class="bb_section"><a name="GetDetailedSales"></a>GetDetailedSales</h2>
+<br />
+<div class="bb_code http">
+    GET https://partner.steam-api.com/IPartnerFinancialsService/GetDetailedSales/v001/
+</div>
+<br />
+<br />
+<strong>Request values</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Steamworks Web API publisher authentication key</td>
+        </tr>
+        <tr>
+            <td><strong>date</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                Date to retrieve the sales data for. The date should be formatted as YYYY-MM-DD,
+                YYYY/MM/DD, or YYYYMMDD.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>highwatermark_id</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td>
+                A per-date value (ie. should be set at 0 for each date being queried). Informs the
+                number of new records to query for.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>include_view_grants</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Include sales data that is visible via view grants in the response</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Retrieves the daily sales for a partner account in batches. PartnerID can be found at the top of the
+<a href="/dashboard" target="_blank" rel="noreferrer">Steamworks Homepage</a> when logged in. <br />
+<br />
+Individual fields for CPartnerFinancials_SalesResult will only be filled for relevant line item
+types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
+<br />
+<strong>Return values</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>results</strong></td>
+            <td>CPartnerFinancials_DetailedSalesResult</td>
+            <td>A repeating field containing detailed sales information</td>
+        </tr>
+        <tr>
+            <td><strong>discount_info</strong></td>
+            <td>CPartnerFinancials_DiscountInfo</td>
+            <td>The discount details for the response</td>
+        </tr>
+        <tr>
+            <td><strong>combined_discount_info</strong></td>
+            <td>CPartnerFinancials_CombinedDiscountInfo</td>
+            <td>The combined discount details for the response</td>
+        </tr>
+        <tr>
+            <td><strong>key_request_info</strong></td>
+            <td>CPartnerFinancials_KeyRequestInfo</td>
+            <td>The key request details for this response</td>
+        </tr>
+        <tr>
+            <td><strong>app_info</strong></td>
+            <td>CPartnerFinancials_PackageInfo</td>
+            <td>The package id values for the response and their respective names</td>
+        </tr>
+        <tr>
+            <td><strong>package_info</strong></td>
+            <td>CPartnerFinancials_AppInfo</td>
+            <td>The app id values for the response and their respective names</td>
+        </tr>
+        <tr>
+            <td><strong>bundle_info</strong></td>
+            <td>CPartnerFinancials_BundleInfo</td>
+            <td>The bundle id values for the response and their respective names</td>
+        </tr>
+        <tr>
+            <td><strong>game_item_info</strong></td>
+            <td>CPartnerFinancials_GameItemInfo</td>
+            <td>
+                The app id and game item id values for the response and their respective
+                descriptions and categories
+            </td>
+        </tr>
+        <tr>
+            <td><strong>country_info</strong></td>
+            <td>CPartnerFinancials_CountryInfo</td>
+            <td>The country codes, names, and regions from the response</td>
+        </tr>
+        <tr>
+            <td><strong>country_info</strong></td>
+            <td>CPartnerFinancials_PartnerInfo</td>
+            <td>The partner ids and names from the response</td>
+        </tr>
+        <tr>
+            <td><strong>max_id</strong></td>
+            <td>int64</td>
+            <td>
+                The largest id returned from this result set. When equal to highwatermark_id this
+                denotes that no further records are available for the date being queried
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<strong>CPartnerFinancials_DetailedSalesResult</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Packages</th>
+            <th>In-Game</th>
+            <th>CD-Keys</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>partnerid</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>The partnerid that this data was generated for.</td>
+        </tr>
+        <tr>
+            <td><strong>date</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>
+                The date the statistics were calculated for (aka. calculation date). Returned in the
+                same format as provided in the request (YYYY-MM-DD, YYYY/MM/DD, or YYYYMMDD). Max
+                size - 16 characters.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>line_item_type</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>The type of sale: package, in-game, or cd-key. Max size - 64 characters</td>
+        </tr>
+        <tr>
+            <td><strong>packageid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+            <td>✔</td>
+            <td>The package id that was sold or activated.</td>
+        </tr>
+        <tr>
+            <td><strong>bundleid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td></td>
+            <td></td>
+            <td>The bundle id the package was sold within, if applicable.</td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>✔</td>
+            <td></td>
+            <td>The appid for the item being sold.</td>
+        </tr>
+        <tr>
+            <td><strong>game_item_id</strong></td>
+            <td>int32</td>
+            <td></td>
+            <td>✔</td>
+            <td></td>
+            <td>
+                The game item id of the item being sold. Equivalent to "ItemID" from the old CSV
+                feed.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>package_sale_type</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td></td>
+            <td>✔</td>
+            <td>The type of redemption, Steam sale or Retail key. Max size - 64 characters.</td>
+        </tr>
+        <tr>
+            <td><strong>key_request_id</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td></td>
+            <td>✔</td>
+            <td>The unique identifier for the key request that this activation was made from</td>
+        </tr>
+        <tr>
+            <td><strong>platform</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td></td>
+            <td>✔</td>
+            <td>The platform that sales are attributed to. Max size - 64 characters</td>
+        </tr>
+        <tr>
+            <td><strong>country_code</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>The ISO-2 country code where the item was purchased. Max size - 8 characters</td>
+        </tr>
+        <tr>
+            <td><strong>base_price</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+            <td></td>
+            <td>The base price, in local currency cents.</td>
+        </tr>
+        <tr>
+            <td><strong>sale_price</strong></td>
+            <td>uint64</td>
+            <td>✔</td>
+            <td></td>
+            <td></td>
+            <td>The final sale price, in local currency cents.</td>
+        </tr>
+        <tr>
+            <td><strong>currency</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td></td>
+            <td>The currency of the transaction.</td>
+        </tr>
+        <tr>
+            <td><strong>gross_units_sold</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td></td>
+            <td>The number of units sold.</td>
+        </tr>
+        <tr>
+            <td><strong>gross_units_returned</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td></td>
+            <td>The number of units returned.</td>
+        </tr>
+        <tr>
+            <td><strong>gross_sales_usd</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td></td>
+            <td>The value of sales, in USD dollars to four decimal places.</td>
+        </tr>
+        <tr>
+            <td><strong>gross_returns_usd</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td></td>
+            <td>The value of returns, in USD dollars to four decimal places.</td>
+        </tr>
+        <tr>
+            <td><strong>net_tax_usd</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td></td>
+            <td>The net value of taxes, in USD dollars to four decimal places.</td>
+        </tr>
+        <tr>
+            <td><strong>gross_units_activated</strong></td>
+            <td>int32</td>
+            <td></td>
+            <td></td>
+            <td>✔</td>
+            <td>The number of units activated.</td>
+        </tr>
+        <tr>
+            <td><strong>view_grant_partnerid</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>
+                The partnerid that granted visibility, only filled for data that is visible via a
+                view grant.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>net_units_sold</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td></td>
+            <td>The number of units sold less the number of units returned.</td>
+        </tr>
+        <tr>
+            <td><strong>net_sales_usd</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td></td>
+            <td>
+                The value of sales less the value of returns and taxes, in USD dollars to four
+                decimal places.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>avg_sale_price_usd</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>✔</td>
+            <td></td>
+            <td>
+                The average sale price of in-game units sold, in USD dollars to four decimal places.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>combined_discount_id</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td></td>
+            <td></td>
+            <td>The ID associated with the unique set of discounts used, if applicable</td>
+        </tr>
+        <tr>
+            <td><strong>primary_appid</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>
+                The appid that this package associate to for purpose of additional revenue share
+                accrual. NOTE: While this value made be included in CD-key responses for ease of
+                package-&gt;app association, additional revenue share does not take into account
+                cd-key activations.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>additional_revenue_share_tier</strong></td>
+            <td>ERevenueShareBonusTier</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td></td>
+            <td>
+                What additional revenue share, if any, has this sale qualified for on the given date
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<strong>ERevenueShareBonusTier (int32)</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Value</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>0</strong></td>
+            <td>k_ERevenueShareBonusTier_None</td>
+            <td>No additional revenue share</td>
+        </tr>
+        <tr>
+            <td><strong>1</strong></td>
+            <td>k_ERevenueShareBonusTier_5Percent</td>
+            <td>5% additional revenue share</td>
+        </tr>
+        <tr>
+            <td><strong>2</strong></td>
+            <td>k_ERevenueShareBonusTier_10Percent</td>
+            <td>10% additional revenue share</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<strong>CPartnerFinancials_DiscountInfo</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>discountid</strong></td>
+            <td>int32</td>
+            <td>The unique id for the given discount</td>
+        </tr>
+        <tr>
+            <td><strong>discount_description </strong></td>
+            <td>string</td>
+            <td>The discount description. Max size - 1024 characters</td>
+        </tr>
+        <tr>
+            <td><strong>discount_group </strong></td>
+            <td>string</td>
+            <td>The discount group. Max size - 1024 characters.</td>
+        </tr>
+        <tr>
+            <td><strong>discount_percentage </strong></td>
+            <td>int32</td>
+            <td>The integer value percentage discount off the items regular price</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>CPartnerFinancials_CombinedDiscountInfo</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>combined_discount_id</strong></td>
+            <td>uint32</td>
+            <td>A unique id</td>
+        </tr>
+        <tr>
+            <td><strong>combined_discount_name</strong></td>
+            <td>string</td>
+            <td>The combined discount name</td>
+        </tr>
+        <tr>
+            <td><strong>total_discount_percentage</strong></td>
+            <td>int32</td>
+            <td>The total percentage discount via all component discounts</td>
+        </tr>
+        <tr>
+            <td><strong>discount_ids</strong></td>
+            <td>int32</td>
+            <td>A repeating field of all discount ids that make up this combined discount id</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>CPartnerFinancials_KeyRequestInfo</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key_request_id</strong></td>
+            <td>uint32</td>
+            <td>The unique id for the given key request</td>
+        </tr>
+        <tr>
+            <td><strong>key_request_notes</strong></td>
+            <td>string</td>
+            <td>The notes provided for the key request. Max size - 4000 characters</td>
+        </tr>
+        <tr>
+            <td><strong>game_code_id</strong></td>
+            <td>int32</td>
+            <td>The game code id associated with this key request</td>
+        </tr>
+        <tr>
+            <td><strong>game_code_description</strong></td>
+            <td>string</td>
+            <td>The game code description. Max size - 1024 characters</td>
+        </tr>
+        <tr>
+            <td><strong>territory_code_id</strong></td>
+            <td>int32</td>
+            <td>The territory code id associated with this key request</td>
+        </tr>
+        <tr>
+            <td><strong>territory_code_description</strong></td>
+            <td>string</td>
+            <td>The territory code description. Max size - 1024 characters</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>Note:</strong> Some CPartnerFinancials_KeyRequestInfo return values may have a note of
+"Synthetic request". These serve as placeholder values for redemptions of key ranges that were made
+before the key request system was created (ie. prior to January, 2013)<br />
+<br />
+<strong>CPartnerFinancials_PackageInfo</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>packageid</strong></td>
+            <td>uint32</td>
+            <td>A unique id</td>
+        </tr>
+        <tr>
+            <td><strong>package_name</strong></td>
+            <td>string</td>
+            <td>The package name</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>CPartnerFinancials_AppInfo</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>A unique id</td>
+        </tr>
+        <tr>
+            <td><strong>app_name</strong></td>
+            <td>string</td>
+            <td>The app name</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>CPartnerFinancials_BundleInfo</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>bundleid</strong></td>
+            <td>uint32</td>
+            <td>A unique id</td>
+        </tr>
+        <tr>
+            <td><strong>bundle_name</strong></td>
+            <td>string</td>
+            <td>The bundle name</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>CPartnerFinancials_GameItemInfo</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>game_item_description</strong></td>
+            <td>string</td>
+            <td>
+                The English language description of the in-game item sold. Max size - 128 characters
+            </td>
+        </tr>
+        <tr>
+            <td><strong>game_item_category</strong></td>
+            <td>string</td>
+            <td>
+                The English language category of the in-game item sold. Max size - 128 characters
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>CPartnerFinancials_CountryInfo</strong><br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>country_code</strong></td>
+            <td>string</td>
+            <td>The ISO-2 country code where the item was purchased. Max size - 8 characters</td>
+        </tr>
+        <tr>
+            <td><strong>country_name</strong></td>
+            <td>string</td>
+            <td>The full name of the country_code field. Max size - 128 characters</td>
+        </tr>
+        <tr>
+            <td><strong>region</strong></td>
+            <td>string</td>
+            <td>The region within which the country_code belongs.Max size - 128 characters</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>CPartnerFinancials_PartnerInfo</strong><br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>partnerid</strong></td>
+            <td>uint32</td>
+            <td>A unique id</td>
+        </tr>
+        <tr>
+            <td><strong>partner_name</strong></td>
+            <td>string</td>
+            <td>The name of the partner. Max size - 128 characters</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<strong>Example response: </strong><br />
+<div class="bb_code">
+    "response": { "results": [ { "partnerid": "10500", "date": "2025/05/01", "line_item_type":
+    "Package", "packageid": 123, "bundleid":777 "package_sale_type": "Steam", "platform": "Windows",
+    "country_code": "AU", "base_price": "3995", "sale_price": "1995", "currency": "AUD",
+    "gross_units_sold": 10, "gross_units_returned": -2, "gross_sales_usd": "311.7201",
+    "gross_returns_usd": "-25.5322", "net_tax_usd": "26.0431", "primary_appid": 999,
+    "additional_revenue_share_tier": 0, "net_units_sold": 8, "net_sales_usd": "260.1448",
+    "combined_discount_id": 8888, "total_discount_percentage": 50 }, { "partnerid": "10500", "date":
+    "2025/05/01", "line_item_type": "Package", "packageid": 456, "package_sale_type": "Steam",
+    "platform": "Windows", "country_code": "CA", "base_price": "5999", "sale_price": "5999",
+    "currency": "CAD", "gross_units_sold": 100, "gross_units_returned": 0, "gross_sales_usd":
+    "4309.0101", "gross_returns_usd": "0.0000", "net_tax_usd": "517.0812", "primary_appid": 1099,
+    "additional_revenue_share_tier": 1, "viw_grant_partnerid": "5200", "net_units_sold": 100,
+    "net_sales_usd": "3791.9288", }, { "partnerid": "10500", "date": "2025/05/01", "line_item_type":
+    "MicroTxn", "appid": 1099, "game_item_id": 1, "country_code": "US", "currency": "USD",
+    "gross_units_sold": 2, "gross_units_returned": 0, "gross_sales_usd": "9.9800",
+    "gross_returns_usd": "0.0000", "net_tax_usd": "0.9980", "primary_appid": 1099,
+    "additional_revenue_share_tier": 1, "net_units_sold": 2, "net_sales_usd": "8.9820",
+    "avg_sale_price_usd": "4.9900" }, { "partnerid": "10500", "date": "2025/05/01",
+    "line_item_type": "Package", "packageid": 123, "package_sale_type": "Retail", "platform":
+    "Unknown", "country_code": "AE", "primary_appid": 999, "key_request_id": 7100,
+    "gross_units_activated": 10 }, ], "key_request_info": [ { "key_request_id": 7100,
+    "key_request_notes": "Keys for Key Markets", "game_code_id": 842, "game_code_description":
+    "Retail Distribution - Middle East &amp; North Africa", "territory_code_id": 0,
+    "territory_code_description": "UNUSED" } ], "package_info": [ { "packageid": 123,
+    "package_name": "Grate Expectations: Cheese Preparation Simulator - Deluxe Edition" }, {
+    "packageid": 456, "package_name": "Grate Expectations 2: Curd Your Loins - Launch Edition" } ]
+    "app_info": [ { "appid": 999, "app_name": "Grate Expectations: Cheese Preparation Simulator }, {
+    "appid": 1099, "app_name": "Grate Expectations 2: Curd Your Loins" } ], "bundle_info": [ {
+    "bundleid": 777, "bundle_name": "Grate Expectations Deluxe Bundle" }, ],
+    "combined_discount_info": [ { "combined_discount_id": 8888, "combined_discount_name": "Bundle
+    Discount", "total_discount_percentage": 50, "discount_ids": [11111] }, ], "game_item_info": [ {
+    "appid": 1099, "game_item_id": 1, "game_item_description": "500 Grams of Whey",
+    "game_item_category": "Essential Cheese Product" } ], "country_info": [ { "country_code": "AE",
+    "country_name": "United Arab Emirates", "region": "Middle East &amp; North Africa" }, {
+    "country_code": "AU", "country_name": "Australia", "region": "Oceania" }, { "country_code":
+    "CA", "country_name": "Canada", "region": "North America" }, { "country_code": "US",
+    "country_name": "United States", "region": "North America" }, ], "max_id": "29481179373"
+</div>
