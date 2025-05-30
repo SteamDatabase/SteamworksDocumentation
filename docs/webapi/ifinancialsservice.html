@@ -1,6 +1,40 @@
 <h1>IPartnerFinancialsService</h1>
 Used to access information on financial reporting. For more info on how to use the Steamworks Web
-API please see the <a href="/doc/webapi_overview">Web API Overview</a>.
+API please see the <a href="/doc/webapi_overview">Web API Overview</a>.<br />
+<br />
+IPartnerFinancialsService is unique when compared to other Steamworks API's; it requires a special
+group (called a "Financial API Group") with its own Web API key. A Financial API Group has no users
+and no apps associated to it, it is solely dedicated to the API retrieval of all financial data for
+a partner account. There are also no app limitations or user limitations on the Financial API Key,
+it retrieves all data for all applications on a partner account, the call does not require a logged
+in user. <br />
+<br />
+To provision a Financial Web API key, a Financial API Group must first be created on the
+<a href="https://appmgmt.local.steam.dev/pub/groups/" target="_blank" rel="noreferrer"
+    >Manage Groups</a
+>
+page of Steamworks. The Financial Web API Key will then be displayed on the newly created group's
+page. <br />
+<br />
+For additional security, it is recommended that you use the "Manage WebAPI Key" section of the
+groups page to add a set of Whitelisted IPs as trusted access points for your financial data.
+Additionally, we recommend keeping the key as safe as you would any other password (don't email it
+around!) as it provides access to large amount of information on the performance of your partner
+account on Steam. <br />
+<br />
+A typical call pattern would be as follows: <br />
+<br />
+<u><strong>Step 1:</strong></u> Call GetChangedDatesForPartner to find the set of dates that have
+new data. Your first call will use a highwatermark value of 0 and will return every data you have
+ever had sales or activations on Steam. Subsequent values should use the result_highwatermark from
+the prior call, and will only show the dates with new data since the prior call. <br />
+<br />
+<u><strong>Step 2:</strong></u> For each date returned by GetChangedDatesForPartner, make a call to
+GetDetailedSales. Each new date should start with a highwatermark_id value of 0. Continue calling
+GetDetailedSales, using the returned max_id as the next call's highwatermark_id. When the returned
+max_id field is equal to the highwatermark_id field that was provided in the request it is a signal
+that there is no further data available for that date. Move on to the next date and continue the
+pattern described above.
 <h2 class="bb_section"><a name="GetChangedDatesForPartner"></a>GetChangedDatesForPartner</h2>
 <br />
 <div class="bb_code http">
@@ -31,6 +65,12 @@ API please see the <a href="/doc/webapi_overview">Web API Overview</a>.
                 A unique identifier, the point at which to query data forward from. Should be set to
                 0 on first run.
             </td>
+        </tr>
+        <tr>
+            <td><strong>include_view_grants</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Include dates that are visible via view grants in the response</td>
         </tr>
     </tbody>
 </table>
