@@ -589,7 +589,13 @@ history:<br />
     </tbody>
 </table>
 <br />
-Get detailed information of all recurring billing agreements (subscriptions) for a user.<br />
+Get detailed information for the current billing agreement for a user. The billing agreement status
+will just be for the current renewal status. For example, if the user has paid for 1 month, and then
+cancels after 1 day, the current status show canceled.<br />
+<br />
+In general, you should not use this API to determine if the user has renewed their subscription.
+Instead, use <a href="/doc/webapi/ISteamMicroTxn#GetReport">ISteamMicroTxn/GetReport</a> to see when
+they were charged for their renewal.<br />
 <br />
 <strong>NOTE:</strong> This call requires a publisher API key to use this method. As such this API
 <strong>MUST</strong> be called from a secure server, and can never be used directly by clients!<br />
@@ -632,7 +638,8 @@ yet charged the user for the agreement. Previously the status value would be "ac
                                         <code class="bb_code bb_code_inline nohighlight"
                                             >status</code
                                         >
-                                        - Active, canceled, or processing.<br />
+                                        - Active, canceled, or processing. This status will just be
+                                        the current status for the user.<br />
                                     </li>
                                     <li>
                                         <code class="bb_code bb_code_inline nohighlight"
