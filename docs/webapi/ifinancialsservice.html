@@ -10,17 +10,14 @@ it retrieves all data for all applications on a partner account, the call does n
 in user. <br />
 <br />
 To provision a Financial Web API key, a Financial API Group must first be created on the
-<a href="https://appmgmt.local.steam.dev/pub/groups/" target="_blank" rel="noreferrer"
-    >Manage Groups</a
->
-page of Steamworks. The Financial Web API Key will then be displayed on the newly created group's
-page. <br />
+<a href="/pub/groups/" target="_blank" rel="noreferrer">Manage Groups</a> page of Steamworks. The
+Financial Web API Key will then be displayed on the newly created group's page. <br />
 <br />
-For additional security, it is recommended that you use the "Manage WebAPI Key" section of the
-groups page to add a set of Whitelisted IPs as trusted access points for your financial data.
-Additionally, we recommend keeping the key as safe as you would any other password (don't email it
-around!) as it provides access to large amount of information on the performance of your partner
-account on Steam. <br />
+For additional security, it is recommended that you use the "Manage WebAPI Key" section on the
+Financial API Group's page to add a set of Whitelisted IPs as trusted access points for your
+financial data. Additionally, we recommend keeping the key as safe as you would any other password
+(don't email it around!) as it provides access to large amount of information on the performance of
+your partner account on Steam. <br />
 <br />
 A typical call pattern would be as follows: <br />
 <br />
@@ -75,10 +72,8 @@ pattern described above.
     </tbody>
 </table>
 <br />
-Retrieves the set of dates for which financial data has changed since the given highwatermark, for
-the given PartnerID. The dates can be passed to GetDetailedSales to retrieve financial data.
-PartnerID can be found at the top of the
-<a href="/dashboard" target="_blank" rel="noreferrer">Steamworks Homepage</a> when logged in. <br />
+Retrieves the set of dates for which financial data has changed since the given highwatermark. These
+dates can be passed to GetDetailedSales to retrieve financial data. <br />
 <br />
 <strong>Return values</strong>
 <table>
@@ -164,8 +159,7 @@ PartnerID can be found at the top of the
     </tbody>
 </table>
 <br />
-Retrieves the daily sales for a partner account in batches. PartnerID can be found at the top of the
-<a href="/dashboard" target="_blank" rel="noreferrer">Steamworks Homepage</a> when logged in. <br />
+Retrieves the daily sales for a partner in batches.<br />
 <br />
 Individual fields for CPartnerFinancials_SalesResult will only be filled for relevant line item
 types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
@@ -182,16 +176,6 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td><strong>results</strong></td>
             <td>CPartnerFinancials_DetailedSalesResult</td>
             <td>A repeating field containing detailed sales information</td>
-        </tr>
-        <tr>
-            <td><strong>discount_info</strong></td>
-            <td>CPartnerFinancials_DiscountInfo</td>
-            <td>The discount details for the response</td>
-        </tr>
-        <tr>
-            <td><strong>combined_discount_info</strong></td>
-            <td>CPartnerFinancials_CombinedDiscountInfo</td>
-            <td>The combined discount details for the response</td>
         </tr>
         <tr>
             <td><strong>key_request_info</strong></td>
@@ -214,6 +198,16 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The bundle id values for the response and their respective names</td>
         </tr>
         <tr>
+            <td><strong>discount_info</strong></td>
+            <td>CPartnerFinancials_DiscountInfo</td>
+            <td>The discount details for the response</td>
+        </tr>
+        <tr>
+            <td><strong>combined_discount_info</strong></td>
+            <td>CPartnerFinancials_CombinedDiscountInfo</td>
+            <td>The combined discount details for the response</td>
+        </tr>
+        <tr>
             <td><strong>game_item_info</strong></td>
             <td>CPartnerFinancials_GameItemInfo</td>
             <td>
@@ -227,7 +221,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The country codes, names, and regions from the response</td>
         </tr>
         <tr>
-            <td><strong>country_info</strong></td>
+            <td><strong>partner_info</strong></td>
             <td>CPartnerFinancials_PartnerInfo</td>
             <td>The partner ids and names from the response</td>
         </tr>
