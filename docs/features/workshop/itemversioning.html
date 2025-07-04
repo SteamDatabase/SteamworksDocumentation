@@ -21,4 +21,19 @@ To get the most out of this feature, you will need to order your Steam branches 
 site by visiting the SteamPipe &gt; Builds page. From there you can re-order the branches you've
 created from oldest to newest. This is needed if you want users to be able to specify that a version
 of their item is valid for a range of branches (i.e. "minimum" and "maximum") instead of just one
-specific branch.
+specific branch.<br />
+<br />
+<br />
+Sometimes not all workshop items are updated by the original authors to work with a new version of
+your game. Since Steam automatically updates all games before launch, some popular workshop items
+might not work anymore. As a developer you can allow users to download previous versions of your
+game using app beta branches. Previously an app beta branch required the user to go to your game
+properties in Steam and selected the correct version. Now there is new API that lets you query
+available app branches from within the game and also let you change the beta branch for your game.
+Setting a beta branch from within the game which will require a game restart so Steam can download
+and apply the update. Use <a href="/doc/api/ISteamApps#GetNumBetas">ISteamApps::GetNumBetas</a> and
+<a href="/doc/api/ISteamApps#GetBetaInfo">ISteamApps::GetBetaInfo</a> to iterate currently available
+app beta branches. If you game detects that the user as workshop items installed that do not work
+with the current version of the game, you can give the user the option to switch back to a previous
+version in the game. It's up to the game to find the correct beta branch that would work with the
+installed workshop items.
