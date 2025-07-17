@@ -27,11 +27,40 @@ ever had sales or activations on Steam. Subsequent values should use the result_
 the prior call, and will only show the dates with new data since the prior call. <br />
 <br />
 <u><strong>Step 2:</strong></u> For each date returned by GetChangedDatesForPartner, make a call to
-GetDetailedSales. Each new date should start with a highwatermark_id value of 0. Continue calling
-GetDetailedSales, using the returned max_id as the next call's highwatermark_id. When the returned
-max_id field is equal to the highwatermark_id field that was provided in the request it is a signal
-that there is no further data available for that date. Move on to the next date and continue the
-pattern described above.
+GetDetailedSales. Each new date should start with a highwatermark_id value of 0. Store off the
+result set locally, for instance via a database, so that you do not need to traverse old ranges of
+data more than necessary. Continue calling GetDetailedSales, using the returned max_id as the next
+call's highwatermark_id. When the returned max_id field is equal to the highwatermark_id field that
+was provided in the request it is a signal that there is no further data available for that date.
+Move on to the next date and continue the pattern described above. <br />
+<br />
+<strong><u>Example Integration of IPartnerFinancialsService</u></strong
+><br />
+<br />
+- Partner X calls GetChangedDatesForPartner on May 4th, 2025 with a highwatermark value of 0.<br />
+<div class="bb_code">
+    "response": { "dates": [ "2025/05/03", "2025/05/04" ], "result_highwatermark": "120" }
+</div>
+- Partner X would then perform GetDetailedSales calls for 2025/05/03 and 2025/05/04, storing off the
+results of each call locally for further analysis. <br />
+- With their GetDetailedSales querying completed, Partner X would then stores off the
+result_highwatermark value (120) from GetChangedDatesForPartner for future calls. <br />
+<br />
+- The next day (May 5th, 2025), Partner X starts their workday by calling GetChangedDatesForPartner
+again (using a higwatermark value of 120, the stored value from the previous day's call). <br />
+<div class="bb_code">
+    "response": { "dates": [ "2025/05/03", "2025/05/04", "2025/05/05" ], "result_highwatermark":
+    "163" }
+</div>
+- Two of these dates already exist from Partner X's call the previous day! This is not an error in
+the API. Dates showing up in subsequent calls to GetChangedDatesForPartner mean that the summary
+values (eg. gross_sales_usd etc.) for a given date may have changed. This happens in the normal
+course of business due to things like late settlement of transactions. <br />
+- Partner X would then <i>remove</i> their local entries for 2025/05/03 and 2025/05/04 and
+<i>replace</i> these values with the results from new calls of GetDetailedSales. Partner X would
+also store off new values for dates they don't already have (2025/05/05)<br />
+- Finally, Partner X would then store off the result_highwatermark value (163) from
+GetChangedDatesForPartner until their next call.
 <h2 class="bb_section"><a name="GetChangedDatesForPartner"></a>GetChangedDatesForPartner</h2>
 <br />
 <div class="bb_code http">
@@ -170,8 +199,28 @@ deletions, and updates that have occurred.<br />
 <br />
 Retrieves the daily sales for a partner in batches.<br />
 <br />
-Individual fields for CPartnerFinancials_SalesResult will only be filled for relevant line item
-types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
+Individual fields for CPartnerFinancials_SalesResult will only be filled for relevant line_item_type
+and package_sale_type values, demarcated below via the Package, MicroTxn, and CD-Key columns. <br />
+<br />
+<strong><u>How to determine a CPartnerFinancials_SalesResult Category</u></strong
+><br />
+<br />
+<strong>Package:</strong> line_item_type = "Package" and package_sale_type = "Steam"<br />
+<strong>MicroTxn:</strong> line_item_type = "MicroTxn"<br />
+<strong>CD-Key:</strong> line_item_type = "Package" and package_sale_type = "Retail"<br />
+<br />
+<strong><u>Identifying Fields</u></strong
+><br />
+Each CPartnerFinancials_DetailedSalesResult entry has within it a set of identifying fields (eg.
+packageid, appid, country_code, etc.) in addition to aggregated values (eg. gross_units_sold,
+gross_units_returned, gross_sales_usd etc.) <br />
+<br />
+Unique Identifying Fields (demarcated in the table below) can be combined to form a unique key for
+each CPartnerFinancials_DetailedSalesResult record. This key can make storage of your financial data
+much easier! For example, if you're using a database for storage of your GetDetailedSales results,
+you could include each of these Unique Identifying Fields as columns in a table's primary key.
+Alternatively, you could compute a hash of Unique Identifying Fields to store a single row
+identifier per CPartnerFinancials_DetailedSalesResult.<br />
 <br />
 <strong>Return values</strong><br />
 <table>
@@ -250,14 +299,16 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
 <table>
     <tbody>
         <tr>
+            <th>Unique Identifying Fields</th>
             <th>Name</th>
             <th>Type</th>
             <th>Packages</th>
-            <th>In-Game</th>
+            <th>MicroTxn</th>
             <th>CD-Keys</th>
             <th>Description</th>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>partnerid</strong></td>
             <td>int32</td>
             <td>✔</td>
@@ -266,6 +317,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The partnerid that this data was generated for.</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>date</strong></td>
             <td>string</td>
             <td>✔</td>
@@ -278,6 +330,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             </td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>line_item_type</strong></td>
             <td>string</td>
             <td>✔</td>
@@ -286,6 +339,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The type of sale: "Package" or "MicroTxn". Max size - 64 characters</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>packageid</strong></td>
             <td>uint32</td>
             <td>✔</td>
@@ -294,6 +348,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The package id that was sold or activated.</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>bundleid</strong></td>
             <td>uint32</td>
             <td>✔</td>
@@ -302,6 +357,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The bundle id the package was sold within, if applicable.</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>appid</strong></td>
             <td>uint32</td>
             <td></td>
@@ -310,6 +366,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The appid for the item being sold.</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>game_item_id</strong></td>
             <td>int32</td>
             <td></td>
@@ -321,6 +378,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             </td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>package_sale_type</strong></td>
             <td>string</td>
             <td>✔</td>
@@ -329,6 +387,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The type of redemption, Steam sale or Retail key. Max size - 64 characters.</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>key_request_id</strong></td>
             <td>uint32</td>
             <td></td>
@@ -337,6 +396,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The unique identifier for the key request that this activation was made from</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>platform</strong></td>
             <td>string</td>
             <td>✔</td>
@@ -345,6 +405,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The platform that sales are attributed to. Max size - 64 characters</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>country_code</strong></td>
             <td>string</td>
             <td>✔</td>
@@ -353,6 +414,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The ISO-2 country code where the item was purchased. Max size - 8 characters</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>base_price</strong></td>
             <td>uint64</td>
             <td>✔</td>
@@ -361,6 +423,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The base price, in local currency cents.</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>sale_price</strong></td>
             <td>uint64</td>
             <td>✔</td>
@@ -369,6 +432,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The final sale price, in local currency cents.</td>
         </tr>
         <tr>
+            <td>✔</td>
             <td><strong>currency</strong></td>
             <td>uint32</td>
             <td>✔</td>
@@ -377,6 +441,16 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The currency of the transaction.</td>
         </tr>
         <tr>
+            <td>✔</td>
+            <td><strong>combined_discount_id</strong></td>
+            <td>int32</td>
+            <td>✔</td>
+            <td></td>
+            <td></td>
+            <td>The ID associated with the unique set of discounts used, if applicable</td>
+        </tr>
+        <tr>
+            <td></td>
             <td><strong>gross_units_sold</strong></td>
             <td>int32</td>
             <td>✔</td>
@@ -385,6 +459,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The number of units sold.</td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>gross_units_returned</strong></td>
             <td>int32</td>
             <td>✔</td>
@@ -393,6 +468,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The number of units returned.</td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>gross_sales_usd</strong></td>
             <td>string</td>
             <td>✔</td>
@@ -401,6 +477,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The value of sales, in USD dollars to four decimal places.</td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>gross_returns_usd</strong></td>
             <td>string</td>
             <td>✔</td>
@@ -409,6 +486,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The value of returns, in USD dollars to four decimal places.</td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>net_tax_usd</strong></td>
             <td>string</td>
             <td>✔</td>
@@ -417,6 +495,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The net value of taxes, in USD dollars to four decimal places.</td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>gross_units_activated</strong></td>
             <td>int32</td>
             <td></td>
@@ -425,6 +504,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The number of units activated.</td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>view_grant_partnerid</strong></td>
             <td>int32</td>
             <td>✔</td>
@@ -436,6 +516,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             </td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>net_units_sold</strong></td>
             <td>int32</td>
             <td>✔</td>
@@ -444,6 +525,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             <td>The number of units sold less the number of units returned.</td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>net_sales_usd</strong></td>
             <td>string</td>
             <td>✔</td>
@@ -455,24 +537,19 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             </td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>avg_sale_price_usd</strong></td>
             <td>string</td>
             <td></td>
             <td>✔</td>
             <td></td>
             <td>
-                The average sale price of in-game units sold, in USD dollars to four decimal places.
+                The average sale price of microtxn units sold, in USD dollars to four decimal
+                places.
             </td>
         </tr>
         <tr>
-            <td><strong>combined_discount_id</strong></td>
-            <td>int32</td>
-            <td>✔</td>
             <td></td>
-            <td></td>
-            <td>The ID associated with the unique set of discounts used, if applicable</td>
-        </tr>
-        <tr>
             <td><strong>primary_appid</strong></td>
             <td>int32</td>
             <td>✔</td>
@@ -487,6 +564,7 @@ types, demarcated below via the Package, In-Game, and CD-Key columns. <br />
             </td>
         </tr>
         <tr>
+            <td></td>
             <td><strong>additional_revenue_share_tier</strong></td>
             <td>ERevenueShareBonusTier</td>
             <td>✔</td>
