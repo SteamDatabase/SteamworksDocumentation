@@ -1,0 +1,45 @@
+<h1>Partial Depot Update Instructions</h1>
+The Steamworks website can be used to create and distribute a new depot version to users that
+overrides one or a handful of files that exist in the current depot. This is done using the
+<strong>Merge with Default Branch</strong> feature within SteamPipe.<br />
+<br />
+This is useful when you need to fix a critical bug in your released game and that game is out of
+development or you are unable to build a new game depot using the Steamworks SDK.
+<h2 class="bb_subsection"><a name="1"></a>Performing the Update</h2>
+Start by creating a zip file that includes the files you wish to update. When placing files into the
+zip, place each file in the same folder hierarchy that matches where it is located inside your
+installed game folder. For example, if you are updating a file that is installed to
+"bin\engine\thirdparty.dll", place the file under "bin\engine" in your newly created zip file.<br />
+<br />
+Steam will only update files that are placed within the zip file. These new files will be merged
+into the previous depot from the "Default" branch. If your previous depot had 27 files, and only one
+file was included in the zip (with the same name and path as one of the previous 27), the new depot
+version will still include 27 files that are downloaded to user's machines.<br />
+<br />
+Once done, follow these steps to upload and deploy the new files:<br />
+<ul>
+    <li>Login to the Steamworks website<br /></li>
+    <li>Select the game you would like to update<br /></li>
+    <li>Select <strong>Edit Steamworks Settings</strong><br /></li>
+    <li>Select <strong>SteamPipe</strong> &gt; <strong>Web Uploads</strong><br /></li>
+    <li>Find the depot you need to update<br /></li>
+    <li>Select <strong>Choose File</strong> and select the zip file<br /></li>
+    <li>Select <strong>Merge With Baseline</strong> from the associated dropdown<br /></li>
+    <li>Select <strong>Upload</strong><br /></li>
+    <li>
+        Once uploaded, you should see a green status message and a new Commit line should appear.<br />
+    </li>
+    <li>
+        Enter a build note, leave the branch setting at <strong>"None"</strong> and select
+        <strong>Commit</strong>.<br />
+    </li>
+    <li>Select <strong>SteamPipe</strong> &gt; <strong>Builds</strong><br /></li>
+    <li>
+        Find your new build and set it live on a private test branch with
+        <strong>"Preview Changes"</strong><br />
+    </li>
+    <li>
+        After testing your game with these new files, set it live on the
+        <strong>"Default"</strong> branch
+    </li>
+</ul>
