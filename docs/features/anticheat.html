@@ -1,4 +1,4 @@
-<h1>Valve Anti-Cheat (VAC) and Game Bans</h1>
+<h1>Anti-cheat and Game Bans</h1>
 <h2 class="bb_section"><a name="Overview"></a>Overview</h2>
 Steam provides several tools to help manage cheating in online video games. Whether you choose to
 integrate our anti-cheat APIs or use your own solution, make sure you give your customers proper
@@ -16,24 +16,6 @@ For an introduction to anti-cheat and general best practices, we recommend that 
 <a href="https://www.youtube.com/watch?v=hI7V60r7Jco" target="_blank" rel="noreferrer"
     >https://www.youtube.com/watch?v=hI7V60r7Jco</a
 >
-<h2 class="bb_subsection"><a name="VAC"></a>VAC</h2>
-<img
-    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/vac_banned.png"
-    alt=""
-    title=""
-/><br />
-Valve Anti-Cheat (VAC) is an automated system designed to detect cheats installed on users'
-computers. If a user connects to a VAC-Secured server from a computer with identifiable cheats
-installed, the VAC system will ban the user from playing that game on VAC-Secured servers in the
-future.<br />
-<br />
-<strong
-    >NOTE: VAC only attempts to detect cheats reported by the developer. Valve does not actively
-    seek out cheats either automatically or through manual digging.</strong
-><br />
-<br />
-See the <a href="/doc/features/anticheat/vac_integration">VAC Integration</a> documentation for more
-details.
 <h2 class="bb_subsection"><a name="GameBans"></a>Game Bans</h2>
 <img
     src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/game_banned.png"
@@ -61,15 +43,6 @@ broader anti-cheat best practices, please refer to the video above.<br />
         If your game uses peer-to-peer, each user should validate the others to prevent the host
         from having full control of the game state which would allow them to cheat or bypass
         restrictions.<br />
-    </li>
-    <li>
-        When the <a href="/doc/features/auth">Authentication API</a> call
-        <a href="/doc/api/ISteamGameServer#BeginAuthSession">ISteamGameServer::BeginAuthSession</a>
-        returns
-        <code class="bb_code bb_code_inline nohighlight"
-            >k_EAuthSessionResponseVACCheckTimedOut</code
-        >, the player should be removed from the server as VAC is unable to challenge the user or
-        the user is in a state that would indicate they may be running a cheat.<br />
     </li>
     <li>
         When a user is banned or kicked they should receive clear messaging in-game explaining why
@@ -104,16 +77,15 @@ policies for a product:<br />
 </ul>
 <h2 class="bb_section"><a name="Gifting"></a>Gift Restrictions</h2>
 <strong>Enabling Anti-Cheat API access affects gift copies of your game!</strong><br />
-Both VAC and Game Ban enabled games can either be bought for your own account, or gifted
-immediately. If you directly gift a game to someone who gets permanently banned, you won’t be able
-to gift that game again.
+By default, games can either be bought for a user's own account, or sent as a gift from that user.
+But If a user sends a gift to someone who gets permanently banned, that user will not be able to
+gift the game again.
 <h2 class="bb_section"><a name="FAQ"></a>Frequently Asked Questions</h2>
-<strong>Q: How does a VAC ban or Game Ban impact the user?</strong><br />
-A: When a user is banned via either one of our anti-cheat services, the following happens:<br />
+<strong>Q: How does a Game Ban impact the user?</strong><br />
+A: When a user is banned via the ICheatReportingService, the following happens:<br />
 <ul>
     <li>The account cannot join secure servers for the AppIDs they are banned.<br /></li>
     <li>The ban is publicly displayed on their Steam Community profile.<br /></li>
-    <li>The account can no longer share VAC enabled games.<br /></li>
     <li>
         If the user is accessing the game via
         <a
@@ -121,23 +93,12 @@ A: When a user is banned via either one of our anti-cheat services, the followin
             target="_blank"
             rel="noreferrer"
             >Family Library Sharing</a
-        >, the ban is also applied to the actual owner of the game.
+        >, the ban is also applied to the actual owner of the game.<br />
     </li>
+    <li>The user will not be eligible for an automatic refund</li>
 </ul>
 <br />
-More details can be found in our customer facing FAQs:
-<a
-    href="https://support.steampowered.com/kb_article.php?ref=7849-RADZ-6869"
-    target="_blank"
-    rel="noreferrer"
-    >Valve Anti-Cheat System (VAC)</a
->,
-<a
-    href="https://support.steampowered.com/kb_article.php?ref=4044-QDHJ-5691"
-    target="_blank"
-    rel="noreferrer"
-    >I've been VAC banned</a
->, and
+More details can be found in our customer facing FAQ:
 <a
     href="https://support.steampowered.com/kb_article.php?ref=6899-IOSK-9514"
     target="_blank"
@@ -146,6 +107,6 @@ More details can be found in our customer facing FAQs:
 >.<br />
 <br />
 <strong>Q: Can I use bans in other games to block users from playing in my game?</strong><br />
-A: No. VAC and Game bans should only prevent the user from playing on VAC secured servers in the
-game they received a ban in. A permanent ban should only be issued for your game if the user was
-caught cheating in your game.
+A: No. Game bans should only prevent the user from playing on secure servers in the game they
+received a ban in. A permanent ban should only be issued for your game if the user was caught
+cheating in your game.
