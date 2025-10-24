@@ -1,0 +1,150 @@
+<h1>Uploading Steam Input Configs to Steam Workshop</h1>
+<div class="bb_callout">
+    <div>
+        For new titles we no longer recommend using the Steam Workshop for managing official game
+        configurations. Instead recommend to use
+        <a href="/doc/features/steam_controller/action_manifest_file">Action Manifest Files</a>
+        bundled with your game depots as they are easier to update for developers and manage
+        differences within game-branches or when launching the game via the IDE for local
+        development. This page exists to document the process for game which are already using the
+        Steam Workshop option for configurations.
+    </div>
+</div>
+<br />
+Once your game is working with the controller, you're ready to publish. You'll need to release your
+new game update and make your configuration the official one. Official configurations are
+automatically loaded when a player launches your game for the first time. This allows users to
+simply fire up your game and play without needing to go into the configuration screen at all.<br />
+<br />
+Here's the recommended process:
+<h2 class="bb_subsection"><a name="1"></a>Step 1 - Update your game</h2>
+<ul>
+    <li>Update your Steam depot with your new version of the game</li>
+</ul>
+<h2 class="bb_subsection"><a name="2"></a>Step 2 - Publish your configuration</h2>
+<ul>
+    <li>
+        Run Steam in Big Picture mode and navigate to the default configuration you created in the
+        controller configuration.<br />
+    </li>
+    <li>Hit the (Y) button, or click the "Save As" button at the bottom of the screen.<br /></li>
+    <li>
+        Select the desired localized title &amp; description in the popup, change it to a PUBLIC
+        profile, and click the PUBLISH button.<br />
+    </li>
+    <li>
+        You will get a confirmation, and the file ID of the public configuration. Copy/save the ID.
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="3"></a>Step 3 - Make the configuration official</h2>
+<ul>
+    <li>Open up your game's page on the Steamworks partner website.<br /></li>
+    <li>
+        Select "Steam Input" from the "Application" tab.<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input.png"
+            alt="steamworks_steam_input.png"
+            title="steamworks_steam_input.png"
+        /><br />
+        <br />
+    </li>
+    <li>
+        Scroll to the section called "Steam Input Template". Select the "Custom Configuration"
+        option in the dropdown. (If you were not planning on adding native support and just want to
+        select from common legacy mode presets, here is where you would do so).<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_custom_config.png"
+            alt="steamworks_steam_input_custom_config.png"
+            title="steamworks_steam_input_custom_config.png"
+        /><br />
+        <br />
+        And from the selection below, select "Add Custom Configuration."<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom2.png"
+            alt="steamworks_steam_controller_custom2.png"
+            title="steamworks_steam_controller_custom2.png"
+        /><br />
+        <br />
+    </li>
+    <li>
+        Paste the file ID of your public configuration into the box, and click the OK button.<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom3.png"
+            alt="steamworks_steam_controller_custom3.png"
+            title="steamworks_steam_controller_custom3.png"
+        /><br />
+        <br />
+    </li>
+    <li>Publish your app changes in the partner site as usual.</li>
+</ul>
+<br />
+If you'd like, you can also specify multiple official configurations for your game. You may want to
+create an official "Southpaw" (left-handed) mode, for example.<br />
+<br />
+To do this, simply create multiple configurations and publish them each via step 2. Then, in step 3,
+paste all the file IDs for your configurations into the box, separated by the comma character (,)
+characters. The first one on the list will be considered the highest priority, and will be picked by
+default for new players. Don't forget to make
+<a href="/documentation/steamcontroller#step12" target="_blank" rel="noreferrer"
+    >Titles &amp; Descriptions</a
+>
+for each of them. <br />
+<br />
+When your official configurations have been posted they will appear in the "Custom Configuration"
+section:<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_branch_settings.png"
+    alt="steamworks_steam_input_branch_settings.png"
+    title="steamworks_steam_input_branch_settings.png"
+/><br />
+<br />
+For each configuration you can get a direct link, see what controller type it is for, control which
+beta branches it is available on, or remove it entirely. If you create a new official configuration,
+you can use the remove / add functions in this section to replace an existing one.
+<h2 class="bb_subsection"><a name="4"></a>Opting Controllers into Steam Input</h2>
+<br />
+Next, you should set up what kind of controllers use Steam Input - if you are using Steam Input API
+you'll want to make sure to check the "Any Future Devices" option to make sure new controllers work
+by default without you having to adjust settings after support ships in Steam.<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_optin_settings.png"
+    alt="steamworks_steam_input_optin_settings.png"
+    title="steamworks_steam_input_optin_settings.png"
+/><br />
+<br />
+Checking these boxes will cause those controller types to make use of Steam Input rather than their
+standard gamepad input protocols.
+<h2 class="bb_subsection"><a name="5"></a>Updating your official configurations</h2>
+There are two ways to update your configuration. <br />
+<ol>
+    <li>
+        To make a breaking change such as adding/removing a new action set or adding actions that
+        must be bound upload a new configuration for each supported controller type and remove the
+        old configuration. You should also go into the Steam Input Configuration browser with the
+        account that created the configuration and mark it deleted by hitting:<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_remove_community_config.png"
+            alt="steamworks_remove_community_config.png"
+            title="steamworks_remove_community_config.png"
+        /><br />
+    </li>
+    <li>
+        To make an optional change such as adding a new language for your action name localization
+        or adding a new optional action that does not need to be bound in every configuration,
+        upload a single new configuration and use the "Use Action Block" checkbox to make sure the
+        action block of that configuration is used preferentially on the selected branches.<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_use_action_block.png"
+            alt="steamworks_steam_input_use_action_block.png"
+            title="steamworks_steam_input_use_action_block.png"
+        />
+    </li>
+</ol>

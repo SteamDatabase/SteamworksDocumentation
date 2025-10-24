@@ -425,8 +425,9 @@ with <code class="bb_code bb_code_inline nohighlight">"Description_"</code>. Her
     is setup for Southpaw users." "Action_Jump" "Jump" "Action_Camera" "Camera" } }
 </div>
 <br />
-When you publish a configuration (see <a href="#publishing">Step 4 - Publishing</a>), you'll be able
-to select which of these localized titles and descriptions you want to use.
+When you publish a configuration (see
+<a href="#publishing">Step 4 - Setting Partner Site Settings</a>), you'll be able to select which of
+these localized titles and descriptions you want to use.
 <h2 class="bb_section"><a name="14"></a>Step 2 - Creating a Default Configuration</h2>
 <br />
 Once you've created your IGA file, and ensured it's in the right directory &amp; named to match your
@@ -664,34 +665,18 @@ either:<br />
         automatically update to match the new origins.
     </div>
 </div>
-<h2 class="bb_section"><a name="publishing"></a>Step 4 - Publishing</h2>
+<h2 class="bb_section"><a name="publishing"></a>Step 4 - Setting Partner Site Settings</h2>
 <br />
-Once your game is working with the controller, you're ready to publish. You'll need to release your
-new game update and make your configuration the official one. Official configurations are
-automatically loaded when a player launches your game for the first time. This allows users to
-simply fire up your game and play without needing to go into the configuration screen at all.<br />
+You've now setup Steam Input API to work for your local development machine and we need to set some
+partner site settings in order to publish the configuration and settings for normal players.<br />
 <br />
 Here's the recommended process:
-<h2 class="bb_subsection"><a name="19"></a>Step 4.1 - Update your game</h2>
-<ul>
-    <li>Update your Steam depot with your new version of the game</li>
-</ul>
-<h2 class="bb_subsection"><a name="20"></a>Step 4.2 - Publish your configuration</h2>
-<ul>
-    <li>
-        Run Steam in Big Picture mode and navigate to the default configuration you created in the
-        controller configuration.<br />
-    </li>
-    <li>Hit the (Y) button, or click the "Save As" button at the bottom of the screen.<br /></li>
-    <li>
-        Select the desired localized title &amp; description in the popup, change it to a PUBLIC
-        profile, and click the PUBLISH button.<br />
-    </li>
-    <li>
-        You will get a confirmation, and the file ID of the public configuration. Copy/save the ID.
-    </li>
-</ul>
-<h2 class="bb_subsection"><a name="21"></a>Step 4.3 - Make the configuration official</h2>
+<h2 class="bb_subsection">
+    <a name="19"></a>Step 4.1 - Convert your local configuration into an Action Manifest File
+</h2>
+Steps for setting up an Action Manfest file can be found
+<a href="/doc/features/steam_controller/action_manifest_file">here</a>
+<h2 class="bb_subsection"><a name="20"></a>Step 4.2 - Make the configuration official</h2>
 <ul>
     <li>Open up your game's page on the Steamworks partner website.<br /></li>
     <li>
@@ -705,63 +690,34 @@ Here's the recommended process:
         <br />
     </li>
     <li>
-        Scroll to the section called "Steam Input Template". Select the "Custom Configuration"
-        option in the dropdown. (If you were not planning on adding native support and just want to
-        select from common legacy mode presets, here is where you would do so).<br />
+        Scroll to the section called "Steam Input Template". Select the "Custom Configuration
+        (Bundled with Game)" option in the dropdown. (If you were not planning on adding native
+        support and just want to select from common legacy mode presets, here is where you would do
+        so).<br />
         <br />
         <img
-            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_custom_config.png"
-            alt="steamworks_steam_input_custom_config.png"
-            title="steamworks_steam_input_custom_config.png"
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/set_game_bundled.png"
+            alt="set_game_bundled.png"
+            title="set_game_bundled.png"
         /><br />
         <br />
-        And from the selection below, select "Add Custom Configuration."<br />
+        And in the text box below, input the relative path to the Action Manifest file VDF inside of
+        your game install folder<br />
         <br />
         <img
-            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom2.png"
-            alt="steamworks_steam_controller_custom2.png"
-            title="steamworks_steam_controller_custom2.png"
-        /><br />
-        <br />
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/setup_path.png"
+            alt="setup_path.png"
+            title="setup_path.png"
+        />
+        <div class="bb_callout">
+            <div>
+                Note: if your game is multi-platform, make sure the path is consistent across the
+                different versions of your game
+            </div>
+        </div>
     </li>
-    <li>
-        Paste the file ID of your public configuration into the box, and click the OK button.<br />
-        <br />
-        <img
-            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_controller_custom3.png"
-            alt="steamworks_steam_controller_custom3.png"
-            title="steamworks_steam_controller_custom3.png"
-        /><br />
-        <br />
-    </li>
-    <li>Publish your app changes in the partner site as usual.</li>
 </ul>
-<br />
-If you'd like, you can also specify multiple official configurations for your game. You may want to
-create an official "Southpaw" (left-handed) mode, for example.<br />
-<br />
-To do this, simply create multiple configurations and publish them each via step 4.2. Then, in step
-4.3, paste all the file IDs for your configurations into the box, separated by the comma character
-(,) characters. The first one on the list will be considered the highest priority, and will be
-picked by default for new players. Don't forget to make
-<a href="/documentation/steamcontroller#step12" target="_blank" rel="noreferrer"
-    >Titles &amp; Descriptions</a
->
-for each of them. <br />
-<br />
-When your official configurations have been posted they will appear in the "Custom Configuration"
-section:<br />
-<br />
-<img
-    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_branch_settings.png"
-    alt="steamworks_steam_input_branch_settings.png"
-    title="steamworks_steam_input_branch_settings.png"
-/><br />
-<br />
-For each configuration you can get a direct link, see what controller type it is for, control which
-beta branches it is available on, or remove it entirely. If you create a new official configuration,
-you can use the remove / add functions in this section to replace an existing one.
-<h2 class="bb_subsection"><a name="22"></a>Opting Controllers into Steam Input</h2>
+<h2 class="bb_subsection"><a name="21"></a>Step 4.3 - Opting Controllers into Steam Input</h2>
 <br />
 Next, you should set up what kind of controllers use Steam Input - if you are using Steam Input API
 you'll want to make sure to check the "Any Future Devices" option to make sure new controllers work
@@ -775,45 +731,20 @@ by default without you having to adjust settings after support ships in Steam.<b
 <br />
 Checking these boxes will cause those controller types to make use of Steam Input rather than their
 standard gamepad input protocols.
-<h2 class="bb_subsection"><a name="23"></a>Updating your official configurations</h2>
-There are two ways to update your configuration. <br />
-<ol>
-    <li>
-        To make a breaking change such as adding/removing a new action set or adding actions that
-        must be bound upload a new configuration for each supported controller type and remove the
-        old configuration. You should also go into the Steam Input Configuration browser with the
-        account that created the configuration and mark it deleted by hitting:<br />
-        <br />
-        <img
-            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_remove_community_config.png"
-            alt="steamworks_remove_community_config.png"
-            title="steamworks_remove_community_config.png"
-        /><br />
-    </li>
-    <li>
-        To make an optional change such as adding a new language for your action name localization
-        or adding a new optional action that does not need to be bound in every configuration,
-        upload a single new configuration and use the "Use Action Block" checkbox to make sure the
-        action block of that configuration is used preferentially on the selected branches.<br />
-        <br />
-        <img
-            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_steam_input_use_action_block.png"
-            alt="steamworks_steam_input_use_action_block.png"
-            title="steamworks_steam_input_use_action_block.png"
-        />
-    </li>
-</ol>
-<h2 class="bb_section"><a name="24"></a>Tips</h2>
-<h2 class="bb_subsection"><a name="25"></a>Dedicated Menu Actions</h2>
+<h2 class="bb_subsection"><a name="22"></a>Step 4.4 - Publishing</h2>
+Finally you will want to hit "Save" at the bottom of the page and then publish your app changes in
+the partner site as usual.
+<h2 class="bb_section"><a name="23"></a>Tips</h2>
+<h2 class="bb_subsection"><a name="24"></a>Dedicated Menu Actions</h2>
 We recommend creating a separate in-game action set for your menu controls, instead of just re-using
 actions in your main game set. Most customers won't need to modify this menu controls set, but it's
 an easy way to provide the capability to players who actually need it (as can be the case for some
 disabled gamers, for example).
-<h2 class="bb_subsection"><a name="26"></a>Custom Icons</h2>
+<h2 class="bb_subsection"><a name="25"></a>Custom Icons</h2>
 The Steam Input system can also create several styles of on-screen menus. Putting your own .png
 icons in <strong>&lt;your base game directory&gt;/TouchMenuIcons/*.png</strong> will show them first
 in the list for your game's touch/radial menus. This will allow you to set up your own on-screen
 radial menus or touch menus with icons bound to specific actions without doing any game/UI code. As
 a developer you may wish to do this even if you don’t actually have any radial or touch menus in
 your own default configuration. Since any user modified configurations will also have access to
-these, users will be able to create nicely themed menus using your official icon art.<br />
+these, users will be able to create nicely themed menus using your official icon art.
