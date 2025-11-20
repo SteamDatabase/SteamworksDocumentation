@@ -1,73 +1,197 @@
 <h1>Free Weekends</h1>
-One additional marketing feature of Steam is the 'free weekend,' where customers have temporary
-access to your game for a specified period of time. Users can try out the game free, but lose access
-when the period expires unless they buy the game. A Free Weekend is always accompanied by a discount
-and are only available to titles that qualify for curated promotions like a Daily Deal or a
-Spotlight.<br />
+A <strong>Free Weekend</strong> is a time-limited promotion that allows players to temporarily
+access and play an eligible game for free—typically over a long four-day weekend.<br />
 <br />
-Here are some basics to understand how and why to utilize a Free Weekend.
-<h2 class="bb_section"><a name="1"></a>Frequently Asked Questions</h2>
-<h4>What kind of game makes a good fit for a free weekend?</h4>
-Typically, we'd run a Free Weekend on a product that is primarily a multiplayer experience, or at
-minimum has very high re-playability. For example, a five-hour-long narrative adventure game is
-probably a bad fit, but a team-based multiplayer shooter might be a better. Free Weekends are
-intended to introduce players to the game and motivate them to become a permanent customers, so
-games that can be completed or 'beaten' in a few days probably won't benefit.
-<h4>How do I know if a Free Weekend was successful?</h4>
-We built out some automated reporting for Free Weekends, so that you can see a data breakdown
-afterwards on the Sales and Activations Reporting portal. The automated stats will track new users,
-conversion rate, and gross revenue from conversions.
-<h4>What benefits should I expect from a Free Weekend?</h4>
-The primary benefit you should expect is some temporary increase in players, however you should
-think hard about why customers should care about trying your game now. It is important to remember
-that simply being 'free' does not automatically guarantee interest from customers, because there are
-already hundreds of great games available free all the time. Therefore, it is necessary to tie your
-free weekend to a discount on the game, and possibly some meaningful new content for your existing
-players to re-engage with the game. <br />
+Unlike a <a href="/doc//store/application/demos">Demo</a>, which offers a separate demo build of
+your game via a separate demo app ID, Free Weekends grant players full access to your base game via
+its current app ID, albeit for a limited time. Free Weekends also differ from
+<a href="/doc/store/freetoplay">Free to Play games</a>, which are always available at no cost.
 <br />
-There are other benefits of a Free Weekend that aren't immediately measurable-- like the community
-benefit of a potential increase of playerbase, and all the people who just buy the game because it's
-on sale or being played by friends at the moment, regardless of the Free Weekend offer.
-<h4>What exactly do players receive during a Free Weekend?</h4>
-By default, a Free Weekend package will be a copy of your standard store package, providing the same
-appID(s) and depot(s). Users will be able to add the game to their account, install it, and play as
-much as they want during the Free Weekend period. At the end of the Free Weekend period, users have
-the license removed from their account and can no longer play.
-<h4>What if I want to gate access or limit content for Free Weekend players?</h4>
-There is a specific WebAPI call in the ISteamApps interface to help you identify whether or not a
-player is accessing your game via the Free Weekend,
-<a href="/doc/api/ISteamApps#BIsSubscribedFromFreeWeekend" target="_blank" rel="noreferrer"
-    >documented here</a
->. You can use this call to limit or adjust access. For instance, you may wish to make certain modes
-unavailable, or exclude Free Weekend players from Ranked matchmaking, if you have concerns around
-cheating or negatively impacting your existing playerbase. It is not required to use this API, but
-the option is there if you think it is appropriate for your game.
-<h4>I think my game is a good fit for a Free Weekend. How do I set it up?</h4>
-First, think carefully about your own timing and what discount you would want to run on the game.
-Once you have a clear plan,
+<br />
+Free Weekends might not make sense for your game. Read on for more details.
+<h2 class="bb_section"><a name="1"></a>Overview</h2>
+Setting up a Free Weekend requires Valve approval. <br />
+<br />
+By default, Free Weekends are not promoted anywhere on the Store, aside from your game’s own store
+page. For this reason, Free Weekends are typically combined with other kinds of curated discounts,
+which are promoted to customers on Steam, for example a <strong>Daily Deal</strong>,
+<strong>Midweek Deal</strong> or <strong>Weekend Deal</strong>. While there aren't exact rules, as a
+base guideline we tend to focus on the most-played or best-selling games on Steam for these kinds of
+promotions. Please see <a href="/doc//marketing/discounts#14">Curated Discounts</a> for details.<br />
+<br />
+Not all games will be a good fit for a Free Weekend. Keep in mind that players have a wide range of
+free-to-play games and free demos available on Steam every day, so temporarily offering a paid game
+for free doesn't guarantee interest from customers. In general, Free Weekends tend to perform best
+for games with lots of replayable content or games with strong multiplayer elements that benefit
+from an influx of new players (such as improved matchmaking or enhanced social gameplay).<br />
+<br />
+To find out if your game is eligible for a Free Weekend, please
 <a
     href="https://help.steampowered.com/en/wizard/HelpWithPublishing?issueid=901"
     target="_blank"
     rel="noreferrer"
     >contact us</a
 >
-at least 3 or 4 weeks in advance. Let us know your requested timing, and we can help confirm whether
-your title is eligible for a Free Weekend.
-<h4>How long do Free Weekends Last?</h4>
-Free Weekends typically run from Thursday at 10AM Pacific to Monday at 10AM Pacific, with a discount
-that covers that range (and likely more). We can be flexible on the duration if necessary.
-<h4>How will my Free Weekend Be Promoted?</h4>
-During a Free Weekend, an additional button will be placed on your game’s store page that will let
-users install the game. You should point any external promotion you are doing to your game’s store
-page. By default, Free Weekends do not currently surface automatically to Steam customers. <br />
+with the details and your desired timing at least one month in advance.<br />
 <br />
-As your Free Weekend is accompanied by a discount, customers will also receive wishlist
-notifications about the discount (if your discount is 20% or more), and the game may appear in
-various places on Steam depending on sales performance.
-<h4>Can Free Weekend players leave a review on my game?</h4>
-Yes, they can leave a review but it will be categorized as a non-Steam purchase. So the review is
-readable by other players, but not factored into your game's review score.
-<h4>Do Free Weekend players get trading card drops?</h4>
-No. Trading cards will not drop for a player unless they have purchased the game on Steam or
-activated a key for the game.<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/FreeWeekend_WeekendDeal.jpg"
+    alt="FreeWeekend_WeekendDeal.jpg"
+    title="FreeWeekend_WeekendDeal.jpg"
+/>
+<h2 class="bb_section"><a name="2"></a>How It Works</h2>
+During a Free Weekend, a free package temporarily appears on your base game's store page, alongside
+its standard 'paid' package.<br />
 <br />
+This free package uses the same <a href="/doc//store/application">App ID</a> and
+<a href="/doc//store/application/depots">Depots</a> as your base game, and includes a callout to
+show players how much time remains in the event.<br />
+<br />
+Once the Free Weekend ends, the free package is automatically removed from your store page. Players
+who participated will still see your game listed in their Steam libraries, but they’ll only be able
+to uninstall it - continued play requires purchasing the full version.<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/FreeWeekend_Packages.jpg"
+    alt="FreeWeekend_Packages.jpg"
+    title="FreeWeekend_Packages.jpg"
+/>
+<h2 class="bb_section"><a name="3"></a>Timing</h2>
+<br />
+Free Weekends typically run from <strong>Thursday at 10 AM Pacific</strong> to
+<strong>Monday at 10 AM Pacific</strong>. However, any discount on the paid version of your game can
+extend beyond the Free Weekend itself. If you're planning to pair your Free Weekend with a Daily
+Deal, we recommend choosing a Thursday, Friday, or Saturday start date to align with the Free
+Weekend schedule.<br />
+<br />
+We suggest running your Free Weekend for at least four days to ensure players have enough time to
+download and meaningfully engage with your game. Keep in mind Steam's global audience will be
+downloading your game through a wide variety of internet speeds and data plans, which can represent
+a significant investment for some players, especially for games with larger file sizes.<br />
+<br />
+Please also note that Steam may spread out Free Weekend events on the calendar to avoid overlapping
+promotions.
+<h2 class="bb_section"><a name="4"></a>Setup</h2>
+To run a Free Weekend, you'll first need approval from the Steam Team as described in the
+<a href="/doc/marketing/discounts/freeweekends#1">Overview</a> above. <br />
+<br />
+If approved, here are few set up steps and best practices:
+<h2 class="bb_subsection"><a name="5"></a>Steam Team Setup:</h2>
+<ul>
+    <li>
+        The Steam Team will create a special Free Weekend package that grants players access to your
+        game during the event. From your app's main landing page, you can find this package by
+        navigating to: All Associated Packages &gt; Free Weekend Packages.<br />
+    </li>
+    <li>
+        Steam will automatically handle activation and deactivation of this Free Weekend package,
+        ensuring it goes live at the start of the Free Weekend and is deactivated and removed from
+        your game's Store Page when the event ends.
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="6"></a>Your Setup:</h2>
+<ul>
+    <li>
+        After the Free Weekend package is staged, you'll need to republish your store page at any
+        time before the event begins. This won’t make the Free Weekend visible to customers ahead of
+        time, but it will enable the package to display on your Store Page when the event starts.<br />
+    </li>
+    <li>
+        Use the
+        <a href="/promotion/discounts/dashboard" target="_blank" rel="noreferrer"
+            >Discount Management Tool</a
+        >
+        to schedule any discounts you'd like to offer alongside your Free Weekend. Note: a discount
+        is required if your Free Weekend is running alongside a Daily Deal, Midweek Deal, or Weekend
+        Deal.
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="7"></a>Best Practices:</h2>
+To make the most of your Free Weekend, we recommend the following:
+<ul>
+    <li>
+        Pair your Free Weekend with a compelling discount on your paid package to encourage
+        conversions. <br />
+    </li>
+    <li>
+        Extend your discount a few days beyond the end of the Free Weekend to give players extra
+        time to upgrade after trying the game.<br />
+    </li>
+    <li>Ensure your game servers are ready for a temporary influx of new players.<br /></li>
+    <li>
+        If you're messaging your Free Weekend off of Steam, consider pointing those communications
+        at your base game's Store Page and using
+        <a href="/doc//marketing/utm_analytics">UTM analytics</a> to measure the impact.<br />
+    </li>
+    <li>
+        To help message your Free Weekend on Steam, consider:
+        <ul>
+            <li>
+                Creating a <a href="/doc//marketing/event_tools">News Event</a> to let your current
+                players know about the Free Weekend and that they can invite their Friend's to play
+                for free while it's active. <br />
+            </li>
+            <li>
+                Setting up a temporary
+                <a href="/doc/store/assets/overrides">Artwork Override</a> about your Free Weekend.
+                Be sure to align the override’s start and end times with the Free Weekend dates.
+            </li>
+        </ul>
+    </li>
+</ul>
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/FreeWeekend_ArtworkOverride.jpg"
+    alt="FreeWeekend_ArtworkOverride.jpg"
+    title="FreeWeekend_ArtworkOverride.jpg"
+/>
+<h2 class="bb_section"><a name="8"></a>Performance</h2>
+After the event, you can review participation, conversion rates, and other key metrics in the Free
+Weekend section of your Steamworks Dashboard by appending your app ID to the following URL: <br />
+<br />
+<a href="https://partner.steampowered.com/freeweekend/" target="_blank" rel="noreferrer"
+    >https://partner.steampowered.com/freeweekend/</a
+>
+&lt;--Your App ID Here<br />
+<br />
+Keep in mind that not all benefits of a Free Weekend will be immediately measurable --for example
+the community benefit to a potential increase in the player base, or all the people who buy the game
+simply because it's on sale or being played by friends at the moment, regardless of the Free Weekend
+offer. In general, Free Weekends can give more players the opportunity to experience your game
+firsthand, even if they never intend to buy it. Longer term, this can lead to increased familiarity,
+awareness and discussion of your game—even after the event ends.
+<h2 class="bb_section"><a name="9"></a>Frequently Asked Questions</h2>
+<ul>
+    <h4>Can I gate access or limit content for Free Weekend players?</h4>
+    <strong>A: </strong
+    >There is a specific WebAPI call in the ISteamApps interface —
+    <a href="/doc/api/ISteamApps#BIsSubscribedFromFreeWeekend" target="_blank" rel="noreferrer"
+        >BIsSubscribedFromFreeWeekend</a
+    >
+    — to help you identify whether or not a player is accessing your game via a Free Weekend
+    package. You can use this call to limit or adjust access. For instance, if you have concerns
+    around cheating or negatively impacting your existing playerbase, you may wish to make certain
+    modes unavailable, or exclude Free Weekend players from ranked matchmaking. It is not required
+    to use this API, but the option is there if you think it is appropriate for your game.
+    <h4>Can Free Weekend players leave a review on my game?</h4>
+    <strong>A: </strong
+    >Yes, they can leave a review but it will be categorized as a non-Steam purchase. So the review
+    is readable by other players, but not factored into your game's review score unless the user
+    buys the game.
+    <h4>How often can I run a Free Weekend?</h4>
+    <strong>A:</strong>
+    Eligible games can run a Free Weekend once per calendar year.
+    <h4>Do Free Weekend players get trading card drops?</h4>
+    <strong>A: </strong
+    >No. Trading cards will not drop for a player unless they have purchased the game on Steam or
+    activated a key for the game.
+</ul>
+<h2 class="bb_section"><a name="10"></a>Ready to Get Started?</h2>
+To see if your game is a fit for a Free Weekend, please
+<a
+    href="https://help.steampowered.com/en/wizard/HelpWithPublishing?issueid=901"
+    target="_blank"
+    rel="noreferrer"
+    >contact us</a
+>
+with the details and your desired time frame at least a month in advance.
