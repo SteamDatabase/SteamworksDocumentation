@@ -1,0 +1,104 @@
+<h1>IStoreService Interface</h1>
+These service methods provide public information from the Steam Store.<br />
+<br />
+<strong>NOTE:</strong> This is a Service interface, methods in this interface should be called with
+the <code class="bb_code bb_code_inline nohighlight">input_json</code> parameter.<br />
+<br />
+For more info on how to use the Steamworks Web API please see the
+<a href="/doc/webapi_overview">Web API Overview</a>.
+<h2 class="bb_section"><a name="GetAppList"></a>GetAppList</h2>
+<div class="bb_code http">GET https://partner.steam-api.com/IStoreService/GetAppList/v1/</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>Any web API key.</td>
+        </tr>
+        <tr>
+            <td><strong>if_modified_since</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>Return only items that have been modified since this date.</td>
+        </tr>
+        <tr>
+            <td><strong>have_description_language</strong></td>
+            <td>string</td>
+            <td></td>
+            <td>Return only items that have a description in this language.</td>
+        </tr>
+        <tr>
+            <td><strong>include_games</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Include games (defaults to enabled)</td>
+        </tr>
+        <tr>
+            <td><strong>include_dlc</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Include DLC</td>
+        </tr>
+        <tr>
+            <td><strong>include_software</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Include software items</td>
+        </tr>
+        <tr>
+            <td><strong>include_videos</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Include videos and series</td>
+        </tr>
+        <tr>
+            <td><strong>include_hardware</strong></td>
+            <td>bool</td>
+            <td></td>
+            <td>Include hardware</td>
+        </tr>
+        <tr>
+            <td><strong>last_appid</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>For continuations, this is the last appid returned from the previous call.</td>
+        </tr>
+        <tr>
+            <td><strong>max_results</strong></td>
+            <td>uint32</td>
+            <td></td>
+            <td>Number of results to return at a time. Default 10k, max 50k.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Returns a list of all apps available on the Steam Store. The type of items returned can be filtered
+using the <code class="bb_code bb_code_inline nohighlight">include_games</code>,
+<code class="bb_code bb_code_inline nohighlight">include_dlc</code>,
+<code class="bb_code bb_code_inline nohighlight">include_software</code>,
+<code class="bb_code bb_code_inline nohighlight">include_videos</code>, and
+<code class="bb_code bb_code_inline nohighlight">include_hardware</code> flags. By default only
+"Game" items will be returned.<br />
+<br />
+The number of results is limited, so multiple requests should be made to obtain the full list. The
+results are returned in order of <code class="bb_code bb_code_inline nohighlight">appid</code>,
+subsequent requests should pass the last appid returned by the previous request as the
+<code class="bb_code bb_code_inline nohighlight">last_appid</code> parameter.<br />
+<br />
+Items return a <code class="bb_code bb_code_inline nohighlight">last_modified</code> unix timestamp,
+which indicates the last time some change was made to that game's information or price (not all of
+these changes may be visible on the store).
+<code class="bb_code bb_code_inline nohighlight">if_modified_since</code> can be used to filter to
+only games that have been changed or added since a specific timestamp.<br />
+<br />
+Items also return a
+<code class="bb_code bb_code_inline nohighlight">price_change_number</code> field. If this number
+has changed since a previous call, it indicates the price on that item may have changed, such as a
+discount starting or price adjustment.
