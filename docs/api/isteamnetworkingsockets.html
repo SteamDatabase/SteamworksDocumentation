@@ -218,10 +218,9 @@ This means that if your application goes for more than a few seconds without pro
 that interval and fail due to timeout.<br />
 <br />
 If the application does not respond to the connection attempt in a timely manner, and we stop
-receiving communication from the client, the connection attempt will<br />
-be timed out locally, transitioning the connection to the
-k_ESteamNetworkingConnectionState_ProblemDetectedLocally state. The client may also close the
-connection before it is accepted, and a transition to the
+receiving communication from the client, the connection attempt will be timed out locally,
+transitioning the connection to the k_ESteamNetworkingConnectionState_ProblemDetectedLocally state.
+The client may also close the connection before it is accepted, and a transition to the
 k_ESteamNetworkingConnectionState_ClosedByPeer is also possible depending the exact sequence of
 events.<br />
 <br />
@@ -574,8 +573,8 @@ k_ESteamNetworkingConfig_ConnectionUserData.<br />
 <br />
 WARNING: Be *very careful* when using the value provided in callbacks structs. Callbacks are queued,
 and the value that you will receive in your callback is the userdata that was effective at the time
-the callback was queued. There are subtle race conditions that can happen if you<br />
-don't understand this!<br />
+the callback was queued. There are subtle race conditions that can happen if you don't understand
+this!<br />
 <br />
 If any incoming messages for this connection are queued, the userdata field is updated, so that when
 when you receive messages (e.g. with ReceiveMessagesOnConnection), they will always have the very
