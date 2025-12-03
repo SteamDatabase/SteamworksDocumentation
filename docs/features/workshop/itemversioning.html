@@ -3,37 +3,184 @@ By default, users who subscribe to a Steam Workshop item will download the lates
 item. Any subsequent updates to the item will also be propagated to all current subscribers.<br />
 <br />
 With the release of version 1.60 of the Steamworks SDK, content creators can now specify that a
-specific version of their item is valid for a Steam (beta) branch. When uploading a version of an
-item, simply call
-<a href="/doc/api/ISteamUGC#SetRequiredGameVersions">ISteamUGC::SetRequiredGameVersions</a> with a
-<i>minimum</i> and <i>maximum</i> Steam branch. These branches can be the same if the item is only
-valid for a specific Steam branch. If the <i>minimum</i> branch is not set, then the item is valid
-for all Steam branches older than the <i>maximum</i> branch, and vice-versa for when the
-<i>maximum</i> branch is not set. Content creators can also set the <i>minimum</i> and
-<i>maximum</i> branches for their items on the web page for their item under the "Change Notes"
-section.<br />
+specific version of their item is valid for a Steam (beta) branch.
+<h2 class="bb_subsection"><a name="1"></a>Version control for complex mods</h2>
+Version control of game builds and mod versions can be really important for supporting complex mods
+and evolving games. An example is a game where some players have dozens or hundreds of hours of game
+progression in a certain version of the game that works with a certain set of mods. In this
+scenario, automatically updating the game may break some of that player's installed mods and corrupt
+their save game. You now have the option to call a Steam API telling Steam to switch the player to a
+specific branch of the game if you detect that a recent update has broken compatibility with their
+mods.<br />
 <br />
-Users who have opted into Steam branch will download the version of the item that is valid for that
-branch. If the content creator updates a version of an item, all subscribers who have opted into the
-Steam branch associated with that item will download those changes.<br />
+The following documentation describes how to set up your builds and your modding community to allow
+this to work.
+<h2 class="bb_section"><a name="2"></a>Setting up a game for version history</h2>
+In order to support mods that target specific versions of your game, you'll need to be deliberate
+about how you preserve old game versions. Here are the things you'll need to think about:<br />
 <br />
-To get the most out of this feature, you will need to order your Steam branches on the Steamworks
-site by visiting the SteamPipe &gt; Builds page. From there you can re-order the branches you've
-created from oldest to newest. This is needed if you want users to be able to specify that a version
-of their item is valid for a range of branches (i.e. "minimum" and "maximum") instead of just one
-specific branch.<br />
+<ol>
+    <li>
+        <strong>Organize past versions</strong> - The order of your build versions (a.k.a. beta
+        branches) is key! Start by organizing past versions of your game, setting and keeping a
+        deliberate order to your beta branches. To do this, you will need to order your Steam
+        branches on the Steamworks site by visiting the SteamPipe &gt; Builds page. From there you
+        can re-order the branches you've created from oldest to newest. This is needed if you want
+        users to be able to specify that a version of their item is valid for a range of branches
+        (i.e. "minimum" and "maximum") instead of just one specific branch.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Enable the feature</strong> - On your game's Workshop configuration page, select
+        <strong>Enable Game Branch Versions</strong> and then publish your changes when you're
+        ready.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Check the user's current game version</strong> - Use The Steamworks API
+        <a href="/doc/api/ISteamApps#GetBetaInfo">ISteamApps::GetBetaInfo</a> from within your game
+        to check which version of your game the current user is on.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Evaluate the subscribed mods</strong> - From within your game, create a query to
+        retrieve the user's subscribed Workshop mods that the current user has subscribed, and check
+        <a href="/doc/api/ISteamUGC#GetSupportedGameVersionData"
+            >ISteamUGC::GetSupportedGameVersionData</a
+        >
+        to see what version each is intended to work with.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Prompt the user if necessary</strong> - If you detect that the user is subscribed to
+        mods that may not work with the version of the game that the user is currently running, you
+        can present the user with some UI, asking if they wish to change to a different version. If
+        so, you can call
+        <a href="/doc/api/ISteamApps#SetActiveBeta">ISteamApps::SetActiveBeta</a> to switch to a
+        specific older version of the game that is known to support the mods.<br />
+        <br />
+        Calling this API will cause Steam to exit the running game, switch build branches (kicking
+        off an install of that branches content), and restart the game in that new version.
+    </li>
+</ol>
 <br />
+Getting and setting the current version of the game can be done through these Steamworks API
+calls:<br />
+<a href="/doc/api/ISteamApps#GetCurrentBetaName">ISteamApps::GetCurrentBetaName</a><br />
+<a href="/doc/api/ISteamApps#GetNumBetas">ISteamApps::GetNumBetas</a><br />
+<a href="/doc/api/ISteamApps#GetBetaInfo">ISteamApps::GetBetaInfo</a><br />
+<a href="/doc/api/ISteamApps#SetActiveBeta">ISteamApps::SetActiveBeta</a>
+<h2 class="bb_section"><a name="3"></a>Setting up your Steam Workshop for mod versions</h2>
+By enabling mod versions, items in the Steam Workshop can include data about a range of one or more
+game builds that are known to be supported by each version of the mod. If no range is specified,
+Steam will assume the version works with any build of the game. If more than one version of the
+Workshop item are indicated as compatible with the player's current version of the game, then the
+latest uploaded version of the item will be the one that Steam downloads.<br />
 <br />
-Sometimes not all workshop items are updated by the original authors to work with a new version of
-your game. Since Steam automatically updates all games before launch, some popular workshop items
-might not work anymore. As a developer you can allow users to download previous versions of your
-game using app beta branches. Previously an app beta branch required the user to go to your game
-properties in Steam and selected the correct version. Now there is new API that lets you query
-available app branches from within the game and also let you change the beta branch for your game.
-Setting a beta branch from within the game which will require a game restart so Steam can download
-and apply the update. Use <a href="/doc/api/ISteamApps#GetNumBetas">ISteamApps::GetNumBetas</a> and
-<a href="/doc/api/ISteamApps#GetBetaInfo">ISteamApps::GetBetaInfo</a> to iterate currently available
-app beta branches. If you game detects that the user as workshop items installed that do not work
-with the current version of the game, you can give the user the option to switch back to a previous
-version in the game. It's up to the game to find the correct beta branch that would work with the
-installed workshop items.
+There are two ways that Workshop items can get version information set: Mod authors can set this
+information, or your uploader tool can set this information.<br />
+<br />
+<ol>
+    <li>
+        <strong>Mod authors can set supported versions</strong> - Mod authors in the Steam Workshop
+        can set version support by visiting the item history page and using the UI to configure
+        which versions of the game work for each version of their Workshop item.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Your Workshop uploader can set supported versions</strong> - If your Workshop item
+        uploader tool can validate support for an item, you can automatically mark it as supporting
+        the appropriate versions, or you can build UI to make it easy for the mod author to choose
+        supported versions and ranges at time of upload.<br />
+        <br />
+        When uploading a version of an item, simply call
+        <a href="/doc/api/ISteamUGC#SetRequiredGameVersions">ISteamUGC::SetRequiredGameVersions</a>
+        with a <i>minimum</i> and <i>maximum</i> Steam branch. These branches can be the same if the
+        item is only valid for a specific Steam branch. If the <i>minimum</i> branch is not set,
+        then the item is valid for all Steam branches older than the <i>maximum</i> branch, and
+        vice-versa for when the <i>maximum</i> branch is not set. Content creators can also set the
+        <i>minimum</i> and <i>maximum</i> branches for their items on the web page for their item
+        under the "Change Notes" section.<br />
+        <br />
+        Users who have opted into Steam branch will download the version of the item that is valid
+        for that branch. If the content creator updates a version of an item, all subscribers who
+        have opted into the Steam branch associated with that item will download those changes.
+    </li>
+</ol>
+<br />
+To get and set version information for a Workshop item, use these Steamworks APIs:<br />
+<ul>
+    <li>
+        <a href="/doc/api/ISteamUGC#SetRequiredGameVersions">ISteamUGC::SetRequiredGameVersions</a>
+        – when submitting an update, the user can specify the min/max beta branches the item is
+        valid for<br />
+    </li>
+    <li>
+        <a href="/doc/api/ISteamUGC#GetNumSupportedGameVersions"
+            >ISteamUGC::GetNumSupportedGameVersions</a
+        >
+        – returns the number of versions the item has<br />
+    </li>
+    <li>
+        <a href="/doc/api/ISteamUGC#GetSupportedGameVersionData"
+            >ISteamUGC::GetSupportedGameVersionData</a
+        >
+        – returns the min/max branch for the specific item version
+    </li>
+</ul>
+<h2 class="bb_section"><a name="4"></a>Best practices for game developers</h2>
+<br />
+With an ideal setup of game versions and mod versions, Steam will automatically download the right
+mod version for the version of the game being run.<br />
+<br />
+Below are a few important things that game developers should keep in mind in order to use these
+features correctly, and to best support their mod authoring community.<br />
+<br />
+<ul>
+    <li>
+        <strong>Deliberately manage your build branches</strong> - Visit the Steamworks build
+        management page and craft your set of previous game versions carefully. You'll probably want
+        to name your branches in such a way that makes sense for the version numbers you've been
+        using for your game. You can version at whatever points make sense for your game. For
+        example, naming a branch "version_1.4" and another one "version_1.5"<br />
+        <br />
+    </li>
+    <li>
+        <strong>Enable the Workshop setting "Enable Game Branch Versions"</strong> - This setting
+        under your Steamworks Workshop configuration will allow mod authors to specify ranges of
+        branches that their item works with<br />
+        <br />
+    </li>
+    <li>
+        <strong>Establish a consistent test-to-deployment process</strong> - It is important to give
+        mod authors a chance to create and upload new versions of their mod, or update version
+        support definition for existing mods if they work well with the latest version of the game.
+        Creating a consistent test process of deploying new builds to a beta branch ahead of public
+        release will give mod authors a chance to test out their mods and upload new versions if
+        desired.<br />
+        <br />
+    </li>
+    <li>
+        <strong>Add in-game UI to manage game version </strong>- If updates to a game are likely to
+        break mods that your players have installed, you can present some UI asking the player if
+        they want to update their game or stay on the previous version. You can even get the list of
+        subscribed Workshop items for the user and check the supported game versions for each so you
+        can warn the user if the newest version of the game doesn't work with one or more of their
+        mods.<br />
+        <br />
+        You can set up ahead of time for the best user experience when you know that upcoming
+        changes to the game are likely to break a lot of compatibility with mods.<br />
+        <ol>
+            <li>
+                Planning for the future: First, update your game version that is on the 'default'
+                branch can call the Steam API to tell Steam to keep the user on this particular
+                branch of the game. <br />
+            </li>
+            <li>
+                Then, later when you are deploying a new version of the game, the game should
+                recognize that the user previously specified as staying on a certain version and ask
+                them whether they want to move to a new version or stay on their current version.
+            </li>
+        </ol>
+    </li>
+</ul>
