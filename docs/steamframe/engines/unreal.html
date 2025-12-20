@@ -1,0 +1,351 @@
+<h1>Unreal Engine</h1>
+Developing in Unreal Engine for Steam Frame provides several options for deployment. If you already
+have a well-optimized PCVR build, you may want to see if adjusting quality settings is sufficient
+for making framerate. We currently recommend targeting Android to take full advantage of
+optimizations tailored for mobile hardware.<br />
+<br />
+First, make sure you have turned on <strong>Developer Mode</strong> as described in the
+<a href="/doc/steamframe/setup">Setting up your Steam Frame for development</a> this will let you
+deploy to the headset.<br />
+<br />
+Steam Frame has a custom plugin to take advantage of some of the features of the hardware, and there
+are some changes to the engine that are recommended to run as smoothly as possible. We have created
+a changelist in our GitHub repo that can be cherry-picked into your Unreal Engine build to take full
+advantage of the hardware and its features.<br />
+<br />
+If you are already set up to build Unreal Engine, cherry pick the following commit:<br />
+<a
+    href="https://github.com/Valve-VR/UnrealEngine/commit/1773fc1b5f41320f683e59c828990188a499f0f7"
+    target="_blank"
+    rel="noreferrer"
+    >https://github.com/Valve-VR/UnrealEngine/commit/1773fc1b5f41320f683e59c828990188a499f0f7</a
+>
+<div class="bb_callout">
+    <div>
+        If you get a 404 for the above URL, you need to accept Epic's EULA as described
+        <a href="https://www.unrealengine.com/en-US/ue-on-github" target="_blank" rel="noreferrer"
+            >here</a
+        >.
+    </div>
+</div>
+<br />
+If you are using Git on the command line, you can cherry pick it using the following command:<br />
+<div class="bb_code">
+    git remote add valve
+    <a href="mailto:git@github.com:Valve-VR/UnrealEngine.git"
+        >git@github.com:Valve-VR/UnrealEngine.git</a
+    >
+    git fetch valve 1773fc1b5f41320f683e59c828990188a499f0f7 git cherry-pick
+    1773fc1b5f41320f683e59c828990188a499f0f7
+</div>
+<br />
+Or by using your Git GUI client of choice.<br />
+<br />
+If you have not set up Unreal to build before, please see Epic's
+<a
+    href="https://dev.epicgames.com/documentation/en-us/unreal-engine/building-unreal-engine-from-source"
+    target="_blank"
+    rel="noreferrer"
+    >Getting Started guide</a
+>
+for more information. You will also need to install the Android NDK and SDK. More information from
+Epic on how to set this up for your version of Unreal can be found in this
+<a
+    href="https://dev.epicgames.com/documentation/en-us/unreal-engine/getting-started-and-setup-for-android-projects-in-unreal-engine"
+    target="_blank"
+    rel="noreferrer"
+    >guide</a
+>.
+<h2 class="bb_section"><a name="1"></a>Android Project Settings</h2>
+For the best results and optimizations out of the gate, we recommend starting with the VRTemplate
+project as your base.<br />
+<br />
+Since the VR Template already targets Android out of the box, it can run directly with no
+changes.&nbsp; However, to get the best performance, we want to make a few modifications.<br />
+<br />
+<ul>
+    <li>
+        In <strong>Project Settings &gt; Platforms - Android</strong>, check
+        <strong>Support Vulkan</strong>, and ensure that
+        <strong>Detect Vulkan device support</strong> is also checked.<br />
+    </li>
+    <li>
+        In the same section, ensure that <strong>Package for Valve Steam Frame devices</strong> is
+        checked, and <strong>Package for Meta Quest devices</strong> is unchecked.<br />
+    </li>
+    <li>
+        For consistency during development, you may also want to change the default Windows API to
+        <strong>Vulkan </strong>as well.<br />
+    </li>
+    <li>
+        Change the default anti-aliasing method for mobile to <strong>MSAA</strong> in
+        <strong>Project Settings &gt; Engine - Rendering</strong>, and set
+        <strong>MSAA sample count</strong> (Default Settings) to <strong>4x MSAA</strong>.<br />
+    </li>
+    <li>
+        Under the <strong>Edit &gt; Plugins</strong> menu, locate the
+        <strong>Steam Frame OpenXR Extension</strong> in the list, and enable it.<br />
+    </li>
+    <li>
+        (Optional, but recommended)&nbsp; Disable the <strong>Android File Server</strong>, which
+        will speed up deployment and development times
+    </li>
+</ul>
+<br />
+Depending on the needs of your project, other features can be disabled to save rendering
+performance, such as disabling Custom Depth if not needed.&nbsp; For more information, see the
+following documentation page:&nbsp;
+<a
+    href="https://docs.unrealengine.com/5.3/en-US/xr-best-practices-in-unreal-engine/"
+    target="_blank"
+    rel="noreferrer"
+    >XR Best Practices in Unreal</a
+><br />
+<br />
+Due to a bug in the current versions of Unreal Engine, you must also use the Binned2 allocator to
+prevent a crash on startup. This should be fixed in future versions of the engine, but in the
+meantime, open up your new project's Target.cs file, and add the following line:<br />
+<br />
+<div class="bb_code">StaticAllocator = StaticAllocatorType.Binned2;</div>
+<br />
+Finally, you must make sure that the application uses the proper version of the Android SDK and NDK
+for the device (currently, 30). In your project's settings, go to
+<strong>Edit &gt; Project Settings &gt; Android SDK</strong>, and set both the Android SDK and the
+Android NDK API Levelto <strong>android-30</strong>. Alternatively, you can edit your project's
+config DefaultEngine.ini to have the following:<br />
+<div class="bb_code">
+    [/script/androidruntimesettings.androidruntimesettings] MinSDKVersion=30 TargetSDKVersion=30
+    SDKAPILevelOverride=30 NDKAPILevelOverride=android-30 BuildToolsOverride=30.0.0
+</div>
+<h2 class="bb_section"><a name="2"></a>Deploying and Running on Steam Frame</h2>
+Before we can deploy the Project, we need to make sure that the device is connected through the
+Android Debug Bridge (ADB). This is a standard Android workflow, so it should be familiar to anyone
+that has worked on other Android-based platforms.<br />
+<br />
+Refer to this article to get started:
+<a href="/doc/steamframe/adb_lepton">Connecting adb to Lepton</a><br />
+<br />
+Once your project is set up, you should be able to package it for Android as you would any other
+project. The simplest way is to go to the <strong>Platforms</strong> drop down in the Editor, and
+under <strong>Quick Launch &gt; Android</strong> at the top, you should see a device labeled
+<strong>Lepton</strong>. Simply click that and deploy to the device!<br />
+<br />
+In the Editor, under the <strong>Platforms</strong> drop down, ensure that the Android flavor is set
+to <strong>Android (ASTC)</strong>, and then select <strong>Package Project</strong>.
+<div class="bb_callout">
+    <div>
+        Your options when packaging are ASTC, ECT2, or Default. Any will work but ASTC is best
+        supported on the chipset.
+    </div>
+</div>
+<br />
+Once your package is deployed and running, the Device Output window in the editor will show you the
+live output logs from the game, as well as allow you to access console commands to send to the game.
+This is very useful for debugging and tuning!
+<h2 class="bb_section"><a name="3"></a>Steam Frame Controllers</h2>
+While SteamVR will automatically remap bindings from other controllers if no bindings are provided
+for the Frame Controllers, specifying native bindings will always give the best user experience. To
+add bindings for Steam Frame Controllers you must have the SteamFrameOpenXRExtension plugin enabled.
+Then related Input Keys will show up in Unreal Engine's keybinding system.
+<div class="bb_callout">
+    <div>
+        In the section marked <strong>Input Mapping Contexts (IMC)</strong> the Steam Frame
+        controller keys will appear as options.&nbsp; Ensure that the Input Action types match the
+        type of key input that you bind them to!
+    </div>
+</div>
+<h2 class="bb_section"><a name="4"></a>Variable Rate Shading (VRS)</h2>
+The Steam Frame Unreal Engine plugin supports Variable Rate Shading (VRS), which allows the engine
+to manage the resolution at which different areas of the screen are rendered.&nbsp; This allows for
+foveated rendering, where the user’s gaze location is rendered at full resolution, while areas of
+the screen that are farther away are rendered at a lower resolution in order to save GPU time.<br />
+There are two variants of VRS for Steam Frame devices:&nbsp;runtime-provided VRS, which allows the
+runtime to provide the application with a foveation map to use, and the Legacy VRS system, which
+allows for application-driven setting of the Fragment Density Map (FDM).&nbsp; Both variants are
+eye-tracked.<br />
+We recommend using the Runtime-Provided VRS implementation, unless you want to experiment with
+performance by fine tuning the foveation map yourself.<br />
+<br />
+Both types of VRS requires multi-view, so be sure to check the following settings in your
+project:<br />
+<div class="bb_code">vr.MobileMultiView=True</div>
+<h2 class="bb_subsection"><a name="5"></a>Enabling Runtime-Provided VRS (recommended)</h2>
+This will let the runtime scale up and down the amount of foveation depending on your application’s
+GPU performance.<br />
+To enable this feature in your project, open up the project’s DefaultEngine.ini, and add the
+following settings to the /Script/Engine.RendererSettings section:<br />
+<div class="bb_code">[/script/engine.renderersettings] r.Vulkan.VRSFormat=5</div>
+If you’re on Unreal Engine 5.5 or above, you also need to add<br />
+<div class="bb_code">r.VRS.Support=1 r.VRS.Enable=1 xr.OpenXRFBFoveationLevel=3</div>
+<br />
+In your project’s DefaultGame.ini, add the following to enable the required OpenXR extension:<br />
+<div class="bb_code">[/script/openxrhmd.openxrhmdsettings] bIsFBFoveationEnabled=true</div>
+<h2 class="bb_subsection"><a name="6"></a>Legacy VRS</h2>
+To enable this feature in your project, open up the project’s DefaultEngine.ini, and add the
+following settings to the /Script/Engine.RendererSettings section:<br />
+<br />
+<div class="bb_code">
+    [/script/engine.renderersettings] xr.VRS.FoveationLevel=0 r.Vulkan.VRSFormat=5
+    xr.VRS.SteamFrame.FoveationLevel=3 ; Any number 0 - 3 is valid
+</div>
+<br />
+If you’re on Unreal Engine 5.5 or above, you also need to add<br />
+<br />
+<div class="bb_code">r.VRS.Support=1 r.VRS.Enable=1</div>
+<br />
+You'll need to turn off the default Unreal Engine VRS, which is not compatible with multi-view VR
+rendering. Having both enabled will result in a black screen. In your project’s DefaultGame.ini, add
+the following to disable the built-in runtime-provided VRS provider:<br />
+<br />
+<div class="bb_code">[/script/openxrhmd.openxrhmdsettings] bIsFBFoveationEnabled=false</div>
+<br />
+There are a few other CVars that can be modified in settings or runtime order to tweak the
+performance and characteristics of foveated rendering:<br />
+<br />
+<ul>
+    <li>
+        <strong>xr.VRS.SteamFrame.FoveationLevel</strong> - When greater than 0, foveation will be
+        enabled.&nbsp; The max level, 3, represents the highest overall image quality, with the
+        worst performance.&nbsp; The minimum active level, 0, represents the lowest overall image
+        quality, but the maximum performance.&nbsp; -1 (default) disables foveation.<br />
+        <br />
+    </li>
+    <li>
+        <strong>xr.VRS.SteamFrame.DynamicFoveation</strong> - When set to 1, the foveation amount
+        will change based on current measured GPU load to try and maintain the target
+        framerate.&nbsp; Currently unimplemented<br />
+        <br />
+    </li>
+    <li>
+        <strong>xr.VRS.SteamFrame.ForceDynamicFoveationBucket</strong> - Used at runtime to force
+        the Dynamic Foveation to use settings from a specified bucket for testing purposes.
+    </li>
+</ul>
+<br />
+<i
+    >Note that currently because of the binning size, it can be hard to see the effect of gaze
+    tracked foveation.</i
+>
+<h2 class="bb_subsection"><a name="7"></a>Runtime Foveation Testing Variables (Legacy only)</h2>
+<br />
+<ul>
+    <li>
+        <strong>xr.VRS.SteamFrame.EnableTestFoveation</strong> - When set to 1, foveation parameters
+        will lock to the values set below.&nbsp; This is useful for testing at runtime to check the
+        visual effect on the game of different parameter values for the dynamic foveation
+        buckets.<br />
+        <br />
+    </li>
+    <li>
+        <strong>xr.VRS.SteamFrame.TestFoveation.FovealDensity</strong> - The density, in the range
+        from (0.0, 1.0] for the center foveal region of the screen.&nbsp; This is a pixel divisor,
+        so sampling will occur at 1.0 / Density.&nbsp; Because of this, note that the lower the
+        value of the density, the bigger the effect on quality!<br />
+        <br />
+    </li>
+    <li>
+        <strong>xr.VRS.SteamFrame.TestFoveation.FovealWidth</strong> - The size, in float percentage
+        of the screen diagonal (0.0, 1.0], for the foveal region of the screen where FovealDensity
+        is applied.<br />
+        <br />
+    </li>
+    <li>
+        <strong>xr.VRS.SteamFrame.TestFoveation.MidBandDensity</strong> - The same as FovealDensity,
+        but for the mid-quality band immediately outside the foveal region.<br />
+        <br />
+    </li>
+    <li>
+        <strong>xr.VRS.SteamFrame.TestFoveation.MidBandWidth</strong> - The size, in float
+        percentage of the screen diagonal (0.0, 1.0], for the mid-quality band immediately outside
+        of the foveal region.&nbsp; Should be larger than FovealWidth.<br />
+        <br />
+    </li>
+    <li>
+        <strong>xr.VRS.SteamFrame.TestFoveation.PeripheralDensity</strong> - The same as
+        FovealDensity, but for pixels outside of the mid-quality band.
+    </li>
+</ul>
+<br />
+<i
+    >Important Note:&nbsp; The density value is read from the density map once per bin.&nbsp; This
+    means that the foveation values may appear to affect much larger regions of the screen than
+    would be expected and may appear blocky.&nbsp; You may need to adjust your settings to
+    compensate!</i
+>
+<h2 class="bb_section"><a name="8"></a>Adding Steamworks Support for Android</h2>
+Support for running applications with Steamworks support enabled is available.&nbsp; To enable it,
+ensure that the plugin is enabled by going to <strong>Window &gt; Plugins</strong> in the Editor and
+making sure <strong>Online Subsystem Steam</strong> is enabled.<br />
+With that enabled, update your application’s DefaultEngine.ini file with the following, being sure
+to replace the SteamDevAppId with your own AppId:<br />
+<div class="bb_code">
+    [/script/engine.gameengine]
+    +NetDriverDefinitions=(DefName="GameNetDriver",DriverClassName="OnlineSubsystemSteam.SteamNetDriver",DriverClassNameFallback="OnlineSubsystemUtils.IpNetDriver")
+    [OnlineSubsystem] DefaultPlatformService=Steam [OnlineSubsystemSteam] bEnabled=true
+    SteamDevAppId=12345 ; If using Sessions bInitServerOnClient=true
+    [/script/onlinesubsystemsteam.steamnetdriver]
+    NetConnectionClassName="OnlineSubsystemSteam.SteamNetConnection"
+    [/script/androidruntimesettings.androidruntimesettings]
+    bDisableLibCppSharedDependencyValidation=True bSkipLibCpp=false
+</div>
+<h2 class="bb_section"><a name="9"></a>Debugging and Profiling</h2>
+Please see the main <a href="/doc/steamframe/debugging">Steam Frame Debugging</a> page for general
+information on the options available for debugging games on Steam Frame.
+<h2 class="bb_subsection"><a name="10"></a>Unreal Insights</h2>
+Unreal Insights is Unreal Engine’s own profiling tool, which can do both CPU and GPU
+captures.&nbsp;For more documentation on the use of the tool, see
+<a
+    href="https://docs.unrealengine.com/4.26/en-US/TestingAndOptimization/PerformanceAndProfiling/UnrealInsights/"
+    target="_blank"
+    rel="noreferrer"
+    >https://docs.unrealengine.com/4.26/en-US/TestingAndOptimization/PerformanceAndProfiling/UnrealInsights/</a
+><br />
+<br />
+To use Unreal Insights within Lepton, you must manually set up a commandline to point at the
+tracehost on your PC, as well as set up port forwarding.&nbsp;On the host PC, after connecting adb
+to Lepton, do the following:<br />
+<div class="bb_code">
+    adb shell setprop debug.ue.commandline -tracehost=127.0.0.1 exit adb reverse tcp:1981 tcp:1981
+</div>
+<br />
+Finally, launch Unreal Insights located under your depot at Engine/Binaries/Win64/UnrealInsights.exe
+(you may have to build it first).&nbsp;You should see the device appear under Session.&nbsp;Attach,
+and profile as per the documentation above.
+<h2 class="bb_section"><a name="11"></a>Common Problems</h2>
+<h2 class="bb_subsection">
+    <a name="12"></a>Android application crashes shortly after launch, with a stack that involves
+    UnrealMemory.cpp
+</h2>
+This is due to the default allocator becoming Binned3 for Android apps in recent versions of
+Unreal.&nbsp; Binned3 allocates a large chunk of memory at the beginning of the app load, which is
+unfortunately too large, and causes an out of memory (OOM) crash.<br />
+To fix this, restore the Binned2 allocator in your project’s Target.cs file with the following
+line:<br />
+<div class="bb_code">StaticAllocator = StaticAllocatorType.Binned2;</div>
+<h2 class="bb_subsection"><a name="13"></a>Can’t Install APK on Lepton because of SDK Error</h2>
+If you see an error like the following when installing the APK on Lepton, it indicates that the
+Project is built with a version of the Android SDK / NDK that is too new for the version of Android
+on the device.<br />
+<div class="bb_code">
+    Failure [INSTALL_FAILED_OLDER_SDK: Failed parse during installPackageLI:
+    /data/app/vmdl157345552.tmp/base.apk (at Binary XML file line #8): Requires newer sdk version
+    #33 (current version is #30)]
+</div>
+<br />
+<i
+    >Note:&nbsp; This message is very confusing!&nbsp; It indicates that the APK requires a newer
+    SDK than the OS supports, and not the other way around.</i
+><br />
+<br />
+To fix this, you must manually specify the project uses a lower SDK/NDK level, and rebuild.&nbsp; In
+your Project’s settings.&nbsp; Go to
+<strong>Edit &gt; Project Settings &gt; Android SDK &gt; NDK API Level</strong> and set it to
+<strong>android-30</strong>&nbsp; (or, in the future, whichever version is specified after the
+<strong>(current version is #XX)</strong> portion of the error).&nbsp; Repackage and install, and
+the APK should install without error.<br />
+<br />
+Alternatively, you can change the projects DefaultEngine.ini file to have the following:<br />
+<div class="bb_code">
+    [/script/androidruntimesettings.androidruntimesettings] MinSDKVersion=30 TargetSDKVersion=30
+    SDKAPILevelOverride=30 NDKAPILevelOverride=android-30 BuildToolsOverride=30.0.0
+</div>

@@ -1,0 +1,284 @@
+<h1>Steam Frame Debugging</h1>
+The Steam Frame runs on SteamOS, which is a gaming focused Linux distribution based on Arch. This
+means you have a full computer available to clearly debug what's going on with your application.
+<h2 class="bb_section"><a name="1"></a>Developer Mode</h2>
+To connect to the headset via <strong>ssh</strong>, <strong>adb</strong>, or
+<strong>rdp</strong> you first need to enable <strong>Developer Mode</strong> as described in the
+<a href="/doc/steamframe/setup">Setting up your Steam Frame for development</a>. This will allow you
+connect and deploy to the headset.<br />
+<br />
+<i
+    >Tip: If you are developing on Windows, WinSCP is a nice tool for transferring files to/from the
+    device.<i
+        ><h2 class="bb_section"><a name="2"></a>See the headset view remotely</h2>
+        You can use Steam Link to view the headset's view remotely. Using the iOS or Android app
+        just connect to <strong>frame</strong>. On desktop you can open
+        <strong>Steam &gt; Settings &gt; Remote Play</strong> and then next to
+        <strong>frame</strong> you'll see <strong>Connect</strong>. The first time you launch Steam
+        Link on PC it will come up full screen. Use <strong>alt+enter</strong> to switch to windowed
+        mode. It will remember this setting on future launches.
+        <h2 class="bb_section"><a name="3"></a>Performance Graph</h2>
+        You can turn on the in-headset performance graph by clicking the Clock button in the lower
+        right hand corner of the Dashboard, then the Performance button, and at the bottom enable
+        <strong>Show Perf Overlay In VR</strong><br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamframe-perfgraph.png"
+            alt="steamframe-perfgraph.png"
+            title="steamframe-perfgraph.png"
+        /><br />
+        <br />
+        <strong>Green </strong>means your game is making framerate. The top numbers show the game's
+        gpu work for a single frame converted to fps (frames per second) and the texture resolution
+        being submitted per eye. If your game is running particularly fast, it will switch to
+        displaying milliseconds instead. The bottom row is how much time SteamVR's compositor is
+        using per-vsync, the current gpu clock rate (in MHz) and average power draw over the past
+        two seconds.<br />
+        The bottom row is graded to show seconds.<br />
+        <strong>Yellow </strong>means your game is running at half rate (each submitted frame is
+        taking between 1 and 2 vsync intervals to finish).<br />
+        <strong>Red </strong>means your game is taking more than 2 vsync intervals to finish each
+        frame.<br />
+        <strong>Pink</strong> means SteamVR's compositor gpu preemption failed for some reason.
+        <h2 class="bb_section"><a name="4"></a>Remote Desktop</h2>
+        After <a href="/doc/steamframe/setup">enabling Developer Mode</a>, you can access a Linux
+        desktop environment on Steam Frame using Remote Desktop. Windows includes an application
+        called Remote Desktop Connection. VNC and similar programs will also work.<br />
+        <br />
+        To connect, open up Remote Desktop Connection in Windows, and enter
+        <strong>frame</strong> as the Computer.<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamframe-remotedesktop.png"
+            alt="steamframe-remotedesktop.png"
+            title="steamframe-remotedesktop.png"
+        /><br />
+        <br />
+        Once connected, you’ll see an XRDP login screen. Xorg should be the default session, the
+        username is <strong>steamos</strong> and the password is whatever you had previously set in
+        Developer Mode settings.<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamframe-xrdp.png"
+            alt="steamframe-xrdp.png"
+            title="steamframe-xrdp.png"
+        />
+        <h2 class="bb_section"><a name="5"></a>SSH</h2>
+        After <a href="/doc/steamframe/setup">enabling Developer Mode</a>, you can
+        <strong>ssh </strong>into the headset using the default user <strong>steamos</strong> and
+        whatever password you had set under <strong>Developer Mode </strong>settings:<br />
+        <div class="bb_code">ssh steamos@frame</div>
+        <br />
+        Once connected to headset there are a variety of helpful commands for you to use:<br />
+        <ul>
+            <li>
+                <strong>cdd</strong> - This will change your directory to a location that contains a
+                bunch of helpful Steam Frame scripts.<br />
+            </li>
+            <li>
+                <strong>cdl</strong> - This will change your directory to the Steam Logs
+                directory.<br />
+            </li>
+            <li>
+                <strong>lepton</strong> - Lepton is the name of our Android compatibility layer.
+                You'll often need to specify a lepton instance, which if you're running Lepton
+                Development from your Steam Library will be "dev". Just run "lepton" to get a
+                description of the commands you can run. To get a color-coded logcat you can run
+                "lepton dev logcat".<br />
+            </li>
+            <li>
+                <strong>sudo pacman</strong> - Pacman is the Arch package manager. You can search
+                for packages with "sudo pacman -Ss packageName". You can run "sudo pacman -S
+                packageName" to install a package.<br />
+            </li>
+            <li>
+                <strong>sudo steamos-readonly disable</strong> - By default the filesystem is
+                read-only, so you won't be able to run things like pacman. To make it writable you
+                can run this command. Most any changes you make will be overwritten the next time
+                you update the OS.
+            </li>
+        </ul>
+        <h2 class="bb_subsection"><a name="6"></a>Core Dumps</h2>
+        If a native application crashes and you get a core dump, you can use GDB to see the call
+        stack where it crashed.&nbsp;After crashing, view the list of core dumps using the
+        command:<br />
+        <div class="bb_code">coredumpctl</div>
+        This will bring up a list of core dumps available to view, along with their pid
+        numbers.&nbsp;Find the one relevant to you, named after your project, and view the dump by
+        entering the following command, replacing the number with the pid of the dump you want to
+        view:<br />
+        <div class="bb_code">coredumpctl debug 1234</div>
+        This command will load up the dump, which might take a while.&nbsp;When prompted, hit enter
+        and full symbols will be loaded.&nbsp;To see the stack trace where the crash occurred, enter
+        bt from the GDB command prompt.
+        <h2 class="bb_section"><a name="7"></a>Lepton</h2>
+        While working with our lightweight android translation layer, Lepton, you have a few
+        different options available to you to help with debugging. You can ssh into the headset and
+        get some command line options. ADB should also work like it would with any other mobile
+        device. That means after connecting over adb you have access to:<br />
+        <ul>
+            <li><strong>adb logcat </strong>- Realtime steam of logs from the device<br /></li>
+            <li><strong>adb shell</strong> - access the android instance's command line<br /></li>
+            <li><strong>adb bugreport</strong> - Downloads a zip full of crash dumps and logs</li>
+        </ul>
+        <h2 class="bb_subsection"><a name="8"></a>Renderdoc with Lepton</h2>
+        There are two ways to work with RenderDoc. If you’re developing an Android application the
+        standard Android workflow should be fine with the exception of connecting over adb first. If
+        you’re connecting over wifi make sure your headset is on the same network as your PC.<br />
+        <ol>
+            <li>
+                On HMD: Launch <strong>Lepton Development</strong> from your Steam Library, and wait
+                for it to finish loading.<br />
+            </li>
+            <li>On PC: <strong>adb connect frame</strong><br /></li>
+            <li>
+                On PC: Open <strong>RenderDoc</strong> and in the lower left hand corner select the
+                <strong>Android 5.x </strong>device<br />
+            </li>
+            <li>On PC: <strong>adb install</strong> your app<br /></li>
+            <li>
+                On PC: In <strong>RenderDoc </strong>under
+                <strong>Launch Application</strong> select the executable path for your app.
+            </li>
+        </ol>
+        <h2 class="bb_section"><a name="9"></a>Renderdoc for other apps</h2>
+        The easiest way to use RenderDoc to capture frames from Windows or Linux applications on
+        Steam Frame is to connect from your Desktop PC using Remote Desktop and run RenderDoc
+        there.<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamframe-renderdoc.png"
+            alt="steamframe-renderdoc.png"
+            title="steamframe-renderdoc.png"
+        /><br />
+        <br />
+        We recommend using the SteamOS Devkit Tool to upload your application to the device, that
+        will create a Steam entry that you can easily add launch options to.<br />
+        <ul>
+            <li>Add your title with the SteamOS Devkit Client<br /></li>
+            <li>
+                Remote into your Steam Frame using the instructions in the Remote Desktop section
+                above.<br />
+            </li>
+            <li>
+                Then click the Application Launcher in the lower-left, type: renderdoc, and click to
+                launch.<br />
+            </li>
+            <li>
+                After launching, you can right-click on the icon and pin it for future ease of
+                access.<br />
+            </li>
+            <li>
+                From there you can <strong>File &gt; Attach to Running Instance</strong>.
+                <div class="bb_callout">
+                    <div>
+                        When running games through Proton, you'll see three
+                        <strong>wine_preloader</strong> instances. Select the last one.
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <br />
+        Before your game will show up, you will need to launch it with the renderdoc vulkan layer
+        enabled. This can be done by setting the environment variable
+        ENABLE_VULKAN_RENDERDOC_CAPTURE=1. You can do this in Steam by clicking the app's gear icon
+        and editing the command line to be:<br />
+        <div class="bb_code">ENABLE_VULKAN_RENDERDOC_CAPTURE=1 %command%</div>
+        <br />
+        If the capture button is disabled or not working and you see the API listed as Not
+        Presenting you may need to add EnableFrameEndMarkers=1 to your launch options as well
+        (before %command%).<br />
+        <div class="bb_code">
+            ENABLE_VULKAN_RENDERDOC_CAPTURE=1 EnableFrameEndMarkers=1 %command%
+        </div>
+        <h2 class="bb_section"><a name="10"></a>Tracking Errors</h2>
+        If you run into serious tracking issues please let us know. Recording a tracking dataset
+        helps us analyze what went wrong so we can address it in future updates. This is a snapshot
+        of the entire tracking state within a window of time. This will let us replay your tracking
+        inputs to see exactly what is happening with hmd and controller poses and test new tracking
+        software against these exact inputs.<br />
+        <br />
+        The recording has to be manually triggered to begin and end, so it's best if the issue is
+        ongoing or if you think you can reproduce the issue without too much effort. Ideally we'd
+        want to see tracking go from working to broken within the capture window so we can see the
+        moment something goes wrong. If tracking recovers, it's also useful to include that recovery
+        in the dataset.
+        <div class="bb_callout">
+            <div>
+                The dataset recording logs a wide variety of sensors on the headset but camera
+                video, screen recording, and audio data is optional. While optional, the more data
+                we have the more likely we will be to be able to diagnose the tracking issue you're
+                recording data for. Additionally, if you include audio data you can talk to the
+                recording to add context.
+            </div>
+        </div>
+        <br />
+        <ol>
+            <li>
+                Open the VR dashboard, navigate to the Steam overlay, then to VR Settings.<br />
+            </li>
+            <li>Enable Advanced Settings if it's not already enabled.<br /></li>
+            <li>
+                Go to the Developer settings tab and scroll down to
+                <strong>Record Tracking Data</strong>. <br />
+            </li>
+            <li>Select if you want to include camera/screen/audio data with the dataset.<br /></li>
+            <li>
+                Then click <strong>START</strong> next to
+                <strong>Record Tracking Data</strong>.<br />
+            </li>
+            <li>
+                You should see a recording icon at the top of your view. You can now close the
+                dashboard if you'd like, then reproduce whatever tracking issue you want to
+                capture.<br />
+            </li>
+            <li>
+                When you're finished, open the same settings window and click
+                <strong>STOP</strong> to end the capture.<br />
+            </li>
+            <li>
+                Then to get the files you'll want to ssh into the headset:
+                <strong>ssh steamos@frame</strong><br />
+            </li>
+            <li>
+                Run this command to zip up the latest dataset:
+                <div class="bb_code">
+                    zip -r latestDataset.zip "$(ls -td
+                    /home/steamos/.config/openvr/config/cv/xrservice/datasets/ | head -n 1)"
+                </div>
+            </li>
+            <li>Exit ssh (just type <strong>exit</strong>)<br /></li>
+            <li>
+                Download the zip from your headset into your current directory with scp:
+                <div class="bb_code">scp steamos@frame:/home/steamos/latestDataset.zip</div>
+            </li>
+            <li>Then upload to your favorite file host and email us a link to the file.</li>
+        </ol>
+        <h2 class="bb_section"><a name="11"></a>Android Mesa Debug</h2>
+        If you want to install the mesa debug drivers to get access to lower level debugging you can
+        do this via ssh.<br />
+        <ol>
+            <li>
+                ssh into your Steam Frame<br />
+                <div class="bb_code">ssh steamos@frame</div>
+            </li>
+            <li>
+                Verify current Mesa version<br />
+                <div class="bb_code">mesa_version</div>
+                (should report something like <i>Mesa 25.3.0-devel (git-8d3763730d)</i><br />
+            </li>
+            <li>
+                Make the filesystem writable<br />
+                <div class="bb_code">sudo steamos-readonly disable</div>
+            </li>
+            <li>
+                Install debug mesa with pacman<br />
+                <div class="bb_code">sudo pacman -S deckard-mesa-android-aarch64-debug</div>
+            </li>
+        </ol>
+        <h2 class="bb_section"><a name="12"></a>USB Cables</h2>
+        For long development sessions it can be helpful to get a USB cable that can connect to your
+        computer as well as get power delivered. Your computer's USB port's power alone will not be
+        able to sustain the headset.</i
+    ></i
+>

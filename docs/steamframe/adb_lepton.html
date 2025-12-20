@@ -1,0 +1,73 @@
+<h1>Connecting adb to Lepton</h1>
+Android Debug Bridge (ADB) is a tool for communicating with a mobile device from a PC and can be
+<a
+    href="https://developer.android.com/tools/releases/platform-tools"
+    target="_blank"
+    rel="noreferrer"
+    >downloaded from Google here</a
+>. It is also included with Android Studio.<br />
+<br />
+Lepton is a container for running Android apps on Linux devices such as Steam Frame. There is no
+Lepton container running by default on Steam Frame, so adb will not have anything to connect to
+until we start one. You can do this by going to your Steam Library on the Steam Frame, find "Lepton
+Development" and start the application. You should see a floating window appear with an Android home
+screen.<br />
+<br />
+<i
+    >Note: Launching any Android game from Steam starts a Lepton container and can be connected
+    similarly without needing to launch Lepton Development separately</i
+>. <br />
+<br />
+First, make sure you have turned on Developer Mode as described in the
+<a href="/doc/steamframe/setup">Setting up your Steam Frame for development</a> this will let you
+connect and deploy to the headset.
+<h2 class="bb_subsection"><a name="1"></a></h2>
+<h3>Connecting via Wifi</h3>
+<ol>
+    <li>Open a command prompt to where you downloaded adb.exe<br /></li>
+    <li>
+        Run <strong>adb connect frame</strong>
+        <i
+            >(or substitute <strong>frame</strong> for your current hostname if you've changed
+            it.)</i
+        >
+    </li>
+</ol>
+<h3>Connecting via USB</h3>
+By default, adb over USB will connect to the native Linux OS, while Lepton instead listens on tcp
+port 5555. So to connect to Lepton over USB using adb you first need to forward that port and then
+explicitly connect to it.<br />
+<ol>
+    <li>Open a command prompt to where you downloaded adb.exe<br /></li>
+    <li>Run <strong>adb forward tcp:5555 tcp:5555</strong><br /></li>
+    <li>Run <strong>adb connect localhost:5555</strong></li>
+</ol>
+<br />
+<i
+    >Note: Your PC likely does not provide enough power over USB to keep the headset running. If you
+    prefer this method you'll want to get a cable or adapter that allows you to connect a separate
+    power source.</i
+><br />
+<br />
+Once you have run <strong>adb connect</strong> you should see:<br />
+<div class="bb_code">connected to frame:5555</div>
+<br />
+This means you're successfully connected to the device, and can now deploy builds like you would to
+any other Android device!
+<h2 class="bb_section"><a name="2"></a>Troubleshooting</h2>
+If you get an error, ensure:<br />
+<ul>
+    <li>A Lepton development session is currently running<br /></li>
+    <li>The Steam Frame is connected to the same network as your PC<br /></li>
+    <li>Your router doesn't have "client isolation" enabled<br /></li>
+    <li>
+        You don't have multiple devices on the same network with the same hostname (2 different
+        Steam Frames with the default hostname <strong>frame</strong>)
+    </li>
+</ul>
+<br />
+If you see:<br />
+<div class="bb_code">cannot resolve host 'frame' and port 5555: No such host is known. (11001)</div>
+You may need to use the headset's IP address instead. This can be found by clicking on your wifi
+network in headset under <strong>Quick Settings</strong> or
+<strong>Steam Settings &gt; Internet</strong> (Example: 192.168.4.80).<br />

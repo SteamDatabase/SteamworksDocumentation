@@ -1,0 +1,196 @@
+<h1>Unity</h1>
+For development with Unity and Steam Frame we recommend targeting Android and Unity's built-in
+OpenXR plugin. We have a package you can install that assists with access to some additional
+built-in features, and includes the Steam Frame Controller OpenXR interaction profile. Development
+is pretty straight forward with the exception of needing to launch
+<strong>Lepton Development</strong> and <strong>adb connect</strong> before deploying to the
+headset. <br />
+<br />
+First, make sure you have turned on <strong>Developer Mode</strong> as described in
+<a href="/doc/steamframe/setup">Setting up your Steam Frame for development</a>. This will let you
+deploy to the headset.
+<h2 class="bb_section"><a name="1"></a>Valve OpenXR Utilities Package</h2>
+These features, with the exception of the interaction profile, are mostly simple interfaces to
+enable existing Unity functionality. For help with the features themselves please see the linked
+Unity documentation pages. <br />
+<br />
+To install this package open the package manager, click the <strong>+</strong> then
+<strong>Install package from git url</strong> and enter this url:
+<a
+    href="https://github.com/ValveSoftware/Unity.git?path=com.valvesoftware.openxr.utils"
+    target="_blank"
+    rel="noreferrer"
+    >https://github.com/ValveSoftware/Unity.git?path=com.valvesoftware.openxr.utils</a
+>
+<br />
+<br />
+<ul>
+    <li>
+        <strong>Steam Frame Controller OpenXR Interaction Profile</strong> - This feature lets you
+        bind your Unity Actions to Steam Frame Controller buttons.<br />
+        <i>Requirements: OpenXR</i><br />
+        <br />
+    </li>
+    <li>
+        <strong>Valve Utils: Settings for Unity's Foveated Rendering</strong> - This provides access
+        to the Unity feature for Foveated Rendering. It supports eye-tracking and allows a greater
+        range of Unity and OpenXR versions than are supported by the official plugin.
+        <a
+            href="https://docs.unity3d.com/6000.2/Documentation/Manual/xr-foveated-rendering.html"
+            target="_blank"
+            rel="noreferrer"
+            >Unity documentation</a
+        ><br />
+        <i>Requirements: Unity 2022.3+, Unity OpenXR Plugin v1.9.1+, URP, Vulkan</i><br />
+        <br />
+    </li>
+    <li>
+        <strong>Valve Utils: Settings for Unity's Multiview Render Regions</strong> - This provides
+        access to the Unity feature for Multiview Render Regions. This prevents rendering to regions
+        that are not visible to the user through the headset.
+        <a
+            href="https://docs.unity3d.com/6000.3/Documentation/Manual/xr-multiview-render-regions.html"
+            target="_blank"
+            rel="noreferrer"
+            >Unity documentation</a
+        ><br />
+        <i>Requirements: Unity 6.1+, Unity OpenXR Plugin 1.14.1+, Vulkan, Multiview</i><br />
+        <br />
+    </li>
+    <li>
+        <strong>Valve Utils: Lepton Validation</strong> - This feature checks through your Unity
+        project and lets you know if there are things setup that will cause the build to fail to run
+        locally on Lepton (Steam Frame's Android translation layer).<br />
+        <i>Requirements: Unity OpenXR Plugin v1.9.1+</i><br />
+        <br />
+    </li>
+    <li>
+        <strong>Valve Utils: Refresh Rate</strong> - This feature lets you query and request refresh
+        rates on the headset via the
+        <a
+            href="https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_FB_display_refresh_rate"
+            target="_blank"
+            rel="noreferrer"
+            >XR_FB_display_refresh_rate</a
+        >
+        OpenXR extension. Currently in SteamVR we only expose the currently in-use refresh rate.<br />
+        <i>Requirements: OpenXR</i>
+    </li>
+</ul>
+<h2 class="bb_section"><a name="2"></a>Project Settings</h2>
+These settings are required for Android OpenXR builds to work on the Steam Frame.<br />
+<ul>
+    <li>
+        <strong>Enable OpenXR</strong> - Enable the OpenXR Plugin
+        <i>(Project settings &gt; XR Management)</i><br />
+    </li>
+    <li>
+        <strong>Disable Meta XR</strong> - Disable all Meta XR and Meta Quest OpenXR Features
+        <i>(Project Settings &gt; XR Management &gt; OpenXR &gt; OpenXR Feature Groups)</i><br />
+        <i
+            >Note: New versions of the OpenXR Package have fixed having the Meta Quest Support
+            feature enabled while deploying to non-meta headsets, but we recommend turning it off if
+            your application doesn't load into VR correctly.</i
+        ><br />
+    </li>
+    <li>
+        <strong>Minimum API Level</strong> - Android 10 (API Level 29) or Android 11 (API level
+        30)<br />
+    </li>
+    <li><strong>Target API Level</strong> - Automatic <i>(or after your minimum)</i><br /></li>
+    <li><strong>Scripting Backend</strong> - IL2CPP<br /></li>
+    <li><strong>Target Architecture</strong> - ARM64<br /></li>
+    <li><strong>Graphics</strong> - Vulkan <i>(recommended)</i> or OpenGL<br /></li>
+    <li>
+        <strong>Add Input Profile</strong> - Add Steam Frame Controller to your list of Enabled
+        Interaction Profiles on the Android tab. (Project Settings &gt; XR Management &gt; OpenXR)
+    </li>
+</ul>
+<h2 class="bb_section"><a name="3"></a>Steam Frame Controllers</h2>
+By default the controllers will show up to your games as emulating Oculus Touch, you can bind to
+those controls and it will work. If you would like to bind to Frame Controller specific buttons or
+have Frame Controller specific offsets you can use the interaction profile provided in the package
+described above. We've tried to create aliases for the buttons that make sense. Please let us know
+if you have feedback on this.
+<h2 class="bb_section"><a name="4"></a>Play-in-Editor</h2>
+Deploying to the headset can be time consuming when trying to iterate quickly. If you setup your
+project to run OpenXR on Standalone (desktop) you can just hit Play in the editor and do most of
+your gameplay testing on PC through SteamVR, even while you're project currently targets Android.
+Remember to add the Steam Frame Controller to the list of Enabled Interaction Profiles on the
+Windows/Mac/Linux tab for the bindings to be the same as when on Android.
+<h2 class="bb_section"><a name="5"></a>Building to Steam Frame</h2>
+Building to Steam Frame is similar to building to other standalone headsets or mobile devices using
+adb. Refer to this article to get started:
+<a href="/doc/steamframe/adb_lepton">Connecting adb to Lepton</a><br />
+<br />
+Once connected to Lepton Development via adb, select <strong>Build and Run</strong> under
+<strong>Build Settings</strong>.
+<div class="bb_callout">
+    <div>
+        If you don't want to install the platform-tools from Google separately, adb.exe is included
+        with the Unity Android module. Its installation path can be found under
+        <strong>Preferences -&gt; External Tools -&gt; Android -&gt; Android SDK Tools</strong>.
+        Example file path: C:\Program
+        Files\Unity\Hub\Editor\2022.3.13f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\adb.exe
+    </div>
+</div>
+<h2 class="bb_section"><a name="6"></a>Steamworks .NET</h2>
+We have recently submitted changes to
+<a href="https://github.com/rlabrecque/Steamworks.NET" target="_blank" rel="noreferrer"
+    >https://github.com/rlabrecque/Steamworks.NET</a
+>
+that adds Android support. Once merged into main you will be able to add the package to Unity via
+its git url like normal. For now you will need to clone the repo and pull
+<a href="https://github.com/rlabrecque/Steamworks.NET/pull/759" target="_blank" rel="noreferrer"
+    >this PR</a
+>.
+<h2 class="bb_section"><a name="7"></a>Eye Tracking</h2>
+Our current support for eye tracking in Unity uses the Eye Gaze Interaction feature. There’s
+examples of using this in the
+<a
+    href="https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.1/manual/index.html"
+    target="_blank"
+    rel="noreferrer"
+    >XR Interaction Toolkit samples</a
+>. You can learn more about the feature here:
+<a
+    href="https://docs.unity3d.com/Packages/com.unity.xr.openxr@1.0/manual/features/eyegazeinteraction.html"
+    target="_blank"
+    rel="noreferrer"
+    >Eye Gaze Interaction | OpenXR Plugin | 1.0.3</a
+>
+<h2 class="bb_section"><a name="8"></a>Notes</h2>
+<ul>
+    <li>
+        <strong>Unity Profiler</strong> - Once adb is connected the Unity Profiler should be able to
+        connect as well.<br />
+    </li>
+    <li>
+        <strong>Unity Logcat</strong> - The Unity Logcat package found in the Unity Registry section
+        of the Package Manager should work once adb is connected. This gives you nice filtered logs
+        from your game.
+        <a
+            href="https://docs.unity3d.com/Packages/com.unity.mobile.android-logcat@0.1/manual/index.html"
+            target="_blank"
+            rel="noreferrer"
+            >See the Unity documentation</a
+        ><br />
+    </li>
+    <li>
+        <strong>Multiple HMDs</strong> - Disconnect other HMDs, (such as Quest), from your USB while
+        building and debugging. Otherwise, it tends to auto-install to USB. Also if you're testing
+        streaming you will want to disconnect wired headsets as well (e.g. Index).<br />
+    </li>
+    <li>
+        <strong>Multiple adb versions</strong> - If you get the error message: <br />
+        <div class="bb_code">
+            Unable to reconnect device. error: protocol fault (couldn't read status length):
+            connection reset
+        </div>
+        That probably means you have something else trying to use adb. Make sure things like Android
+        Studio are closed.<br />
+        <br />
+        If you’re struggling with keeping adb connected make sure you’re using the same version of
+        ADB as unity is trying to use.
+    </li>
+</ul>

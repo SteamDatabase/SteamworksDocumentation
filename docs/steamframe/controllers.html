@@ -1,0 +1,58 @@
+<h1>Steam Frame Controllers</h1>
+The Steam Frame Controllers have the same capabilities as your standard console gaming controllers
+plus touch states, grip buttons, capacitive finger tracking, and 6-DOF spatial tracking. This gives
+you many more options on how to let players interact with your titles. It also allows users to play
+non-VR content on the headset without a separate device.<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamframe-controllers.png"
+    alt="steamframe-controllers.png"
+    title="steamframe-controllers.png"
+/>
+<h2 class="bb_section"><a name="1"></a>VR Compatibility</h2>
+While you will always get a better user experience by tailoring your title to the Frame Controllers
+specifically, our controller compatibility modes have become quite robust. SteamVR will always use a
+Frame Controller binding by default but in the case one is not available it will first look for a
+<a
+    href="https://registry.khronos.org/OpenXR/specs/1.1/html/xrspec.html#XR_KHR_generic_controller"
+    target="_blank"
+    rel="noreferrer"
+    >OpenXR Generic Controller</a
+>
+binding, then an
+<a
+    href="https://registry.khronos.org/OpenXR/specs/1.1/html/xrspec.html#semantic-paths-oculus-touch-controller-profile"
+    target="_blank"
+    rel="noreferrer"
+    >Oculus Touch</a
+>
+binding, and remap those to the Frame Controller layout. <br />
+<ul>
+    <li>
+        The menu button on Oculus Touch will map to the View button at the top of the Steam Frame
+        Controller.<br />
+    </li>
+    <li>
+        The top button of the Oculus Touch controllers (B / Y) will map to all three top buttons of
+        the Steam Frame Controllers (Dpad Left, Dpad Up, Dpad Right / X, Y, B).
+    </li>
+</ul>
+<h2 class="bb_section"><a name="2"></a>Non-VR Compatibility</h2>
+When playing Non-VR titles locally or via streaming the Frame Controllers take full advantage of
+<a href="/doc/features/steam_controller">Steam Input</a>. Depending on the game and the configured
+bindings it will show up as a generic gamepad or keyboard/mouse.
+<h2 class="bb_section"><a name="3"></a>OpenXR Interaction Profile</h2>
+You'll find an OpenXR Interaction Profile included in each Game Engine plugin (or in the case of
+Godot in the engine itself). If you have your own custom engine you can add support via our
+extension detailed on the <a href="/doc/steamframe/engines/custom">Custom Engines</a> documentation
+page.
+<h2 class="bb_section"><a name="4"></a>OpenVR Bindings</h2>
+You can bind to the Steam Frame Controllers like you would any other OpenVR controller type. Its
+controller_type is "frame_controller". They support finger tracking via the
+<a
+    href="https://github.com/ValveSoftware/openvr/wiki/SteamVR-Skeletal-Input/4db5b685942e4b84f16bb3796143e292ad9226e6"
+    target="_blank"
+    rel="noreferrer"
+    >Skeletal Input API</a
+>
+and all of the controls listed above. You can create bindings for it in the SteamVR Binding UI.<br />

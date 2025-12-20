@@ -1,0 +1,116 @@
+<h1>Godot</h1>
+The default engine with the built-in OpenXR integration is capable of producing Android builds for
+Steam Frame. For a Linux Arm64 build you currently need to build the engine from source.<br />
+<br />
+First, make sure you have turned on Developer Mode as described in the
+<a href="/doc/steamframe/setup">Setting up your Steam Frame for development</a> this will let you
+deploy to the headset.
+<div class="bb_callout">
+    <div>
+        If you’d like to use the <strong>Steam Frame Controller Interaction Profile</strong> you’ll
+        need to be on at least <strong>Godot 4.6 beta 1.</strong>
+    </div>
+</div>
+<h2 class="bb_section"><a name="1"></a>Project Setup</h2>
+<ul>
+    <li>
+        <strong>Enable OpenXR</strong> - (Project / Project settings / XR / OpenXR) and enable
+        stereo shaders (Project / Project settings / XR / Shaders)<br />
+    </li>
+    <li>
+        <strong>OpenXR Vendors Plugin</strong> - Optionally install the Godot OpenXR vendors plugin
+        from the AssetLib tab. This will enable features such as foveated rendering.<br />
+        <i>Note: If you are using Godot 4.5 this plugin is required.</i><br />
+    </li>
+    <li>
+        <strong>OpenXR Action Map</strong> - You can optionally add the Steam Frame Controller
+        profile but things will work via the Oculus Touch interaction profile as well.<br />
+    </li>
+    <li><strong>XR Nodes</strong> - Setup XROrigin3D and XRCamera3D nodes in your scene.<br /></li>
+    <li>
+        <strong>Enable XR</strong> - Enable XR via "use_xr = true" in your viewport
+        <i
+            >(see
+            <a
+                href="https://docs.godotengine.org/en/stable/tutorials/xr/a_better_xr_start_script.html"
+                target="_blank"
+                rel="noreferrer"
+                >this documentation</a
+            >
+            for a more detailed version)</i
+        ><br />
+        <div class="bb_code">
+            //Add this to your XROrigin3D node extends XROrigin3D func _ready() -&gt; void: var
+            xr_interface = XRServer.find_interface(“OpenXR”) if xr_interface and
+            xr_interface.is_initialized(): get_viewport().use_xr = true
+        </div>
+        <br />
+    </li>
+    <li>
+        <strong>Export Template</strong> - Setup an Export Template if you haven't already (Project
+        / Export)<br />
+    </li>
+    <li><strong>Add an Android Export Profile</strong> <i>(Use the Add… button)</i><br /></li>
+    <li><strong>Rename the profile</strong> to Steam Frame<br /></li>
+    <li><strong>Enable Gradle Build</strong> - Tick the “use gradle build” tickbox<br /></li>
+    <li><strong>Set XR mode</strong> - Set the “XR Features/XR mode” to OpenXR<br /></li>
+    <li>
+        <strong>Enable Khronos plugin</strong> - If you’re using the vendor plugin, tick the "Enable
+        Khronos plugin" tickbox<br />
+    </li>
+    <li>
+        <strong>Android Build Template</strong> - Install the android build template (Project /
+        Install Android Build Template). If you’re using a stable release, you will be prompted to
+        install the templates. If you’re using a custom build, use the select file option to select
+        the android template zip file.
+    </li>
+</ul>
+<h2 class="bb_section"><a name="2"></a>Eye Tracking</h2>
+Steam Frame supports Eye Tracking in Godot using the Eye Gaze Interaction extension. You can enable
+it in <strong>Project Settings &gt; OpenXR &gt; Extensions</strong>.
+<h2 class="bb_section"><a name="3"></a>Foveated Rendering</h2>
+Steam Frame supports the Foveated Rendering functionality in Godot via the
+<a href="https://github.com/GodotVR/godot_openxr_vendors" target="_blank" rel="noreferrer"
+    >OpenXR Vendors Plugin.</a
+>
+<h2 class="bb_section"><a name="4"></a>Steamworks</h2>
+<a href="https://codeberg.org/godotsteam/godotsteam/releases" target="_blank" rel="noreferrer"
+    >GodotSteam 4.17</a
+>
+and later have the Android ARM64 and Linux ARM64 libraries and should work with Steam Frame.
+<h2 class="bb_section"><a name="5"></a>Building to Steam Frame</h2>
+Building to Steam Frame is similar to building to other standalone headsets or mobile devices using
+adb. Refer to this article to get started:&nbsp;<a href="/doc/steamframe/adb_lepton"
+    >Connecting adb to Lepton</a
+><br />
+<br />
+Once connected:<br />
+<ol>
+    <li>
+        Setup your export config. If you have multiple export presets setup, make sure the one for
+        Steam Frame is set to <strong>runnable</strong>.<br />
+    </li>
+    <li>Optionally, turn on debug capabilities (Debug / Deploy With Remote Debug).<br /></li>
+    <li>
+        Click on <strong>Remote Deploy</strong> in the top right toolbar and select
+        <strong>Steam Frame Lepton</strong> from the dropdown.<br />
+        <br />
+        <img
+            src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamframe-godot.webp"
+            alt="steamframe-godot.webp"
+            title="steamframe-godot.webp"
+        />
+    </li>
+</ol>
+<h2 class="bb_section"><a name="6"></a>Notes</h2>
+<ul>
+    <li>
+        <strong>Multiple adb versions</strong> - If you get the error message: <br />
+        <div class="bb_code">
+            Unable to reconnect device. error: protocol fault (couldn't read status length):
+            connection reset
+        </div>
+        That probably means you have something else trying to use adb. Make sure things like Android
+        Studio are closed.
+    </li>
+</ul>

@@ -1,0 +1,175 @@
+<h1>Custom Engines</h1>
+Custom engines are welcome to build for a wide range of platforms with the large variety of
+compatibility tools Steam now has available but we recommend either targeting Android 10 or Linux
+Arm64.<br />
+<br />
+First, make sure you have turned on Developer Mode as described in the
+<a href="/doc/steamframe/setup">Setting up your Steam Frame for development</a> this will let you
+deploy to the headset.<br />
+<br />
+We recommend using OpenXR for development, but if you instead want to use OpenVR you can get the
+header and appropriate libopenvr_api.so from
+<a href="https://github.com/ValveSoftware/openvr" target="_blank" rel="noreferrer">our SDK here</a
+>.<br />
+<br />
+Android development is pretty straight forward with the exception of needing to launch Lepton
+Development and connect via adb before deploying to the headset.<br />
+<br />
+For Linux ARM64 development we recommend using the SteamOS Devkit Client. You can find more
+information about this in the on the
+<a href="/doc/steamframe/loadgames">How to load and run games on Steam Frame</a> page.
+<h2 class="bb_section"><a name="1"></a>Steam Frame Controllers</h2>
+By default the controllers will show up to your games as emulating Oculus Touch, so you can bind to
+those controls and it will work. If you would like to bind to Frame Controller specific buttons or
+have Frame Controller specific offsets you can use the Steam Frame Controller OpenXR Interaction
+Profile or use the Frame Controller OpenVR Controller type: <strong>frame_controller</strong>.
+<h2 class="bb_subsection"><a name="2"></a>OpenXR</h2>
+To enable the interaction profile you must request to use the extension: <br />
+<div class="bb_code">XR_VALVE_frame_controller_interaction</div>
+<br />
+Then you can suggest bindings for the interaction profile path:<br />
+<div class="bb_code">/interaction_profiles/valve/frame_controller</div>
+<br />
+You can use the following paths:<br />
+<div class="bb_code">
+    "/user/hand/right/input/a/touch", XR_ACTION_TYPE_BOOLEAN_INPUT "/user/hand/right/input/a/click",
+    XR_ACTION_TYPE_BOOLEAN_INPUT "/user/hand/right/input/b/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/b/click", XR_ACTION_TYPE_BOOLEAN_INPUT "/user/hand/right/input/x/touch",
+    XR_ACTION_TYPE_BOOLEAN_INPUT "/user/hand/right/input/x/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/y/touch", XR_ACTION_TYPE_BOOLEAN_INPUT "/user/hand/right/input/y/click",
+    XR_ACTION_TYPE_BOOLEAN_INPUT "/user/hand/right/input/menu/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/menu/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/system/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/system/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/bumper/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/bumper/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/squeeze/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/squeeze/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/squeeze/value", XR_ACTION_TYPE_FLOAT_INPUT
+    "/user/hand/right/input/trigger/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/trigger/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/trigger/value", XR_ACTION_TYPE_FLOAT_INPUT
+    "/user/hand/right/input/thumbstick/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/thumbstick/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/right/input/thumbstick/x", XR_ACTION_TYPE_FLOAT_INPUT
+    "/user/hand/right/input/thumbstick/y", XR_ACTION_TYPE_FLOAT_INPUT
+    "/user/hand/right/input/thumbstick", XR_ACTION_TYPE_VECTOR2F_INPUT
+    "/user/hand/right/input/grip/pose", XR_ACTION_TYPE_POSE_INPUT "/user/hand/right/input/aim/pose",
+    XR_ACTION_TYPE_POSE_INPUT "/user/hand/right/output/haptic", XR_ACTION_TYPE_VIBRATION_OUTPUT
+    "/user/hand/left/input/dpad_up/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/dpad_up/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/dpad_left/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/dpad_left/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/dpad_down/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/dpad_down/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/dpad_right/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/dpad_right/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/view/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/view/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/system/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/system/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/bumper/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/bumper/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/squeeze/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/squeeze/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/squeeze/value", XR_ACTION_TYPE_FLOAT_INPUT
+    "/user/hand/left/input/trigger/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/trigger/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/trigger/value", XR_ACTION_TYPE_FLOAT_INPUT
+    "/user/hand/left/input/thumbstick/touch", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/thumbstick/click", XR_ACTION_TYPE_BOOLEAN_INPUT
+    "/user/hand/left/input/thumbstick/x", XR_ACTION_TYPE_FLOAT_INPUT
+    "/user/hand/left/input/thumbstick/y", XR_ACTION_TYPE_FLOAT_INPUT
+    "/user/hand/left/input/thumbstick", XR_ACTION_TYPE_VECTOR2F_INPUT
+    "/user/hand/left/input/grip/pose", XR_ACTION_TYPE_POSE_INPUT "/user/hand/left/input/aim/pose",
+    XR_ACTION_TYPE_POSE_INPUT "/user/hand/left/output/haptic", XR_ACTION_TYPE_VIBRATION_OUTPUT
+</div>
+<h2 class="bb_subsection"><a name="3"></a>Foveated Rendering</h2>
+SteamVR supports the following recommended OpenXR extensions:<br />
+<ul>
+    <li>
+        <a
+            href="https://registry.khronos.org/OpenXR/specs/1.1/html/xrspec.html#XR_FB_foveation"
+            target="_blank"
+            rel="noreferrer"
+            >XR_FB_foveation</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://registry.khronos.org/OpenXR/specs/1.1/html/xrspec.html#XR_FB_foveation_configuration"
+            target="_blank"
+            rel="noreferrer"
+            >XR_FB_foveation_configuration</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://registry.khronos.org/OpenXR/specs/1.1/html/xrspec.html#XR_FB_foveation_vulkan"
+            target="_blank"
+            rel="noreferrer"
+            >XR_FB_foveation_vulkan</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://registry.khronos.org/OpenXR/specs/1.1/html/xrspec.html#XR_FB_swapchain_update_state"
+            target="_blank"
+            rel="noreferrer"
+            >XR_FB_swapchain_update_state</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://registry.khronos.org/OpenXR/specs/1.1/html/xrspec.html#XR_META_foveation_eye_tracked"
+            target="_blank"
+            rel="noreferrer"
+            >XR_META_foveation_eye_tracked</a
+        ><br />
+    </li>
+    <li>
+        <a
+            href="https://registry.khronos.org/OpenXR/specs/1.1/html/xrspec.html#XR_META_vulkan_swapchain_create_info"
+            target="_blank"
+            rel="noreferrer"
+            >XR_META_vulkan_swapchain_create_info</a
+        >
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="4"></a>Eye Tracking</h2>
+Our current support for eye tracking uses the <strong>XR_EXT_eye_gaze_interaction </strong>OpenXR
+extension. You can find details about that on the
+<a
+    href="https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_EXT_eye_gaze_interaction"
+    target="_blank"
+    rel="noreferrer"
+    >OpenXR spec site here</a
+>.
+<h2 class="bb_section"><a name="5"></a>Steamworks SDK</h2>
+Releases of the <a href="/doc/sdk">Steamworks SDK</a> starting with version 1.63 have included
+libraries that will let it work on Android ARM64 and Linux ARM64.
+<h2 class="bb_section"><a name="6"></a>Deploying binaries</h2>
+The <a href="/doc/steamframe/loadgames">SteamOS Devkit Client</a> provides an easy interface to
+repeatedly deploy APKs, Linux binaries, and Windows binaries.
+<h2 class="bb_section"><a name="7"></a>Deploying APKs manually</h2>
+Building to Steam Frame is similar to building to other standalone headsets or mobile devices using
+adb. Refer to this article to get started:
+<a href="/doc/steamframe/adb_lepton">Connecting adb to Lepton</a><br />
+<br />
+Once connected:<br />
+<ol>
+    <li><strong>adb install YourPackage.apk</strong><br /></li>
+    <li>Click on your application in the Android interface displayed in headset.</li>
+</ol>
+<h2 class="bb_section"><a name="8"></a>Notes</h2>
+<ul>
+    <li>
+        <strong>Multiple adb versions</strong> - If you get the error message: <br />
+        <div class="bb_code">
+            Unable to reconnect device. error: protocol fault (couldn't read status length):
+            connection reset
+        </div>
+        That probably means you have something else trying to use adb. Make sure things like Android
+        Studio are closed.
+    </li>
+</ul>
