@@ -1,6 +1,6 @@
 <h1>Godot</h1>
-The default engine with the built-in OpenXR integration is capable of producing Android builds for
-Steam Frame. For a Linux Arm64 build you currently need to build the engine from source.<br />
+The default engine (v4.2.3+) with the built-in OpenXR integration is capable of producing both
+Android and Linux Arm64 builds for Steam Frame.<br />
 <br />
 First, make sure you have turned on Developer Mode as described in the
 <a href="/doc/steamframe/setup">Setting up your Steam Frame for development</a> this will let you
@@ -48,39 +48,57 @@ deploy to the headset.
     </li>
     <li>
         <strong>Export Template</strong> - Setup an Export Template if you haven't already (Project
-        / Export)<br />
-    </li>
-    <li><strong>Add an Android Export Profile</strong> <i>(Use the Add… button)</i><br /></li>
-    <li><strong>Rename the profile</strong> to Steam Frame<br /></li>
-    <li><strong>Enable Gradle Build</strong> - Tick the “use gradle build” tickbox<br /></li>
-    <li><strong>Set XR mode</strong> - Set the “XR Features/XR mode” to OpenXR<br /></li>
-    <li>
-        <strong>Enable Khronos plugin</strong> - If you’re using the vendor plugin, tick the "Enable
-        Khronos plugin" tickbox<br />
-    </li>
-    <li>
-        <strong>Android Build Template</strong> - Install the android build template (Project /
-        Install Android Build Template). If you’re using a stable release, you will be prompted to
-        install the templates. If you’re using a custom build, use the select file option to select
-        the android template zip file.
+        / Export)
+        <h2 class="bb_subsection"><a name="2"></a>Android:</h2>
+        <ul>
+            <li>
+                <strong>Add an Android Export Profile</strong> <i>(Use the Add… button)</i><br />
+            </li>
+            <li><strong>Rename the profile</strong> to Steam Frame<br /></li>
+            <li>
+                <strong>Enable Gradle Build</strong> - Tick the “use gradle build” tickbox<br />
+            </li>
+            <li><strong>Set XR mode</strong> - Set the “XR Features/XR mode” to OpenXR<br /></li>
+            <li>
+                <strong>Enable Khronos plugin</strong> - If you’re using the vendor plugin, tick the
+                "Enable Khronos plugin" tickbox<br />
+            </li>
+            <li>
+                <strong>Android Build Template</strong> - Install the android build template
+                (Project / Install Android Build Template). If you’re using a stable release, you
+                will be prompted to install the templates. If you’re using a custom build, use the
+                select file option to select the android template zip file.
+            </li>
+        </ul>
+        <h2 class="bb_subsection"><a name="3"></a>Linux Arm64:</h2>
+        <ul>
+            <li><strong>Add a Linux Export Profile</strong> (Use the Add... button)<br /></li>
+            <li><strong>Rename the profile</strong> to Steam Frame Arm64<br /></li>
+            <li><strong>Set the Architecture</strong> to arm64</li>
+        </ul>
     </li>
 </ul>
-<h2 class="bb_section"><a name="2"></a>Eye Tracking</h2>
+<h2 class="bb_section"><a name="4"></a>Eye Tracking</h2>
 Steam Frame supports Eye Tracking in Godot using the Eye Gaze Interaction extension. You can enable
 it in <strong>Project Settings &gt; OpenXR &gt; Extensions</strong>.
-<h2 class="bb_section"><a name="3"></a>Foveated Rendering</h2>
+<h2 class="bb_section"><a name="5"></a>Foveated Rendering</h2>
 Steam Frame supports the Foveated Rendering functionality in Godot via the
 <a href="https://github.com/GodotVR/godot_openxr_vendors" target="_blank" rel="noreferrer"
     >OpenXR Vendors Plugin.</a
 >
-<h2 class="bb_section"><a name="4"></a>Steamworks</h2>
+<h2 class="bb_section"><a name="6"></a>Steamworks</h2>
 <a href="https://codeberg.org/godotsteam/godotsteam/releases" target="_blank" rel="noreferrer"
     >GodotSteam 4.17</a
 >
 and later have the Android ARM64 and Linux ARM64 libraries and should work with Steam Frame.
-<h2 class="bb_section"><a name="5"></a>Building to Steam Frame</h2>
-Building to Steam Frame is similar to building to other standalone headsets or mobile devices using
-adb. Refer to this article to get started:&nbsp;<a href="/doc/steamframe/adb_lepton"
+<h2 class="bb_section"><a name="7"></a>Building to Steam Frame</h2>
+For both Android and Linux builds you can use the <strong>Export Project...</strong> button from the
+export preset window to create a distributable version of your game and use the
+<a href="/doc/steamframe/loadgames">Steam DevKit Tool</a> to upload these to your Steam Frame.<br />
+<br />
+Alternatively, for Android builds you can deploy and test directly from the Godot IDE using
+<strong>adb</strong>. Refer to this article to get started:&nbsp;<a
+    href="/doc/steamframe/adb_lepton"
     >Connecting adb to Lepton</a
 ><br />
 <br />
@@ -102,7 +120,7 @@ Once connected:<br />
         />
     </li>
 </ol>
-<h2 class="bb_section"><a name="6"></a>Notes</h2>
+<h2 class="bb_section"><a name="8"></a>Notes</h2>
 <ul>
     <li>
         <strong>Multiple adb versions</strong> - If you get the error message: <br />
