@@ -311,9 +311,64 @@ to Lepton, do the following:<br />
 Finally, launch Unreal Insights located under your depot at Engine/Binaries/Win64/UnrealInsights.exe
 (you may have to build it first).&nbsp;You should see the device appear under Session.&nbsp;Attach,
 and profile as per the documentation above.
-<h2 class="bb_section"><a name="11"></a>Common Problems</h2>
+<h2 class="bb_section"><a name="11"></a>Native LinuxArm64 Support</h2>
+In addition to running through Lepton with Unreal Engine's Android support, your project can also
+directly run on SteamOS using Unreal Engine's LinuxArm64 platform support. While most of the
+workflows and behavior are the same between the two, there are some differences highlighted below.
+<h2 class="bb_subsection"><a name="12"></a>Code Requirements</h2>
+In order to use LinuxArm64 on the device, there is an additional commit that needs to be pulled from
+GitHub. This code adds support for detecting the device on startup and setting scalability, adds
+support for additional texture formats on LinuxArm64, as well as provide a few feature fixes to
+Unreal Engine that should be rolled into future Engine updates.<br />
+<br />
+If you are using Git on the commandline, and assuming you already cherry picked the Android support
+changelist from the first section of this document, cherry pick the additional change:<br />
+<div class="bb_code">
+    git fetch valve 5d16c15cb8c6eb0ab910b648db0f7fe88a61c62c git cherry-pick
+    5d16c15cb8c6eb0ab910b648db0f7fe88a61c62c
+</div>
+<br />
+Or by using the Git GUI client of choice.<br />
+<br />
+Additionally, you will need the Linux cross compilation toolchain installed. Please see this guide
+from Epic on how to set it up:
+<a
+    href="https://dev.epicgames.com/documentation/en-us/unreal-engine/linux-development-requirements-for-unreal-engine"
+    target="_blank"
+    rel="noreferrer"
+    >https://dev.epicgames.com/documentation/en-us/unreal-engine/linux-development-requirements-for-unreal-engine</a
+>
+<h2 class="bb_subsection"><a name="13"></a>Project Setup Requirements</h2>
+Projects need to be configured to tell Unreal Engine that they want to support the LinuxArm64
+platform. To do this, open your project's <strong>.uproject </strong>file (located in your project's
+root directory), and make sure that <strong>LinuxArm64</strong> is listed under both the
+<strong>TargetPlatforms</strong> section and the OpenXR Plugin's
+<strong>SupportedTargetPlatforms</strong> section, as in the example below:<br />
+<div class="bb_code">
+    { "FileVersion": 3, "EngineAssociation": "", "Category": "", "Description": "", "Plugins": [ {
+    "Name": "OpenXR", "Enabled": true, "SupportedTargetPlatforms": [ "Win64", "Linux", "LinuxArm64",
+    "Android", "HoloLens" ] } ], "TargetPlatforms": [ "Android", "IOS", "Linux", "LinuxArm64",
+    "Mac", "PS4", "PS5", "Windows", "WindowsNoEditor", "Switch", "XboxOne", "XSX", "HoloLens" ] }
+</div>
+<br />
+Once the LinuxArm64 platform has been added, build the project, and launch the editor. LinuxArm64
+should now appear as a platform choice under the <strong>Platforms</strong> button.
+<h2 class="bb_subsection"><a name="14"></a>Project Settings</h2>
+In addition to the project settings in the previous section of the documentation, it is also
+recommended that you change the <strong>Targeted RHI</strong> setting in your Project Settings under
+<strong>Platforms - Linux</strong> to <strong>Vulkan Mobile (ES3.1)</strong> and disable
+<strong>Vulkan Desktop (SM5)</strong>.
+<h2 class="bb_subsection"><a name="15"></a>Packaging and Deploying to Steam Frame</h2>
+Under the <strong>Platforms</strong> drop down at the top of the Editor window, you should see
+<strong>LinuxArm64</strong> as an option. Within that section, you'll also see an additional option
+for <strong>Flavor Selection</strong>. For best performance, we recommend
+<strong>LinuxArm64 (ASTC)</strong>. Click <strong>Package Project</strong> to initiate a Build.<br />
+<br />
+Once built, follow the instructions to deploy the packaged project to the device using the
+<a href="/doc/steamframe/loadgames">DevKit Tool</a>.
+<h2 class="bb_section"><a name="16"></a>Common Problems</h2>
 <h2 class="bb_subsection">
-    <a name="12"></a>Android application crashes shortly after launch, with a stack that involves
+    <a name="17"></a>Android application crashes shortly after launch, with a stack that involves
     UnrealMemory.cpp
 </h2>
 This is due to the default allocator becoming Binned3 for Android apps in recent versions of
@@ -322,7 +377,7 @@ unfortunately too large, and causes an out of memory (OOM) crash.<br />
 To fix this, restore the Binned2 allocator in your project’s Target.cs file with the following
 line:<br />
 <div class="bb_code">StaticAllocator = StaticAllocatorType.Binned2;</div>
-<h2 class="bb_subsection"><a name="13"></a>Can’t Install APK on Lepton because of SDK Error</h2>
+<h2 class="bb_subsection"><a name="18"></a>Can’t Install APK on Lepton because of SDK Error</h2>
 If you see an error like the following when installing the APK on Lepton, it indicates that the
 Project is built with a version of the Android SDK / NDK that is too new for the version of Android
 on the device.<br />
