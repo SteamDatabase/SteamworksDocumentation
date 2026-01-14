@@ -19,16 +19,35 @@ You can create a user Web API key from the
     >registration page on the Steam Community</a
 >.
 <h2 class="bb_section"><a name="publisher-keys"></a>Publisher Keys</h2>
-To securely identify a publisher, and allow access to protected methods, a publisher may request a
-Web API key which can be passed to the appropriate methods using the key parameter. Each key is
-associated with a publisher group and can be used to access data for all of the App IDs that are
-also associated with that group. To receive a publisher Web API key, see Creating a Publisher Key
-below.<br />
+Game developers can create Web API keys that are associated with their Steamworks publisher account.
+These keys can be used to access both public and publisher only Web API methods.<br />
 <br />
-Publisher Web API keys provide access to sensitive user data and protected methods. These keys are
-intended to be used for Web API requests that originate from secure publisher servers. The keys must
-be stored securely, and must not be distributed with a game client. All Web API requests that
-contain Web API keys should be made over HTTPS.
+Each publisher key is associated with a Steamworks publisher group. Publisher only Web API methods
+control key access by:<br />
+<ul>
+    <li>
+        Publisher Group App ID - Some publisher methods require that the appid value provided in the
+        request is associated with the key's publisher group.<br />
+    </li>
+    <li>
+        Key Permissions - All publisher methods have a permission group that must be associated with
+        the request's key. See the
+        <a href="/doc/webapi" target="_blank" rel="noreferrer">Steamworks Web API reference</a> to
+        determine what permission is required for each method.<br />
+    </li>
+    <li>
+        IP Whitelist - Each publisher key can also be locked to a specific set of calling IP
+        addresses.
+    </li>
+</ul>
+<div class="bb_callout bb_red">
+    <div>
+        Publisher Web API keys provide access to sensitive user data and protected methods. These
+        keys are intended to be used for Web API requests that originate from secure publisher
+        servers. The keys must be stored securely, and must not be distributed with a game client.
+        All Web API requests that contain Web API keys should be made over HTTPS.
+    </div>
+</div>
 <h2 class="bb_subsection"><a name="create_publisher_key"></a>Creating a Publisher Web API Key</h2>
 To create a publisher Web API key, you will need to have administrator permissions within an
 existing Steamworks account. If you are not an administrator yourself, you can see a list of
@@ -39,17 +58,22 @@ admin if appropriate.<br />
 To create a Publisher Web API key:<br />
 <ol>
     <li>
-        As a user with administrative rights in your Steamworks account, first visit your groups
-        list by going to Users &amp; Permissions, then Manage Groups.<br />
+        As a user with administrative rights in your Steamworks account, visit your groups list by
+        going to <strong>Users &amp; Permissions</strong>, then
+        <strong>Manage Groups</strong>.<br />
     </li>
     <li>
-        From the list of groups, select or create a group that contains the App IDs for which you
-        wish to have access with the WebAPI key.<br />
+        Select an existing group or create a group.
+        <i>We recommend creating a dedicated group to control Web API key game access.</i><br />
     </li>
-    <li>Then click into that group to view the users and applications in that group.<br /></li>
     <li>
-        If you have administrative permissions, you should then see the option to "Create WebAPI
-        Key" on the right-hand side. Or you should see the key listed if it has already been
-        created.
+        Ensure the applications associated with the group are correct before creating a key.<br />
+    </li>
+    <li>Select <strong>Create WebAPI Key</strong>.<br /></li>
+    <li>Select the set of desired key permissions.<br /></li>
+    <li>Select <strong>Save Changes</strong><br /></li>
+    <li>
+        The newly created key can be seen the right-hand side of the on the group or manage key
+        page.
     </li>
 </ol>
