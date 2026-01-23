@@ -39,7 +39,21 @@ If you are using Git on the command line, you can cherry pick it using the follo
     751cf4a5135bb0ac0167260e7012b974085534b2
 </div>
 <br />
-Or by using your Git GUI client of choice.<br />
+Or by using your Git GUI client of choice.
+<div class="bb_callout">
+    <div>
+        For 5.7 use
+        <a
+            href="https://github.com/Valve-VR/UnrealEngine/commit/d678d468040336c0d2ecbba5c877ed8145497713"
+            target="_blank"
+            rel="noreferrer"
+            >https://github.com/Valve-VR/UnrealEngine/commit/d678d468040336c0d2ecbba5c877ed8145497713</a
+        ><br />
+        <br />
+        2025/01/22: Current recommendation is to <strong>NOT</strong> use 5.7 due to regressions
+        with MSAA and shadows in the forward renderer that are actively being worked on.
+    </div>
+</div>
 <br />
 If you have not set up Unreal to build before, please see Epic's
 <a
@@ -65,13 +79,22 @@ changes.&nbsp; However, to get the best performance, we want to make a few modif
 <br />
 <ul>
     <li>
-        In <strong>Project Settings &gt; Platforms - Android</strong>, check
-        <strong>Support Vulkan</strong>, and ensure that
-        <strong>Detect Vulkan device support</strong> is also checked.<br />
-    </li>
-    <li>
-        In the same section, ensure that <strong>Package for Valve Steam Frame devices</strong> is
-        checked, and <strong>Package for Meta Quest devices</strong> is unchecked.<br />
+        In <strong>Project Settings &gt; Platforms - Android</strong>:<br />
+        <ul>
+            <li>
+                Check <strong>Support Vulkan</strong>, and ensure that
+                <strong>Detect Vulkan device support</strong> is also checked.<br />
+            </li>
+            <li>
+                Ensure that <strong>Package for Valve Steam Frame devices</strong> is checked, and
+                <strong>Package for Meta Quest devices</strong> is unchecked.<br />
+            </li>
+            <li>
+                Then under <strong>Advanced Build</strong> set
+                <strong>Disable libc++_shared dependency validation</strong> on all dependencies, to
+                ensure that you can successfully build with the recommended Android toolchain.
+            </li>
+        </ul>
     </li>
     <li>
         For consistency during development, you may also want to change the default Windows API to
