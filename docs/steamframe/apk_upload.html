@@ -1,0 +1,108 @@
+<h1>How to upload Android APKs to Steam</h1>
+Deploying builds to Steam is much like doing so for any
+<a href="/doc/store/application/platforms">supported platform</a>.
+<h2 class="bb_section"><a name="1"></a>Step 1 - Setup New App</h2>
+Follow these <a href="/doc/sdk/uploading#Initial_Setup_New_App">general instructions</a> for setting
+up a new app on Steam.<br />
+<br />
+Then from your <strong>App Admin</strong> page, click
+<strong>Edit Steamworks Settings</strong> under <strong>Technical Tools</strong>.<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamworks_settings.png"
+    alt="steamworks_settings.png"
+    title="steamworks_settings.png"
+/>
+<h2 class="bb_section"><a name="2"></a>Step 2 - Set Supported Operating Systems</h2>
+Navigate to the <strong>Application &gt; General</strong> tab for your app, and check
+<strong>Android </strong> under <strong>Supported Operating Systems</strong>. This indicates
+compatibility on the store page.<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steam_app_general.png"
+    alt="steam_app_general.png"
+    title="steam_app_general.png"
+/><br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/android_supported_platforms.png"
+    alt="android_supported_platforms.png"
+    title="android_supported_platforms.png"
+/>
+<h2 class="bb_section"><a name="3"></a>Step 3 - Configure Depot</h2>
+Navigate to the <strong>SteamPipe &gt; Depots</strong> tab for your app. If this is an Android only
+app you will be editing the default depot, otherwise you will want to
+<a href="/doc/store/application/depots">create</a> a new Android-specific depot.<br />
+<br />
+Click <strong>Edit</strong> under <strong>Configuring Depots</strong> on the depot you will be
+adding the APK to. Set <strong>Operating System </strong>to <strong>Android</strong>.<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/android_depot_os.png"
+    alt="android_depot_os.png"
+    title="android_depot_os.png"
+/><br />
+<br />
+<ul>
+    <li>
+        Features like <strong>Language </strong>allows you to use different OBBs, etc. for different
+        languages.<br />
+    </li>
+    <li>
+        The presence of an <strong>Android</strong> depot is what allows you to install and launch
+        APKs via <strong>Lepton</strong>.<br />
+    </li>
+    <li>Be sure to click <strong>Save</strong> after making changes here.<br /></li>
+    <li>
+        Any newly defined depots will need to be included in a package to grant you ownership of
+        them. Each game on Steam should have a <strong>Developer Comp</strong> package which is
+        automatically granted to the accounts listed within your publisher group. You can add the
+        new depots to that package (and/or other packages that should have these depots) on the
+        <strong>Associated Packages &amp; DLC</strong> page.
+    </li>
+</ul>
+<h2 class="bb_subsection"><a name="4"></a>File layout</h2>
+Use the following layout in your build.<br />
+<div class="bb_code">my_game.apk obb/content_001.obb obb/content_002.obb</div>
+<h2 class="bb_section"><a name="5"></a>Step 4 - Add Launch Option</h2>
+Navigate to <strong>Installation &gt; General Installation</strong> and click
+<strong>Add new launch option</strong>.<br />
+Set your APK as the <strong>Executable</strong>, and set the <strong>Operating System</strong> to
+<strong>Android</strong>.<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/android_launch_options.png"
+    alt="android_launch_options.png"
+    title="android_launch_options.png"
+/>
+<h2 class="bb_section"><a name="6"></a>Step 5 - Steam Cloud</h2>
+Navigate to the <strong>Application &gt; Steam Cloud</strong> tab for your app, and follow
+<a href="/doc/features/cloud">these instructions</a> for setting quota, etc.<br />
+<br />
+Click <strong>Add New Auto-Cloud Path</strong> if needed, and select
+<strong>AndroidExternalData</strong> for the <strong>Root</strong>, and set
+<strong>Subdirectory</strong> such that the <strong>Preview </strong>text below matches the path on
+Android to your save data directory.<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/android_cloud.png"
+    alt="android_cloud.png"
+    title="android_cloud.png"
+/><br />
+<br />
+Finally, Set <strong>OS</strong> to <strong>Android</strong>.
+<h2 class="bb_section"><a name="7"></a>Testing</h2>
+If you have builds for multiple platforms, choose the <strong>Compatibility Tool</strong> in Steam
+app <strong>Properties</strong>, to select which variant gets downloaded and launched.<br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamframe-properties.png"
+    alt="steamframe-properties.png"
+    title="steamframe-properties.png"
+/><br />
+<br />
+<img
+    src="https://cdn.steamstatic.com/steamcommunity/public/images/steamworks_docs/english/steamframe-compat.png"
+    alt="steamframe-compat.png"
+    title="steamframe-compat.png"
+/>
