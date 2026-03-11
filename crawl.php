@@ -2,8 +2,10 @@
 declare(strict_types=1);
 
 $Crawler = new Crawler();
+$Crawler->DiscoverFromSpecificUrl();
 $Crawler->DiscoverFromSearch();
 $Crawler->Crawl();
+$Crawler->SaveLinks();
 
 class Crawler
 {
@@ -22,7 +24,7 @@ class Crawler
 	{
 		$this->IsCI = \getenv( 'CI' ) !== false;
 		$this->LinksQueue = new \SplQueue();
-		$this->LinksFile = $this->Directory . '/links.json';
+		$this->LinksFile = $this->Directory . 'links.json';
 		$this->LoadLinks();
 
 		$this->CurlHandle = curl_init( );
@@ -36,14 +38,7 @@ class Crawler
 		] );
 	}
 
-	public function __destruct()
-	{
-		curl_close( $this->CurlHandle );
-
-		$this->SaveLinks();
-	}
-
-	public function LoadLinks() : void
+	private function LoadLinks() : void
 	{
 		if( !file_exists( $this->LinksFile ) )
 		{
@@ -68,15 +63,7 @@ class Crawler
 
 		foreach( $Links as $Link )
 		{
-			$Link = strtolower( $Link );
-
-			if( isset( $this->Links[ $Link ] ) )
-			{
-				continue;
-			}
-
-			$this->Links[ $Link ] = false;
-			$this->LinksQueue->push( $Link );
+			$this->AddLink( $Link, false );
 		}
 
 		echo 'Loaded ' . count( $this->Links ) . ' known links' . PHP_EOL;
@@ -126,7 +113,7 @@ class Crawler
 		}
 	}
 
-	public function DiscoverFromSearchQuery( string $Query ) : void
+	private function DiscoverFromSearchQuery( string $Query ) : void
 	{
 		$Page = 1;
 
@@ -154,7 +141,43 @@ class Crawler
 		while( true );
 	}
 
-	public function Fetch( string $Doc ) : string
+	public function DiscoverFromSpecificUrl() : void
+	{
+		$Url = \getenv( 'STEAM_SPECIFIC_STRINGS_URL' );
+
+		if( empty( $Url ) )
+		{
+			return;
+		}
+
+		echo 'Fetching strings... ';
+
+		curl_setopt( $this->CurlHandle, CURLOPT_URL, $Url );
+
+		$Content = (string)curl_exec( $this->CurlHandle );
+
+		echo curl_getinfo( $this->CurlHandle, CURLINFO_HTTP_CODE ) . PHP_EOL;
+
+		if( $this->IsCI )
+		{
+			echo "::group::DiscoverFromSpecificUrl" . PHP_EOL;
+		}
+
+		if( preg_match_all( '/^\s*\"(?<url>[a-z0-9_\/]+)#title\"/m', $Content, $Matches ) > 0 )
+		{
+			foreach( $Matches[ 'url' ] as $Doc )
+			{
+				$this->AddLink( $Doc );
+			}
+		}
+
+		if( $this->IsCI )
+		{
+			echo "::endgroup::" . PHP_EOL;
+		}
+	}
+
+	private function Fetch( string $Doc ) : string
 	{
 		echo 'Fetching ' . $Doc . '... ';
 
@@ -167,7 +190,7 @@ class Crawler
 		return $Content;
 	}
 
-	public function Process( string $Doc, string $Content ) : void
+	private function Process( string $Doc, string $Content ) : void
 	{
 		if( empty( $Content ) )
 		{
@@ -179,9 +202,9 @@ class Crawler
 
 		$this->DiscoverLinks( $Document );
 
-		$Content = $Document->querySelector( '.documentation_bbcode' );
+		$ContentElement = $Document->querySelector( '.documentation_bbcode' );
 
-		if( $Content === null )
+		if( $ContentElement === null )
 		{
 			$this->Err( 'Did not find content tag on ' . $Doc );
 			return;
@@ -231,7 +254,7 @@ class Crawler
 			}
 		}
 
-		$Html = $Content->innerHTML;
+		$Html = $ContentElement->innerHTML;
 
 		// Add new line after breaks, cleanup cdn subdomains
 		$Html = str_replace( [
@@ -259,11 +282,11 @@ class Crawler
 		$Html .= "\n";
 
 		// Get title
-		$Content = $Document->querySelector( '.docPageTitle' );
+		$TitleElement = $Document->querySelector( '.docPageTitle' );
 
-		if( $Content?->innerHTML !== null )
+		if( $TitleElement?->innerHTML !== null )
 		{
-			$Title = trim( $Content->innerHTML );
+			$Title = trim( $TitleElement->innerHTML );
 
 			if( !empty( $Title ) )
 			{
@@ -282,7 +305,7 @@ class Crawler
 		file_put_contents( $FullPath, $Html );
 	}
 
-	public function DiscoverLinks( \Dom\HTMLDocument $Document ) : void
+	private function DiscoverLinks( \Dom\HTMLDocument $Document ) : void
 	{
 		$Links = $Document->getElementsByTagName( 'a' );
 
@@ -292,28 +315,38 @@ class Crawler
 			{
 				$Doc = trim( $Match[ 'href' ], '/' );
 
-				if( strpos( $Doc, '%' ) !== false )
+				if( str_contains( $Doc, '%' ) || str_contains( $Doc, '::' ) )
 				{
 					$this->Err( 'New link but its bad: ' . $Doc );
 					continue;
 				}
 
-				$Doc = strtolower( $Doc );
+				$this->AddLink( $Doc );
+			}
+		}
+	}
 
-				if( !isset( $this->Links[ $Doc ] ) )
-				{
-					$this->Links[ $Doc ] = false;
-					$this->LinksQueue->push( $Doc );
+	private function AddLink( string $Doc, bool $Log = true ) : void
+	{
+		$Doc = strtolower( $Doc );
 
-					if( $this->IsCI )
-					{
-						echo '::warning::New link: ' . $Doc . PHP_EOL;
-					}
-					else
-					{
-						echo 'New link: ' . $Doc . PHP_EOL;
-					}
-				}
+		if( isset( $this->Links[ $Doc ] ) )
+		{
+			return;
+		}
+
+		$this->Links[ $Doc ] = false;
+		$this->LinksQueue->push( $Doc );
+
+		if( $Log )
+		{
+			if( $this->IsCI )
+			{
+				echo '::warning::New link: ' . $Doc . PHP_EOL;
+			}
+			else
+			{
+				echo 'New link: ' . $Doc . PHP_EOL;
 			}
 		}
 	}
