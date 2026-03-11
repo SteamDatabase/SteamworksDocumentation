@@ -19,7 +19,8 @@ financial data. Additionally, we recommend keeping the key as safe as you would 
 (don't email it around!) as it provides access to large amount of information on the performance of
 your partner account on Steam. <br />
 <br />
-A typical call pattern would be as follows: <br />
+<strong><u>GetDetailedSales Best Practices</u></strong
+><br />
 <br />
 <u><strong>Step 1:</strong></u> Call GetChangedDatesForPartner to find the set of dates that have
 new data. Your first call will use a highwatermark value of 0 and will return every date you have
@@ -900,4 +901,238 @@ before the key request system was created (ie. prior to January, 2013)<br />
     "country_code": "AU", "country_name": "Australia", "region": "Oceania" }, { "country_code":
     "CA", "country_name": "Canada", "region": "North America" }, { "country_code": "US",
     "country_name": "United States", "region": "North America" }, ], "max_id": "29481179373"
+</div>
+<h2 class="bb_section"><a name="GetAppWishlistReporting"></a>GetAppWishlistReporting</h2>
+<br />
+<div class="bb_code http">
+    GET https://partner.steam-api.com/IPartnerFinancialsService/GetAppWishlistReporting/v001/
+</div>
+<br />
+<br />
+<strong>Request values</strong>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>key</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                Steamworks Web API
+                <a href="/doc/webapi_overview/auth#publisher-keys" target="_blank" rel="noreferrer"
+                    >publisher key</a
+                >
+                with <strong>Financial</strong> permissions.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>✔</td>
+            <td>The app being queried for</td>
+        </tr>
+        <tr>
+            <td><strong>date</strong></td>
+            <td>string</td>
+            <td>✔</td>
+            <td>
+                The date being queried for (GMT bounded). The date should be formatted as
+                YYYY-MM-DD, YYYY/MM/DD, or YYYYMMDD.
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Retrieves the detailed wishlisting data for an app on a given date. Provides overall summary values,
+as well as by-country and by-language summary amounts. <br />
+<br />
+If the API is called for a date outside of the available range for an app, the response will be
+empty except for the <strong>app_min_date</strong> field. <br />
+<br />
+<br />
+<strong>Return values</strong><br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>appid</strong></td>
+            <td>uint32</td>
+            <td>The app that data was generated for</td>
+        </tr>
+        <tr>
+            <td><strong>date</strong></td>
+            <td>string</td>
+            <td>The date that data was generated for (GMT)</td>
+        </tr>
+        <tr>
+            <td><strong>wishlist_summary</strong></td>
+            <td>CPartnerFinancials_WishlistSummary</td>
+            <td>The summary wishlist totals for this app+date combination</td>
+        </tr>
+        <tr>
+            <td><strong>country_summary</strong></td>
+            <td>CPartnerFinancials_CountryWishlistSummary</td>
+            <td>
+                A repeating field of country entries, showing the summary wishlist totals for this
+                app+date combination in each country
+            </td>
+        </tr>
+        <tr>
+            <td><strong>language_summary</strong></td>
+            <td>CPartnerFinancials_LanguageWishlistSummary</td>
+            <td>
+                A repeating field of language entries, showing the summary wishlist totals for this
+                app+date combination in each language
+            </td>
+        </tr>
+        <tr>
+            <td><strong>app_min_date</strong></td>
+            <td>string</td>
+            <td>The earliest date that data is available for the app</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<strong>CPartnerFinancials_WishlistSummary</strong><br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>wishlist_adds</strong></td>
+            <td>uint32</td>
+            <td>How many wishlist adds occurred across the period.</td>
+        </tr>
+        <tr>
+            <td><strong>wishlist_deletes</strong></td>
+            <td>uint32</td>
+            <td>How many wishlist deletes occurred across the period.</td>
+        </tr>
+        <tr>
+            <td><strong>wishlist_purchases</strong></td>
+            <td>uint32</td>
+            <td>How many wishlist purchases occurred across the period.</td>
+        </tr>
+        <tr>
+            <td><strong>wishlist_gifts</strong></td>
+            <td>uint32</td>
+            <td>How many wishlist gifts occurred across the period.</td>
+        </tr>
+        <tr>
+            <td><strong>wishlist_adds_windows</strong></td>
+            <td>uint32</td>
+            <td>How many wishlist adds occurred from users browsing for Windows games.</td>
+        </tr>
+        <tr>
+            <td><strong>wishlist_adds_mac</strong></td>
+            <td>uint32</td>
+            <td>How many wishlist adds occurred from users browsing for Mac games.</td>
+        </tr>
+        <tr>
+            <td><strong>wishlist_adds_linux</strong></td>
+            <td>uint32</td>
+            <td>How many wishlist adds occurred from users browsing for Linux games.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<strong>CPartnerFinancials_CountryWishlistSummary</strong><br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>country_code</strong></td>
+            <td>string</td>
+            <td>The ISO-2 country code where the item was purchased. Max size - 8 characters</td>
+        </tr>
+        <tr>
+            <td><strong>country_name</strong></td>
+            <td>string</td>
+            <td>The full name of the country_code field. Max size - 128 characters</td>
+        </tr>
+        <tr>
+            <td><strong>region</strong></td>
+            <td>string</td>
+            <td>The region within which the country_code belongs. Max size - 128 characters</td>
+        </tr>
+        <tr>
+            <td><strong>summary_actions</strong></td>
+            <td>CPartnerFinancials_WishlistSummary</td>
+            <td>The summary of all wishlist actions for this country</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<strong>CPartnerFinancials_LanguageWishlistSummary</strong><br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>language</strong></td>
+            <td>uint32</td>
+            <td>A unique identifier</td>
+        </tr>
+        <tr>
+            <td><strong>language_name</strong></td>
+            <td>string</td>
+            <td>
+                The API language name of the uint32 language identifier, use
+                <a href="/doc/store/localization/languages" target="_blank" rel="noreferrer"
+                    >language documentation</a
+                >
+                for reference. Max size - 128 characters
+            </td>
+        </tr>
+        <tr>
+            <td><strong>summary_actions</strong></td>
+            <td>CPartnerFinancials_WishlistSummary</td>
+            <td>The summary of all wishlist actions for this country</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<strong>Example response: </strong><br />
+<div class="bb_code">
+    "response": { "appid": 440, "date": "2026-02-15", "wishlist_summary": { "wishlist_adds": 30,
+    "wishlist_deletes": 15, "wishlist_purchases": 10, "wishlist_gifts": 5, "wishlist_adds_windows":
+    22, "wishlist_adds_mac": 3, "wishlist_adds_linux": 5 }, "country_summary": [ { "country_code":
+    "CA", "country_name": "Canada", "region": "North America", "summary_actions": { "wishlist_adds":
+    20, "wishlist_deletes": 6, "wishlist_purchases": 9, "wishlist_gifts": 2,
+    "wishlist_adds_windows": 15, "wishlist_adds_mac": 1, "wishlist_adds_linux": 4 } }, {
+    "country_code": "FR", "country_name": "France", "region": "Western Europe", "summary_actions": {
+    "wishlist_adds": 10, "wishlist_deletes": 9, "wishlist_purchases": 1, "wishlist_gifts": 3,
+    "wishlist_adds_windows": 5, "wishlist_adds_mac": 2, "wishlist_adds_linux": 1 } } ],
+    "language_summary": [ { "language": 0, "language_name": "English", "summary_actions": {
+    "wishlist_adds": 18, "wishlist_deletes": 4, "wishlist_purchases": 7, "wishlist_gifts": 1,
+    "wishlist_adds_windows": 14, "wishlist_adds_mac": 0, "wishlist_adds_linux": 4 } }, { "language":
+    2, "language_name": "French", "summary_actions": { "wishlist_adds": 12, "wishlist_deletes": 11,
+    "wishlist_purchases": 3, "wishlist_gifts": 4, "wishlist_adds_windows": 8, "wishlist_adds_mac":
+    3, "wishlist_adds_linux": 1 } } ], "time_generated": 1772580513 "app_min_date": "2010-01-01" } }
 </div>
