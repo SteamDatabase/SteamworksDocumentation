@@ -46,6 +46,30 @@ Get the currently connected Steam Remote Play session ID at the specified index<
 The session ID of the session at the specified index, or 0 if the index is less than 0 or greater
 than or equal to
 <a href="/doc/api/ISteamRemotePlay#GetSessionCount">ISteamRemotePlay::GetSessionCount</a>()
+<h2 class="bb_subsection"><a name="BSessionRemotePlayTogether"></a>BSessionRemotePlayTogether</h2>
+<div class="bb_code cpp">bool BSessionRemotePlayTogether( RemotePlaySessionID_t unSessionID );</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>unSessionID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
+            <td>The session ID to get information about</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Get whether the session has joined using a Remote Play Together invitation.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> if the session has joined using a Remote Play Together invitation, or
+<strong>false</strong> if it has connected via Steam Link or another computer using Remote Play.
 <h2 class="bb_subsection"><a name="GetSessionSteamID"></a>GetSessionSteamID</h2>
 <div class="bb_code cpp">CSteamID GetSessionSteamID( RemotePlaySessionID_t unSessionID );</div>
 <table>
@@ -65,11 +89,122 @@ than or equal to
     </tbody>
 </table>
 <br />
-Get the SteamID of the connected user<br />
+Get the SteamID of the connected user.<br />
 <br />
 <strong>Returns:</strong> <a href="/doc/api/steam_api#CSteamID">CSteamID</a><br />
 The Steam ID of the user associated with the Remote Play session. This would normally be the logged
 in user, or a friend in the case of Remote Play Together.
+<h2 class="bb_subsection"><a name="GetSessionGuestID"></a>GetSessionGuestID</h2>
+<div class="bb_code cpp">uint32 GetSessionGuestID( RemotePlaySessionID_t unSessionID );</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>unSessionID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
+            <td>The session ID to get information about</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Get the guest ID of the connected user if they are a Remote Play Together guest.<br />
+<br />
+<strong>Returns:</strong> <a href="/doc/api/steam_api#uint32">uint32</a><br />
+The guest ID of the user associated with the Remote Play session or 0 if the sessionID isn't valid
+or the session isn't a Remote Play Together guest.
+<h2 class="bb_subsection"><a name="GetSmallSessionAvatar"></a>GetSmallSessionAvatar</h2>
+<div class="bb_code cpp">int GetSmallSessionAvatar( RemotePlaySessionID_t unSessionID );</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>unSessionID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
+            <td>The session ID to get information about</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Get the small (32x32) avatar of the connected user, which is a handle to be used in
+<a href="/doc/api/ISteamUtils#GetImageRGBA">ISteamUtils::GetImageRGBA</a>().<br />
+<br />
+<strong>Returns:</strong> int<br />
+The small (32x32) avatar of the connected user, 0 if the sessionID isn't valid, or -1 if this image
+has yet to be loaded - in this case wait for a
+<a href="/doc/api/ISteamRemotePlay#SteamRemotePlaySessionAvatarLoaded_t"
+    >SteamRemotePlaySessionAvatarLoaded_t</a
+>
+callback and then call this again.
+<h2 class="bb_subsection"><a name="GetMediumSessionAvatar"></a>GetMediumSessionAvatar</h2>
+<div class="bb_code cpp">int GetMediumSessionAvatar( RemotePlaySessionID_t unSessionID );</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>unSessionID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
+            <td>The session ID to get information about</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Get the medium (64x64) avatar of the connected user, which is a handle to be used in
+<a href="/doc/api/ISteamUtils#GetImageRGBA">ISteamUtils::GetImageRGBA</a>().<br />
+<br />
+<strong>Returns:</strong> int<br />
+The medium (64x64) avatar of the connected user, 0 if the sessionID isn't valid, or -1 if this image
+has yet to be loaded - in this case wait for a
+<a href="/doc/api/ISteamRemotePlay#SteamRemotePlaySessionAvatarLoaded_t"
+    >SteamRemotePlaySessionAvatarLoaded_t</a
+>
+callback and then call this again.
+<h2 class="bb_subsection"><a name="GetLargeSessionAvatar"></a>GetLargeSessionAvatar</h2>
+<div class="bb_code cpp">int GetLargeSessionAvatar( RemotePlaySessionID_t unSessionID );</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>unSessionID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
+            <td>The session ID to get information about</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Get the large (184x184) avatar of the connected user, which is a handle to be used in
+<a href="/doc/api/ISteamUtils#GetImageRGBA">ISteamUtils::GetImageRGBA</a>().<br />
+<br />
+<strong>Returns:</strong> int<br />
+The large (184x184) avatar of the connected user, 0 if the sessionID isn't valid, or -1 if this
+image has yet to be loaded - in this case wait for a
+<a href="/doc/api/ISteamRemotePlay#SteamRemotePlaySessionAvatarLoaded_t"
+    >SteamRemotePlaySessionAvatarLoaded_t</a
+>
+callback and then call this again.
 <h2 class="bb_subsection"><a name="GetSessionClientName"></a>GetSessionClientName</h2>
 <div class="bb_code cpp">
     const char *GetSessionClientName( RemotePlaySessionID_t unSessionID );
@@ -490,6 +625,45 @@ Sent when a guest invitation is created, and includes the guest invite URL.<br /
             <td><strong>m_szConnectURL</strong></td>
             <td>char *</td>
             <td>The URL that can be used to connect to this guest session</td>
+        </tr>
+    </tbody>
+</table>
+<h2 class="bb_subsection">
+    <a name="SteamRemotePlaySessionAvatarLoaded_t"></a>SteamRemotePlaySessionAvatarLoaded_t
+</h2>
+Sent when an avatar has been loaded for a streaming session.<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>m_unSessionID</strong></td>
+            <td>
+                <a href="/doc/api/ISteamRemotePlay#RemotePlaySessionID_t">RemotePlaySessionID_t</a>
+            </td>
+            <td>The session ID of the session with the updated avatar</td>
+        </tr>
+        <tr>
+            <td><strong>m_iImage</strong></td>
+            <td>int</td>
+            <td>
+                The image index of the now loaded image, used in a call to
+                <a href="/doc/api/ISteamUtils#GetImageRGBA">ISteamUtils::GetImageRGBA</a>()
+            </td>
+        </tr>
+        <tr>
+            <td><strong>m_iWide</strong></td>
+            <td>int</td>
+            <td>The width of the loaded image</td>
+        </tr>
+        <tr>
+            <td><strong>m_iHeight</strong></td>
+            <td>int</td>
+            <td>The height of the loaded image</td>
         </tr>
     </tbody>
 </table>

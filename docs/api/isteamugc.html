@@ -3334,6 +3334,86 @@ sort by the time subscribed.<br />
 <strong>See Also:</strong>
 <a href="/doc/api/ISteamUGC#GetNumSubscribedItems">ISteamUGC::GetNumSubscribedItems</a>,
 <a href="/doc/api/ISteamUGC#GetSubscribedItems">ISteamUGC::GetSubscribedItems</a>
+<h2 class="bb_subsection"><a name="MarkDownloadedItemAsUnused"></a>MarkDownloadedItemAsUnused</h2>
+<div class="bb_code cpp">
+    bool MarkDownloadedItemAsUnused( PublishedFileId_t nPublishedFileID );
+</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>nPublishedFileID</strong></td>
+            <td><a href="/doc/api/ISteamRemoteStorage#PublishedFileId_t">PublishedFileId_t</a></td>
+            <td>The downloaded item to mark as unused.</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Tells the client to no longer try to keep the item in its local cache, unless it was subscribed to
+by other users on this machine.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<br />
+<strong>See Also:</strong>
+<a href="/doc/api/ISteamUGC#GetNumDownloadedItems">ISteamUGC::GetNumDownloadedItems</a>,
+<a href="/doc/api/ISteamUGC#GetDownloadedItems">ISteamUGC::GetDownloadedItems</a>
+<h2 class="bb_subsection"><a name="GetNumDownloadedItems"></a>GetNumDownloadedItems</h2>
+<div class="bb_code cpp">uint32 GetNumDownloadedItems();</div>
+<br />
+Returns the number of items actually downloaded locally.<br />
+<br />
+<strong>Returns:</strong> uint32<br />
+The number of items downloaded locally.<br />
+<br />
+<strong>See Also:</strong>
+<a href="/doc/api/ISteamUGC#GetDownloadedItems">ISteamUGC::GetDownloadedItems</a>,
+<a href="/doc/api/ISteamUGC#MarkDownloadedItemAsUnused">ISteamUGC::MarkDownloadedItemAsUnused</a>
+<h2 class="bb_subsection"><a name="GetDownloadedItems"></a>GetDownloadedItems</h2>
+<div class="bb_code cpp">
+    uint32 GetDownloadedItems( PublishedFileId_t *pvecPublishedFileIDs, uint32 cMaxEntries );
+</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>pvecPublishedFileIDs</strong></td>
+            <td><a href="/doc/api/ISteamRemoteStorage#PublishedFileId_t">PublishedFileId_t</a>*</td>
+            <td>The array where the item ids will be copied into.</td>
+        </tr>
+        <tr>
+            <td><strong>cMaxEntries</strong></td>
+            <td>uint32</td>
+            <td>
+                The maximum number of items to return. This should typically be the same as
+                <a href="/doc/api/ISteamUGC#GetNumDownloadedItems"
+                    >ISteamUGC::GetNumDownloadedItems</a
+                >
+                and the same size as
+                <code class="bb_code bb_code_inline nohighlight">pvecPublishedFileIDs</code>.
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Returns the ids of the items downloaded.<br />
+<br />
+<strong>Returns:</strong> uint32<br />
+The number of downloaded items that were populated into
+<code class="bb_code bb_code_inline nohighlight">pvecPublishedFileIDs</code>.<br />
+Returns <strong>0</strong> if called from a game server.<br />
+<br />
+<strong>See Also:</strong>
+<a href="/doc/api/ISteamUGC#GetNumDownloadedItems">ISteamUGC::GetNumDownloadedItems</a>,
+<a href="/doc/api/ISteamUGC#MarkDownloadedItemAsUnused">ISteamUGC::MarkDownloadedItemAsUnused</a>
 <h2 class="bb_subsection"><a name="SetUserItemVote"></a>SetUserItemVote</h2>
 <div class="bb_code cpp">
     SteamAPICall_t SetUserItemVote( PublishedFileId_t nPublishedFileID, bool bVoteUp );
