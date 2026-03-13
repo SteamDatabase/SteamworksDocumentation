@@ -24,7 +24,7 @@ your partner account on Steam. <br />
 <br />
 <u><strong>Step 1:</strong></u> Call GetChangedDatesForPartner to find the set of dates that have
 new data. Your first call will use a highwatermark value of 0 and will return every date you have
-ever had sales or activations on Steam. Subsequent values should use the result_highwatermark from
+ever had sales or activations on Steam. Subsequent calls should use the result_highwatermark from
 the prior call, and will only show the dates with new data since the prior call. <br />
 <br />
 <u><strong>Step 2:</strong></u> For each date returned by GetChangedDatesForPartner, make a call to
@@ -48,7 +48,7 @@ results of each call locally for further analysis. <br />
 result_highwatermark value (120) from GetChangedDatesForPartner for future calls. <br />
 <br />
 - The next day (May 5th, 2025), Partner X starts their workday by calling GetChangedDatesForPartner
-again (using a higwatermark value of 120, the stored value from the previous day's call). <br />
+again (using a highwatermark value of 120, the stored value from the previous day's call). <br />
 <div class="bb_code">
     "response": { "dates": [ "2025/05/03", "2025/05/04", "2025/05/05" ], "result_highwatermark":
     "163" }
@@ -424,7 +424,10 @@ identifier per CPartnerFinancials_DetailedSalesResult.<br />
             <td>✔</td>
             <td>✔</td>
             <td>✔</td>
-            <td>The ISO-2 country code where the item was purchased. Max size - 8 characters</td>
+            <td>
+                The ISO 3166-1 alpha-2 country code where the item was purchased. Max size - 8
+                characters
+            </td>
         </tr>
         <tr>
             <td>✔</td>
@@ -825,7 +828,10 @@ before the key request system was created (ie. prior to January, 2013)<br />
         <tr>
             <td><strong>country_code</strong></td>
             <td>string</td>
-            <td>The ISO-2 country code where the item was purchased. Max size - 8 characters</td>
+            <td>
+                The ISO 3166-1 alpha-2 country code where the item was purchased. Max size - 8
+                characters
+            </td>
         </tr>
         <tr>
             <td><strong>country_name</strong></td>
@@ -976,13 +982,13 @@ empty except for the <strong>app_min_date</strong> field. <br />
         <tr>
             <td><strong>wishlist_summary</strong></td>
             <td>CPartnerFinancials_WishlistSummary</td>
-            <td>The summary wishlist totals for this app+date combination</td>
+            <td>The wishlist summary totals for this app+date combination</td>
         </tr>
         <tr>
             <td><strong>country_summary</strong></td>
             <td>CPartnerFinancials_CountryWishlistSummary</td>
             <td>
-                A repeating field of country entries, showing the summary wishlist totals for this
+                A repeating field of country entries, showing the wishlist summary totals for this
                 app+date combination in each country
             </td>
         </tr>
@@ -990,7 +996,7 @@ empty except for the <strong>app_min_date</strong> field. <br />
             <td><strong>language_summary</strong></td>
             <td>CPartnerFinancials_LanguageWishlistSummary</td>
             <td>
-                A repeating field of language entries, showing the summary wishlist totals for this
+                A repeating field of language entries, showing the wishlist summary totals for this
                 app+date combination in each language
             </td>
         </tr>
@@ -1063,7 +1069,10 @@ empty except for the <strong>app_min_date</strong> field. <br />
         <tr>
             <td><strong>country_code</strong></td>
             <td>string</td>
-            <td>The ISO-2 country code where the item was purchased. Max size - 8 characters</td>
+            <td>
+                The ISO 3166-1 alpha-2 country code where the item was whishlisted. Max size - 8
+                characters
+            </td>
         </tr>
         <tr>
             <td><strong>country_name</strong></td>
@@ -1112,7 +1121,7 @@ empty except for the <strong>app_min_date</strong> field. <br />
         <tr>
             <td><strong>summary_actions</strong></td>
             <td>CPartnerFinancials_WishlistSummary</td>
-            <td>The summary of all wishlist actions for this country</td>
+            <td>The summary of all wishlist actions for this language</td>
         </tr>
     </tbody>
 </table>
