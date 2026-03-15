@@ -116,28 +116,32 @@ public host:<br />
     <li>
         If you will be making requests to this API service from a host that has a firewall filter
         applied to outgoing requests, you should add the DNS name
-        <a href="http://'partner.steam-api.com'" target="_blank" rel="noreferrer"
-            >'partner.steam-api.com'</a
+        <code class="bb_code bb_code_inline nohighlight">partner.steam-api.com</code> to your allow
+        list. If your firewall only supports numeric addresses, add the following CIDR blocks to
+        your outbound allow list:<br />
+        <code class="bb_code bb_code_inline nohighlight"
+            >208.64.200.0/22<br />
+            155.133.239.0/24<br />
+            2602:801:f000::/64<br />
+            2602:801:f00f::/64<br />
+            2602:801:f00c::/64</code
         >
-        to your allow list. If your firewall only supports numeric addresses, add the following CIDR
-        block to the allow list:
-        <code class="bb_code bb_code_inline nohighlight">208.64.200.0/22</code>.<br />
-        <strong>NOTE:</strong> You should not connect to the Web API servers by IP; please use the
-        DNS name. These addresses are provided only for those clients who need to whitelist these
-        addresses in their firewalls.
     </li>
 </ul>
-<h2 class="bb_section"><a name="6"></a>IP Address Whitelisting</h2>
-We allow whitelisting of IP addresses for WebAPI calls. This is an added layer of security in the
-event that your WebAPI key is compromised, because it ensures that only WebAPI calls from
-whitelisted IP addresses will be successful. Once any IP is set to be whitelisted, all other
-requests from non-whitelisted addresses will be blocked and return a 403 - Forbidden response.<br />
+<strong>NOTE:</strong> You should not connect to the Web API servers by IP; please use the DNS name.
+These addresses are provided only for those clients who need to add these addresses to their
+firewalls' allow lists.
+<h2 class="bb_section"><a name="6"></a>IP Address Allow Lists (Whitelists)</h2>
+We support allow lists for IP addresses making WebAPI calls. This is an added layer of security in
+the event that your WebAPI key is compromised, because it ensures that only WebAPI calls from listed
+IP addresses will be successful. Once any IP is added to an allow list, all requests from other
+addresses will be blocked and return a 403 - Forbidden response.<br />
 <br />
-Adding IP addresses to the whitelist is easy. From any Group page that has a WebAPI key, click the
+Adding IP addresses to the allow list is easy. From any Group page that has a WebAPI key, click the
 "Manage WebAPI Key" button and follow the instructions. <br />
 <br />
-Each WebAPI key has its own whitelist, and adding ip addresses to the whitelist is
+Each WebAPI key has its own allow list, and adding ip addresses to the allow list is
 <i>not </i>required. <br />
 <br />
-<strong>Note</strong>: Whitelisting does not guarantee WebAPI key security. Protect your key, do not
+<strong>Note</strong>: Allow lists do not guarantee WebAPI key security. Protect your key, do not
 share it, and change it immediately if it is compromised. <br />
