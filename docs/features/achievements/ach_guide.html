@@ -61,13 +61,11 @@ all of the <a href="/doc/sdk/api#callbacks">Steam callbacks</a>.<br />
 <div class="bb_code cpp">
     class CSteamAchievements { private: int64 m_iAppID; // Our current AppID Achievement_t
     *m_pAchievements; // Achievements data int m_iNumAchievements; // The number of Achievements
-    bool m_bInitialized; // Have we called Request stats and received the callback? public:
-    CSteamAchievements(Achievement_t *Achievements, int NumAchievements); ~CSteamAchievements();
-    bool RequestStats(); bool SetAchievement(const char* ID); STEAM_CALLBACK( CSteamAchievements,
-    OnUserStatsReceived, UserStatsReceived_t, m_CallbackUserStatsReceived ); STEAM_CALLBACK(
-    CSteamAchievements, OnUserStatsStored, UserStatsStored_t, m_CallbackUserStatsStored );
-    STEAM_CALLBACK( CSteamAchievements, OnAchievementStored, UserAchievementStored_t,
-    m_CallbackAchievementStored ); };
+    bool m_bInitialized; // Are we ready to use the API? public: CSteamAchievements(Achievement_t
+    *Achievements, int NumAchievements); ~CSteamAchievements(); bool Initialize(); bool
+    SetAchievement(const char* ID); STEAM_CALLBACK( CSteamAchievements, OnUserStatsStored,
+    UserStatsStored_t, m_CallbackUserStatsStored ); STEAM_CALLBACK( CSteamAchievements,
+    OnAchievementStored, UserAchievementStored_t, m_CallbackAchievementStored ); };
 </div>
 <h2 class="bb_subsection"><a name="6"></a>Code File</h2>
 <h4>Constructor</h4>
@@ -77,41 +75,34 @@ the length of the array. The formating of that array will be covered in the main
 <strong>What it does</strong> - The constructor initializes a number of members along with grabbing
 the AppID we are currently running as. In addition it hooks up the call back methods to handle
 asynchronous calls made to Steam. Finally it makes an initial call to
-<code class="bb_code bb_code_inline nohighlight">RequestStats()</code> to get stats and achievements
-for the current user.<br />
+<code class="bb_code bb_code_inline nohighlight">Initialize()</code> to check that the API is
+ready.<br />
 <div class="bb_code cpp">
     CSteamAchievements::CSteamAchievements(Achievement_t *Achievements, int NumAchievements):
-    m_iAppID( 0 ), m_bInitialized( false ), m_CallbackUserStatsReceived( this,
-    &amp;CSteamAchievements::OnUserStatsReceived ), m_CallbackUserStatsStored( this,
+    m_iAppID( 0 ), m_bInitialized( false ), m_CallbackUserStatsStored( this,
     &amp;CSteamAchievements::OnUserStatsStored ), m_CallbackAchievementStored( this,
     &amp;CSteamAchievements::OnAchievementStored ) { m_iAppID = SteamUtils()-&gt;GetAppID();
-    m_pAchievements = Achievements; m_iNumAchievements = NumAchievements; RequestStats(); }
+    m_pAchievements = Achievements; m_iNumAchievements = NumAchievements; m_bInitialized =
+    Initialize(); }
 </div>
-<h4>RequestStats()</h4>
+<h4>Initialize()</h4>
 <strong>Parameters</strong> - None<br />
 <strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then
 most likely Steam is not initialized. Make sure you have a Steam client open when you try to make
 this call and that <a href="/doc/api/steam_api#SteamAPI_Init">SteamAPI_Init</a> has been called
 before it.<br />
-<strong>What it does</strong> - This method basically wraps a call to
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>
-which is an asynchronous call to steam requesting the stats and achievements of the current user.
-This call needs to be made before you can set any stats or achievements. The initial call to this
-method is made in the constructor. You can call it again any time after that if you want to check on
-updated stats or achievements.<br />
+<strong>What it does</strong> - Ensures that Steam is loaded and there is a User context logged
+in.<br />
 <div class="bb_code">
-    bool CSteamAchievements::RequestStats() { // Is Steam loaded? If not we can't get stats. if (
-    NULL == SteamUserStats() || NULL == SteamUser() ) { return false; } // Is the user logged on? If
-    not we can't get stats. if ( !SteamUser()-&gt;BLoggedOn() ) { return false; } // Request user
-    stats. return SteamUserStats()-&gt;RequestCurrentStats(); }
+    bool CSteamAchievements::Initialize() { // Is Steam loaded? If not we can't get stats. if ( NULL
+    == SteamUserStats() || NULL == SteamUser() ) { return false; } // Is the user logged on? If not
+    we can't access stats. if ( !SteamUser()-&gt;BLoggedOn() ) { return false; } return true; }
 </div>
 <h4>SetAchievement()</h4>
 <strong>Parameters</strong> - The string identifier of the Achievement that you want to set (ie.
 "ACH_WIN_ONE_GAME")<br />
 <strong>Returns</strong> - a bool representing if the call succeeded or not. If the call failed then
-either Steam is not initialized or you still haven't processed the callback from the initial call to
-<code class="bb_code bb_code_inline nohighlight">RequestStats</code>. You can't set any achievements
-until that callback has been received.<br />
+Steam is not initialized.<br />
 <strong>What it does</strong> - This method sets a given achievement to achieved and sends the
 results to Steam. You can set a given achievement multiple times so you don't need to worry about
 only setting achievements that aren't already set. This is an asynchronous call which will trigger
@@ -122,28 +113,6 @@ two callbacks: <code class="bb_code bb_code_inline nohighlight">OnUserStatsStore
     Steam yet? if (m_bInitialized) { SteamUserStats()-&gt;SetAchievement(ID); return
     SteamUserStats()-&gt;StoreStats(); } // If not then we can't set achievements yet return false;
     }
-</div>
-<h4>OnUserStatsReceived()</h4>
-<strong>Parameters</strong> - N/A<br />
-<strong>Returns</strong> - Nothing<br />
-<strong>What it does</strong> - This method is a callback that is called anytime you attempt to
-request stats. Stats and achievements are requested by using
-<code class="bb_code bb_code_inline nohighlight">RequestStats()</code>. The method updates the
-member variable m_pAchievements to reflect the latest stats and achievement data returned from
-Steam.<br />
-<div class="bb_code cpp">
-    void CSteamAchievements::OnUserStatsReceived( UserStatsReceived_t *pCallback ) { // we may get
-    callbacks for other games' stats arriving, ignore them if ( m_iAppID == pCallback-&gt;m_nGameID
-    ) { if ( k_EResultOK == pCallback-&gt;m_eResult ) { OutputDebugString("Received stats and
-    achievements from Steam\n"); m_bInitialized = true; // load achievements for ( int iAch = 0;
-    iAch &lt; m_iNumAchievements; ++iAch ) { Achievement_t &amp;ach = m_pAchievements[iAch];
-    SteamUserStats()-&gt;GetAchievement(ach.m_pchAchievementID, &amp;ach.m_bAchieved); _snprintf(
-    ach.m_rgchName, sizeof(ach.m_rgchName), "%s",
-    SteamUserStats()-&gt;GetAchievementDisplayAttribute(ach.m_pchAchievementID, "name")); _snprintf(
-    ach.m_rgchDescription, sizeof(ach.m_rgchDescription), "%s",
-    SteamUserStats()-&gt;GetAchievementDisplayAttribute(ach.m_pchAchievementID, "desc")); } } else {
-    char buffer[128]; _snprintf( buffer, 128, "RequestStats - failed, %d\n", pCallback-&gt;m_eResult
-    ); OutputDebugString( buffer ); } } }
 </div>
 <h4>OnUserStatsStored()</h4>
 <strong>Parameters</strong> - N/A<br />

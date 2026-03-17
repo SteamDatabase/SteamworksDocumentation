@@ -85,10 +85,6 @@ Resets the unlock status of an achievement.<br />
 <br />
 This is primarily only ever used for testing.<br />
 <br />
-You must have called
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> and
-it needs to return successfully via its callback prior to calling this!<br />
-<br />
 This call only modifies Steam's in-memory state so it is quite cheap. To send the unlock status to
 the server and to trigger the Steam overlay notification you must call
 <a href="/doc/api/ISteamUserStats#StoreStats">ISteamUserStats::StoreStats</a>.<br />
@@ -99,13 +95,7 @@ otherwise, <strong>false</strong>.<br />
 <ul>
     <li>
         The specified achievement "API Name" exists in App Admin on the Steamworks website, and the
-        changes are published.<br />
-    </li>
-    <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.
+        changes are published.
     </li>
 </ul>
 <br />
@@ -430,12 +420,6 @@ This function returns <strong>true</strong> upon success if all of the following
 otherwise, <strong>false</strong>.<br />
 <ul>
     <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.<br />
-    </li>
-    <li>
         The 'API Name' of the specified achievement exists in App Admin on the Steamworks website,
         and the changes are published.
     </li>
@@ -553,12 +537,6 @@ This function returns <strong>true</strong> upon success if all of the following
 otherwise, <strong>false</strong>.<br />
 <ul>
     <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.<br />
-    </li>
-    <li>
         The 'API Name' of the specified achievement exists in App Admin on the Steamworks website,
         and the changes are published.
     </li>
@@ -623,12 +601,6 @@ This function returns the value as a string upon success if all of the following
 otherwise, an empty string: <strong>""</strong>.<br />
 <ul>
     <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.<br />
-    </li>
-    <li>
         The specified achievement exists in App Admin on the Steamworks website, and the changes are
         published.<br />
     </li>
@@ -671,12 +643,6 @@ data.<br />
 <br />
 An invalid handle of <strong>0</strong> will be returned under the following conditions:<br />
 <ul>
-    <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has not completed and successfully returned its callback.<br />
-    </li>
     <li>
         The specified achievement does not exist in App Admin on the Steamworks website, or the
         changes are not published.<br />
@@ -734,10 +700,8 @@ compiled into them.<br />
 <br />
 <strong>Returns:</strong> const char *<br />
 The 'API Name' of the achievement, returns an empty string if
-<code class="bb_code bb_code_inline nohighlight">iAchievement</code> is not a valid index.
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> must
-have been called and successfully returned its callback, and the current App ID must have
-achievements.<br />
+<code class="bb_code bb_code_inline nohighlight">iAchievement</code> is not a valid index. The
+current App ID must have achievements.<br />
 <br />
 <strong>Example:</strong><br />
 <div class="bb_code cpp">
@@ -1232,7 +1196,6 @@ If the call is successful it returns an iterator which should be used with
 >.<br />
 <br />
 <strong>See Also:</strong>
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>,
 <a href="/doc/api/ISteamUserStats#RequestGlobalAchievementPercentages"
     >ISteamUserStats::RequestGlobalAchievementPercentages</a
 >,
@@ -1345,13 +1308,9 @@ In general games should not need these functions because they should have a list
 achievements compiled into them.<br />
 <br />
 <strong>Returns:</strong> <a href="/doc/api/steam_api#uint32">uint32</a><br />
-The number of achievements. Returns <strong>0</strong> if
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> has
-not been called and successfully returned its callback, or the current App ID has no
-achievements.<br />
+The number of achievements. Returns <strong>0</strong> if the current App ID has no achievements.<br />
 <br />
 <strong>See Also:</strong>
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>,
 <a href="/doc/api/ISteamUserStats#GetAchievementName">ISteamUserStats::GetAchievementName</a><br />
 <br />
 <strong>Example:</strong><br />
@@ -1398,10 +1357,6 @@ result.
 <br />
 Gets the current value of the a stat for the current user.<br />
 <br />
-You must have called
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> and
-it needs to return successfully via its callback prior to calling this.<br />
-<br />
 To receive stats for other users use
 <a href="/doc/api/ISteamUserStats#GetUserStat">ISteamUserStats::GetUserStat</a>.<br />
 <br />
@@ -1414,20 +1369,12 @@ otherwise, <strong>false</strong>.<br />
         published.<br />
     </li>
     <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.<br />
-    </li>
-    <li>
         The type passed to this function must match the type listed in the App Admin panel of the
         Steamworks website.
     </li>
 </ul>
 <br />
-<strong>See Also:</strong>
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>,
-<a href="/doc/api/ISteamUserStats#SetStat">ISteamUserStats::SetStat</a>,
+<strong>See Also:</strong> <a href="/doc/api/ISteamUserStats#SetStat">ISteamUserStats::SetStat</a>,
 <a href="/doc/api/ISteamUserStats#UpdateAvgRateStat">ISteamUserStats::UpdateAvgRateStat</a>,
 <a href="/doc/api/ISteamUserStats#StoreStats">ISteamUserStats::StoreStats</a>,
 <a href="/doc/api/ISteamUserStats#ResetAllStats">ISteamUserStats::ResetAllStats</a>
@@ -1719,12 +1666,6 @@ This function returns <strong>true</strong> upon success if all of the following
 otherwise, <strong>false</strong>.<br />
 <ul>
     <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.<br />
-    </li>
-    <li>
         The specified achievement exists in App Admin on the Steamworks website, and the changes are
         published.<br />
     </li>
@@ -1736,7 +1677,6 @@ otherwise, <strong>false</strong>.<br />
 </ul>
 <br />
 <strong>See Also:</strong>
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>,
 <a href="/doc/api/ISteamUserStats#SetAchievement">ISteamUserStats::SetAchievement</a>,
 <a href="/doc/api/ISteamUserStats#SetStat">ISteamUserStats::SetStat</a>,
 <a href="/doc/api/ISteamUserStats#StoreStats">ISteamUserStats::StoreStats</a>,
@@ -1746,13 +1686,12 @@ otherwise, <strong>false</strong>.<br />
 <a href="/doc/api/ISteamUtils#SetOverlayNotificationInset"
     >ISteamUtils::SetOverlayNotificationInset</a
 >
-<h2 class="bb_subsection"><a name="InstallPS3Trophies"></a>InstallPS3Trophies</h2>
-<div class="bb_code cpp">bool InstallPS3Trophies();</div>
-DEPRECATE ME!!<br />
-<br />
-<strong>Returns:</strong> bool
-<h2 class="bb_subsection"><a name="RequestCurrentStats"></a>RequestCurrentStats</h2>
+<h2 class="bb_subsection"><a name="RequestCurrentStats"></a>RequestCurrentStats - Deprecated</h2>
 <div class="bb_code cpp">bool RequestCurrentStats();</div>
+This method is deprecated; it is no longer necessary to call this at the beginning of your game
+Session, as the Steam client will have loaded stats and achievements for your game prior to
+launch.<br />
+<br />
 Asynchronously request the user's current stats and achievements from the server.<br />
 <br />
 You must always call this first to get the initial status of stats and achievements.<br />
@@ -1778,10 +1717,6 @@ Only returns <strong>false</strong> if there is no user logged in; otherwise,
 <div class="bb_code cpp">SteamAPICall_t RequestGlobalAchievementPercentages();</div>
 Asynchronously fetch the data for the percentage of players who have received each achievement for
 the current game globally.<br />
-<br />
-You must have called
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> and
-it needs to return successfully via its callback prior to calling this!<br />
 <br />
 <strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
 with a
@@ -1824,10 +1759,6 @@ call result.<br />
 Asynchronously fetches global stats data, which is available for stats marked as "aggregated" in the
 App Admin panel of the Steamworks website.<br />
 <br />
-You must have called
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> and
-it needs to return successfully via its callback prior to calling this.<br />
-<br />
 <strong>Returns:</strong> <a href="/doc/api/steam_api#SteamAPICall_t">SteamAPICall_t</a> to be used
 with a <a href="/doc/api/ISteamUserStats#GlobalStatsReceived_t">GlobalStatsReceived_t</a> call
 result.<br />
@@ -1864,9 +1795,7 @@ user's stats will occasionally be unloaded. When this happens a
 After receiving this callback the user's stats will be unavailable until this function is called
 again.<br />
 <br />
-The equivalent function for the local user is
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>, the
-equivalent function for game servers is
+The equivalent function for game servers is
 <a href="/doc/api/ISteamGameServerStats#RequestUserStats">ISteamGameServerStats::RequestUserStats</a
 >.<br />
 <br />
@@ -1908,9 +1837,7 @@ calling
 >.<br />
 <br />
 <strong>Returns:</strong> bool<br />
-<strong>true</strong> indicating success if
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> has
-been called and successfully returned its callback; otherwise <strong>false</strong>.
+<strong>true</strong> indicating success; otherwise <strong>false</strong>.
 <h2 class="bb_subsection"><a name="SetAchievement"></a>SetAchievement</h2>
 <div class="bb_code cpp">bool SetAchievement( const char *pchName );</div>
 <table>
@@ -1930,10 +1857,6 @@ been called and successfully returned its callback; otherwise <strong>false</str
 <br />
 Unlocks an achievement.<br />
 <br />
-You must have called
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> and
-it needs to return successfully via its callback prior to calling this!<br />
-<br />
 You can unlock an achievement multiple times so you don't need to worry about only setting
 achievements that aren't already set. This call only modifies Steam's in-memory state so it is quite
 cheap. To send the unlock status to the server and to trigger the Steam overlay notification you
@@ -1945,18 +1868,11 @@ otherwise, <strong>false</strong>.<br />
 <ul>
     <li>
         The specified achievement "API Name" exists in App Admin on the Steamworks website, and the
-        changes are published.<br />
-    </li>
-    <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.
+        changes are published.
     </li>
 </ul>
 <br />
 <strong>See Also:</strong>
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>,
 <a href="/doc/api/ISteamUserStats#StoreStats">ISteamUserStats::StoreStats</a>,
 <a href="/doc/api/ISteamUserStats#ResetAllStats">ISteamUserStats::ResetAllStats</a>,
 <a href="/doc/api/ISteamUserStats#GetAchievementAndUnlockTime"
@@ -1995,10 +1911,6 @@ otherwise, <strong>false</strong>.<br />
 <br />
 Sets / updates the value of a given stat for the current user.<br />
 <br />
-You must have called
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> and
-it needs to return successfully via its callback prior to calling this!<br />
-<br />
 This call only modifies Steam's in-memory state and is very cheap. Doing so allows Steam to persist
 the changes even in the event of a game crash or unexpected shutdown.<br />
 To submit the stats to the server you must call
@@ -2014,12 +1926,6 @@ otherwise, <strong>false</strong>.<br />
     <li>
         The specified stat exists in App Admin on the Steamworks website, and the changes are
         published.<br />
-    </li>
-    <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.<br />
     </li>
     <li>
         The type passed to this function must match the type listed in the App Admin panel of the
@@ -2059,8 +1965,9 @@ DEPRECATE ME.<br />
 <div class="bb_code cpp">bool StoreStats();</div>
 Send the changed stats and achievements data to the server for permanent storage.<br />
 <br />
-If this fails then nothing is sent to the server. It's advisable to keep trying until the call is
-successful.<br />
+If this fails then nothing is sent to the server. You may keep trying until the call is successful.
+Also note, however, that Steam will make another attempt to store the stats on game exit, if there
+are any changes.<br />
 <br />
 This call can be rate limited. Call frequency should be on the order of minutes, rather than
 seconds. You should only be calling this during major state changes such as the end of a round, the
@@ -2086,12 +1993,6 @@ This function returns <strong>true</strong> upon success if all of the following
 otherwise, <strong>false</strong>.<br />
 <ul>
     <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.<br />
-    </li>
-    <li>
         The current game has stats associated with it in the Steamworks Partner backend, and those
         stats are published.
     </li>
@@ -2103,8 +2004,7 @@ If the call is successful you will receive a
 If <code class="bb_code bb_code_inline nohighlight">m_eResult</code> has a result of
 <a href="/doc/api/steam_api#k_EResultInvalidParam">k_EResultInvalidParam</a>, then one or more stats
 uploaded has been rejected, either because they broke constraints or were out of date. In this case
-the server sends back updated values and the stats should be updated locally to keep in sync. You do
-not need to call RequestCurrentStats again in this case.<br />
+the server sends back updated values and the stats should be updated locally to keep in sync. <br />
 <br />
 If one or more achievements has been unlocked then this will also trigger a
 <a href="/doc/api/ISteamUserStats#UserAchievementStored_t">UserAchievementStored_t</a>
@@ -2146,10 +2046,6 @@ callback.<br />
 <br />
 Updates an AVGRATE stat with new values.<br />
 <br />
-You must have called
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a> and
-it needs to return successfully via its callback prior to calling this!<br />
-<br />
 This call only modifies Steam's in-memory state and is very cheap. Doing so allows Steam to persist
 the changes even in the event of a game crash or unexpected shutdown.<br />
 To submit the stats to the server you must call
@@ -2165,12 +2061,6 @@ otherwise, <strong>false</strong>.<br />
     <li>
         The specified stat exists in App Admin on the Steamworks website, and the changes are
         published.<br />
-    </li>
-    <li>
-        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-            >ISteamUserStats::RequestCurrentStats</a
-        >
-        has completed and successfully returned its callback.<br />
     </li>
     <li>The type must be AVGRATE in the Steamworks Partner backend.</li>
 </ul>
@@ -2283,11 +2173,6 @@ Called when the global achievement percentages have been received from the serve
             <td>
                 Result of the request. Returns:<br />
                 <a href="/doc/api/steam_api#k_EResultOK">k_EResultOK</a> indicating success.<br />
-                <a href="/doc/api/steam_api#k_EResultInvalidState">k_EResultInvalidState</a> Stats
-                haven't been loaded yet, Call
-                <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-                    >ISteamUserStats::RequestCurrentStats</a
-                >.<br />
                 <a href="/doc/api/steam_api#k_EResultFail">k_EResultFail</a> if the remote call
                 fails or there are no global achievement percentages for the current AppId.
             </td>
@@ -2323,13 +2208,6 @@ Called when the global stats have been received from the server.<br />
                     <li>
                         <a href="/doc/api/steam_api#k_EResultOK">k_EResultOK</a> indicating
                         success.<br />
-                    </li>
-                    <li>
-                        <a href="/doc/api/steam_api#k_EResultInvalidState">k_EResultInvalidState</a>
-                        Stats haven't been loaded yet, Call
-                        <a href="/doc/api/ISteamUserStats#RequestCurrentStats"
-                            >ISteamUserStats::RequestCurrentStats</a
-                        >.<br />
                     </li>
                     <li>
                         <a href="/doc/api/steam_api#k_EResultFail">k_EResultFail</a> if the remote
@@ -2564,37 +2442,6 @@ Gets the current number of players for the current AppId.<br />
 <a href="/doc/api/ISteamUserStats#GetNumberOfCurrentPlayers"
     >ISteamUserStats::GetNumberOfCurrentPlayers</a
 >
-<h2 class="bb_subsection"><a name="PS3TrophiesInstalled_t"></a>PS3TrophiesInstalled_t</h2>
-Called when PS3 trophies are available.<br />
-<br />
-<table>
-    <tbody>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td><strong>m_nGameID</strong></td>
-            <td><a href="/doc/api/steam_api#uint64">uint64</a></td>
-            <td>Game that these stats are for.</td>
-        </tr>
-        <tr>
-            <td><strong>m_eResult</strong></td>
-            <td><a href="/doc/api/steam_api#EResult">EResult</a></td>
-            <td>The result of the operation.</td>
-        </tr>
-        <tr>
-            <td><strong>m_ulRequiredDiskSpace</strong></td>
-            <td><a href="/doc/api/steam_api#uint64">uint64</a></td>
-            <td>
-                If <code class="bb_code bb_code_inline nohighlight">m_eResult</code> is
-                <a href="/doc/api/steam_api#k_EResultDiskFull">k_EResultDiskFull</a>, then this will
-                contain the amount of space needed to install trophies.
-            </td>
-        </tr>
-    </tbody>
-</table>
 <h2 class="bb_subsection">
     <a name="UserAchievementIconFetched_t"></a>UserAchievementIconFetched_t
 </h2>
@@ -2722,7 +2569,6 @@ been received from the server.<br />
 </table>
 <br />
 <strong>Associated Functions:</strong>
-<a href="/doc/api/ISteamUserStats#RequestCurrentStats">ISteamUserStats::RequestCurrentStats</a>,
 <a href="/doc/api/ISteamUserStats#RequestUserStats">ISteamUserStats::RequestUserStats</a>
 <h2 class="bb_subsection"><a name="UserStatsStored_t"></a>UserStatsStored_t</h2>
 Result of a request to store the user stats.<br />
