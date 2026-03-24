@@ -70,7 +70,24 @@ Epic on how to set this up for your version of Unreal can be found in this
     rel="noreferrer"
     >guide</a
 >.
-<h2 class="bb_section"><a name="1"></a>Android Project Settings</h2>
+<h2 class="bb_section"><a name="1"></a>Do I need these changes?</h2>
+As of Unreal 5.6, you can run on Android with Steam Frame using Unreal's built in OpenXR support,
+with no custom code changes. This does NOT work on earlier versions of the engine. However, because
+of a memory allocation issue, your project will need to have C++ code in it, and you'll need to use
+the Binned2 allocator as outlined in the documentation under "Common Problems."<br />
+<br />
+If you choose to do that, you will not have access to the keys from the Steam Frame controller (they
+will be mapped to generic inputs, and the dpad will not function), nor will you have the proper
+Android performance profile selected (you can still set it manually), and you won't have access to
+features like Fragment Density Mapping or Eye Tracked Foveation. There are other engine fixes that
+fix up things like RenderDoc support, so the experience may be more difficult. Lastly, Steamworks
+support in Unreal Engine by default is based on an older build without Android support, so you won't
+be able to ship your game by default on Android through Steam.<br />
+<br />
+In the upcoming release of 5.8, Epic has taken the engine changes necessary, and from that version
+forward, no manual engine changes will be necessary, and you will be able to use the plugin by
+itself without modifying engine code.
+<h2 class="bb_section"><a name="2"></a>Android Project Settings</h2>
 For the best results and optimizations out of the gate, we recommend starting with the VRTemplate
 project as your base.<br />
 <br />
@@ -140,7 +157,7 @@ config DefaultEngine.ini to have the following:<br />
     [/script/androidruntimesettings.androidruntimesettings] MinSDKVersion=30 TargetSDKVersion=30
     SDKAPILevelOverride=30 NDKAPILevelOverride=android-30 BuildToolsOverride=30.0.0
 </div>
-<h2 class="bb_section"><a name="2"></a>Deploying and Running on Steam Frame</h2>
+<h2 class="bb_section"><a name="3"></a>Deploying and Running on Steam Frame</h2>
 Before we can deploy the Project, we need to make sure that the device is connected through the
 Android Debug Bridge (ADB). This is a standard Android workflow, so it should be familiar to anyone
 that has worked on other Android-based platforms.<br />
@@ -165,7 +182,7 @@ to <strong>Android (ASTC)</strong>, and then select <strong>Package Project</str
 Once your package is deployed and running, the Device Output window in the editor will show you the
 live output logs from the game, as well as allow you to access console commands to send to the game.
 This is very useful for debugging and tuning!
-<h2 class="bb_section"><a name="3"></a>Steam Frame Controllers</h2>
+<h2 class="bb_section"><a name="4"></a>Steam Frame Controllers</h2>
 While SteamVR will automatically remap bindings from other controllers if no bindings are provided
 for the Frame Controllers, specifying native bindings will always give the best user experience. To
 add bindings for Steam Frame Controllers you must have the SteamFrameOpenXRExtension plugin enabled.
@@ -177,7 +194,7 @@ Then related Input Keys will show up in Unreal Engine's keybinding system.
         type of key input that you bind them to!
     </div>
 </div>
-<h2 class="bb_section"><a name="4"></a>Variable Rate Shading (VRS)</h2>
+<h2 class="bb_section"><a name="5"></a>Variable Rate Shading (VRS)</h2>
 The Steam Frame Unreal Engine plugin supports Variable Rate Shading (VRS), which allows the engine
 to manage the resolution at which different areas of the screen are rendered.&nbsp; This allows for
 foveated rendering, where the user’s gaze location is rendered at full resolution, while areas of
@@ -192,7 +209,7 @@ performance by fine tuning the foveation map yourself.<br />
 Both types of VRS requires multi-view, so be sure to check the following settings in your
 project:<br />
 <div class="bb_code">vr.MobileMultiView=True</div>
-<h2 class="bb_subsection"><a name="5"></a>Enabling Runtime-Provided VRS (recommended)</h2>
+<h2 class="bb_subsection"><a name="6"></a>Enabling Runtime-Provided VRS (recommended)</h2>
 This will let the runtime scale up and down the amount of foveation depending on your application’s
 GPU performance.<br />
 To enable this feature in your project, open up the project’s DefaultEngine.ini, and add the
@@ -203,7 +220,7 @@ If you’re on Unreal Engine 5.5 or above, you also need to add<br />
 <br />
 In your project’s DefaultGame.ini, add the following to enable the required OpenXR extension:<br />
 <div class="bb_code">[/script/openxrhmd.openxrhmdsettings] bIsFBFoveationEnabled=true</div>
-<h2 class="bb_subsection"><a name="6"></a>Legacy VRS</h2>
+<h2 class="bb_subsection"><a name="7"></a>Legacy VRS</h2>
 To enable this feature in your project, open up the project’s DefaultEngine.ini, and add the
 following settings to the /Script/Engine.RendererSettings section:<br />
 <br />
@@ -249,7 +266,7 @@ performance and characteristics of foveated rendering:<br />
     >Note that currently because of the binning size, it can be hard to see the effect of gaze
     tracked foveation.</i
 >
-<h2 class="bb_subsection"><a name="7"></a>Runtime Foveation Testing Variables (Legacy only)</h2>
+<h2 class="bb_subsection"><a name="8"></a>Runtime Foveation Testing Variables (Legacy only)</h2>
 <br />
 <ul>
     <li>
@@ -295,7 +312,7 @@ performance and characteristics of foveated rendering:<br />
     would be expected and may appear blocky.&nbsp; You may need to adjust your settings to
     compensate!</i
 >
-<h2 class="bb_section"><a name="8"></a>Adding Steamworks Support for Android</h2>
+<h2 class="bb_section"><a name="9"></a>Adding Steamworks Support for Android</h2>
 Support for running applications with Steamworks support enabled is available.&nbsp; To enable it,
 ensure that the plugin is enabled by going to <strong>Window &gt; Plugins</strong> in the Editor and
 making sure <strong>Online Subsystem Steam</strong> is enabled.<br />
@@ -323,10 +340,10 @@ to replace the SteamDevAppId with your own AppId:<br />
         >
     </div>
 </div>
-<h2 class="bb_section"><a name="9"></a>Debugging and Profiling</h2>
+<h2 class="bb_section"><a name="10"></a>Debugging and Profiling</h2>
 Please see the main <a href="/doc/steamframe/debugging">Steam Frame Debugging</a> page for general
 information on the options available for debugging games on Steam Frame.
-<h2 class="bb_subsection"><a name="10"></a>Unreal Insights</h2>
+<h2 class="bb_subsection"><a name="11"></a>Unreal Insights</h2>
 Unreal Insights is Unreal Engine’s own profiling tool, which can do both CPU and GPU
 captures.&nbsp;For more documentation on the use of the tool, see
 <a
@@ -346,11 +363,11 @@ to Lepton, do the following:<br />
 Finally, launch Unreal Insights located under your depot at Engine/Binaries/Win64/UnrealInsights.exe
 (you may have to build it first).&nbsp;You should see the device appear under Session.&nbsp;Attach,
 and profile as per the documentation above.
-<h2 class="bb_section"><a name="11"></a>Native LinuxArm64 Support</h2>
+<h2 class="bb_section"><a name="12"></a>Native LinuxArm64 Support</h2>
 In addition to running through Lepton with Unreal Engine's Android support, your project can also
 directly run on SteamOS using Unreal Engine's LinuxArm64 platform support. While most of the
 workflows and behavior are the same between the two, there are some differences highlighted below.
-<h2 class="bb_subsection"><a name="12"></a>Code Requirements</h2>
+<h2 class="bb_subsection"><a name="13"></a>Code Requirements</h2>
 In order to use LinuxArm64 on the device, there is an additional commit that needs to be pulled from
 GitHub. This code adds support for detecting the device on startup and setting scalability, adds
 support for additional texture formats on LinuxArm64, as well as provide a few feature fixes to
@@ -387,7 +404,7 @@ from Epic on how to set it up:
     rel="noreferrer"
     >https://dev.epicgames.com/documentation/en-us/unreal-engine/linux-development-requirements-for-unreal-engine</a
 >
-<h2 class="bb_subsection"><a name="13"></a>Project Setup Requirements</h2>
+<h2 class="bb_subsection"><a name="14"></a>Project Setup Requirements</h2>
 Projects need to be configured to tell Unreal Engine that they want to support the LinuxArm64
 platform. To do this, open your project's <strong>.uproject </strong>file (located in your project's
 root directory), and make sure that <strong>LinuxArm64</strong> is listed under both the
@@ -402,12 +419,12 @@ root directory), and make sure that <strong>LinuxArm64</strong> is listed under 
 <br />
 Once the LinuxArm64 platform has been added, build the project, and launch the editor. LinuxArm64
 should now appear as a platform choice under the <strong>Platforms</strong> button.
-<h2 class="bb_subsection"><a name="14"></a>Project Settings</h2>
+<h2 class="bb_subsection"><a name="15"></a>Project Settings</h2>
 In addition to the project settings in the previous section of the documentation, it is also
 recommended that you change the <strong>Targeted RHI</strong> setting in your Project Settings under
 <strong>Platforms - Linux</strong> to <strong>Vulkan Mobile (ES3.1)</strong> and disable
 <strong>Vulkan Desktop (SM5)</strong>.
-<h2 class="bb_subsection"><a name="15"></a>Packaging and Deploying to Steam Frame</h2>
+<h2 class="bb_subsection"><a name="16"></a>Packaging and Deploying to Steam Frame</h2>
 Under the <strong>Platforms</strong> drop down at the top of the Editor window, you should see
 <strong>LinuxArm64</strong> as an option. Within that section, you'll also see an additional option
 for <strong>Flavor Selection</strong>. For best performance, we recommend
@@ -415,9 +432,9 @@ for <strong>Flavor Selection</strong>. For best performance, we recommend
 <br />
 Once built, follow the instructions to deploy the packaged project to the device using the
 <a href="/doc/steamframe/loadgames">DevKit Tool</a>.
-<h2 class="bb_section"><a name="16"></a>Common Problems</h2>
+<h2 class="bb_section"><a name="17"></a>Common Problems</h2>
 <h2 class="bb_subsection">
-    <a name="17"></a>Android application crashes shortly after launch, with a stack that involves
+    <a name="18"></a>Android application crashes shortly after launch, with a stack that involves
     UnrealMemory.cpp
 </h2>
 This is due to the default allocator becoming Binned3 for Android apps in recent versions of
@@ -426,7 +443,7 @@ unfortunately too large, and causes an out of memory (OOM) crash.<br />
 To fix this, restore the Binned2 allocator in your project’s Target.cs file with the following
 line:<br />
 <div class="bb_code">StaticAllocator = StaticAllocatorType.Binned2;</div>
-<h2 class="bb_subsection"><a name="18"></a>Can’t Install APK on Lepton because of SDK Error</h2>
+<h2 class="bb_subsection"><a name="19"></a>Can’t Install APK on Lepton because of SDK Error</h2>
 If you see an error like the following when installing the APK on Lepton, it indicates that the
 Project is built with a version of the Android SDK / NDK that is too new for the version of Android
 on the device.<br />
