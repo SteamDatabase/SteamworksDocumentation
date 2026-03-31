@@ -254,7 +254,7 @@ class Crawler
 			}
 		}
 
-		$Html = $ContentElement->innerHTML;
+		$Html = trim( $ContentElement->innerHTML );
 
 		// Add new line after breaks, cleanup cdn subdomains
 		$Html = str_replace( [
