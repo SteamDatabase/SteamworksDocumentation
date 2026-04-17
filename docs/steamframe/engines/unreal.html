@@ -13,6 +13,7 @@ are some changes to the engine that are recommended to run as smoothly as possib
 a changelist in our GitHub repo that can be cherry-picked into your Unreal Engine build to take full
 advantage of the hardware and its features.<br />
 <br />
+<strong>For just the minimal set of changes to get started with Lepton:</strong><br />
 If you are already set up to build Unreal Engine, cherry pick the following commit:<br />
 <a
     href="https://github.com/Valve-VR/UnrealEngine/commit/751cf4a5135bb0ac0167260e7012b974085534b2"
@@ -69,7 +70,18 @@ Epic on how to set this up for your version of Unreal can be found in this
     target="_blank"
     rel="noreferrer"
     >guide</a
->.
+>.<br />
+<br />
+<strong>Full branches with additional changes (recommended):</strong><br />
+<a href="https://github.com/Valve-VR/UnrealEngine/tree/5.7" target="_blank" rel="noreferrer"
+    >https://github.com/Valve-VR/UnrealEngine/tree/5.7</a
+><br />
+<a href="https://github.com/Valve-VR/UnrealEngine/tree/5.6" target="_blank" rel="noreferrer"
+    >https://github.com/Valve-VR/UnrealEngine/tree/5.6</a
+><br />
+<a href="https://github.com/Valve-VR/UnrealEngine/tree/4.27-plus" target="_blank" rel="noreferrer"
+    >https://github.com/Valve-VR/UnrealEngine/tree/4.27-plus</a
+>
 <h2 class="bb_section"><a name="1"></a>Do I need these changes?</h2>
 As of Unreal 5.6, you can run on Android with Steam Frame using Unreal's built in OpenXR support,
 with no custom code changes. This does NOT work on earlier versions of the engine. However, because
@@ -312,7 +324,22 @@ performance and characteristics of foveated rendering:<br />
     would be expected and may appear blocky.&nbsp; You may need to adjust your settings to
     compensate!</i
 >
-<h2 class="bb_section"><a name="9"></a>Adding Steamworks Support for Android</h2>
+<h2 class="bb_section"><a name="9"></a>Dynamic Resolution</h2>
+The Steam Frame Unreal Engine integration also supports Dynamic Resolution, which allows the runtime
+to request that Unreal runs at a specific resolution in order to balance framerate and visual
+quality. When enabled, the runtime will suggest a maximum resolution to Unreal, which will allocate
+a render target of that size. Then, the runtime will periodically request that Unreal renders to a
+subsection of that render target based on overall performance in order to maximize visual quality
+while maintaining a consistent framerate.<br />
+<br />
+To enable this feature, add the following to your project's
+<strong>DefaultEngine.ini</strong> file:<br />
+<div class="bb_code">xr.SteamFrame.UseDynamicResolution=1 r.DynamicRes.OperationMode=2</div>
+<br />
+<strong>xr.SteamFrame.UseDynamicResolution</strong> can be toggled on and off at runtime, but it is
+incompatible with Variable Rate Shading, mentioned above. VRS will always take priority if enabled,
+so please disable it if you wish to run with Dynamic Resolution.
+<h2 class="bb_section"><a name="10"></a>Adding Steamworks Support for Android</h2>
 Support for running applications with Steamworks support enabled is available.&nbsp; To enable it,
 ensure that the plugin is enabled by going to <strong>Window &gt; Plugins</strong> in the Editor and
 making sure <strong>Online Subsystem Steam</strong> is enabled.<br />
@@ -340,10 +367,10 @@ to replace the SteamDevAppId with your own AppId:<br />
         >
     </div>
 </div>
-<h2 class="bb_section"><a name="10"></a>Debugging and Profiling</h2>
+<h2 class="bb_section"><a name="11"></a>Debugging and Profiling</h2>
 Please see the main <a href="/doc/steamframe/debugging">Steam Frame Debugging</a> page for general
 information on the options available for debugging games on Steam Frame.
-<h2 class="bb_subsection"><a name="11"></a>Unreal Insights</h2>
+<h2 class="bb_subsection"><a name="12"></a>Unreal Insights</h2>
 Unreal Insights is Unreal Engine’s own profiling tool, which can do both CPU and GPU
 captures.&nbsp;For more documentation on the use of the tool, see
 <a
@@ -363,11 +390,11 @@ to Lepton, do the following:<br />
 Finally, launch Unreal Insights located under your depot at Engine/Binaries/Win64/UnrealInsights.exe
 (you may have to build it first).&nbsp;You should see the device appear under Session.&nbsp;Attach,
 and profile as per the documentation above.
-<h2 class="bb_section"><a name="12"></a>Native LinuxArm64 Support</h2>
+<h2 class="bb_section"><a name="13"></a>Native LinuxArm64 Support</h2>
 In addition to running through Lepton with Unreal Engine's Android support, your project can also
 directly run on SteamOS using Unreal Engine's LinuxArm64 platform support. While most of the
 workflows and behavior are the same between the two, there are some differences highlighted below.
-<h2 class="bb_subsection"><a name="13"></a>Code Requirements</h2>
+<h2 class="bb_subsection"><a name="14"></a>Code Requirements</h2>
 In order to use LinuxArm64 on the device, there is an additional commit that needs to be pulled from
 GitHub. This code adds support for detecting the device on startup and setting scalability, adds
 support for additional texture formats on LinuxArm64, as well as provide a few feature fixes to
@@ -404,7 +431,7 @@ from Epic on how to set it up:
     rel="noreferrer"
     >https://dev.epicgames.com/documentation/en-us/unreal-engine/linux-development-requirements-for-unreal-engine</a
 >
-<h2 class="bb_subsection"><a name="14"></a>Project Setup Requirements</h2>
+<h2 class="bb_subsection"><a name="15"></a>Project Setup Requirements</h2>
 Projects need to be configured to tell Unreal Engine that they want to support the LinuxArm64
 platform. To do this, open your project's <strong>.uproject </strong>file (located in your project's
 root directory), and make sure that <strong>LinuxArm64</strong> is listed under both the
@@ -419,12 +446,12 @@ root directory), and make sure that <strong>LinuxArm64</strong> is listed under 
 <br />
 Once the LinuxArm64 platform has been added, build the project, and launch the editor. LinuxArm64
 should now appear as a platform choice under the <strong>Platforms</strong> button.
-<h2 class="bb_subsection"><a name="15"></a>Project Settings</h2>
+<h2 class="bb_subsection"><a name="16"></a>Project Settings</h2>
 In addition to the project settings in the previous section of the documentation, it is also
 recommended that you change the <strong>Targeted RHI</strong> setting in your Project Settings under
 <strong>Platforms - Linux</strong> to <strong>Vulkan Mobile (ES3.1)</strong> and disable
 <strong>Vulkan Desktop (SM5)</strong>.
-<h2 class="bb_subsection"><a name="16"></a>Packaging and Deploying to Steam Frame</h2>
+<h2 class="bb_subsection"><a name="17"></a>Packaging and Deploying to Steam Frame</h2>
 Under the <strong>Platforms</strong> drop down at the top of the Editor window, you should see
 <strong>LinuxArm64</strong> as an option. Within that section, you'll also see an additional option
 for <strong>Flavor Selection</strong>. For best performance, we recommend
@@ -432,9 +459,9 @@ for <strong>Flavor Selection</strong>. For best performance, we recommend
 <br />
 Once built, follow the instructions to deploy the packaged project to the device using the
 <a href="/doc/steamframe/loadgames">DevKit Tool</a>.
-<h2 class="bb_section"><a name="17"></a>Common Problems</h2>
+<h2 class="bb_section"><a name="18"></a>Common Problems</h2>
 <h2 class="bb_subsection">
-    <a name="18"></a>Android application crashes shortly after launch, with a stack that involves
+    <a name="19"></a>Android application crashes shortly after launch, with a stack that involves
     UnrealMemory.cpp
 </h2>
 This is due to the default allocator becoming Binned3 for Android apps in recent versions of
@@ -443,7 +470,7 @@ unfortunately too large, and causes an out of memory (OOM) crash.<br />
 To fix this, restore the Binned2 allocator in your project’s Target.cs file with the following
 line:<br />
 <div class="bb_code">StaticAllocator = StaticAllocatorType.Binned2;</div>
-<h2 class="bb_subsection"><a name="19"></a>Can’t Install APK on Lepton because of SDK Error</h2>
+<h2 class="bb_subsection"><a name="20"></a>Can’t Install APK on Lepton because of SDK Error</h2>
 If you see an error like the following when installing the APK on Lepton, it indicates that the
 Project is built with a version of the Android SDK / NDK that is too new for the version of Android
 on the device.<br />
