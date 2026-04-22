@@ -1,8 +1,8 @@
 <h1>Steam Error Reporting</h1>
 <div class="bb_callout bb_yellow">
     <div>
-        <strong>Note:</strong> Steam Error Reporting is only supported for Windows 32-bit
-        applications.
+        <strong>Note:</strong> Steam Error Reporting is nearing its End-Of-Lifetime and only limited
+        support is available. Additionally, it is only available for Windows 32-bit applications.
     </div>
 </div>
 <h2 class="bb_section"><a name="1"></a>Overview</h2>
@@ -38,7 +38,8 @@ the impending crash.
     EXCEPTION_POINTERS *pException ) { // You can build and set an arbitrary comment to embed in the
     minidump here, // maybe you want to put what level the user was playing, how many players on the
     server, // how much memory is free, etc... SteamAPI_SetMiniDumpComment( "Minidump comment:
-    SteamworksExample.exe/n" ); // The 0 here is a build ID, we don't set it SteamAPI_WriteMiniDump(
+    SteamworksExample.exe/n" ); // The 0 here is a build ID, we don't set it. // Note that values
+    larger than ten million (10,000,000) will cause error reporting to fail. SteamAPI_WriteMiniDump(
     nExceptionCode, pException, 0 ); } int RealMain( HINSTANCE hInstance, LPSTR lpCmdLine, int
     nCmdShow ) { __debugbreak(); return 0; } int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE
     hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) { // All we do here is call the real main
