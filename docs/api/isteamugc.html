@@ -2428,6 +2428,39 @@ UGC Query.<br />
 <strong>true</strong> upon success.<br />
 <strong>false</strong> if the UGC query
 <code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
+<h2 class="bb_subsection"><a name="SetAdminQuery"></a>SetAdminQuery</h2>
+<div class="bb_code cpp">bool SetAdminQuery( UGCQueryHandle_t handle, bool bAdminQuery );</div>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>handle</strong></td>
+            <td><a href="/doc/api/ISteamUGC#UGCQueryHandle_t">UGCQueryHandle_t</a></td>
+            <td>The UGC query handle to customize.</td>
+        </tr>
+        <tr>
+            <td><strong>bAdminQuery</strong></td>
+            <td><a href="/doc/api/bool">bool</a></td>
+            <td>Whether or not this is an admin query</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+Sets whether this is an "admin" query (usually only set for developer tools), which will return
+non-public items. This will do a permission check to see if the logged in user has the appropriate
+permissions for the running appid.<br />
+<br />
+<strong>NOTE:</strong> This must be set before you send a UGC Query handle using
+<a href="/doc/api/ISteamUGC#SendQueryUGCRequest">ISteamUGC::SendQueryUGCRequest</a>.<br />
+<br />
+<strong>Returns:</strong> bool<br />
+<strong>true</strong> upon success.<br />
+<strong>false</strong> if the UGC query
+<code class="bb_code bb_code_inline nohighlight">handle</code> is invalid.
 <h2 class="bb_subsection"><a name="SetCloudFileNameFilter"></a>SetCloudFileNameFilter</h2>
 <div class="bb_code cpp">
     bool SetCloudFileNameFilter( UGCQueryHandle_t handle, const char *pMatchCloudFileName );
